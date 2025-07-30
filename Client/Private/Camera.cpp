@@ -3,12 +3,12 @@
 #include "GameInstance.h"
 
 CCamera::CCamera(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
-	CCamera(pDevice, pContext)
+	CActor(pDevice, pContext)
 {
 }
 
 CCamera::CCamera(const CCamera& rhs) :
-	CCamera(rhs)
+	CActor(rhs)
 {
 }
 
