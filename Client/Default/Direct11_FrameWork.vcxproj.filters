@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Defalut">
+      <UniqueIdentifier>{5af1c569-8a68-401c-bd56-1dc8e81e6f1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork">
+      <UniqueIdentifier>{5a0426c5-bfbe-4d8b-bf8d-70ec643ffd2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Defalut\리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="00. MainApp">
+      <UniqueIdentifier>{54e806ad-0a58-4101-be21-56365a2a294e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header">
+      <UniqueIdentifier>{948580da-d844-4bcd-8c2a-29465cf95b43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels">
+      <UniqueIdentifier>{ea977dab-3bff-42dc-ae6c-9e1b86caf3c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\GamePlay">
+      <UniqueIdentifier>{31e458de-258b-4cb9-b852-c1df460bb0a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\Logo">
+      <UniqueIdentifier>{53d61410-d2a3-4cd9-a47d-ba8c5a77289a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\Loding">
+      <UniqueIdentifier>{49bd1dba-0c1d-48ce-a432-2bd6808f4b5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Levels\Loding\Loder">
+      <UniqueIdentifier>{dd7be7c4-6753-47f3-8c6a-b28c28fbecb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD">
+      <UniqueIdentifier>{0296df3c-0a59-497b-a16d-37aa64a1c554}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects">
+      <UniqueIdentifier>{1e575719-beba-4b53-9210-ffed62842ab1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\Camera">
+      <UniqueIdentifier>{4f567e24-f89d-40b2-aba5-7103c9f4fe06}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>Defalut</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Defalut</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Defalut</Filter>
+    </ClInclude>
+    <ClInclude Include="Direct11_FrameWork.h">
+      <Filter>FrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\MainApp.h">
+      <Filter>00. MainApp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Client_Define.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\LogoLevel.h">
+      <Filter>01. Levels\Logo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\GamePlayLevel.h">
+      <Filter>01. Levels\GamePlay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\LoadingLevel.h">
+      <Filter>01. Levels\Loding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Loader.h">
+      <Filter>01. Levels\Loding\Loder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\BackGround.h">
+      <Filter>03. Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Camera.h">
+      <Filter>03. Objects\Camera</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Direct11_FrameWork.rc">
+      <Filter>Defalut\리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>Defalut\리소스 파일</Filter>
+    </Image>
+    <Image Include="Direct11_FrameWork.ico">
+      <Filter>Defalut\리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Direct11_FrameWork.cpp">
+      <Filter>FrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\MainApp.cpp">
+      <Filter>00. MainApp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\LogoLevel.cpp">
+      <Filter>01. Levels\Logo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\GamePlayLevel.cpp">
+      <Filter>01. Levels\GamePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\LoadingLevel.cpp">
+      <Filter>01. Levels\Loding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Loader.cpp">
+      <Filter>01. Levels\Loding\Loder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BackGround.cpp">
+      <Filter>03. Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Camera.cpp">
+      <Filter>03. Objects\Camera</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="TestShader.hlsl" />
+  </ItemGroup>
+</Project>

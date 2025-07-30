@@ -1,0 +1,132 @@
+#include "InputManager.h"
+
+// https://dlemrcnd.tistory.com/53
+// https://blog.naver.com/hannip75/120202384082
+//참고 자료
+
+CInputManager::CInputManager()
+{
+}
+
+HRESULT CInputManager::Initialize(HINSTANCE Instance, HWND hWnd, _uInt iWidth, _uInt iHegiht)
+{
+	//DINPUT 생성
+	if(FAILED(DirectInput8Create(Instance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void **)& m_pDirectInput, nullptr)))
+		return E_FAIL;
+
+	//키보드 장치 생성
+	if (FAILED(m_pDirectInput->CreateDevice(GUID_SysKeyboard, &m_pKeyboard, nullptr)))
+		return E_FAIL;
+
+	// 장치별 반환 데이터 설정
+	m_pKeyboard->SetDataFormat(&c_dfDIKeyboard);
+
+	// DISCL_NONEXCLUSIVE : 다른 프로그램과 공유 안함 설정
+	// DISCL_FOREGROUND : 캡쳐같은 입력을 위한 키워드라는데?
+	// DISCL_NOWINKEY : 윈도우 키 사용안함
+	DWORD KeyLevel = DISCL_NONEXCLUSIVE |
+					 DISCL_FOREGROUND	|
+					 DISCL_NOWINKEY;
+
+	if (FAILED(m_pKeyboard->SetCooperativeLevel(hWnd, KeyLevel)))
+		return E_FAIL;
+
+	//Acquire 함수를 통해서 접근 할수있는 권한을 받아야함
+	while (m_pKeyboard->Acquire() == DIERR_INPUTLOST);
+
+	//마우스 장치 생성
+	if (FAILED(m_pDirectInput->CreateDevice(GUID_SysMouse, &m_pMouse, nullptr)))
+		return E_FAIL;
+
+	// 장치별 반환 데이터 설정
+	m_pMouse->SetDataFormat(&c_dfDIMouse);
+
+	DWORD MouseLevel =	DISCL_NONEXCLUSIVE |
+						DISCL_FOREGROUND;
+
+	if (FAILED(m_pMouse->SetCooperativeLevel(hWnd, MouseLevel)))
+		return E_FAIL;
+
+	while (m_pMouse->Acquire() == DIERR_INPUTLOST);
+
+	return S_OK;
+}
+
+void CInputManager::UpdateKeyFrame()
+{
+	//매프레임 키보드와 마우스에 대한 입력 포커스를 받아와야만 Input Data가 갱신된다.
+	while (m_pKeyboard->Acquire() == DIERR_INPUTLOST);
+	while (m_pMouse->Acquire() == DIERR_INPUTLOST);
+
+	//이전 입력과 현재입력을 동기화 시키위함
+	memcpy(m_PreKeyState, m_CurKeyState, sizeof(m_CurKeyState));
+	memcpy(m_PreMouseState, m_DIMouseSate.rgbButtons, sizeof(m_DIMouseSate.rgbButtons));
+
+	//폴링 방식을 통해서 윈도우 메시지에 접근해 키보드 입력과 마우스 입력을 가져온다.
+	m_pKeyboard->GetDeviceState(sizeof(m_CurKeyState), &m_CurKeyState);
+	m_pMouse->GetDeviceState(sizeof(m_DIMouseSate), &m_DIMouseSate);
+}
+
+_bool CInputManager::KeyDown(KEY_INPUT eType, _uInt KeyState)
+{
+	if(KEY_INPUT::KEYBOARD == eType)
+		return  (m_CurKeyState[KeyState] & 0x80) && !(m_PreKeyState[KeyState] & 0x80);
+	else
+		return  (m_DIMouseSate.rgbButtons[KeyState] & 0x80) && !(m_PreMouseState[KeyState] & 0x80);
+}
+
+_bool CInputManager::KeyPressed(KEY_INPUT eType, _uInt KeyState)
+{
+	if (KEY_INPUT::KEYBOARD == eType)
+		return  (m_CurKeyState[KeyState] & 0x80) && (m_PreKeyState[KeyState] & 0x80);
+	else
+		return  (m_DIMouseSate.rgbButtons[KeyState] & 0x80) && (m_PreMouseState[KeyState] & 0x80);
+}
+
+_bool CInputManager::KeyUp(KEY_INPUT eType, _uInt KeyState)
+{
+	if (KEY_INPUT::KEYBOARD == eType)
+		return !(m_CurKeyState[KeyState] & 0x80) && (m_PreKeyState[KeyState] & 0x80);
+	else
+		return  !(m_DIMouseSate.rgbButtons[KeyState] & 0x80) && (m_PreMouseState[KeyState] & 0x80);
+}
+
+LONG CInputManager::GetMouseAxis(_uInt iAxis)
+{
+	if (0 == iAxis)
+		return m_DIMouseSate.lX;
+	else if( 1 == iAxis)
+		return m_DIMouseSate.lY;
+	else
+		return m_DIMouseSate.lZ;
+}
+
+CInputManager* CInputManager::Create(HINSTANCE Instance, HWND hWnd, _uInt iWidth, _uInt iHegiht)
+{
+	CInputManager* pInputManager = new CInputManager();
+	if (FAILED(pInputManager->Initialize(Instance, hWnd, iWidth, iHegiht)))
+	{
+		Safe_Release(pInputManager);
+		MSG_BOX("CREATE FAIL : INPUT MANAGER");
+	}
+	return pInputManager;
+}
+
+void CInputManager::Free()
+{
+	if (m_pMouse)
+	{
+		//DINPUT의 Device는 메모리 해제전에 Unacquire함수를
+		//호출해야한다고 한다.
+		m_pMouse->Unacquire();
+	}
+
+	if (m_pKeyboard)
+	{
+		m_pKeyboard->Unacquire();
+	}
+
+	Safe_Release(m_pMouse);
+	Safe_Release(m_pKeyboard);
+	Safe_Release(m_pDirectInput);
+}
