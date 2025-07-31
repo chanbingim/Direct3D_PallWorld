@@ -32,6 +32,9 @@ using namespace std;
 #include "DirectXTK/DDSTextureLoader.h"
 #include "DirectXTK/WICTextureLoader.h"
 
+//Dx11 Shader
+#include "FX11/d3dx11effect.h"
+
 using namespace DirectX;
 
 #pragma warning(disable : 4251)

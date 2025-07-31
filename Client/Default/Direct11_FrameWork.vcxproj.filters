@@ -41,6 +41,9 @@
     <Filter Include="03. Objects\Camera">
       <UniqueIdentifier>{4f567e24-f89d-40b2-aba5-7103c9f4fe06}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{fd807638-9ff0-41cf-9ae3-865a9a0b536a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -118,8 +121,5 @@
     <ClCompile Include="..\private\Camera.cpp">
       <Filter>03. Objects\Camera</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="TestShader.hlsl" />
   </ItemGroup>
 </Project>

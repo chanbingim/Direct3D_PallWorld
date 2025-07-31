@@ -6,6 +6,7 @@
 NS_BEGIN(Engine)
 class CVIBuffer_Rect;
 class CTexture;
+class CShader;
 NS_END
 
 NS_BEGIN(Client)
@@ -28,20 +29,15 @@ public:
 private :
 	CVIBuffer_Rect*							m_pVIBufferCom = nullptr;
 	CTexture*								m_pTextureCom = nullptr;
+	CShader*								m_pShaderCom = nullptr;
+	_float4x4								m_ProjMatrix;
 
-
-	//테스트 쉐이더
-	ID3D11InputLayout*						InputLayOut = nullptr;
-	ID3D11VertexShader*						pVertexShader = nullptr;
-	ID3DBlob*								vs_Blob = nullptr;
-
-	ID3D11PixelShader*						pPixelShader = nullptr;
-	ID3DBlob*								ps_Blob = nullptr;
+	ID3DX11EffectVariable*					m_pWorldMat = nullptr;
+	ID3DX11EffectVariable*					m_pViewMat = nullptr;
+	ID3DX11EffectVariable*					m_pProjMat = nullptr;
 
 private :
 	HRESULT									ADD_Components();
-
-	HRESULT									SettingShader();
 
 public:
 	static			CBackGround*			Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);

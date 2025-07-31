@@ -33,16 +33,16 @@ _vector CTransform::GetLookVector()
     return XMLoadFloat4(reinterpret_cast<_float4*>(m_WorldMat.m[2]));
 }
 
-const _float3& CTransform::GetPosition()
+_float3& CTransform::GetPosition()
 {
     return *reinterpret_cast<_float3*>(m_WorldMat.m[3]);
 }
 
-const _float3& CTransform::GetScale()
+_float3& CTransform::GetScale()
 {
     return m_vScale;
 }
-const _float3& CTransform::GetRotation()
+_float3& CTransform::GetRotation()
 {
     return m_vRotation;
 }
@@ -91,7 +91,7 @@ void CTransform::SetRotation(_float3 vRotation)
     }
 }
 
-const _float4x4& CTransform::GetWorldMat()
+_float4x4& CTransform::GetWorldMat()
 {
     if (m_bHasParent)
         XMStoreFloat4x4(&m_WorldMat, XMLoadFloat4x4(&m_WorldMat) * XMLoadFloat4x4(&m_ParentWorldMat));
@@ -99,7 +99,7 @@ const _float4x4& CTransform::GetWorldMat()
     return m_WorldMat;
 }
 
-const _float4x4& CTransform::GetInvWorldMat()
+_float4x4& CTransform::GetInvWorldMat()
 {
     XMStoreFloat4x4(&m_InvWorldMat, XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_WorldMat)));
     return m_InvWorldMat;

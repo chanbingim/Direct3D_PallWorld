@@ -12,19 +12,17 @@
   Object_Manager.cpp
   Prototype_Manager.cpp
   Renderer.cpp
+  Shader.cpp
   Sound_Manager.cpp
   Texture.cpp
   Timer.cpp
   Timer_Manager.cpp
   Transform.cpp
-  UserInterface.cpp
   코드를 생성하고 있습니다...
   컴파일하고 있습니다...
+  UserInterface.cpp
   VIBuffer.cpp
   VIBuffer_Rect.cpp
   코드를 생성하고 있습니다...
-DirectXTK.lib(DDSTextureLoader.obj) : warning LNK4099: '' PDB를 'DirectXTK.lib(DDSTextureLoader.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-DirectXTK.lib(WICTextureLoader.obj) : warning LNK4099: '' PDB를 'DirectXTK.lib(WICTextureLoader.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
-DirectXTK.lib(pch.obj) : warning LNK4099: '' PDB를 'DirectXTK.lib(pch.obj)' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
      ../Bin/Engine.lib 라이브러리 및 ../Bin/Engine.exp 개체를 생성하고 있습니다.
-  Engine.vcxproj -> C:\Users\gimch\OneDrive\바탕 화면\asdasd\Direct11_FrameWork\Engine\Bin\Engine.dll
+  Engine.vcxproj -> C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Engine\Bin\Engine.dll

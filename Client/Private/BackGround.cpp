@@ -27,15 +27,18 @@ HRESULT CBackGround::Initialize(void* pArg)
     if (FAILED(ADD_Components()))
         return E_FAIL;
 
-    if (FAILED(SettingShader()))
-        return E_FAIL;
+    m_pWorldMat = m_pShaderCom->GetVariable("g_WorldMatrix");
+    m_pViewMat = m_pShaderCom->GetVariable("g_ViewMatrix");
+    m_pProjMat = m_pShaderCom->GetVariable("g_ProjMatrix");
 
-    D3D11_INPUT_ELEMENT_DESC VertexDesc[] = {
-        {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-        {"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
-    };
+    D3D11_VIEWPORT       ViewportDesc{};
+    _uInt                iNumViewports = { 1 };
 
-    m_pGraphic_Device->CreateInputLayout(VertexDesc, 2, vs_Blob->GetBufferPointer(), vs_Blob->GetBufferSize(), &InputLayOut);
+    m_pTransformCom->SetScale(_float3(500.f, 500.f, 1.f));
+
+    m_pDeviceContext->RSGetViewports(&iNumViewports, &ViewportDesc);
+    XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(ViewportDesc.Width, ViewportDesc.Height, 0.f, 1.f));
+   
     return S_OK;
 }
 
@@ -46,14 +49,16 @@ void CBackGround::Update(_float fDeletaTime)
 
 HRESULT CBackGround::Render()
 {
-    m_pDeviceContext->IASetInputLayout(InputLayOut);
-    m_pDeviceContext->VSSetShader(pVertexShader, nullptr, 0);
-    m_pDeviceContext->PSSetShader(pPixelShader, nullptr, 0);
+    _matrix Idenity = XMMatrixIdentity();
+
+    static_cast<LPD3D11EFFECTMATRIXVARIABLE>(m_pWorldMat)->SetMatrix(reinterpret_cast<float *>(&m_pTransformCom->GetWorldMat()));
+    static_cast<LPD3D11EFFECTMATRIXVARIABLE>(m_pViewMat)->SetMatrix(reinterpret_cast<float*>(&Idenity));
+    static_cast<LPD3D11EFFECTMATRIXVARIABLE>(m_pProjMat)->SetMatrix(reinterpret_cast<float*>(&m_ProjMatrix));
+
+    m_pShaderCom->Update_Shader(0);
     m_pTextureCom->SetTexture(0, 0);
 
     m_pVIBufferCom->Render_VIBuffer();
-
-   
     return S_OK;
 }
 
@@ -65,19 +70,7 @@ HRESULT CBackGround::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LOGO), TEXT("Prototype_Component_Texture_BackGround"), TEXT("Texture_Com"), (CComponent**)&m_pTextureCom)))
         return E_FAIL;
 
-    return S_OK;
-}
-
-HRESULT CBackGround::SettingShader()
-{
-    const _uInt compileFlag = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
-
-    D3DCompileFromFile(L"TestShader.hlsl", nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, "VS", "vs_5_0", compileFlag, 0, &vs_Blob, nullptr);
-    if(FAILED(m_pGraphic_Device->CreateVertexShader(vs_Blob->GetBufferPointer(), vs_Blob->GetBufferSize(), nullptr, &pVertexShader)))
-       return E_FAIL;
-
-    D3DCompileFromFile(L"TestShader.hlsl", nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, "PS", "ps_5_0", compileFlag, 0, &ps_Blob, nullptr);
-    if (FAILED(m_pGraphic_Device->CreatePixelShader(ps_Blob->GetBufferPointer(), ps_Blob->GetBufferSize(), nullptr, &pPixelShader)))
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LOGO), TEXT("Prototype_Component_Shader_VtxTex"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
         return E_FAIL;
 
     return S_OK;
@@ -111,11 +104,5 @@ void CBackGround::Free()
 
     Safe_Release(m_pVIBufferCom);
     Safe_Release(m_pTextureCom);
-
-
-    Safe_Release(InputLayOut);
-    Safe_Release(pVertexShader);
-    Safe_Release(pPixelShader);
-    Safe_Release(vs_Blob);
-    Safe_Release(ps_Blob);
+    Safe_Release(m_pShaderCom);
 }

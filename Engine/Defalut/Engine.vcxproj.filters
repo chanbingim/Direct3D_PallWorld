@@ -103,6 +103,9 @@
     <Filter Include="Utility\Components\CameraFrustom">
       <UniqueIdentifier>{365c0050-43ce-4624-994d-d21db11a8fc4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utility\Components\Shader">
+      <UniqueIdentifier>{ff32bb3e-62d8-4e8e-837e-1bc649cfa632}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Graphic_Device.cpp">
@@ -170,6 +173,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Texture.cpp">
       <Filter>Utility\Components\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Shader.cpp">
+      <Filter>Utility\Components\Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -265,6 +271,9 @@
     </ClInclude>
     <ClInclude Include="..\public\Texture.h">
       <Filter>Utility\Components\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Shader.h">
+      <Filter>Utility\Components\Shader</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

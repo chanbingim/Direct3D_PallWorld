@@ -14,17 +14,17 @@ public :
 	_vector						GetUpVector();
 	_vector						GetLookVector();
 
-	const _float3&				GetPosition();
-	const _float3&				GetScale();
-	const _float3&				GetRotation();
+	_float3&					GetPosition();
+	_float3&					GetScale();
+	_float3&					GetRotation();
 
 	void						RotationAxis(_float3 vAxis, _float fAngle);
 	void						SetPosition(_float3 vPosition);
 	void						SetScale(_float3 vScale);
 	void						SetRotation(_float3 vRotation);
 
-	const _float4x4&			GetWorldMat();
-	const _float4x4&			GetInvWorldMat();
+	_float4x4&					GetWorldMat();
+	_float4x4&					GetInvWorldMat();
 
 	void						SetParentMatrix(const _float4x4& matrix);
 

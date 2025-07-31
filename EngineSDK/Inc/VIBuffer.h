@@ -18,14 +18,18 @@ public :
 
 protected :
 	//¿Ã¡¶ D11Buffer∑Œ ≈Î«’µ  ¿Œµ¶Ω∫∂˚ πˆ≈√Ω∫∂˚
-	_uInt						m_NumVertices = {};
+	_uInt						m_iNumVertices = {};
+	_uInt						m_iVertexStride = {};
+	_float3*					m_pVertices = nullptr;
 	ID3D11Buffer*				m_pVertexBuffer = nullptr;
 
-	_uInt						m_NumIndices = {};
+	_uInt						m_iNumIndices = {};
+	_uInt						m_iIndexStride = {};
 	ID3D11Buffer*				m_pIndexBuffer = nullptr;
 
-	VTX_TEX*					m_Vertices = nullptr;
-	_uInt*						m_Indices = nullptr;
+	_uInt						m_iNumVertexBuffers = {};
+	DXGI_FORMAT					m_eIndexFormat = {};
+	D3D11_PRIMITIVE_TOPOLOGY	m_ePrimitive = {};
 
 public :
 	virtual		CComponent*		Clone(void* pArg) override;
