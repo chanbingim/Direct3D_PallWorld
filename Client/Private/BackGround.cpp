@@ -14,7 +14,8 @@ CBackGround::CBackGround(const CBackGround& rhs) :
 
 HRESULT CBackGround::Initalize_Prototype()
 {
-
+    if (FAILED(__super::Initalize_Prototype()))
+        return E_FAIL;
 
     return S_OK;
 }
@@ -27,17 +28,7 @@ HRESULT CBackGround::Initialize(void* pArg)
     if (FAILED(ADD_Components()))
         return E_FAIL;
 
-    m_pWorldMat = m_pShaderCom->GetVariable("g_WorldMatrix");
-    m_pViewMat = m_pShaderCom->GetVariable("g_ViewMatrix");
-    m_pProjMat = m_pShaderCom->GetVariable("g_ProjMatrix");
-
-    D3D11_VIEWPORT       ViewportDesc{};
-    _uInt                iNumViewports = { 1 };
-
-    m_pTransformCom->SetScale(_float3(500.f, 500.f, 1.f));
-
-    m_pDeviceContext->RSGetViewports(&iNumViewports, &ViewportDesc);
-    XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(ViewportDesc.Width, ViewportDesc.Height, 0.f, 1.f));
+  
    
     return S_OK;
 }
@@ -72,6 +63,18 @@ HRESULT CBackGround::ADD_Components()
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LOGO), TEXT("Prototype_Component_Shader_VtxTex"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
         return E_FAIL;
+
+    return S_OK;
+}
+
+HRESULT CBackGround::Bind_ShaderCBuffer()
+{
+    if (nullptr == m_pShaderCom)
+        return E_FAIL;
+
+    m_pWorldMat = m_pShaderCom->GetVariable("g_WorldMatrix");
+    m_pViewMat = m_pShaderCom->GetVariable("g_ViewMatrix");
+    m_pProjMat = m_pShaderCom->GetVariable("g_ProjMatrix");
 
     return S_OK;
 }

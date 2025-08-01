@@ -5,15 +5,26 @@
 CUserInterface::CUserInterface(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext) :
 	CGameObject(pGraphic_Device, pDeviceContext)
 {
+	_matrix mat = XMMatrixIdentity();
+	XMStoreFloat4x4(&m_ViewMatrix, mat);
+	XMStoreFloat4x4(&m_ProjMatrix, mat);
 }
 
 CUserInterface::CUserInterface(const CUserInterface& rhs) :
-	CGameObject(rhs)
+	CGameObject(rhs),
+	m_ViewMatrix(rhs.m_ViewMatrix),
+	m_ProjMatrix(rhs.m_ProjMatrix)
 {
 }
 
 HRESULT CUserInterface::Initalize_Prototype()
 {
+	D3D11_VIEWPORT       ViewportDesc{};
+	_uInt                iNumViewports = { 1 };
+
+	m_pDeviceContext->RSGetViewports(&iNumViewports, &ViewportDesc);
+	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(ViewportDesc.Width, ViewportDesc.Height, 0.f, 1.f));
+
 	return S_OK;
 }
 
@@ -61,8 +72,8 @@ void CUserInterface::UpdateRectSize()
 		auto Parent = m_pParent;
 		while (Parent)
 		{
-			auto vPos = XMLoadFloat3(&Parent->GetTransform()->GetPosition());
-			ParentposVec += vPos;
+			auto vPos = Parent->GetTransform()->GetPosition();
+			ParentposVec += XMLoadFloat3(&vPos);
 
 			Parent = Parent->GetParent();
 		}

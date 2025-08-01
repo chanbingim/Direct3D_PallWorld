@@ -1,13 +1,16 @@
 #include "HeadUpDisplay.h"
 
+#include "GameInstance.h"
 #include "UserInterface.h"
 
 CHeadUpDisplay::CHeadUpDisplay(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 	m_pDevice(pDevice),
-	m_pContext(pContext)
+	m_pContext(pContext),
+	m_pGameInstance(CGameInstance::GetInstance())
 {
 	Safe_AddRef(m_pDevice);
 	Safe_AddRef(m_pContext);
+	Safe_AddRef(m_pGameInstance);
 }
 
 HRESULT CHeadUpDisplay::Initialize()
@@ -47,6 +50,20 @@ void CHeadUpDisplay::Clear_HUD()
 	m_pUserInterfaceMap.clear();
 }
 
+HRESULT CHeadUpDisplay::Add_UserInterface(_uInt LevelIndex, const _wstring& PrototypeUITag, const _wstring& UITag, void* pArg)
+{
+	CUserInterface* pUI = m_pGameInstance->Clone_Prototype<CUserInterface>(LevelIndex, PrototypeUITag, pArg);
+	if (nullptr == pUI)
+		return E_FAIL;
+
+	auto pair = m_pUserInterfaceMap.find(UITag);
+	if (pair != m_pUserInterfaceMap.end())
+		return E_FAIL;
+
+	m_pUserInterfaceMap.emplace(UITag, pUI);
+	return S_OK;
+}
+
 CHeadUpDisplay* CHeadUpDisplay::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CHeadUpDisplay* pHud = new CHeadUpDisplay(pDevice, pContext);
@@ -63,7 +80,7 @@ void CHeadUpDisplay::Free()
 {
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
+	Safe_Release(m_pGameInstance);
 
 	Clear_HUD();
-
 }

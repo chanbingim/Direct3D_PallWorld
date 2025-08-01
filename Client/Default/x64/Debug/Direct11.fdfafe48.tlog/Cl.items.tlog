@@ -4,5 +4,8 @@ C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\private\GamePlay
 C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\private\Loader.cpp;C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\Loader.obj
 C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\private\LoadingLevel.cpp;C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\LoadingLevel.obj
 C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\private\LogoLevel.cpp;C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\LogoLevel.obj
+C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\private\Logo_HUD.cpp;C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\Logo_HUD.obj
+C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\private\Logo_Menu.cpp;C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\Logo_Menu.obj
 C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\private\MainApp.cpp;C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\MainApp.obj
+C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\private\PellLogo.cpp;C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\PellLogo.obj
 C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Default\Direct11_FrameWork.cpp;C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\Direct11_FrameWork.obj

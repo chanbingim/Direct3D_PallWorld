@@ -44,6 +44,21 @@
     <Filter Include="Shader">
       <UniqueIdentifier>{fd807638-9ff0-41cf-9ae3-865a9a0b536a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. HUD\LogoHUD">
+      <UniqueIdentifier>{584aee3d-9f35-4489-9440-b6d8ee8c828f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\Base_UI">
+      <UniqueIdentifier>{f6b94b2f-5314-4e58-9966-6d24d331d4ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\LogoHUD\Logo_UI">
+      <UniqueIdentifier>{3dc0fe13-314c-49e0-8696-aa47fa646656}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\LogoHUD\Logo_UI\LogoMenu">
+      <UniqueIdentifier>{5fbbfc77-b3ef-4058-b05d-5fedad6c5b85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\LogoHUD\Logo_UI\LogoMenu\PellLogo">
+      <UniqueIdentifier>{a92c6dec-4f81-46e5-9261-7bd138978e80}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -76,11 +91,20 @@
     <ClInclude Include="..\public\Loader.h">
       <Filter>01. Levels\Loding\Loder</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\BackGround.h">
-      <Filter>03. Objects</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Camera.h">
       <Filter>03. Objects\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Logo_HUD.h">
+      <Filter>02. HUD\LogoHUD</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\BackGround.h">
+      <Filter>02. HUD\Base_UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Logo_Menu.h">
+      <Filter>02. HUD\LogoHUD\Logo_UI\LogoMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PellLogo.h">
+      <Filter>02. HUD\LogoHUD\Logo_UI\LogoMenu\PellLogo</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -115,11 +139,20 @@
     <ClCompile Include="..\private\Loader.cpp">
       <Filter>01. Levels\Loding\Loder</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\BackGround.cpp">
-      <Filter>03. Objects</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Camera.cpp">
       <Filter>03. Objects\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Logo_HUD.cpp">
+      <Filter>02. HUD\LogoHUD</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BackGround.cpp">
+      <Filter>02. HUD\Base_UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Logo_Menu.cpp">
+      <Filter>02. HUD\LogoHUD\Logo_UI\LogoMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PellLogo.cpp">
+      <Filter>02. HUD\LogoHUD\Logo_UI\LogoMenu\PellLogo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -40,9 +40,9 @@ inline T* CPrototype_Manager::Clone_Prototype(_uInt iLevelIndex, const _wstring&
 		return nullptr;
 
 	T* pGameObject = { nullptr };
-	pGameObject = dynamic_cast<T*>(pPrototype)->Clone(pArg);
+	pGameObject = dynamic_cast<T*>(pPrototype);
 	if (nullptr == pGameObject)
 		return nullptr;
 
-	return pGameObject;
+	return static_cast<T*>(pGameObject->Clone(pArg));
 }

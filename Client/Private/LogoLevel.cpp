@@ -1,6 +1,7 @@
 #include "LogoLevel.h"
 
 #include "GameInstance.h"
+#include "Logo_HUD.h"
 
 CLogoLevel::CLogoLevel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, _uInt _iID) :
 	CLevel(pDevice, pContext, _iID)
@@ -9,8 +10,7 @@ CLogoLevel::CLogoLevel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, _uI
 
 HRESULT CLogoLevel::Initialize()
 {
-	if(FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LOGO), TEXT("Prototype_GameObject_BackGround"), ENUM_CLASS(LEVEL::LOGO), TEXT("Layer_BackGround"))))
-		return E_FAIL;
+	SetHUD(CLogo_HUD::Create(m_pGraphic_Device, m_pDeviceContext));
 
 	return S_OK;
 }
@@ -21,6 +21,8 @@ void CLogoLevel::Update(_float fTimeDelta)
 	{
 		OutputDebugString(TEXT("keyDown SPACE"));
 	}
+	
+	__super::Update(fTimeDelta);
 }
 
 HRESULT CLogoLevel::Render()

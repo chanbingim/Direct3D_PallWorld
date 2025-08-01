@@ -14,9 +14,9 @@ public :
 	_vector						GetUpVector();
 	_vector						GetLookVector();
 
-	_float3&					GetPosition();
-	_float3&					GetScale();
-	_float3&					GetRotation();
+	_float3						GetPosition();
+	_float3						GetScale();
+	_float3						GetRotation();
 
 	void						RotationAxis(_float3 vAxis, _float fAngle);
 	void						SetPosition(_float3 vPosition);
@@ -37,8 +37,8 @@ private :
 	_float4x4					m_WorldMat;
 	_float4x4					m_InvWorldMat;
 
-	_float3						m_vScale = {};
 	_float3						m_vRotation = {};
+
 
 public :
 	static		CTransform*		Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

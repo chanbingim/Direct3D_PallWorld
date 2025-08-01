@@ -36,7 +36,8 @@ HRESULT CGameObject::Initialize(void* pArg)
 	{
 		GAMEOBJECT_DESC* pObjectDesc = static_cast<GAMEOBJECT_DESC*>(pArg);
 
-		SetParent(pObjectDesc->pParent);
+		if(pObjectDesc->pParent)
+			SetParent(pObjectDesc->pParent);
 		SetLocation(pObjectDesc->vPosition);
 		SetRotation(pObjectDesc->vRotation);
 		SetScale(pObjectDesc->vScale);

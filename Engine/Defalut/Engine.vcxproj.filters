@@ -58,9 +58,6 @@
     <Filter Include="Utility\HeadUpDisplay\UserInterface">
       <UniqueIdentifier>{75f31298-c6f1-413c-b374-55ddf4ff1db6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utility\HeadUpDisplay\Button">
-      <UniqueIdentifier>{6531bd6a-0b8b-44d4-8703-ff7918f06604}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utility\HeadUpDisplay\Layer">
       <UniqueIdentifier>{883d5013-29ae-4317-b65e-09472d059624}</UniqueIdentifier>
     </Filter>
@@ -105,6 +102,9 @@
     </Filter>
     <Filter Include="Utility\Components\Shader">
       <UniqueIdentifier>{ff32bb3e-62d8-4e8e-837e-1bc649cfa632}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\HeadUpDisplay\UserInterface\Button">
+      <UniqueIdentifier>{6531bd6a-0b8b-44d4-8703-ff7918f06604}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

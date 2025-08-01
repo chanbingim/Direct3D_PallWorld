@@ -24,6 +24,9 @@ public:
 	_uInt									GetZOrder();
 
 protected :
+	_float4x4								m_ViewMatrix = {};
+	_float4x4								m_ProjMatrix = {};
+
 	RECT									m_UISize = {};
 	_bool									m_bIsHover = false;
 	_uInt									m_iZOrder = {};

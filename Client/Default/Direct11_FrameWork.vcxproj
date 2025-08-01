@@ -152,7 +152,10 @@
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\public\LoadingLevel.h" />
     <ClInclude Include="..\public\LogoLevel.h" />
+    <ClInclude Include="..\public\Logo_HUD.h" />
+    <ClInclude Include="..\public\Logo_Menu.h" />
     <ClInclude Include="..\public\MainApp.h" />
+    <ClInclude Include="..\public\PellLogo.h" />
     <ClInclude Include="Direct11_FrameWork.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
@@ -165,7 +168,10 @@
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\LoadingLevel.cpp" />
     <ClCompile Include="..\private\LogoLevel.cpp" />
+    <ClCompile Include="..\private\Logo_HUD.cpp" />
+    <ClCompile Include="..\private\Logo_Menu.cpp" />
     <ClCompile Include="..\private\MainApp.cpp" />
+    <ClCompile Include="..\private\PellLogo.cpp" />
     <ClCompile Include="Direct11_FrameWork.cpp" />
   </ItemGroup>
   <ItemGroup>

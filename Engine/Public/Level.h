@@ -8,13 +8,14 @@ class CHeadUpDisplay;
 class ENGINE_DLL CLevel : public CBase
 {
 protected :
-	CLevel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, _uInt _iID, CHeadUpDisplay* pHUD = nullptr);
+	CLevel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, _uInt _iID);
 	virtual ~CLevel() = default;
 
 public :
 	virtual HRESULT		Initialize();
 	virtual void		Update(_float fTimeDelta);
 	virtual HRESULT		Render();
+
 
 	const _uInt			GetLevelID() { return m_ID; }
 
@@ -25,6 +26,9 @@ protected :
 	ID3D11DeviceContext*	m_pDeviceContext = nullptr;
 
 	CHeadUpDisplay*			m_pHUD = nullptr;
+
+protected :
+	void					SetHUD(CHeadUpDisplay* pHUD);
 
 protected :
 	virtual void Free() override;
