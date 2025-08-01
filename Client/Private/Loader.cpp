@@ -99,7 +99,7 @@ HRESULT CLoader::Loading_For_Logo()
 	};
 
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LOGO), TEXT("Prototype_Component_Shader_VtxTex"),
-		CShader::Create(m_pDevice, m_pContext, VertexDesc, 2, TEXT("../Bin/ShadersFiles/TestShader.hlsl")))))
+		CShader::Create(m_pDevice, m_pContext, VertexDesc, 2, TEXT("../Bin/ShaderFiles/TestShader.hlsl")))))
 		return E_FAIL;
 
 

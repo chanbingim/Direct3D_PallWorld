@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="System">
-      <UniqueIdentifier>{73bf4124-a938-4ffa-b891-a2b8872955f8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utility">
       <UniqueIdentifier>{fd72265a-ffe9-42c9-95b9-24a489f5f7aa}</UniqueIdentifier>
     </Filter>
@@ -25,23 +22,11 @@
     <Filter Include="Utility\Object\Manager">
       <UniqueIdentifier>{3e57ae93-6093-4c7f-aaae-8efb50cd28f5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\Base">
-      <UniqueIdentifier>{b03dfe8c-d8dc-42d1-8564-bc14acb88645}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System\GraphicDevice">
-      <UniqueIdentifier>{cd1f3ba6-f542-4495-a079-eceac8fa8765}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utility\Prototype">
       <UniqueIdentifier>{69d8f536-02d2-431a-964d-d6cebdbb48d8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Utility\Object\Layer">
       <UniqueIdentifier>{949710dc-196d-4ae1-a02d-863d8e050b7c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System\Timer">
-      <UniqueIdentifier>{5de90397-f646-416d-9c79-d64665a5e87d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System\Timer\Manager">
-      <UniqueIdentifier>{7c49d81f-aa43-498a-a7e9-2ddf894303ee}</UniqueIdentifier>
     </Filter>
     <Filter Include="Utility\Object\Actor">
       <UniqueIdentifier>{c412d2f4-29ae-4c3e-809c-5743aa6dc63c}</UniqueIdentifier>
@@ -85,15 +70,6 @@
     <Filter Include="Utility\Components\Texture">
       <UniqueIdentifier>{3dd88695-8403-45b2-b0a1-d2c9f48b7499}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\DXInput">
-      <UniqueIdentifier>{48d86464-d2f9-4d3d-b452-6e9d17944dbb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System\Mouse">
-      <UniqueIdentifier>{d74e0f09-93b3-4912-870e-dffbd58189d7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System\Sound_Manager">
-      <UniqueIdentifier>{0fdc29c6-3f41-4bd0-ac16-902cbe264a74}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utility\Components\VIBuffer\VIRect">
       <UniqueIdentifier>{f0cae173-9deb-4b0f-95f0-ef70ad282413}</UniqueIdentifier>
     </Filter>
@@ -105,6 +81,30 @@
     </Filter>
     <Filter Include="Utility\HeadUpDisplay\UserInterface\Button">
       <UniqueIdentifier>{6531bd6a-0b8b-44d4-8703-ff7918f06604}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System">
+      <UniqueIdentifier>{73bf4124-a938-4ffa-b891-a2b8872955f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Base">
+      <UniqueIdentifier>{b03dfe8c-d8dc-42d1-8564-bc14acb88645}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\GraphicDevice">
+      <UniqueIdentifier>{cd1f3ba6-f542-4495-a079-eceac8fa8765}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Timer">
+      <UniqueIdentifier>{5de90397-f646-416d-9c79-d64665a5e87d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Timer\Manager">
+      <UniqueIdentifier>{7c49d81f-aa43-498a-a7e9-2ddf894303ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\DXInput">
+      <UniqueIdentifier>{48d86464-d2f9-4d3d-b452-6e9d17944dbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Mouse">
+      <UniqueIdentifier>{d74e0f09-93b3-4912-870e-dffbd58189d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Sound_Manager">
+      <UniqueIdentifier>{0fdc29c6-3f41-4bd0-ac16-902cbe264a74}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -156,7 +156,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\Bin\ShadersFiles\TestShader.hlsl">
+    <FxCompile Include="..\Bin\ShaderFiles\TestShader.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>

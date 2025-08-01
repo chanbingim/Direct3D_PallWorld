@@ -29,7 +29,32 @@ HRESULT CPellLogo::Initialize(void* pArg)
     if (FAILED(Bind_ShaderCBuffer()))
         return E_FAIL;
 
+    CreateAlphaBlendState();
+
     return S_OK;
+}
+
+void CPellLogo::CreateAlphaBlendState()
+{
+    D3D11_BLEND_DESC desc = { 0 };
+    desc.AlphaToCoverageEnable = FALSE;
+    desc.IndependentBlendEnable = FALSE;
+
+    D3D11_RENDER_TARGET_BLEND_DESC& RenderTarget = desc.RenderTarget[0];
+    RenderTarget.BlendEnable = TRUE;
+    RenderTarget.SrcBlend = D3D11_BLEND_SRC_ALPHA;
+    RenderTarget.DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+    RenderTarget.BlendOp = D3D11_BLEND_OP_ADD;
+    RenderTarget.SrcBlendAlpha = D3D11_BLEND_ONE;
+    RenderTarget.DestBlendAlpha = D3D11_BLEND_ZERO;
+    RenderTarget.BlendOpAlpha = D3D11_BLEND_OP_ADD;
+    RenderTarget.RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+    if (FAILED(m_pGraphic_Device->CreateBlendState(&desc, &m_pBlendState)))
+    {
+        MSG_BOX("CREATE FAIL : BLEND STATE");
+        return;
+    }
 }
 
 void CPellLogo::Update(_float fDeletaTime)
@@ -39,6 +64,8 @@ void CPellLogo::Update(_float fDeletaTime)
 
 HRESULT CPellLogo::Render()
 {
+    FLOAT BLEND_Factor[4] = { 0.f, 0.f, 0.f, 0.f };
+    m_pDeviceContext->OMSetBlendState(m_pBlendState, BLEND_Factor, 0xffffffff);
     __super::Render();
 
     return S_OK;
@@ -85,4 +112,6 @@ CGameObject* CPellLogo::Clone(void* pArg)
 void CPellLogo::Free()
 {
     __super::Free();
+
+    Safe_Release(m_pBlendState);
 }

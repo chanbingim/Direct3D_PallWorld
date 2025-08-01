@@ -2,12 +2,12 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe</FullPath>
+      <FullPath>C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles>
     <ContentFile>
-      <FullPath>C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Bin\TestShader.cso</FullPath>
+      <FullPath>C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\TestShader.cso</FullPath>
     </ContentFile>
   </ContentFiles>
   <SatelliteDlls />
