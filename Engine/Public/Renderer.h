@@ -17,12 +17,16 @@ private:
 	ID3D11Device*						m_pDevice = { nullptr };
 	ID3D11DeviceContext*				m_pContext = { nullptr };
 
+	//랜더 스테이트
+	ID3D11BlendState*					m_pAlphaBlendState = { nullptr };
+
 	list<class CGameObject*>			m_RenderObjects[ENUM_CLASS(RENDER::END)];
 
 private:
+	HRESULT				Create_BlendState();
+
 	void				Render_Priority();
 	void				Render_NonBlend();
-	void				Render_AlphaTest();
 	void				Render_WorldUI();
 	void				Render_Blend();
 	void				Render_ScreenUI();

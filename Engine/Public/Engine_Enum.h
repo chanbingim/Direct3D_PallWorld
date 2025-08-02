@@ -8,7 +8,7 @@ namespace Engine
 	enum class WORLDSTATE	{ RIGHT, UP, LOOK, POSITION, END };
 	enum class RENDER {
 		PRIORITY,
-		NONBLEND, ALPHATEST,
+		NONBLEND,
 		BLEND,
 		WORLD_UI, SCREEN_UI, END
 	};

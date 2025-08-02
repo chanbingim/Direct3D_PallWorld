@@ -64,9 +64,20 @@ void CPellLogo::Update(_float fDeletaTime)
 
 HRESULT CPellLogo::Render()
 {
-    FLOAT BLEND_Factor[4] = { 0.f, 0.f, 0.f, 0.f };
-    m_pDeviceContext->OMSetBlendState(m_pBlendState, BLEND_Factor, 0xffffffff);
-    __super::Render();
+    //FLOAT BLEND_Factor[4] = { 0.f, 0.f, 0.f, 0.f };
+    //m_pDeviceContext->OMSetBlendState(m_pBlendState, BLEND_Factor, 0xffffffff);
+    //__super::Render();
+
+    _matrix Idenity = XMMatrixIdentity();
+
+    static_cast<LPD3D11EFFECTMATRIXVARIABLE>(m_pWorldMat)->SetMatrix(reinterpret_cast<float*>(&m_pTransformCom->GetWorldMat()));
+    static_cast<LPD3D11EFFECTMATRIXVARIABLE>(m_pViewMat)->SetMatrix(reinterpret_cast<float*>(&Idenity));
+    static_cast<LPD3D11EFFECTMATRIXVARIABLE>(m_pProjMat)->SetMatrix(reinterpret_cast<float*>(&m_ProjMatrix));
+
+    m_pShaderCom->Update_Shader(1);
+    m_pTextureCom->SetTexture(0, 0);
+
+    m_pVIBufferCom->Render_VIBuffer();
 
     return S_OK;
 }

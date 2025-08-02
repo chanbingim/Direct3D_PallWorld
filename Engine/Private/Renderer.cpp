@@ -13,6 +13,9 @@ CRenderer::CRenderer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 
 HRESULT CRenderer::Initialize()
 {
+    if (FAILED(Create_BlendState()))
+        return E_FAIL;
+
     return S_OK;
 }
 
@@ -31,12 +34,36 @@ void CRenderer::Render()
 {
     Render_Priority();
     Render_NonBlend();
-    Render_AlphaTest();
 
     Render_WorldUI();
     Render_Blend();
    
     Render_ScreenUI();
+}
+
+HRESULT CRenderer::Create_BlendState()
+{
+    D3D11_BLEND_DESC desc = { 0 };
+    desc.AlphaToCoverageEnable = FALSE;
+    desc.IndependentBlendEnable = FALSE;
+
+    D3D11_RENDER_TARGET_BLEND_DESC& RenderTarget = desc.RenderTarget[0];
+    RenderTarget.BlendEnable = TRUE;
+    RenderTarget.SrcBlend = D3D11_BLEND_SRC_ALPHA;
+    RenderTarget.DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+    RenderTarget.BlendOp = D3D11_BLEND_OP_ADD;
+    RenderTarget.SrcBlendAlpha = D3D11_BLEND_ONE;
+    RenderTarget.DestBlendAlpha = D3D11_BLEND_ZERO;
+    RenderTarget.BlendOpAlpha = D3D11_BLEND_OP_ADD;
+    RenderTarget.RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+    if (FAILED(m_pDevice->CreateBlendState(&desc, &m_pAlphaBlendState)))
+    {
+        MSG_BOX("CREATE FAIL : BLEND STATE");
+        return E_FAIL;
+    }
+
+    return S_OK;
 }
 
 void CRenderer::Render_Priority()
@@ -65,19 +92,6 @@ void CRenderer::Render_NonBlend()
     m_RenderObjects[ENUM_CLASS(RENDER::NONBLEND)].clear();
 }
 
-void CRenderer::Render_AlphaTest()
-{
-    for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::ALPHATEST)])
-    {
-        if (nullptr != pRenderObject)
-            pRenderObject->Render();
-
-        Safe_Release(pRenderObject);
-    }
-
-    m_RenderObjects[ENUM_CLASS(RENDER::ALPHATEST)].clear();
-}
-
 void CRenderer::Render_WorldUI()
 {
     for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::WORLD_UI)])
@@ -93,6 +107,9 @@ void CRenderer::Render_WorldUI()
 
 void CRenderer::Render_Blend()
 {
+    FLOAT blendFactor[4] = { 0.f, 0.f, 0.f, 0.f };
+
+    m_pContext->OMSetBlendState(m_pAlphaBlendState, blendFactor, 0xffffffff);
     for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::BLEND)])
     {
         if (nullptr != pRenderObject)
@@ -102,6 +119,7 @@ void CRenderer::Render_Blend()
     }
 
     m_RenderObjects[ENUM_CLASS(RENDER::BLEND)].clear();
+    m_pContext->OMSetBlendState(nullptr, nullptr, 0xffffffff);
 }
 
 void CRenderer::Render_ScreenUI()
@@ -137,6 +155,7 @@ void CRenderer::Free()
         RenderObjects.clear();
     }
 
+    Safe_Release(m_pAlphaBlendState);
     Safe_Release(m_pDevice);
     Safe_Release(m_pContext);
 }

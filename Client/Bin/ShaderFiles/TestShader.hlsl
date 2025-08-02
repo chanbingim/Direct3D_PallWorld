@@ -85,8 +85,25 @@ PS_OUT PS_MAIN(PS_IN In)
 {
     PS_OUT Out;
     
-    Out.vColor = g_Texture.Sample(sampler0, In.vTexcoord);
+    float4 vNewColor = g_Texture.Sample(sampler0, In.vTexcoord);
     
+    Out.vColor = vNewColor;
+    return Out;
+}
+
+/* 픽셀 쉐이더 : 픽셀의 최종적인 색을 결정하낟. */
+PS_OUT PS_MAIN1(PS_IN In)
+{
+    PS_OUT Out;
+    
+    float4 vNewColor = g_Texture.Sample(sampler0, In.vTexcoord);
+    
+    // discard 명령어를 통해서 안그려지게 할수있음
+    // return 같은거임
+    if (distance(vNewColor.rgb, float3(1.f, 1.f, 1.f)) < 0.1f)
+        discard;
+    
+    Out.vColor = vNewColor;
     return Out;
 }
 
@@ -96,5 +113,11 @@ technique11 Tech
     {
         VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_MAIN();
+    }
+
+    pass Pass1
+    {
+        VertexShader = compile vs_5_0 VS_MAIN();
+        PixelShader = compile ps_5_0 PS_MAIN1();
     }
 }
