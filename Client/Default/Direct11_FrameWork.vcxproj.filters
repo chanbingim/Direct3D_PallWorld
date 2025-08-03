@@ -59,6 +59,9 @@
     <Filter Include="02. HUD\LogoHUD\Logo_UI\LogoMenu\PellLogo">
       <UniqueIdentifier>{a92c6dec-4f81-46e5-9261-7bd138978e80}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. HUD\LogoHUD\Logo_UI\LogoMenu\Logo_But">
+      <UniqueIdentifier>{9d264fce-44c9-456d-ab5c-4f09ac169bc9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">

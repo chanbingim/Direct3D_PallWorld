@@ -1,5 +1,3 @@
-﻿
-
 //float2, float3, float4 == vector
 
     //float3 vTmp = float3(0.f, 0.f, 0.f);
@@ -13,14 +11,6 @@
 
 matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 Texture2D g_Texture : register(t0);
-
-BlendState blend
-{
-    BlendEnable[0] = true;
-    SrcBlend[0] = SRC_COLOR;
-    DestBlend[0] = INV_SRC_COLOR;
-    BlendOp[0] = ADD;
-};
 
 sampler sampler0 = sampler_state
 {
@@ -87,6 +77,7 @@ PS_OUT PS_MAIN(PS_IN In)
     
     float4 vNewColor = g_Texture.Sample(sampler0, In.vTexcoord);
     
+    vNewColor.a = 0.f;
     Out.vColor = vNewColor;
     return Out;
 }

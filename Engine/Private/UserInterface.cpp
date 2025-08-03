@@ -30,8 +30,30 @@ HRESULT CUserInterface::Initalize_Prototype()
 
 HRESULT CUserInterface::Initialize(void* pArg)
 {
-	if(FAILED(__super::Initialize(pArg)))
+	if(FAILED(__super::Initialize(nullptr)))
 		return E_FAIL;
+
+	if (pArg)
+	{
+		GAMEOBJECT_DESC* pObjectDesc = static_cast<GAMEOBJECT_DESC*>(pArg);
+
+		if (pObjectDesc->pParent)
+			SetParent(pObjectDesc->pParent);
+		SetRotation(pObjectDesc->vRotation);
+		SetScale(pObjectDesc->vScale);
+
+		D3D11_VIEWPORT viewportDesc;
+		_uInt          iNumViewports = { 1 };
+
+		m_pDeviceContext->RSGetViewports(&iNumViewports, &viewportDesc);
+
+		//이렇게 해야하는 이유 처음엔 몰랐는데
+		//마우스 rect검사를 할때 좀더 편하게 하려면 해야함
+		pObjectDesc->vPosition.x -= viewportDesc.Width * 0.5f;
+		pObjectDesc->vPosition.y = -pObjectDesc->vPosition.y + viewportDesc.Height * 0.5f;
+		
+		SetLocation(pObjectDesc->vPosition);
+	}
 
 	return S_OK;
 }

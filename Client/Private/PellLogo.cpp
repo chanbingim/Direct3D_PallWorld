@@ -20,7 +20,7 @@ HRESULT CPellLogo::Initalize_Prototype()
 
 HRESULT CPellLogo::Initialize(void* pArg)
 {
-    if (FAILED(CGameObject::Initialize(pArg)))
+    if (FAILED(CUserInterface::Initialize(pArg)))
         return E_FAIL;
 
     if (FAILED(ADD_Components()))

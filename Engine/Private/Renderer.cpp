@@ -16,6 +16,9 @@ HRESULT CRenderer::Initialize()
     if (FAILED(Create_BlendState()))
         return E_FAIL;
 
+    if (FAILED(Create_DepthStencilState()))
+        return E_FAIL;
+
     return S_OK;
 }
 
@@ -62,6 +65,17 @@ HRESULT CRenderer::Create_BlendState()
         MSG_BOX("CREATE FAIL : BLEND STATE");
         return E_FAIL;
     }
+
+    return S_OK;
+}
+
+HRESULT CRenderer::Create_DepthStencilState()
+{
+    D3D11_DEPTH_STENCIL_DESC Desc;
+    ZeroMemory(&Desc, sizeof(D3D11_DEPTH_STENCIL_DESC));
+
+   if (FAILED(m_pDevice->CreateDepthStencilState(&Desc, &m_pUIDepthStencilState)))
+       return E_FAIL;
 
     return S_OK;
 }
@@ -124,6 +138,8 @@ void CRenderer::Render_Blend()
 
 void CRenderer::Render_ScreenUI()
 {
+    m_pContext->OMSetDepthStencilState(m_pUIDepthStencilState, 0);
+
     for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::SCREEN_UI)])
     {
         if (nullptr != pRenderObject)
@@ -133,6 +149,7 @@ void CRenderer::Render_ScreenUI()
     }
 
     m_RenderObjects[ENUM_CLASS(RENDER::SCREEN_UI)].clear();
+    m_pContext->OMSetDepthStencilState(nullptr, 0);
 }
 
 CRenderer* CRenderer::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

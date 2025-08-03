@@ -85,9 +85,6 @@
     <Filter Include="System">
       <UniqueIdentifier>{73bf4124-a938-4ffa-b891-a2b8872955f8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\Base">
-      <UniqueIdentifier>{b03dfe8c-d8dc-42d1-8564-bc14acb88645}</UniqueIdentifier>
-    </Filter>
     <Filter Include="System\GraphicDevice">
       <UniqueIdentifier>{cd1f3ba6-f542-4495-a079-eceac8fa8765}</UniqueIdentifier>
     </Filter>
@@ -106,13 +103,16 @@
     <Filter Include="System\Sound_Manager">
       <UniqueIdentifier>{0fdc29c6-3f41-4bd0-ac16-902cbe264a74}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Base">
+      <UniqueIdentifier>{b03dfe8c-d8dc-42d1-8564-bc14acb88645}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Graphic_Device.cpp">
       <Filter>System\GraphicDevice</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Base.cpp">
-      <Filter>System\Base</Filter>
+      <Filter>Base</Filter>
     </ClCompile>
     <ClCompile Include="..\private\GameInstance.cpp">
       <Filter>Utility\GameInstance</Filter>
@@ -177,6 +177,9 @@
     <ClCompile Include="..\private\Shader.cpp">
       <Filter>Utility\Components\Shader</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Button.cpp">
+      <Filter>Utility\HeadUpDisplay\UserInterface\Button</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\Graphic_Device.h">
@@ -198,7 +201,7 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Base.h">
-      <Filter>System\Base</Filter>
+      <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Engine_Types.h">
       <Filter>Headers</Filter>
@@ -274,6 +277,9 @@
     </ClInclude>
     <ClInclude Include="..\public\Shader.h">
       <Filter>Utility\Components\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Button.h">
+      <Filter>Utility\HeadUpDisplay\UserInterface\Button</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
