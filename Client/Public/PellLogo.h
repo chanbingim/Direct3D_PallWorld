@@ -18,12 +18,8 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
-private :
-	ID3D11BlendState*						m_pBlendState = nullptr;
-
 private:
 	HRESULT									ADD_Components();
-	void									CreateAlphaBlendState();
 
 public:
 	static			CPellLogo*				Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);

@@ -24,6 +24,13 @@ HRESULT CButton::Initialize(void* pArg)
 
 void CButton::Update(_float fDeletaTime)
 {
+    __super::Update(fDeletaTime);
+
+}
+
+void CButton::Late_Update(_float fDeletaTime)
+{
+    __super::Late_Update(fDeletaTime);
 }
 
 HRESULT CButton::Render()

@@ -18,9 +18,11 @@ public :
 	void						Update_Shader(_uInt ipassIndex);
 
 private :
-	ID3D11InputLayout*				m_pInputLayOut = nullptr;
+	vector<ID3D11InputLayout*>		m_pInputLayOutVec = {};
 	LPD3D11EFFECT					m_pEffect = nullptr;
 	LPD3D11EFFECTTECHNIQUE			m_pTech = nullptr;
+
+	_uInt							m_PaseesCnt = {};
 
 private :
 	HRESULT						LoadShader(const WCHAR* szShaderFilePath);

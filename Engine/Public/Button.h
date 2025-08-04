@@ -15,6 +15,7 @@ public :
 	virtual		HRESULT						Initialize(void* pArg) override;
 	//업데이트	
 	virtual		void						Update(_float fDeletaTime) override;
+	virtual		void						Late_Update(_float fDeletaTime) override;
 	// 랜더
 	virtual		HRESULT						Render() override;
 

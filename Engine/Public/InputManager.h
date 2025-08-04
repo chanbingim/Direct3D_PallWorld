@@ -22,6 +22,7 @@ public :
 	// 0 : X รเ    1  : Y รเ    2 : Zรเ
 	LONG		GetMouseAxis(_uInt iAxis);
 
+
 private :
 	LPDIRECTINPUT8				m_pDirectInput = nullptr;
 	LPDIRECTINPUTDEVICE8		m_pKeyboard = nullptr;

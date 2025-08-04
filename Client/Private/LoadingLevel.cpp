@@ -40,6 +40,8 @@ void CLoadingLevel::Update(_float fTimeDelta)
 
         if (FAILED(m_pGameInstance->Change_Level(pNewLevel)))
             return;
+
+        pNewLevel->Initialize();
     }
 }
 

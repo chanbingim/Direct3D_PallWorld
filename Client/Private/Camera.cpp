@@ -5,11 +5,13 @@
 CCamera::CCamera(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 	CActor(pDevice, pContext)
 {
+	ZeroMemory(&m_CameraInfo, sizeof(CAMERA_DESC));
 }
 
 CCamera::CCamera(const CCamera& rhs) :
 	CActor(rhs)
 {
+	ZeroMemory(&m_CameraInfo, sizeof(CAMERA_DESC));
 }
 
 HRESULT CCamera::Initalize_Prototype()

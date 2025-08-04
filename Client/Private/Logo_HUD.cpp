@@ -44,7 +44,7 @@ HRESULT CLogo_HUD::ADD_UserInterface()
 CLogo_HUD* CLogo_HUD::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
     CLogo_HUD* pHUD = new CLogo_HUD(pDevice, pContext);
-    if (FAILED(pHUD->Initialize()))
+    if (nullptr == pHUD)
     {
         Safe_Release(pHUD);
         MSG_BOX("CREATE FAIL : LOGO HUD");

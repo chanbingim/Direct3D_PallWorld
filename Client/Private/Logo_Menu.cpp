@@ -1,6 +1,7 @@
 #include "Logo_Menu.h"
 
 #include "GameInstance.h"
+#include "Logo_HUD.h"
 
 CLogo_Menu::CLogo_Menu(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext) :
     CBackGround(pGraphic_Device, pDeviceContext)
@@ -34,29 +35,51 @@ HRESULT CLogo_Menu::Initialize(void* pArg)
     if(FAILED(Bind_ShaderCBuffer()))
         return E_FAIL;
 
+    m_eType = OBJECT_TYPE::STATIC;
     return S_OK;
 }
 
 void CLogo_Menu::Update(_float fDeletaTime)
 {
- 
-    
     __super::Update(fDeletaTime);
 }
 
 HRESULT CLogo_Menu::Render()
 {
-    __super::Render();
+    Apply_ConstantShaderResources();
+
+    m_pShaderCom->Update_Shader(0);
+    m_pTextureCom->SetTexture(0, 0);
+
+    m_pVIBufferCom->Render_VIBuffer();
 
     return S_OK;
 }
 
 HRESULT CLogo_Menu::ADD_Childs()
-{
-   /* if (FAILED(__super::Add_UserInterface(ENUM_CLASS(LEVEL::LOGO), TEXT("Prototype_GameObject_LogoMenu"), TEXT("Main_BackGround"), &Desc)))
-        return E_FAIL;*/
+{    
+    auto pDefaultHUD = m_pGameInstance->GetCurrentHUD();
+    if (nullptr == pDefaultHUD)
+        return E_FAIL;
 
+    auto pLogo_HUD = dynamic_cast<CLogo_HUD*>(pDefaultHUD);
+    if (pLogo_HUD)
+    {
+        CUserInterface::GAMEOBJECT_DESC Desc = {};
+        Desc.pParent = this;
+        Desc.vScale = { 100.f, 50.f, 0.f };
+        Desc.vPosition = { 0.f, -100.f, 0.f };
+        if (FAILED(pLogo_HUD->Add_UserInterface(ENUM_CLASS(LEVEL::LOGO), TEXT("Prototype_GameObject_LMenu_But_GameStart"), TEXT("LMenu_But_GameStart"), &Desc)))
+              return E_FAIL;
 
+        Desc.vPosition = { 640.f, 425.f, 0.f };
+        if (FAILED(pLogo_HUD->Add_UserInterface(ENUM_CLASS(LEVEL::LOGO), TEXT("Prototype_GameObject_LMenu_But_GameEdit"), TEXT("LMenu_But_GameEdit"), &Desc)))
+            return E_FAIL;
+
+        Desc.vPosition = { 640.f, 500.f, 0.f };
+        if (FAILED(pLogo_HUD->Add_UserInterface(ENUM_CLASS(LEVEL::LOGO), TEXT("Prototype_GameObject_LMenu_But_GameQuit"), TEXT("LMenu_But_GameQuit"), &Desc)))
+            return E_FAIL;
+    }
 
     return S_OK;
 }

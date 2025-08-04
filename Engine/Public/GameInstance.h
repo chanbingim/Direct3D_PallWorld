@@ -3,10 +3,13 @@
 
 NS_BEGIN(Engine)
 class CGraphic_Device;
+class CMouse;
 class CLevel_Manager;
 class CObject_Manager;
 class CLevel;
 class CGameObject;
+class CUserInterface;
+class CHeadUpDisplay;
 class CTimer_Manager;
 class CRenderer;
 class CPrototype_Manager;
@@ -45,6 +48,7 @@ public :
 #pragma region Level_Manager
 	HRESULT						Change_Level(class CLevel* pNewLevel);
 	CLevel*						GetCurrentLevel();
+	CHeadUpDisplay*				GetCurrentHUD();
 #pragma endregion
 
 #pragma region Object_Manager
@@ -92,6 +96,23 @@ public :
 	void Manager_SetChannelVolume(CHANNELID eID, float fVolume);
 #pragma endregion
 
+#pragma region Mouse
+	HRESULT						SetTexture(_uInt iLevelIndex, const WCHAR* Proto_TexTag, const WCHAR* ComTex_Tag, void* pTexArg,
+										   const WCHAR* Proto_ShaderTag, const WCHAR* ComShader_Tag, void* pShaderArg,
+										   const WCHAR* Proto_BufferTag, const WCHAR* ComBuffer_Tag, void* pBufferArg);
+
+	POINT&						GetMousePoint();
+
+	void						SetDrag(_bool flag);
+	BOOL						IsMouseDrag();
+
+	void						SetMouseFocus(CUserInterface* Widget);
+	BOOL						IsMouseFocus(CUserInterface* Widget);
+
+	_float3&					GetRayPos(RAY eRayState);
+	void						ResetMouseData();
+#pragma endregion
+
 private :
 	CGraphic_Device*			m_pGraphic_Device = nullptr;
 	CLevel_Manager*				m_pLevel_Manager = nullptr;
@@ -101,6 +122,7 @@ private :
 	CRenderer*					m_pRenderer = nullptr;
 	CInputManager*				m_pInput_Manager = nullptr;
 	CSound_Manager*				m_pSound_Manager = nullptr;
+	CMouse*						m_pMouse = nullptr;
 
 public :
 	void						Release_Engine();

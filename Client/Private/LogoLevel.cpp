@@ -10,7 +10,10 @@ CLogoLevel::CLogoLevel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, _uI
 
 HRESULT CLogoLevel::Initialize()
 {
-	SetHUD(CLogo_HUD::Create(m_pGraphic_Device, m_pDeviceContext));
+	auto LogoHUD = CLogo_HUD::Create(m_pGraphic_Device, m_pDeviceContext);
+	SetHUD(LogoHUD);
+	if (FAILED(LogoHUD->Initialize()))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -35,7 +38,7 @@ HRESULT CLogoLevel::Render()
 CLogoLevel* CLogoLevel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, LEVEL eID)
 {
 	CLogoLevel* pLogoLevel = new CLogoLevel(pDevice, pContext, ENUM_CLASS(eID));
-	if(FAILED(pLogoLevel->Initialize()))
+	if(nullptr == pLogoLevel)
 	{
 		Safe_Release(pLogoLevel);
 		MSG_BOX("CREATE FAIL : LOGO LEVEL");

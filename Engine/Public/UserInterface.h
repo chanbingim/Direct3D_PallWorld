@@ -16,6 +16,7 @@ public:
 	virtual		HRESULT						Initialize(void* pArg) override;
 	//업데이트	
 	virtual		void						Update(_float fDeletaTime) override;
+	virtual		void						Late_Update(_float fDeletaTime) override;
 	// 랜더
 	virtual		HRESULT						Render() override;
 
@@ -23,15 +24,33 @@ public:
 	void									SetZOrder(_uInt Number) { m_iZOrder = Number; }
 	_uInt									GetZOrder();
 
+	void									SetLocation(_float3 vPosition);
+	void									SetRotation(_float3 vRotation);
+	void									SetScale(_float3 vScale);
+
+	void									ADDPosition(_vector vAddPos);
+	void									ADDRotation(_vector vAxis, _float fTurnSpeed, _float fTimeDeleta);
+
 protected :
 	_float4x4								m_ViewMatrix = {};
 	_float4x4								m_ProjMatrix = {};
 
 	RECT									m_UISize = {};
 	_bool									m_bIsHover = false;
+	_bool									m_bIsMouseEvent = false;
+
 	_uInt									m_iZOrder = {};
 
 protected :
+	virtual			void					MouseHoverEnter();
+	virtual			void					MouseHovering();
+	virtual			void					MouseHoverExit();
+
+	virtual			void					MouseButtonDwon();
+	virtual			void					MouseButtonPressed();
+	virtual			void					MouseButtonUp();
+
+	virtual     HRESULT						Apply_ConstantShaderResources();
 	_bool									IsHover() { return m_bIsHover; }
 
 private :

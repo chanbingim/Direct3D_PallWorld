@@ -91,7 +91,7 @@ PS_OUT PS_MAIN1(PS_IN In)
     
     // discard 명령어를 통해서 안그려지게 할수있음
     // return 같은거임
-    if (distance(vNewColor.rgb, float3(1.f, 1.f, 1.f)) < 0.1f)
+    if (vNewColor.a < 0.1f)
         discard;
     
     Out.vColor = vNewColor;

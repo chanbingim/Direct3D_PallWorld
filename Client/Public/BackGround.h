@@ -23,6 +23,7 @@ public:
 	virtual		HRESULT						Initialize(void* pArg) override;
 	//업데이트	
 	virtual		void						Update(_float fDeletaTime) override;
+	virtual		void						Late_Update(_float fDeletaTime) override;
 	// 랜더
 	virtual		HRESULT						Render() override;
 
@@ -30,10 +31,6 @@ protected:
 	CVIBuffer_Rect*							m_pVIBufferCom = nullptr;
 	CTexture*								m_pTextureCom = nullptr;
 	CShader*								m_pShaderCom = nullptr;
-
-	ID3DX11EffectVariable*					m_pWorldMat = nullptr;
-	ID3DX11EffectVariable*					m_pViewMat = nullptr;
-	ID3DX11EffectVariable*					m_pProjMat = nullptr;
 
 protected:
 	HRESULT									Bind_ShaderCBuffer();

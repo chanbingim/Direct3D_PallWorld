@@ -10,7 +10,10 @@
 #include "Renderer.h"
 #include "Sound_Manager.h"
 #include "InputManager.h"
+#include "Mouse.h"
 #pragma endregion
+
+#include "Level.h"
 
 IMPLEMENT_SINGLETON(CGameInstance);
 
@@ -53,12 +56,18 @@ HRESULT CGameInstance::Initialize_Engine(void* pArg)
     if (nullptr == m_pSound_Manager)
         return E_FAIL;
 
+    m_pMouse = CMouse::Create(*GameSetting->ppDevice, *GameSetting->ppContext, GameSetting->EngineSetting.hWnd);
+    if (nullptr == m_pMouse)
+        return E_FAIL;
+
     return S_OK;
 }
 
 void CGameInstance::Update_Engine(_float fTimeDelta)
 {
     m_pInput_Manager->UpdateKeyFrame();
+
+    m_pMouse->Update(fTimeDelta);
 
     m_pObject_Manager->Priority_Update(fTimeDelta);
 
@@ -76,6 +85,8 @@ HRESULT CGameInstance::Draw()
     m_pRenderer->Render();
 
     m_pLevel_Manager->Render();
+
+    m_pMouse->Render();
 
     return S_OK;
 }
@@ -101,6 +112,10 @@ HRESULT CGameInstance::Change_Level(CLevel* pNewLevel)
 CLevel* CGameInstance::GetCurrentLevel()
 {
     return m_pLevel_Manager->GetCurrentLevel();
+}
+CHeadUpDisplay* CGameInstance::GetCurrentHUD()
+{
+    return m_pLevel_Manager->GetCurrentLevel()->GetHUD();
 }
 #pragma endregion
 
@@ -198,8 +213,51 @@ void CGameInstance::Manager_SetChannelVolume(CHANNELID eID, float fVolume)
 {
     m_pSound_Manager->Manager_SetChannelVolume(eID, fVolume);
 }
+
 #pragma endregion
 
+#pragma region Mouse
+HRESULT CGameInstance::SetTexture(_uInt iLevelIndex, const WCHAR* Proto_TexTag, const WCHAR* ComTex_Tag, void* pTexArg, const WCHAR* Proto_ShaderTag, const WCHAR* ComShader_Tag, void* pShaderArg, const WCHAR* Proto_BufferTag, const WCHAR* ComBuffer_Tag, void* pBufferArg)
+{
+    return m_pMouse->SetTexture(iLevelIndex, Proto_TexTag, ComTex_Tag, pTexArg, Proto_ShaderTag, ComShader_Tag, pShaderArg, Proto_BufferTag, ComBuffer_Tag, pBufferArg);
+}
+
+POINT& CGameInstance::GetMousePoint()
+{
+    return m_pMouse->GetMousePoint();
+}
+
+void CGameInstance::SetDrag(_bool flag)
+{
+    m_pMouse->SetDrag(flag);
+}
+
+BOOL CGameInstance::IsMouseDrag()
+{
+    return m_pMouse->IsDrag();
+}
+
+void CGameInstance::SetMouseFocus(CUserInterface* Widget)
+{
+    m_pMouse->SetMouseFocus(Widget);
+}
+
+BOOL CGameInstance::IsMouseFocus(CUserInterface* Widget)
+{
+    return m_pMouse->IsFocus(Widget);
+}
+
+_float3& CGameInstance::GetRayPos(RAY eRayState)
+{
+    return m_pMouse->GetRayPos(eRayState);
+}
+
+void CGameInstance::ResetMouseData()
+{
+    m_pMouse->SetMouseFocus(nullptr);
+    m_pMouse->SetDrag(false);
+}
+#pragma endregion
 
 void CGameInstance::Release_Engine()
 {
@@ -213,6 +271,7 @@ void CGameInstance::Release_Engine()
     Safe_Release(m_pInput_Manager);
     Safe_Release(m_pSound_Manager);
     Safe_Release(m_pGraphic_Device);
+    Safe_Release(m_pMouse);
 }
 
 void CGameInstance::Free()

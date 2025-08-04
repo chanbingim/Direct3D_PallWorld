@@ -53,6 +53,14 @@ void CTexture::SetTexture(_uInt SlotNum, _uInt TexNum)
     m_pContext->PSSetShaderResources(SlotNum, 1, &m_pSRVvec[TexNum]);
 }
 
+ID3D11ShaderResourceView* CTexture::GetTexture(size_t iTextureIndex)
+{
+    if (iTextureIndex > m_pSRVvec.size() || 0 > iTextureIndex)
+        return nullptr;
+
+    return m_pSRVvec[iTextureIndex];
+}
+
 HRESULT CTexture::Initialize(void* pArg)
 {
     return S_OK;

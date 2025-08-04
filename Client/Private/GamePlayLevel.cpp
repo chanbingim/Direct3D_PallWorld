@@ -22,7 +22,7 @@ HRESULT CGamePlayLevel::Render()
 CGamePlayLevel* CGamePlayLevel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, LEVEL eID)
 {
 	CGamePlayLevel* pGamePlayLevel = new CGamePlayLevel(pDevice, pContext, ENUM_CLASS(eID));
-	if (FAILED(pGamePlayLevel->Initialize()))
+	if (nullptr == pGamePlayLevel)
 	{
 		Safe_Release(pGamePlayLevel);
 		MSG_BOX("CREATE FAIL : GAME PLAY LEVEL");

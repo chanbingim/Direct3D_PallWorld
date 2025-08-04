@@ -18,6 +18,7 @@ public :
 
 
 	const _uInt			GetLevelID() { return m_ID; }
+	CHeadUpDisplay*		GetHUD() { return m_pHUD; }
 
 protected :
 	_uInt					m_ID = {};

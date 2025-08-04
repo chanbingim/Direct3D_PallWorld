@@ -9,6 +9,8 @@ class CComponent;
 class ENGINE_DLL CGameObject abstract : public CBase
 {
 public :
+	enum class OBJECT_TYPE { STATIC, DYNAMIC };
+
 	typedef struct GameObject_Desc
 	{
 		CGameObject*	pParent;
@@ -75,7 +77,14 @@ protected:
 
 	unordered_map<_wstring, CComponent*>	m_pComponentMap;
 	_bool									m_IsDead = false;
-	
+	OBJECT_TYPE								m_eType = OBJECT_TYPE::DYNAMIC;
+
+#pragma region  Default Shader Resources
+	ID3DX11EffectMatrixVariable*			m_pEMVWorldMat = nullptr;
+	ID3DX11EffectMatrixVariable*			m_pEMVViewMat = nullptr;
+	ID3DX11EffectMatrixVariable*			m_pEMVProjMat = nullptr;
+#pragma endregion
+
 protected :
 	//컴포넌트 추가 및 찾기
 	HRESULT									Add_Component(_uInt iLevelIndex, const _wstring& _PrototypeTag, const _wstring& ComponentTag, CComponent** ppOut, void* pArg = nullptr);

@@ -1,8 +1,6 @@
 #include "InputManager.h"
 
 // https://dlemrcnd.tistory.com/53
-// https://blog.naver.com/hannip75/120202384082
-//참고 자료
 
 CInputManager::CInputManager()
 {
@@ -31,9 +29,6 @@ HRESULT CInputManager::Initialize(HINSTANCE Instance, HWND hWnd, _uInt iWidth, _
 	if (FAILED(m_pKeyboard->SetCooperativeLevel(hWnd, KeyLevel)))
 		return E_FAIL;
 
-	//Acquire 함수를 통해서 접근 할수있는 권한을 받아야함
-	while (m_pKeyboard->Acquire() == DIERR_INPUTLOST);
-
 	//마우스 장치 생성
 	if (FAILED(m_pDirectInput->CreateDevice(GUID_SysMouse, &m_pMouse, nullptr)))
 		return E_FAIL;
@@ -46,8 +41,6 @@ HRESULT CInputManager::Initialize(HINSTANCE Instance, HWND hWnd, _uInt iWidth, _
 
 	if (FAILED(m_pMouse->SetCooperativeLevel(hWnd, MouseLevel)))
 		return E_FAIL;
-
-	while (m_pMouse->Acquire() == DIERR_INPUTLOST);
 
 	return S_OK;
 }

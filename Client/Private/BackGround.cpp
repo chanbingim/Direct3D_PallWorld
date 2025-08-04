@@ -35,21 +35,17 @@ HRESULT CBackGround::Initialize(void* pArg)
 
 void CBackGround::Update(_float fDeletaTime)
 {
+    __super::Update(fDeletaTime);
+}
+
+void CBackGround::Late_Update(_float fDeletaTime)
+{
     m_pGameInstance->Add_RenderGroup(RENDER::SCREEN_UI, this);
 }
 
 HRESULT CBackGround::Render()
 {
-    _matrix Idenity = XMMatrixIdentity();
 
-    static_cast<LPD3D11EFFECTMATRIXVARIABLE>(m_pWorldMat)->SetMatrix(reinterpret_cast<float *>(&m_pTransformCom->GetWorldMat()));
-    static_cast<LPD3D11EFFECTMATRIXVARIABLE>(m_pViewMat)->SetMatrix(reinterpret_cast<float*>(&Idenity));
-    static_cast<LPD3D11EFFECTMATRIXVARIABLE>(m_pProjMat)->SetMatrix(reinterpret_cast<float*>(&m_ProjMatrix));
-
-    m_pShaderCom->Update_Shader(0);
-    m_pTextureCom->SetTexture(0, 0);
-
-    m_pVIBufferCom->Render_VIBuffer();
     return S_OK;
 }
 
@@ -72,9 +68,9 @@ HRESULT CBackGround::Bind_ShaderCBuffer()
     if (nullptr == m_pShaderCom)
         return E_FAIL;
 
-    m_pWorldMat = m_pShaderCom->GetVariable("g_WorldMatrix");
-    m_pViewMat = m_pShaderCom->GetVariable("g_ViewMatrix");
-    m_pProjMat = m_pShaderCom->GetVariable("g_ProjMatrix");
+    m_pEMVWorldMat = m_pShaderCom->GetVariable("g_WorldMatrix")->AsMatrix();
+    m_pEMVViewMat = m_pShaderCom->GetVariable("g_ViewMatrix")->AsMatrix();
+    m_pEMVProjMat = m_pShaderCom->GetVariable("g_ProjMatrix")->AsMatrix();
 
     return S_OK;
 }

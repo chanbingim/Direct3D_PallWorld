@@ -64,6 +64,18 @@ HRESULT CHeadUpDisplay::Add_UserInterface(_uInt LevelIndex, const _wstring& Prot
 	return S_OK;
 }
 
+HRESULT CHeadUpDisplay::Remove_UserInterface(const _wstring& UITag)
+{
+	auto pair = m_pUserInterfaceMap.find(UITag);
+	if (pair == m_pUserInterfaceMap.end())
+		return E_FAIL;
+
+	Safe_Release(pair->second);
+	m_pUserInterfaceMap.erase(pair);
+
+	return S_OK;
+}
+
 CHeadUpDisplay* CHeadUpDisplay::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CHeadUpDisplay* pHud = new CHeadUpDisplay(pDevice, pContext);

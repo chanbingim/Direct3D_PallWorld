@@ -152,6 +152,9 @@
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\public\LoadingLevel.h" />
     <ClInclude Include="..\public\LogoLevel.h" />
+    <ClInclude Include="..\Public\Logo_GameEdit_But.h" />
+    <ClInclude Include="..\Public\Logo_GameQuit_But.h" />
+    <ClInclude Include="..\public\Logo_GameStart_But.h" />
     <ClInclude Include="..\public\Logo_HUD.h" />
     <ClInclude Include="..\public\Logo_Menu.h" />
     <ClInclude Include="..\public\MainApp.h" />
@@ -168,6 +171,9 @@
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\LoadingLevel.cpp" />
     <ClCompile Include="..\private\LogoLevel.cpp" />
+    <ClCompile Include="..\Private\Logo_GameEdit_But.cpp" />
+    <ClCompile Include="..\Private\Logo_GameQuit_But.cpp" />
+    <ClCompile Include="..\private\Logo_GameStart_But.cpp" />
     <ClCompile Include="..\private\Logo_HUD.cpp" />
     <ClCompile Include="..\private\Logo_Menu.cpp" />
     <ClCompile Include="..\private\MainApp.cpp" />

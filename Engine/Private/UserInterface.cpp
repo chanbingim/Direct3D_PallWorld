@@ -36,9 +36,6 @@ HRESULT CUserInterface::Initialize(void* pArg)
 	if (pArg)
 	{
 		GAMEOBJECT_DESC* pObjectDesc = static_cast<GAMEOBJECT_DESC*>(pArg);
-
-		if (pObjectDesc->pParent)
-			SetParent(pObjectDesc->pParent);
 		SetRotation(pObjectDesc->vRotation);
 		SetScale(pObjectDesc->vScale);
 
@@ -53,6 +50,11 @@ HRESULT CUserInterface::Initialize(void* pArg)
 		pObjectDesc->vPosition.y = -pObjectDesc->vPosition.y + viewportDesc.Height * 0.5f;
 		
 		SetLocation(pObjectDesc->vPosition);
+		if (pObjectDesc->pParent)
+		{
+			SetParent(pObjectDesc->pParent);
+			UpdateRectSize();
+		}
 	}
 
 	return S_OK;
@@ -60,8 +62,15 @@ HRESULT CUserInterface::Initialize(void* pArg)
 
 void CUserInterface::Update(_float fDeletaTime)
 {
-	UpdateRectSize();
-	OverlapEvent();
+	if(OBJECT_TYPE::DYNAMIC == m_eType)
+		UpdateRectSize();
+
+	if(m_bIsMouseEvent)
+		OverlapEvent();
+}
+
+void CUserInterface::Late_Update(_float fDeletaTime)
+{
 }
 
 HRESULT CUserInterface::Render()
@@ -74,14 +83,130 @@ _uInt CUserInterface::GetZOrder()
 	return m_iZOrder;
 }
 
+void CUserInterface::SetLocation(_float3 vPosition)
+{
+	__super::SetLocation(vPosition);
+	UpdateRectSize();
+}
+
+void CUserInterface::SetRotation(_float3 vRotation)
+{
+	__super::SetRotation(vRotation);
+	UpdateRectSize();
+}
+
+void CUserInterface::SetScale(_float3 vScale)
+{
+	__super::SetScale(vScale);
+	UpdateRectSize();
+}
+
+void CUserInterface::ADDPosition(_vector vAddPos)
+{
+	__super::ADDPosition(vAddPos);
+	UpdateRectSize();
+}
+
+void CUserInterface::ADDRotation(_vector vAxis, _float fTurnSpeed, _float fTimeDeleta)
+{
+	__super::ADDRotation(vAxis, fTurnSpeed, fTimeDeleta);
+	UpdateRectSize();
+}
+
+void CUserInterface::MouseHoverEnter()
+{
+
+}
+
+void CUserInterface::MouseHovering()
+{
+
+}
+
+void CUserInterface::MouseHoverExit()
+{
+
+}
+
+void CUserInterface::MouseButtonDwon()
+{
+
+}
+
+void CUserInterface::MouseButtonPressed()
+{
+
+}
+
+void CUserInterface::MouseButtonUp()
+{
+
+}
+
+HRESULT CUserInterface::Apply_ConstantShaderResources()
+{
+	m_pEMVWorldMat->SetMatrix(reinterpret_cast<const float*>(&m_pTransformCom->GetWorldMat()));
+	m_pEMVViewMat->SetMatrix(reinterpret_cast<const float*>(&m_ViewMatrix));
+	m_pEMVProjMat->SetMatrix(reinterpret_cast<const float*>(&m_ProjMatrix));
+
+	return S_OK;
+}
+
 void CUserInterface::OverlapEvent()
 {
-	//마우스 정보를 가져온다음 
-	/*auto MousPoint = POINT();
-	if (PtInRect(&m_UISize, MousPoint))
-		m_bIsHover = true;
+	if (!m_pGameInstance->IsMouseFocus(this))
+		return;
+	
+	//그다음 얻은 포커스 및 드래그 플래그를 통해서
+	//Pressed 및 Up 반환
+	if (m_pGameInstance->IsMouseDrag())
+	{
+		if (m_pGameInstance->KeyPressed(KEY_INPUT::MOUSE, 0) || m_pGameInstance->KeyPressed(KEY_INPUT::MOUSE, 1))
+		{
+			
+			MouseButtonPressed();
+		}
+
+		if (m_pGameInstance->KeyUp(KEY_INPUT::MOUSE, 0) || m_pGameInstance->KeyUp(KEY_INPUT::MOUSE, 1))
+		{
+			MouseButtonUp();
+			m_pGameInstance->SetDrag(false);
+		}
+	}
 	else
-		m_bIsHover = false;*/
+	{
+		if (PtInRect(&m_UISize, m_pGameInstance->GetMousePoint()))
+		{
+			if (!m_bIsHover)
+			{
+				MouseHoverEnter();
+				m_pGameInstance->SetMouseFocus(this);
+			}
+
+			m_bIsHover = true;
+			MouseHovering();
+
+			if (m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 0) || m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 1))
+			{
+				MouseButtonDwon();
+
+				//여기서 Drag 밑 포커스 얻기
+				m_pGameInstance->SetDrag(true);
+			}
+		}
+		else
+		{
+			if (!m_pGameInstance->IsMouseDrag())
+			{
+				if (m_bIsHover)
+				{
+					MouseHoverExit();
+					m_pGameInstance->SetMouseFocus(nullptr);
+				}
+			}
+			m_bIsHover = false;
+		}
+	}
 }
 
 void CUserInterface::UpdateRectSize()
@@ -105,10 +230,18 @@ void CUserInterface::UpdateRectSize()
 	_float3 vScale = m_pTransformCom->GetScale();
 	_float3 vPosition = m_pTransformCom->GetPosition();
 
-	m_UISize = {static_cast<long>((vParentpos.x + vPosition.x) - vScale.x),
-				static_cast<long>((vParentpos.y + vPosition.y) - vScale.y),
-				static_cast<long>((vParentpos.x + vPosition.x) + vScale.x),
-				static_cast<long>((vParentpos.y + vPosition.y) + vScale.y)};
+	D3D11_VIEWPORT       ViewportDesc{};
+	_uInt                iNumViewports = { 1 };
+
+	m_pDeviceContext->RSGetViewports(&iNumViewports, &ViewportDesc);
+
+	_float		RectCenterX = (vParentpos.x + vPosition.x) + ViewportDesc.Width * 0.5f;
+	_float		RectCenterY = -(vParentpos.y + vPosition.y) + ViewportDesc.Height * 0.5f;
+
+	m_UISize = {static_cast<long>(RectCenterX - (vScale.x * 0.5f)),
+				static_cast<long>(RectCenterY - (vScale.y * 0.5f)),
+				static_cast<long>(RectCenterX + (vScale.x * 0.5f)),
+				static_cast<long>(RectCenterY + (vScale.y * 0.5f))};
 }
 
 CGameObject* CUserInterface::Clone(void* pArg)
