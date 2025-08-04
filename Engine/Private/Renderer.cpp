@@ -173,6 +173,7 @@ void CRenderer::Free()
     }
 
     Safe_Release(m_pAlphaBlendState);
+    Safe_Release(m_pUIDepthStencilState);
     Safe_Release(m_pDevice);
     Safe_Release(m_pContext);
 }

@@ -21,7 +21,8 @@ HRESULT CLevel::Initialize()
 
 void CLevel::Update(_float fTimeDelta)
 {
-    m_pHUD->Update(fTimeDelta);
+    if(m_pHUD)
+        m_pHUD->Update(fTimeDelta);
 }
 
 HRESULT CLevel::Render()

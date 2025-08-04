@@ -56,7 +56,7 @@ void CPrototype_Manager::Free()
 {
     for (_uInt i = 0; i < m_iLevelCnt; ++i)
     {
-        for (auto pair : m_Prototypes[i])
+        for (auto& pair : m_Prototypes[i])
         {
             Safe_Release(pair.second);
         }

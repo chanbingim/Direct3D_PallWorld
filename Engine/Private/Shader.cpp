@@ -16,6 +16,7 @@ CShader::CShader(const CShader& rhs) :
 {
 	for (auto& LayOut : m_pInputLayOutVec)
 		Safe_AddRef(LayOut);
+
 	Safe_AddRef(m_pEffect);
 }
 

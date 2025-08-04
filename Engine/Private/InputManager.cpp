@@ -1,7 +1,5 @@
 #include "InputManager.h"
 
-// https://dlemrcnd.tistory.com/53
-
 CInputManager::CInputManager()
 {
 }
