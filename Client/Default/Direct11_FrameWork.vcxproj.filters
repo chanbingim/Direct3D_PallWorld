@@ -189,5 +189,8 @@
     <FxCompile Include="..\Bin\ShaderFiles\TestShader.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\MouseShader.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

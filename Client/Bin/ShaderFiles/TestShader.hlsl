@@ -98,6 +98,19 @@ PS_OUT PS_MAIN1(PS_IN In)
     return Out;
 }
 
+/* 픽셀 쉐이더 : 픽셀의 최종적인 색을 결정하낟. */
+PS_OUT PS_MAIN2(PS_IN In)
+{
+    PS_OUT Out;
+    
+    float4 vNewColor = g_Texture.Sample(sampler0, In.vTexcoord);
+    if (vNewColor.a < 0.4f)
+        discard;
+    
+    Out.vColor = vNewColor * vNewColor.a;
+    return Out;
+}
+
 technique11 Tech
 {
     pass Pass0
@@ -110,5 +123,11 @@ technique11 Tech
     {
         VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_MAIN1();
+    }
+
+    pass Alpha_Blend
+    {
+        VertexShader = compile vs_5_0 VS_MAIN();
+        PixelShader = compile ps_5_0 PS_MAIN2();
     }
 }

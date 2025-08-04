@@ -97,9 +97,9 @@ public :
 #pragma endregion
 
 #pragma region Mouse
-	HRESULT						SetTexture(_uInt iLevelIndex, const WCHAR* Proto_TexTag, const WCHAR* ComTex_Tag, void* pTexArg,
-										   const WCHAR* Proto_ShaderTag, const WCHAR* ComShader_Tag, void* pShaderArg,
-										   const WCHAR* Proto_BufferTag, const WCHAR* ComBuffer_Tag, void* pBufferArg);
+	HRESULT						SetMouseTexture(_uInt iLevelIndex, const WCHAR* Proto_TexTag, const WCHAR* ComTex_Tag, void* pTexArg,
+												const WCHAR* Proto_ShaderTag, const WCHAR* ComShader_Tag, void* pShaderArg,
+												const WCHAR* Proto_BufferTag, const WCHAR* ComBuffer_Tag, void* pBufferArg);
 
 	POINT&						GetMousePoint();
 

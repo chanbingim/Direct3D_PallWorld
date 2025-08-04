@@ -18,7 +18,7 @@ HRESULT CMouse::Initalize_Prototype(HWND hWnd)
 		return E_FAIL;
 
 	m_hWnd = hWnd;
-	m_pTransformCom->SetScale({ 64.f,64.f, 0.f });
+	m_pTransformCom->SetScale({ 64.f, 64.f, 0.f });
 
 	XMStoreFloat4x4(&m_InvViewMat, XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_ViewMatrix)));
 	XMStoreFloat4x4(&m_InvProjMat, XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_ProjMatrix)));
@@ -47,15 +47,14 @@ void CMouse::Update(_float fDeletaTime)
 	GetCursorPos(&m_MouseViewPortPos);
 	ScreenToClient(m_hWnd, &m_MouseViewPortPos);
 
-	_vector NDCSpacePoint = { m_MouseViewPortPos.x - ViewportDesc.Width * 0.5f, 
-							  m_MouseViewPortPos.y - ViewportDesc.Height * 0.5f, 0.f };
-
+	_vector NDCSpacePoint = { m_MouseViewPortPos.x / (ViewportDesc.Width * 0.5f) - 1.f,
+							  1.f - m_MouseViewPortPos.y / (ViewportDesc.Height * 0.5f)};
+	 
 	_vector ViewPoint = XMVector3TransformCoord(NDCSpacePoint, XMLoadFloat4x4(&m_InvProjMat));
-	ViewPoint = XMVector3TransformCoord(ViewPoint, XMLoadFloat4x4(&m_InvViewMat));
 	XMStoreFloat3(&m_RayPos[ENUM_CLASS(RAY::VIEW)], ViewPoint);
 
 	//여기서 월드 곱해서 월드로 내린다음 transform을 세팅하고 사용이지않을까
-	_vector WorldPoint = XMVector3TransformCoord(ViewPoint, XMLoadFloat4x4(&m_pTransformCom->GetInvWorldMat()));
+	_vector WorldPoint = XMVector3TransformCoord(ViewPoint, XMLoadFloat4x4(&m_InvViewMat));
 	XMStoreFloat3(&m_RayPos[ENUM_CLASS(RAY::WORLD)], WorldPoint);
 
 	m_pTransformCom->SetPosition(m_RayPos[ENUM_CLASS(RAY::WORLD)]);
@@ -90,6 +89,8 @@ HRESULT CMouse::SetTexture(_uInt iLevelIndex, const WCHAR* Proto_TexTag, const W
 	if (FAILED(__super::Add_Component(iLevelIndex, Proto_BufferTag, ComBuffer_Tag, (CComponent**)&m_pVIBufferCom, pBufferArg)))
 		return E_FAIL;
 
+	Bind_ShaderCBuffer();
+
 	return S_OK;
 }
 
@@ -111,6 +112,20 @@ void CMouse::SetDrag(_bool flag)
 BOOL CMouse::IsDrag()
 {
 	return m_IsDrag;
+}
+
+HRESULT CMouse::Bind_ShaderCBuffer()
+{
+	if (nullptr == m_pShaderCom)
+		return E_FAIL;
+
+	auto p = m_pShaderCom->GetVariable("g_WorldMatrix");
+
+	m_pEMVWorldMat = m_pShaderCom->GetVariable("g_WorldMatrix")->AsMatrix();
+	m_pEMVViewMat = m_pShaderCom->GetVariable("g_ViewMatrix")->AsMatrix();
+	m_pEMVProjMat = m_pShaderCom->GetVariable("g_ProjMatrix")->AsMatrix();
+
+	return S_OK;
 }
 
 BOOL CMouse::IsFocus(CUserInterface* Widget)

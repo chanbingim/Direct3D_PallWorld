@@ -34,6 +34,7 @@ private :
 	HRESULT		SetUp_StartLevel(LEVEL eLevelID);
 	HRESULT		SetUp_StaticComponents();
 	HRESULT		SetUp_CameraSetting();
+	HRESULT		SetUp_MouseTexture();
 
 	void		Update(_float fDeletaTime);
 	void		Render();

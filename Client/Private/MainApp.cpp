@@ -23,6 +23,9 @@ HRESULT CMainApp::Initialize_MainApp()
 	if (FAILED(SetUp_CameraSetting()))
 		return E_FAIL;
 
+	if (FAILED(SetUp_MouseTexture()))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -62,6 +65,27 @@ HRESULT CMainApp::SetUp_StartLevel(LEVEL eLevelID)
 
 HRESULT CMainApp::SetUp_StaticComponents()
 {
+#pragma region Mouse Com
+	/* Mouse Texture */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Mouse_Texture"), CTexture::Create(m_pGraphic_Device, m_pDevice_Context,
+				TEXT("../Bin/Resources/Textures/UI/MouseCursor/GUI_MouseCursor_Default.png"), 1))))
+		return E_FAIL;
+#pragma endregion
+
+	/* Mouse Shader */
+	D3D11_INPUT_ELEMENT_DESC VertexDesc[] = {
+		   {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+		   {"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
+	};
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"),
+		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VertexDesc, 2, TEXT("../Bin/ShaderFiles/TestShader.hlsl")))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Mouse"),
+		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VertexDesc, 2, TEXT("../Bin/ShaderFiles/MouseShader.hlsl")))))
+		return E_FAIL;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"), CVIBuffer_Rect::Create(m_pGraphic_Device, m_pDevice_Context))))
 		return E_FAIL;
 
@@ -83,6 +107,17 @@ HRESULT CMainApp::SetUp_CameraSetting()
 	
 	m_pDevice_Context->RSSetState(m_pRasterState);
 
+	return S_OK;
+}
+
+HRESULT CMainApp::SetUp_MouseTexture()
+{
+	if (FAILED(m_pGameInstance->SetMouseTexture(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Mouse_Texture"), TEXT("Texture_Com"), nullptr,
+		TEXT("Prototype_Component_Shader_Mouse"), TEXT("Shader_Com"), nullptr,
+		TEXT("Prototype_Component_VIBuffer_Rect"), TEXT("VIBuffer_Com"), nullptr)))
+		return E_FAIL;
+
+	ShowCursor(false);
 	return S_OK;
 }
 

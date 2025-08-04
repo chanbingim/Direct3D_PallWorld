@@ -35,6 +35,9 @@ public :
 	void						SetDrag(_bool flag);
 	BOOL						IsDrag();
 
+protected:
+	HRESULT						Bind_ShaderCBuffer();
+
 private :
 	HWND						m_hWnd = nullptr;
 
