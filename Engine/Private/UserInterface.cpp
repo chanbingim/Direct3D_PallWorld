@@ -39,21 +39,25 @@ HRESULT CUserInterface::Initialize(void* pArg)
 		SetRotation(pObjectDesc->vRotation);
 		SetScale(pObjectDesc->vScale);
 
-		D3D11_VIEWPORT viewportDesc;
-		_uInt          iNumViewports = { 1 };
-
-		m_pDeviceContext->RSGetViewports(&iNumViewports, &viewportDesc);
-
-		//이렇게 해야하는 이유 처음엔 몰랐는데
-		//마우스 rect검사를 할때 좀더 편하게 하려면 해야함
-		pObjectDesc->vPosition.x -= viewportDesc.Width * 0.5f;
-		pObjectDesc->vPosition.y = -pObjectDesc->vPosition.y + viewportDesc.Height * 0.5f;
-		
 		SetLocation(pObjectDesc->vPosition);
 		if (pObjectDesc->pParent)
 		{
+			m_pTransformCom->SetPosition(pObjectDesc->vPosition);
 			SetParent(pObjectDesc->pParent);
 			UpdateRectSize();
+		}
+		else
+		{
+			D3D11_VIEWPORT viewportDesc;
+			_uInt          iNumViewports = { 1 };
+
+			m_pDeviceContext->RSGetViewports(&iNumViewports, &viewportDesc);
+
+			//이렇게 해야하는 이유 처음엔 몰랐는데
+			//마우스 rect검사를 할때 좀더 편하게 하려면 해야함
+			pObjectDesc->vPosition.x -= viewportDesc.Width * 0.5f;
+			pObjectDesc->vPosition.y = -pObjectDesc->vPosition.y + viewportDesc.Height * 0.5f;
+			m_pTransformCom->SetPosition(pObjectDesc->vPosition);
 		}
 	}
 
@@ -188,10 +192,9 @@ void CUserInterface::OverlapEvent()
 
 			if (m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 0) || m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 1))
 			{
-				MouseButtonDwon();
-
 				//여기서 Drag 밑 포커스 얻기
 				m_pGameInstance->SetDrag(true);
+				MouseButtonDwon();
 			}
 		}
 		else

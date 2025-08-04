@@ -15,6 +15,13 @@ public:
 	virtual void		Update(_float fTimeDelta);
 	virtual HRESULT		Render();
 
+
+	void				NextLevelChange(_bool flag);
+
+private :
+	_bool				m_IsChangeLevel = false;
+
+
 public :
 	static	CLogoLevel*		Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, LEVEL eID);
 	virtual void			Free() override;

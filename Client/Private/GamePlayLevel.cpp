@@ -16,6 +16,7 @@ void CGamePlayLevel::Update(_float fTimeDelta)
 
 HRESULT CGamePlayLevel::Render()
 {
+	SetWindowText(g_hWnd, TEXT("게임 플레이 레벨"));
 	return S_OK;
 }
 

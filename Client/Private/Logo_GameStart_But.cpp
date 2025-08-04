@@ -1,6 +1,7 @@
 #include "Logo_GameStart_But.h"
 
 #include "GameInstance.h"
+#include "LogoLevel.h"
 
 CLogo_GameStart_But::CLogo_GameStart_But(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext) :
     CBackGround(pGraphic_Device, pDeviceContext)
@@ -72,7 +73,13 @@ void CLogo_GameStart_But::MouseHoverExit()
 
 void CLogo_GameStart_But::MouseButtonDwon()
 {
+    auto DefalutLevel = m_pGameInstance->GetCurrentLevel();
+    if (nullptr == DefalutLevel)
+        return;
 
+    auto pLogoLevel = dynamic_cast<CLogoLevel*>(DefalutLevel);
+    if (pLogoLevel)
+        pLogoLevel->NextLevelChange(true);
 }
 
 HRESULT CLogo_GameStart_But::ADD_Components()

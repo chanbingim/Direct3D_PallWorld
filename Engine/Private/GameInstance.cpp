@@ -146,6 +146,7 @@ void CGameInstance::Clear_Resource(_uInt iLevelIndex)
 {
     m_pObject_Manager->Clear_Resource(iLevelIndex);
     m_pPrototype_Manager->Clear_Resource(iLevelIndex);
+    ResetMouseData();
 }
 
 #pragma region Timer_Manager

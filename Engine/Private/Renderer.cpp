@@ -28,8 +28,8 @@ HRESULT CRenderer::Add_RenderGroup(RENDER eRenderGroup, CGameObject* pRenderObje
         return E_FAIL;
 
     m_RenderObjects[ENUM_CLASS(eRenderGroup)].push_back(pRenderObject);
-
     Safe_AddRef(pRenderObject);
+
     return S_OK;
 }
 

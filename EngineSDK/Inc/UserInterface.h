@@ -36,6 +36,7 @@ protected :
 	_float4x4								m_ProjMatrix = {};
 
 	RECT									m_UISize = {};
+
 	_bool									m_bIsHover = false;
 	_bool									m_bIsMouseEvent = false;
 

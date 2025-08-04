@@ -1,5 +1,5 @@
 ﻿FXC : warning X4717: Effects deprecated for D3DCompiler_47
   
   compilation object save succeeded; see C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Bin\TestShader.cso
-  Logo_HUD.cpp
+  GamePlayLevel.cpp
   Direct11_FrameWork.vcxproj -> C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe

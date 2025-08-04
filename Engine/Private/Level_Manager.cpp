@@ -3,8 +3,10 @@
 #include "GameInstance.h"
 #include "Level.h"
 
-CLevel_Manager::CLevel_Manager()
+CLevel_Manager::CLevel_Manager() :
+    m_pGameInstance(CGameInstance::GetInstance())
 {
+    Safe_AddRef(m_pGameInstance);
 }
 
 HRESULT CLevel_Manager::Initialize()
@@ -17,7 +19,8 @@ HRESULT CLevel_Manager::Change_Level(CLevel* pNewLevel)
     //나중에 레벨 있으면 초기화 없으면 만들기로 바꿀거임
     if (nullptr != m_pCurrentLevel)
     {
-        //m_pGameInstance->Clear_LevelResource(m_pCurrentLevel->GetLevelID());
+        m_pGameInstance->Clear_Resource(m_pCurrentLevel->GetLevelID());
+    
         Safe_Release(m_pCurrentLevel);
     }
 

@@ -66,7 +66,6 @@ HRESULT CLogo_Menu::ADD_Childs()
     if (pLogo_HUD)
     {
         CUserInterface::GAMEOBJECT_DESC Desc = {};
-        Desc.pParent = this;
         Desc.vScale = { 200.f, 50.f, 0.f };
         Desc.vPosition = { 640.f, 400.f, 0.f };
         if (FAILED(pLogo_HUD->Add_UserInterface(ENUM_CLASS(LEVEL::LOGO), TEXT("Prototype_GameObject_LMenu_But_GameStart"), TEXT("LMenu_But_GameStart"), &Desc)))

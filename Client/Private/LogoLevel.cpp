@@ -1,6 +1,7 @@
 #include "LogoLevel.h"
 
 #include "GameInstance.h"
+#include "LoadingLevel.h"
 #include "Logo_HUD.h"
 
 CLogoLevel::CLogoLevel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, _uInt _iID) :
@@ -20,12 +21,13 @@ HRESULT CLogoLevel::Initialize()
 
 void CLogoLevel::Update(_float fTimeDelta)
 {
-	if (m_pGameInstance->KeyUp(KEY_INPUT::KEYBOARD, DIK_SPACE))
-	{
-		OutputDebugString(TEXT("keyDown SPACE"));
-	}
-	
 	__super::Update(fTimeDelta);
+
+	if (m_IsChangeLevel)
+	{
+		if (FAILED(m_pGameInstance->Change_Level(CLoadingLevel::Create(m_pGraphic_Device, m_pDeviceContext, LEVEL::LOADING, LEVEL::GAMEPLAY))))
+			return;
+	}
 }
 
 HRESULT CLogoLevel::Render()
@@ -33,6 +35,11 @@ HRESULT CLogoLevel::Render()
 	SetWindowText(g_hWnd, TEXT("로고레벨이빈다"));
 
 	return S_OK;
+}
+
+void CLogoLevel::NextLevelChange(_bool flag)
+{
+	m_IsChangeLevel = flag;
 }
 
 CLogoLevel* CLogoLevel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, LEVEL eID)

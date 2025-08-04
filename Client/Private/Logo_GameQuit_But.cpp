@@ -71,7 +71,7 @@ void CLogo_GameQuit_But::MouseHoverExit()
 
 void CLogo_GameQuit_But::MouseButtonDwon()
 {
-
+    DestroyWindow(g_hWnd);
 }
 
 HRESULT CLogo_GameQuit_But::ADD_Components()

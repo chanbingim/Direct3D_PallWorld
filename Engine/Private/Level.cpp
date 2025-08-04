@@ -6,6 +6,7 @@
 CLevel::CLevel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, _uInt _iID) :
 m_pGraphic_Device(pDevice),
 m_pDeviceContext(pContext),
+m_ID(_iID),
 m_pGameInstance(CGameInstance::GetInstance())
 {
     Safe_AddRef(m_pGameInstance);
