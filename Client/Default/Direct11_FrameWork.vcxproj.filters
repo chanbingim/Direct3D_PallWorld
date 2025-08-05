@@ -258,5 +258,8 @@
     <FxCompile Include="..\Bin\ShaderFiles\VTX_NorTex.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\ProgressBar.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

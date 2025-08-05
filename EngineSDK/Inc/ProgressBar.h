@@ -9,6 +9,12 @@ class CShader;
 
 class ENGINE_DLL CProgressBar : public CUserInterface
 {
+public :
+	typedef struct Progress_Desc : public CUserInterface::GAMEOBJECT_DESC
+	{
+		_float4 vColor;
+	}PROGRESS_DESC;
+
 protected:
 	CProgressBar(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CProgressBar(const CProgressBar& rhs);
@@ -38,8 +44,11 @@ protected :
 
 private :
 	LPD3D11EFFECTVARIABLE					m_pShader_Percent = nullptr;
+	LPD3D11EFFECTVECTORVARIABLE				m_pShader_Color = nullptr;
+
 	_float									m_fPercent = {};
-	
+	_float4									m_vColor = {};
+
 public:
 	virtual		CGameObject*				Clone(void* pArg) override;
 	virtual		void						Free() override;

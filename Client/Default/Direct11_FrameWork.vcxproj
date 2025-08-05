@@ -202,6 +202,7 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\MouseShader.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\ProgressBar.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\TestShader.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\VTX_NorTex.hlsl" />
   </ItemGroup>

@@ -43,6 +43,7 @@ HRESULT CPlayer_Interface::Initialize(void* pArg)
 
 void CPlayer_Interface::Update(_float fDeletaTime)
 {
+	m_pHpBar->SetPercent(0.5f);
 	if (m_pCharacterInfo)
 	{
 		m_pHpBar->SetPercent(m_pCharacterInfo->CurHealth / m_pCharacterInfo->MaxHealth);
@@ -73,14 +74,16 @@ HRESULT CPlayer_Interface::ADD_Childs()
 	auto pInGame_HUD = dynamic_cast<CGamePlayHUD*>(pDefaultHUD);
 	if (pInGame_HUD)
 	{
-		CUserInterface::GAMEOBJECT_DESC Desc = {};
+		CProgressBar::PROGRESS_DESC Desc = {};
 		Desc.pParent = this;
 		Desc.vScale = { 200.f, 25.f, 0.f };
 		Desc.vPosition = { 50, 50.f, 0.f };
+		Desc.vColor = { 1.f, 0.f, 0.f, 1.f };
 		if (FAILED(pInGame_HUD->Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Health_Bar"), TEXT("HealthBar"), &Desc, (CUserInterface**)&m_pHpBar)))
 			return E_FAIL;
 
 		Desc.vPosition = { 50.f, 80.f, 0.f };
+		Desc.vColor = { 250/255.f, 124/255.f, 35/255.f, 1.f };
 		if (FAILED(pInGame_HUD->Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Health_Bar"), TEXT("HungerBar"), &Desc, (CUserInterface**)&m_pHugerBar)))
 			return E_FAIL;
 	}

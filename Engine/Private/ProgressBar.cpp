@@ -25,6 +25,12 @@ HRESULT CProgressBar::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+	PROGRESS_DESC* Desc = static_cast<PROGRESS_DESC*>(pArg);
+	if (Desc)
+	{
+		m_vColor = Desc->vColor;
+	}
+
 	return S_OK;
 }
 
@@ -65,6 +71,8 @@ HRESULT CProgressBar::Bind_ShaderResources()
 	m_pEMVProjMat = m_pShaderCom->GetVariable("g_ProjMatrix")->AsMatrix();
 
 	m_pShader_Percent = m_pShaderCom->GetVariable("g_Percent");
+	m_pShader_Color   = m_pShaderCom->GetVariable("g_Color")->AsVector();
+
 	return S_OK;
 }
 
@@ -72,7 +80,8 @@ HRESULT CProgressBar::Apply_ConstantShaderResources()
 {
 	__super::Apply_ConstantShaderResources();
 
-	m_pShader_Percent->SetRawValue(&m_fPercent, 0, 0);
+	m_pShader_Percent->SetRawValue(&m_fPercent, 0, sizeof(_float));
+	m_pShader_Color->SetFloatVector((float *)&m_vColor);
 	return S_OK;
 }
 

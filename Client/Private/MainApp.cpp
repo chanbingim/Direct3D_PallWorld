@@ -86,6 +86,10 @@ HRESULT CMainApp::SetUp_StaticComponents()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VTXNorTex"),
 		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_NORTEX::VertexDesc, VTX_NORTEX::iNumElements, TEXT("../Bin/ShaderFiles/VTX_NorTex.hlsl")))))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_ProgressBar"),
+		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_NORTEX::VertexDesc, VTX_NORTEX::iNumElements, TEXT("../Bin/ShaderFiles/ProgressBar.hlsl")))))
+		return E_FAIL;
 #pragma endregion
 
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"), CVIBuffer_Rect::Create(m_pGraphic_Device, m_pDevice_Context))))
