@@ -17,6 +17,9 @@ HRESULT CActor::Initalize_Prototype()
 
 HRESULT CActor::Initialize(void* pArg)
 {
+	if (FAILED(__super::Initialize(pArg)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -30,6 +33,7 @@ void CActor::Update(_float fDeletaTime)
 
 void CActor::Late_Update(_float fDeletaTime)
 {
+	__super::Late_Update(fDeletaTime);
 }
 
 HRESULT CActor::Render()

@@ -20,7 +20,7 @@ CShader::CShader(const CShader& rhs) :
 	Safe_AddRef(m_pEffect);
 }
 
-HRESULT CShader::Initialize_Prototype(D3D11_INPUT_ELEMENT_DESC* pElementDesc, _uInt iElementCnt, const WCHAR* szShaderFilePath)
+HRESULT CShader::Initialize_Prototype(const D3D11_INPUT_ELEMENT_DESC* pElementDesc, const _uInt iElementCnt, const WCHAR* szShaderFilePath)
 {
 	if(FAILED(LoadShader(szShaderFilePath)))
 		return E_FAIL;
@@ -98,7 +98,7 @@ HRESULT CShader::LoadShader(const WCHAR* szShaderFilePath)
 	return S_OK;
 }
 
-CShader* CShader::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, D3D11_INPUT_ELEMENT_DESC* pElementDesc, _uInt iElementCnt, const WCHAR* szShaderFilePath)
+CShader* CShader::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const D3D11_INPUT_ELEMENT_DESC* pElementDesc, const _uInt iElementCnt, const WCHAR* szShaderFilePath)
 {
 	CShader* pShader = new CShader(pDevice, pContext);
 	if (FAILED(pShader->Initialize_Prototype(pElementDesc, iElementCnt, szShaderFilePath)))

@@ -73,6 +73,16 @@ HRESULT CGameObject::Render()
 	return S_OK;
 }
 
+HRESULT CGameObject::Bind_ShaderResources()
+{
+	return S_OK;
+}
+
+HRESULT CGameObject::Apply_ConstantShaderResources()
+{
+	return S_OK;
+}
+
 HRESULT CGameObject::Add_Component(_uInt iLevelIndex, const _wstring& _PrototypeTag, const _wstring& ComponentTag, CComponent** ppOut, void* pArg)
 {
 	auto pair = m_pComponentMap.find(ComponentTag);

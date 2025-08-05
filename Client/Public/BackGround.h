@@ -33,7 +33,7 @@ protected:
 	CShader*								m_pShaderCom = nullptr;
 
 protected:
-	HRESULT									Bind_ShaderCBuffer();
+	virtual		HRESULT						Bind_ShaderResources() override;
 
 private :
 	HRESULT									ADD_Components();

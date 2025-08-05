@@ -124,8 +124,8 @@ void CTransform::SetParentMatrix(const _float4x4& matrix)
 
 void CTransform::ADD_Position(_vector vAddPos)
 {
-    auto vMovePosition = GetLookVector() + vAddPos;
-    XMStoreFloat4(reinterpret_cast<_float4*>(&m_WorldMat.m[3]), vMovePosition);
+    auto vMovePosition = XMLoadFloat3(reinterpret_cast<_float3*>(m_WorldMat.m[3])) + vAddPos;
+    XMStoreFloat3(reinterpret_cast<_float3*>(&m_WorldMat.m[3]), vMovePosition);
 }
 
 void CTransform::Turn(_vector vAxis, _float fTurnSpeed, _float fTimeDeleta)
@@ -139,6 +139,20 @@ void CTransform::Turn(_vector vAxis, _float fTurnSpeed, _float fTimeDeleta)
     XMStoreFloat4(reinterpret_cast<_float4*>(&m_WorldMat.m[0]), XMVector3TransformNormal(vRight, RoationMat));
     XMStoreFloat4(reinterpret_cast<_float4*>(&m_WorldMat.m[1]), XMVector3TransformNormal(vUp, RoationMat));
     XMStoreFloat4(reinterpret_cast<_float4*>(&m_WorldMat.m[2]), XMVector3TransformNormal(vLook, RoationMat));
+}
+
+void CTransform::LookAt(_vector vAt)
+{
+    _float3		vScale = GetScale();
+
+    auto vPos = GetPosition();
+    _vector		vLook = vAt - XMLoadFloat3(&vPos);
+    _vector		vRight = XMVector3Cross(XMVectorSet(0.f, 1.f, 0.f, 0.f), vLook);
+    _vector		vUp = XMVector3Cross(vLook, vRight);
+
+    XMStoreFloat4(reinterpret_cast<_float4*>(&m_WorldMat.m[0]), XMVector3Normalize(vRight) * vScale.x);
+    XMStoreFloat4(reinterpret_cast<_float4*>(&m_WorldMat.m[1]), XMVector3Normalize(vUp) * vScale.y);
+    XMStoreFloat4(reinterpret_cast<_float4*>(&m_WorldMat.m[2]), XMVector3Normalize(vLook) * vScale.z);
 }
 
 CTransform* CTransform::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

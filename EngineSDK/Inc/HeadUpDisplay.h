@@ -16,7 +16,7 @@ public :
 	virtual HRESULT				Initialize();
 	virtual void				Update(_float fDeletaTime);
 	
-	HRESULT						Add_UserInterface(_uInt LevelIndex, const _wstring& PrototypeUITag, const _wstring& UITag, void* pArg = nullptr);
+	HRESULT						Add_UserInterface(_uInt LevelIndex, const _wstring& PrototypeUITag, const _wstring& UITag, void* pArg = nullptr, CUserInterface** ppOut = nullptr);
 	HRESULT						Remove_UserInterface(const _wstring& UITag);
 
 	CUserInterface*				Find_UserInterface(const _wstring& UITag);

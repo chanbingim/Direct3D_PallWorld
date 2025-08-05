@@ -147,8 +147,13 @@
   <ItemGroup>
     <ClInclude Include="..\public\BackGround.h" />
     <ClInclude Include="..\public\Camera.h" />
+    <ClInclude Include="..\public\Character_Manager.h" />
     <ClInclude Include="..\Public\Client_Define.h" />
+    <ClInclude Include="..\Public\Client_Struct.h" />
+    <ClInclude Include="..\public\GameData_Manager.h" />
+    <ClInclude Include="..\public\GamePlayHUD.h" />
     <ClInclude Include="..\public\GamePlayLevel.h" />
+    <ClInclude Include="..\public\HealthBar.h" />
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\public\LoadingLevel.h" />
     <ClInclude Include="..\public\LogoLevel.h" />
@@ -159,6 +164,8 @@
     <ClInclude Include="..\public\Logo_Menu.h" />
     <ClInclude Include="..\public\MainApp.h" />
     <ClInclude Include="..\public\PellLogo.h" />
+    <ClInclude Include="..\public\Player_Interface.h" />
+    <ClInclude Include="..\public\Terrian.h" />
     <ClInclude Include="Direct11_FrameWork.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
@@ -167,7 +174,11 @@
   <ItemGroup>
     <ClCompile Include="..\private\BackGround.cpp" />
     <ClCompile Include="..\private\Camera.cpp" />
+    <ClCompile Include="..\private\Character_Manager.cpp" />
+    <ClCompile Include="..\private\GameData_Manager.cpp" />
+    <ClCompile Include="..\private\GamePlayHUD.cpp" />
     <ClCompile Include="..\private\GamePlayLevel.cpp" />
+    <ClCompile Include="..\private\HealthBar.cpp" />
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\LoadingLevel.cpp" />
     <ClCompile Include="..\private\LogoLevel.cpp" />
@@ -178,6 +189,8 @@
     <ClCompile Include="..\private\Logo_Menu.cpp" />
     <ClCompile Include="..\private\MainApp.cpp" />
     <ClCompile Include="..\private\PellLogo.cpp" />
+    <ClCompile Include="..\private\Player_Interface.cpp" />
+    <ClCompile Include="..\private\Terrian.cpp" />
     <ClCompile Include="Direct11_FrameWork.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -190,6 +203,7 @@
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\MouseShader.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\TestShader.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\VTX_NorTex.hlsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -31,6 +31,7 @@ public :
 	void						ADD_Position(_vector vAddPos);
 	void						Turn(_vector vAxis, _float fTurnSpeed, _float fTimeDeleta);
 
+	void						LookAt(_vector vAt);
 private :
 	_bool						m_bHasParent = false;
 	_float4x4					m_ParentWorldMat;

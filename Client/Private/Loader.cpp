@@ -14,6 +14,18 @@
 
 #pragma endregion
 
+#pragma region GamePlay Header
+#include "Camera.h"
+#include "Terrian.h"
+
+#pragma region UI
+#include "Player_Interface.h"
+#include "HealthBar.h"
+#pragma endregion
+
+#pragma endregion
+
+
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 	m_pDevice(pDevice),
 	m_pContext(pContext),
@@ -119,7 +131,6 @@ HRESULT CLoader::Loading_For_Logo()
 
 	m_strMessage = TEXT("셰이더를(을) 로딩 중 입니다.");
 
-
 	m_strMessage = TEXT("객체원형를(을) 로딩 중 입니다.");
 
 	/* GAME_OBJECT_LOGO_MENU_BACKGROUND */
@@ -152,11 +163,49 @@ HRESULT CLoader::Loading_For_GamePlay()
 {
 	m_strMessage = TEXT("텍스쳐를(을) 로딩 중 입니다.");
 
+#pragma region Terrian_Texture
+	/* GamePlay_Terrian_Texture */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Terrian"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Map/Tile/Tile%d.dds"), 2))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region PLAYER_INFO_TEXTURE
+	/* GamePlay_Terrian_Texture */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_HeatlhBar_Tex"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/Progressbar/T_gauge_HP%d.png"), 2))))
+		return E_FAIL;
+#pragma endregion
+
 	m_strMessage = TEXT("모델를(을) 로딩 중 입니다.");
 
 	m_strMessage = TEXT("셰이더를(을) 로딩 중 입니다.");
 
 	m_strMessage = TEXT("객체원형를(을) 로딩 중 입니다.");
+
+#pragma region Terrian_Com
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian"), CVIBuffer_Terrian::Create(m_pDevice, m_pContext,
+		TEXT("../Bin/Resources/Textures/Map/HeightMap/Height1.bmp")))))
+		return E_FAIL;
+#pragma endregion
+
+	/* GAME_OBJECT_Camera */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Camera"), CCamera::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_Terrian */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Terrian"), CTerrian::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+#pragma region PLAYER_INFO
+	/* GAME_OBJECT_PlayerInfoUI */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_PlayerInfo"), CPlayer_Interface::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_HealthBarUI */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Health_Bar"), CHealthBar::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
 
 	m_strMessage = TEXT("로딩이 완료되었습니다..");
 

@@ -15,6 +15,11 @@ public:
 	virtual void			Update(_float fTimeDelta);
 	virtual HRESULT			Render();
 
+private :
+	HRESULT					ADD_CameraLayer(const _wstring& LayerName);
+	HRESULT					ADD_BackGroundLayer(const _wstring& LayerName);
+	HRESULT					Setting_GamePlayHUD();
+
 public:
 	static	CGamePlayLevel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, LEVEL eID);
 	virtual void			Free() override;

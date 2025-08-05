@@ -11,7 +11,7 @@ private :
 	virtual ~CShader() = default;
 
 public :
-	HRESULT						Initialize_Prototype(D3D11_INPUT_ELEMENT_DESC* pElementDesc, _uInt iElementCnt, const WCHAR* szShaderFilePath);
+	HRESULT						Initialize_Prototype(const D3D11_INPUT_ELEMENT_DESC* pElementDesc, const _uInt iElementCnt, const WCHAR* szShaderFilePath);
 	virtual HRESULT				Initialize(void* pArg);
 
 	ID3DX11EffectVariable*		GetVariable(const _string& ValueName);
@@ -28,7 +28,7 @@ private :
 	HRESULT						LoadShader(const WCHAR* szShaderFilePath);
 
 public :
-	static		CShader*		Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, D3D11_INPUT_ELEMENT_DESC* pElementDesc, _uInt iElementCnt, const WCHAR* szShaderFilePath);
+	static		CShader*		Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const D3D11_INPUT_ELEMENT_DESC* pElementDesc, const _uInt iElementCnt, const WCHAR* szShaderFilePath);
 	virtual		CComponent*		Clone(void* pArg) override;
 	virtual		void			Free() override;
 

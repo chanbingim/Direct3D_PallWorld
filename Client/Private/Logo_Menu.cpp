@@ -32,7 +32,7 @@ HRESULT CLogo_Menu::Initialize(void* pArg)
     if (FAILED(ADD_Childs()))
         return E_FAIL;
 
-    if(FAILED(Bind_ShaderCBuffer()))
+    if(FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
     m_eType = OBJECT_TYPE::STATIC;
@@ -66,16 +66,17 @@ HRESULT CLogo_Menu::ADD_Childs()
     if (pLogo_HUD)
     {
         CUserInterface::GAMEOBJECT_DESC Desc = {};
+        Desc.pParent = this;
         Desc.vScale = { 200.f, 50.f, 0.f };
-        Desc.vPosition = { 640.f, 400.f, 0.f };
+        Desc.vPosition = { 0, 100.f, 0.f };
         if (FAILED(pLogo_HUD->Add_UserInterface(ENUM_CLASS(LEVEL::LOGO), TEXT("Prototype_GameObject_LMenu_But_GameStart"), TEXT("LMenu_But_GameStart"), &Desc)))
               return E_FAIL;
 
-        Desc.vPosition = { 640.f, 475.f, 0.f };
+        Desc.vPosition = { 0.f, 175.f, 0.f };
         if (FAILED(pLogo_HUD->Add_UserInterface(ENUM_CLASS(LEVEL::LOGO), TEXT("Prototype_GameObject_LMenu_But_GameEdit"), TEXT("LMenu_But_GameEdit"), &Desc)))
             return E_FAIL;
 
-        Desc.vPosition = { 640.f, 550.f, 0.f };
+        Desc.vPosition = { 0.f, 250.f, 0.f };
         if (FAILED(pLogo_HUD->Add_UserInterface(ENUM_CLASS(LEVEL::LOGO), TEXT("Prototype_GameObject_LMenu_But_GameQuit"), TEXT("LMenu_But_GameQuit"), &Desc)))
             return E_FAIL;
     }

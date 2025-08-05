@@ -39,6 +39,9 @@ HRESULT CUserInterface::Initialize(void* pArg)
 		SetRotation(pObjectDesc->vRotation);
 		SetScale(pObjectDesc->vScale);
 
+		m_fPos.x = pObjectDesc->vPosition.x;
+		m_fPos.y = pObjectDesc->vPosition.y;
+
 		SetLocation(pObjectDesc->vPosition);
 		if (pObjectDesc->pParent)
 		{
@@ -52,12 +55,13 @@ HRESULT CUserInterface::Initialize(void* pArg)
 			_uInt          iNumViewports = { 1 };
 
 			m_pDeviceContext->RSGetViewports(&iNumViewports, &viewportDesc);
+			UpdateRectSize();
 
-			//이렇게 해야하는 이유 처음엔 몰랐는데
-			//마우스 rect검사를 할때 좀더 편하게 하려면 해야함
-			pObjectDesc->vPosition.x -= viewportDesc.Width * 0.5f;
-			pObjectDesc->vPosition.y = -pObjectDesc->vPosition.y + viewportDesc.Height * 0.5f;
-			m_pTransformCom->SetPosition(pObjectDesc->vPosition);
+			////이렇게 해야하는 이유 처음엔 몰랐는데
+			////마우스 rect검사를 할때 좀더 편하게 하려면 해야함
+			//pObjectDesc->vPosition.x -= viewportDesc.Width * 0.5f;
+			//pObjectDesc->vPosition.y = -pObjectDesc->vPosition.y + viewportDesc.Height * 0.5f;
+			//m_pTransformCom->SetPosition(pObjectDesc->vPosition);
 		}
 	}
 
@@ -117,6 +121,11 @@ void CUserInterface::ADDRotation(_vector vAxis, _float fTurnSpeed, _float fTimeD
 	UpdateRectSize();
 }
 
+_float2 CUserInterface::GetViewPos()
+{
+	return m_fPos;
+}
+
 void CUserInterface::MouseHoverEnter()
 {
 
@@ -145,6 +154,11 @@ void CUserInterface::MouseButtonPressed()
 void CUserInterface::MouseButtonUp()
 {
 
+}
+
+HRESULT CUserInterface::Bind_ShaderResources()
+{
+	return E_NOTIMPL;
 }
 
 HRESULT CUserInterface::Apply_ConstantShaderResources()
@@ -222,24 +236,35 @@ void CUserInterface::UpdateRectSize()
 		auto Parent = m_pParent;
 		while (Parent)
 		{
-			auto vPos = Parent->GetTransform()->GetPosition();
-			ParentposVec += XMLoadFloat3(&vPos);
+			_float3 vPos = {};
 
+			auto UIObject = dynamic_cast<CUserInterface*>(Parent);
+			if (UIObject)
+			{
+				_float2 ParentPos = UIObject->GetViewPos();
+				vPos = { ParentPos.x, ParentPos.y, 1.f };
+			}
+			else
+				vPos = Parent->GetTransform()->GetPosition();
+
+			ParentposVec += XMLoadFloat3(&vPos);
 			Parent = Parent->GetParent();
 		}
 		XMStoreFloat3(&vParentpos, ParentposVec);
 	}
-	
+
 	_float3 vScale = m_pTransformCom->GetScale();
-	_float3 vPosition = m_pTransformCom->GetPosition();
 
 	D3D11_VIEWPORT       ViewportDesc{};
 	_uInt                iNumViewports = { 1 };
 
 	m_pDeviceContext->RSGetViewports(&iNumViewports, &ViewportDesc);
 
-	_float		RectCenterX = (vParentpos.x + vPosition.x) + ViewportDesc.Width * 0.5f;
-	_float		RectCenterY = -(vParentpos.y + vPosition.y) + ViewportDesc.Height * 0.5f;
+	_float		RectCenterX = (vParentpos.x + m_fPos.x);
+	_float		RectCenterY = (vParentpos.y + m_fPos.y);
+
+	m_pTransformCom->SetPosition({RectCenterX - ViewportDesc.Width * 0.5f,
+								  -RectCenterY + ViewportDesc.Height * 0.5f, 0.f});
 
 	m_UISize = {static_cast<long>(RectCenterX - (vScale.x * 0.5f)),
 				static_cast<long>(RectCenterY - (vScale.y * 0.5f)),

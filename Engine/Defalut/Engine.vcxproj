@@ -142,6 +142,7 @@
   <ItemGroup>
     <ClInclude Include="..\public\Actor.h" />
     <ClInclude Include="..\public\Base.h" />
+    <ClInclude Include="..\public\BaseCamera.h" />
     <ClInclude Include="..\Public\Button.h" />
     <ClInclude Include="..\public\Component.h" />
     <ClInclude Include="..\Public\Engine_Defines.h" />
@@ -162,6 +163,8 @@
     <ClInclude Include="..\public\Level_Manager.h" />
     <ClInclude Include="..\public\Mouse.h" />
     <ClInclude Include="..\public\Object_Manager.h" />
+    <ClInclude Include="..\public\Pipeline.h" />
+    <ClInclude Include="..\public\ProgressBar.h" />
     <ClInclude Include="..\public\Prototype_Manager.h" />
     <ClInclude Include="..\public\Renderer.h" />
     <ClInclude Include="..\Public\RenderSet.h" />
@@ -174,10 +177,12 @@
     <ClInclude Include="..\public\UserInterface.h" />
     <ClInclude Include="..\public\VIBuffer.h" />
     <ClInclude Include="..\public\VIBuffer_Rect.h" />
+    <ClInclude Include="..\public\VIBuffer_Terrian.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Actor.cpp" />
     <ClCompile Include="..\private\Base.cpp" />
+    <ClCompile Include="..\private\BaseCamera.cpp" />
     <ClCompile Include="..\Private\Button.cpp" />
     <ClCompile Include="..\private\Component.cpp" />
     <ClCompile Include="..\private\GameInstance.cpp" />
@@ -190,6 +195,8 @@
     <ClCompile Include="..\private\Level_Manager.cpp" />
     <ClCompile Include="..\private\Mouse.cpp" />
     <ClCompile Include="..\private\Object_Manager.cpp" />
+    <ClCompile Include="..\private\Pipeline.cpp" />
+    <ClCompile Include="..\private\ProgressBar.cpp" />
     <ClCompile Include="..\private\Prototype_Manager.cpp" />
     <ClCompile Include="..\private\Renderer.cpp" />
     <ClCompile Include="..\private\Shader.cpp" />
@@ -201,6 +208,7 @@
     <ClCompile Include="..\private\UserInterface.cpp" />
     <ClCompile Include="..\private\VIBuffer.cpp" />
     <ClCompile Include="..\private\VIBuffer_Rect.cpp" />
+    <ClCompile Include="..\private\VIBuffer_Terrian.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

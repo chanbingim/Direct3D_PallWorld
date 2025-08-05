@@ -8,6 +8,7 @@ class CLevel_Manager;
 class CObject_Manager;
 class CLevel;
 class CGameObject;
+class CPipeline;
 class CUserInterface;
 class CHeadUpDisplay;
 class CTimer_Manager;
@@ -113,6 +114,14 @@ public :
 	void						ResetMouseData();
 #pragma endregion
 
+#pragma region PipeLine
+	void						SetMatrix(MAT_STATE eState, _float4x4 Matrix);
+
+	const _float4x4&			GetMatrix(MAT_STATE eState);
+	const _float4x4&			GetInvMatrix(INV_MAT_STATE eState);
+	const _float4x4&			GetIndentityMatrix();
+#pragma endregion
+
 private :
 	CGraphic_Device*			m_pGraphic_Device = nullptr;
 	CLevel_Manager*				m_pLevel_Manager = nullptr;
@@ -123,6 +132,7 @@ private :
 	CInputManager*				m_pInput_Manager = nullptr;
 	CSound_Manager*				m_pSound_Manager = nullptr;
 	CMouse*						m_pMouse = nullptr;
+	CPipeline*					m_pPipeline = nullptr;
 
 public :
 	void						Release_Engine();

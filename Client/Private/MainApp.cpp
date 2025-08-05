@@ -3,6 +3,7 @@
 
 #include "LoadingLevel.h"
 #include "HeadUpDisplay.h"
+#include "GameData_Manager.h"
 
 CMainApp::CMainApp() : m_pGameInstance(CGameInstance::GetInstance())
 {
@@ -72,19 +73,20 @@ HRESULT CMainApp::SetUp_StaticComponents()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region Shader
 	/* Mouse Shader */
-	D3D11_INPUT_ELEMENT_DESC VertexDesc[] = {
-		   {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-		   {"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
-	};
-
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"),
-		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VertexDesc, 2, TEXT("../Bin/ShaderFiles/TestShader.hlsl")))))
+		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_TEX::VertexDesc, VTX_TEX::iNumElements, TEXT("../Bin/ShaderFiles/TestShader.hlsl")))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Mouse"),
-		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VertexDesc, 2, TEXT("../Bin/ShaderFiles/MouseShader.hlsl")))))
+		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_TEX::VertexDesc, VTX_TEX::iNumElements, TEXT("../Bin/ShaderFiles/MouseShader.hlsl")))))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VTXNorTex"),
+		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_NORTEX::VertexDesc, VTX_NORTEX::iNumElements, TEXT("../Bin/ShaderFiles/VTX_NorTex.hlsl")))))
+		return E_FAIL;
+#pragma endregion
 
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"), CVIBuffer_Rect::Create(m_pGraphic_Device, m_pDevice_Context))))
 		return E_FAIL;
@@ -151,6 +153,7 @@ void CMainApp::Free()
 	Safe_Release(m_pDevice_Context);
 	Safe_Release(m_pGraphic_Device);
 	Safe_Release(m_pRasterState);
+	CGameData_Manager::DestroyInstance();
 
 	m_pGameInstance->Release_Engine();
 	Safe_Release(m_pGameInstance);

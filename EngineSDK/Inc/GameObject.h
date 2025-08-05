@@ -86,6 +86,9 @@ protected:
 #pragma endregion
 
 protected :
+	virtual     HRESULT						Bind_ShaderResources();
+	virtual     HRESULT						Apply_ConstantShaderResources();
+
 	//컴포넌트 추가 및 찾기
 	HRESULT									Add_Component(_uInt iLevelIndex, const _wstring& _PrototypeTag, const _wstring& ComponentTag, CComponent** ppOut, void* pArg = nullptr);
 	void									Update_ParentMatrix();

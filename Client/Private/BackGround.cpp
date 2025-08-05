@@ -63,7 +63,7 @@ HRESULT CBackGround::ADD_Components()
     return S_OK;
 }
 
-HRESULT CBackGround::Bind_ShaderCBuffer()
+HRESULT CBackGround::Bind_ShaderResources()
 {
     if (nullptr == m_pShaderCom)
         return E_FAIL;

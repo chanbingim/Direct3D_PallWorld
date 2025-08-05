@@ -31,11 +31,14 @@ public:
 	void									ADDPosition(_vector vAddPos);
 	void									ADDRotation(_vector vAxis, _float fTurnSpeed, _float fTimeDeleta);
 
+	_float2									GetViewPos();
+
 protected :
 	_float4x4								m_ViewMatrix = {};
 	_float4x4								m_ProjMatrix = {};
 
 	RECT									m_UISize = {};
+	_float2									m_fPos = {};
 
 	_bool									m_bIsHover = false;
 	_bool									m_bIsMouseEvent = false;
@@ -51,7 +54,9 @@ protected :
 	virtual			void					MouseButtonPressed();
 	virtual			void					MouseButtonUp();
 
-	virtual     HRESULT						Apply_ConstantShaderResources();
+	virtual     HRESULT						Bind_ShaderResources() override;
+	virtual     HRESULT						Apply_ConstantShaderResources() override;
+
 	_bool									IsHover() { return m_bIsHover; }
 
 private :

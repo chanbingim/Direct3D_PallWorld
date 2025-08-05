@@ -3,19 +3,20 @@
 #include "GameInstance.h"
 
 CCamera::CCamera(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
-	CActor(pDevice, pContext)
+	CBaseCamera(pDevice, pContext)
 {
-	ZeroMemory(&m_CameraInfo, sizeof(CAMERA_DESC));
 }
 
 CCamera::CCamera(const CCamera& rhs) :
-	CActor(rhs)
+	CBaseCamera(rhs)
 {
-	ZeroMemory(&m_CameraInfo, sizeof(CAMERA_DESC));
 }
 
 HRESULT CCamera::Initalize_Prototype()
 {
+	if (FAILED(__super::Initalize_Prototype()))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -24,39 +25,26 @@ HRESULT CCamera::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	m_CameraInfo = *static_cast<CAMERA_DESC*>(pArg);
-
-	m_ViewMatrix = m_pTransformCom->GetInvWorldMat();
-	XMStoreFloat4x4(&m_ProjectionMatrix, XMMatrixPerspectiveFovLH(m_CameraInfo.ffov, m_CameraInfo.fWidth / m_CameraInfo.fHegiht, m_CameraInfo.fNear, m_CameraInfo.fFar));
-
 	return S_OK;
+}
+
+void CCamera::Priority_Update(_float fDeletaTime)
+{
+	Input_KeyBoard(fDeletaTime);
+	__super::Priority_Update(fDeletaTime);
 }
 
 void CCamera::Update(_float fDeletaTime)
 {
-	Input_KeyBoard(fDeletaTime);
-	m_ViewMatrix = m_pTransformCom->GetInvWorldMat();
-
-	// 혹시나 종횡비 또는 far, Near값이 바뀌거나 Fov가 바뀔수있기때문에
-	// 매프레임 갱신 한다.
-	XMStoreFloat4x4(&m_ProjectionMatrix, XMMatrixPerspectiveFovLH(m_CameraInfo.ffov, m_CameraInfo.fWidth / m_CameraInfo.fHegiht, m_CameraInfo.fNear, m_CameraInfo.fFar));
 }
 
-// 뷰메트릭스의 역행렬을 월드이기때문에 월드 반환을 시킴
-// 이는 추후 빌보드 행렬로 이용됨
-const _float4x4& CCamera::GetWorldMatrix()
+void CCamera::Late_Update(_float fDeletaTime)
 {
-	return m_pTransformCom->GetWorldMat();
 }
 
-const _float4x4& CCamera::GetViewMatrix()
+HRESULT CCamera::Render()
 {
-	return m_ViewMatrix;
-}
-
-const _float4x4& CCamera::GetProjectionMatrix()
-{
-	return m_ProjectionMatrix;
+	return S_OK;
 }
 
 void CCamera::Input_KeyBoard(_float fDeletaTime)
@@ -82,27 +70,39 @@ void CCamera::Input_KeyBoard(_float fDeletaTime)
 	if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_RIGHTARROW))
 	{
 		//앞방향 이동
-		auto vRight = XMVector3Normalize(m_pTransformCom->GetLookVector());
+		auto vRight = XMVector3Normalize(m_pTransformCom->GetRightVector());
 		ADDPosition(vRight * m_fSpeed * fDeletaTime);
 	}
 
 	if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_LEFTARROW))
 	{
 		//뒷방향 이동
-		auto vRight = XMVector3Normalize(m_pTransformCom->GetLookVector());
+		auto vRight = XMVector3Normalize(m_pTransformCom->GetRightVector());
 		ADDPosition(vRight * -m_fSpeed * fDeletaTime);
 	}
 
-	if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_LEFTARROW))
+	if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_Q))
 	{
 		// 시계방향 회전
-		ADDRotation(m_pTransformCom->GetUpVector(), m_fSpeed, fDeletaTime);
+		ADDRotation(m_pTransformCom->GetUpVector(), m_fRotSpeed, fDeletaTime);
 	}
 
-	if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_LEFTARROW))
+	if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_E))
 	{
 		//반시계 방향 회전
-		ADDRotation(m_pTransformCom->GetUpVector(), -m_fSpeed, fDeletaTime);
+		ADDRotation(m_pTransformCom->GetUpVector(), -m_fRotSpeed, fDeletaTime);
+	}
+
+	if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_W))
+	{
+		// 시계방향 회전
+		ADDRotation(m_pTransformCom->GetRightVector(), m_fRotSpeed, fDeletaTime);
+	}
+
+	if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_S))
+	{
+		//반시계 방향 회전
+		ADDRotation(m_pTransformCom->GetRightVector(), -m_fRotSpeed, fDeletaTime);
 	}
 }
 

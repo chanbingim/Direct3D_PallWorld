@@ -28,9 +28,10 @@ HRESULT CLogo_GameEdit_But::Initialize(void* pArg)
     if (FAILED(ADD_Components()))
         return E_FAIL;
 
-    if (FAILED(Bind_ShaderCBuffer()))
+    if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
+    m_eType = OBJECT_TYPE::STATIC;
     m_bIsMouseEvent = true;
     return S_OK;
 }

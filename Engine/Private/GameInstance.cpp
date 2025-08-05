@@ -11,6 +11,7 @@
 #include "Sound_Manager.h"
 #include "InputManager.h"
 #include "Mouse.h"
+#include "Pipeline.h"
 #pragma endregion
 
 #include "Level.h"
@@ -58,6 +59,10 @@ HRESULT CGameInstance::Initialize_Engine(void* pArg)
 
     m_pMouse = CMouse::Create(*GameSetting->ppDevice, *GameSetting->ppContext, GameSetting->EngineSetting.hWnd);
     if (nullptr == m_pMouse)
+        return E_FAIL;
+
+    m_pPipeline = CPipeline::Create();
+    if (nullptr == m_pPipeline)
         return E_FAIL;
 
     return S_OK;
@@ -260,6 +265,25 @@ void CGameInstance::ResetMouseData()
 }
 #pragma endregion
 
+#pragma region PipeLine
+void CGameInstance::SetMatrix(MAT_STATE eState, _float4x4 Matrix)
+{
+    m_pPipeline->SetMatrix(eState, Matrix);
+}
+const _float4x4& CGameInstance::GetMatrix(MAT_STATE eState)
+{
+    return m_pPipeline->GetMatrix(eState);
+}
+const _float4x4& CGameInstance::GetInvMatrix(INV_MAT_STATE eState)
+{
+    return m_pPipeline->GetInvMatrix(eState);
+}
+const _float4x4& CGameInstance::GetIndentityMatrix()
+{
+    return m_pPipeline->GetIndentityMatrix();
+}
+#pragma endregion
+
 void CGameInstance::Release_Engine()
 {
     DestroyInstance();
@@ -272,6 +296,7 @@ void CGameInstance::Release_Engine()
     Safe_Release(m_pInput_Manager);
     Safe_Release(m_pSound_Manager);
     Safe_Release(m_pMouse);
+    Safe_Release(m_pPipeline);
     Safe_Release(m_pGraphic_Device);
 }
 

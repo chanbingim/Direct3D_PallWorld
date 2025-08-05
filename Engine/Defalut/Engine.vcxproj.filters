@@ -43,9 +43,6 @@
     <Filter Include="Utility\HeadUpDisplay\UserInterface">
       <UniqueIdentifier>{75f31298-c6f1-413c-b374-55ddf4ff1db6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utility\HeadUpDisplay\Layer">
-      <UniqueIdentifier>{883d5013-29ae-4317-b65e-09472d059624}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utility\Components\Transform">
       <UniqueIdentifier>{f53002f5-aaff-40af-9a5e-caab5382bb67}</UniqueIdentifier>
     </Filter>
@@ -72,9 +69,6 @@
     </Filter>
     <Filter Include="Utility\Components\VIBuffer\VIRect">
       <UniqueIdentifier>{f0cae173-9deb-4b0f-95f0-ef70ad282413}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\CameraFrustom">
-      <UniqueIdentifier>{365c0050-43ce-4624-994d-d21db11a8fc4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Utility\Components\Shader">
       <UniqueIdentifier>{ff32bb3e-62d8-4e8e-837e-1bc649cfa632}</UniqueIdentifier>
@@ -105,6 +99,18 @@
     </Filter>
     <Filter Include="Base">
       <UniqueIdentifier>{b03dfe8c-d8dc-42d1-8564-bc14acb88645}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Pipeline">
+      <UniqueIdentifier>{79a57e86-aaf6-4e16-bd21-e6186213aabe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Object\Camera">
+      <UniqueIdentifier>{726d2632-59eb-434d-9d37-94bb513075f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\VIBuffer\VITerrian">
+      <UniqueIdentifier>{0565ecb3-4d1b-42e0-b919-e6e64f7296fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\HeadUpDisplay\UserInterface\Progressbar">
+      <UniqueIdentifier>{a7b21e9d-ff67-4a87-9e70-3d621fbef5bc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -182,6 +188,18 @@
     </ClCompile>
     <ClCompile Include="..\private\Mouse.cpp">
       <Filter>System\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Pipeline.cpp">
+      <Filter>Utility\Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BaseCamera.cpp">
+      <Filter>Utility\Object\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\VIBuffer_Terrian.cpp">
+      <Filter>Utility\Components\VIBuffer\VITerrian</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ProgressBar.cpp">
+      <Filter>Utility\HeadUpDisplay\UserInterface\Progressbar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -286,6 +304,18 @@
     </ClInclude>
     <ClInclude Include="..\public\Mouse.h">
       <Filter>System\Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Pipeline.h">
+      <Filter>Utility\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\BaseCamera.h">
+      <Filter>Utility\Object\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\VIBuffer_Terrian.h">
+      <Filter>Utility\Components\VIBuffer\VITerrian</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ProgressBar.h">
+      <Filter>Utility\HeadUpDisplay\UserInterface\Progressbar</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,0 +1,50 @@
+#include "GamePlayHUD.h"
+
+#include "GameInstance.h"
+#include "BackGround.h"
+
+CGamePlayHUD::CGamePlayHUD(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
+	CHeadUpDisplay(pDevice, pContext)
+{
+}
+
+HRESULT CGamePlayHUD::Initialize()
+{
+	if (FAILED(ADD_UserInterface()))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+void CGamePlayHUD::Update(_float fDeletaTime)
+{
+	__super::Update(fDeletaTime);
+}
+
+HRESULT CGamePlayHUD::ADD_UserInterface()
+{
+	//여기서 계층 만들어서 세팅
+	CUserInterface::GAMEOBJECT_DESC Desc;
+	ZeroMemory(&Desc, sizeof(CUserInterface::GAMEOBJECT_DESC));
+
+	Desc.vScale = { g_iWinSizeX * 0.3f, g_iWinSizeY * 0.2f , 1.f };
+	Desc.vPosition = { g_iHalfWinSizeX * 0.2f,  g_iWinSizeY * 0.8f, 0.f };
+
+	if (FAILED(__super::Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_PlayerInfo"), TEXT("InGame_PlayerInfoUI"), &Desc)))
+		return E_FAIL;
+	return S_OK;
+}
+
+CGamePlayHUD* CGamePlayHUD::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+{
+	CGamePlayHUD* pGameplayHUD = new CGamePlayHUD(pDevice, pContext);
+	if (nullptr == pGameplayHUD)
+		MSG_BOX("CREATE FAIL : GAMEPLAY HUD");
+
+	return pGameplayHUD;
+}
+
+void CGamePlayHUD::Free()
+{
+	__super::Free();
+}

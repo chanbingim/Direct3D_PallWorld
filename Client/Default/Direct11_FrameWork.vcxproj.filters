@@ -71,6 +71,30 @@
     <Filter Include="02. HUD\LogoHUD\Logo_UI\LogoMenu\Logo_But\GameExit">
       <UniqueIdentifier>{23e6d0c4-31d6-4fdb-af6c-9330dfa215c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. HUD\GamePlayHUD">
+      <UniqueIdentifier>{75cc6de5-ca74-4c84-b21f-7d6fee662a16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\Terrian">
+      <UniqueIdentifier>{782d235a-43b0-4167-bebb-1c6ac68b5985}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI">
+      <UniqueIdentifier>{49d8f33a-2950-40a1-a7be-af6533b811db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface">
+      <UniqueIdentifier>{7c68cba6-3ec9-4f81-92c5-07d2e57d7b26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. DataManager">
+      <UniqueIdentifier>{ab31e198-b415-4dda-85ba-bcb10f95d2ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. DataManager\CharacterData_Manager">
+      <UniqueIdentifier>{8a0a73bc-ddbf-4d0e-8dca-f1079ec7e360}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. DataManager\GameData_Manager">
+      <UniqueIdentifier>{ba0628af-eed5-46ef-ab42-10fb48d7c313}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\HealthBar">
+      <UniqueIdentifier>{6e6d8958-9654-45ca-a0c8-83ba942ce7f4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -126,6 +150,27 @@
     </ClInclude>
     <ClInclude Include="..\Public\Logo_GameEdit_But.h">
       <Filter>02. HUD\LogoHUD\Logo_UI\LogoMenu\Logo_But\GameEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\GamePlayHUD.h">
+      <Filter>02. HUD\GamePlayHUD</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Terrian.h">
+      <Filter>03. Objects\Terrian</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Player_Interface.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Character_Manager.h">
+      <Filter>04. DataManager\CharacterData_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\GameData_Manager.h">
+      <Filter>04. DataManager\GameData_Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Client_Struct.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\HealthBar.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\HealthBar</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -184,12 +229,33 @@
     <ClCompile Include="..\Private\Logo_GameEdit_But.cpp">
       <Filter>02. HUD\LogoHUD\Logo_UI\LogoMenu\Logo_But\GameEdit</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\GamePlayHUD.cpp">
+      <Filter>02. HUD\GamePlayHUD</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Terrian.cpp">
+      <Filter>03. Objects\Terrian</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Player_Interface.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Character_Manager.cpp">
+      <Filter>04. DataManager\CharacterData_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\GameData_Manager.cpp">
+      <Filter>04. DataManager\GameData_Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\HealthBar.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\HealthBar</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\TestShader.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\MouseShader.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\VTX_NorTex.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>

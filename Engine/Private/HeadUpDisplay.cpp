@@ -50,7 +50,7 @@ void CHeadUpDisplay::Clear_HUD()
 	m_pUserInterfaceMap.clear();
 }
 
-HRESULT CHeadUpDisplay::Add_UserInterface(_uInt LevelIndex, const _wstring& PrototypeUITag, const _wstring& UITag, void* pArg)
+HRESULT CHeadUpDisplay::Add_UserInterface(_uInt LevelIndex, const _wstring& PrototypeUITag, const _wstring& UITag, void* pArg, CUserInterface** ppOut)
 {
 	CUserInterface* pUI = m_pGameInstance->Clone_Prototype<CUserInterface>(LevelIndex, PrototypeUITag, pArg);
 	if (nullptr == pUI)
@@ -59,6 +59,9 @@ HRESULT CHeadUpDisplay::Add_UserInterface(_uInt LevelIndex, const _wstring& Prot
 	auto pair = m_pUserInterfaceMap.find(UITag);
 	if (pair != m_pUserInterfaceMap.end())
 		return E_FAIL;
+
+	if (ppOut)
+		*ppOut = pUI;
 
 	m_pUserInterfaceMap.emplace(UITag, pUI);
 	return S_OK;

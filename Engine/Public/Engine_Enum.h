@@ -18,5 +18,8 @@ namespace Engine
 	enum class COLLISION_TYPE	{ BOX, SPHERE, END };
 	enum class LIGHT_TYPE		{ POINT = 1, SPOT, DIRECATION, END };
 
+	enum class MAT_STATE		{ VIEW, PROJECTION, END };
+	enum class INV_MAT_STATE	{ INV_VIEW, INV_PROJECTION, END };
+
 	enum CHANNELID { BGM, EFFECT, END };
 }
