@@ -25,11 +25,6 @@ HRESULT CBackGround::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
-    if (FAILED(ADD_Components()))
-        return E_FAIL;
-
-  
-   
     return S_OK;
 }
 
@@ -49,19 +44,6 @@ HRESULT CBackGround::Render()
     return S_OK;
 }
 
-HRESULT CBackGround::ADD_Components()
-{
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
-        return E_FAIL;
-
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LOGO), TEXT("Prototype_Component_Texture_BackGround"), TEXT("Texture_Com"), (CComponent**)&m_pTextureCom)))
-        return E_FAIL;
-
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LOGO), TEXT("Prototype_Component_Shader_VtxTex"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
-        return E_FAIL;
-
-    return S_OK;
-}
 
 HRESULT CBackGround::Bind_ShaderResources()
 {

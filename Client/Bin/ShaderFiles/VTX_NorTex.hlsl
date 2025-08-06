@@ -11,7 +11,7 @@ Texture2D g_Texture : register(t0);
 
 sampler sampler0 = sampler_state
 {
-    filter = min_mag_mip_point;
+    filter = MIN_MAG_MIP_LINEAR;
 };
 
 /* 정점 쉐이더 : */

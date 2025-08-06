@@ -35,9 +35,6 @@ protected:
 protected:
 	virtual		HRESULT						Bind_ShaderResources() override;
 
-private :
-	HRESULT									ADD_Components();
-
 public:
 	static			CBackGround*			Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);
 	virtual			CGameObject*			Clone(void* pArg);

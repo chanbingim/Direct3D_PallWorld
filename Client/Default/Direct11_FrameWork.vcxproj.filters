@@ -95,6 +95,33 @@
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\HealthBar">
       <UniqueIdentifier>{6e6d8958-9654-45ca-a0c8-83ba942ce7f4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\HungerIcon">
+      <UniqueIdentifier>{967ea44e-4ca4-4f3a-a81e-0dd037410106}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\HealthIcon">
+      <UniqueIdentifier>{8a07cd76-da19-4ef7-b9f1-fa44aab114a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\GuardBar">
+      <UniqueIdentifier>{86108b2b-9c78-4cf1-9a88-d21659edfb6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Compass">
+      <UniqueIdentifier>{af4c12df-4c2b-40cc-abe8-4ab7d979e5ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Compass\CompassPoint">
+      <UniqueIdentifier>{6adcd3cb-233c-4e57-a3dc-b058496d870b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\BattlePell">
+      <UniqueIdentifier>{a172a63c-7406-4259-9c36-50c1c7e8ddaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\BattlePell\PellInfo">
+      <UniqueIdentifier>{c19ab426-7ee2-47e3-89a3-845c4f3127e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\TypeIcon">
+      <UniqueIdentifier>{decad20f-aa06-4cec-b67d-6aac2a0b0b82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\BattlePell\Frame">
+      <UniqueIdentifier>{49421187-1beb-4f99-b55d-963ca3b8695b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -172,6 +199,33 @@
     <ClInclude Include="..\public\HealthBar.h">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\HealthBar</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\HungerIcon.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\HungerIcon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\HealthIcon.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\HealthIcon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\GuardBar.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\GuardBar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Compass.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Compass</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CompassPoint.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Compass\CompassPoint</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\BattlePell.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\BattlePell</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PellInfo.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\BattlePell\PellInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TypeIcon.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\TypeIcon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PellInfoFrame.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\BattlePell\Frame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -246,6 +300,33 @@
     </ClCompile>
     <ClCompile Include="..\private\HealthBar.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\HealthBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\HungerIcon.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\HungerIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\HealthIcon.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\HealthIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\GuardBar.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\GuardBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Compass.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Compass</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CompassPoint.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Compass\CompassPoint</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BattlePell.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\BattlePell</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PellInfo.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\BattlePell\PellInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TypeIcon.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\TypeIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PellInfoFrame.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\BattlePell\Frame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

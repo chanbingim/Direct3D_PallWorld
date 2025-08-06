@@ -2,6 +2,7 @@
 
 #include "GameInstance.h"
 #include "HealthBar.h"
+#include "BackGround.h"
 
 #include "GameData_Manager.h"
 #include "GamePlayHUD.h"
@@ -43,12 +44,27 @@ HRESULT CPlayer_Interface::Initialize(void* pArg)
 
 void CPlayer_Interface::Update(_float fDeletaTime)
 {
-	m_pHpBar->SetPercent(0.5f);
-	if (m_pCharacterInfo)
+	if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_0))
+	{
+		m_Per += 0.1f;
+		m_pHpBar->SetPercent(m_Per);
+
+	}
+	if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_1))
+	{
+		m_Per -= 0.1f;
+		m_pHpBar->SetPercent(m_Per);
+
+	}
+
+	m_pHugerBar->SetPercent(0.0f);
+	m_pGuardBar->SetPercent(0.0f);
+
+	/*if (m_pCharacterInfo)
 	{
 		m_pHpBar->SetPercent(m_pCharacterInfo->CurHealth / m_pCharacterInfo->MaxHealth);
 		m_pHugerBar->SetPercent(m_pCharacterInfo->CurHunger / m_pCharacterInfo->MaxHunger);
-	}
+	}*/
 }
 
 void CPlayer_Interface::Late_Update(_float fDeletaTime)
@@ -74,18 +90,53 @@ HRESULT CPlayer_Interface::ADD_Childs()
 	auto pInGame_HUD = dynamic_cast<CGamePlayHUD*>(pDefaultHUD);
 	if (pInGame_HUD)
 	{
-		CProgressBar::PROGRESS_DESC Desc = {};
-		Desc.pParent = this;
-		Desc.vScale = { 200.f, 25.f, 0.f };
-		Desc.vPosition = { 50, 50.f, 0.f };
-		Desc.vColor = { 1.f, 0.f, 0.f, 1.f };
-		if (FAILED(pInGame_HUD->Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Health_Bar"), TEXT("HealthBar"), &Desc, (CUserInterface**)&m_pHpBar)))
+#pragma region Icon
+		CBackGround::GAMEOBJECT_DESC IconDesc;
+		IconDesc.pParent = this;
+		IconDesc.vScale = { 25.f, 25.f, 0.f };
+
+		//Health Icon
+		IconDesc.vPosition = { -75.f, 75.f, 0.f };
+		if (FAILED(pInGame_HUD->Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Health_Icon"), TEXT("HealthIcon"), &IconDesc)))
 			return E_FAIL;
 
-		Desc.vPosition = { 50.f, 80.f, 0.f };
-		Desc.vColor = { 250/255.f, 124/255.f, 35/255.f, 1.f };
+		//Hunger Icon
+		IconDesc.vPosition = { -75.f, 100.f, 0.f };
+		if (FAILED(pInGame_HUD->Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Hunger_Icon"), TEXT("HungerIcon"), &IconDesc)))
+			return E_FAIL;
+#pragma endregion
+
+#pragma region Bar
+		CProgressBar::PROGRESS_DESC Desc = {};
+		Desc.pParent = this;
+		Desc.vScale = { 200.f, 20.f, 0.f };
+
+		//Guard bar
+		Desc.vPosition = { 50.f, 50.f, 0.f };
+		Desc.vColor = { 0.f, 1.f, 1.f, 1.f };
+		if (FAILED(pInGame_HUD->Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Guard_Bar"), TEXT("GuardBar"), &Desc, (CUserInterface**)&m_pGuardBar)))
+			return E_FAIL;
+
+		//Health bar
+		Desc.vPosition = { 50.f, 75.f, 0.f };
+		Desc.vColor = { 1.f, 0.f, 0.f, 1.f };
+		if (FAILED(pInGame_HUD->Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Health_Bar"), TEXT("HealthBar"), &Desc, (CUserInterface**)&m_pHugerBar)))
+			return E_FAIL;
+
+		//Hunger bar
+		Desc.vPosition = { 50.f, 100.f, 0.f };
+		Desc.vColor = { 250 / 255.f, 124 / 255.f, 35 / 255.f, 1.f };
 		if (FAILED(pInGame_HUD->Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Health_Bar"), TEXT("HungerBar"), &Desc, (CUserInterface**)&m_pHugerBar)))
 			return E_FAIL;
+#pragma endregion
+
+#pragma region Battle_Pell_UI
+		IconDesc.vScale = { 75.f, 75.f, 0.f };
+		//Health Icon
+		IconDesc.vPosition = { 30.f, -30.f, 0.f };
+		if (FAILED(pInGame_HUD->Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Battle_Pell_UI"), TEXT("Battle_Pell_UI"), &IconDesc)))
+			return E_FAIL;
+#pragma endregion
 	}
 
 	return S_OK;

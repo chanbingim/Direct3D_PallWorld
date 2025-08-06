@@ -10,13 +10,12 @@
 matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
 Texture2D g_Texture : register(t0);
-Texture2D g_Texture1 : register(t1);
 float       g_Percent;
 float4      g_Color;
 
 sampler sampler0 = sampler_state
 {
-    filter = min_mag_mip_point;
+    filter = MIN_MAG_MIP_LINEAR;
 };
 
 /* 정점 쉐이더 : */
@@ -75,12 +74,23 @@ PS_OUT PS_MAIN(PS_IN In)
 {
     PS_OUT Out;
     
-    In.vTexcoord.r *= g_Percent;
-    float4 vNewColor = g_Texture.Sample(sampler0, In.vTexcoord);
-    if (In.vTexcoord.x > g_Percent)
-        discard;
+    float4 vNewBackColor = g_Texture.Sample(sampler0, In.vTexcoord);
     
-    Out.vColor = g_Color;  //vNewColor * vNewColor.a;
+    if (vNewBackColor.a < 0.1f)
+        discard;
+    Out.vColor = vNewBackColor;
+    
+    return Out;
+}
+
+/* 픽셀 쉐이더 : 픽셀의 최종적인 색을 결정하낟. */
+PS_OUT PS_MAIN1(PS_IN In)
+{
+    PS_OUT Out;
+    vector vNewBackColor = g_Texture.Sample(sampler0, In.vTexcoord);
+    
+    Out.vColor = float4(g_Color.rgb * vNewBackColor.rgb, vNewBackColor.a);
+    
     return Out;
 }
 
@@ -90,5 +100,11 @@ technique11 Tech
     {
         VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_MAIN();
+    }
+
+    pass Alpha_Blend2
+    {
+        VertexShader = compile vs_5_0 VS_MAIN();
+        PixelShader = compile ps_5_0 PS_MAIN1();
     }
 }

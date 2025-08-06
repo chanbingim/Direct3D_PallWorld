@@ -31,6 +31,8 @@ HRESULT CHealthBar::Initialize(void* pArg)
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
+    m_eType = OBJECT_TYPE::STATIC;
+
     return S_OK;
 }
 
@@ -50,9 +52,12 @@ HRESULT CHealthBar::Render()
     m_pShaderCom->Update_Shader(0);
 
     m_pTextureCom->SetTexture(0, 0);
-    m_pTextureCom->SetTexture(1, 1);
-
     m_pVIBufferCom->Render_VIBuffer();
+
+    m_pShaderCom->Update_Shader(1);
+    m_pTextureCom->SetTexture(0, 1);
+    m_pVIBufferCom->Render_VIBuffer();
+
     return S_OK;
 }
 

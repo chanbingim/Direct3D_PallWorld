@@ -4,9 +4,14 @@
 #include "Client_Struct.h"
 #include "UserInterface.h"
 
+NS_BEGIN(Engine)
+class CProgressBar;
+NS_END
+
 NS_BEGIN(Client)
 
-class  CHealthBar;
+class	CCompass;
+class	CHealthBar;
 
 class CPlayer_Interface final : public CUserInterface
 {
@@ -29,6 +34,10 @@ private :
 	CHARACTER_DESC*							m_pCharacterInfo = nullptr;
 	CHealthBar*								m_pHpBar = nullptr;
 	CHealthBar*								m_pHugerBar = nullptr;
+	CProgressBar*							m_pGuardBar = nullptr;
+	CCompass*								m_pCompass = nullptr;
+
+	float									m_Per = { };
 
 private :
 	HRESULT									ADD_Components();

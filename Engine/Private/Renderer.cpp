@@ -2,6 +2,7 @@
 
 #include "GameInstance.h"
 #include "GameObject.h"
+#include "UserInterface.h"
 
 CRenderer::CRenderer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     m_pDevice(pDevice),
@@ -138,6 +139,17 @@ void CRenderer::Render_Blend()
 
 void CRenderer::Render_ScreenUI()
 {
+    m_RenderObjects[ENUM_CLASS(RENDER::SCREEN_UI)].sort([&](CGameObject* Src, CGameObject* Dest)
+        {
+            CUserInterface* SrcUI = dynamic_cast<CUserInterface*>(Src);
+            CUserInterface* DestUI = dynamic_cast<CUserInterface*>(Dest);
+
+            if (nullptr == SrcUI || nullptr == DestUI)
+                return false;
+
+            return SrcUI->GetZOrder() < DestUI->GetZOrder();
+        });
+
     m_pContext->OMSetDepthStencilState(m_pUIDepthStencilState, 0);
 
     for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::SCREEN_UI)])
