@@ -118,9 +118,11 @@ public :
 	void						SetMatrix(MAT_STATE eState, _float4x4 Matrix);
 
 	const _float4x4&			GetMatrix(MAT_STATE eState);
-	const _float4x4&			GetInvMatrix(INV_MAT_STATE eState);
+	const _float4x4&			GetInvMatrix(MAT_STATE eState);
 	const _float4x4&			GetIndentityMatrix();
 #pragma endregion
+
+	const _float2&				GetScreenSize();
 
 private :
 	CGraphic_Device*			m_pGraphic_Device = nullptr;
@@ -134,6 +136,7 @@ private :
 	CMouse*						m_pMouse = nullptr;
 	CPipeline*					m_pPipeline = nullptr;
 
+	_float2						m_ScreenSize = {};
 public :
 	void						Release_Engine();
 	virtual		void			Free() override;

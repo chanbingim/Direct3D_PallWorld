@@ -25,8 +25,11 @@ void CLogoLevel::Update(_float fTimeDelta)
 
 	if (m_IsChangeLevel)
 	{
-		if (FAILED(m_pGameInstance->Change_Level(CLoadingLevel::Create(m_pGraphic_Device, m_pDeviceContext, LEVEL::LOADING, LEVEL::GAMEPLAY))))
+		auto LoadingLevel = CLoadingLevel::Create(m_pGraphic_Device, m_pDeviceContext, LEVEL::LOADING, LEVEL::GAMEPLAY);
+		if (FAILED(m_pGameInstance->Change_Level(LoadingLevel)))
 			return;
+
+		LoadingLevel->Initialize();
 	}
 }
 

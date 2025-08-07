@@ -19,11 +19,8 @@ CUserInterface::CUserInterface(const CUserInterface& rhs) :
 
 HRESULT CUserInterface::Initalize_Prototype()
 {
-	D3D11_VIEWPORT       ViewportDesc{};
-	_uInt                iNumViewports = { 1 };
-
-	m_pDeviceContext->RSGetViewports(&iNumViewports, &ViewportDesc);
-	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(ViewportDesc.Width, ViewportDesc.Height, 0.f, 1.f));
+	_float2 WinSize = m_pGameInstance->GetScreenSize();
+	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(WinSize.x, WinSize.y, 0.f, 1.f));
 
 	return S_OK;
 }

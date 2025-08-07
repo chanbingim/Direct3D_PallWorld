@@ -49,7 +49,7 @@ void CLogo_GameQuit_But::Late_Update(_float fDeletaTime)
 HRESULT CLogo_GameQuit_But::Render()
 {
     Apply_ConstantShaderResources();
-    m_pShaderCom->Update_Shader(0);
+    m_pShaderCom->Update_Shader(2);
 
     if(!m_bIsHover)
         m_pTextureCom->SetTexture(0, 0);

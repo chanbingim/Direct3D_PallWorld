@@ -34,7 +34,7 @@ HRESULT CGamePlayHUD::ADD_UserInterface()
 		return E_FAIL;
 
 	Desc.vScale = { g_iWinSizeX * 0.5f, 40.f , 1.f };
-	Desc.vPosition = { g_iHalfWinSizeX, 20, 0.f };
+	Desc.vPosition = { g_iHalfWinSizeX, 20.f, 0.f };
 
 	if (FAILED(__super::Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Compass"), TEXT("InGame_Compass"), &Desc)))
 		return E_FAIL;

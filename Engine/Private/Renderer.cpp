@@ -40,9 +40,12 @@ void CRenderer::Render()
     Render_NonBlend();
 
     Render_WorldUI();
+    FLOAT blendFactor[4] = { 0.f, 0.f, 0.f, 0.f };
+    m_pContext->OMSetBlendState(m_pAlphaBlendState, blendFactor, 0xffffffff);
     Render_Blend();
    
     Render_ScreenUI();
+    m_pContext->OMSetBlendState(nullptr, nullptr, 0xffffffff);
 }
 
 HRESULT CRenderer::Create_BlendState()
@@ -122,9 +125,7 @@ void CRenderer::Render_WorldUI()
 
 void CRenderer::Render_Blend()
 {
-    FLOAT blendFactor[4] = { 0.f, 0.f, 0.f, 0.f };
-
-    m_pContext->OMSetBlendState(m_pAlphaBlendState, blendFactor, 0xffffffff);
+   
     for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::BLEND)])
     {
         if (nullptr != pRenderObject)
@@ -134,7 +135,7 @@ void CRenderer::Render_Blend()
     }
 
     m_RenderObjects[ENUM_CLASS(RENDER::BLEND)].clear();
-    m_pContext->OMSetBlendState(nullptr, nullptr, 0xffffffff);
+  
 }
 
 void CRenderer::Render_ScreenUI()

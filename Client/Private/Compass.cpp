@@ -42,6 +42,21 @@ HRESULT CCompass::Initialize(void* pArg)
 
 void CCompass::Update(_float fDeletaTime)
 {
+    if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_2))
+    {
+        m_fRadius += 0.5f;
+
+        if (m_fRadius >= 360.f)
+            m_fRadius = 0.f;
+    }
+
+    if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_9))
+    {
+        m_fRadius -= 0.5f;
+
+        if (m_fRadius <= 0.f)
+            m_fRadius = 360.f;
+    }
 }
 
 void CCompass::Late_Update(_float fDeletaTime)
@@ -52,9 +67,10 @@ void CCompass::Late_Update(_float fDeletaTime)
 HRESULT CCompass::Render()
 {
     Apply_ConstantShaderResources();
-    m_pShaderCom->Update_Shader(2);
+    m_pShaderCom->Update_Shader(0);
 
     m_pTextureCom->SetTexture(0, 0);
+    m_pTextureCom->SetTexture(1, 1);
     m_pVIBufferCom->Render_VIBuffer();
 
     return S_OK;
@@ -65,6 +81,25 @@ void CCompass::SetCompass(_float fRadius)
     m_fRadius = fRadius;
 }
 
+HRESULT CCompass::Bind_ShaderResources()
+{
+    if(FAILED(__super::Bind_ShaderResources()))
+        return E_FAIL;
+
+    m_pUvPercent =  m_pShaderCom->GetVariable("g_Percent");
+    return S_OK;
+}
+
+HRESULT CCompass::Apply_ConstantShaderResources()
+{
+    __super::Apply_ConstantShaderResources();
+
+    _float RadiusPercnet = m_fRadius / 360.f;
+    m_pUvPercent->SetRawValue(&RadiusPercnet, 0, sizeof(_float));
+
+    return S_OK;
+}
+
 HRESULT CCompass::ADD_Components()
 {
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
@@ -73,7 +108,7 @@ HRESULT CCompass::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Compass_Tex"), TEXT("Texture_Com"), (CComponent**)&m_pTextureCom)))
         return E_FAIL;
 
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_MutiplyBlend"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
         return E_FAIL;
 
     return S_OK;

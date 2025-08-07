@@ -50,7 +50,7 @@ VS_OUT VS_MAIN(VS_IN In)
     
     /* Out.vPosition.xy => 시야각에 있는 점들을 90에 맞춰준다 */ 
     /* Out.vPosition.z => n~f사이에 있는 점들의 z를 0 ~ f로 바꿔준다. */
-    Out.vTexcoord = In.vTexcoord * 0.7f;
+    Out.vTexcoord = In.vTexcoord;
 
     return Out;
 }

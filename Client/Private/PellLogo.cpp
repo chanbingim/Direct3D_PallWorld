@@ -32,7 +32,7 @@ HRESULT CPellLogo::Initialize(void* pArg)
         return E_FAIL;
 
     m_eType = OBJECT_TYPE::STATIC;
-    //m_bIsMouseEvent = true;
+    m_iZOrder = 1;
     return S_OK;
 }
 
@@ -59,7 +59,7 @@ HRESULT CPellLogo::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
         return E_FAIL;
 
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LOGO), TEXT("Prototype_Component_Texture_GameLogo"), TEXT("Texture_Com"), (CComponent**)&m_pTextureCom)))
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Texture_GameLogo"), TEXT("Texture_Com"), (CComponent**)&m_pTextureCom)))
         return E_FAIL;
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))

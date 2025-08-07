@@ -14,7 +14,7 @@ Texture2D g_Texture : register(t0);
 
 sampler sampler0 = sampler_state
 {
-    filter = min_mag_mip_point;
+    filter = MIN_MAG_MIP_LINEAR;
 };
 
 /* 정점 쉐이더 : */
@@ -104,10 +104,9 @@ PS_OUT PS_MAIN2(PS_IN In)
     PS_OUT Out;
     
     float4 vNewColor = g_Texture.Sample(sampler0, In.vTexcoord);
-    if (vNewColor.a < 0.4f)
-        discard;
+   
     
-    Out.vColor = vNewColor * vNewColor.a;
+    Out.vColor = vNewColor;
     return Out;
 }
 

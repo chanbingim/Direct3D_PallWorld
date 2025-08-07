@@ -95,12 +95,6 @@
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\HealthBar">
       <UniqueIdentifier>{6e6d8958-9654-45ca-a0c8-83ba942ce7f4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\HungerIcon">
-      <UniqueIdentifier>{967ea44e-4ca4-4f3a-a81e-0dd037410106}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\HealthIcon">
-      <UniqueIdentifier>{8a07cd76-da19-4ef7-b9f1-fa44aab114a0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\GuardBar">
       <UniqueIdentifier>{86108b2b-9c78-4cf1-9a88-d21659edfb6b}</UniqueIdentifier>
     </Filter>
@@ -121,6 +115,45 @@
     </Filter>
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\BattlePell\Frame">
       <UniqueIdentifier>{49421187-1beb-4f99-b55d-963ca3b8695b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\LoadingHUD">
+      <UniqueIdentifier>{f04f49e0-9386-41ae-bb00-44361ae38f6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\LoadingHUD\Loding">
+      <UniqueIdentifier>{3f641c66-9313-476c-a9fa-781131c10611}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\LoadingHUD\Loding\LoadingIcon">
+      <UniqueIdentifier>{0cc53d01-6581-4621-aa8a-4de42774d988}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\HealthBar\HealthIcon">
+      <UniqueIdentifier>{8a07cd76-da19-4ef7-b9f1-fa44aab114a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\HealthBar\HungerIcon">
+      <UniqueIdentifier>{967ea44e-4ca4-4f3a-a81e-0dd037410106}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Inventory">
+      <UniqueIdentifier>{7b258e60-e33f-4721-a215-d52a3638cb9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\Base_UI\Slot">
+      <UniqueIdentifier>{dda198e7-53c1-4992-b347-330b02475e0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\QuickSlot">
+      <UniqueIdentifier>{a86b77f1-80dc-419c-9392-479f39212d43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Inventory\ItemSlot">
+      <UniqueIdentifier>{7aced7b8-5b81-48fa-be25-3149666bac74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Equipment">
+      <UniqueIdentifier>{1463e50e-78dc-40aa-ba01-b3ac42c34589}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Equipment\EquipSlot">
+      <UniqueIdentifier>{2d13843e-00b1-4d8c-a002-51b489c310d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu">
+      <UniqueIdentifier>{55b0673f-b6d0-44b7-8654-f3ddd5f4e266}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\Category">
+      <UniqueIdentifier>{d4b702e7-82c7-4f33-bac2-b24389e6a785}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -200,10 +233,10 @@
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\HealthBar</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\HungerIcon.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\HungerIcon</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\HealthBar\HungerIcon</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\HealthIcon.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\HealthIcon</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\HealthBar\HealthIcon</Filter>
     </ClInclude>
     <ClInclude Include="..\public\GuardBar.h">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\GuardBar</Filter>
@@ -225,6 +258,24 @@
     </ClInclude>
     <ClInclude Include="..\public\PellInfoFrame.h">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\BattlePell\Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\LoadingUI.h">
+      <Filter>02. HUD\LoadingHUD\Loding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\LoadingIcon.h">
+      <Filter>02. HUD\LoadingHUD\Loding\LoadingIcon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\LoadingHUD.h">
+      <Filter>02. HUD\LoadingHUD</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\SlotBase.h">
+      <Filter>02. HUD\Base_UI\Slot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\InGameMenu.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Category.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\Category</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -302,10 +353,10 @@
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\HealthBar</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\HungerIcon.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\HungerIcon</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\HealthBar\HungerIcon</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\HealthIcon.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\HealthIcon</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\HealthBar\HealthIcon</Filter>
     </ClCompile>
     <ClCompile Include="..\private\GuardBar.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\GuardBar</Filter>
@@ -328,6 +379,24 @@
     <ClCompile Include="..\private\PellInfoFrame.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\BattlePell\Frame</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\LoadingUI.cpp">
+      <Filter>02. HUD\LoadingHUD\Loding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\LoadingIcon.cpp">
+      <Filter>02. HUD\LoadingHUD\Loding\LoadingIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\LoadingHUD.cpp">
+      <Filter>02. HUD\LoadingHUD</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\SlotBase.cpp">
+      <Filter>02. HUD\Base_UI\Slot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\InGameMenu.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Category.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\Category</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\TestShader.hlsl">
@@ -340,6 +409,9 @@
       <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\ProgressBar.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\MutipleBlend.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>

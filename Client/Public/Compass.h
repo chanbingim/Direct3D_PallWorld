@@ -24,8 +24,14 @@ public:
 
 	void									SetCompass(_float fRadius);
 
+protected :
+	HRESULT									Bind_ShaderResources() override;
+	HRESULT									Apply_ConstantShaderResources() override;
+
 private :
 	CCompassPoint*							m_CompassPoint = nullptr;
+	ID3DX11EffectVariable*					m_pUvPercent = nullptr;
+
 	_float									m_fRadius = {};
 
 private:

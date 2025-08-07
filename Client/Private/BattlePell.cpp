@@ -35,6 +35,18 @@ HRESULT CBattlePell::Initialize(void* pArg)
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
+
+    _matrix WorldMatrix = XMLoadFloat4x4(&m_pTransformCom->GetWorldMat());
+    _vector vPos = *(reinterpret_cast<_vector*>(&WorldMatrix.r[3]));
+
+    vPos += XMVectorSet(-75.f, -10.f, 0.f, 0.f);
+    WorldMatrix.r[3] = vPos;
+    XMStoreFloat4x4(&m_GroupMat[0], WorldMatrix);
+
+    vPos += XMVectorSet(150.f, 0.f, 0.f, 0.f);
+    WorldMatrix.r[3] = vPos;
+    XMStoreFloat4x4(&m_GroupMat[1], WorldMatrix);
+
     m_eType = OBJECT_TYPE::STATIC;
 
     return S_OK;
@@ -42,6 +54,7 @@ HRESULT CBattlePell::Initialize(void* pArg)
 
 void CBattlePell::Update(_float fDeletaTime)
 {
+
 }
 
 void CBattlePell::Late_Update(_float fDeletaTime)
@@ -52,6 +65,16 @@ void CBattlePell::Late_Update(_float fDeletaTime)
 HRESULT CBattlePell::Render()
 {
     Apply_ConstantShaderResources();
+    m_pShaderCom->Update_Shader(2);
+    m_pTextureCom->SetTexture(0, 0);
+    m_pVIBufferCom->Render_VIBuffer();
+
+    m_pEMVWorldMat->SetMatrix(reinterpret_cast<const float*>(&m_GroupMat[0]));
+    m_pShaderCom->Update_Shader(2);
+    m_pTextureCom->SetTexture(0, 0);
+    m_pVIBufferCom->Render_VIBuffer();
+
+    m_pEMVWorldMat->SetMatrix(reinterpret_cast<const float*>(&m_GroupMat[1]));
     m_pShaderCom->Update_Shader(2);
     m_pTextureCom->SetTexture(0, 0);
     m_pVIBufferCom->Render_VIBuffer();

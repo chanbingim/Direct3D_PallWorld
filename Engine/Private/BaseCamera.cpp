@@ -60,7 +60,7 @@ HRESULT CBaseCamera::Initialize(void* pArg)
 
         XMStoreFloat4x4(&m_ProjMat, XMMatrixPerspectiveFovLH(m_fFov, m_fAspect, m_fNear, m_fFar));
         
-        m_pGameInstance->SetMatrix(MAT_STATE::VIEW, m_pTransformCom->GetWorldMat());
+        m_pGameInstance->SetMatrix(MAT_STATE::VIEW, m_pTransformCom->GetInvWorldMat());
         m_pGameInstance->SetMatrix(MAT_STATE::PROJECTION, m_ProjMat);
     }
 
@@ -110,9 +110,9 @@ void CBaseCamera::Compute_FustomPlane()
     {
         _float4 vWorldPoint = {};
 
-        auto Mat = XMLoadFloat4x4(&m_pGameInstance->GetInvMatrix(INV_MAT_STATE::INV_PROJECTION));
-        auto vWVPoint = XMVector3TransformCoord(XMLoadFloat3(&m_FustomPointVec[i]), XMLoadFloat4x4(&m_pGameInstance->GetInvMatrix(INV_MAT_STATE::INV_PROJECTION)));
-        m_FustomWorldPointVec.push_back(XMVector3TransformCoord(vWVPoint, XMLoadFloat4x4(&m_pGameInstance->GetInvMatrix(INV_MAT_STATE::INV_VIEW))));
+        auto Mat = XMLoadFloat4x4(&m_pGameInstance->GetInvMatrix(MAT_STATE::PROJECTION));
+        auto vWVPoint = XMVector3TransformCoord(XMLoadFloat3(&m_FustomPointVec[i]), Mat);
+        m_FustomWorldPointVec.push_back(XMVector3TransformCoord(vWVPoint, XMLoadFloat4x4(&m_pGameInstance->GetInvMatrix(MAT_STATE::VIEW))));
     }
 
     if (6 <= m_FustomWorldPointVec.size())

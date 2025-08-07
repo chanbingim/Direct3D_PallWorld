@@ -33,6 +33,8 @@
 #include "PellInfo.h"
 #include "PellInfoFrame.h"
 #include "TypeIcon.h"
+
+#include "InGameMenu.h"
 #pragma endregion
 
 #pragma endregion
@@ -113,16 +115,6 @@ HRESULT CLoader::Loading_For_Logo()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LOGO), TEXT("Prototype_Component_Texture_BackGround"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/MainLogo/T_title_BG.png"), 1))))
 		return E_FAIL;
-
-	/* Logo_Text_Texture */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LOGO), TEXT("Prototype_Component_Texture_GameLogo"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/MainLogo/GameLogo/T_Palworld_Logo_Small_White.png"), 1))))
-		return E_FAIL;
-
-	/* Logo_Text_Shadow_Texture */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LOGO), TEXT("Prototype_Component_Texture_GameLogo_Shadow"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/MainLogo/GameLogo/T_Title_logo_shadow.png"), 1))))
-		return E_FAIL;
 	
 	/* Logo_GameStartButtonTexture */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LOGO), TEXT("Prototype_Component_Texture_LMenu_GameStart_But"),
@@ -200,7 +192,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* GamePlay_PlayerInfo_Guard_Bar_Texture */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_GuardBar_Tex"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/Progressbar/T_gauge_shield_base1.png"), 1))))
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/Progressbar/T_gauge_shield_base_0.png"), 1))))
 		return E_FAIL;
 
 	/* GamePlay_PlayerInfo_Compass_Texture */
@@ -234,6 +226,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 
 #pragma endregion
+
+#pragma region IN GAME MENU TEXTURE
+
+#pragma endregion
+
 
 	m_strMessage = TEXT("모델를(을) 로딩 중 입니다.");
 
@@ -301,6 +298,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region IN GAME MENU UI
+	/* GAME_OBJECT_InGameMenu_UI */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_InGmaeMenu_UI"), CInGameMenu::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
 	m_strMessage = TEXT("로딩이 완료되었습니다..");
 
 	m_isFinished = true;

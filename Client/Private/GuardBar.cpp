@@ -52,9 +52,9 @@ HRESULT CGuardBar::Render()
     m_pTextureCom->SetTexture(0, 0);
     m_pVIBufferCom->Render_VIBuffer();
 
-    //m_pShaderCom->Update_Shader(1);
-    //m_pTextureCom->SetTexture(0, 0);
-    //m_pVIBufferCom->Render_VIBuffer();
+    m_pShaderCom->Update_Shader(1);
+    m_pTextureCom->SetTexture(0, 0);
+    m_pVIBufferCom->Render_VIBuffer();
 
     return S_OK;
 }

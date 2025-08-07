@@ -1,15 +1,6 @@
-//float2, float3, float4 == vector
-
-    //float3 vTmp = float3(0.f, 0.f, 0.f);
-    //float3 vTmp = 1.f;
-    //vTmp.x = 0.f;
-    //vTmp.xy = 0.f;
-
-    //float2 vTmp1 = vTmp.xy;
-
 matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
-Texture2D g_Texture : register(t0);
+Texture2D   g_Texture : register(t0);
 float       g_Percent;
 float4      g_Color;
 
@@ -54,6 +45,22 @@ VS_OUT VS_MAIN(VS_IN In)
     return Out;
 }
 
+VS_OUT VS_MAIN1(VS_IN In)
+{
+    VS_OUT Out;
+    
+    matrix matWV, matWVP;
+    In.vPosition.x = clamp((In.vPosition.x + 0.5f) * g_Percent, 0.f, 1.f) - 0.5f;
+    
+    matWV = mul(g_WorldMatrix, g_ViewMatrix);
+    matWVP = mul(matWV, g_ProjMatrix);
+    
+    Out.vPosition = mul(vector(In.vPosition, 1.f), matWVP);
+    Out.vTexcoord = In.vTexcoord;
+
+    return Out;
+}
+
 /* 출력된 정점 위치벡터의 w값으로 모든 성분을 나눈다 -> 투영스페이스로 변환 */ 
 /* 정점의 위치에 대해서 뷰포트 변환을 수행한다 */ 
 /* 정점의 모든 정보를 보간하여 픽셀을 만든다. -> 래스터라이즈 */ 
@@ -74,12 +81,10 @@ PS_OUT PS_MAIN(PS_IN In)
 {
     PS_OUT Out;
     
-    float4 vNewBackColor = g_Texture.Sample(sampler0, In.vTexcoord);
+    float4 vNewColor = g_Texture.Sample(sampler0, In.vTexcoord);
+   
     
-    if (vNewBackColor.a < 0.1f)
-        discard;
-    Out.vColor = vNewBackColor;
-    
+    Out.vColor = float4(vNewColor.rgb * float3(128.f, 128.f, 128.f), vNewColor.a * 0.5f);
     return Out;
 }
 
@@ -90,21 +95,20 @@ PS_OUT PS_MAIN1(PS_IN In)
     vector vNewBackColor = g_Texture.Sample(sampler0, In.vTexcoord);
     
     Out.vColor = float4(g_Color.rgb * vNewBackColor.rgb, vNewBackColor.a);
-    
     return Out;
 }
 
 technique11 Tech
 {
-    pass Alpha_Blend
+    pass Pass0
     {
         VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_MAIN();
     }
 
-    pass Alpha_Blend2
+    pass Pass1
     {
-        VertexShader = compile vs_5_0 VS_MAIN();
+        VertexShader = compile vs_5_0 VS_MAIN1();
         PixelShader = compile ps_5_0 PS_MAIN1();
     }
 }

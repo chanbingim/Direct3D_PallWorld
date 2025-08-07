@@ -48,7 +48,7 @@ HRESULT CLogo_Menu::Render()
 {
     Apply_ConstantShaderResources();
 
-    m_pShaderCom->Update_Shader(0);
+    m_pShaderCom->Update_Shader(2);
     m_pTextureCom->SetTexture(0, 0);
 
     m_pVIBufferCom->Render_VIBuffer();

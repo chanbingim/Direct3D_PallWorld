@@ -19,7 +19,7 @@ HRESULT CPipeline::Initalize()
 
 void CPipeline::Update(_float fDeletaTime)
 {
-
+	
 }
 
 void CPipeline::SetMatrix(MAT_STATE eState, _float4x4 Matrix)
@@ -33,7 +33,7 @@ const _float4x4& CPipeline::GetMatrix(MAT_STATE eState)
 	return m_PipeLineMat[ENUM_CLASS(eState)];
 }
 
-const _float4x4& CPipeline::GetInvMatrix(INV_MAT_STATE eState)
+const _float4x4& CPipeline::GetInvMatrix(MAT_STATE eState)
 {
 	return m_PipeLineInvMat[ENUM_CLASS(eState)];
 }

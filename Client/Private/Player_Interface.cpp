@@ -37,7 +37,7 @@ HRESULT CPlayer_Interface::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_pCharacterInfo = static_cast<CHARACTER_DESC*>(CGameData_Manager::GetInstance()->GetPlayerInfo());
-
+	m_eType = OBJECT_TYPE::STATIC;
 
 	return S_OK;
 }
@@ -57,8 +57,8 @@ void CPlayer_Interface::Update(_float fDeletaTime)
 
 	}
 
-	m_pHugerBar->SetPercent(0.0f);
-	m_pGuardBar->SetPercent(0.0f);
+	m_pHugerBar->SetPercent(1.0f);
+	m_pGuardBar->SetPercent(0.8f);
 
 	/*if (m_pCharacterInfo)
 	{
@@ -120,7 +120,7 @@ HRESULT CPlayer_Interface::ADD_Childs()
 		//Health bar
 		Desc.vPosition = { 50.f, 75.f, 0.f };
 		Desc.vColor = { 1.f, 0.f, 0.f, 1.f };
-		if (FAILED(pInGame_HUD->Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Health_Bar"), TEXT("HealthBar"), &Desc, (CUserInterface**)&m_pHugerBar)))
+		if (FAILED(pInGame_HUD->Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Health_Bar"), TEXT("HealthBar"), &Desc, (CUserInterface**)&m_pHpBar)))
 			return E_FAIL;
 
 		//Hunger bar
@@ -133,7 +133,7 @@ HRESULT CPlayer_Interface::ADD_Childs()
 #pragma region Battle_Pell_UI
 		IconDesc.vScale = { 75.f, 75.f, 0.f };
 		//Health Icon
-		IconDesc.vPosition = { 30.f, -30.f, 0.f };
+		IconDesc.vPosition = { 30.f, -45.f, 0.f };
 		if (FAILED(pInGame_HUD->Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Battle_Pell_UI"), TEXT("Battle_Pell_UI"), &IconDesc)))
 			return E_FAIL;
 #pragma endregion

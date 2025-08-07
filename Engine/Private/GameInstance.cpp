@@ -25,6 +25,8 @@ HRESULT CGameInstance::Initialize_Engine(void* pArg)
 
     GAMEINSTANCE_DESC* GameSetting = static_cast<GAMEINSTANCE_DESC*>(pArg);
 
+    m_ScreenSize = { (_float)GameSetting->EngineSetting.iWinSizeX, (_float)GameSetting->EngineSetting.iWinSizeY };
+
     m_pGraphic_Device = CGraphic_Device::Create(GameSetting->EngineSetting, GameSetting->ppDevice, GameSetting->ppContext);
     if (nullptr == m_pGraphic_Device)
         return E_FAIL;
@@ -64,7 +66,7 @@ HRESULT CGameInstance::Initialize_Engine(void* pArg)
     m_pPipeline = CPipeline::Create();
     if (nullptr == m_pPipeline)
         return E_FAIL;
-
+    
     return S_OK;
 }
 
@@ -274,13 +276,17 @@ const _float4x4& CGameInstance::GetMatrix(MAT_STATE eState)
 {
     return m_pPipeline->GetMatrix(eState);
 }
-const _float4x4& CGameInstance::GetInvMatrix(INV_MAT_STATE eState)
+const _float4x4& CGameInstance::GetInvMatrix(MAT_STATE eState)
 {
     return m_pPipeline->GetInvMatrix(eState);
 }
 const _float4x4& CGameInstance::GetIndentityMatrix()
 {
     return m_pPipeline->GetIndentityMatrix();
+}
+const _float2& CGameInstance::GetScreenSize()
+{
+    return m_ScreenSize;
 }
 #pragma endregion
 

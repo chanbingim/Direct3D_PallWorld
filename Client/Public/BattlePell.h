@@ -25,10 +25,14 @@ public:
 
 	 
 private :
+	_float4x4										m_GroupMat[2] = {};
+
 	//	펠정보를 가지고 있을 데이터
 	//	소유한 펠 리스트를 참조 하고 있다가
 	//	선택된 펠정보를 표시한다.
-	CPellInfo*								m_pPellInfo = nullptr;
+	// 현재선택된 Index의 값을 통해서 좌우 펠을 선택
+	vector<CPellInfo*>*								m_pPellInfo = nullptr;
+	_uInt											m_SelectIndex = {};
 
 private :
 	HRESULT									ADD_Components();
