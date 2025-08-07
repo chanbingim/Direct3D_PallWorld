@@ -3,7 +3,7 @@
 #include "BackGround.h"
 
 NS_BEGIN(Client)
-class CCategory final : CBackGround
+class CCategory final : public CBackGround
 {
 private:
 	CCategory(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);

@@ -1,6 +1,7 @@
 C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\private\BackGround.cpp;C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\BackGround.obj
 C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\private\BattlePell.cpp;C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\BattlePell.obj
 C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\private\Camera.cpp;C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\Camera.obj
+C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\private\Category.cpp;C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\Category.obj
 C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\private\Character_Manager.cpp;C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\Character_Manager.obj
 C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\private\Compass.cpp;C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\Compass.obj
 C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\private\CompassPoint.cpp;C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\CompassPoint.obj
@@ -11,6 +12,7 @@ C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\private\GuardBar
 C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\private\HealthBar.cpp;C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\HealthBar.obj
 C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Private\HealthIcon.cpp;C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\HealthIcon.obj
 C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Private\HungerIcon.cpp;C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\HungerIcon.obj
+C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\private\InGameMenu.cpp;C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\InGameMenu.obj
 C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\private\Loader.cpp;C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\Loader.obj
 C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\private\LoadingHUD.cpp;C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\LoadingHUD.obj
 C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\private\LoadingIcon.cpp;C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\LoadingIcon.obj

@@ -3,7 +3,7 @@
 #include "GameInstance.h"
 
 CInGameMenu::CInGameMenu(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext) :
-    CBackGround(m_pGraphic_Device, pDeviceContext)
+    CBackGround(pGraphic_Device, pDeviceContext)
 {
 }
 

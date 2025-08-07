@@ -14,5 +14,5 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
 FXC : warning X4717: Effects deprecated for D3DCompiler_47
   
   compilation object save succeeded; see C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Bin\VTX_NorTex.cso
-  Player_Interface.cpp
+  InGameMenu.cpp
   Direct11_FrameWork.vcxproj -> C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe
