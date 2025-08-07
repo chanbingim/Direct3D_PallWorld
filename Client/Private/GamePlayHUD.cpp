@@ -3,6 +3,8 @@
 #include "GameInstance.h"
 #include "BackGround.h"
 
+#include "InGameMenu.h"
+
 CGamePlayHUD::CGamePlayHUD(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 	CHeadUpDisplay(pDevice, pContext)
 {
@@ -19,6 +21,11 @@ HRESULT CGamePlayHUD::Initialize()
 void CGamePlayHUD::Update(_float fDeletaTime)
 {
 	__super::Update(fDeletaTime);
+
+	if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_I))
+	{
+		m_pInGameMenu->SetActive(!m_pInGameMenu->IsActive());
+	}
 }
 
 HRESULT CGamePlayHUD::ADD_UserInterface()
@@ -37,6 +44,12 @@ HRESULT CGamePlayHUD::ADD_UserInterface()
 	Desc.vPosition = { g_iHalfWinSizeX, 20.f, 0.f };
 
 	if (FAILED(__super::Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Compass"), TEXT("InGame_Compass"), &Desc)))
+		return E_FAIL;
+
+	Desc.vScale = { g_iWinSizeX * 0.8f , g_iWinSizeY * 0.8f , 1.f };
+	Desc.vPosition = { g_iHalfWinSizeX, g_iWinSizeY * 0.55f, 0.f };
+
+	if (FAILED(__super::Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_InGmaeMenu_UI"), TEXT("InGame_Menu"), &Desc, (CUserInterface**)&m_pInGameMenu)))
 		return E_FAIL;
 	return S_OK;
 }

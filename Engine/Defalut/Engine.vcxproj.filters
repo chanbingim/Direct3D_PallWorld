@@ -112,6 +112,9 @@
     <Filter Include="Utility\HeadUpDisplay\UserInterface\Progressbar">
       <UniqueIdentifier>{a7b21e9d-ff67-4a87-9e70-3d621fbef5bc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utility\Components\2DAnimation">
+      <UniqueIdentifier>{a9441f31-2906-432d-985d-bf35b465a794}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Graphic_Device.cpp">

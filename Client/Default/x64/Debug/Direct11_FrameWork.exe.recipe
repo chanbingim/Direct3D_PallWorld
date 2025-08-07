@@ -2,24 +2,24 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe</FullPath>
+      <FullPath>C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles>
     <ContentFile>
-      <FullPath>C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Bin\MouseShader.cso</FullPath>
+      <FullPath>C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\MouseShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Bin\MutipleBlend.cso</FullPath>
+      <FullPath>C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\MutipleBlend.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Bin\ProgressBar.cso</FullPath>
+      <FullPath>C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\ProgressBar.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Bin\TestShader.cso</FullPath>
+      <FullPath>C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\TestShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Bin\VTX_NorTex.cso</FullPath>
+      <FullPath>C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\VTX_NorTex.cso</FullPath>
     </ContentFile>
   </ContentFiles>
   <SatelliteDlls />

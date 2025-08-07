@@ -228,6 +228,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma endregion
 
 #pragma region IN GAME MENU TEXTURE
+	/* GamePlay_InGameMenu_Texture */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_InGameMenu_BackGround"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/GameMenu/InGameBackGround.png"), 1))))
+		return E_FAIL;
 
 #pragma endregion
 

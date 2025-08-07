@@ -27,6 +27,11 @@ public:
 	_bool									IsActive();
 
 private :
+	_float3									m_StartPoint = {};
+	_float3									m_EndPoint = {};
+
+	_bool									m_IsAnimation = false;
+
 	_bool									m_bIsActive = false;
 	vector<CCategory*>						m_CategoryButton = {};
 

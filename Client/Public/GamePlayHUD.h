@@ -4,6 +4,8 @@
 #include "HeadUpDisplay.h"
 
 NS_BEGIN(Client)
+class CInGameMenu;
+
 class CGamePlayHUD final : public CHeadUpDisplay
 {
 protected:
@@ -13,6 +15,9 @@ protected:
 public:
 	virtual HRESULT				Initialize() override;
 	virtual void				Update(_float fDeletaTime) override;
+
+private :
+	CInGameMenu*				m_pInGameMenu = nullptr;
 
 private:
 	HRESULT						ADD_UserInterface();
