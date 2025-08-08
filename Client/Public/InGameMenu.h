@@ -2,8 +2,11 @@
 
 #include "BackGround.h"
 
-NS_BEGIN(Client)
+NS_BEGIN(Engine)
+class CSpriteAnimation;
+NS_END
 
+NS_BEGIN(Client)
 class CCategory;
 
 class CInGameMenu final : public CBackGround
@@ -27,12 +30,8 @@ public:
 	_bool									IsActive();
 
 private :
-	_float3									m_StartPoint = {};
-	_float3									m_EndPoint = {};
-
-	_bool									m_IsAnimation = false;
-
 	_bool									m_bIsActive = false;
+	CSpriteAnimation*						m_pAnimationCom = nullptr;
 	vector<CCategory*>						m_CategoryButton = {};
 
 private:

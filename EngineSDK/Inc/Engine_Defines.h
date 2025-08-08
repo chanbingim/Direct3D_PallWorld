@@ -35,6 +35,12 @@ using namespace std;
 //Dx11 Shader
 #include "FX11/d3dx11effect.h"
 
+//Assimp
+#include "assimp/scene.h"
+#include "assimp/postprocess.h"
+#include "assimp/Importer.hpp"
+
+using namespace Assimp;
 using namespace DirectX;
 
 #pragma warning(disable : 4251)

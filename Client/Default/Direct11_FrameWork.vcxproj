@@ -154,6 +154,7 @@
     <ClInclude Include="..\Public\Client_Struct.h" />
     <ClInclude Include="..\public\Compass.h" />
     <ClInclude Include="..\public\CompassPoint.h" />
+    <ClInclude Include="..\public\DefaultEntity.h" />
     <ClInclude Include="..\public\GameData_Manager.h" />
     <ClInclude Include="..\public\GamePlayHUD.h" />
     <ClInclude Include="..\public\GamePlayLevel.h" />
@@ -194,6 +195,7 @@
     <ClCompile Include="..\private\Character_Manager.cpp" />
     <ClCompile Include="..\private\Compass.cpp" />
     <ClCompile Include="..\private\CompassPoint.cpp" />
+    <ClCompile Include="..\private\DefaultEntity.cpp" />
     <ClCompile Include="..\private\GameData_Manager.cpp" />
     <ClCompile Include="..\private\GamePlayHUD.cpp" />
     <ClCompile Include="..\private\GamePlayLevel.cpp" />

@@ -1,6 +1,7 @@
 #include "InGameMenu.h"
 
 #include "GameInstance.h"
+#include "DefaultEntity.h"
 
 CInGameMenu::CInGameMenu(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext) :
     CBackGround(pGraphic_Device, pDeviceContext)
@@ -34,11 +35,25 @@ HRESULT CInGameMenu::Initialize(void* pArg)
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
-    m_eType = OBJECT_TYPE::STATIC;
+    CDefaultEntity* pEntity = new CDefaultEntity();
+    CDefaultEntity::DEFAULT_DESC Desc = {};
+    Desc.bIsLoop = false;
+    Desc.fRateTime = 1.0f;
+    Desc.fFrame = 10.0f;
+    Desc.pOwner = this;
 
-    m_iZOrder = 2.f;
-    m_StartPoint = m_EndPoint = m_pTransformCom->GetPosition();
-    m_StartPoint.x = m_EndPoint.x - g_iHalfWinSizeX;
+    pEntity->Initialize(&Desc);
+
+    _float3 vPos = m_pTransformCom->GetPosition();
+    pEntity->SetEnitityState(2, { vPos .x - 150.f, vPos.y, vPos.z}, vPos);
+    pEntity->SetFlag(2);
+
+    pEntity->SetEnitityState(0, { 0.1f, 0.1f, 0.1f }, m_pTransformCom->GetScale());
+    pEntity->SetFlag(0);
+    m_pAnimationCom->ADD_Animation(pEntity);
+
+    m_eType = OBJECT_TYPE::STATIC;
+    m_iZOrder = 2;
 
     return S_OK;
 }
@@ -48,16 +63,8 @@ void CInGameMenu::Update(_float fDeletaTime)
     if (!m_bIsActive)
         return;
 
-    if (m_IsAnimation)
-    {
-        m_pTransformCom->ADD_Position(XMVectorSet(10.f, 0.f, 0.f, 0.f));
-        if (m_EndPoint.x <= m_pTransformCom->GetPosition().x)
-        {
-            m_pTransformCom->SetPosition(m_EndPoint);
-            m_IsAnimation = false;
-        }
+    m_pAnimationCom->Update(0);
     }
-}
 
 void CInGameMenu::Late_Update(_float fDeletaTime)
 {
@@ -82,9 +89,8 @@ void CInGameMenu::SetActive(_bool flag)
     m_bIsActive = flag;
     if (m_bIsActive)
     {
-        m_IsAnimation = true;
-       
-        m_pTransformCom->SetPosition(m_StartPoint);
+        if (m_pAnimationCom)
+            m_pAnimationCom->Reset_Animation(0);
     }
 }
 
@@ -108,6 +114,9 @@ HRESULT CInGameMenu::ADD_Components()
         return E_FAIL;
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
+        return E_FAIL;
+
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Animation"), TEXT("Animation_Com"), (CComponent**)&m_pAnimationCom)))
         return E_FAIL;
 
     return S_OK;

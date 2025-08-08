@@ -135,6 +135,10 @@ HRESULT CMainApp::SetUp_StaticComponents()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Transform"), CTransform::Create(m_pGraphic_Device, m_pDevice_Context))))
 		return E_FAIL;
 
+	/* Transform Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Animation"), CSpriteAnimation::Create(m_pGraphic_Device, m_pDevice_Context))))
+		return E_FAIL;
+
 	return S_OK;
 }
 

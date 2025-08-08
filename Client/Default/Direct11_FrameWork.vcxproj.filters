@@ -155,6 +155,15 @@
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\Category">
       <UniqueIdentifier>{d4b702e7-82c7-4f33-bac2-b24389e6a785}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05. Animation">
+      <UniqueIdentifier>{582431db-41fb-49ca-9f3f-7096df282a69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Animation\SpriteAnim">
+      <UniqueIdentifier>{af9c91af-1814-4151-97c0-26be097e5bd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05. Animation\SpriteAnim\UI">
+      <UniqueIdentifier>{f15475ff-2ad1-431f-867c-d9a0d84d8437}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -277,6 +286,9 @@
     <ClInclude Include="..\public\Category.h">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\Category</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\DefaultEntity.h">
+      <Filter>05. Animation\SpriteAnim\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -396,6 +408,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Category.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\Category</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\DefaultEntity.cpp">
+      <Filter>05. Animation\SpriteAnim\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

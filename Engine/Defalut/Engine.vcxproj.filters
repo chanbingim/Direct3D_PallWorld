@@ -112,8 +112,17 @@
     <Filter Include="Utility\HeadUpDisplay\UserInterface\Progressbar">
       <UniqueIdentifier>{a7b21e9d-ff67-4a87-9e70-3d621fbef5bc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utility\Components\2DAnimation">
+    <Filter Include="Utility\Components\SpriteAnimation">
       <UniqueIdentifier>{a9441f31-2906-432d-985d-bf35b465a794}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\SpriteAnimation\AnimEntity">
+      <UniqueIdentifier>{8050926c-621a-4f0a-8cbc-6a420a7a7669}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Model">
+      <UniqueIdentifier>{ceb4a0ff-ab99-4088-b784-c2eeac24f2ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Model\Mesh">
+      <UniqueIdentifier>{8360aece-6f08-464b-8a51-3c6a97af1a69}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -203,6 +212,18 @@
     </ClCompile>
     <ClCompile Include="..\private\ProgressBar.cpp">
       <Filter>Utility\HeadUpDisplay\UserInterface\Progressbar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\SpriteAnimation.cpp">
+      <Filter>Utility\Components\SpriteAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\AnimEntity.cpp">
+      <Filter>Utility\Components\SpriteAnimation\AnimEntity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Model.cpp">
+      <Filter>Utility\Components\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Mesh.cpp">
+      <Filter>Utility\Components\Model\Mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -319,6 +340,18 @@
     </ClInclude>
     <ClInclude Include="..\public\ProgressBar.h">
       <Filter>Utility\HeadUpDisplay\UserInterface\Progressbar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\SpriteAnimation.h">
+      <Filter>Utility\Components\SpriteAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\AnimEntity.h">
+      <Filter>Utility\Components\SpriteAnimation\AnimEntity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Model.h">
+      <Filter>Utility\Components\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Mesh.h">
+      <Filter>Utility\Components\Model\Mesh</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
