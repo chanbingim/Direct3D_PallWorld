@@ -233,8 +233,19 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/GameMenu/InGameBackGround.png"), 1))))
 		return E_FAIL;
 
-#pragma endregion
+	/* GamePlay_InGameMenu_Category_UI_Texture */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_InGameMenu_Category_BackGround"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/GameMenu/Category/Category_base%d.png"), 3))))
+		return E_FAIL;
 
+	/* GamePlay_InGameMenu_OptionButton_Texture */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_InGameMenu_OptionBut"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/GameMenu/Option/OptionButBase%d.png"), 2))))
+		return E_FAIL;
+
+
+
+#pragma endregion
 
 	m_strMessage = TEXT("모델를(을) 로딩 중 입니다.");
 
@@ -306,6 +317,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* GAME_OBJECT_InGameMenu_UI */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_InGmaeMenu_UI"), CInGameMenu::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
 #pragma endregion
 	m_strMessage = TEXT("로딩이 완료되었습니다..");
 

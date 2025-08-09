@@ -3,8 +3,16 @@
 #include "BackGround.h"
 
 NS_BEGIN(Client)
+class CSelectTri;
+
 class CCategory final : public CBackGround
 {
+public :
+	typedef struct CateGroy_Desc : CBackGround::GAMEOBJECT_DESC
+	{
+		_uInt		Type;
+	}CATEGROY_DESC;
+
 private:
 	CCategory(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);
 	CCategory(const CCategory& rhs);
@@ -20,21 +28,26 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
+	void									SetActive(_bool flag);
+	_bool									IsActive();
+
+	void									Bind_ClickEvent(function<void(_uInt Index)> Func);
+
 protected :
 	virtual		void						MouseHoverEnter();
 	virtual		void						MouseHoverExit();
 
 	virtual		void						MouseButtonDwon();
-	
-	void									SetActive(_bool flag);
-	_bool									IsActive();
 
 private :
 	_uInt									m_ButtonType = {};
 	_bool									m_bIsActive = false;
 
+	function<void(_uInt Index)>				m_ClickedFunc = nullptr;
+
 private:
 	HRESULT									ADD_Components();
+	
 
 public:
 	static			CCategory*				Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);

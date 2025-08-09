@@ -164,6 +164,18 @@
     <Filter Include="05. Animation\SpriteAnim\UI">
       <UniqueIdentifier>{f15475ff-2ad1-431f-867c-d9a0d84d8437}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\GameOption">
+      <UniqueIdentifier>{99db55cb-5a58-4128-b781-3ad5843e1349}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\GameOption\OptionButton">
+      <UniqueIdentifier>{62b8fab3-340b-41b8-a65e-4ac6ad17713e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\Base_UI\Button">
+      <UniqueIdentifier>{0382ff48-bd51-41be-ac44-f5759d95835a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\Base_UI\Button\Frame">
+      <UniqueIdentifier>{4dc99711-e312-41e2-882a-e1d27017f576}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -289,6 +301,18 @@
     <ClInclude Include="..\public\DefaultEntity.h">
       <Filter>05. Animation\SpriteAnim\UI</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\GameOption.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\GameOption</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\OptionButton.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\GameOption\OptionButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Button.h">
+      <Filter>02. HUD\Base_UI\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ButtonFrame.h">
+      <Filter>02. HUD\Base_UI\Button\Frame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -411,6 +435,18 @@
     </ClCompile>
     <ClCompile Include="..\private\DefaultEntity.cpp">
       <Filter>05. Animation\SpriteAnim\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\GameOption.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\GameOption</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\OptionButton.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\GameOption\OptionButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Button.cpp">
+      <Filter>02. HUD\Base_UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ButtonFrame.cpp">
+      <Filter>02. HUD\Base_UI\Button\Frame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

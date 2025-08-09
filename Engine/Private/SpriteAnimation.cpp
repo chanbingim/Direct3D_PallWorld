@@ -44,7 +44,7 @@ void CSpriteAnimation::Reset_Animation(_uInt AnimIndex)
 	m_AnimationList[AnimIndex]->ReplayAnimation();
 }
 
-const _bool& CSpriteAnimation::AnimIsPlay(_uInt AnimIndex)
+const _bool CSpriteAnimation::AnimIsPlay(_uInt AnimIndex)
 {
 	if (m_AnimationList.size() < AnimIndex || 0 > AnimIndex)
 		return false;
@@ -52,7 +52,7 @@ const _bool& CSpriteAnimation::AnimIsPlay(_uInt AnimIndex)
 	return m_AnimationList[AnimIndex]->IsPlay();
 }
 
-const _bool& CSpriteAnimation::AnimIsFinished(_uInt AnimIndex)
+const _bool CSpriteAnimation::AnimIsFinished(_uInt AnimIndex)
 {
 	if (m_AnimationList.size() < AnimIndex || 0 > AnimIndex)
 		return false;
@@ -86,6 +86,8 @@ CComponent* CSpriteAnimation::Clone(void* pArg)
 
 void CSpriteAnimation::Free()
 {
+	__super::Free();
+
 	for (auto& iter : m_AnimationList)
 		Safe_Release(iter);
 

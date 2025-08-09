@@ -147,6 +147,8 @@
   <ItemGroup>
     <ClInclude Include="..\public\BackGround.h" />
     <ClInclude Include="..\public\BattlePell.h" />
+    <ClInclude Include="..\public\Button.h" />
+    <ClInclude Include="..\public\ButtonFrame.h" />
     <ClInclude Include="..\public\Camera.h" />
     <ClInclude Include="..\public\Category.h" />
     <ClInclude Include="..\public\Character_Manager.h" />
@@ -156,6 +158,7 @@
     <ClInclude Include="..\public\CompassPoint.h" />
     <ClInclude Include="..\public\DefaultEntity.h" />
     <ClInclude Include="..\public\GameData_Manager.h" />
+    <ClInclude Include="..\public\GameOption.h" />
     <ClInclude Include="..\public\GamePlayHUD.h" />
     <ClInclude Include="..\public\GamePlayLevel.h" />
     <ClInclude Include="..\public\GuardBar.h" />
@@ -175,6 +178,7 @@
     <ClInclude Include="..\public\Logo_HUD.h" />
     <ClInclude Include="..\public\Logo_Menu.h" />
     <ClInclude Include="..\public\MainApp.h" />
+    <ClInclude Include="..\public\OptionButton.h" />
     <ClInclude Include="..\public\PellInfo.h" />
     <ClInclude Include="..\public\PellInfoFrame.h" />
     <ClInclude Include="..\public\PellLogo.h" />
@@ -190,6 +194,8 @@
   <ItemGroup>
     <ClCompile Include="..\private\BackGround.cpp" />
     <ClCompile Include="..\private\BattlePell.cpp" />
+    <ClCompile Include="..\private\Button.cpp" />
+    <ClCompile Include="..\private\ButtonFrame.cpp" />
     <ClCompile Include="..\private\Camera.cpp" />
     <ClCompile Include="..\private\Category.cpp" />
     <ClCompile Include="..\private\Character_Manager.cpp" />
@@ -197,6 +203,7 @@
     <ClCompile Include="..\private\CompassPoint.cpp" />
     <ClCompile Include="..\private\DefaultEntity.cpp" />
     <ClCompile Include="..\private\GameData_Manager.cpp" />
+    <ClCompile Include="..\private\GameOption.cpp" />
     <ClCompile Include="..\private\GamePlayHUD.cpp" />
     <ClCompile Include="..\private\GamePlayLevel.cpp" />
     <ClCompile Include="..\private\GuardBar.cpp" />
@@ -216,6 +223,7 @@
     <ClCompile Include="..\private\Logo_HUD.cpp" />
     <ClCompile Include="..\private\Logo_Menu.cpp" />
     <ClCompile Include="..\private\MainApp.cpp" />
+    <ClCompile Include="..\private\OptionButton.cpp" />
     <ClCompile Include="..\private\PellInfo.cpp" />
     <ClCompile Include="..\private\PellInfoFrame.cpp" />
     <ClCompile Include="..\private\PellLogo.cpp" />

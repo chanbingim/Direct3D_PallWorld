@@ -4,6 +4,7 @@
 #include "LoadingLevel.h"
 #include "HeadUpDisplay.h"
 #include "GameData_Manager.h"
+#include "Character_Manager.h"
 
 CMainApp::CMainApp() : m_pGameInstance(CGameInstance::GetInstance())
 {
@@ -104,6 +105,14 @@ HRESULT CMainApp::SetUp_StaticComponents()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region BUTTON FRAME
+	/* GamePlay_InGameMenu_ButtonFrame_Texture */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Texture_ButtonFrame"),
+		CTexture::Create(m_pGraphic_Device, m_pDevice_Context, TEXT("../Bin/Resources/Textures/UI/InGameUI/Frame/T_prt_pal_serect_focus.png"), 1))))
+		return E_FAIL;
+#pragma endregion
+
+
 #pragma region Shader
 	/* Mouse Shader */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"),
@@ -135,7 +144,7 @@ HRESULT CMainApp::SetUp_StaticComponents()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Transform"), CTransform::Create(m_pGraphic_Device, m_pDevice_Context))))
 		return E_FAIL;
 
-	/* Transform Component */
+	/* Animator Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Animation"), CSpriteAnimation::Create(m_pGraphic_Device, m_pDevice_Context))))
 		return E_FAIL;
 
@@ -202,6 +211,7 @@ void CMainApp::Free()
 	Safe_Release(m_pGraphic_Device);
 	Safe_Release(m_pRasterState);
 	CGameData_Manager::DestroyInstance();
+	CCharacter_Manager::DestroyInstance();
 
 	m_pGameInstance->Release_Engine();
 	Safe_Release(m_pGameInstance);

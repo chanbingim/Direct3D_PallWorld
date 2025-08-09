@@ -73,9 +73,6 @@
     <Filter Include="Utility\Components\Shader">
       <UniqueIdentifier>{ff32bb3e-62d8-4e8e-837e-1bc649cfa632}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utility\HeadUpDisplay\UserInterface\Button">
-      <UniqueIdentifier>{6531bd6a-0b8b-44d4-8703-ff7918f06604}</UniqueIdentifier>
-    </Filter>
     <Filter Include="System">
       <UniqueIdentifier>{73bf4124-a938-4ffa-b891-a2b8872955f8}</UniqueIdentifier>
     </Filter>
@@ -194,9 +191,6 @@
     </ClCompile>
     <ClCompile Include="..\private\Shader.cpp">
       <Filter>Utility\Components\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Button.cpp">
-      <Filter>Utility\HeadUpDisplay\UserInterface\Button</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Mouse.cpp">
       <Filter>System\Mouse</Filter>
@@ -322,9 +316,6 @@
     </ClInclude>
     <ClInclude Include="..\public\Shader.h">
       <Filter>Utility\Components\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Button.h">
-      <Filter>Utility\HeadUpDisplay\UserInterface\Button</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Mouse.h">
       <Filter>System\Mouse</Filter>

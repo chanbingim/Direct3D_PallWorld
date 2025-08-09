@@ -72,6 +72,15 @@ void CTransform::SetPosition(_float3 vPosition)
 
 void CTransform::SetScale(_float3 vScale)
 {
+    if (vScale.x == 0.0f)
+        vScale.x = 0.001f;
+
+    if (vScale.y == 0.0f)
+        vScale.y = 0.001f;
+
+    if (vScale.z == 0.0f)
+        vScale.z = 0.001f;
+
     _matrix WorldMat = XMLoadFloat4x4(&m_WorldMat);
     _vector Scale = XMLoadFloat3(&vScale);
 

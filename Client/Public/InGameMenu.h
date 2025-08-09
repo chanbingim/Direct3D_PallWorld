@@ -8,6 +8,7 @@ NS_END
 
 NS_BEGIN(Client)
 class CCategory;
+class CGameOption;
 
 class CInGameMenu final : public CBackGround
 {
@@ -31,18 +32,24 @@ public:
 
 private :
 	_bool									m_bIsActive = false;
-	CSpriteAnimation*						m_pAnimationCom = nullptr;
 	vector<CCategory*>						m_CategoryButton = {};
+
+	CUserInterface*							m_pSelectWidget = nullptr;
+	CGameOption*							m_pGameOptionUI = nullptr;
 
 private:
 	HRESULT									ADD_Childs();
+	HRESULT									ADD_CategoryButton();
+	HRESULT									ADD_Widgets();
+
 	HRESULT									ADD_Components();
+
+	void									SelectCategoryEvent(_uInt iIndex);
 
 public:
 	static			CInGameMenu*			Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);
 	virtual			CGameObject*			Clone(void* pArg);
 	virtual			void					Free() override;
-
 
 };
 NS_END

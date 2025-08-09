@@ -20,8 +20,8 @@ public:
 	void						ADD_Animation(CAnimEntity* pAnim);
 
 	void						Reset_Animation(_uInt AnimIndex);
-	const _bool&				AnimIsPlay(_uInt AnimIndex);
-	const _bool&				AnimIsFinished(_uInt AnimIndex);
+	const _bool					AnimIsPlay(_uInt AnimIndex);
+	const _bool					AnimIsFinished(_uInt AnimIndex);
 private:
 	vector<CAnimEntity*>		m_AnimationList = {};
 

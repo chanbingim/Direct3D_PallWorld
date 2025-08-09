@@ -1,5 +1,7 @@
 C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\BackGround.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\BackGround.obj
 C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\BattlePell.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\BattlePell.obj
+C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\Button.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\Button.obj
+C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\ButtonFrame.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\ButtonFrame.obj
 C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\Camera.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\Camera.obj
 C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\Category.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\Category.obj
 C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\Character_Manager.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\Character_Manager.obj
@@ -7,6 +9,7 @@ C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\priva
 C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\CompassPoint.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\CompassPoint.obj
 C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\DefaultEntity.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\DefaultEntity.obj
 C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\GameData_Manager.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\GameData_Manager.obj
+C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\GameOption.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\GameOption.obj
 C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\GamePlayHUD.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\GamePlayHUD.obj
 C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\GamePlayLevel.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\GamePlayLevel.obj
 C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\GuardBar.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\GuardBar.obj
@@ -26,6 +29,7 @@ C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\priva
 C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\Logo_HUD.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\Logo_HUD.obj
 C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\Logo_Menu.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\Logo_Menu.obj
 C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\MainApp.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\MainApp.obj
+C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\OptionButton.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\OptionButton.obj
 C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\PellInfo.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\PellInfo.obj
 C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\PellInfoFrame.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\PellInfoFrame.obj
 C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\PellLogo.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\PellLogo.obj
