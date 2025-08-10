@@ -1,4 +1,49 @@
-﻿FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\VTX_Mesh.cso
+﻿  BackGround.cpp
+  BattlePell.cpp
+  Button.cpp
+  ButtonFrame.cpp
+  Camera.cpp
+  Category.cpp
+  Character_Manager.cpp
+  Compass.cpp
+  CompassPoint.cpp
+  DefaultEntity.cpp
+  GameData_Manager.cpp
+  GameOption.cpp
+  GamePlayHUD.cpp
+  GamePlayLevel.cpp
+  GuardBar.cpp
+  HealthBar.cpp
+  HealthIcon.cpp
+  HungerIcon.cpp
+  InGameMenu.cpp
+C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\InGameMenu.cpp(116,19): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Loader.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  LoadingHUD.cpp
+  LoadingIcon.cpp
+  LoadingLevel.cpp
+  LoadingUI.cpp
+  LogoLevel.cpp
+  Logo_GameEdit_But.cpp
+  Logo_GameQuit_But.cpp
+  Logo_GameStart_But.cpp
+  Logo_HUD.cpp
+  Logo_Menu.cpp
+  MainApp.cpp
+  MeshActor.cpp
+  OptionButton.cpp
+  PellInfo.cpp
+  PellInfoFrame.cpp
+  PellLogo.cpp
+  Player.cpp
+  Player_Interface.cpp
+  SlotBase.cpp
+  Terrian.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  TypeIcon.cpp
+  Direct11_FrameWork.cpp
+  코드를 생성하고 있습니다...
   Direct11_FrameWork.vcxproj -> C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe
