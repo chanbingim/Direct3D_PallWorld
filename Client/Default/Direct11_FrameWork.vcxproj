@@ -178,10 +178,12 @@
     <ClInclude Include="..\public\Logo_HUD.h" />
     <ClInclude Include="..\public\Logo_Menu.h" />
     <ClInclude Include="..\public\MainApp.h" />
+    <ClInclude Include="..\public\MeshActor.h" />
     <ClInclude Include="..\public\OptionButton.h" />
     <ClInclude Include="..\public\PellInfo.h" />
     <ClInclude Include="..\public\PellInfoFrame.h" />
     <ClInclude Include="..\public\PellLogo.h" />
+    <ClInclude Include="..\public\Player.h" />
     <ClInclude Include="..\public\Player_Interface.h" />
     <ClInclude Include="..\public\SlotBase.h" />
     <ClInclude Include="..\public\Terrian.h" />
@@ -223,10 +225,12 @@
     <ClCompile Include="..\private\Logo_HUD.cpp" />
     <ClCompile Include="..\private\Logo_Menu.cpp" />
     <ClCompile Include="..\private\MainApp.cpp" />
+    <ClCompile Include="..\private\MeshActor.cpp" />
     <ClCompile Include="..\private\OptionButton.cpp" />
     <ClCompile Include="..\private\PellInfo.cpp" />
     <ClCompile Include="..\private\PellInfoFrame.cpp" />
     <ClCompile Include="..\private\PellLogo.cpp" />
+    <ClCompile Include="..\private\Player.cpp" />
     <ClCompile Include="..\private\Player_Interface.cpp" />
     <ClCompile Include="..\private\SlotBase.cpp" />
     <ClCompile Include="..\private\Terrian.cpp" />
@@ -245,6 +249,7 @@
     <FxCompile Include="..\Bin\ShaderFiles\MutipleBlend.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\ProgressBar.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\TestShader.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\VTX_Mesh.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\VTX_NorTex.hlsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

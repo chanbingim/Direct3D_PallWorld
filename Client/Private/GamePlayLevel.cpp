@@ -16,7 +16,7 @@ HRESULT CGamePlayLevel::Initialize()
 	if (FAILED(ADD_CameraLayer(TEXT("Layer_GamePlay_Camera"))))
 		return E_FAIL;
 
-	if (FAILED(ADD_BackGroundLayer(TEXT("Layer_GamePlay_"))))
+	if (FAILED(ADD_BackGroundLayer(TEXT("Layer_GamePlay_BackGround"))))
 		return E_FAIL;
 
 	return S_OK;
@@ -53,8 +53,17 @@ HRESULT CGamePlayLevel::ADD_CameraLayer(const _wstring& LayerName)
 
 HRESULT CGamePlayLevel::ADD_BackGroundLayer(const _wstring& LayerName)
 {
+	CGameObject::GAMEOBJECT_DESC Desc;
+	ZeroMemory(&Desc, sizeof(CGameObject::GAMEOBJECT_DESC));
+
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Terrian"),
 				ENUM_CLASS(LEVEL::GAMEPLAY), LayerName)))
+		return E_FAIL;
+
+	Desc.vScale = { 10.f, 10.f, 10.f };
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player"),
+		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
 		return E_FAIL;
 
 	return S_OK;

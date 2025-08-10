@@ -85,8 +85,8 @@ HRESULT CGameOption::ADD_Childs()
 	Desc.pParent = this;
 	Desc.vScale = { 200.f, 50.f, 0.f };
 
-	float ButHalfX = Desc.vScale.x * 0.5f + 3.f;
-	float CenterX = m_pTransformCom->GetScale().x * 0.5 - ButHalfX;
+	_float ButHalfX = Desc.vScale.x * 0.5f + 3.f;
+	_float CenterX = m_pTransformCom->GetScale().x * 0.5f - ButHalfX;
 
 	/* CharacterInfo Button */
 	Desc.vPosition = { 0, 0.f, 0.f };

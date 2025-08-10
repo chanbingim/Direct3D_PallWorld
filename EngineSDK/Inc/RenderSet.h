@@ -1,6 +1,8 @@
 #pragma once
 
 #include "VIBuffer_Rect.h"
+#include "Model.h"
+#include "Mesh.h"
 #include "VIBuffer_Terrian.h"
 
 #include "Texture.h"

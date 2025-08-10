@@ -35,6 +35,7 @@
 #include "TypeIcon.h"
 
 #include "InGameMenu.h"
+#include "Player.h"
 #pragma endregion
 
 #pragma endregion
@@ -242,12 +243,28 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_InGameMenu_OptionBut"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/GameMenu/Option/OptionButBase%d.png"), 2))))
 		return E_FAIL;
+#pragma endregion
 
-
-
+#pragma region ModelTexture
+	/* GamePlay_Model_Fiona_Texture */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Fiona"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Models/Fiona/fiona_D.png"), 1))))
+		return E_FAIL;
 #pragma endregion
 
 	m_strMessage = TEXT("모델를(을) 로딩 중 입니다.");
+
+#pragma region Models
+
+#pragma region Player
+	/* VIBuffer  MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Fiona_Mesh"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Fiona/Fiona.fbx"))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma endregion
+
 
 	m_strMessage = TEXT("셰이더를(을) 로딩 중 입니다.");
 
@@ -259,6 +276,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region OBJECT
 	/* GAME_OBJECT_Camera */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Camera"), CCamera::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -266,6 +284,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* GAME_OBJECT_Terrian */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Terrian"), CTerrian::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
+	/* GAME_OBJECT_Player */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player"), CPlayer::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
 
 #pragma region PLAYER_INFO
 	/* GAME_OBJECT_PlayerInfoUI */

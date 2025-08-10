@@ -29,10 +29,12 @@ C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\priva
 C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\Logo_HUD.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\Logo_HUD.obj
 C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\Logo_Menu.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\Logo_Menu.obj
 C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\MainApp.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\MainApp.obj
+C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\MeshActor.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\MeshActor.obj
 C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\OptionButton.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\OptionButton.obj
 C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\PellInfo.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\PellInfo.obj
 C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\PellInfoFrame.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\PellInfoFrame.obj
 C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\PellLogo.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\PellLogo.obj
+C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\Player.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\Player.obj
 C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\Player_Interface.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\Player_Interface.obj
 C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\SlotBase.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\SlotBase.obj
 C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\Terrian.cpp;C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\Terrian.obj

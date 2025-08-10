@@ -1,0 +1,48 @@
+#pragma once
+#include "Client_Define.h"
+#include "Actor.h"
+
+NS_BEGIN(Engine)
+class CModel;
+class CTexture;
+class CShader;
+NS_END
+
+NS_BEGIN(Client)
+class CMeshActor : public CActor
+{
+protected:
+	CMeshActor(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);
+	CMeshActor(const CMeshActor& rhs);
+	virtual ~CMeshActor() = default;
+
+public:
+	//초기화
+	virtual		HRESULT						Initalize_Prototype() override;
+	virtual		HRESULT						Initialize(void* pArg) override;
+
+	//업데이트	
+	virtual		void						Priority_Update(_float fDeletaTime) override;
+	virtual		void						Update(_float fDeletaTime) override;
+	virtual		void						Late_Update(_float fDeletaTime) override;
+
+	// 랜더
+	virtual		HRESULT						Render() override;
+
+protected:
+	virtual		HRESULT						Bind_ShaderResources() override;
+	virtual		HRESULT						Apply_ConstantShaderResources() override;
+
+protected:
+	CModel*									m_pVIBufferCom = nullptr;
+	CTexture*								m_pTextureCom = nullptr;
+	CShader*								m_pShaderCom = nullptr;
+
+private:
+	HRESULT									ADD_Components();
+
+public:
+	virtual			CGameObject*			Clone(void* pArg) override;
+	virtual			void					Free() override;
+};
+NS_END

@@ -112,7 +112,6 @@ HRESULT CMainApp::SetUp_StaticComponents()
 		return E_FAIL;
 #pragma endregion
 
-
 #pragma region Shader
 	/* Mouse Shader */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"),
@@ -134,11 +133,17 @@ HRESULT CMainApp::SetUp_StaticComponents()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_MutiplyBlend"),
 		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_TEX::VertexDesc, VTX_TEX::iNumElements, TEXT("../Bin/ShaderFiles/MutipleBlend.hlsl")))))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Mesh"),
+		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_MESH::VertexDesc, VTX_MESH::iNumElements, TEXT("../Bin/ShaderFiles/VTX_Mesh.hlsl")))))
+		return E_FAIL;
 #pragma endregion
 
-	/*VIBuffer  Component */
+#pragma region VIBuffer
+	/* VIBuffer  RECT  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"), CVIBuffer_Rect::Create(m_pGraphic_Device, m_pDevice_Context))))
 		return E_FAIL;
+#pragma endregion
 
 	/* Transform Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Transform"), CTransform::Create(m_pGraphic_Device, m_pDevice_Context))))

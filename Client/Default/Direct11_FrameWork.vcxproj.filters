@@ -176,6 +176,21 @@
     <Filter Include="02. HUD\Base_UI\Button\Frame">
       <UniqueIdentifier>{4dc99711-e312-41e2-882a-e1d27017f576}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Objects\MeshObject">
+      <UniqueIdentifier>{37a3ab22-7f30-497a-8cdb-8f7990bccad0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\Character">
+      <UniqueIdentifier>{3802a2be-80f8-4d6d-9d50-8a3b3ccd7b25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\Character\Player">
+      <UniqueIdentifier>{0f96b6b9-85c0-4e44-91e3-7d82ffe2cb66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\Character\Pell">
+      <UniqueIdentifier>{adf3979a-3a0b-45c4-9016-2b50d2782a08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\Static_Object">
+      <UniqueIdentifier>{1f27bf68-169c-4b34-b0ba-e3ee98244a80}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -313,6 +328,12 @@
     <ClInclude Include="..\public\ButtonFrame.h">
       <Filter>02. HUD\Base_UI\Button\Frame</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\MeshActor.h">
+      <Filter>03. Objects\MeshObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Player.h">
+      <Filter>03. Objects\MeshObject\Character\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -448,6 +469,12 @@
     <ClCompile Include="..\private\ButtonFrame.cpp">
       <Filter>02. HUD\Base_UI\Button\Frame</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\MeshActor.cpp">
+      <Filter>03. Objects\MeshObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Player.cpp">
+      <Filter>03. Objects\MeshObject\Character\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\TestShader.hlsl">
@@ -463,6 +490,9 @@
       <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\MutipleBlend.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\VTX_Mesh.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>

@@ -19,18 +19,19 @@ protected:
 
 public:
 	//초기화
-	virtual		HRESULT						Initalize_Prototype();
-	virtual		HRESULT						Initialize(void* pArg);
+	virtual		HRESULT						Initalize_Prototype() override;
+	virtual		HRESULT						Initialize(void* pArg) override;
 
 	//업데이트	
-	virtual		void						Priority_Update(_float fDeletaTime);
-	virtual		void						Update(_float fDeletaTime);
-	virtual		void						Late_Update(_float fDeletaTime);
+	virtual		void						Priority_Update(_float fDeletaTime) override;
+	virtual		void						Update(_float fDeletaTime) override;
+	virtual		void						Late_Update(_float fDeletaTime) override;
 
 	// 랜더
 	virtual		HRESULT						Render();
 
 protected :
+	virtual		HRESULT						Bind_ShaderResources() override;
 	virtual		HRESULT						Apply_ConstantShaderResources() override;
 
 private :
@@ -40,7 +41,6 @@ private :
 
 private :
 	HRESULT									ADD_Components();
-	HRESULT									Bind_ShaderCBuffer();
 
 public:
 	static			CTerrian*				Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);

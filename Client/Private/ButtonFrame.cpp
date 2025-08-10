@@ -62,7 +62,7 @@ void CButtonFrame::Late_Update(_float fDeletaTime)
 
 HRESULT CButtonFrame::Render()
 {
-    for (size_t i = 0; i < 4; ++i)
+    for (_uInt i = 0; i < 4; ++i)
     {
         Apply_ConstantShaderResources(i);
         m_pShaderCom->Update_Shader(2);

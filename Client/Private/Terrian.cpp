@@ -30,7 +30,7 @@ HRESULT CTerrian::Initialize(void* pArg)
 		return E_FAIL;
 
 
-	if (FAILED(Bind_ShaderCBuffer()))
+	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
 	return S_OK;
@@ -87,7 +87,7 @@ HRESULT CTerrian::ADD_Components()
 	return S_OK;
 }
 
-HRESULT CTerrian::Bind_ShaderCBuffer()
+HRESULT CTerrian::Bind_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
