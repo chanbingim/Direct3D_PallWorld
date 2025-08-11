@@ -191,6 +191,21 @@
     <Filter Include="03. Objects\MeshObject\Static_Object">
       <UniqueIdentifier>{1f27bf68-169c-4b34-b0ba-e3ee98244a80}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ImGui">
+      <UniqueIdentifier>{9a2631af-181d-42e7-b1bd-7221d7bed7d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui\Manager">
+      <UniqueIdentifier>{91d57f2c-d319-4591-96dc-7779dc7ef0dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui\Default">
+      <UniqueIdentifier>{75ecc74a-0424-4cd7-b975-b9d8cf8f3b3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui\Default\Codes">
+      <UniqueIdentifier>{43b13275-92a7-4818-919d-f108ebd60aeb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui\Default\Headers">
+      <UniqueIdentifier>{5dc21080-9cb5-4a2c-8d46-58423fa0dbb2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -334,6 +349,36 @@
     <ClInclude Include="..\public\Player.h">
       <Filter>03. Objects\MeshObject\Character\Player</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\ImGui\imconfig.h">
+      <Filter>ImGui\Default\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGui\imgui.h">
+      <Filter>ImGui\Default\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGui\imgui_impl_dx11.h">
+      <Filter>ImGui\Default\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGui\imgui_impl_win32.h">
+      <Filter>ImGui\Default\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGui\imgui_internal.h">
+      <Filter>ImGui\Default\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGui\imstb_rectpack.h">
+      <Filter>ImGui\Default\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGui\imstb_textedit.h">
+      <Filter>ImGui\Default\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGui\imstb_truetype.h">
+      <Filter>ImGui\Default\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Client_ImgDefines.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImgManager.h">
+      <Filter>ImGui\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -474,6 +519,30 @@
     </ClCompile>
     <ClCompile Include="..\private\Player.cpp">
       <Filter>03. Objects\MeshObject\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\imgui.cpp">
+      <Filter>ImGui\Default\Codes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\imgui_demo.cpp">
+      <Filter>ImGui\Default\Codes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\imgui_draw.cpp">
+      <Filter>ImGui\Default\Codes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\imgui_impl_dx11.cpp">
+      <Filter>ImGui\Default\Codes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\imgui_impl_win32.cpp">
+      <Filter>ImGui\Default\Codes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\imgui_tables.cpp">
+      <Filter>ImGui\Default\Codes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\imgui_widgets.cpp">
+      <Filter>ImGui\Default\Codes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ImgManager.cpp">
+      <Filter>ImGui\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,9 @@
-﻿  BackGround.cpp
+﻿  HealthIcon.cpp
+  HungerIcon.cpp
+  ImgManager.cpp
+  Logo_GameEdit_But.cpp
+  Logo_GameQuit_But.cpp
+  BackGround.cpp
   BattlePell.cpp
   Button.cpp
   ButtonFrame.cpp
@@ -13,21 +18,16 @@
   GamePlayHUD.cpp
   GamePlayLevel.cpp
   GuardBar.cpp
-  HealthBar.cpp
-  HealthIcon.cpp
-  HungerIcon.cpp
-  InGameMenu.cpp
-C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\InGameMenu.cpp(116,19): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Loader.cpp
   코드를 생성하고 있습니다...
   컴파일하고 있습니다...
+  HealthBar.cpp
+  InGameMenu.cpp
+  Loader.cpp
   LoadingHUD.cpp
   LoadingIcon.cpp
   LoadingLevel.cpp
   LoadingUI.cpp
   LogoLevel.cpp
-  Logo_GameEdit_But.cpp
-  Logo_GameQuit_But.cpp
   Logo_GameStart_But.cpp
   Logo_HUD.cpp
   Logo_Menu.cpp
@@ -40,9 +40,9 @@ C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\priva
   Player.cpp
   Player_Interface.cpp
   SlotBase.cpp
-  Terrian.cpp
   코드를 생성하고 있습니다...
   컴파일하고 있습니다...
+  Terrian.cpp
   TypeIcon.cpp
   Direct11_FrameWork.cpp
   코드를 생성하고 있습니다...

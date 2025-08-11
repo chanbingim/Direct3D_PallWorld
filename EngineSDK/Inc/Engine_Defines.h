@@ -1,4 +1,6 @@
 #pragma once
+#ifndef Engine_Define_h__
+#define Engine_Define_h__
 
 //WIN
 #include <Windows.h>
@@ -68,3 +70,4 @@ using namespace DirectX;
 #endif
 
 using namespace Engine;
+#endif // Engine_Define_h__

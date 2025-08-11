@@ -113,7 +113,7 @@ HRESULT CInGameMenu::ADD_CategoryButton()
     Desc.vScale = { 150.f, 30.f, 0.f };
 
     float ButHalfX = Desc.vScale.x * 0.5f + 3.f;
-    float CenterX = m_pTransformCom->GetScale().x * 0.5 - ButHalfX;
+    float CenterX = m_pTransformCom->GetScale().x * 0.5f - ButHalfX;
 
     /* CharacterInfo Button */
     Desc.Type = 0;

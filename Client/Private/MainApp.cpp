@@ -1,10 +1,12 @@
 #include "MainApp.h"
+
 #include "GameInstance.h"
 
 #include "LoadingLevel.h"
 #include "HeadUpDisplay.h"
 #include "GameData_Manager.h"
 #include "Character_Manager.h"
+#include "ImgManager.h"
 
 CMainApp::CMainApp() : m_pGameInstance(CGameInstance::GetInstance())
 {
@@ -27,6 +29,11 @@ HRESULT CMainApp::Initialize_MainApp()
 
 	if (FAILED(SetUp_MouseTexture()))
 		return E_FAIL;
+
+#ifdef _DEBUG
+	if (FAILED(SetUp_ImgManager()))
+		return E_FAIL;
+#endif // _DEBUG
 
 	return S_OK;
 }
@@ -185,9 +192,17 @@ HRESULT CMainApp::SetUp_MouseTexture()
 	return S_OK;
 }
 
+HRESULT CMainApp::SetUp_ImgManager()
+{
+	m_pImgManager = CImgManager::Create(m_pGraphic_Device, m_pDevice_Context);
+	return S_OK;
+}
+
 void CMainApp::Update(_float fDeletaTime)
 {
 	m_pGameInstance->Update_Engine(fDeletaTime);
+
+	m_pImgManager->Update(fDeletaTime);
 }
 
 void CMainApp::Render()
@@ -195,6 +210,8 @@ void CMainApp::Render()
 	m_pGameInstance->Render_Begin(m_fDefalutColor);
 
 	m_pGameInstance->Draw();
+
+	m_pImgManager->Render();
 
 	m_pGameInstance->Render_End();
 }
@@ -218,6 +235,7 @@ void CMainApp::Free()
 	CGameData_Manager::DestroyInstance();
 	CCharacter_Manager::DestroyInstance();
 
+	Safe_Release(m_pImgManager);
 	m_pGameInstance->Release_Engine();
 	Safe_Release(m_pGameInstance);
 }

@@ -107,7 +107,9 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../Public/;../../EngineSDK/Inc/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Public/;../Public/ImGui/;../../EngineSDK/Inc/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>Default</LanguageStandard>
+      <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -130,6 +132,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>Default</LanguageStandard>
+      <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -153,6 +157,7 @@
     <ClInclude Include="..\public\Category.h" />
     <ClInclude Include="..\public\Character_Manager.h" />
     <ClInclude Include="..\Public\Client_Define.h" />
+    <ClInclude Include="..\Public\Client_ImgDefines.h" />
     <ClInclude Include="..\Public\Client_Struct.h" />
     <ClInclude Include="..\public\Compass.h" />
     <ClInclude Include="..\public\CompassPoint.h" />
@@ -165,6 +170,17 @@
     <ClInclude Include="..\public\HealthBar.h" />
     <ClInclude Include="..\Public\HealthIcon.h" />
     <ClInclude Include="..\Public\HungerIcon.h" />
+    <ClInclude Include="..\Public\ImgManager.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImGui\imconfig.h" />
+    <ClInclude Include="..\Public\ImGui\imgui.h" />
+    <ClInclude Include="..\Public\ImGui\imgui_impl_dx11.h" />
+    <ClInclude Include="..\Public\ImGui\imgui_impl_win32.h" />
+    <ClInclude Include="..\Public\ImGui\imgui_internal.h" />
+    <ClInclude Include="..\Public\ImGui\imstb_rectpack.h" />
+    <ClInclude Include="..\Public\ImGui\imstb_textedit.h" />
+    <ClInclude Include="..\Public\ImGui\imstb_truetype.h" />
     <ClInclude Include="..\public\InGameMenu.h" />
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\public\LoadingHUD.h" />
@@ -212,6 +228,16 @@
     <ClCompile Include="..\private\HealthBar.cpp" />
     <ClCompile Include="..\Private\HealthIcon.cpp" />
     <ClCompile Include="..\Private\HungerIcon.cpp" />
+    <ClCompile Include="..\Private\ImgManager.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\Private\imgui.cpp" />
+    <ClCompile Include="..\Private\imgui_demo.cpp" />
+    <ClCompile Include="..\Private\imgui_draw.cpp" />
+    <ClCompile Include="..\Private\imgui_impl_dx11.cpp" />
+    <ClCompile Include="..\Private\imgui_impl_win32.cpp" />
+    <ClCompile Include="..\Private\imgui_tables.cpp" />
+    <ClCompile Include="..\Private\imgui_widgets.cpp" />
     <ClCompile Include="..\private\InGameMenu.cpp" />
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\LoadingHUD.cpp" />

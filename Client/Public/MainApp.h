@@ -1,5 +1,9 @@
 #pragma once
 
+#ifdef _DEBUG
+#include "Client_ImgDefines.h"
+#endif // _DEBUG
+
 #include "Client_Define.h"
 #include "Base.h"
 
@@ -8,6 +12,7 @@ NS_BEGIN(Engine)
 NS_END
 
 NS_BEGIN(Client)
+class CImgManager;
 class CHeadUpDisplay;
 
 class CMainApp final : public CBase
@@ -29,12 +34,16 @@ private :
 	CHeadUpDisplay*				m_pHeadUpDisPlay = nullptr;
 	ID3D11RasterizerState*		m_pRasterState = nullptr;
 
+	CImgManager*				m_pImgManager = nullptr;
+
 private :
 	HRESULT		SetUp_DefaultSetting();
 	HRESULT		SetUp_StartLevel(LEVEL eLevelID);
 	HRESULT		SetUp_StaticComponents();
 	HRESULT		SetUp_CameraSetting();
 	HRESULT		SetUp_MouseTexture();
+
+	HRESULT		SetUp_ImgManager();
 
 	void		Update(_float fDeletaTime);
 	void		Render();

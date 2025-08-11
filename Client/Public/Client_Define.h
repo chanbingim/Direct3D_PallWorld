@@ -1,6 +1,6 @@
 #pragma once
-#include <Windows.h>
-#include <process.h>
+
+#include "../Default/framework.h"
 
 namespace Client
 {
