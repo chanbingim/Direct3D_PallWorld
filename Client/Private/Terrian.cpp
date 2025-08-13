@@ -33,6 +33,7 @@ HRESULT CTerrian::Initialize(void* pArg)
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
+	m_ObejctTag = TEXT("Terrian");
 	return S_OK;
 }
 

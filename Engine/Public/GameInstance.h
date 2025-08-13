@@ -7,6 +7,7 @@ class CMouse;
 class CLevel_Manager;
 class CObject_Manager;
 class CLevel;
+class CLayer;
 class CGameObject;
 class CPipeline;
 class CUserInterface;
@@ -56,12 +57,14 @@ public :
 #pragma endregion
 
 #pragma region Object_Manager
-	HRESULT						Add_GameObject_ToLayer(_uInt iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uInt iLayerLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
-	const list<CGameObject*>*	GetAllObejctToLayer(_uInt iLayerIndex, const _wstring& LayerTag);
+	HRESULT									Add_GameObject_ToLayer(_uInt iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uInt iLayerLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
+	const list<CGameObject*>*				GetAllObejctToLayer(_uInt iLayerIndex, const _wstring& LayerTag);
 
 	template<typename T>
-	T*							Clone_Prototype(_uInt iLevelIndex, const _wstring& strPrototypeTag, void* pArg);
-	void						Clear_DeadObject();
+	T*										Clone_Prototype(_uInt iLevelIndex, const _wstring& strPrototypeTag, void* pArg);
+	void									Clear_DeadObject();
+	const unordered_map<_wstring, CLayer*>*	GetCurLevelLayer();
+
 #pragma endregion
 
 #pragma region Prototype_Manager
@@ -71,7 +74,7 @@ public :
 
 #pragma region Timer_Manager
 	HRESULT						Add_Timer(const _wstring& strTimerTag);
-	_float						Get_TimeDelta(const _wstring& strTimerTag);
+	_float						Get_TimeDelta(const _wstring& strTimerTag, _bool bFlag = true);
 #pragma endregion
 
 #pragma region Renderer
@@ -127,6 +130,10 @@ public :
 
 	const _float2&				GetScreenSize();
 
+#pragma region Game_Instance
+	_float						GetPipeLineLoopTime(const TCHAR* Str);
+#pragma endregion
+
 private :
 	CGraphic_Device*			m_pGraphic_Device = nullptr;
 	CLevel_Manager*				m_pLevel_Manager = nullptr;
@@ -140,6 +147,7 @@ private :
 	CPipeline*					m_pPipeline = nullptr;
 
 	_float2						m_ScreenSize = {};
+
 public :
 	void						Release_Engine();
 	virtual		void			Free() override;

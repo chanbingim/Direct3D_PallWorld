@@ -199,7 +199,7 @@
     <ClInclude Include="..\Public\ImGui\imstb_rectpack.h" />
     <ClInclude Include="..\Public\ImGui\imstb_textedit.h" />
     <ClInclude Include="..\Public\ImGui\imstb_truetype.h" />
-    <ClInclude Include="..\public\IMG_Inspector.h" />
+    <ClInclude Include="..\public\IMG_Hierarchy.h" />
     <ClInclude Include="..\public\IMG_Profiler.h" />
     <ClInclude Include="..\public\InGameMenu.h" />
     <ClInclude Include="..\public\Loader.h" />
@@ -260,7 +260,7 @@
     <ClCompile Include="..\Private\imgui_impl_win32.cpp" />
     <ClCompile Include="..\Private\imgui_tables.cpp" />
     <ClCompile Include="..\Private\imgui_widgets.cpp" />
-    <ClCompile Include="..\private\IMG_Inspector.cpp" />
+    <ClCompile Include="..\private\IMG_Hierarchy.cpp" />
     <ClCompile Include="..\private\IMG_Profiler.cpp" />
     <ClCompile Include="..\private\InGameMenu.cpp" />
     <ClCompile Include="..\private\Loader.cpp" />

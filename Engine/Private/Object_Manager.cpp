@@ -97,6 +97,14 @@ void CObject_Manager::Clear_DeadObject()
     }
 }
 
+const unordered_map<_wstring, CLayer*>* CObject_Manager::GetLayer(_uInt iLevelID)
+{
+    if (m_iLevelNum <= iLevelID || 0 > iLevelID)
+        return nullptr;
+
+    return &m_pLayers[iLevelID];
+}
+
 CLayer* CObject_Manager::Find_Layer(_uInt iLevelIndex, const _wstring LayerTag)
 {
     if (m_iLevelNum <= iLevelIndex || 0 > iLevelIndex)

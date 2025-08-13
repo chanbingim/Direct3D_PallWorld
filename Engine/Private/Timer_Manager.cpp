@@ -7,13 +7,15 @@ CTimer_Manager::CTimer_Manager()
 
 }
 
-_float CTimer_Manager::Get_TimeDelta(const _wstring& strTimerTag)
+_float CTimer_Manager::Get_TimeDelta(const _wstring& strTimerTag, _bool bFlag)
 {
 	CTimer* pTimer = Find_Timer(strTimerTag);
 	if (nullptr == pTimer)
 		return 0.f;
 
-	pTimer->Update_Timer();
+	if(bFlag)
+		pTimer->Update_Timer();
+
 	return pTimer->Get_TimeDelta();
 }
 

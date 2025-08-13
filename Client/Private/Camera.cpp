@@ -25,6 +25,7 @@ HRESULT CCamera::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+	m_ObejctTag = TEXT("Main Camera");
 	return S_OK;
 }
 

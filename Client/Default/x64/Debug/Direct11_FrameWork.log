@@ -1,2 +1,2 @@
 ﻿  Direct11_FrameWork.cpp
-LINK : fatal error LNK1168: ..\Bin\\Direct11_FrameWork.exe을(를) 쓰기용으로 열 수 없습니다.
+  Direct11_FrameWork.vcxproj -> C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe

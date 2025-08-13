@@ -59,7 +59,12 @@ public :
 	void									ADDPosition(_vector vAddPos);
 	void									ADDRotation(_vector vAxis, _float fTurnSpeed, _float fTimeDeleta);
 
+	void									SetObjectTag(const WCHAR* szTag);
+	const _wstring&							GetObjectTag();
+
 protected:
+	_wstring								m_ObejctTag = {};
+
 	ID3D11Device*							m_pGraphic_Device = nullptr;
 	ID3D11DeviceContext*					m_pDeviceContext = nullptr;
 	CGameInstance*							m_pGameInstance = nullptr;

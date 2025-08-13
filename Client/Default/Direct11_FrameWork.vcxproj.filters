@@ -400,7 +400,7 @@
     <ClInclude Include="..\public\IMG_Profiler.h">
       <Filter>ImGui\UI\Profile</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\IMG_Inspector.h">
+    <ClInclude Include="..\public\IMG_Hierarchy.h">
       <Filter>ImGui\UI\Inspector</Filter>
     </ClInclude>
   </ItemGroup>
@@ -577,7 +577,7 @@
     <ClCompile Include="..\private\IMG_Profiler.cpp">
       <Filter>ImGui\UI\Profile</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\IMG_Inspector.cpp">
+    <ClCompile Include="..\private\IMG_Hierarchy.cpp">
       <Filter>ImGui\UI\Inspector</Filter>
     </ClCompile>
   </ItemGroup>

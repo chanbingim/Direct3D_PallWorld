@@ -31,6 +31,7 @@ HRESULT CPlayer::Initialize(void* pArg)
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
+    m_ObejctTag = TEXT("Main Player");
     return S_OK;
 }
 

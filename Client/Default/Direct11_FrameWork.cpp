@@ -218,9 +218,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     {
         DWORD state = LOWORD(wParam);
         if (state == WA_CLICKACTIVE)
-        {
-            ShowCursor(false);
-        }
+            while (ShowCursor(false) > 0) {}
     }
     break;
     case WM_PAINT:

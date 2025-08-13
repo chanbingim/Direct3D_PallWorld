@@ -186,6 +186,16 @@ void CGameObject::ADDRotation(_vector vAxis, _float fTurnSpeed, _float fTimeDele
 	Update_ParentMatrix();
 }
 
+void CGameObject::SetObjectTag(const WCHAR* szTag)
+{
+	m_ObejctTag = szTag;
+}
+
+const _wstring& CGameObject::GetObjectTag()
+{
+	return m_ObejctTag;
+}
+
 CGameObject* CGameObject::Clone(void* pArg)
 {
 	return nullptr;

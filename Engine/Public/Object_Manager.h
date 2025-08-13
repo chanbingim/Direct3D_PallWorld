@@ -25,18 +25,19 @@ public :
 	const list<CGameObject*>*						GetAllObejctToLayer(_uInt iLayerIndex, const _wstring& LayerTag);
 	void											Clear_Resource(_uInt iLevelIndex);
 	void											Clear_DeadObject();
+	const unordered_map<_wstring, CLayer*>*			GetLayer(_uInt iLevelID);
 
 private:
-	_uInt								m_iLevelNum = {};
-	CGameInstance*						m_pGameInstance = { nullptr };
-	unordered_map<_wstring, CLayer*>*	m_pLayers = { nullptr };
+	_uInt											m_iLevelNum = {};
+	CGameInstance*									m_pGameInstance = { nullptr };
+	unordered_map<_wstring, CLayer*>*				m_pLayers = { nullptr };
 
 private :
-	CLayer*								Find_Layer(_uInt iLevelIndex, const _wstring LayerTag);
+	CLayer*											Find_Layer(_uInt iLevelIndex, const _wstring LayerTag);
 
 public :
-	static		CObject_Manager*		Create(_uInt _iLevelCnt);
-	virtual		void					Free() override;
+	static		CObject_Manager*					Create(_uInt _iLevelCnt);
+	virtual		void								Free() override;
 
 };
 NS_END

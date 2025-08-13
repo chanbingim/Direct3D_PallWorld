@@ -27,8 +27,8 @@ private:
 	_float				m_fTimeDelta{};
 
 public:
-	static CTimer* Create();
-	virtual void Free() override;
+	static CTimer*		Create();
+	virtual void		Free() override;
 };
 
 NS_END

@@ -67,6 +67,15 @@ HRESULT CGameInstance::Initialize_Engine(void* pArg)
     if (nullptr == m_pPipeline)
         return E_FAIL;
     
+#ifdef _DEBUG
+    m_pTimer_Manager->Add_Timer(TEXT("PriorityUpdate_Loop"));
+    m_pTimer_Manager->Add_Timer(TEXT("Update_Loop"));
+    m_pTimer_Manager->Add_Timer(TEXT("LateUpdate_Loop"));
+    m_pTimer_Manager->Add_Timer(TEXT("Physics_Loop"));
+    m_pTimer_Manager->Add_Timer(TEXT("Render_Loop"));
+#endif // _DEBUG
+
+
     return S_OK;
 }
 
@@ -76,11 +85,22 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 
     m_pMouse->Update(fTimeDelta);
 
+#ifdef _DEBUG
+    m_pTimer_Manager->Get_TimeDelta(TEXT("PriorityUpdate_Loop"));
+#endif // _DEBUG
+
     m_pObject_Manager->Priority_Update(fTimeDelta);
 
+#ifdef _DEBUG
+    m_pTimer_Manager->Get_TimeDelta(TEXT("Update_Loop"));
+#endif // _DEBUG
     m_pObject_Manager->Update(fTimeDelta);
    
+#ifdef _DEBUG
+    m_pTimer_Manager->Get_TimeDelta(TEXT("LateUpdate_Loop"));
+#endif // _DEBUG
     m_pObject_Manager->Late_Update(fTimeDelta);
+
     m_pObject_Manager->Clear_DeadObject();
 
     m_pLevel_Manager->Update(fTimeDelta);
@@ -89,6 +109,10 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 
 HRESULT CGameInstance::Draw()
 {
+#ifdef _DEBUG
+    m_pTimer_Manager->Get_TimeDelta(TEXT("Render_Loop"));
+#endif // _DEBUG
+
     m_pRenderer->Render();
 
     m_pLevel_Manager->Render();
@@ -150,6 +174,12 @@ void CGameInstance::Clear_DeadObject()
 {
     m_pObject_Manager->Clear_DeadObject();
 }
+
+const unordered_map<_wstring, CLayer*>* CGameInstance::GetCurLevelLayer()
+{
+    return m_pObject_Manager->GetLayer(m_pLevel_Manager->GetCurrentLevel()->GetLevelID());
+}
+
 #pragma endregion
 
 #pragma region Prototype_Manager
@@ -172,9 +202,9 @@ HRESULT CGameInstance::Add_Timer(const _wstring& strTimerTag)
     return m_pTimer_Manager->Add_Timer(strTimerTag);
 }
 
-_float CGameInstance::Get_TimeDelta(const _wstring& strTimerTag)
+_float CGameInstance::Get_TimeDelta(const _wstring& strTimerTag, _bool bFlag)
 {
-    return m_pTimer_Manager->Get_TimeDelta(strTimerTag);
+    return m_pTimer_Manager->Get_TimeDelta(strTimerTag, bFlag);
 }
 #pragma endregion
 
@@ -297,6 +327,10 @@ const _float4x4& CGameInstance::GetIndentityMatrix()
 const _float2& CGameInstance::GetScreenSize()
 {
     return m_ScreenSize;
+}
+_float CGameInstance::GetPipeLineLoopTime(const TCHAR* Str)
+{
+    return m_pTimer_Manager->Get_TimeDelta(Str);
 }
 #pragma endregion
 

@@ -121,6 +121,9 @@
     <Filter Include="Utility\Components\Model\Mesh">
       <UniqueIdentifier>{8360aece-6f08-464b-8a51-3c6a97af1a69}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utility\Helpers">
+      <UniqueIdentifier>{02886d4f-bde8-482e-b82b-3c8f3602073b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Graphic_Device.cpp">
@@ -218,6 +221,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Mesh.cpp">
       <Filter>Utility\Components\Model\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StringHelper.cpp">
+      <Filter>Utility\Helpers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -343,6 +349,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\RenderSet.h">
       <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StringHelper.h">
+      <Filter>Utility\Helpers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
