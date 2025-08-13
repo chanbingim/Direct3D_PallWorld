@@ -1,9 +1,5 @@
 #pragma once
 
-#ifdef _DEBUG
-#include "Client_ImgDefines.h"
-#endif // _DEBUG
-
 #include "Client_Define.h"
 #include "Base.h"
 
@@ -12,7 +8,11 @@ NS_BEGIN(Engine)
 NS_END
 
 NS_BEGIN(Client)
-class CImgManager;
+
+#ifdef _DEBUG
+class CDebugApp;
+#endif // _DEBUG
+
 class CHeadUpDisplay;
 
 class CMainApp final : public CBase
@@ -34,7 +34,10 @@ private :
 	CHeadUpDisplay*				m_pHeadUpDisPlay = nullptr;
 	ID3D11RasterizerState*		m_pRasterState = nullptr;
 
-	CImgManager*				m_pImgManager = nullptr;
+#ifdef _DEBUG
+	_bool						m_ShowDebugWindow = true;
+	CDebugApp*					m_pDebugApp = nullptr;
+#endif // _DEBUG
 
 private :
 	HRESULT		SetUp_DefaultSetting();
@@ -43,7 +46,7 @@ private :
 	HRESULT		SetUp_CameraSetting();
 	HRESULT		SetUp_MouseTexture();
 
-	HRESULT		SetUp_ImgManager();
+	HRESULT		SetUp_DebugWindow();
 
 	void		Update(_float fDeletaTime);
 	void		Render();

@@ -16,4 +16,10 @@ namespace Client
 extern HWND					g_hWnd;
 extern HINSTANCE			g_hInstance;
 
+#ifdef _DEBUG
+extern	bool				g_ShowDebugWindow;
+extern	HWND				g_hWnd_Debug;
+extern	HINSTANCE			g_hInstance_Debug;
+#endif // _DEBUG
+
 using namespace Client;

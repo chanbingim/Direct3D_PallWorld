@@ -99,6 +99,16 @@ HRESULT CGameInstance::Draw()
 }
 
 #pragma region Graphic_Device
+HRESULT CGameInstance::ADD_Window(const ENGINE_DESC& Win_Desc)
+{
+    return m_pGraphic_Device->ADD_Window(Win_Desc);
+}
+
+void CGameInstance::Set_RenderResource(_uInt iIndex)
+{
+    m_pGraphic_Device->Set_RenderResource(iIndex);
+}
+
 void CGameInstance::Render_Begin(_float* Color)
 {
     m_pGraphic_Device->Render_Begin(Color);

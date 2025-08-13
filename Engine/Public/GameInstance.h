@@ -42,6 +42,9 @@ public :
 
 	// GrpahicDevice
 #pragma region Graphic_Device
+	HRESULT		ADD_Window(const ENGINE_DESC& Win_Desc);
+	void		Set_RenderResource(_uInt iIndex);
+
 	void		Render_Begin(_float* Color);
 	void		Render_End();
 #pragma endregion

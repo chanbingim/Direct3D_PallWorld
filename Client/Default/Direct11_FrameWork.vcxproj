@@ -147,6 +147,7 @@
       <LanguageStandard>Default</LanguageStandard>
       <PreprocessToFile>false</PreprocessToFile>
       <AdditionalIncludeDirectories>../Public/; ../Public/ImGui/; ../../EngineSDK/Inc/;</AdditionalIncludeDirectories>
+      <Optimization>MaxSpeed</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -176,6 +177,7 @@
     <ClInclude Include="..\Public\Client_Struct.h" />
     <ClInclude Include="..\public\Compass.h" />
     <ClInclude Include="..\public\CompassPoint.h" />
+    <ClInclude Include="..\public\DebugApp.h" />
     <ClInclude Include="..\public\DefaultEntity.h" />
     <ClInclude Include="..\public\GameData_Manager.h" />
     <ClInclude Include="..\public\GameOption.h" />
@@ -188,6 +190,7 @@
     <ClInclude Include="..\Public\ImgManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="..\public\ImgUIBase.h" />
     <ClInclude Include="..\Public\ImGui\imconfig.h" />
     <ClInclude Include="..\Public\ImGui\imgui.h" />
     <ClInclude Include="..\Public\ImGui\imgui_impl_dx11.h" />
@@ -196,6 +199,8 @@
     <ClInclude Include="..\Public\ImGui\imstb_rectpack.h" />
     <ClInclude Include="..\Public\ImGui\imstb_textedit.h" />
     <ClInclude Include="..\Public\ImGui\imstb_truetype.h" />
+    <ClInclude Include="..\public\IMG_Inspector.h" />
+    <ClInclude Include="..\public\IMG_Profiler.h" />
     <ClInclude Include="..\public\InGameMenu.h" />
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\public\LoadingHUD.h" />
@@ -234,6 +239,7 @@
     <ClCompile Include="..\private\Character_Manager.cpp" />
     <ClCompile Include="..\private\Compass.cpp" />
     <ClCompile Include="..\private\CompassPoint.cpp" />
+    <ClCompile Include="..\private\DebugApp.cpp" />
     <ClCompile Include="..\private\DefaultEntity.cpp" />
     <ClCompile Include="..\private\GameData_Manager.cpp" />
     <ClCompile Include="..\private\GameOption.cpp" />
@@ -247,12 +253,15 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\Private\imgui.cpp" />
+    <ClCompile Include="..\private\ImgUIBase.cpp" />
     <ClCompile Include="..\Private\imgui_demo.cpp" />
     <ClCompile Include="..\Private\imgui_draw.cpp" />
     <ClCompile Include="..\Private\imgui_impl_dx11.cpp" />
     <ClCompile Include="..\Private\imgui_impl_win32.cpp" />
     <ClCompile Include="..\Private\imgui_tables.cpp" />
     <ClCompile Include="..\Private\imgui_widgets.cpp" />
+    <ClCompile Include="..\private\IMG_Inspector.cpp" />
+    <ClCompile Include="..\private\IMG_Profiler.cpp" />
     <ClCompile Include="..\private\InGameMenu.cpp" />
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\LoadingHUD.cpp" />

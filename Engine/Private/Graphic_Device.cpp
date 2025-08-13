@@ -15,34 +15,11 @@ HRESULT CGraphic_Device::Initialize_Grphic(const ENGINE_DESC& Engine_Desc, ID3D1
     if(FAILED(D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, 0, iFlag, nullptr, 0, D3D11_SDK_VERSION, &m_pGraphicDevice, &FeatureLV, &m_pDeviceContext)))
         return E_FAIL;
 
-    if (FAILED(Initialize_SwapChain(Engine_Desc)))
+    if (FAILED(ADD_Window(Engine_Desc)))
         return E_FAIL;
 
-    if (FAILED(Initialize_RenderTarget()))
-        return E_FAIL;
-
-    if(FAILED(Initialize_DepthStencil(Engine_Desc.iWinSizeX, Engine_Desc.iWinSizeY)))
-        return E_FAIL;
-
-    /* 장치에 바인드해놓을 렌더 타겟들과 뎁스스텐실뷰를 세팅한다. */
-    /* 장치는 동시에 최대 8개의 렌더타겟을 들고 있을 수 있다. */
-    /* OutMerge에다가 데이터를 넘겨준다.*/
-    // 랜더 타겟과 깊이 스텐실 버퍼를 넘겨서 세팅
-    ID3D11RenderTargetView* pRTVs[] = {
-        m_pRenderTargetView,
-    };
-
-    m_pDeviceContext->OMSetRenderTargets(1, pRTVs, m_pDepthStencilView);
-
-    //ViewPort Setting
-    m_ViewPort.TopLeftX = 0.f;
-    m_ViewPort.TopLeftY = 0.f;
-    m_ViewPort.Width = (FLOAT)Engine_Desc.iWinSizeX;
-    m_ViewPort.Height = (FLOAT)Engine_Desc.iWinSizeY;
-    m_ViewPort.MinDepth = 0.f;
-    m_ViewPort.MaxDepth = 1.f;
-
-    m_pDeviceContext->RSSetViewports(1, &m_ViewPort);
+    Set_RenderResource(0);
+   
     *ppDeviceOut = m_pGraphicDevice;
     *ppContextOut = m_pDeviceContext;
 
@@ -58,22 +35,67 @@ void CGraphic_Device::Render_Begin(_float* Color)
         return;
 
     if(Color)
-        m_pDeviceContext->ClearRenderTargetView(m_pRenderTargetView, Color);
+        m_pDeviceContext->ClearRenderTargetView(m_Render_Dsec[m_CurViewWinow].pRenderTargetView, Color);
     else
-        m_pDeviceContext->ClearRenderTargetView(m_pRenderTargetView, m_ClearColor);
+        m_pDeviceContext->ClearRenderTargetView(m_Render_Dsec[m_CurViewWinow].pRenderTargetView, m_ClearColor);
 
-    m_pDeviceContext->ClearDepthStencilView(m_pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+    m_pDeviceContext->ClearDepthStencilView(m_Render_Dsec[m_CurViewWinow].pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 }
 
 void CGraphic_Device::Render_End()
 {
-    if (nullptr == m_pSwapChain)
+    if (nullptr == m_Render_Dsec[m_CurViewWinow].pSwapChain)
         return;
 
-    m_pSwapChain->Present(0, 0);
+    m_Render_Dsec[m_CurViewWinow].pSwapChain->Present(0, 0);
 }
 
-HRESULT CGraphic_Device::Initialize_SwapChain(const ENGINE_DESC& Engine_Desc)
+HRESULT CGraphic_Device::ADD_Window(const ENGINE_DESC& Win_Desc)
+{
+    WIN_RENDER_DESC Render_Desc;
+
+    if (FAILED(Initialize_SwapChain(Win_Desc, &(Render_Desc.pSwapChain))))
+        return E_FAIL;
+
+    if (FAILED(Initialize_RenderTarget(Render_Desc.pSwapChain, &(Render_Desc.pRenderTargetView))))
+        return E_FAIL;
+
+    if (FAILED(Initialize_DepthStencil(Win_Desc.iWinSizeX, Win_Desc.iWinSizeY, &(Render_Desc.pDepthStencilView))))
+        return E_FAIL;
+
+    //ViewPort Setting
+    Render_Desc.ViewPort.TopLeftX = 0.f;
+    Render_Desc.ViewPort.TopLeftY = 0.f;
+    Render_Desc.ViewPort.Width = (FLOAT)Win_Desc.iWinSizeX;
+    Render_Desc.ViewPort.Height = (FLOAT)Win_Desc.iWinSizeY;
+    Render_Desc.ViewPort.MinDepth = 0.f;
+    Render_Desc.ViewPort.MaxDepth = 1.f;
+
+    m_Render_Dsec.emplace_back(Render_Desc);
+
+    return S_OK;
+}
+
+void CGraphic_Device::Set_RenderResource(_uInt iIndex)
+{
+    if (0 > iIndex || m_Render_Dsec.size() <= iIndex)
+        return;
+
+    m_CurViewWinow = iIndex;
+
+    /*장치에 바인드해놓을 렌더 타겟들과 뎁스스텐실뷰를 세팅한다.* /
+    /* 장치는 동시에 최대 8개의 렌더타겟을 들고 있을 수 있다. */
+    /* OutMerge에다가 데이터를 넘겨준다.*/
+    // 랜더 타겟과 깊이 스텐실 버퍼를 넘겨서 세팅
+    ID3D11RenderTargetView * pRTVs[] = {
+        m_Render_Dsec[iIndex].pRenderTargetView,
+    };
+
+    m_pDeviceContext->OMSetRenderTargets(1, pRTVs, m_Render_Dsec[iIndex].pDepthStencilView);
+    m_pDeviceContext->RSSetViewports(1, &m_Render_Dsec[iIndex].ViewPort);
+}
+
+HRESULT CGraphic_Device::Initialize_SwapChain(const ENGINE_DESC& Engine_Desc, IDXGISwapChain** pOut)
 {
     //Device와 DXGI 계층간의 상호작용을 가능하게 해주는 Com객체
     IDXGIDevice* pDevice = nullptr;
@@ -105,7 +127,7 @@ HRESULT CGraphic_Device::Initialize_SwapChain(const ENGINE_DESC& Engine_Desc)
     SwapChain_Desc.Windowed = Engine_Desc.bIsWindowed;
     SwapChain_Desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 
-    if (FAILED(pFactory->CreateSwapChain(m_pGraphicDevice, &SwapChain_Desc, &m_pSwapChain)))
+    if (FAILED(pFactory->CreateSwapChain(m_pGraphicDevice, &SwapChain_Desc, pOut)))
         return E_FAIL;
 
     Safe_Release(pFactory);
@@ -114,20 +136,20 @@ HRESULT CGraphic_Device::Initialize_SwapChain(const ENGINE_DESC& Engine_Desc)
     return S_OK;
 }
 
-HRESULT CGraphic_Device::Initialize_RenderTarget()
+HRESULT CGraphic_Device::Initialize_RenderTarget(IDXGISwapChain* pSwapChan, ID3D11RenderTargetView** ppOut)
 {
     ID3D11Texture2D* backBuffer = nullptr;
-    if(FAILED(m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&backBuffer)))
+    if(FAILED(pSwapChan->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&backBuffer)))
         return E_FAIL;
 
-    if (FAILED(m_pGraphicDevice->CreateRenderTargetView(backBuffer, nullptr, &m_pRenderTargetView)))
+    if (FAILED(m_pGraphicDevice->CreateRenderTargetView(backBuffer, nullptr, ppOut)))
         return E_FAIL;
 
     Safe_Release(backBuffer);
     return S_OK;
 }
 
-HRESULT CGraphic_Device::Initialize_DepthStencil(_uInt WinSizeX, _uInt WinSizeY)
+HRESULT CGraphic_Device::Initialize_DepthStencil(_uInt WinSizeX, _uInt WinSizeY, ID3D11DepthStencilView** ppOut)
 {
     if (nullptr == m_pGraphicDevice)
         return E_FAIL;
@@ -163,7 +185,7 @@ HRESULT CGraphic_Device::Initialize_DepthStencil(_uInt WinSizeX, _uInt WinSizeY)
 
     // 스텐실 뷰 생성 함수
     // DepthStencil텍스처는 Resource의 자식이기때문에 넣어짐
-    if (FAILED(m_pGraphicDevice->CreateDepthStencilView(pDepthStencilTex, nullptr, &m_pDepthStencilView)))
+    if (FAILED(m_pGraphicDevice->CreateDepthStencilView(pDepthStencilTex, nullptr, ppOut)))
         return E_FAIL;
 
     Safe_Release(pDepthStencilTex);
@@ -185,9 +207,12 @@ CGraphic_Device* CGraphic_Device::Create(const ENGINE_DESC& Engine_Desc, ID3D11D
 void CGraphic_Device::Free()
 {
     Safe_Release(m_pDeviceContext);
-    Safe_Release(m_pSwapChain);
-    Safe_Release(m_pRenderTargetView);
-    Safe_Release(m_pDepthStencilView);
+    for (auto& iter : m_Render_Dsec)
+    {
+        Safe_Release(iter.pDepthStencilView);
+        Safe_Release(iter.pRenderTargetView);
+        Safe_Release(iter.pSwapChain);
+    }
 
 #if defined(DEBUG) || defined(_DEBUG)
     ID3D11Debug* d3dDebug;

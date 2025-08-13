@@ -1,3 +1,5 @@
+#ifdef  _DEBUG
+
 #include "ImgManager.h"
 
 HRESULT CImgManager::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -6,8 +8,11 @@ HRESULT CImgManager::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCon
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
 
-    ImGui_ImplWin32_Init(g_hWnd);
+    ImGui_ImplWin32_Init(g_hWnd_Debug);
     ImGui_ImplDX11_Init(pDevice, pContext);
+
+    //멀티 윈도우 기준이함수를 호출해야 잘 랜더링됨
+    ImGui_ImplDX11_CreateDeviceObjects();
 
     ImGuiViewport* viewport = ImGui::GetMainViewport();
 
@@ -42,7 +47,7 @@ HRESULT CImgManager::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCon
 void CImgManager::Update(_float fDeletaTime)
 {
     // 윈도우 메시지 처리 등...
-    ImGui_ImplDX11_NewFrame();
+    //ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
 
@@ -53,6 +58,7 @@ void CImgManager::Update(_float fDeletaTime)
 void CImgManager::Render()
 {
     ImGui::Render();
+
     // 여기서 백버퍼 클리어, 다른 렌더 등 수행
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }
@@ -74,3 +80,4 @@ void CImgManager::Free()
     ImGui_ImplWin32_Shutdown();
     ImGui::DestroyContext();
 }
+#endif //  _DEBUG
