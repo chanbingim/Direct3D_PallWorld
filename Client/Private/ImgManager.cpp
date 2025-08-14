@@ -2,10 +2,17 @@
 
 #include "ImgManager.h"
 
+#include "GameObject.h"
+
 #pragma region IMG_UI_HEADER
 #include "IMG_Profiler.h"
 #include "IMG_Hierarchy.h"
+#include "IMG_Inspector.h"
+#include "IMG_LandScape.h"
 #pragma endregion
+
+
+IMPLEMENT_SINGLETON(CImgManager);
 
 HRESULT CImgManager::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
@@ -29,7 +36,6 @@ void CImgManager::Update(_float fDeletaTime)
     {
         pair.second->Update(fDeletaTime);
     }
-
 }
 
 void CImgManager::Render()
@@ -38,6 +44,39 @@ void CImgManager::Render()
 
     // 여기서 백버퍼 클리어, 다른 렌더 등 수행
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+}
+
+void CImgManager::ADD_SelectObject(CGameObject* SelectObj)
+{
+    auto iter = find(m_SelectList.begin(), m_SelectList.end(), SelectObj);
+    if (iter == m_SelectList.end())
+    {
+        m_SelectList.push_back(SelectObj);
+        Safe_AddRef(SelectObj);
+    }
+}
+
+void CImgManager::Remove_SelectObject(CGameObject* SelectObj)
+{
+    auto iter = find(m_SelectList.begin(), m_SelectList.end(), SelectObj);
+    if (iter != m_SelectList.end())
+    {
+        Safe_Release(*iter);
+        m_SelectList.erase(iter);
+    }
+}
+
+const list<CGameObject*>* CImgManager::GetSelectObjects()
+{
+    return &m_SelectList;
+}
+
+void CImgManager::ClearAllSelectObjects()
+{
+    for (auto& iter : m_SelectList)
+        Safe_Release(iter);
+
+    m_SelectList.clear();
 }
 
 HRESULT CImgManager::ADD_IMG_UserInterface(const _wstring szTag, CImgUIBase* pUserInterface)
@@ -105,18 +144,13 @@ HRESULT CImgManager::Setting_Img_UI()
     if (FAILED(ADD_IMG_UserInterface(TEXT("Hierarchy"), CIMG_Hierarchy::Create())))
         return E_FAIL;
 
-    return S_OK;
-}
+    if (FAILED(ADD_IMG_UserInterface(TEXT("Inspector"), CIMG_Inspector::Create())))
+        return E_FAIL;
 
-CImgManager* CImgManager::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
-{
-    CImgManager* pInstance = new CImgManager;
-    if (FAILED(pInstance->Initialize(pDevice, pContext)))
-    {
-        Safe_Release(pInstance);
-        MSG_BOX("CREATE FAIL : IMG MANAGER");
-    }
-    return pInstance;
+    if (FAILED(ADD_IMG_UserInterface(TEXT("LandScape"), CIMG_LandScape::Create())))
+        return E_FAIL;
+
+    return S_OK;
 }
 
 void CImgManager::Free()
@@ -125,9 +159,11 @@ void CImgManager::Free()
     ImGui_ImplWin32_Shutdown();
     ImGui::DestroyContext();
 
+    ClearAllSelectObjects();
+   
     for (auto& pair : m_ImgDebugMap)
-    {
         Safe_Release(pair.second);
-    }
+
+    m_ImgDebugMap.clear();
 }
 #endif //  _DEBUG

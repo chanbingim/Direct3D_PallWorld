@@ -1,17 +1,21 @@
 #include "IMG_Transform.h"
 
-CIMG_Transform::CIMG_Transform()
+#include "GameInstance.h"
+#include "GameObject.h"
+
+CIMG_Transform::CIMG_Transform() :
+    CIMG_Component()
 {
 }
 
 HRESULT CIMG_Transform::Prototype_Initialize()
 {
-    return E_NOTIMPL;
+    return S_OK;
 }
 
 HRESULT CIMG_Transform::Initialize(void* pArg)
 {
-    return E_NOTIMPL;
+    return S_OK;
 }
 
 void CIMG_Transform::Update(_float fDeletaTime)
@@ -20,6 +24,36 @@ void CIMG_Transform::Update(_float fDeletaTime)
     {
         DrawTransformUI();
         ImGui::End();
+    }
+}
+
+void CIMG_Transform::Bind_Data(CGameObject* pOwner, CComponent* pComponent)
+{
+    m_pOwner = pOwner;
+
+    if (m_pOwner)
+    {
+        m_vPostion = m_pOwner->GetTransform()->GetPosition();
+        m_vRotation = m_pOwner->GetTransform()->GetRotation();
+        m_vSacle = m_pOwner->GetTransform()->GetScale();
+    }
+}
+
+void CIMG_Transform::DrawTransformUI()
+{
+    if (ImGui::InputFloat3("Position", reinterpret_cast<_float*>(&m_vPostion), "%.3f"))
+    {
+
+    }
+    
+    if (ImGui::InputFloat3("Rotation", reinterpret_cast<_float*>(&m_vRotation), "%.3f"))
+    {
+
+    }
+
+    if (ImGui::InputFloat3("Scale", reinterpret_cast<_float*>(&m_vSacle), "%.3f"))
+    {
+
     }
 }
 

@@ -43,6 +43,9 @@ HRESULT CGameObject::Initialize(void* pArg)
 		SetScale(pObjectDesc->vScale);
 	}
 
+	Safe_AddRef(m_pTransformCom);
+	m_pComponentMap.emplace(TEXT("Transform_Com"), m_pTransformCom);
+
 	return S_OK;
 }
 

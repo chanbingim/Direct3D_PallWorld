@@ -15,7 +15,7 @@ public:
 	virtual void					Update(_float fDeletaTime) override;
 
 private :
-	char							m_szPercent[MAX_PATH];
+	char							m_szPercent[MAX_PATH] = {};
 
 	//시간을 가져와서 IMG 세팅
 	_float							m_fDurTime[5];

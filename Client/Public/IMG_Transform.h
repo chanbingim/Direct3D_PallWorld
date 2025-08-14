@@ -1,7 +1,9 @@
 #pragma once
 
-#include "ImgUIBase.h"
-class CIMG_Transform final : public CImgUIBase
+#include "IMG_Component.h"
+
+NS_BEGIN(Client)
+class CIMG_Transform final : public CIMG_Component
 {
 private:
 	CIMG_Transform();
@@ -12,12 +14,14 @@ public:
 	virtual HRESULT					Initialize(void* pArg) override;
 
 	virtual void					Update(_float fDeletaTime) override;
-
+	virtual	void					Bind_Data(CGameObject* pOwner, CComponent* pComponent);
 
 private :
-	_float3							m_vPostion;
-	_float3							m_vRotation;
-	_float3							m_vSacle;
+	CGameObject*					m_pOwner = nullptr;
+
+	_float3							m_vPostion = {};
+	_float3							m_vRotation = {};
+	_float3							m_vSacle = {};
 
 private :
 	void							DrawTransformUI();
@@ -28,3 +32,4 @@ public:
 	virtual CImgUIBase*				Clone(void* pArg);
 	virtual void					Free() override;
 };
+NS_END

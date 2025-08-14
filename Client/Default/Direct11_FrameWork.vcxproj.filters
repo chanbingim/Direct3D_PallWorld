@@ -230,8 +230,14 @@
     <Filter Include="ImGui\UI\Instpector">
       <UniqueIdentifier>{d5f07d9c-8f42-4928-8033-5e4f39785bdf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui\UI\Instpector\IMG_Transform">
+    <Filter Include="ImGui\UI\Instpector\IMG_ComponentUI">
+      <UniqueIdentifier>{cad8ecbd-928b-45fe-82c3-d76109ff0ccf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui\UI\Instpector\IMG_ComponentUI\IMG_Transform">
       <UniqueIdentifier>{be1775b8-0c87-4db9-b3e5-adb25fce84b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui\UI\LandScape">
+      <UniqueIdentifier>{3dbd45f8-547e-4d4a-b15c-592215e2b63c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -428,7 +434,13 @@
       <Filter>ImGui\UI\Instpector</Filter>
     </ClInclude>
     <ClInclude Include="..\public\IMG_Transform.h">
-      <Filter>ImGui\UI\Instpector\IMG_Transform</Filter>
+      <Filter>ImGui\UI\Instpector\IMG_ComponentUI\IMG_Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\IMG_Component.h">
+      <Filter>ImGui\UI\Instpector\IMG_ComponentUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\IMG_LandScape.h">
+      <Filter>ImGui\UI\LandScape</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -617,7 +629,13 @@
       <Filter>ImGui\UI\Instpector</Filter>
     </ClCompile>
     <ClCompile Include="..\private\IMG_Transform.cpp">
-      <Filter>ImGui\UI\Instpector\IMG_Transform</Filter>
+      <Filter>ImGui\UI\Instpector\IMG_ComponentUI\IMG_Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\IMG_Component.cpp">
+      <Filter>ImGui\UI\Instpector\IMG_ComponentUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\IMG_LandScape.cpp">
+      <Filter>ImGui\UI\LandScape</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

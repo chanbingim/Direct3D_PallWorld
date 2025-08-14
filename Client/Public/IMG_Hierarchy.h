@@ -7,6 +7,8 @@ class CGameObject;
 NS_END
 
 NS_BEGIN(Client)
+class CImgManager;
+
 class CIMG_Hierarchy : public CImgUIBase
 {
 private :
@@ -20,6 +22,7 @@ public :
 	virtual void					Update(_float fDeletaTime) override;
 
 private :
+	CImgManager*					m_pImgManager = nullptr;
 	list<CGameObject*>				m_pParentNodes = {};
 	ImGuiTreeNodeFlags				m_TreeNodeFlag = {};
 
@@ -28,8 +31,6 @@ private :
 private :
 	void							Update_ParentNodes();
 	HRESULT							Draw_Hierarchy(CGameObject* pObject);
-	
-
 
 public:
 	static	CIMG_Hierarchy*			Create();

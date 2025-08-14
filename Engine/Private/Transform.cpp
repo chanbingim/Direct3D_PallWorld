@@ -47,7 +47,14 @@ _float3 CTransform::GetScale()
 
 _float3 CTransform::GetRotation()
 {
-    return m_vRotation;
+    _float3 vRightNormal, vUpNormal, vLookNormal;
+    XMStoreFloat3(&vRightNormal, XMVector3Normalize(GetRightVector()));
+    XMStoreFloat3(&vUpNormal, XMVector3Normalize(GetUpVector()));
+    XMStoreFloat3(&vLookNormal, XMVector3Normalize(GetLookVector()));
+
+    return _float3( XMConvertToDegrees(asinf(-vLookNormal.y)),
+                    XMConvertToDegrees(atan2f(vLookNormal.x, vLookNormal.z)),
+                    XMConvertToDegrees(atan2f(vUpNormal.x, vRightNormal.x)));
 }
 
 void CTransform::RotationAxis(_float3 vAxis, _float fAngle)

@@ -48,7 +48,8 @@ HRESULT CDebugApp::SetUp_DefaultSetting()
 
 HRESULT CDebugApp::SetUp_ImgManager()
 {
-    m_pImgManager = CImgManager::Create(m_pDevice, m_pContext);
+    m_pImgManager = CImgManager::GetInstance();
+    m_pImgManager->Initialize(m_pDevice, m_pContext);
     return S_OK;
 }
 
@@ -85,6 +86,6 @@ void CDebugApp::Free()
     Safe_Release(m_pContext);
     Safe_Release(m_pGameInstance);
 
-    Safe_Release(m_pImgManager);
+    CImgManager::DestroyInstance();
 }
 #endif

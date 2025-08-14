@@ -12,6 +12,13 @@ NS_END
 NS_BEGIN(Client)
 class CTerrian : public CActor
 {
+public :
+	typedef struct Terrian_Desc : GAMEOBJECT_DESC
+	{
+		_uInt			iGridCnt;
+
+	}TERRIAN_DESC;
+
 protected:
 	CTerrian(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);
 	CTerrian(const CTerrian& rhs);
@@ -40,7 +47,7 @@ private :
 	CShader*								m_pShaderCom = nullptr;
 
 private :
-	HRESULT									ADD_Components();
+	HRESULT									ADD_Components(_uInt iGridCnt = 0);
 
 public:
 	static			CTerrian*				Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);

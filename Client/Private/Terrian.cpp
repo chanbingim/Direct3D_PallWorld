@@ -23,12 +23,16 @@ HRESULT CTerrian::Initalize_Prototype()
 
 HRESULT CTerrian::Initialize(void* pArg)
 {
+	_uInt TileCnt = 0;
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	if (FAILED(ADD_Components()))
-		return E_FAIL;
+	TERRIAN_DESC* Desc = static_cast<TERRIAN_DESC*>(pArg);
+	if (Desc)
+		TileCnt = Desc->iGridCnt;
 
+	if (FAILED(ADD_Components(TileCnt)))
+		return E_FAIL;
 
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
@@ -74,10 +78,21 @@ HRESULT CTerrian::Apply_ConstantShaderResources()
 	return S_OK;
 }
 
-HRESULT CTerrian::ADD_Components()
+HRESULT CTerrian::ADD_Components(_uInt iGridCnt)
 {
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
-		return E_FAIL;
+	if (iGridCnt > 0)
+	{
+		WCHAR		szVIBuffer[MAX_PATH] = {};
+		wsprintf(szVIBuffer, TEXT("Prototype_Component_VIBuffer_Terrian%dx%d"), iGridCnt, iGridCnt);
+
+		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), szVIBuffer, TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
+			return E_FAIL;
+	}
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Terrian"), TEXT("Texture_Com"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;

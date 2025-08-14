@@ -1,6 +1,8 @@
 #include "IMG_Hierarchy.h"
 
 #include "GameInstance.h"
+#include "ImgManager.h"
+
 #include "StringHelper.h"
 #include "Level.h"
 
@@ -11,7 +13,8 @@ CIMG_Hierarchy::CIMG_Hierarchy() :
 
 HRESULT CIMG_Hierarchy::Prototype_Initialize()
 {
-    
+    m_pImgManager = CImgManager::GetInstance();
+
 	return S_OK;
 }
 
@@ -32,6 +35,15 @@ void CIMG_Hierarchy::Update(_float fDeletaTime)
             Safe_Release(Obj);
         }
         m_pParentNodes.clear();
+
+        if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_DELETE))
+        {
+            auto SelectObjects = m_pImgManager->GetSelectObjects();
+            for (auto& iter : *SelectObjects)
+                iter->SetDead(true);
+
+            m_pImgManager->ClearAllSelectObjects();
+        }
 
         ImGui::End();
     }
@@ -79,16 +91,22 @@ HRESULT CIMG_Hierarchy::Draw_Hierarchy(CGameObject* pObject)
     if (nullptr == pObject->GetChildObject())
         return E_FAIL;
 
+    auto SelectObjects = m_pImgManager->GetSelectObjects();
+    auto iter = find(SelectObjects->begin(), SelectObjects->end(), pObject);
+    if (iter != SelectObjects->end())
+        m_TreeNodeFlag |= ImGuiTreeNodeFlags_Selected;
+
     bool opened = ImGui::TreeNodeEx(m_szName, m_TreeNodeFlag);
     WCHAR wstr[1024] = {};
 
     // 선택 감지 (펼치기와 별개로) 
     if (ImGui::IsItemClicked())
     {
-        //wsprintf(wstr, TEXT("Clicked : %s"), Objects->GetObjectTag().c_str());
-        //SelectItem(Objects);
+        if (m_TreeNodeFlag & ImGuiTreeNodeFlags_Selected)
+            m_pImgManager->Remove_SelectObject(pObject);
+        else
+            m_pImgManager->ADD_SelectObject(pObject);
     }
-
     if (opened)
     {
         for (auto& iter : *pObject->GetChildObject())
