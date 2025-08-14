@@ -177,6 +177,7 @@
     <ClInclude Include="..\Public\Client_Struct.h" />
     <ClInclude Include="..\public\Compass.h" />
     <ClInclude Include="..\public\CompassPoint.h" />
+    <ClInclude Include="..\public\CostumeBase.h" />
     <ClInclude Include="..\public\DebugApp.h" />
     <ClInclude Include="..\public\DefaultEntity.h" />
     <ClInclude Include="..\public\GameData_Manager.h" />
@@ -200,8 +201,11 @@
     <ClInclude Include="..\Public\ImGui\imstb_textedit.h" />
     <ClInclude Include="..\Public\ImGui\imstb_truetype.h" />
     <ClInclude Include="..\public\IMG_Hierarchy.h" />
+    <ClInclude Include="..\public\IMG_Inspector.h" />
     <ClInclude Include="..\public\IMG_Profiler.h" />
+    <ClInclude Include="..\public\IMG_Transform.h" />
     <ClInclude Include="..\public\InGameMenu.h" />
+    <ClInclude Include="..\public\ItemBase.h" />
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\public\LoadingHUD.h" />
     <ClInclude Include="..\public\LoadingIcon.h" />
@@ -239,6 +243,7 @@
     <ClCompile Include="..\private\Character_Manager.cpp" />
     <ClCompile Include="..\private\Compass.cpp" />
     <ClCompile Include="..\private\CompassPoint.cpp" />
+    <ClCompile Include="..\private\CostumeBase.cpp" />
     <ClCompile Include="..\private\DebugApp.cpp" />
     <ClCompile Include="..\private\DefaultEntity.cpp" />
     <ClCompile Include="..\private\GameData_Manager.cpp" />
@@ -261,8 +266,11 @@
     <ClCompile Include="..\Private\imgui_tables.cpp" />
     <ClCompile Include="..\Private\imgui_widgets.cpp" />
     <ClCompile Include="..\private\IMG_Hierarchy.cpp" />
+    <ClCompile Include="..\private\IMG_Inspector.cpp" />
     <ClCompile Include="..\private\IMG_Profiler.cpp" />
+    <ClCompile Include="..\private\IMG_Transform.cpp" />
     <ClCompile Include="..\private\InGameMenu.cpp" />
+    <ClCompile Include="..\private\ItemBase.cpp" />
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\LoadingHUD.cpp" />
     <ClCompile Include="..\private\LoadingIcon.cpp" />

@@ -51,6 +51,7 @@ public :
 
 	void									ADD_Child(CGameObject* pChild);
 	void									Remove_Child(CGameObject* pChild);
+	const list<CGameObject*>*				GetChildObject();
 
 	void									SetLocation(_float3 vPosition);
 	void									SetRotation(_float3 vRotation);

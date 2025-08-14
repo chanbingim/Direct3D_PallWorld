@@ -27,7 +27,8 @@ private :
 
 private :
 	void							Update_ParentNodes();
-	void							Draw_Hierarchy();
+	HRESULT							Draw_Hierarchy(CGameObject* pObject);
+	
 
 
 public:

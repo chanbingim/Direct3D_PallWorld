@@ -141,6 +141,11 @@ void CGameObject::Remove_Child(CGameObject* pChild)
 	m_pChildList.erase(iter);
 }
 
+const list<CGameObject*>* CGameObject::GetChildObject()
+{
+	return  &m_pChildList;
+}
+
 void CGameObject::SetLocation(_float3 vPosition)
 {
 	if (nullptr == m_pTransformCom)

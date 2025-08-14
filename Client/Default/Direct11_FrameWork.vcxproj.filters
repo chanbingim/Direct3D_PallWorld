@@ -212,11 +212,26 @@
     <Filter Include="ImGui\UI">
       <UniqueIdentifier>{7b7dbb8e-461d-4552-ab98-cee34fc40eab}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui\UI\Inspector">
-      <UniqueIdentifier>{1816d8ac-46a8-4d76-869c-104477eea4e3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ImGui\UI\Profile">
       <UniqueIdentifier>{d6b0034d-3d68-4f7a-8335-b3cf53c926db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui\UI\Hierarchy">
+      <UniqueIdentifier>{1816d8ac-46a8-4d76-869c-104477eea4e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\Static_Object\Item">
+      <UniqueIdentifier>{0baf81af-0ee3-4bde-a5a1-1e8ccc6736f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\Static_Object\Item\Costum">
+      <UniqueIdentifier>{fe22e618-5524-4a31-ba70-6a8e3b937d0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\Static_Object\Item\Costum\Head">
+      <UniqueIdentifier>{41b27108-4f6f-48fd-b9a1-b51eb95d4cff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui\UI\Instpector">
+      <UniqueIdentifier>{d5f07d9c-8f42-4928-8033-5e4f39785bdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui\UI\Instpector\IMG_Transform">
+      <UniqueIdentifier>{be1775b8-0c87-4db9-b3e5-adb25fce84b6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -394,14 +409,26 @@
     <ClInclude Include="..\public\DebugApp.h">
       <Filter>00. MainApp\DebugWindowApp</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\ImgUIBase.h">
-      <Filter>ImGui\UI</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\IMG_Profiler.h">
       <Filter>ImGui\UI\Profile</Filter>
     </ClInclude>
     <ClInclude Include="..\public\IMG_Hierarchy.h">
-      <Filter>ImGui\UI\Inspector</Filter>
+      <Filter>ImGui\UI\Hierarchy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CostumeBase.h">
+      <Filter>03. Objects\MeshObject\Static_Object\Item\Costum</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ImgUIBase.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ItemBase.h">
+      <Filter>03. Objects\MeshObject\Static_Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\IMG_Inspector.h">
+      <Filter>ImGui\UI\Instpector</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\IMG_Transform.h">
+      <Filter>ImGui\UI\Instpector\IMG_Transform</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -571,14 +598,26 @@
     <ClCompile Include="..\private\DebugApp.cpp">
       <Filter>00. MainApp\DebugWindowApp</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\ImgUIBase.cpp">
-      <Filter>ImGui\UI</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\IMG_Profiler.cpp">
       <Filter>ImGui\UI\Profile</Filter>
     </ClCompile>
     <ClCompile Include="..\private\IMG_Hierarchy.cpp">
-      <Filter>ImGui\UI\Inspector</Filter>
+      <Filter>ImGui\UI\Hierarchy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CostumeBase.cpp">
+      <Filter>03. Objects\MeshObject\Static_Object\Item\Costum</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ImgUIBase.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ItemBase.cpp">
+      <Filter>03. Objects\MeshObject\Static_Object\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\IMG_Inspector.cpp">
+      <Filter>ImGui\UI\Instpector</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\IMG_Transform.cpp">
+      <Filter>ImGui\UI\Instpector\IMG_Transform</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

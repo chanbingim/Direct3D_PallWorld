@@ -25,7 +25,14 @@ void CIMG_Hierarchy::Update(_float fDeletaTime)
     if (ImGui::Begin("Hierarchy"))
     {
         Update_ParentNodes();
-        Draw_Hierarchy();
+
+        for (auto& Obj : m_pParentNodes)
+        {
+            Draw_Hierarchy(Obj);
+            Safe_Release(Obj);
+        }
+        m_pParentNodes.clear();
+
         ImGui::End();
     }
 }
@@ -56,43 +63,43 @@ void CIMG_Hierarchy::Update_ParentNodes()
     }
 }
 
-void CIMG_Hierarchy::Draw_Hierarchy()
+HRESULT CIMG_Hierarchy::Draw_Hierarchy(CGameObject* pObject)
 {
     //노드 표현했으면 부모 래퍼런스 감소 그다음 다그리면 클리어
-    _uInt iIndex = 0;
-    for (auto Objects : m_pParentNodes)
+    m_TreeNodeFlag = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
+
+    CStringHelper::ConvertWideToUTF(pObject->GetObjectTag().c_str(), m_szName);
+    sprintf_s(m_szName, "%s##%d", m_szName, 0);
+
+    /* if (m_SelectedObject == Objects)
+         flags |= ImGuiTreeNodeFlags_Selected;*/
+
+         //Node Ex는 오픈했는지 안했는지를 반환해 주는 형태의 함수
+
+    if (nullptr == pObject->GetChildObject())
+        return E_FAIL;
+
+    bool opened = ImGui::TreeNodeEx(m_szName, m_TreeNodeFlag);
+    WCHAR wstr[1024] = {};
+
+    // 선택 감지 (펼치기와 별개로) 
+    if (ImGui::IsItemClicked())
     {
-        m_TreeNodeFlag = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
-
-        CStringHelper::ConvertWideToUTF(Objects->GetObjectTag().c_str(), m_szName);
-        sprintf_s(m_szName, "%s##%d", m_szName, iIndex);
-
-        /* if (m_SelectedObject == Objects)
-             flags |= ImGuiTreeNodeFlags_Selected;*/
-
-             //Node Ex는 오픈했는지 안했는지를 반환해 주는 형태의 함수
-        bool opened = ImGui::TreeNodeEx(m_szName, m_TreeNodeFlag);
-        WCHAR wstr[1024] = {};
-
-        // 선택 감지 (펼치기와 별개로) 
-        if (ImGui::IsItemClicked())
-        {
-            //wsprintf(wstr, TEXT("Clicked : %s"), Objects->GetObjectTag().c_str());
-            //SelectItem(Objects);
-        }
-
-        if (opened)
-        {
-
-
-
-            ImGui::TreePop();
-        }
-
-        Safe_Release(Objects);
-        iIndex++;
+        //wsprintf(wstr, TEXT("Clicked : %s"), Objects->GetObjectTag().c_str());
+        //SelectItem(Objects);
     }
-    m_pParentNodes.clear();
+
+    if (opened)
+    {
+        for (auto& iter : *pObject->GetChildObject())
+        {
+            Draw_Hierarchy(iter);
+        }
+
+        ImGui::TreePop();
+    }
+
+    return S_OK;
 }
 
 CIMG_Hierarchy* CIMG_Hierarchy::Create()
