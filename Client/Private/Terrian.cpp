@@ -29,7 +29,12 @@ HRESULT CTerrian::Initialize(void* pArg)
 
 	TERRIAN_DESC* Desc = static_cast<TERRIAN_DESC*>(pArg);
 	if (Desc)
+	{
+		m_ObejctTag = Desc->szTerrianName;
 		TileCnt = Desc->iGridCnt;
+	}
+	else
+		m_ObejctTag = TEXT("Terrian");
 
 	if (FAILED(ADD_Components(TileCnt)))
 		return E_FAIL;
@@ -37,7 +42,7 @@ HRESULT CTerrian::Initialize(void* pArg)
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
-	m_ObejctTag = TEXT("Terrian");
+	
 	return S_OK;
 }
 

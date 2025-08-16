@@ -7,7 +7,6 @@ CVIBuffer_Terrian::CVIBuffer_Terrian(ID3D11Device* pDevice, ID3D11DeviceContext*
 
 CVIBuffer_Terrian::CVIBuffer_Terrian(const CVIBuffer_Terrian& rhs) :
     CVIBuffer(rhs),
-    m_iNumVertices(rhs.m_iNumVertices),
 	m_iNumVertex(rhs.m_iNumVertex)
 {
 }
@@ -16,7 +15,7 @@ HRESULT CVIBuffer_Terrian::Initialize_Prototype(_uInt TileCnt)
 {
 	m_iNumVertex.x = (_float)TileCnt;
 	m_iNumVertex.y = (_float)TileCnt;
-	m_iNumVertices = m_iNumVertex.x * m_iNumVertex.y;
+	m_iNumVertices = (_uInt)(m_iNumVertex.x * m_iNumVertex.y);
 
 	m_iNumVertexBuffers = 1;
 	m_iVertexStride = sizeof(VTX_NORTEX);
@@ -281,6 +280,49 @@ HRESULT CVIBuffer_Terrian::Initialize(void* pArg)
 void CVIBuffer_Terrian::Render_VIBuffer()
 {
     __super::Render_VIBuffer();
+}
+
+HRESULT CVIBuffer_Terrian::ExportHeightMap(const WCHAR* ExportFilePath)
+{
+	WCHAR       Extension[MAX_PATH] = {};
+	_wsplitpath_s(ExportFilePath, nullptr, 0, nullptr, 0, nullptr, 0, Extension, MAX_PATH);
+
+	ID3D11Texture2D* pTexture2D = nullptr;
+	D3D11_TEXTURE2D_DESC TexDesc = {};
+
+	TexDesc.Width = (_uInt)m_iNumVertex.x;
+	TexDesc.Height = (_uInt)m_iNumVertex.y;
+	TexDesc.MipLevels = 1;
+	TexDesc.ArraySize = 1;
+	TexDesc.Format = DXGI_FORMAT_R32_FLOAT;
+
+	TexDesc.Usage = D3D11_USAGE_DEFAULT;
+	TexDesc.BindFlags = D3D11_BIND_RENDER_TARGET;
+	TexDesc.CPUAccessFlags = 0;
+	TexDesc.SampleDesc.Count = 1;
+
+	m_pDevice->CreateTexture2D(&TexDesc, nullptr, &pTexture2D);
+
+	float* pData = new float[m_iNumVertices];
+	for (_uInt i = 0; i < m_iNumVertices; ++i)
+		pData[i] = m_pVertices[i].y;
+
+	m_pContext->UpdateSubresource(
+		pTexture2D,							// GPU 텍스처
+		0,									// Subresource
+		nullptr,							// Box (전체 복사)
+		pData,								// CPU 데이터
+		(_uInt)(m_iNumVertex.x * sizeof(_float)),	// RowPitch
+		0									// DepthPitch
+	);
+
+	SaveWICTextureToFile(m_pContext, pTexture2D,
+						 GUID_ContainerFormatPng,
+						 Extension);
+
+	Safe_Delete_Array(pData);
+
+	return S_OK;
 }
 
 CVIBuffer_Terrian* CVIBuffer_Terrian::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const WCHAR* pHegithFilePath)

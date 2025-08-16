@@ -25,6 +25,7 @@ private :
 private :
 	void							DrawTileCount();
 	void							GenerateTerrian();
+	void							CreateHeightMap();
 
 public:
 	static	CIMG_LandScape*			Create();

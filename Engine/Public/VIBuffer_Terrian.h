@@ -15,9 +15,10 @@ public:
 	virtual HRESULT			Initialize(void* pArg) override;
 	virtual void			Render_VIBuffer() override;
 
+	HRESULT					ExportHeightMap(const WCHAR* ExportFilePath);
+
 private :
 	_float2							m_iNumVertex = {};
-	_float							m_iNumVertices = {};
 
 public:
 	static		CVIBuffer_Terrian*	Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const WCHAR* pHegithFilePath);

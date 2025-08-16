@@ -16,8 +16,11 @@ public:
 	virtual HRESULT			Render();
 
 private :
+	/* ADD Default Object */
 	HRESULT					ADD_CameraLayer(const _wstring& LayerName);
-	HRESULT					ADD_BackGroundLayer(const _wstring& LayerName);
+	HRESULT					ADD_TerrianLayer(const _wstring& LayerName);
+	HRESULT					ADD_PlayerLayer(const _wstring& LayerName);
+
 	HRESULT					Setting_GamePlayHUD();
 
 public:

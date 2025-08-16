@@ -6,6 +6,7 @@
 #include <Windows.h>
 #include <assert.h>
 #include <iostream>
+#include <wincodec.h>
 
 //STL
 #include <stack>
@@ -33,6 +34,7 @@ using namespace std;
 //Dx11 Texture Headers
 #include "DirectXTK/DDSTextureLoader.h"
 #include "DirectXTK/WICTextureLoader.h"
+#include "DirectXTK/ScreenGrab.h"
 
 //Dx11 Shader
 #include "FX11/d3dx11effect.h"

@@ -28,13 +28,23 @@ HRESULT CImgManager::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCon
 void CImgManager::Update(_float fDeletaTime)
 {
     // 윈도우 메시지 처리 등...
-    //ImGui_ImplDX11_NewFrame();
+    ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
 
-    for (auto& pair : m_ImgDebugMap)
+    ImGuiViewport* viewport = ImGui::GetMainViewport();
+    ImGui::SetNextWindowPos(viewport->Pos);
+    ImGui::SetNextWindowSize(viewport->Size);
+
+    if (ImGui::Begin("Edit Window", nullptr, m_ImGuiWindowFlags))
     {
-        pair.second->Update(fDeletaTime);
+        CreateDockSpace();
+        DarwMenuBar();
+
+        for (auto& pair : m_ImgDebugMap)
+            pair.second->Update(fDeletaTime);
+
+        ImGui::End();
     }
 }
 
@@ -106,25 +116,22 @@ HRESULT CImgManager::Default_Setting(ID3D11Device* pDevice, ID3D11DeviceContext*
     //멀티 윈도우 기준이함수를 호출해야 잘 랜더링됨
     ImGui_ImplDX11_CreateDeviceObjects();
 
-    ImGuiViewport* viewport = ImGui::GetMainViewport();
-
     // 전체화면 윈도우 설정
     io.ConfigFlags = ImGuiConfigFlags_NavEnableKeyboard | ImGuiConfigFlags_DockingEnable;
-
     io.DisplaySize = { g_iWinSizeX, g_iWinSizeY };
-    //m_ImGuiIo = io;
 
-    // 창 위치를 (0,0)으로 설정
-    ImGui::SetNextWindowPos(ImVec2(0, 0));
+    ImGuiViewport* vp = ImGui::GetMainViewport();
 
-    ImGuiWindowFlags ImGuiWindowFlag = ImGuiWindowFlags_NoTitleBar |
-        ImGuiWindowFlags_NoMove |
-        ImGuiWindowFlags_NoScrollbar |
-        ImGuiWindowFlags_NoCollapse |
-        ImGuiWindowFlags_NoDecoration |
-        ImGuiWindowFlags_NoNav |
-        ImGuiWindowFlags_NoBringToFrontOnFocus |
-        ImGuiWindowFlags_MenuBar;
+    //// 창 위치를 (0,0)으로 설정
+   
+    ImGui::SetNextWindowViewport(vp->ID);
+
+    m_ImGuiWindowFlags = ImGuiWindowFlags_NoMove |
+                         ImGuiWindowFlags_NoCollapse |
+                         ImGuiWindowFlags_NoDecoration |
+                         ImGuiWindowFlags_NoNav |
+                         ImGuiWindowFlags_NoBringToFrontOnFocus |
+                         ImGuiWindowFlags_MenuBar;
 
     // 패딩과 테두리를 고려해 창 스타일 비활성화
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
@@ -151,6 +158,28 @@ HRESULT CImgManager::Setting_Img_UI()
         return E_FAIL;
 
     return S_OK;
+}
+
+void CImgManager::CreateDockSpace()
+{
+    ImGuiID dockspace_id = ImGui::GetID("MainDock");
+    ImGuiDockNodeFlags dock_flags = ImGuiDockNodeFlags_PassthruCentralNode;
+    ImGui::DockSpace(dockspace_id, ImVec2(0, 0), dock_flags);
+}
+
+void CImgManager::DarwMenuBar()
+{
+    if (ImGui::BeginMenuBar())
+    {
+        if (ImGui::BeginMenu("File"))
+        {
+
+
+            ImGui::EndMenuBar();
+        }
+
+        ImGui::EndMenuBar();
+    }
 }
 
 void CImgManager::Free()

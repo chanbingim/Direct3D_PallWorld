@@ -48,6 +48,15 @@ void CIMG_LandScape::Update(_float fDeletaTime)
         if (ImGui::Button("Generate"))
             GenerateTerrian();
 
+        ImGui::SameLine();
+
+        if (ImGui::Button("Create HeightMap"))
+        {
+            //여기서 어떤 곳에다가 저장할지 결정한다음 저장
+            CreateHeightMap();
+        }
+            
+
         ImGui::End();
     }
 }
@@ -71,26 +80,45 @@ void CIMG_LandScape::GenerateTerrian()
     auto CurLevel = m_pGameInstance->GetCurrentLevel()->GetLevelID();
 
     //타일 n x n 의 크기를 지정
-    _uInt GridX = pow(2, m_QuadPow);
+    _uInt GridX = (_uInt)pow(2, m_QuadPow);
 
     // 개수 및 위치를 넘겨서 추가하기
     for (int i = 0; i < m_tileCount[0]; ++i)
     {
+        float OffsetY = (i == 0 ? 0.f : 1.f);
         for (int j = 0; j < m_tileCount[1]; ++j)
         {
+            float OffsetX = (j == 0 ? 0.f : 1.f);
+
             //구조체 세팅해서 넘긴다음 Clone
             CTerrian::TERRIAN_DESC Desc;
             ZeroMemory(&Desc, sizeof(CTerrian::TERRIAN_DESC));
+            wsprintf(Desc.szTerrianName, TEXT("LandScape%d"), i * m_tileCount[1] + j);
 
-            Desc.vPosition = { (_float)GridX  * j, 0.f, (_float)GridX * i };
+            Desc.vPosition = { (_float)(GridX  * j - OffsetX), 0.f, (_float)(GridX * i - OffsetY) };
             Desc.vScale = { 1.f, 1.f, 1.f };
             Desc.iGridCnt = GridX;
             
             if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(CurLevel, TEXT("Prototype_GameObject_Terrian"), CurLevel,
-                TEXT("Layer_GamePlay_BackGround"), &Desc)))
+                TEXT("Layer_GamePlay_Terrian"), &Desc)))
                 return;
-
         }
+    }
+}
+
+void CIMG_LandScape::CreateHeightMap()
+{
+    WCHAR FilePath[MAX_PATH] = {};
+    //현재 레벨에다가 추가
+    auto CurLevel = m_pGameInstance->GetCurrentLevel()->GetLevelID();
+    const list<CGameObject*>* TerrianObject = m_pGameInstance->GetAllObejctToLayer(CurLevel, TEXT("Layer_GamePlay_Terrian"));
+
+    for (auto Object : *TerrianObject)
+    {
+        wsprintf(FilePath, TEXT("../Bin/Save/HeightMap/%s.png"), Object->GetObjectTag().c_str());
+
+        auto VITerrian = static_cast<CVIBuffer_Terrian *>(Object->Find_Component(TEXT("VIBuffer_Com")));
+        VITerrian->ExportHeightMap(FilePath);
     }
 }
 
