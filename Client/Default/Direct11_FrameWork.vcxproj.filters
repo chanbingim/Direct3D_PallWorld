@@ -242,6 +242,9 @@
     <Filter Include="ImGui\UI\ViewPort">
       <UniqueIdentifier>{a0edf5fc-8ede-43b5-bf7e-a0f238b7fb73}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ImGui\UI\Content">
+      <UniqueIdentifier>{4458f3ac-8ea4-4cbd-a863-81fb3930bbdc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -448,6 +451,9 @@
     <ClInclude Include="..\public\IMG_Viewport.h">
       <Filter>ImGui\UI\ViewPort</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\IMG_Content.h">
+      <Filter>ImGui\UI\Content</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -645,6 +651,9 @@
     </ClCompile>
     <ClCompile Include="..\private\IMG_Viewport.cpp">
       <Filter>ImGui\UI\ViewPort</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\IMG_Content.cpp">
+      <Filter>ImGui\UI\Content</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -41,14 +41,21 @@ void CRenderer::Render()
 {
     Render_Priority();
     Render_NonBlend();
-
+   
     Render_WorldUI();
     FLOAT blendFactor[4] = { 0.f, 0.f, 0.f, 0.f };
+
+    ID3D11BlendState* OldBlend = nullptr;
+    FLOAT   OldblendFactor[4] = {};
+    UINT    OldMask = {};
+
+    m_pContext->OMGetBlendState(&OldBlend, OldblendFactor, &OldMask);
     m_pContext->OMSetBlendState(m_pAlphaBlendState, blendFactor, 0xffffffff);
     Render_Blend();
-   
+    DrawPosTex();
+
     Render_ScreenUI();
-    m_pContext->OMSetBlendState(nullptr, nullptr, 0xffffffff);
+    m_pContext->OMSetBlendState(OldBlend, OldblendFactor, OldMask);
 }
 
 HRESULT CRenderer::Create_BlendState()
@@ -137,8 +144,6 @@ void CRenderer::Render_Blend()
     }
 
     m_RenderObjects[ENUM_CLASS(RENDER::BLEND)].clear();
-  
-    DrawPosTex();
 }
 
 void CRenderer::Render_ScreenUI()
@@ -154,6 +159,8 @@ void CRenderer::Render_ScreenUI()
             return SrcUI->GetZOrder() < DestUI->GetZOrder();
         });
 
+    ID3D11DepthStencilState* OldState = nullptr;
+    m_pContext->OMGetDepthStencilState(&OldState, 0);
     m_pContext->OMSetDepthStencilState(m_pUIDepthStencilState, 0);
 
     for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::SCREEN_UI)])
@@ -165,7 +172,7 @@ void CRenderer::Render_ScreenUI()
     }
 
     m_RenderObjects[ENUM_CLASS(RENDER::SCREEN_UI)].clear();
-    m_pContext->OMSetDepthStencilState(nullptr, 0);
+    m_pContext->OMSetDepthStencilState(OldState, 0);
 }
 
 #pragma region PostTex
@@ -174,14 +181,20 @@ void CRenderer::DrawPosTex()
     ID3D11Texture2D* pBackBuffer = nullptr;
     ID3D11Resource*  pPostBuffer = nullptr;
     auto PostTex = m_pGameInstance->GetPostBuffer(0);
-    m_pGameInstance->GetBackBuffer(0, (ID3D11Texture2D**)&pBackBuffer);
-   
-    if (PostTex)
+    m_pGameInstance->GetBackBuffer(0, &pBackBuffer);
+
+    if (PostTex && pBackBuffer)
     {
-        /* 원본 리소스를 얻어온다. */
         PostTex->GetResource(&pPostBuffer);
-        //픽셀 값만 복사해오는 함수
+        ////픽셀 값만 복사해오는 함수
         m_pContext->CopyResource(pPostBuffer, pBackBuffer);
+
+        //// 멀티 셈플링이 적용되게 가져오는 방법이다.
+        ////m_pContext->ResolveSubresource(
+        ////    pPostBuffer, 0,   // 싱글샘플 타겟
+        ////    pBackBuffer, 0,   // 멀티샘플 소스
+        ////    DXGI_FORMAT_R8G8B8A8_UNORM // 반드시 렌더타겟과 SRV가 지원하는 동일 포맷
+        ////);        
 
         Safe_Release(pPostBuffer);
     }

@@ -10,6 +10,7 @@
 #include "IMG_Inspector.h"
 #include "IMG_LandScape.h"
 #include "IMG_Viewport.h"
+#include "IMG_Content.h"
 #pragma endregion
 
 
@@ -170,6 +171,10 @@ HRESULT CImgManager::Setting_Img_UI()
 
     if (FAILED(ADD_IMG_UserInterface(TEXT("ViewPort"), CIMG_Viewport::Create())))
         return E_FAIL;
+
+    if (FAILED(ADD_IMG_UserInterface(TEXT("Content"), CIMG_Content::Create())))
+        return E_FAIL;
+
     return S_OK;
 }
 

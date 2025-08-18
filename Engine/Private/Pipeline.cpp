@@ -66,23 +66,20 @@ ID3D11ShaderResourceView* CPipeline::GetPostBuffer(_uInt iIndex)
 {
 	if (0 > iIndex || m_PipeTextures.size() <= iIndex)
 		return nullptr;
-
 	return m_PipeTextures[iIndex];
 }
 
 HRESULT CPipeline::SettingPipeTextures()
 {
-	_float2  ScreenSize = m_pGameInstance->GetScreenSize();
-	m_PostDesc.Width = (_uInt)ScreenSize.x;
-	m_PostDesc.Height = (_uInt)ScreenSize.y;
-	m_PostDesc.MipLevels = 1;
-	m_PostDesc.ArraySize = 1;
-	m_PostDesc.Format = DXGI_FORMAT_R32_FLOAT;
+	//백버퍼의 정보를 가져와서 전역으로 사용할 용도로 보관할 텍스처들을 세팅한다.
+	ID3D11Texture2D* pBackBuffer = nullptr;
+	m_pGameInstance->GetBackBuffer(0, &pBackBuffer);
+	pBackBuffer->GetDesc(&m_PostDesc);
 
-	m_PostDesc.Usage = D3D11_USAGE_DEFAULT;
-	m_PostDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-	m_PostDesc.CPUAccessFlags = 0;
-	m_PostDesc.SampleDesc.Count = 1;
+	//셰이더에 넘겨 값을 설정하는 용도 및
+	//backbuffer가 랜더타겟용도로 사용되었기때문에 둘이 같은 값으로 세팅해준다.
+	//나중에 이데이터를 랜더타겟으로 사용할지도 모름
+	m_PostDesc.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
 
 	/* 텍스처 생성 */
 	m_PipeTextures.reserve(8);
@@ -90,12 +87,18 @@ HRESULT CPipeline::SettingPipeTextures()
 	{
 		ID3D11Texture2D* PosTex = nullptr;
 		ID3D11ShaderResourceView* pSRV = nullptr;
-		if (FAILED(m_pDevice->CreateTexture2D(&m_PostDesc, nullptr, (ID3D11Texture2D**)&PosTex)))
+		if (FAILED(m_pDevice->CreateTexture2D(&m_PostDesc, nullptr, &PosTex)))
 			return E_FAIL;
 
 		m_pDevice->CreateShaderResourceView(PosTex, nullptr, &pSRV);
 		m_PipeTextures.push_back(pSRV);
+
+		//텍스처2D를 이용해서 리소스뷰를 만들었기때문에 메모리 해제
+		//안하면 누수남
+		Safe_Release(PosTex);
 	}
+	// 백버퍼에 대한 정보를 전부다 사용했기때문에 Ref해제
+	Safe_Release(pBackBuffer);
 
 	return S_OK;
 }

@@ -48,7 +48,10 @@ void CMainApp::Run(_float fDeletaTime)
 	Render();
 
 #ifdef _DEBUG
-	m_pGameInstance->Set_RenderResource(1);
+	if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_5))
+		m_pGameInstance->Set_RenderResource(0);
+	else
+		m_pGameInstance->Set_RenderResource(1);
 	m_pDebugApp->Run(fDeletaTime);
 #endif // _DEBUG
 }

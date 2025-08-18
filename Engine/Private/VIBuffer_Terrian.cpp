@@ -284,11 +284,10 @@ void CVIBuffer_Terrian::Render_VIBuffer()
 
 HRESULT CVIBuffer_Terrian::ExportHeightMap(const WCHAR* ExportFilePath)
 {
-	WCHAR       Extension[MAX_PATH] = {};
-	WCHAR       FileName[MAX_PATH] = {};
-	_wsplitpath_s(ExportFilePath, nullptr, 0, nullptr, 0, FileName, MAX_PATH, Extension, MAX_PATH);
-
-	wsprintf(FileName, TEXT("%s%s"), FileName, Extension);
+	//WCHAR       Extension[MAX_PATH] = {};
+	//WCHAR       FileName[MAX_PATH] = {};
+	//_wsplitpath_s(ExportFilePath, nullptr, 0, nullptr, 0, FileName, MAX_PATH, Extension, MAX_PATH);
+	//wsprintf(FileName, TEXT("%s%s"), FileName, Extension);
 
 	ID3D11Texture2D* pTexture2D = nullptr;
 	D3D11_TEXTURE2D_DESC TexDesc = {};

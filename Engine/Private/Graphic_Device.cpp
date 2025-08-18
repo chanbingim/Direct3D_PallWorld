@@ -124,7 +124,7 @@ HRESULT CGraphic_Device::Initialize_SwapChain(const ENGINE_DESC& Engine_Desc, ID
     SwapChain_Desc.BufferDesc.Height = Engine_Desc.iWinSizeY;
     SwapChain_Desc.BufferDesc.RefreshRate.Numerator = 60;
     SwapChain_Desc.BufferDesc.RefreshRate.Denominator = 1;
-    SwapChain_Desc.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+    SwapChain_Desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
     SwapChain_Desc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
     SwapChain_Desc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
     SwapChain_Desc.SampleDesc.Count = 1;

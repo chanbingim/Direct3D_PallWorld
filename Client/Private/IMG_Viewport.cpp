@@ -22,7 +22,9 @@ HRESULT CIMG_Viewport::Initialize(void* pArg)
 
 void CIMG_Viewport::Update(_float fDeletaTime)
 {
-    if (ImGui::Begin("ViewPort"))
+    ImVec2 DrawSize = ImGui::GetWindowContentRegionMax();
+    ImGui::SetNextWindowSize(DrawSize);
+    if (ImGui::Begin("ViewPort", 0, ImGuiWindowFlags_AlwaysAutoResize))
     {
         DrawViewPortMenuBar();
         DrawGameView();
@@ -59,9 +61,8 @@ void CIMG_Viewport::DrawViewPortMenuBar()
 
 void CIMG_Viewport::DrawGameView()
 {
-    auto ViewportTex = m_pGameInstance->GetPostBuffer(0);
-
-    ImGui::Image(ViewportTex, ImVec2(500, 200));
+    ImVec2 DrawSize = ImGui::GetContentRegionAvail();
+    ImGui::Image(m_pGameInstance->GetPostBuffer(0), DrawSize);
 }
 
 CIMG_Viewport* CIMG_Viewport::Create()
