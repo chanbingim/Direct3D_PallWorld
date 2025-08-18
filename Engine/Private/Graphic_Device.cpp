@@ -95,6 +95,14 @@ void CGraphic_Device::Set_RenderResource(_uInt iIndex)
     m_pDeviceContext->RSSetViewports(1, &m_Render_Dsec[iIndex].ViewPort);
 }
 
+HRESULT CGraphic_Device::GetBackBuffer(_uInt iIndex, ID3D11Texture2D** ppOut)
+{
+    if (FAILED(m_Render_Dsec[iIndex].pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)ppOut)))
+        return E_FAIL;
+
+    return S_OK;
+}
+
 HRESULT CGraphic_Device::Initialize_SwapChain(const ENGINE_DESC& Engine_Desc, IDXGISwapChain** pOut)
 {
     //Device와 DXGI 계층간의 상호작용을 가능하게 해주는 Com객체

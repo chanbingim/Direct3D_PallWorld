@@ -45,6 +45,7 @@ public :
 #pragma region Graphic_Device
 	HRESULT		ADD_Window(const ENGINE_DESC& Win_Desc);
 	void		Set_RenderResource(_uInt iIndex);
+	HRESULT		GetBackBuffer(_uInt iIndex, ID3D11Texture2D** pOut);
 
 	void		Render_Begin(_float* Color);
 	void		Render_End();
@@ -126,6 +127,9 @@ public :
 	const _float4x4&			GetMatrix(MAT_STATE eState);
 	const _float4x4&			GetInvMatrix(MAT_STATE eState);
 	const _float4x4&			GetIndentityMatrix();
+
+	void						SetPostBuffer(_uInt iIndex, ID3D11ShaderResourceView* pTex);
+	ID3D11ShaderResourceView*	GetPostBuffer(_uInt iIndex);
 #pragma endregion
 
 	const _float2&				GetScreenSize();

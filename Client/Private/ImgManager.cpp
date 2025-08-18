@@ -9,6 +9,7 @@
 #include "IMG_Hierarchy.h"
 #include "IMG_Inspector.h"
 #include "IMG_LandScape.h"
+#include "IMG_Viewport.h"
 #pragma endregion
 
 
@@ -41,7 +42,7 @@ void CImgManager::Update(_float fDeletaTime)
         CreateDockSpace();
         DarwMenuBar();
 
-        for (auto& pair : m_ImgDebugMap)
+        for (auto& pair : m_ImgUIMap)
             pair.second->Update(fDeletaTime);
 
         ImGui::End();
@@ -91,10 +92,10 @@ void CImgManager::ClearAllSelectObjects()
 
 HRESULT CImgManager::ADD_IMG_UserInterface(const _wstring szTag, CImgUIBase* pUserInterface)
 {
-    auto pair = m_ImgDebugMap.find(szTag);
+    auto pair = m_ImgUIMap.find(szTag);
 
-    if (pair == m_ImgDebugMap.end())
-        m_ImgDebugMap.emplace(szTag, pUserInterface);
+    if (pair == m_ImgUIMap.end())
+        m_ImgUIMap.emplace(szTag, pUserInterface);
     else
     {
         MSG_BOX("Already Created : UI");
@@ -102,6 +103,15 @@ HRESULT CImgManager::ADD_IMG_UserInterface(const _wstring szTag, CImgUIBase* pUs
     }
 
     return S_OK;
+}
+
+CImgUIBase* CImgManager::Find_ImgUserInterface(const WCHAR* szUITag)
+{
+    auto pair = m_ImgUIMap.find(szUITag);
+
+    if (pair == m_ImgUIMap.end())
+        return nullptr;
+    return pair->second;
 }
 
 HRESULT CImgManager::Default_Setting(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -130,6 +140,7 @@ HRESULT CImgManager::Default_Setting(ID3D11Device* pDevice, ID3D11DeviceContext*
                          ImGuiWindowFlags_NoCollapse |
                          ImGuiWindowFlags_NoDecoration |
                          ImGuiWindowFlags_NoNav |
+                         ImGuiWindowFlags_NoBackground |
                          ImGuiWindowFlags_NoBringToFrontOnFocus |
                          ImGuiWindowFlags_MenuBar;
 
@@ -157,6 +168,8 @@ HRESULT CImgManager::Setting_Img_UI()
     if (FAILED(ADD_IMG_UserInterface(TEXT("LandScape"), CIMG_LandScape::Create())))
         return E_FAIL;
 
+    if (FAILED(ADD_IMG_UserInterface(TEXT("ViewPort"), CIMG_Viewport::Create())))
+        return E_FAIL;
     return S_OK;
 }
 
@@ -190,9 +203,9 @@ void CImgManager::Free()
 
     ClearAllSelectObjects();
    
-    for (auto& pair : m_ImgDebugMap)
+    for (auto& pair : m_ImgUIMap)
         Safe_Release(pair.second);
 
-    m_ImgDebugMap.clear();
+    m_ImgUIMap.clear();
 }
 #endif //  _DEBUG

@@ -19,12 +19,13 @@ private:
 	virtual ~CGraphic_Device() = default;
 
 public :
-	HRESULT		Initialize_Grphic(const ENGINE_DESC& Engine_Desc, ID3D11Device** ppDeviceOut, ID3D11DeviceContext** ppContextOut);
-	void		Render_Begin(_float* Color);
-	void		Render_End();
+	HRESULT				Initialize_Grphic(const ENGINE_DESC& Engine_Desc, ID3D11Device** ppDeviceOut, ID3D11DeviceContext** ppContextOut);
+	void				Render_Begin(_float* Color);
+	void				Render_End();
 
-	HRESULT		ADD_Window(const ENGINE_DESC& Win_Desc);
-	void		Set_RenderResource(_uInt iIndex);
+	HRESULT				ADD_Window(const ENGINE_DESC& Win_Desc);
+	void				Set_RenderResource(_uInt iIndex);
+	HRESULT				GetBackBuffer(_uInt iIndex, ID3D11Texture2D** pOut);
 
 private :
 	ID3D11Device*				m_pGraphicDevice = nullptr;

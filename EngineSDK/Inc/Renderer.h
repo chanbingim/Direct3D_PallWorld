@@ -2,6 +2,8 @@
 #include "Base.h"
 
 NS_BEGIN(Engine)
+class CGameInstance;
+
 class CRenderer final : public CBase
 {
 private:
@@ -16,7 +18,8 @@ public:
 private:
 	ID3D11Device*						m_pDevice = { nullptr };
 	ID3D11DeviceContext*				m_pContext = { nullptr };
-
+	CGameInstance*						m_pGameInstance = nullptr;
+	
 	//랜더 스테이트
 	ID3D11BlendState*					m_pAlphaBlendState = { nullptr };
 	ID3D11DepthStencilState*			m_pUIDepthStencilState = { nullptr };
@@ -24,15 +27,17 @@ private:
 	list<class CGameObject*>			m_RenderObjects[ENUM_CLASS(RENDER::END)];
 
 private:
-	HRESULT				Create_BlendState();
-	HRESULT				Create_DepthStencilState();
+	HRESULT								Create_BlendState();
+	HRESULT								Create_DepthStencilState();
 
+	void								Render_Priority();
+	void								Render_NonBlend();
+	void								Render_WorldUI();
+	void								Render_Blend();
+	void								Render_ScreenUI();
 
-	void				Render_Priority();
-	void				Render_NonBlend();
-	void				Render_WorldUI();
-	void				Render_Blend();
-	void				Render_ScreenUI();
+	/* 후처리를 하기위해 텍스처 생성 */
+	void								DrawPosTex();
 
 public:
 	static CRenderer*	Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

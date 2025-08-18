@@ -206,6 +206,7 @@
     <ClInclude Include="..\public\IMG_LandScape.h" />
     <ClInclude Include="..\public\IMG_Profiler.h" />
     <ClInclude Include="..\public\IMG_Transform.h" />
+    <ClInclude Include="..\public\IMG_Viewport.h" />
     <ClInclude Include="..\public\InGameMenu.h" />
     <ClInclude Include="..\public\ItemBase.h" />
     <ClInclude Include="..\public\Loader.h" />
@@ -273,6 +274,7 @@
     <ClCompile Include="..\private\IMG_LandScape.cpp" />
     <ClCompile Include="..\private\IMG_Profiler.cpp" />
     <ClCompile Include="..\private\IMG_Transform.cpp" />
+    <ClCompile Include="..\private\IMG_Viewport.cpp" />
     <ClCompile Include="..\private\InGameMenu.cpp" />
     <ClCompile Include="..\private\ItemBase.cpp" />
     <ClCompile Include="..\private\Loader.cpp" />

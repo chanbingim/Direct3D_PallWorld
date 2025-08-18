@@ -1,15 +1,18 @@
 #include "Renderer.h"
 
 #include "GameInstance.h"
+
 #include "GameObject.h"
 #include "UserInterface.h"
 
 CRenderer::CRenderer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     m_pDevice(pDevice),
-    m_pContext(pContext)
+    m_pContext(pContext),
+    m_pGameInstance(CGameInstance::GetInstance())
 {
     Safe_AddRef(m_pDevice);
     Safe_AddRef(m_pContext);
+    Safe_AddRef(m_pGameInstance);
 }
 
 HRESULT CRenderer::Initialize()
@@ -125,7 +128,6 @@ void CRenderer::Render_WorldUI()
 
 void CRenderer::Render_Blend()
 {
-   
     for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::BLEND)])
     {
         if (nullptr != pRenderObject)
@@ -136,6 +138,7 @@ void CRenderer::Render_Blend()
 
     m_RenderObjects[ENUM_CLASS(RENDER::BLEND)].clear();
   
+    DrawPosTex();
 }
 
 void CRenderer::Render_ScreenUI()
@@ -165,6 +168,27 @@ void CRenderer::Render_ScreenUI()
     m_pContext->OMSetDepthStencilState(nullptr, 0);
 }
 
+#pragma region PostTex
+void CRenderer::DrawPosTex()
+{
+    ID3D11Texture2D* pBackBuffer = nullptr;
+    ID3D11Resource*  pPostBuffer = nullptr;
+    auto PostTex = m_pGameInstance->GetPostBuffer(0);
+    m_pGameInstance->GetBackBuffer(0, (ID3D11Texture2D**)&pBackBuffer);
+   
+    if (PostTex)
+    {
+        /* 원본 리소스를 얻어온다. */
+        PostTex->GetResource(&pPostBuffer);
+        //픽셀 값만 복사해오는 함수
+        m_pContext->CopyResource(pPostBuffer, pBackBuffer);
+
+        Safe_Release(pPostBuffer);
+    }
+    Safe_Release(pBackBuffer);
+}
+#pragma endregion
+
 CRenderer* CRenderer::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
     CRenderer* pRender = new CRenderer(pDevice, pContext);
@@ -187,6 +211,7 @@ void CRenderer::Free()
 
     Safe_Release(m_pAlphaBlendState);
     Safe_Release(m_pUIDepthStencilState);
+    Safe_Release(m_pGameInstance);
     Safe_Release(m_pDevice);
     Safe_Release(m_pContext);
 }

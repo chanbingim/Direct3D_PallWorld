@@ -63,7 +63,7 @@ HRESULT CGameInstance::Initialize_Engine(void* pArg)
     if (nullptr == m_pMouse)
         return E_FAIL;
 
-    m_pPipeline = CPipeline::Create();
+    m_pPipeline = CPipeline::Create(*GameSetting->ppDevice, *GameSetting->ppContext);
     if (nullptr == m_pPipeline)
         return E_FAIL;
     
@@ -131,6 +131,11 @@ HRESULT CGameInstance::ADD_Window(const ENGINE_DESC& Win_Desc)
 void CGameInstance::Set_RenderResource(_uInt iIndex)
 {
     m_pGraphic_Device->Set_RenderResource(iIndex);
+}
+
+HRESULT CGameInstance::GetBackBuffer(_uInt iIndex, ID3D11Texture2D** ppOut)
+{
+    return m_pGraphic_Device->GetBackBuffer(iIndex, ppOut);
 }
 
 void CGameInstance::Render_Begin(_float* Color)
@@ -323,6 +328,15 @@ const _float4x4& CGameInstance::GetInvMatrix(MAT_STATE eState)
 const _float4x4& CGameInstance::GetIndentityMatrix()
 {
     return m_pPipeline->GetIndentityMatrix();
+}
+void CGameInstance::SetPostBuffer(_uInt iIndex, ID3D11ShaderResourceView* pTex)
+{
+    m_pPipeline->SetPostBuffer(iIndex, pTex);
+}
+
+ID3D11ShaderResourceView* CGameInstance::GetPostBuffer(_uInt iIndex)
+{
+    return m_pPipeline->GetPostBuffer(iIndex);
 }
 const _float2& CGameInstance::GetScreenSize()
 {

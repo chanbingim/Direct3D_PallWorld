@@ -239,6 +239,9 @@
     <Filter Include="ImGui\UI\LandScape">
       <UniqueIdentifier>{3dbd45f8-547e-4d4a-b15c-592215e2b63c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ImGui\UI\ViewPort">
+      <UniqueIdentifier>{a0edf5fc-8ede-43b5-bf7e-a0f238b7fb73}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -409,9 +412,6 @@
     <ClInclude Include="..\Public\Client_ImgDefines.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\ImgManager.h">
-      <Filter>ImGui\Manager</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\DebugApp.h">
       <Filter>00. MainApp\DebugWindowApp</Filter>
     </ClInclude>
@@ -441,6 +441,12 @@
     </ClInclude>
     <ClInclude Include="..\public\IMG_LandScape.h">
       <Filter>ImGui\UI\LandScape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ImgManager.h">
+      <Filter>ImGui\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\IMG_Viewport.h">
+      <Filter>ImGui\UI\ViewPort</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -636,6 +642,9 @@
     </ClCompile>
     <ClCompile Include="..\private\IMG_LandScape.cpp">
       <Filter>ImGui\UI\LandScape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\IMG_Viewport.cpp">
+      <Filter>ImGui\UI\ViewPort</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

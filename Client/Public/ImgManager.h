@@ -32,12 +32,14 @@ public :
 	void							ClearAllSelectObjects();
 
 	HRESULT							ADD_IMG_UserInterface(const _wstring szTag, CImgUIBase* pUserInterface);
+	CImgUIBase*						Find_ImgUserInterface(const WCHAR* szUITag);
 
 private :
 	// Img gui를 여기다가 만들어서 보관하고 그걸 통해서 제어
-	unordered_map<_wstring, CImgUIBase*>	m_ImgDebugMap = {};
+	unordered_map<_wstring, CImgUIBase*>	m_ImgUIMap = {};
 	ImGuiWindowFlags						m_ImGuiWindowFlags = {};
 	list<CGameObject*>						m_SelectList = {};
+	
 
 private :
 	HRESULT			Default_Setting(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

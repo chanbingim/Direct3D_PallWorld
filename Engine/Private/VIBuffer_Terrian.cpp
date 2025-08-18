@@ -285,7 +285,10 @@ void CVIBuffer_Terrian::Render_VIBuffer()
 HRESULT CVIBuffer_Terrian::ExportHeightMap(const WCHAR* ExportFilePath)
 {
 	WCHAR       Extension[MAX_PATH] = {};
-	_wsplitpath_s(ExportFilePath, nullptr, 0, nullptr, 0, nullptr, 0, Extension, MAX_PATH);
+	WCHAR       FileName[MAX_PATH] = {};
+	_wsplitpath_s(ExportFilePath, nullptr, 0, nullptr, 0, FileName, MAX_PATH, Extension, MAX_PATH);
+
+	wsprintf(FileName, TEXT("%s%s"), FileName, Extension);
 
 	ID3D11Texture2D* pTexture2D = nullptr;
 	D3D11_TEXTURE2D_DESC TexDesc = {};
@@ -297,7 +300,7 @@ HRESULT CVIBuffer_Terrian::ExportHeightMap(const WCHAR* ExportFilePath)
 	TexDesc.Format = DXGI_FORMAT_R32_FLOAT;
 
 	TexDesc.Usage = D3D11_USAGE_DEFAULT;
-	TexDesc.BindFlags = D3D11_BIND_RENDER_TARGET;
+	TexDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 	TexDesc.CPUAccessFlags = 0;
 	TexDesc.SampleDesc.Count = 1;
 
@@ -318,8 +321,9 @@ HRESULT CVIBuffer_Terrian::ExportHeightMap(const WCHAR* ExportFilePath)
 
 	SaveWICTextureToFile(m_pContext, pTexture2D,
 						 GUID_ContainerFormatPng,
-						 Extension);
+						 ExportFilePath);
 
+	Safe_Release(pTexture2D);
 	Safe_Delete_Array(pData);
 
 	return S_OK;
