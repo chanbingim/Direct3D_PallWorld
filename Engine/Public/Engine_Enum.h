@@ -3,6 +3,7 @@
 namespace Engine
 {
 	enum class WINMODE		{ FULL, WIN, END };
+	enum class GAMEMODE		{ EDITOR, GAME, END };
 	enum class KEY_INPUT    { KEYBOARD, MOUSE, END };
 	enum class VISIBILITY	{ VISIBLE, HIDDEN, END };
 	enum class WORLDSTATE	{ RIGHT, UP, LOOK, POSITION, END };
@@ -14,7 +15,7 @@ namespace Engine
 	};
 
 	enum class TEXTURE			{ PLANE, CUBE, END };
-	enum class RAY				{ VIEW, WORLD, END };
+	enum class RAY				{ LOCAL, WORLD, END };
 	enum class COLLISION_TYPE	{ BOX, SPHERE, END };
 	enum class LIGHT_TYPE		{ POINT = 1, SPOT, DIRECATION, END };
 

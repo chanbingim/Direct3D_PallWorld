@@ -48,16 +48,20 @@ void CMouse::Update(_float fDeletaTime)
 	ScreenToClient(m_hWnd, &m_MouseViewPortPos);
 
 	_vector NDCSpacePoint = { m_MouseViewPortPos.x / (ViewportDesc.Width * 0.5f) - 1.f,
-							  1.f - m_MouseViewPortPos.y / (ViewportDesc.Height * 0.5f)};
-	 
-	_vector ViewPoint = XMVector3TransformCoord(NDCSpacePoint, XMLoadFloat4x4(&m_InvProjMat));
-	XMStoreFloat3(&m_RayPos[ENUM_CLASS(RAY::VIEW)], ViewPoint);
+							  m_MouseViewPortPos.y / -(ViewportDesc.Height * 0.5f) + 1.f, 0.f, 1.f};
+	
+	_matrix InvProjMat = XMLoadFloat4x4(&m_pGameInstance->GetInvMatrix(MAT_STATE::PROJECTION));
+	_matrix InvViewMat = XMLoadFloat4x4(&m_pGameInstance->GetInvMatrix(MAT_STATE::VIEW));
+
+	_vector ViewPoint = XMVector3TransformCoord(NDCSpacePoint, InvProjMat);
 
 	//여기서 월드 곱해서 월드로 내린다음 transform을 세팅하고 사용이지않을까
-	_vector WorldPoint = XMVector3TransformCoord(ViewPoint, XMLoadFloat4x4(&m_InvViewMat));
-	XMStoreFloat3(&m_RayPos[ENUM_CLASS(RAY::WORLD)], WorldPoint);
+	_vector WorldPoint = XMVector3TransformNormal(ViewPoint, InvViewMat);
+	WorldPoint = XMVector3Normalize(WorldPoint);
 
-	m_pTransformCom->SetPosition(m_RayPos[ENUM_CLASS(RAY::WORLD)]);
+	XMStoreFloat3(&m_RayPos, WorldPoint);
+	m_pTransformCom->SetPosition({  (_float)m_MouseViewPortPos.x - (ViewportDesc.Width * 0.5f),
+									(_float)-m_MouseViewPortPos.y + (ViewportDesc.Height * 0.5f), 0.f });
 }
 
 HRESULT CMouse::Render()
@@ -94,9 +98,9 @@ HRESULT CMouse::SetTexture(_uInt iLevelIndex, const WCHAR* Proto_TexTag, const W
 	return S_OK;
 }
 
-_float3& CMouse::GetRayPos(RAY eRayState)
+_float3& CMouse::GetRayPos()
 {
-	return m_RayPos[ENUM_CLASS(eRayState)];
+	return m_RayPos;
 }
 
 void CMouse::SetMouseFocus(CUserInterface* Widget)

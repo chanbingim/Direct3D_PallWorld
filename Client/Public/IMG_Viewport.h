@@ -17,7 +17,12 @@ public :
 	void							Change_EditMode(EDIT_MODE eMode);
 	const EDIT_MODE&				GetEditMode();
 
+
+
 private :
+	_float2							m_ViewFrameSize = {};
+	_float2							m_CneterPos = {};
+
 	EDIT_MODE						m_eEditMode = { EDIT_MODE::END };
 	_char							m_szSelect[MAX_PATH] = {};
 	const _char*					m_szModeName[ENUM_CLASS(EDIT_MODE::END)] = {};
@@ -25,6 +30,8 @@ private :
 private :
 	void							DrawViewPortMenuBar();
 	void							DrawGameView();
+
+	void							IsViewportClicked();
 
 public :
 	static		CIMG_Viewport*		Create();

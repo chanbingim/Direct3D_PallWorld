@@ -27,7 +27,7 @@ public :
 										   const WCHAR* Proto_BufferTag, const WCHAR* ComBuffer_Tag, void* pBufferArg);
 
 	POINT&						GetMousePoint();
-	_float3&					GetRayPos(RAY eRayState);
+	_float3&					GetRayPos();
 
 	void						SetMouseFocus(CUserInterface* Widget);
 	BOOL						IsFocus(CUserInterface* Widget);
@@ -49,10 +49,13 @@ private :
 	CVIBuffer_Rect*				m_pVIBufferCom = nullptr;
 
 	POINT						m_MouseViewPortPos = {};
-	_float3						m_RayPos[ENUM_CLASS(RAY::END)] = {};
+	_float3						m_RayPos = {};
 
 	_float4x4					m_InvViewMat = {};
 	_float4x4					m_InvProjMat = {};
+
+private :
+	void						UpdateMousePos();
 
 public :
 	static			CMouse*		Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, HWND hWnd);

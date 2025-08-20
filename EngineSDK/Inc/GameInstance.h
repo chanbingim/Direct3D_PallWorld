@@ -7,6 +7,7 @@ class CMouse;
 class CLevel_Manager;
 class CObject_Manager;
 class CLevel;
+class CPicking;
 class CLayer;
 class CGameObject;
 class CPipeline;
@@ -117,7 +118,8 @@ public :
 	void						SetMouseFocus(CUserInterface* Widget);
 	BOOL						IsMouseFocus(CUserInterface* Widget);
 
-	_float3&					GetRayPos(RAY eRayState);
+	_float3&					GetRayPos();
+
 	void						ResetMouseData();
 #pragma endregion
 
@@ -132,11 +134,26 @@ public :
 	ID3D11ShaderResourceView*	GetPostBuffer(_uInt iIndex);
 #pragma endregion
 
-	const _float2&				GetScreenSize();
+#pragma region Editor_Picking
+	void						SetEditor_MousePos(_float3 vPos);
+	void						SetEditor_Frame(const _float2& vSize);
+	void						Change_Mode(GAMEMODE eType);
+
+	const _float3&				GetPickingRayPos(RAY eType);
+	const _float3&				GetPickingRayDir(RAY eType);
+	void						Compute_LocalRay(const _matrix* InvWorldMatrix);
+
+	_bool						Picking_InWorld(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut);
+	_bool						Picking_InLocal(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut);
+#pragma endregion
 
 #pragma region Game_Instance
 	_float						GetPipeLineLoopTime(const TCHAR* Str);
+	const _float2&				GetScreenSize();
 #pragma endregion
+
+
+
 
 private :
 	CGraphic_Device*			m_pGraphic_Device = nullptr;
@@ -149,6 +166,7 @@ private :
 	CSound_Manager*				m_pSound_Manager = nullptr;
 	CMouse*						m_pMouse = nullptr;
 	CPipeline*					m_pPipeline = nullptr;
+	CPicking*					m_pPicking = nullptr;
 
 	_float2						m_ScreenSize = {};
 

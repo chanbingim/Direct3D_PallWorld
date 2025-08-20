@@ -124,6 +124,9 @@
     <Filter Include="Utility\Helpers">
       <UniqueIdentifier>{02886d4f-bde8-482e-b82b-3c8f3602073b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\Picking">
+      <UniqueIdentifier>{bf4b98e3-587d-498a-bfed-552e745176e8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Graphic_Device.cpp">
@@ -224,6 +227,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\StringHelper.cpp">
       <Filter>Utility\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Picking.cpp">
+      <Filter>System\Picking</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -352,6 +358,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\StringHelper.h">
       <Filter>Utility\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Picking.h">
+      <Filter>System\Picking</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

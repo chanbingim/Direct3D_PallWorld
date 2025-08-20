@@ -1,5 +1,7 @@
 #include "VIBuffer_Terrian.h"
 
+#include "GameInstance.h"
+
 CVIBuffer_Terrian::CVIBuffer_Terrian(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CVIBuffer(pDevice, pContext)
 {
@@ -29,10 +31,10 @@ HRESULT CVIBuffer_Terrian::Initialize_Prototype(_uInt TileCnt)
 #pragma region VERTEX_BUFFER
 	D3D11_BUFFER_DESC		VBDesc{};
 	VBDesc.ByteWidth = _uInt(m_iVertexStride * m_iNumVertices);
-	VBDesc.Usage = D3D11_USAGE_DEFAULT;
+	VBDesc.Usage = D3D11_USAGE_DYNAMIC;
 	VBDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	VBDesc.StructureByteStride = m_iVertexStride;
-	VBDesc.CPUAccessFlags = 0;
+	VBDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	VBDesc.MiscFlags = 0;
 
 	VTX_NORTEX* pVertices = new VTX_NORTEX[(_uInt)m_iNumVertices];
@@ -146,7 +148,7 @@ HRESULT CVIBuffer_Terrian::Initialize_Prototype(const WCHAR* pHegithFilePath)
 
 	m_iNumVertex.x = (_float)ih.biWidth;
 	m_iNumVertex.y = (_float)ih.biHeight;
-	m_iNumVertices = m_iNumVertex.x * m_iNumVertex.y;
+	m_iNumVertices = (_uInt)(m_iNumVertex.x * m_iNumVertex.y);
 
 	_uInt* pPixels = new _uInt[(_uInt)m_iNumVertices];
 	ZeroMemory(pPixels, size_t(sizeof(_uInt) * m_iNumVertices));
@@ -326,6 +328,130 @@ HRESULT CVIBuffer_Terrian::ExportHeightMap(const WCHAR* ExportFilePath)
 	Safe_Delete_Array(pData);
 
 	return S_OK;
+}
+
+_bool CVIBuffer_Terrian::IsPicking(CTransform* pTransform, _float3* pOut)
+{
+	_matrix InvWorld = XMLoadFloat4x4(&pTransform->GetInvWorldMat());
+	m_pGameInstance->Compute_LocalRay(&InvWorld);
+
+	_uInt	iNumIndices = {};
+
+	for (_uInt i = 0; i < (_uInt)m_iNumVertex.y - 1; i++)
+	{
+		for (_uInt j = 0; j < (_uInt)m_iNumVertex.x - 1; j++)
+		{
+			_uInt	iIndex = i * (_uInt)m_iNumVertex.x + j;
+
+			_uInt	iIndices[4] = {
+				iIndex + (_uInt)m_iNumVertex.x,
+				iIndex + (_uInt)m_iNumVertex.x + 1,
+				iIndex + 1,
+				iIndex
+			};
+
+			//하단 삼각형
+			if (true == m_pGameInstance->Picking_InLocal(m_pVertices[iIndices[0]], m_pVertices[iIndices[1]], m_pVertices[iIndices[2]], pOut))
+			{
+				XMStoreFloat3(pOut, XMVector3TransformCoord(XMLoadFloat3(pOut), XMLoadFloat4x4(&pTransform->GetWorldMat())));
+				return true;
+			}
+
+			//상단 삼각형
+			if (true == m_pGameInstance->Picking_InLocal(m_pVertices[iIndices[0]], m_pVertices[iIndices[2]], m_pVertices[iIndices[3]], pOut))
+			{
+				XMStoreFloat3(pOut, XMVector3TransformCoord(XMLoadFloat3(pOut), XMLoadFloat4x4(&pTransform->GetWorldMat())));
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+HRESULT CVIBuffer_Terrian::UpdateHegiht(CTransform* pTransform, _float Apply, _float Offset)
+{
+	if (Apply < 0)
+		return E_FAIL;
+
+	if (!ComputeBoundingBox(pTransform))
+		return E_FAIL;
+
+	_float3 pOut = {};
+	if (IsPicking(pTransform, &pOut))
+	{
+		_vector MinPos = { pOut.x - Offset, 0.f,  pOut.z - Offset, 1.f };
+		_vector MaxPos = { pOut.x + Offset, 0.f,  pOut.z + Offset, 1.f };
+
+		MinPos = XMVector3TransformCoord(MinPos, XMLoadFloat4x4(&pTransform->GetInvWorldMat()));
+		MaxPos = XMVector3TransformCoord(MaxPos, XMLoadFloat4x4(&pTransform->GetInvWorldMat()));
+	
+		_float3 LocalMinPos{}, LocalMaxPos{};
+		XMStoreFloat3(&LocalMinPos, MinPos);
+		XMStoreFloat3(&LocalMaxPos, MaxPos);
+
+		//범위를 제한한다 0 ~ 정점 최대 수까지
+		LocalMinPos.x = Clamp<_float>(LocalMinPos.x, 0.f, m_iNumVertex.x);
+		LocalMinPos.z = Clamp<_float>(LocalMinPos.z, 0.f, m_iNumVertex.y);
+		
+		LocalMaxPos.x = Clamp<_float>(LocalMaxPos.x, 0.f, m_iNumVertex.x);
+		LocalMaxPos.z = Clamp<_float>(LocalMaxPos.z, 0.f, m_iNumVertex.y);
+
+		D3D11_MAPPED_SUBRESOURCE MapData;
+		if (S_OK == m_pContext->Map(m_pVertexBuffer, 0, D3D11_MAP_WRITE_NO_OVERWRITE, 0, &MapData))
+		{
+			//피킹하는거 더 간단하게 바뀌면
+			//그때 Normal 계산하는 로직까지 추가로해서 할것
+			VTX_NORTEX* Vertex = (VTX_NORTEX*)MapData.pData;
+
+			for (_uInt i = LocalMinPos.z; i < (_uInt)LocalMaxPos.z - 1; i++)
+			{
+				for (_uInt j = LocalMinPos.x; j < (_uInt)LocalMaxPos.x - 1; j++)
+				{
+					_uInt	iIndex = i * (_uInt)m_iNumVertex.x + j;
+					_uInt	iIndices[4] = {
+						iIndex + (_uInt)m_iNumVertex.x,
+						iIndex + (_uInt)m_iNumVertex.x + 1,
+						iIndex + 1,
+						iIndex
+					};
+
+					// 이게 버퍼를 공유해서 문제가 발생함
+					// 버퍼 공유 없이 vertexPos 값으로 지형 셰이더에 정점넘겨서
+					// 변환 해서 사용하자
+					Vertex[iIndices[0]].vPosition.y = m_pVertices[iIndices[0]].y += Apply;
+					Vertex[iIndices[1]].vPosition.y = m_pVertices[iIndices[1]].y += Apply;
+					Vertex[iIndices[2]].vPosition.y = m_pVertices[iIndices[2]].y += Apply;
+					Vertex[iIndices[3]].vPosition.y = m_pVertices[iIndices[3]].y += Apply;
+				}
+			}
+
+			m_pContext->Unmap(m_pVertexBuffer, 0);
+		}
+
+		return S_OK;
+	}
+	
+	return E_FAIL;
+}
+
+_bool CVIBuffer_Terrian::ComputeBoundingBox(CTransform* pTransform)
+{
+	BoundingBox LocalBoundBox, WorldBoundBox;
+
+	_vector vMin = { m_pVertices[0].x , 0.f, m_pVertices[0].z };
+	_vector vMax = { m_pVertices[m_iNumVertices - 1].x , 1.f, m_pVertices[m_iNumVertices - 1].z };
+	//vMin = XMVector3TransformCoord(vMin, XMLoadFloat4x4(&pTransform->GetWorldMat()));
+	//vMax = XMVector3TransformCoord(vMax, XMLoadFloat4x4(&pTransform->GetWorldMat()));
+
+	BoundingBox::CreateFromPoints(LocalBoundBox, vMin, vMax);
+	LocalBoundBox.Transform(WorldBoundBox, XMLoadFloat4x4(&pTransform->GetWorldMat()));
+
+	_float dist = {};
+	_vector WorldRayPos = XMLoadFloat3(&m_pGameInstance->GetPickingRayPos(RAY::WORLD));
+	_vector WorldRayDir = XMLoadFloat3(&m_pGameInstance->GetPickingRayDir(RAY::WORLD));
+
+	return WorldBoundBox.Intersects(WorldRayPos, WorldRayDir, dist);
 }
 
 CVIBuffer_Terrian* CVIBuffer_Terrian::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const WCHAR* pHegithFilePath)

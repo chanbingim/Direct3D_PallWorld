@@ -63,6 +63,11 @@ void CVIBuffer::Render_VIBuffer()
     m_pContext->DrawIndexed(m_iNumIndices, 0, 0);
 }
 
+_bool CVIBuffer::IsPicking(CTransform* pTransform, _float3* pOut)
+{
+    return _bool();
+}
+
 CComponent* CVIBuffer::Clone(void* pArg)
 {
     return nullptr;

@@ -11,6 +11,7 @@
 #include "Sound_Manager.h"
 #include "InputManager.h"
 #include "Mouse.h"
+#include "Picking.h"
 #include "Pipeline.h"
 #pragma endregion
 
@@ -66,6 +67,10 @@ HRESULT CGameInstance::Initialize_Engine(void* pArg)
     m_pPipeline = CPipeline::Create(*GameSetting->ppDevice, *GameSetting->ppContext);
     if (nullptr == m_pPipeline)
         return E_FAIL;
+
+    m_pPicking = CPicking::Create(*GameSetting->ppDevice, *GameSetting->ppContext);
+    if (nullptr == m_pPicking)
+        return E_FAIL;
     
 #ifdef _DEBUG
     m_pTimer_Manager->Add_Timer(TEXT("PriorityUpdate_Loop"));
@@ -75,7 +80,6 @@ HRESULT CGameInstance::Initialize_Engine(void* pArg)
     m_pTimer_Manager->Add_Timer(TEXT("Render_Loop"));
 #endif // _DEBUG
 
-
     return S_OK;
 }
 
@@ -84,6 +88,7 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
     m_pInput_Manager->UpdateKeyFrame();
 
     m_pMouse->Update(fTimeDelta);
+    m_pPicking->Update();
 
 #ifdef _DEBUG
     m_pTimer_Manager->Get_TimeDelta(TEXT("PriorityUpdate_Loop"));
@@ -300,9 +305,9 @@ BOOL CGameInstance::IsMouseFocus(CUserInterface* Widget)
     return m_pMouse->IsFocus(Widget);
 }
 
-_float3& CGameInstance::GetRayPos(RAY eRayState)
+_float3& CGameInstance::GetRayPos()
 {
-    return m_pMouse->GetRayPos(eRayState);
+    return m_pMouse->GetRayPos();
 }
 
 void CGameInstance::ResetMouseData()
@@ -338,6 +343,42 @@ ID3D11ShaderResourceView* CGameInstance::GetPostBuffer(_uInt iIndex)
 {
     return m_pPipeline->GetPostBuffer(iIndex);
 }
+void CGameInstance::SetEditor_MousePos(_float3 vPos)
+{
+    m_pPicking->SetEditor_MousePos(vPos);
+}
+void CGameInstance::SetEditor_Frame(const _float2& vSize)
+{
+    m_pPicking->SetEditor_Frame(vSize);
+}
+void CGameInstance::Change_Mode(GAMEMODE eType)
+{
+    m_pPicking->Change_Mode(eType);
+}
+
+const _float3& CGameInstance::GetPickingRayPos(RAY eType)
+{
+    return m_pPicking->GetRayPos(eType);
+}
+
+const _float3& CGameInstance::GetPickingRayDir(RAY eType)
+{
+    return m_pPicking->GetRayDir(eType);
+}
+
+void CGameInstance::Compute_LocalRay(const _matrix* InvWorldMatrix)
+{
+    m_pPicking->Compute_LocalRay(InvWorldMatrix);
+}
+
+_bool CGameInstance::Picking_InWorld(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut)
+{
+    return m_pPicking->Picking_InWorld(vPointA, vPointB, vPointC, pOut);
+}
+_bool CGameInstance::Picking_InLocal(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut)
+{
+    return m_pPicking->Picking_InLocal(vPointA, vPointB, vPointC, pOut);
+}
 const _float2& CGameInstance::GetScreenSize()
 {
     return m_ScreenSize;
@@ -354,6 +395,7 @@ void CGameInstance::Release_Engine()
    
     Safe_Release(m_pTimer_Manager);
     Safe_Release(m_pRenderer);
+    Safe_Release(m_pPicking);
     Safe_Release(m_pPrototype_Manager);
     Safe_Release(m_pObject_Manager);
     Safe_Release(m_pLevel_Manager);

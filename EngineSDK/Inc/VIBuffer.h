@@ -15,6 +15,7 @@ public :
 	virtual HRESULT			Initialize(void* pArg) override;
 
 	virtual void			Render_VIBuffer();
+	virtual _bool			IsPicking(class CTransform* pTransform, _float3* pOut);
 
 protected :
 	//ÀÌÁ¦ D11Buffer·Î ÅëÇÕµÊ ÀÎµ¦½º¶û ¹öÅÃ½º¶û

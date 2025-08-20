@@ -2,6 +2,8 @@
 #include "VIBuffer.h"
 
 NS_BEGIN(Engine)
+class CTransform;
+
 class ENGINE_DLL CVIBuffer_Terrian final : public CVIBuffer
 {
 private:
@@ -16,9 +18,17 @@ public:
 	virtual void			Render_VIBuffer() override;
 
 	HRESULT					ExportHeightMap(const WCHAR* ExportFilePath);
+	
+	virtual _bool			IsPicking(CTransform* pTransform, _float3* pOut) override;
+	HRESULT					UpdateHegiht(CTransform* pTransform, _float Apply, _float Offset);
 
 private :
-	_float2							m_iNumVertex = {};
+	_float2					m_iNumVertex = {};
+
+private :
+	_bool					ComputeBoundingBox(CTransform* pTransform);
+
+
 
 public:
 	static		CVIBuffer_Terrian*	Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const WCHAR* pHegithFilePath);

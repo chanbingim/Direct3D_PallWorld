@@ -54,6 +54,16 @@ void CTerrian::Priority_Update(_float fDeletaTime)
 void CTerrian::Update(_float fDeletaTime)
 {
 	__super::Update(fDeletaTime);
+
+	_float3 vOut = {};
+
+	if (m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 0))
+	{
+		if (S_OK == m_pVIBufferCom->UpdateHegiht(m_pTransformCom, 0.4f, 2.f))
+		{
+
+		}
+	}
 }
 
 void CTerrian::Late_Update(_float fDeletaTime)
