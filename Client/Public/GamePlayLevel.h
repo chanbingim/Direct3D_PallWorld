@@ -20,6 +20,7 @@ private :
 	HRESULT					ADD_CameraLayer(const _wstring& LayerName);
 	HRESULT					ADD_TerrianLayer(const _wstring& LayerName);
 	HRESULT					ADD_PlayerLayer(const _wstring& LayerName);
+	HRESULT					ADD_PellLayer(const _wstring& LayerName);
 
 	HRESULT					Setting_GamePlayHUD();
 

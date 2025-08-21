@@ -18,6 +18,17 @@
 #include "Camera.h"
 #include "Terrian.h"
 
+#pragma region PELL
+#include "BedCat.h"
+#include "Dororong.h"
+#include "ElectPanda.h"
+#include "Herorong.h"
+#include "FlowerRabbit.h"
+#include "Hedgehog.h"
+#include "Frog.h"
+#include "Yeti.h"
+#pragma endregion
+
 #pragma region UI
 #include "Player_Interface.h"
 
@@ -263,6 +274,53 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region PELL
+	/* VIBuffer  BedCat MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_BedCat_Mesh"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/BedCat/PinkCat.fbx"))))
+		return E_FAIL;
+
+	/* VIBuffer  Dororong MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Drorong_Mesh"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Dororong/SheepBall.fbx"))))
+		return E_FAIL;
+
+	/* VIBuffer  Electric Panda MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_ElectricPanda_Mesh"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/ElectricPanda/Panda.fbx"))))
+		return E_FAIL;
+
+	/* VIBuffer  Herorong MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Herorong_Mesh"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Herorong/Herorong.fbx"))))
+		return E_FAIL;
+
+	/* VIBuffer  Electric Herorong MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Electric_Herorong_Mesh"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Herorong/EletricHerorong.fbx"))))
+		return E_FAIL;
+
+	/* VIBuffer  FlowerRabbit MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_FlowerRabbit_Mesh"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/FlowerRabbit/FlowerRabbit.fbx"))))
+		return E_FAIL;
+
+	/* VIBuffer  Hedgehog MESH  Component */
+	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Hedgehog_Mesh"),
+	//	CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Hedgehog/Panda.fbx"))))
+	//	return E_FAIL;
+
+	/* VIBuffer  Frog MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Frog_Mesh"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Frog/Frog.fbx"))))
+		return E_FAIL;
+
+	/* VIBuffer  Yeti MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Yeti_Mesh"),
+		CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Yeti/GrassYeti.fbx"))))
+		return E_FAIL;
+#pragma endregion
+
 #pragma endregion
 
 
@@ -320,6 +378,42 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* GAME_OBJECT_Player */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player"), CPlayer::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
+#pragma region PELL
+	/* GAME_OBJECT_BedCat */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_BedCat"), CBedCat::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_Dororong */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Drorong"), CDororong::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_ElectricPanda */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ElectricPanda"), CElectPanda::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_Herorong */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Herorong"), CHerorong::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_FlowerRabbit */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_FlowerRabbit"), CFlowerRabbit::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_Hedgehog */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Hedgehog"), CHedgehog::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_Frog */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Frog"), CFrog::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_Yeti */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Yeti"), CYeti::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
+	
 #pragma endregion
 
 #pragma region PLAYER_INFO

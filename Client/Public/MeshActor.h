@@ -4,7 +4,6 @@
 
 NS_BEGIN(Engine)
 class CModel;
-class CTexture;
 class CShader;
 NS_END
 
@@ -31,7 +30,7 @@ public:
 
 protected:
 	virtual		HRESULT						Bind_ShaderResources() override;
-	virtual		HRESULT						Apply_ConstantShaderResources() override;
+	virtual		HRESULT						Apply_ConstantShaderResources(_uInt iMeshIndex);
 
 protected:
 	CModel*									m_pVIBufferCom = nullptr;

@@ -45,24 +45,37 @@ void CMeshActor::Late_Update(_float fDeletaTime)
 
 HRESULT CMeshActor::Render()
 {
+
     return S_OK;
 }
 
 HRESULT CMeshActor::Bind_ShaderResources()
 {
-    
+    if (nullptr == m_pShaderCom)
+        return E_FAIL;
+
+    m_pEMVWorldMat = m_pShaderCom->GetVariable("g_WorldMatrix")->AsMatrix();
+    m_pEMVViewMat = m_pShaderCom->GetVariable("g_ViewMatrix")->AsMatrix();
+    m_pEMVProjMat = m_pShaderCom->GetVariable("g_ProjMatrix")->AsMatrix();
+    m_pSRVEffect = m_pShaderCom->GetVariable("g_Texture")->AsShaderResource();
 
     return S_OK;
 }
 
-HRESULT CMeshActor::Apply_ConstantShaderResources()
+HRESULT CMeshActor::Apply_ConstantShaderResources(_uInt iMeshIndex)
 {
     m_pEMVWorldMat->SetMatrix(reinterpret_cast<const float*>(&m_pTransformCom->GetWorldMat()));
     m_pEMVViewMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::VIEW)));
     m_pEMVProjMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION)));
 
+    ID3D11ShaderResourceView* pResourceVeiw = {};
+    m_pVIBufferCom->GetMeshResource(iMeshIndex, aiTextureType_DIFFUSE, 0, &pResourceVeiw);
+    if (pResourceVeiw)
+        m_pSRVEffect->SetResource(pResourceVeiw);
+
     return S_OK;
 }
+
 
 HRESULT CMeshActor::ADD_Components()
 {

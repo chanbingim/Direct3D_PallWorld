@@ -22,6 +22,9 @@ HRESULT CGamePlayLevel::Initialize()
 	if (FAILED(ADD_PlayerLayer(TEXT("Layer_GamePlay_Player"))))
 		return E_FAIL;
 
+	if (FAILED(ADD_PellLayer(TEXT("Layer_GamePlay_Pell"))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -76,6 +79,62 @@ HRESULT CGamePlayLevel::ADD_PlayerLayer(const _wstring& LayerName)
 		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
 		return E_FAIL;
 
+	return S_OK;
+}
+
+HRESULT CGamePlayLevel::ADD_PellLayer(const _wstring& LayerName)
+{
+	CGameObject::GAMEOBJECT_DESC Desc;
+	ZeroMemory(&Desc, sizeof(CGameObject::GAMEOBJECT_DESC));
+	Desc.vScale = { 0.2f, 0.2f, 0.2f };
+
+	wsprintf(Desc.ObjectTag, TEXT("Bed Cat"));
+	Desc.vPosition = { 7.f, 1.f, 7.f };
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_BedCat"),
+		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
+		return E_FAIL;
+
+	wsprintf(Desc.ObjectTag, TEXT("Drorong"));
+	Desc.vScale = { 0.1f, 0.1f, 0.1f };
+	Desc.vPosition = { 10.f, 1.f, 10.f };
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Drorong"),
+		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
+		return E_FAIL;
+
+	wsprintf(Desc.ObjectTag, TEXT("ElectricPanda"));
+	Desc.vScale = { 0.05f, 0.05f, 0.05f };
+	Desc.vPosition = { 20.f, 1.f, 20.f };
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ElectricPanda"),
+		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
+		return E_FAIL;
+
+	wsprintf(Desc.ObjectTag, TEXT("Herorong"));
+	Desc.vScale = { 0.05f, 0.05f, 0.05f };
+	Desc.vPosition = { 30.f, 1.f, 30.f };
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Herorong"),
+		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
+		return E_FAIL;
+
+	wsprintf(Desc.ObjectTag, TEXT("FlowerLabbit"));
+	Desc.vScale = { 0.1f, 0.1f, 0.1f };
+	Desc.vPosition = { 50.f, 1.f, 50.f };
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_FlowerRabbit"),
+		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
+		return E_FAIL;
+
+	wsprintf(Desc.ObjectTag, TEXT("Frog"));
+	Desc.vScale = { 0.1f, 0.1f, 0.1f };
+	Desc.vPosition = { 70.f, 1.f, 70.f };
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Frog"),
+		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
+		return E_FAIL;
+
+	wsprintf(Desc.ObjectTag, TEXT("Yeti"));
+	Desc.vScale = { 0.05f, 0.05f, 0.05f };
+	Desc.vPosition = { 100.f, 1.f, 20.f };
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Yeti"),
+		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
+		return E_FAIL;
 	return S_OK;
 }
 

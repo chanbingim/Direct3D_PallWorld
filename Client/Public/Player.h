@@ -23,10 +23,6 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
-protected:
-	virtual		HRESULT						Bind_ShaderResources() override;
-	virtual		HRESULT						Apply_ConstantShaderResources(_uInt iMeshIndex);
-
 private:
 	HRESULT									ADD_Components();
 

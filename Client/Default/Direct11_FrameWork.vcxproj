@@ -182,7 +182,9 @@
     <ClInclude Include="..\public\DebugApp.h" />
     <ClInclude Include="..\public\DefaultEntity.h" />
     <ClInclude Include="..\public\Dororong.h" />
-    <ClInclude Include="..\public\EelectPanda.h" />
+    <ClInclude Include="..\public\ElectPanda.h" />
+    <ClInclude Include="..\public\FlowerRabbit.h" />
+    <ClInclude Include="..\public\Frog.h" />
     <ClInclude Include="..\public\GameData_Manager.h" />
     <ClInclude Include="..\public\GameOption.h" />
     <ClInclude Include="..\public\GamePlayHUD.h" />
@@ -190,6 +192,8 @@
     <ClInclude Include="..\public\GuardBar.h" />
     <ClInclude Include="..\public\HealthBar.h" />
     <ClInclude Include="..\Public\HealthIcon.h" />
+    <ClInclude Include="..\public\Hedgehog.h" />
+    <ClInclude Include="..\public\Herorong.h" />
     <ClInclude Include="..\Public\HungerIcon.h" />
     <ClInclude Include="..\Public\ImgManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
@@ -240,6 +244,7 @@
     <ClInclude Include="..\public\Terrian.h" />
     <ClInclude Include="..\public\TreeObject.h" />
     <ClInclude Include="..\public\TypeIcon.h" />
+    <ClInclude Include="..\public\Yeti.h" />
     <ClInclude Include="Direct11_FrameWork.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
@@ -257,12 +262,16 @@
     <ClCompile Include="..\private\Compass.cpp" />
     <ClCompile Include="..\private\CompassPoint.cpp" />
     <ClCompile Include="..\private\CostumeBase.cpp" />
+    <ClCompile Include="..\private\FlowerRabbit.cpp" />
+    <ClCompile Include="..\private\Frog.cpp" />
+    <ClCompile Include="..\private\Hedgehog.cpp" />
+    <ClCompile Include="..\private\Herorong.cpp" />
     <ClCompile Include="..\private\PellRock.cpp" />
     <ClCompile Include="..\private\TreeObject.cpp" />
     <ClCompile Include="..\private\DebugApp.cpp" />
     <ClCompile Include="..\private\DefaultEntity.cpp" />
     <ClCompile Include="..\private\Dororong.cpp" />
-    <ClCompile Include="..\private\EelectPanda.cpp" />
+    <ClCompile Include="..\private\ElectPanda.cpp" />
     <ClCompile Include="..\private\GameData_Manager.cpp" />
     <ClCompile Include="..\private\GameOption.cpp" />
     <ClCompile Include="..\private\GamePlayHUD.cpp" />
@@ -317,6 +326,7 @@
     <ClCompile Include="..\private\SlotBase.cpp" />
     <ClCompile Include="..\private\Terrian.cpp" />
     <ClCompile Include="..\private\TypeIcon.cpp" />
+    <ClCompile Include="..\private\Yeti.cpp" />
     <ClCompile Include="Direct11_FrameWork.cpp" />
   </ItemGroup>
   <ItemGroup>

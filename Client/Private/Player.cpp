@@ -68,32 +68,6 @@ HRESULT CPlayer::Render()
     return S_OK;
 }
 
-HRESULT CPlayer::Bind_ShaderResources()
-{
-    if (nullptr == m_pShaderCom)
-        return E_FAIL;
-
-    m_pEMVWorldMat = m_pShaderCom->GetVariable("g_WorldMatrix")->AsMatrix();
-    m_pEMVViewMat = m_pShaderCom->GetVariable("g_ViewMatrix")->AsMatrix();
-    m_pEMVProjMat = m_pShaderCom->GetVariable("g_ProjMatrix")->AsMatrix();
-    m_pSRVEffect =  m_pShaderCom->GetVariable("g_Texture")->AsShaderResource();
-    return S_OK;
-}
-
-HRESULT CPlayer::Apply_ConstantShaderResources(_uInt iMeshIndex)
-{
-    m_pEMVWorldMat->SetMatrix(reinterpret_cast<const float*>(&m_pTransformCom->GetWorldMat()));
-    m_pEMVViewMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::VIEW)));
-    m_pEMVProjMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION)));
-    
-    ID3D11ShaderResourceView* pResourceVeiw = {};
-    m_pVIBufferCom->GetMeshResource(iMeshIndex , aiTextureType_DIFFUSE, 0, &pResourceVeiw);
-    if(pResourceVeiw)
-        m_pSRVEffect->SetResource(pResourceVeiw);
-
-    return S_OK;
-}
-
 HRESULT CPlayer::ADD_Components()
 {
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Fiona_Mesh"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
