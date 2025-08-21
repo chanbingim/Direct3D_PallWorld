@@ -18,8 +18,11 @@ public :
 	void							SetEditor_Frame(const _float2& vSize);
 	void							Change_Mode(GAMEMODE eType);
 
+	_bool							RayPicking(_vector vRayOrizin, _vector vRayDir, const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut);
+
 	_bool							Picking_InWorld(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut);
 	_bool							Picking_InLocal(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut);
+
 
 	void							Compute_LocalRay(const _matrix* InvWorldMatrix);
 

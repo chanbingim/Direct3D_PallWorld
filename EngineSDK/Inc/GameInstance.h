@@ -62,8 +62,7 @@ public :
 	HRESULT									Add_GameObject_ToLayer(_uInt iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uInt iLayerLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
 	const list<CGameObject*>*				GetAllObejctToLayer(_uInt iLayerIndex, const _wstring& LayerTag);
 
-	template<typename T>
-	T*										Clone_Prototype(_uInt iLevelIndex, const _wstring& strPrototypeTag, void* pArg);
+	
 	void									Clear_DeadObject();
 	const unordered_map<_wstring, CLayer*>*	GetCurLevelLayer();
 
@@ -72,6 +71,12 @@ public :
 #pragma region Prototype_Manager
 	HRESULT						Add_Prototype(_uInt iLevelNum, const _wstring& PrototypeTag, CBase* pPrototype);
 	void						Clear_Resource(_uInt iLevelIndex);
+
+	template<typename T>
+	T* Clone_Prototype(_uInt iLevelIndex, const _wstring& strPrototypeTag, void* pArg);
+
+	template<typename T>
+	void						GetPrototypeList(_uInt iLevelIndex, list<pair<_wstring, T*>>* pOutList);
 #pragma endregion
 
 #pragma region Timer_Manager
@@ -143,6 +148,7 @@ public :
 	const _float3&				GetPickingRayDir(RAY eType);
 	void						Compute_LocalRay(const _matrix* InvWorldMatrix);
 
+	_bool						RayPicking(_vector vRayOrizin, _vector vRayDir, const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut);
 	_bool						Picking_InWorld(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut);
 	_bool						Picking_InLocal(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut);
 #pragma endregion
@@ -181,4 +187,10 @@ template<typename T>
 inline T* CGameInstance::Clone_Prototype(_uInt iLevelIndex, const _wstring& strPrototypeTag, void* pArg)
 {
 	return m_pPrototype_Manager->Clone_Prototype<T>(iLevelIndex, strPrototypeTag, pArg);
+}
+
+template<typename T>
+inline void CGameInstance::GetPrototypeList(_uInt iLevelIndex, list<pair<_wstring, T*>>* pOutList)
+{
+	m_pPrototype_Manager->GetPrototypeList<T>(iLevelIndex, pOutList);
 }

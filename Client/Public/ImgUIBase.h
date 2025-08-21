@@ -20,9 +20,12 @@ public :
 
 	virtual void					Update(_float fDeletaTime);
 
+	void							SetVisibility(VISIBILITY eType);
+	const VISIBILITY&				GetVisibility();
+
 protected :
 	CGameInstance*					m_pGameInstance = nullptr;
-
+	VISIBILITY						m_eVisibility = VISIBILITY::VISIBLE;
 
 public :
 	virtual CImgUIBase*				Clone(void* pArg);

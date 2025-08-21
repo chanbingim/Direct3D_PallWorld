@@ -127,6 +127,9 @@
     <Filter Include="System\Picking">
       <UniqueIdentifier>{bf4b98e3-587d-498a-bfed-552e745176e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utility\Components\Model\Material">
+      <UniqueIdentifier>{725d0e77-52b4-478a-a14f-30aa4a263782}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Graphic_Device.cpp">
@@ -230,6 +233,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Picking.cpp">
       <Filter>System\Picking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Material.cpp">
+      <Filter>Utility\Components\Model\Material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -361,6 +367,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\Picking.h">
       <Filter>System\Picking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Material.h">
+      <Filter>Utility\Components\Model\Material</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

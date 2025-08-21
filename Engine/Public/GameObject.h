@@ -15,6 +15,7 @@ public :
 	{
 		CGameObject*	pParent;
 
+		WCHAR			ObjectTag[MAX_PATH];
 		_float3			vPosition;
 		_float3			vRotation;
 		_float3			vScale;

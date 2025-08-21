@@ -29,8 +29,8 @@ void CPicking::Update()
     // z깊이는 0으로 두고 위치 값을 받을거기때문에 w 성분은 1로 채운다.
     if (GAMEMODE::EDITOR == m_eMode)
     {
-        _vector NDCPos = { m_EditorMousePos.x / (m_EditorSize.x * 0.5f) - 1.f,
-                       m_EditorMousePos.y / -(m_EditorSize.y * 0.5f) + 1.f, 0.f, 1.f };
+        _vector NDCPos = {  m_EditorMousePos.x / (m_EditorSize.x * 0.5f) - 1.f,
+                            m_EditorMousePos.y / -(m_EditorSize.y * 0.5f) + 1.f, 0.f, 1.f };
 
         // 투영행렬의 역행렬을 곱해 View스페이스로 변환한다.
         _matrix InvProjMat = XMLoadFloat4x4(&m_pGameInstance->GetInvMatrix(MAT_STATE::PROJECTION));
@@ -61,6 +61,21 @@ void CPicking::SetEditor_Frame(const _float2& vSize)
 void CPicking::Change_Mode(GAMEMODE eType)
 {
     m_eMode = eType;
+}
+
+_bool CPicking::RayPicking(_vector vRayOrizin, _vector vRayDir, const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut)
+{
+    _float      fDist{};
+    _bool       IsCall = false;
+
+    IsCall = TriangleTests::Intersects(vRayOrizin, vRayDir, XMLoadFloat3(&vPointA), XMLoadFloat3(&vPointB), XMLoadFloat3(&vPointC), fDist);
+
+    if (IsCall)
+    {
+        XMStoreFloat3(pOut, (vRayOrizin + vRayDir * fDist));
+    }
+
+    return IsCall;
 }
 
 //월드상의 폴리곤 단위의 정점 3개

@@ -93,7 +93,7 @@ void CIMG_LandScape::GenerateTerrian()
             //구조체 세팅해서 넘긴다음 Clone
             CTerrian::TERRIAN_DESC Desc;
             ZeroMemory(&Desc, sizeof(CTerrian::TERRIAN_DESC));
-            wsprintf(Desc.szTerrianName, TEXT("LandScape%d"), i * m_tileCount[1] + j);
+            wsprintf(Desc.ObjectTag, TEXT("LandScape%d"), i * m_tileCount[1] + j);
 
             Desc.vPosition = { (_float)(GridX  * j - OffsetX), 0.f, (_float)(GridX * i - OffsetY) };
             Desc.vScale = { 1.f, 1.f, 1.f };

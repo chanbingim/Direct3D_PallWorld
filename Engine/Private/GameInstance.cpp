@@ -371,6 +371,11 @@ void CGameInstance::Compute_LocalRay(const _matrix* InvWorldMatrix)
     m_pPicking->Compute_LocalRay(InvWorldMatrix);
 }
 
+_bool CGameInstance::RayPicking(_vector vRayOrizin, _vector vRayDir, const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut)
+{
+    return m_pPicking->RayPicking(vRayOrizin, vRayDir, vPointA, vPointB, vPointC, pOut);
+}
+
 _bool CGameInstance::Picking_InWorld(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut)
 {
     return m_pPicking->Picking_InWorld(vPointA, vPointB, vPointC, pOut);

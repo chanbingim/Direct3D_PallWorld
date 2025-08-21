@@ -36,17 +36,17 @@ HRESULT CMainApp::Initialize_MainApp()
 		return E_FAIL;
 #endif // _DEBUG
 
-	// 와이어프레임 RasterizerState 생성
-	D3D11_RASTERIZER_DESC desc = {};
-	desc.FillMode = D3D11_FILL_WIREFRAME; // 와이어프레임 모드
-	desc.CullMode = D3D11_CULL_BACK;      // 백페이스 컬링
-	desc.DepthClipEnable = TRUE;
+	//// 와이어프레임 RasterizerState 생성
+	//D3D11_RASTERIZER_DESC desc = {};
+	//desc.FillMode = D3D11_FILL_WIREFRAME; // 와이어프레임 모드
+	//desc.CullMode = D3D11_CULL_BACK;      // 백페이스 컬링
+	//desc.DepthClipEnable = TRUE;
 
-	ID3D11RasterizerState* pWireframeRS = nullptr;
-	m_pGraphic_Device->CreateRasterizerState(&desc, &pWireframeRS);
+	//ID3D11RasterizerState* pWireframeRS = nullptr;
+	//m_pGraphic_Device->CreateRasterizerState(&desc, &pWireframeRS);
 
-	// 적용
-	m_pDevice_Context->RSSetState(pWireframeRS);
+	//// 적용
+	//m_pDevice_Context->RSSetState(pWireframeRS);
 
 	return S_OK;
 }

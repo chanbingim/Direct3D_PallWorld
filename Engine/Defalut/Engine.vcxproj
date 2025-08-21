@@ -146,6 +146,7 @@
     <ClInclude Include="..\public\Base.h" />
     <ClInclude Include="..\public\BaseCamera.h" />
     <ClInclude Include="..\public\Component.h" />
+    <ClInclude Include="..\public\Material.h" />
     <ClInclude Include="..\Public\Picking.h" />
     <ClInclude Include="..\Public\StringHelper.h" />
     <ClInclude Include="..\Public\Engine_Defines.h" />
@@ -191,6 +192,7 @@
     <ClCompile Include="..\private\Base.cpp" />
     <ClCompile Include="..\private\BaseCamera.cpp" />
     <ClCompile Include="..\private\Component.cpp" />
+    <ClCompile Include="..\private\Material.cpp" />
     <ClCompile Include="..\Private\Picking.cpp" />
     <ClCompile Include="..\Private\StringHelper.cpp" />
     <ClCompile Include="..\private\GameInstance.cpp" />

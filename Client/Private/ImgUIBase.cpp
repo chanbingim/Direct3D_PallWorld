@@ -22,6 +22,16 @@ void CImgUIBase::Update(_float fDeletaTime)
 {
 }
 
+void CImgUIBase::SetVisibility(VISIBILITY eType)
+{
+    m_eVisibility = eType;
+}
+
+const VISIBILITY& CImgUIBase::GetVisibility()
+{
+    return m_eVisibility;
+}
+
 CImgUIBase* CImgUIBase::Clone(void* pArg)
 {
     return nullptr;

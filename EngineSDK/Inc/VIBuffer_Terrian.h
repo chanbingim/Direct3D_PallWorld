@@ -20,6 +20,8 @@ public:
 	HRESULT					ExportHeightMap(const WCHAR* ExportFilePath);
 	
 	virtual _bool			IsPicking(CTransform* pTransform, _float3* pOut) override;
+	virtual _bool			IsPicking(_vector vRayOrizin, _vector vRayDir, class CTransform* pTransform, _float3* pOut);
+	
 	HRESULT					UpdateHegiht(CTransform* pTransform, _float Apply, _float Offset);
 
 private :

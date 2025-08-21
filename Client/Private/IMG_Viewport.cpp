@@ -3,8 +3,10 @@
 #include "GameInstance.h"
 #include "ImgManager.h"
 
-CIMG_Viewport::CIMG_Viewport()
+CIMG_Viewport::CIMG_Viewport() : 
+    m_pImgManager(CImgManager::GetInstance())
 {
+
 }
 
 HRESULT CIMG_Viewport::Prototype_Initialize()
@@ -28,7 +30,10 @@ void CIMG_Viewport::Update(_float fDeletaTime)
     {
         DrawViewPortMenuBar();
         DrawGameView();
-        IsViewportClicked();
+
+        if (EDIT_MODE::LANDSCAPE == m_eEditMode)
+            IsViewportClicked();
+
         ImGui::End();
     }
 }
@@ -54,6 +59,21 @@ void CIMG_Viewport::DrawViewPortMenuBar()
             {
                 strcpy_s(m_szSelect, strlen(m_szModeName[i]) + 1, m_szModeName[i]);
 
+                m_eEditMode = EDIT_MODE(i);
+                auto pLandscape = m_pImgManager->Find_ImgUserInterface(L"LandScape");
+
+                if (EDIT_MODE::SELECT == m_eEditMode)
+                {
+                    m_pGameInstance->Change_Mode(GAMEMODE::GAME);
+                    if (pLandscape)
+                        pLandscape->SetVisibility(VISIBILITY::HIDDEN);
+                }
+                else
+                {
+                    m_pGameInstance->Change_Mode(GAMEMODE::EDITOR);
+                    if (pLandscape)
+                        pLandscape->SetVisibility(VISIBILITY::VISIBLE);
+                }
             }
         }
         ImGui::EndCombo();
@@ -77,7 +97,6 @@ void CIMG_Viewport::DrawGameView()
 
 void CIMG_Viewport::IsViewportClicked()
 {
-    m_pGameInstance->Change_Mode(GAMEMODE::GAME);
     //UI위에 마우스를 올렸을때만 위치갱신이 되게 하자
     if (ImGui::IsItemHovered())
     {

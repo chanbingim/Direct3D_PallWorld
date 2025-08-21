@@ -11,6 +11,7 @@
 #include "IMG_LandScape.h"
 #include "IMG_Viewport.h"
 #include "IMG_Content.h"
+#include "IMG_Create.h"
 #pragma endregion
 
 
@@ -44,8 +45,12 @@ void CImgManager::Update(_float fDeletaTime)
         DarwMenuBar();
 
         for (auto& pair : m_ImgUIMap)
-            pair.second->Update(fDeletaTime);
+        {
+            if (VISIBILITY::HIDDEN == pair.second->GetVisibility())
+                continue;
 
+            pair.second->Update(fDeletaTime);
+        }
         ImGui::End();
     }
 }
@@ -173,6 +178,9 @@ HRESULT CImgManager::Setting_Img_UI()
         return E_FAIL;
 
     if (FAILED(ADD_IMG_UserInterface(TEXT("Content"), CIMG_Content::Create())))
+        return E_FAIL;
+
+    if (FAILED(ADD_IMG_UserInterface(TEXT("IMG_Create"), CIMG_Create::Create())))
         return E_FAIL;
 
     return S_OK;

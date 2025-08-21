@@ -1,6 +1,10 @@
 #pragma once
 #include "ImgUIBase.h"
 
+NS_BEGIN(Engine)
+class CGameObject;
+NS_END
+
 NS_BEGIN(Client)
 class CIMG_Create : public CImgUIBase
 {
@@ -13,6 +17,24 @@ public:
 	virtual HRESULT					Initialize(void* pArg) override;
 
 	virtual void					Update(_float fDeletaTime) override;
+
+private :
+	char							m_szSelectTag[MAX_PATH] = {};
+	char							m_szSelectPrototype[MAX_PATH] = {};
+	const char*						m_SzSelectTagList[2] = { "STATIC", "CURRENT LEVEL" };
+
+	list<pair<_wstring, CGameObject*>>			m_Prototypes;
+
+	_uInt							m_SelectLevel = {};
+
+	char							m_szObjectName[MAX_PATH] = {};
+	char							m_szLayerName[MAX_PATH] = {};
+	_Int							m_iCreateCnt = {};
+
+
+private :
+	void							DrawCreateCategory();
+	void							DrawPrototypes();
 
 public:
 	static	CIMG_Create*			Create();

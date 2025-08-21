@@ -2,6 +2,8 @@
 #include "ImgUIBase.h"
 
 NS_BEGIN(Client)
+class CImgManager;
+
 class CIMG_Viewport : public CImgUIBase
 {
 private :
@@ -17,9 +19,8 @@ public :
 	void							Change_EditMode(EDIT_MODE eMode);
 	const EDIT_MODE&				GetEditMode();
 
-
-
 private :
+	CImgManager*					m_pImgManager = nullptr;
 	_float2							m_ViewFrameSize = {};
 	_float2							m_CneterPos = {};
 

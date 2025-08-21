@@ -369,13 +369,52 @@ _bool CVIBuffer_Terrian::IsPicking(CTransform* pTransform, _float3* pOut)
 	return false;
 }
 
+_bool CVIBuffer_Terrian::IsPicking(_vector vRayOrizin, _vector vRayDir, CTransform* pTransform, _float3* pOut)
+{
+	_matrix InvWorld = XMLoadFloat4x4(&pTransform->GetInvWorldMat());
+
+	vRayOrizin = XMVector3TransformCoord(vRayOrizin, InvWorld);
+
+	vRayDir = XMVector3TransformNormal(vRayDir, InvWorld);
+	vRayDir = XMVector3Normalize(vRayDir);
+
+	_uInt	iNumIndices = {};
+	for (_uInt i = 0; i < (_uInt)m_iNumVertex.y - 1; i++)
+	{
+		for (_uInt j = 0; j < (_uInt)m_iNumVertex.x - 1; j++)
+		{
+			_uInt	iIndex = i * (_uInt)m_iNumVertex.x + j;
+
+			_uInt	iIndices[4] = {
+				iIndex + (_uInt)m_iNumVertex.x,
+				iIndex + (_uInt)m_iNumVertex.x + 1,
+				iIndex + 1,
+				iIndex
+			};
+
+			//하단 삼각형
+			if (true == m_pGameInstance->RayPicking(vRayOrizin, vRayDir, m_pVertices[iIndices[0]], m_pVertices[iIndices[1]], m_pVertices[iIndices[2]], pOut))
+			{
+				XMStoreFloat3(pOut, XMVector3TransformCoord(XMLoadFloat3(pOut), XMLoadFloat4x4(&pTransform->GetWorldMat())));
+				return true;
+			}
+
+			//상단 삼각형
+			if (true == m_pGameInstance->RayPicking(vRayOrizin, vRayDir, m_pVertices[iIndices[0]], m_pVertices[iIndices[2]], m_pVertices[iIndices[3]], pOut))
+			{
+				XMStoreFloat3(pOut, XMVector3TransformCoord(XMLoadFloat3(pOut), XMLoadFloat4x4(&pTransform->GetWorldMat())));
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
 HRESULT CVIBuffer_Terrian::UpdateHegiht(CTransform* pTransform, _float Apply, _float Offset)
 {
-	if (Apply < 0)
-		return E_FAIL;
-
-	if (!ComputeBoundingBox(pTransform))
-		return E_FAIL;
+	/*if (!ComputeBoundingBox(pTransform))
+		return E_FAIL;*/
 
 	_float3 pOut = {};
 	if (IsPicking(pTransform, &pOut))
@@ -419,10 +458,15 @@ HRESULT CVIBuffer_Terrian::UpdateHegiht(CTransform* pTransform, _float Apply, _f
 					// 이게 버퍼를 공유해서 문제가 발생함
 					// 버퍼 공유 없이 vertexPos 값으로 지형 셰이더에 정점넘겨서
 					// 변환 해서 사용하자
-					Vertex[iIndices[0]].vPosition.y = m_pVertices[iIndices[0]].y += Apply;
-					Vertex[iIndices[1]].vPosition.y = m_pVertices[iIndices[1]].y += Apply;
-					Vertex[iIndices[2]].vPosition.y = m_pVertices[iIndices[2]].y += Apply;
-					Vertex[iIndices[3]].vPosition.y = m_pVertices[iIndices[3]].y += Apply;
+					m_pVertices[iIndices[0]].y = Clamp<_float>(m_pVertices[iIndices[0]].y + Apply, 0.f, 255.f);
+					m_pVertices[iIndices[1]].y = Clamp<_float>(m_pVertices[iIndices[0]].y + Apply, 0.f, 255.f);
+					m_pVertices[iIndices[2]].y = Clamp<_float>(m_pVertices[iIndices[0]].y + Apply, 0.f, 255.f);
+					m_pVertices[iIndices[3]].y = Clamp<_float>(m_pVertices[iIndices[0]].y + Apply, 0.f, 255.f);
+
+					Vertex[iIndices[0]].vPosition.y = m_pVertices[iIndices[0]].y;
+					Vertex[iIndices[1]].vPosition.y = m_pVertices[iIndices[1]].y;
+					Vertex[iIndices[2]].vPosition.y = m_pVertices[iIndices[2]].y;
+					Vertex[iIndices[3]].vPosition.y = m_pVertices[iIndices[3]].y;
 				}
 			}
 

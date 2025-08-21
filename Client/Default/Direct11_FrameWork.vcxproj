@@ -202,6 +202,7 @@
     <ClInclude Include="..\Public\ImGui\imstb_truetype.h" />
     <ClInclude Include="..\public\IMG_Component.h" />
     <ClInclude Include="..\public\IMG_Content.h" />
+    <ClInclude Include="..\public\IMG_Create.h" />
     <ClInclude Include="..\public\IMG_Hierarchy.h" />
     <ClInclude Include="..\public\IMG_Inspector.h" />
     <ClInclude Include="..\public\IMG_LandScape.h" />
@@ -271,6 +272,7 @@
     <ClCompile Include="..\Private\imgui_widgets.cpp" />
     <ClCompile Include="..\private\IMG_Component.cpp" />
     <ClCompile Include="..\private\IMG_Content.cpp" />
+    <ClCompile Include="..\private\IMG_Create.cpp" />
     <ClCompile Include="..\private\IMG_Hierarchy.cpp" />
     <ClCompile Include="..\private\IMG_Inspector.cpp" />
     <ClCompile Include="..\private\IMG_LandScape.cpp" />

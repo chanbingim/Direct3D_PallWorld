@@ -15,7 +15,6 @@ class CTerrian : public CActor
 public :
 	typedef struct Terrian_Desc : GAMEOBJECT_DESC
 	{
-		WCHAR			szTerrianName[MAX_PATH];
 		_uInt			iGridCnt;
 
 	}TERRIAN_DESC;

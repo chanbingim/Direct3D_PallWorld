@@ -245,6 +245,9 @@
     <Filter Include="ImGui\UI\Content">
       <UniqueIdentifier>{4458f3ac-8ea4-4cbd-a863-81fb3930bbdc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ImGui\UI\Create">
+      <UniqueIdentifier>{e90ef143-84a4-406b-8e18-e1bd0dd01f9c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -454,6 +457,9 @@
     <ClInclude Include="..\public\IMG_Content.h">
       <Filter>ImGui\UI\Content</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\IMG_Create.h">
+      <Filter>ImGui\UI\Create</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -654,6 +660,9 @@
     </ClCompile>
     <ClCompile Include="..\private\IMG_Content.cpp">
       <Filter>ImGui\UI\Content</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\IMG_Create.cpp">
+      <Filter>ImGui\UI\Create</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

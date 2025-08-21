@@ -30,7 +30,6 @@ HRESULT CTerrian::Initialize(void* pArg)
 	TERRIAN_DESC* Desc = static_cast<TERRIAN_DESC*>(pArg);
 	if (Desc)
 	{
-		m_ObejctTag = Desc->szTerrianName;
 		TileCnt = Desc->iGridCnt;
 	}
 	else
@@ -57,13 +56,20 @@ void CTerrian::Update(_float fDeletaTime)
 
 	_float3 vOut = {};
 
-	if (m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 0))
+#ifdef _DEBUG
+	if (m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 0) ||
+		GetAsyncKeyState(VK_LBUTTON) & 0x8000)
 	{
-		if (S_OK == m_pVIBufferCom->UpdateHegiht(m_pTransformCom, 0.4f, 2.f))
-		{
-
-		}
+		m_pVIBufferCom->UpdateHegiht(m_pTransformCom, 0.1f, 2.f);
 	}
+
+	if (m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 1) ||
+		GetAsyncKeyState(VK_RBUTTON) & 0x8000)
+	{
+		m_pVIBufferCom->UpdateHegiht(m_pTransformCom, -0.1f, 2.f);
+	}
+#endif // _DEBUG
+
 }
 
 void CTerrian::Late_Update(_float fDeletaTime)

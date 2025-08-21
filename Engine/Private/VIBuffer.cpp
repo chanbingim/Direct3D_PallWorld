@@ -1,5 +1,7 @@
 #include "VIBuffer.h"
 
+#include "GameInstance.h"
+
 CVIBuffer::CVIBuffer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CComponent(pDevice, pContext)
 {
@@ -64,6 +66,11 @@ void CVIBuffer::Render_VIBuffer()
 }
 
 _bool CVIBuffer::IsPicking(CTransform* pTransform, _float3* pOut)
+{
+    return _bool();
+}
+
+_bool CVIBuffer::IsPicking(_vector vRayOrizin, _vector vRayDir, CTransform* pTransform, _float3* pOut)
 {
     return _bool();
 }

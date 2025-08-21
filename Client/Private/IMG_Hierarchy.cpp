@@ -45,6 +45,38 @@ void CIMG_Hierarchy::Update(_float fDeletaTime)
             m_pImgManager->ClearAllSelectObjects();
         }
 
+        if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_END))
+        {
+            auto SelectObjects = m_pImgManager->GetSelectObjects();
+
+            // 선택된 모든 오브젝트기준으로 아래로 Ray를 쏴서
+            // 검출된 오브젝트를 확인
+            for (auto& iter : *SelectObjects)
+            {
+                _float3 vRayPos = iter->GetTransform()->GetPosition();
+                _vector RayStart = XMLoadFloat3(&vRayPos);
+                _vector RayDir = -iter->GetTransform()->GetUpVector();
+
+                _uInt iLevelID = m_pGameInstance->GetCurrentLevel()->GetLevelID();
+                auto GroundObjects = m_pGameInstance->GetAllObejctToLayer(iLevelID, TEXT("Layer_GamePlay_Terrian"));
+
+                for (auto Ground : *GroundObjects)
+                {
+                    auto VIBuffer = static_cast<CVIBuffer*>(Ground->Find_Component(TEXT("VIBuffer_Com")));
+
+                    _float3 vPos{};
+                    if (VIBuffer->IsPicking(RayStart, RayDir, Ground->GetTransform(), &vPos))
+                    {
+                        _float y = vPos.y;
+                        XMStoreFloat3(&vPos, RayStart);
+                        vPos.y = y;
+
+                        iter->SetLocation(vPos);
+                    }
+                }
+            }
+        }
+
         ImGui::End();
     }
 }
