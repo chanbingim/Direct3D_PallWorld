@@ -248,6 +248,27 @@
     <Filter Include="ImGui\UI\Create">
       <UniqueIdentifier>{e90ef143-84a4-406b-8e18-e1bd0dd01f9c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Objects\MeshObject\Character\Pell\EelectPanda">
+      <UniqueIdentifier>{db9190fe-84c5-4ec8-a9aa-5227a2947d08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\Character\Pell\BedCat">
+      <UniqueIdentifier>{8a306134-5a11-4b99-a6c4-02cf81a51830}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\Character\Pell\Dororong">
+      <UniqueIdentifier>{4bd2b4eb-717a-4b2c-8a47-87fa2fc04cfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\Static_Object\Environment">
+      <UniqueIdentifier>{ef036d91-8c05-4584-8d98-22e0307a40b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\Static_Object\Environment\Rock">
+      <UniqueIdentifier>{f5755349-c20b-4be4-b672-987f4e02cef2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\Static_Object\Environment\Tree">
+      <UniqueIdentifier>{1fa4a3de-545c-47c2-ab1b-3a1177afcb7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\Static_Object\Environment\PellRock">
+      <UniqueIdentifier>{1eb38c84-68eb-4d9a-8f5e-de086f43a8e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -460,6 +481,27 @@
     <ClInclude Include="..\public\IMG_Create.h">
       <Filter>ImGui\UI\Create</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\EelectPanda.h">
+      <Filter>03. Objects\MeshObject\Character\Pell\EelectPanda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PellBase.h">
+      <Filter>03. Objects\MeshObject\Character\Pell</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\BedCat.h">
+      <Filter>03. Objects\MeshObject\Character\Pell\BedCat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Dororong.h">
+      <Filter>03. Objects\MeshObject\Character\Pell\Dororong</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\RockObject.h">
+      <Filter>03. Objects\MeshObject\Static_Object\Environment\Rock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TreeObject.h">
+      <Filter>03. Objects\MeshObject\Static_Object\Environment\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PellRock.h">
+      <Filter>03. Objects\MeshObject\Static_Object\Environment\PellRock</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -663,6 +705,27 @@
     </ClCompile>
     <ClCompile Include="..\private\IMG_Create.cpp">
       <Filter>ImGui\UI\Create</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\EelectPanda.cpp">
+      <Filter>03. Objects\MeshObject\Character\Pell\EelectPanda</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PellBase.cpp">
+      <Filter>03. Objects\MeshObject\Character\Pell</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BedCat.cpp">
+      <Filter>03. Objects\MeshObject\Character\Pell\BedCat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Dororong.cpp">
+      <Filter>03. Objects\MeshObject\Character\Pell\Dororong</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RockObject.cpp">
+      <Filter>03. Objects\MeshObject\Static_Object\Environment\Rock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TreeObject.cpp">
+      <Filter>03. Objects\MeshObject\Static_Object\Environment\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PellRock.cpp">
+      <Filter>03. Objects\MeshObject\Static_Object\Environment\PellRock</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
