@@ -35,9 +35,9 @@ protected:
 
 protected:
 	CModel*									m_pVIBufferCom = nullptr;
-	CTexture*								m_pTextureCom = nullptr;
 	CShader*								m_pShaderCom = nullptr;
 
+	ID3DX11EffectShaderResourceVariable*	m_pSRVEffect = nullptr;
 private:
 	HRESULT									ADD_Components();
 

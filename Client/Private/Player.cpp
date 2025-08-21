@@ -54,12 +54,16 @@ void CPlayer::Late_Update(_float fDeletaTime)
 
 HRESULT CPlayer::Render()
 {
-    Apply_ConstantShaderResources();
+    _uInt iNumMeshes = m_pVIBufferCom->GetNumMeshes();
 
-    m_pShaderCom->Update_Shader(0);
-    m_pTextureCom->SetTexture(0, 0);
+    for (_uInt i = 0; i < iNumMeshes; ++i)
+    {
+        Apply_ConstantShaderResources(i);
 
-    m_pVIBufferCom->Render();
+        m_pShaderCom->Update_Shader(0);
+
+        m_pVIBufferCom->Render(i);
+    }
 
     return S_OK;
 }
@@ -72,33 +76,27 @@ HRESULT CPlayer::Bind_ShaderResources()
     m_pEMVWorldMat = m_pShaderCom->GetVariable("g_WorldMatrix")->AsMatrix();
     m_pEMVViewMat = m_pShaderCom->GetVariable("g_ViewMatrix")->AsMatrix();
     m_pEMVProjMat = m_pShaderCom->GetVariable("g_ProjMatrix")->AsMatrix();
-
+    m_pSRVEffect =  m_pShaderCom->GetVariable("g_Texture")->AsShaderResource();
     return S_OK;
 }
 
-HRESULT CPlayer::Apply_ConstantShaderResources()
+HRESULT CPlayer::Apply_ConstantShaderResources(_uInt iMeshIndex)
 {
     m_pEMVWorldMat->SetMatrix(reinterpret_cast<const float*>(&m_pTransformCom->GetWorldMat()));
     m_pEMVViewMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::VIEW)));
     m_pEMVProjMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION)));
-    ID3DX11EffectVariable* pVariable = m_pShaderCom->GetVariable("g_Texture2");
-    if (nullptr == pVariable)
-        return E_FAIL;
+    
+    ID3D11ShaderResourceView* pResourceVeiw = {};
+    m_pVIBufferCom->GetMeshResource(iMeshIndex , aiTextureType_DIFFUSE, 0, &pResourceVeiw);
+    if(pResourceVeiw)
+        m_pSRVEffect->SetResource(pResourceVeiw);
 
-    ID3DX11EffectShaderResourceVariable* pSRVariable = pVariable->AsShaderResource();
-    if (nullptr == pSRVariable)
-        return E_FAIL;
-
-    pSRVariable->SetResource(m_pTextureCom->GetTexture(0));
     return S_OK;
 }
 
 HRESULT CPlayer::ADD_Components()
 {
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Fiona_Mesh"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
-        return E_FAIL;
-
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Fiona"), TEXT("Texture_Com"), (CComponent**)&m_pTextureCom)))
         return E_FAIL;
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Mesh"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))

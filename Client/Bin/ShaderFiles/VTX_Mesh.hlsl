@@ -1,7 +1,5 @@
 matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
-Texture2D g_Texture : register(t0);
-
-Texture2D g_Texture2;
+Texture2D g_Texture;
 
 sampler sampler0 = sampler_state
 {
@@ -61,7 +59,7 @@ PS_OUT PS_MAIN(PS_IN In)
 {
     PS_OUT Out;
     
-    Out.vColor = g_Texture2.Sample(sampler0, In.vTexcoord);
+    Out.vColor = g_Texture.Sample(sampler0, In.vTexcoord);
     return Out;
 }
 

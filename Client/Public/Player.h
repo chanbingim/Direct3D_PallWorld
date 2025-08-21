@@ -25,7 +25,7 @@ public:
 
 protected:
 	virtual		HRESULT						Bind_ShaderResources() override;
-	virtual		HRESULT						Apply_ConstantShaderResources() override;
+	virtual		HRESULT						Apply_ConstantShaderResources(_uInt iMeshIndex);
 
 private:
 	HRESULT									ADD_Components();

@@ -15,6 +15,8 @@ HRESULT CMesh::Initialize_Prototype(const aiMesh* pAIMesh)
 	m_iNumVertexBuffers = 1;
 	//정점의 수를 꺼내와서 저장
 	m_iNumVertices = pAIMesh->mNumVertices;
+	m_iMateriaIndex = pAIMesh->mMaterialIndex;
+
 	m_iVertexStride = sizeof(VTX_MESH);
 
 	//삼각형의 개수를 꺼내와서 저장
