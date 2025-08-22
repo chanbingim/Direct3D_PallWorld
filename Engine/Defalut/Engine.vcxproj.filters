@@ -130,6 +130,21 @@
     <Filter Include="Utility\Components\Model\Material">
       <UniqueIdentifier>{725d0e77-52b4-478a-a14f-30aa4a263782}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utility\Helpers\Paser">
+      <UniqueIdentifier>{8136d0ea-0a23-4808-953a-c781c68fe14d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Helpers\Paser\Binary">
+      <UniqueIdentifier>{0d5095e2-cb19-4709-97b0-16c01a2669ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Helpers\Paser\Csv">
+      <UniqueIdentifier>{4d6f0d10-392f-4eaf-b621-94fc6ac883ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Helpers\Paser\Json">
+      <UniqueIdentifier>{1fc34410-bb5b-4375-9476-296957324e2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Font">
+      <UniqueIdentifier>{c60d7ee0-3594-4f00-8bc4-15b7610ba731}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Graphic_Device.cpp">
@@ -237,6 +252,16 @@
     <ClCompile Include="..\private\Material.cpp">
       <Filter>Utility\Components\Model\Material</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\BinaryHelper.cpp">
+      <Filter>Utility\Helpers\Paser\Binary</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CsvHelper.cpp">
+      <Filter>Utility\Helpers\Paser\Csv</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\JsonHelper.cpp">
+      <Filter>Utility\Helpers\Paser\Json</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Font.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\Graphic_Device.h">
@@ -371,5 +396,18 @@
     <ClInclude Include="..\public\Material.h">
       <Filter>Utility\Components\Model\Material</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\BinaryHelper.h">
+      <Filter>Utility\Helpers\Paser\Binary</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CsvHelper.h">
+      <Filter>Utility\Helpers\Paser\Csv</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\JsonHelper.h">
+      <Filter>Utility\Helpers\Paser\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PaseDataHeader.h">
+      <Filter>Utility\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Font.h" />
   </ItemGroup>
 </Project>

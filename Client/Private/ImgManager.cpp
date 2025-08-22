@@ -12,6 +12,7 @@
 #include "IMG_Viewport.h"
 #include "IMG_Content.h"
 #include "IMG_Create.h"
+#include "IMG_ModelConvert.h"
 #pragma endregion
 
 
@@ -183,6 +184,9 @@ HRESULT CImgManager::Setting_Img_UI()
     if (FAILED(ADD_IMG_UserInterface(TEXT("IMG_Create"), CIMG_Create::Create())))
         return E_FAIL;
 
+    if (FAILED(ADD_IMG_UserInterface(TEXT("IMG_ModelConvertView"), CIMG_ModelConvert::Create())))
+        return E_FAIL;
+
     return S_OK;
 }
 
@@ -201,7 +205,19 @@ void CImgManager::DarwMenuBar()
         {
 
 
-            ImGui::EndMenuBar();
+            ImGui::EndMenu();
+        }
+
+        if (ImGui::BeginMenu("View"))
+        {
+            if (ImGui::MenuItem("ModelView"))
+            {
+                auto IMG_UIObject = Find_ImgUserInterface(L"IMG_ModelConvertView");
+                if (IMG_UIObject)
+                    IMG_UIObject->SetVisibility(VISIBILITY::VISIBLE);
+            }
+
+            ImGui::EndMenu();
         }
 
         ImGui::EndMenuBar();

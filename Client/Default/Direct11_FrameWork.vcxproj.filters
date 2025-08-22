@@ -284,6 +284,12 @@
     <Filter Include="03. Objects\MeshObject\Character\Pell\FlowerRabbit">
       <UniqueIdentifier>{e0f5dc4e-eddf-4979-81fe-ef21965d4052}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ImGui\UI\AnimationWindow">
+      <UniqueIdentifier>{5b6f1eae-573a-44b9-8ce7-7652f10bebe6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui\UI\FbxConvertWindow">
+      <UniqueIdentifier>{1e87102c-bf0a-463c-8a92-3843837b9580}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -532,6 +538,9 @@
     <ClInclude Include="..\public\Yeti.h">
       <Filter>03. Objects\MeshObject\Character\Pell\Yeti</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\IMG_ModelConvert.h">
+      <Filter>ImGui\UI\FbxConvertWindow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -771,6 +780,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Yeti.cpp">
       <Filter>03. Objects\MeshObject\Character\Pell\Yeti</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public\IMG_ModelConvert.cpp">
+      <Filter>ImGui\UI\FbxConvertWindow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

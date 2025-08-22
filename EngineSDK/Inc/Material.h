@@ -2,6 +2,7 @@
 #include "Base.h"
 
 NS_BEGIN(Engine)
+
 class CMaterial : public CBase
 {
 private :
@@ -10,18 +11,28 @@ private :
 
 public :
 	HRESULT							Initialize(const _char* pModelFilePath, const aiMaterial* pAIMaterial);
+	HRESULT							Initialize(const _char* pModelFilePath, void* MaterialDesc);
 	
 	void							SetMaterial(_uInt iMaterialIndex, aiTextureType eType, _uInt iTextureIndex);
 	ID3D11ShaderResourceView*		GetMaterial(aiTextureType eType, _uInt iTextureIndex);
 
-private :
-	ID3D11Device*			m_pDevice = { nullptr };
-	ID3D11DeviceContext*	m_pContext = { nullptr };
+	HRESULT							Export(void* pOut);
 
-	vector<ID3D11ShaderResourceView*>		m_SRVs[AI_TEXTURE_TYPE_MAX];
+private :
+	ID3D11Device*					m_pDevice = { nullptr };
+	ID3D11DeviceContext*			m_pContext = { nullptr };
+
+#ifdef _DEBUG
+	vector<pair<_wstring ,ID3D11ShaderResourceView*>>		m_SRVs[AI_TEXTURE_TYPE_MAX];
+#elif
+	vector<ID3D11ShaderResourceView*>*		m_SRVs;
+#endif // _DEBUG
+
+	
 
 public :
 	static		CMaterial*	Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _char* pModelFilePath, const aiMaterial* pAIMaterial);
+	static		CMaterial*  Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _char* pModelFilePath, void* MaterialDesc);
 	virtual		void		Free() override;
 
 };

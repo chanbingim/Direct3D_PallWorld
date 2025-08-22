@@ -5,6 +5,7 @@ namespace Engine
 	enum class WINMODE		{ FULL, WIN, END };
 	enum class GAMEMODE		{ EDITOR, GAME, END };
 	enum class KEY_INPUT    { KEYBOARD, MOUSE, END };
+	enum class MODEL_TYPE	{ ANIM, NONANIM, END };
 	enum class VISIBILITY	{ VISIBLE, HIDDEN, END };
 	enum class WORLDSTATE	{ RIGHT, UP, LOOK, POSITION, END };
 	enum class RENDER {

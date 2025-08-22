@@ -231,6 +231,7 @@
     <ClInclude Include="..\public\Logo_Menu.h" />
     <ClInclude Include="..\public\MainApp.h" />
     <ClInclude Include="..\public\MeshActor.h" />
+    <ClInclude Include="..\public\IMG_ModelConvert.h" />
     <ClInclude Include="..\public\OptionButton.h" />
     <ClInclude Include="..\public\PellBase.h" />
     <ClInclude Include="..\public\PellInfo.h" />
@@ -327,6 +328,7 @@
     <ClCompile Include="..\private\Terrian.cpp" />
     <ClCompile Include="..\private\TypeIcon.cpp" />
     <ClCompile Include="..\private\Yeti.cpp" />
+    <ClCompile Include="..\public\IMG_ModelConvert.cpp" />
     <ClCompile Include="Direct11_FrameWork.cpp" />
   </ItemGroup>
   <ItemGroup>

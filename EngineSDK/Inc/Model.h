@@ -13,17 +13,24 @@ private :
 	virtual ~CModel() = default;
 
 public :
-	virtual HRESULT				Initialize_Prototype(const _char* pModelFilePath);
+	virtual HRESULT				Initialize_Prototype(MODEL_TYPE eType, const _char* pModelFilePath);
 	virtual HRESULT				Initialize(void* pArg) override;
+
 	virtual HRESULT				Render(_uInt iMeshIndex);
 
 	HRESULT						GetMeshResource(_uInt iMeshIndex, aiTextureType eType, _uInt iTextureIndex, ID3D11ShaderResourceView** ppOut);
 	_uInt						GetNumMeshes() { return m_iNumMeshes; }
 
+	void						Export(const char* FilePath);
+
 private :
 	// Assimp Lib
+#ifdef _DEBUG
 	const aiScene*				m_pAIScene = { nullptr };
 	Assimp::Importer			m_Importer;
+#endif // _DEBUG
+
+	MODEL_TYPE					m_eType = { MODEL_TYPE::END };
 
 	// 매시 개수 및 매시 저장
 	_uInt						m_iNumMeshes = {};
@@ -37,8 +44,14 @@ private:
 	HRESULT						Ready_Meshes();
 	HRESULT						Ready_Materials(const _char* pModelFilePath);
 
+	HRESULT						Ready_Meshes(void* MeshDesc);
+	HRESULT						Ready_Materials(void* MatrialDesc, const _char* pModelFilePath);
+
+	HRESULT						SaveModelFile(void* Data, const char* FilePath);
+	HRESULT						ReadModelFile(void* Data, const char* FilePath);
+
 public:
-	static		CModel*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _char* pModelFilePath);
+	static		CModel*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL_TYPE eType, const _char* pModelFilePath);
 	virtual		CComponent*		Clone(void* pArg);
 	virtual		void			Free(); public:
 };

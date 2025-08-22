@@ -8,6 +8,9 @@
 #include <iostream>
 #include <wincodec.h>
 
+//FILE Input
+#include <fstream>
+
 //STL
 #include <stack>
 #include <vector>

@@ -40,6 +40,10 @@ void CBedCat::Priority_Update(_float fDeletaTime)
 
 void CBedCat::Update(_float fDeletaTime)
 {
+    if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_F3))
+    {
+        m_pVIBufferCom->Export("../Bin/Save/ModelData/BedCat/BedCat.dat");
+    }
 }
 
 void CBedCat::Late_Update(_float fDeletaTime)
