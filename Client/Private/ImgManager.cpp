@@ -23,7 +23,7 @@ HRESULT CImgManager::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCon
     if (FAILED(Default_Setting(pDevice, pContext)))
         return E_FAIL;
 
-    if (FAILED(Setting_Img_UI()))
+    if (FAILED(Setting_Img_UI(pDevice, pContext)))
         return E_FAIL;
 
     return S_OK;
@@ -56,7 +56,18 @@ void CImgManager::Update(_float fDeletaTime)
     }
 }
 
-void CImgManager::Render()
+void CImgManager::Render_Begin()
+{
+    for (auto& pair : m_ImgUIMap)
+    {
+        if (VISIBILITY::HIDDEN == pair.second->GetVisibility())
+            continue;
+
+        pair.second->Render();
+    }
+}
+
+void CImgManager::Render_End()
 {
     ImGui::Render();
 
@@ -161,30 +172,30 @@ HRESULT CImgManager::Default_Setting(ID3D11Device* pDevice, ID3D11DeviceContext*
     return S_OK;
 }
 
-HRESULT CImgManager::Setting_Img_UI()
+HRESULT CImgManager::Setting_Img_UI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    if (FAILED(ADD_IMG_UserInterface(TEXT("Profiler"), CIMG_Profiler::Create())))
+    if (FAILED(ADD_IMG_UserInterface(TEXT("Profiler"), CIMG_Profiler::Create(pDevice, pContext))))
         return E_FAIL;
 
-    if (FAILED(ADD_IMG_UserInterface(TEXT("Hierarchy"), CIMG_Hierarchy::Create())))
+    if (FAILED(ADD_IMG_UserInterface(TEXT("Hierarchy"), CIMG_Hierarchy::Create(pDevice, pContext))))
         return E_FAIL;
 
-    if (FAILED(ADD_IMG_UserInterface(TEXT("Inspector"), CIMG_Inspector::Create())))
+    if (FAILED(ADD_IMG_UserInterface(TEXT("Inspector"), CIMG_Inspector::Create(pDevice, pContext))))
         return E_FAIL;
 
-    if (FAILED(ADD_IMG_UserInterface(TEXT("LandScape"), CIMG_LandScape::Create())))
+    if (FAILED(ADD_IMG_UserInterface(TEXT("LandScape"), CIMG_LandScape::Create(pDevice, pContext))))
         return E_FAIL;
 
-    if (FAILED(ADD_IMG_UserInterface(TEXT("ViewPort"), CIMG_Viewport::Create())))
+    if (FAILED(ADD_IMG_UserInterface(TEXT("ViewPort"), CIMG_Viewport::Create(pDevice, pContext))))
         return E_FAIL;
 
-    if (FAILED(ADD_IMG_UserInterface(TEXT("Content"), CIMG_Content::Create())))
+    if (FAILED(ADD_IMG_UserInterface(TEXT("Content"), CIMG_Content::Create(pDevice, pContext))))
         return E_FAIL;
 
-    if (FAILED(ADD_IMG_UserInterface(TEXT("IMG_Create"), CIMG_Create::Create())))
+    if (FAILED(ADD_IMG_UserInterface(TEXT("IMG_Create"), CIMG_Create::Create(pDevice, pContext))))
         return E_FAIL;
 
-    if (FAILED(ADD_IMG_UserInterface(TEXT("IMG_ModelConvertView"), CIMG_ModelConvert::Create())))
+    if (FAILED(ADD_IMG_UserInterface(TEXT("IMG_ModelConvertView"), CIMG_ModelConvert::Create(pDevice, pContext))))
         return E_FAIL;
 
     return S_OK;

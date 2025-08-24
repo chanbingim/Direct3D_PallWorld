@@ -95,9 +95,9 @@ void CGraphic_Device::Set_RenderResource(_uInt iIndex)
     m_pDeviceContext->RSSetViewports(1, &m_Render_Dsec[iIndex].ViewPort);
 }
 
-HRESULT CGraphic_Device::GetBackBuffer(_uInt iIndex, ID3D11Texture2D** ppOut)
+HRESULT CGraphic_Device::GetBackBuffer(ID3D11Texture2D** ppOut)
 {
-    if (FAILED(m_Render_Dsec[iIndex].pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)ppOut)))
+    if (FAILED(m_Render_Dsec[m_CurViewWinow].pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)ppOut)))
         return E_FAIL;
 
     return S_OK;

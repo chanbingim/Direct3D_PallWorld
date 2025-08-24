@@ -63,6 +63,11 @@ void CPicking::Change_Mode(GAMEMODE eType)
     m_eMode = eType;
 }
 
+const GAMEMODE& CPicking::GetGameMode()
+{
+    return m_eMode;
+}
+
 _bool CPicking::RayPicking(_vector vRayOrizin, _vector vRayDir, const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut)
 {
     _float      fDist{};

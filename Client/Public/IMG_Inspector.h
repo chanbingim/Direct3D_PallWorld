@@ -12,7 +12,7 @@ class CIMG_Component;
 class CIMG_Inspector : public CImgUIBase
 {
 private:
-	CIMG_Inspector();
+	CIMG_Inspector(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual ~CIMG_Inspector() = default;
 
 public:
@@ -33,7 +33,7 @@ private :
 	void							Update_UIState();
 
 public:
-	static	CIMG_Inspector*			Create();
+	static	CIMG_Inspector*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CImgUIBase*				Clone(void* pArg);
 	virtual void					Free() override;
 

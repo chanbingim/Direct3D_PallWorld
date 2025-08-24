@@ -40,13 +40,18 @@ public :
 	HRESULT		Initialize_Engine(void* pArg);
 	void		Update_Engine(_float fTimeDelta);
 
+	// DefaultRender
 	HRESULT		Draw();
+
+	// Only Renderer Draw
+	HRESULT		DrawRender();
 
 	// GrpahicDevice
 #pragma region Graphic_Device
 	HRESULT		ADD_Window(const ENGINE_DESC& Win_Desc);
 	void		Set_RenderResource(_uInt iIndex);
-	HRESULT		GetBackBuffer(_uInt iIndex, ID3D11Texture2D** pOut);
+	HRESULT		GetBackBuffer(ID3D11Texture2D** pOut);
+	_uInt		GetRenderTargetNum();
 
 	void		Render_Begin(_float* Color);
 	void		Render_End();
@@ -143,6 +148,7 @@ public :
 	void						SetEditor_MousePos(_float3 vPos);
 	void						SetEditor_Frame(const _float2& vSize);
 	void						Change_Mode(GAMEMODE eType);
+	const	GAMEMODE&			GetGameMode();
 
 	const _float3&				GetPickingRayPos(RAY eType);
 	const _float3&				GetPickingRayDir(RAY eType);
@@ -157,10 +163,6 @@ public :
 	_float						GetPipeLineLoopTime(const TCHAR* Str);
 	const _float2&				GetScreenSize();
 #pragma endregion
-
-
-
-
 private :
 	CGraphic_Device*			m_pGraphic_Device = nullptr;
 	CLevel_Manager*				m_pLevel_Manager = nullptr;

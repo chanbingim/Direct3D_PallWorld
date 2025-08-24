@@ -6,7 +6,7 @@ NS_BEGIN(Client)
 class CIMG_LandScape : public CImgUIBase
 {
 private:
-	CIMG_LandScape();
+	CIMG_LandScape(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual ~CIMG_LandScape() = default;
 
 public:
@@ -28,7 +28,7 @@ private :
 	void							CreateHeightMap();
 
 public:
-	static	CIMG_LandScape*			Create();
+	static	CIMG_LandScape*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CImgUIBase*				Clone(void* pArg);
 	virtual void					Free() override;
 };

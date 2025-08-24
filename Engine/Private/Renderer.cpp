@@ -180,8 +180,8 @@ void CRenderer::DrawPosTex()
 {
     ID3D11Texture2D* pBackBuffer = nullptr;
     ID3D11Resource*  pPostBuffer = nullptr;
-    auto PostTex = m_pGameInstance->GetPostBuffer(0);
-    m_pGameInstance->GetBackBuffer(0, &pBackBuffer);
+    auto PostTex = m_pGameInstance->GetPostBuffer(m_pGameInstance->GetRenderTargetNum());
+    m_pGameInstance->GetBackBuffer(&pBackBuffer);
 
     if (PostTex && pBackBuffer)
     {

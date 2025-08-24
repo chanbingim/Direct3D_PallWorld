@@ -39,6 +39,10 @@ private:
 	/* 후처리를 하기위해 텍스처 생성 */
 	void								DrawPosTex();
 
+//#ifdef _DEBUG
+//	void								CaptureEditorScrren();
+//#endif // _DEBUG
+
 public:
 	static CRenderer*	Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual void		Free();

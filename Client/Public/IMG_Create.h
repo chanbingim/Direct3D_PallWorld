@@ -9,7 +9,7 @@ NS_BEGIN(Client)
 class CIMG_Create : public CImgUIBase
 {
 private:
-	CIMG_Create();
+	CIMG_Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual ~CIMG_Create() = default;
 
 public:
@@ -37,7 +37,7 @@ private :
 	void							DrawPrototypes();
 
 public:
-	static	CIMG_Create*			Create();
+	static	CIMG_Create*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CImgUIBase*				Clone(void* pArg);
 	virtual void					Free() override;
 };

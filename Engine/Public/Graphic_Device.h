@@ -25,7 +25,8 @@ public :
 
 	HRESULT				ADD_Window(const ENGINE_DESC& Win_Desc);
 	void				Set_RenderResource(_uInt iIndex);
-	HRESULT				GetBackBuffer(_uInt iIndex, ID3D11Texture2D** pOut);
+	HRESULT				GetBackBuffer(ID3D11Texture2D** pOut);
+	_uInt				GetRenderTargetNum() { return m_CurViewWinow; }
 
 private :
 	ID3D11Device*				m_pGraphicDevice = nullptr;

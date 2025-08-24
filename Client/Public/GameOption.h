@@ -26,8 +26,8 @@ public:
 
 private :
 	_bool									m_bIsActive = false;
-	vector<COptionButton*>					m_OptionButton = {};
 
+	vector<COptionButton*>					m_OptionButton = {};
 	//원래 다른버튼도있는데 그건 없어도 될것 같음
 
 private:

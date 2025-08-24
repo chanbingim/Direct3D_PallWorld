@@ -143,7 +143,7 @@ void CUserInterface::MouseButtonUp()
 
 HRESULT CUserInterface::Bind_ShaderResources()
 {
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 HRESULT CUserInterface::Apply_ConstantShaderResources()

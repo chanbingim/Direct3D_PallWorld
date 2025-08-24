@@ -1,6 +1,7 @@
 #include "IMG_Component.h"
 
-CIMG_Component::CIMG_Component()
+CIMG_Component::CIMG_Component(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
+    CImgUIBase(pDevice, pContext)
 {
 }
 

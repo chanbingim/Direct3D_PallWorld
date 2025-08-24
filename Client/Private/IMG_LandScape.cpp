@@ -4,8 +4,8 @@
 #include "Terrian.h"
 #include "Level.h"
 
-CIMG_LandScape::CIMG_LandScape() :
-    CImgUIBase()
+CIMG_LandScape::CIMG_LandScape(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
+    CImgUIBase(pDevice, pContext)
 {
 }
 
@@ -122,9 +122,9 @@ void CIMG_LandScape::CreateHeightMap()
     }
 }
 
-CIMG_LandScape* CIMG_LandScape::Create()
+CIMG_LandScape* CIMG_LandScape::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CIMG_LandScape* pLandScape = new CIMG_LandScape();
+    CIMG_LandScape* pLandScape = new CIMG_LandScape(pDevice, pContext);
     if (FAILED(pLandScape->Prototype_Initialize()))
     {
         Safe_Release(pLandScape);
@@ -135,7 +135,7 @@ CIMG_LandScape* CIMG_LandScape::Create()
 
 CImgUIBase* CIMG_LandScape::Clone(void* pArg)
 {
-    CIMG_LandScape* pLandScape = new CIMG_LandScape();
+    CIMG_LandScape* pLandScape = new CIMG_LandScape(*this);
     if (FAILED(pLandScape->Initialize(pArg)))
     {
         Safe_Release(pLandScape);

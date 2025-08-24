@@ -1,6 +1,7 @@
 #include "IMG_Content.h"
 
-CIMG_Content::CIMG_Content()
+CIMG_Content::CIMG_Content(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
+    CImgUIBase(pDevice, pContext)
 {
 }
 
@@ -22,9 +23,9 @@ void CIMG_Content::Update(_float fDeletaTime)
     }
 }
 
-CIMG_Content* CIMG_Content::Create()
+CIMG_Content* CIMG_Content::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CIMG_Content* pContent = new CIMG_Content();
+    CIMG_Content* pContent = new CIMG_Content(pDevice, pContext);
     if (FAILED(pContent->Prototype_Initialize()))
     {
         Safe_Release(pContent);

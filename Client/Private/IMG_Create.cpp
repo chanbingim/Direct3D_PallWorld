@@ -4,8 +4,8 @@
 #include "StringHelper.h"
 #include "Level.h"
 
-CIMG_Create::CIMG_Create() :
-    CImgUIBase()
+CIMG_Create::CIMG_Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
+    CImgUIBase(pDevice, pContext)
 {
 }
 
@@ -123,9 +123,9 @@ void CIMG_Create::DrawPrototypes()
     }
 }
 
-CIMG_Create* CIMG_Create::Create()
+CIMG_Create* CIMG_Create::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CIMG_Create* pInspector = new CIMG_Create();
+    CIMG_Create* pInspector = new CIMG_Create(pDevice, pContext);
     if (FAILED(pInspector->Prototype_Initialize()))
     {
         Safe_Release(pInspector);
@@ -136,7 +136,7 @@ CIMG_Create* CIMG_Create::Create()
 
 CImgUIBase* CIMG_Create::Clone(void* pArg)
 {
-    CIMG_Create* pInspector = new CIMG_Create();
+    CIMG_Create* pInspector = new CIMG_Create(*this);
     if (FAILED(pInspector->Initialize(pArg)))
     {
         Safe_Release(pInspector);

@@ -12,7 +12,7 @@ class CImgManager;
 class CIMG_Hierarchy : public CImgUIBase
 {
 private :
-	CIMG_Hierarchy();
+	CIMG_Hierarchy(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual ~CIMG_Hierarchy() = default;
 
 public :
@@ -33,7 +33,7 @@ private :
 	HRESULT							Draw_Hierarchy(CGameObject* pObject);
 
 public:
-	static	CIMG_Hierarchy*			Create();
+	static	CIMG_Hierarchy*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CImgUIBase*				Clone(void* pArg);
 	virtual void					Free() override;
 

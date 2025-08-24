@@ -299,7 +299,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Electric_Herorong_Mesh"),
 	//	CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Herorong/EletricHerorong.fbx"))))
 	//	return E_FAIL;
-
+ 
 	///* VIBuffer  FlowerRabbit MESH  Component */
 	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_FlowerRabbit_Mesh"),
 	//	CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/FlowerRabbit/FlowerRabbit.fbx"))))

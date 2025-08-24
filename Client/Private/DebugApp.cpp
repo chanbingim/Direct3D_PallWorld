@@ -2,6 +2,7 @@
 #include "DebugApp.h"
 
 #include "GameInstance.h"
+#include "EditorLevel.h"
 #include "ImgManager.h"
 
 CDebugApp::CDebugApp(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
@@ -17,6 +18,9 @@ CDebugApp::CDebugApp(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 HRESULT CDebugApp::Initialize_MainApp()
 {
     if (FAILED(SetUp_DefaultSetting()))
+        return E_FAIL;
+
+    if (FAILED(SetUp_EditorLevel()))
         return E_FAIL;
 
     if (FAILED(SetUp_ImgManager()))
@@ -46,6 +50,15 @@ HRESULT CDebugApp::SetUp_DefaultSetting()
     return S_OK;
 }
 
+HRESULT CDebugApp::SetUp_EditorLevel()
+{
+    /*m_pEditorLevel = CEditorLevel::Create(m_pDevice, m_pContext, ENUM_CLASS(LEVEL::EDITOR));
+    if (nullptr == m_pEditorLevel)
+        return E_FAIL;*/
+
+    return S_OK;
+}
+
 HRESULT CDebugApp::SetUp_ImgManager()
 {
     m_pImgManager = CImgManager::GetInstance();
@@ -63,7 +76,9 @@ void CDebugApp::Render()
     _float Color[] = {0.f, 0.f, 1.f, 1.f};
     m_pGameInstance->Render_Begin(Color);
 
-    m_pImgManager->Render();
+    m_pImgManager->Render_Begin();
+    m_pGameInstance->DrawRender();
+    m_pImgManager->Render_End();
 
     m_pGameInstance->Render_End();
 }

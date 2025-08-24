@@ -28,8 +28,12 @@ public:
 
 	// 랜더
 	virtual			HRESULT						Render();
-	_bool										IsInPoint(_float3& vPos, _float offset);
 
+	
+	void										CameraLookAt(_vector LookAtLookAt);
+	void										SetFov(_float fAngle);
+	_bool										IsInPoint(_float3& vPos, _float offset);
+	 
 private :
 	//카메라 정보
 	_float										m_fFov = {};

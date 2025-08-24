@@ -1,0 +1,141 @@
+#include "EditorCamera.h"
+
+#include "GameInstance.h"
+
+CEditorCamera::CEditorCamera(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
+	CBaseCamera(pDevice, pContext)
+{
+}
+
+CEditorCamera::CEditorCamera(const CEditorCamera& rhs) :
+	CBaseCamera(rhs)
+{
+}
+
+HRESULT CEditorCamera::Initalize_Prototype()
+{
+    if (FAILED(__super::Initalize_Prototype()))
+        return E_FAIL;
+
+    return S_OK;
+}
+
+HRESULT CEditorCamera::Initialize(void* pArg)
+{
+    if (FAILED(__super::Initialize(pArg)))
+        return E_FAIL;
+
+    m_ObejctTag = TEXT("Editor Camera");
+    return S_OK;
+}
+
+void CEditorCamera::Priority_Update(_float fDeletaTime)
+{
+	if (GAMEMODE::EDITOR == m_pGameInstance->GetGameMode())
+		Input_KeyBoard(fDeletaTime);
+
+	__super::Priority_Update(fDeletaTime);
+}
+
+void CEditorCamera::Update(_float fDeletaTime)
+{
+
+}
+
+void CEditorCamera::Late_Update(_float fDeletaTime)
+{
+
+}
+
+HRESULT CEditorCamera::Render()
+{
+    return S_OK;
+}
+
+void CEditorCamera::Input_KeyBoard(_float fDeletaTime)
+{
+	//키 코드를 이용해서 움직일지 플레이어를 따라다닐지는 결정해봐야 알것같은데
+	//플레이어 따라다닐거같음 모델띄우면 그때 장착시키고 그전까지는
+	//Key 입력으로 움직이는걸로하자
+	//이건 쌤 수업코드 나가는거보고 좋은부분은 가져와야겠음
+	if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_UPARROW))
+	{
+		//앞방향 이동
+		auto vLook = XMVector3Normalize(m_pTransformCom->GetLookVector());
+		ADDPosition(vLook * m_fSpeed * fDeletaTime);
+	}
+
+	if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_DOWNARROW))
+	{
+		//뒷방향 이동
+		auto vLook = XMVector3Normalize(m_pTransformCom->GetLookVector());
+		ADDPosition(vLook * -m_fSpeed * fDeletaTime);
+	}
+
+	if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_RIGHTARROW))
+	{
+		//앞방향 이동
+		auto vRight = XMVector3Normalize(m_pTransformCom->GetRightVector());
+		ADDPosition(vRight * m_fSpeed * fDeletaTime);
+	}
+
+	if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_LEFTARROW))
+	{
+		//뒷방향 이동
+		auto vRight = XMVector3Normalize(m_pTransformCom->GetRightVector());
+		ADDPosition(vRight * -m_fSpeed * fDeletaTime);
+	}
+
+	if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_Q))
+	{
+		// 시계방향 회전
+		ADDRotation(m_pTransformCom->GetUpVector(), m_fRotSpeed, fDeletaTime);
+	}
+
+	if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_E))
+	{
+		//반시계 방향 회전
+		ADDRotation(m_pTransformCom->GetUpVector(), -m_fRotSpeed, fDeletaTime);
+	}
+
+	if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_W))
+	{
+		// 시계방향 회전
+		ADDRotation(m_pTransformCom->GetRightVector(), m_fRotSpeed, fDeletaTime);
+	}
+
+	if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_S))
+	{
+		//반시계 방향 회전
+		ADDRotation(m_pTransformCom->GetRightVector(), -m_fRotSpeed, fDeletaTime);
+	}
+}
+
+CEditorCamera* CEditorCamera::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+{
+	CEditorCamera* pCamera = new CEditorCamera(pDevice, pContext);
+	if (FAILED(pCamera->Initalize_Prototype()))
+	{
+		Safe_Release(pCamera);
+		MSG_BOX("CREATE FAIL : CAMERA");
+	}
+
+	return pCamera;
+}
+
+CGameObject* CEditorCamera::Clone(void* pArg)
+{
+	CEditorCamera* pCamera = new CEditorCamera(*this);
+	if (FAILED(pCamera->Initialize(pArg)))
+	{
+		Safe_Release(pCamera);
+		MSG_BOX("CLONE FAIL : CAMERA");
+	}
+
+	return pCamera;
+}
+
+void CEditorCamera::Free()
+{
+	__super::Free();
+}

@@ -443,9 +443,9 @@ HRESULT CVIBuffer_Terrian::UpdateHegiht(CTransform* pTransform, _float Apply, _f
 			//그때 Normal 계산하는 로직까지 추가로해서 할것
 			VTX_NORTEX* Vertex = (VTX_NORTEX*)MapData.pData;
 
-			for (_uInt i = LocalMinPos.z; i < (_uInt)LocalMaxPos.z - 1; i++)
+			for (_uInt i = (_uInt)LocalMinPos.z; i < (_uInt)LocalMaxPos.z - 1; i++)
 			{
-				for (_uInt j = LocalMinPos.x; j < (_uInt)LocalMaxPos.x - 1; j++)
+				for (_uInt j = (_uInt)LocalMinPos.x; j < (_uInt)LocalMaxPos.x - 1; j++)
 				{
 					_uInt	iIndex = i * (_uInt)m_iNumVertex.x + j;
 					_uInt	iIndices[4] = {

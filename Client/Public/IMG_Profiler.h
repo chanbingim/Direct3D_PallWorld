@@ -5,7 +5,7 @@ NS_BEGIN(Client)
 class CIMG_Profiler final : public CImgUIBase
 {
 private:
-	CIMG_Profiler();
+	CIMG_Profiler(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual ~CIMG_Profiler() = default;
 
 public:
@@ -25,7 +25,7 @@ private :
 
 
 public:
-	static	CIMG_Profiler*			Create();
+	static	CIMG_Profiler*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CImgUIBase*				Clone(void* pArg);
 	virtual void					Free() override;
 

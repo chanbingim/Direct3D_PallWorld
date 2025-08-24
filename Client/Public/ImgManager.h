@@ -23,7 +23,8 @@ public :
 	HRESULT			Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 
 	void			Update(_float fDeletaTime);
-	void			Render();
+	void			Render_Begin();
+	void			Render_End();
 
 	void							ADD_SelectObject(CGameObject* SelectObj);
 	void							Remove_SelectObject(CGameObject* SelectObj);
@@ -40,10 +41,9 @@ private :
 	ImGuiWindowFlags						m_ImGuiWindowFlags = {};
 	list<CGameObject*>						m_SelectList = {};
 	
-
 private :
 	HRESULT			Default_Setting(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	HRESULT			Setting_Img_UI();
+	HRESULT			Setting_Img_UI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 
 	void			CreateDockSpace();
 	void			DarwMenuBar();

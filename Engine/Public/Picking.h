@@ -17,6 +17,7 @@ public :
 	void							SetEditor_MousePos(const _float3& vPos);
 	void							SetEditor_Frame(const _float2& vSize);
 	void							Change_Mode(GAMEMODE eType);
+	const GAMEMODE&					GetGameMode();
 
 	_bool							RayPicking(_vector vRayOrizin, _vector vRayDir, const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut);
 

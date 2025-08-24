@@ -61,9 +61,6 @@
     <Filter Include="Utility\Pipeline">
       <UniqueIdentifier>{79a57e86-aaf6-4e16-bd21-e6186213aabe}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utility\Object\Camera">
-      <UniqueIdentifier>{726d2632-59eb-434d-9d37-94bb513075f7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utility\HeadUpDisplay\UserInterface\Progressbar">
       <UniqueIdentifier>{a7b21e9d-ff67-4a87-9e70-3d621fbef5bc}</UniqueIdentifier>
     </Filter>
@@ -145,6 +142,18 @@
     <Filter Include="Utility\Components\Font">
       <UniqueIdentifier>{c60d7ee0-3594-4f00-8bc4-15b7610ba731}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utility\Object\Camera">
+      <UniqueIdentifier>{726d2632-59eb-434d-9d37-94bb513075f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\HeadUpDisplay\UserInterface\Viewer">
+      <UniqueIdentifier>{36f3cc12-72be-4e81-b592-b208702fc5b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Object\EditorObject">
+      <UniqueIdentifier>{b7bf560d-9cff-49e4-b63e-67d2ac61704c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Object\EditorObject\EditorCamera">
+      <UniqueIdentifier>{18816558-cabf-4847-8222-134bb93db532}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Graphic_Device.cpp">
@@ -222,9 +231,6 @@
     <ClCompile Include="..\private\Pipeline.cpp">
       <Filter>Utility\Pipeline</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\BaseCamera.cpp">
-      <Filter>Utility\Object\Camera</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\VIBuffer_Terrian.cpp">
       <Filter>Utility\Components\VIBuffer\VITerrian</Filter>
     </ClCompile>
@@ -261,7 +267,18 @@
     <ClCompile Include="..\private\JsonHelper.cpp">
       <Filter>Utility\Helpers\Paser\Json</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Font.cpp" />
+    <ClCompile Include="..\private\BaseCamera.cpp">
+      <Filter>Utility\Object\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Viewer.cpp">
+      <Filter>Utility\HeadUpDisplay\UserInterface\Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Font.cpp">
+      <Filter>Utility\Components\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EditorCamera.cpp">
+      <Filter>Utility\Object\EditorObject\EditorCamera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\Graphic_Device.h">
@@ -339,9 +356,6 @@
     <ClInclude Include="..\public\Pipeline.h">
       <Filter>Utility\Pipeline</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\BaseCamera.h">
-      <Filter>Utility\Object\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\VIBuffer_Terrian.h">
       <Filter>Utility\Components\VIBuffer\VITerrian</Filter>
     </ClInclude>
@@ -408,6 +422,17 @@
     <ClInclude Include="..\Public\PaseDataHeader.h">
       <Filter>Utility\Helpers</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Font.h" />
+    <ClInclude Include="..\public\BaseCamera.h">
+      <Filter>Utility\Object\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Viewer.h">
+      <Filter>Utility\HeadUpDisplay\UserInterface\Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Font.h">
+      <Filter>Utility\Components\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EditorCamera.h">
+      <Filter>Utility\Object\EditorObject\EditorCamera</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

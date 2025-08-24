@@ -2,8 +2,8 @@
 
 #include "GameInstance.h"
 
-CIMG_Profiler::CIMG_Profiler() :
-    CImgUIBase()
+CIMG_Profiler::CIMG_Profiler(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
+    CImgUIBase(pDevice, pContext)
 {
     ZeroMemory(&m_fDurTime, sizeof(m_fDurTime));
 }
@@ -59,9 +59,9 @@ const char* CIMG_Profiler::GetProgressName(_uInt iIndex)
     return "";
 }
 
-CIMG_Profiler* CIMG_Profiler::Create()
+CIMG_Profiler* CIMG_Profiler::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CIMG_Profiler* pProfiler = new CIMG_Profiler();
+    CIMG_Profiler* pProfiler = new CIMG_Profiler(pDevice, pContext);
     if (FAILED(pProfiler->Prototype_Initialize()))
     {
         Safe_Release(pProfiler);

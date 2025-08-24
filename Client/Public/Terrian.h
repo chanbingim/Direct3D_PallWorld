@@ -16,6 +16,7 @@ public :
 	typedef struct Terrian_Desc : GAMEOBJECT_DESC
 	{
 		_uInt			iGridCnt;
+		_bool			IsPicking;
 
 	}TERRIAN_DESC;
 
@@ -42,6 +43,8 @@ protected :
 	virtual		HRESULT						Apply_ConstantShaderResources() override;
 
 private :
+	_bool									m_bIsPicking = true;
+
 	CVIBuffer_Terrian*						m_pVIBufferCom = nullptr;
 	CTexture*								m_pTextureCom = nullptr;
 	CShader*								m_pShaderCom = nullptr;

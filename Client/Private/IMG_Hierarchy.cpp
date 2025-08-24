@@ -6,8 +6,8 @@
 #include "StringHelper.h"
 #include "Level.h"
 
-CIMG_Hierarchy::CIMG_Hierarchy() :
-	CImgUIBase()
+CIMG_Hierarchy::CIMG_Hierarchy(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
+	CImgUIBase(pDevice, pContext)
 {
 }
 
@@ -152,9 +152,9 @@ HRESULT CIMG_Hierarchy::Draw_Hierarchy(CGameObject* pObject)
     return S_OK;
 }
 
-CIMG_Hierarchy* CIMG_Hierarchy::Create()
+CIMG_Hierarchy* CIMG_Hierarchy::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CIMG_Hierarchy* pProfiler = new CIMG_Hierarchy();
+    CIMG_Hierarchy* pProfiler = new CIMG_Hierarchy(pDevice, pContext);
     if (FAILED(pProfiler->Prototype_Initialize()))
     {
         Safe_Release(pProfiler);

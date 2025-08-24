@@ -3,8 +3,8 @@
 #include "GameInstance.h"
 #include "GameObject.h"
 
-CIMG_Transform::CIMG_Transform() :
-    CIMG_Component()
+CIMG_Transform::CIMG_Transform(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
+    CIMG_Component(pDevice, pContext)
 {
 }
 
@@ -73,9 +73,9 @@ void CIMG_Transform::DrawTransformUI()
     }
 }
 
-CIMG_Transform* CIMG_Transform::Create()
+CIMG_Transform* CIMG_Transform::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CIMG_Transform* pTransform = new CIMG_Transform;
+    CIMG_Transform* pTransform = new CIMG_Transform(pDevice, pContext);
     if (FAILED(pTransform->Prototype_Initialize()))
     {
         Safe_Release(pTransform);
@@ -86,7 +86,7 @@ CIMG_Transform* CIMG_Transform::Create()
 
 CImgUIBase* CIMG_Transform::Clone(void* pArg)
 {
-    CIMG_Transform* pTransform = new CIMG_Transform;
+    CIMG_Transform* pTransform = new CIMG_Transform(*this);
     if (FAILED(pTransform->Initialize(pArg)))
     {
         Safe_Release(pTransform);

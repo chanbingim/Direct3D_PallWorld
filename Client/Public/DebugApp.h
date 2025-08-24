@@ -12,6 +12,7 @@ class CGameInstance;
 NS_END
 
 NS_BEGIN(Client)
+class CEditorLevel;
 class CImgManager;
 
 class CDebugApp : public CBase
@@ -32,11 +33,12 @@ private:
 	CImgManager*				m_pImgManager = nullptr;
 
 private:
-	HRESULT		SetUp_DefaultSetting();
-	HRESULT		SetUp_ImgManager();
+	HRESULT						SetUp_DefaultSetting();
+	HRESULT						SetUp_EditorLevel();
+	HRESULT						SetUp_ImgManager();
 
-	void		Update(_float fDeletaTime);
-	void		Render();
+	void						Update(_float fDeletaTime);
+	void						Render();
 
 public:
 	static		CDebugApp*	Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

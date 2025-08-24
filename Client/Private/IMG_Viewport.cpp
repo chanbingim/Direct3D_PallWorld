@@ -3,7 +3,8 @@
 #include "GameInstance.h"
 #include "ImgManager.h"
 
-CIMG_Viewport::CIMG_Viewport() : 
+CIMG_Viewport::CIMG_Viewport(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
+    CImgUIBase(pDevice, pContext),
     m_pImgManager(CImgManager::GetInstance())
 {
 
@@ -33,9 +34,8 @@ void CIMG_Viewport::Update(_float fDeletaTime)
 
         if (EDIT_MODE::LANDSCAPE == m_eEditMode)
             IsViewportClicked();
-
-        ImGui::End();
     }
+    ImGui::End();
 }
 
 void CIMG_Viewport::Change_EditMode(EDIT_MODE eMode)
@@ -78,6 +78,7 @@ void CIMG_Viewport::DrawViewPortMenuBar()
         }
         ImGui::EndCombo();
     }
+   
 }
 
 void CIMG_Viewport::DrawGameView()
@@ -108,9 +109,9 @@ void CIMG_Viewport::IsViewportClicked()
     }
 }
 
-CIMG_Viewport* CIMG_Viewport::Create()
+CIMG_Viewport* CIMG_Viewport::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CIMG_Viewport* pViewport = new CIMG_Viewport();
+    CIMG_Viewport* pViewport = new CIMG_Viewport(pDevice, pContext);
     if (FAILED(pViewport->Prototype_Initialize()))
     {
         Safe_Release(pViewport);

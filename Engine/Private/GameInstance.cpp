@@ -127,6 +127,14 @@ HRESULT CGameInstance::Draw()
     return S_OK;
 }
 
+HRESULT CGameInstance::DrawRender()
+{
+    m_pRenderer->Render();
+    m_pLevel_Manager->Render();
+
+    return S_OK;
+}
+
 #pragma region Graphic_Device
 HRESULT CGameInstance::ADD_Window(const ENGINE_DESC& Win_Desc)
 {
@@ -138,9 +146,14 @@ void CGameInstance::Set_RenderResource(_uInt iIndex)
     m_pGraphic_Device->Set_RenderResource(iIndex);
 }
 
-HRESULT CGameInstance::GetBackBuffer(_uInt iIndex, ID3D11Texture2D** ppOut)
+HRESULT CGameInstance::GetBackBuffer(ID3D11Texture2D** ppOut)
 {
-    return m_pGraphic_Device->GetBackBuffer(iIndex, ppOut);
+    return m_pGraphic_Device->GetBackBuffer(ppOut);
+}
+
+_uInt CGameInstance::GetRenderTargetNum()
+{
+    return m_pGraphic_Device->GetRenderTargetNum();
 }
 
 void CGameInstance::Render_Begin(_float* Color)
@@ -354,6 +367,11 @@ void CGameInstance::SetEditor_Frame(const _float2& vSize)
 void CGameInstance::Change_Mode(GAMEMODE eType)
 {
     m_pPicking->Change_Mode(eType);
+}
+
+const GAMEMODE& CGameInstance::GetGameMode()
+{
+    return m_pPicking->GetGameMode();
 }
 
 const _float3& CGameInstance::GetPickingRayPos(RAY eType)

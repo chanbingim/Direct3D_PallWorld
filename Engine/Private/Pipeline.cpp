@@ -73,7 +73,7 @@ HRESULT CPipeline::SettingPipeTextures()
 {
 	//백버퍼의 정보를 가져와서 전역으로 사용할 용도로 보관할 텍스처들을 세팅한다.
 	ID3D11Texture2D* pBackBuffer = nullptr;
-	m_pGameInstance->GetBackBuffer(0, &pBackBuffer);
+	m_pGameInstance->GetBackBuffer(&pBackBuffer);
 	pBackBuffer->GetDesc(&m_PostDesc);
 
 	//셰이더에 넘겨 값을 설정하는 용도 및

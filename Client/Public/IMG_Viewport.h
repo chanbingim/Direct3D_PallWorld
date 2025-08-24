@@ -7,7 +7,7 @@ class CImgManager;
 class CIMG_Viewport : public CImgUIBase
 {
 private :
-	CIMG_Viewport();
+	CIMG_Viewport(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual ~CIMG_Viewport() = default;
 
 public :
@@ -35,7 +35,7 @@ private :
 	void							IsViewportClicked();
 
 public :
-	static		CIMG_Viewport*		Create();
+	static		CIMG_Viewport*		Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual		void				Free() override;
 };
 NS_END

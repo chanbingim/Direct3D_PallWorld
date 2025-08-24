@@ -85,11 +85,14 @@ HRESULT CGameOption::ADD_Childs()
 	Desc.pParent = this;
 	Desc.vScale = { 200.f, 50.f, 0.f };
 
-	_float ButHalfX = Desc.vScale.x * 0.5f + 3.f;
-	_float CenterX = m_pTransformCom->GetScale().x * 0.5f - ButHalfX;
+	_float3 vPosition = m_pTransformCom->GetPosition();
+	_float3 vScale = m_pTransformCom->GetScale();
+
+	_float PercentX =  vScale.x * 0.3f; 
+	_float PercentY = vScale.y * 0.3f;
+	Desc.vPosition = { -PercentX, -PercentY, 0.f };
 
 	/* CharacterInfo Button */
-	Desc.vPosition = { 0, 0.f, 0.f };
 	pOptionbut = COptionButton::Create(m_pGraphic_Device, m_pDeviceContext);
 	if (FAILED(pOptionbut->Initialize(&Desc)))
 		return E_FAIL;
@@ -97,7 +100,7 @@ HRESULT CGameOption::ADD_Childs()
 	ADD_Child(pOptionbut);
 
 	/* Option Button */
-	Desc.vPosition = { 0, 100.f, 0.f };
+	Desc.vPosition.y += Desc.vScale.y + Desc.vScale.y * 0.5f;
 	pOptionbut = COptionButton::Create(m_pGraphic_Device, m_pDeviceContext);
 	if (FAILED(pOptionbut->Initialize(&Desc)))
 		return E_FAIL;

@@ -9,7 +9,8 @@
 #include "IMG_Transform.h"
 #pragma endregion
 
-CIMG_Inspector::CIMG_Inspector()
+CIMG_Inspector::CIMG_Inspector(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
+    CImgUIBase(pDevice, pContext)
 {
 }
 
@@ -56,7 +57,7 @@ void CIMG_Inspector::Update(_float fDeletaTime)
 
 HRESULT CIMG_Inspector::Default_Setting()
 {
-    if (FAILED(ADD_InspectorUI(TEXT("Transform_Com"), CIMG_Transform::Create())))
+    if (FAILED(ADD_InspectorUI(TEXT("Transform_Com"), CIMG_Transform::Create(m_pDevice, m_pContext))))
         return E_FAIL;
 
     return S_OK;
@@ -85,9 +86,9 @@ void CIMG_Inspector::Update_UIState()
         m_pSelectObj = nullptr;
 }
 
-CIMG_Inspector* CIMG_Inspector::Create()
+CIMG_Inspector* CIMG_Inspector::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    CIMG_Inspector* pInspector = new CIMG_Inspector();
+    CIMG_Inspector* pInspector = new CIMG_Inspector(pDevice, pContext);
     if (FAILED(pInspector->Prototype_Initialize()))
     {
         Safe_Release(pInspector);
@@ -98,7 +99,7 @@ CIMG_Inspector* CIMG_Inspector::Create()
 
 CImgUIBase* CIMG_Inspector::Clone(void* pArg)
 {
-    CIMG_Inspector* pInspector = new CIMG_Inspector();
+    CIMG_Inspector* pInspector = new CIMG_Inspector(*this);
     if (FAILED(pInspector->Initialize(pArg)))
     {
         Safe_Release(pInspector);

@@ -11,7 +11,7 @@ NS_BEGIN(Client)
 class CIMG_Component : public CImgUIBase
 {
 protected:
-	CIMG_Component();
+	CIMG_Component(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual ~CIMG_Component() = default;
 
 public:

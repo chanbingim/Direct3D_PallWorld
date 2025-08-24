@@ -92,6 +92,16 @@ HRESULT CBaseCamera::Render()
     return S_OK;
 }
 
+void CBaseCamera::CameraLookAt(_vector vLookAt)
+{
+    m_pTransformCom->LookAt(vLookAt);
+}
+
+void CBaseCamera::SetFov(_float fAngle)
+{
+    m_fFov = XMConvertToRadians(fAngle);
+}
+
 _bool CBaseCamera::IsInPoint(_float3& vPos, _float offset)
 {
     for (auto& iter : m_FustomPlane)

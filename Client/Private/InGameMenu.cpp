@@ -147,6 +147,7 @@ HRESULT CInGameMenu::ADD_Widgets()
     ZeroMemory(&Desc, sizeof(CBackGround::GAMEOBJECT_DESC));
 
     Desc.pParent = this;
+    Desc.vScale = m_pTransformCom->GetScale();
     m_pGameOptionUI = CGameOption::Create(m_pGraphic_Device, m_pDeviceContext);
     if (FAILED(m_pGameOptionUI->Initialize(&Desc)))
         return E_FAIL;

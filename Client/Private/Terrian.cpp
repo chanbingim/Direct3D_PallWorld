@@ -31,6 +31,7 @@ HRESULT CTerrian::Initialize(void* pArg)
 	if (Desc)
 	{
 		TileCnt = Desc->iGridCnt;
+		m_bIsPicking = Desc->IsPicking;
 	}
 	else
 		m_ObejctTag = TEXT("Terrian");
@@ -57,19 +58,21 @@ void CTerrian::Update(_float fDeletaTime)
 	_float3 vOut = {};
 
 #ifdef _DEBUG
-	if (m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 0) ||
-		GetAsyncKeyState(VK_LBUTTON) & 0x8000)
+	if (m_bIsPicking)
 	{
-		m_pVIBufferCom->UpdateHegiht(m_pTransformCom, 0.1f, 2.f);
-	}
+		if (m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 0) ||
+			GetAsyncKeyState(VK_LBUTTON) & 0x8000)
+		{
+			m_pVIBufferCom->UpdateHegiht(m_pTransformCom, 0.1f, 2.f);
+		}
 
-	if (m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 1) ||
-		GetAsyncKeyState(VK_RBUTTON) & 0x8000)
-	{
-		m_pVIBufferCom->UpdateHegiht(m_pTransformCom, -0.1f, 2.f);
+		if (m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 1) ||
+			GetAsyncKeyState(VK_RBUTTON) & 0x8000)
+		{
+			m_pVIBufferCom->UpdateHegiht(m_pTransformCom, -0.1f, 2.f);
+		}
 	}
 #endif // _DEBUG
-
 }
 
 void CTerrian::Late_Update(_float fDeletaTime)

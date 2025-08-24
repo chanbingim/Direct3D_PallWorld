@@ -182,7 +182,10 @@
     <ClInclude Include="..\public\DebugApp.h" />
     <ClInclude Include="..\public\DefaultEntity.h" />
     <ClInclude Include="..\public\Dororong.h" />
+    <ClInclude Include="..\Public\EditorLevel.h" />
     <ClInclude Include="..\public\ElectPanda.h" />
+    <ClInclude Include="..\public\Equipment.h" />
+    <ClInclude Include="..\public\EquipSlot.h" />
     <ClInclude Include="..\public\FlowerRabbit.h" />
     <ClInclude Include="..\public\Frog.h" />
     <ClInclude Include="..\public\GameData_Manager.h" />
@@ -217,7 +220,9 @@
     <ClInclude Include="..\public\IMG_Transform.h" />
     <ClInclude Include="..\public\IMG_Viewport.h" />
     <ClInclude Include="..\public\InGameMenu.h" />
+    <ClInclude Include="..\public\Inventory.h" />
     <ClInclude Include="..\public\ItemBase.h" />
+    <ClInclude Include="..\public\ItemSlot.h" />
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\public\LoadingHUD.h" />
     <ClInclude Include="..\public\LoadingIcon.h" />
@@ -263,10 +268,15 @@
     <ClCompile Include="..\private\Compass.cpp" />
     <ClCompile Include="..\private\CompassPoint.cpp" />
     <ClCompile Include="..\private\CostumeBase.cpp" />
+    <ClCompile Include="..\Private\EditorLevel.cpp" />
+    <ClCompile Include="..\private\Equipment.cpp" />
+    <ClCompile Include="..\private\EquipSlot.cpp" />
     <ClCompile Include="..\private\FlowerRabbit.cpp" />
     <ClCompile Include="..\private\Frog.cpp" />
     <ClCompile Include="..\private\Hedgehog.cpp" />
     <ClCompile Include="..\private\Herorong.cpp" />
+    <ClCompile Include="..\private\Inventory.cpp" />
+    <ClCompile Include="..\private\ItemSlot.cpp" />
     <ClCompile Include="..\private\PellRock.cpp" />
     <ClCompile Include="..\private\TreeObject.cpp" />
     <ClCompile Include="..\private\DebugApp.cpp" />

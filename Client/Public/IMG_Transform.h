@@ -6,7 +6,7 @@ NS_BEGIN(Client)
 class CIMG_Transform final : public CIMG_Component
 {
 private:
-	CIMG_Transform();
+	CIMG_Transform(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual ~CIMG_Transform() = default;
 
 public:
@@ -28,7 +28,7 @@ private :
 
 
 public:
-	static	CIMG_Transform*			Create();
+	static	CIMG_Transform*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CImgUIBase*				Clone(void* pArg);
 	virtual void					Free() override;
 };

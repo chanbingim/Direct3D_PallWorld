@@ -74,9 +74,6 @@
     <Filter Include="02. HUD\GamePlayHUD">
       <UniqueIdentifier>{75cc6de5-ca74-4c84-b21f-7d6fee662a16}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Objects\Terrian">
-      <UniqueIdentifier>{782d235a-43b0-4167-bebb-1c6ac68b5985}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI">
       <UniqueIdentifier>{49d8f33a-2950-40a1-a7be-af6533b811db}</UniqueIdentifier>
     </Filter>
@@ -131,17 +128,11 @@
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\HealthBar\HungerIcon">
       <UniqueIdentifier>{967ea44e-4ca4-4f3a-a81e-0dd037410106}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Inventory">
-      <UniqueIdentifier>{7b258e60-e33f-4721-a215-d52a3638cb9b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. HUD\Base_UI\Slot">
       <UniqueIdentifier>{dda198e7-53c1-4992-b347-330b02475e0e}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\QuickSlot">
       <UniqueIdentifier>{a86b77f1-80dc-419c-9392-479f39212d43}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Inventory\ItemSlot">
-      <UniqueIdentifier>{7aced7b8-5b81-48fa-be25-3149666bac74}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Equipment">
       <UniqueIdentifier>{1463e50e-78dc-40aa-ba01-b3ac42c34589}</UniqueIdentifier>
@@ -245,9 +236,6 @@
     <Filter Include="ImGui\UI\Content">
       <UniqueIdentifier>{4458f3ac-8ea4-4cbd-a863-81fb3930bbdc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui\UI\Create">
-      <UniqueIdentifier>{e90ef143-84a4-406b-8e18-e1bd0dd01f9c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. Objects\MeshObject\Character\Pell\BedCat">
       <UniqueIdentifier>{8a306134-5a11-4b99-a6c4-02cf81a51830}</UniqueIdentifier>
     </Filter>
@@ -284,11 +272,32 @@
     <Filter Include="03. Objects\MeshObject\Character\Pell\FlowerRabbit">
       <UniqueIdentifier>{e0f5dc4e-eddf-4979-81fe-ef21965d4052}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImGui\UI\AnimationWindow">
-      <UniqueIdentifier>{5b6f1eae-573a-44b9-8ce7-7652f10bebe6}</UniqueIdentifier>
+    <Filter Include="01. Levels\EditorLevel">
+      <UniqueIdentifier>{1eaec55f-18fd-4bce-8a17-f658921b2961}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui\UI\Content\Create">
+      <UniqueIdentifier>{e90ef143-84a4-406b-8e18-e1bd0dd01f9c}</UniqueIdentifier>
     </Filter>
     <Filter Include="ImGui\UI\FbxConvertWindow">
       <UniqueIdentifier>{1e87102c-bf0a-463c-8a92-3843837b9580}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\Terrian">
+      <UniqueIdentifier>{782d235a-43b0-4167-bebb-1c6ac68b5985}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView">
+      <UniqueIdentifier>{2882eddc-c641-4e5a-8427-fc0164b0a171}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory">
+      <UniqueIdentifier>{7b258e60-e33f-4721-a215-d52a3638cb9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\ItemSlot">
+      <UniqueIdentifier>{7aced7b8-5b81-48fa-be25-3149666bac74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Equip">
+      <UniqueIdentifier>{e9dcb392-6905-47db-95bb-6da6d6257708}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Equip\EquipSlot">
+      <UniqueIdentifier>{1eec638c-52d5-4c62-8bbd-8eefe7c4c015}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -350,7 +359,7 @@
       <Filter>02. HUD\GamePlayHUD</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Terrian.h">
-      <Filter>03. Objects\Terrian</Filter>
+      <Filter>03. Objects\MeshObject\Terrian</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Player_Interface.h">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface</Filter>
@@ -500,7 +509,7 @@
       <Filter>ImGui\UI\Content</Filter>
     </ClInclude>
     <ClInclude Include="..\public\IMG_Create.h">
-      <Filter>ImGui\UI\Create</Filter>
+      <Filter>ImGui\UI\Content\Create</Filter>
     </ClInclude>
     <ClInclude Include="..\public\ElectPanda.h">
       <Filter>03. Objects\MeshObject\Character\Pell\ElectricPanda</Filter>
@@ -540,6 +549,21 @@
     </ClInclude>
     <ClInclude Include="..\public\IMG_ModelConvert.h">
       <Filter>ImGui\UI\FbxConvertWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EditorLevel.h">
+      <Filter>01. Levels\EditorLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Inventory.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Equipment.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Equip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ItemSlot.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\ItemSlot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\EquipSlot.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Equip\EquipSlot</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -602,7 +626,7 @@
       <Filter>02. HUD\GamePlayHUD</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Terrian.cpp">
-      <Filter>03. Objects\Terrian</Filter>
+      <Filter>03. Objects\MeshObject\Terrian</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Player_Interface.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface</Filter>
@@ -743,7 +767,7 @@
       <Filter>ImGui\UI\Content</Filter>
     </ClCompile>
     <ClCompile Include="..\private\IMG_Create.cpp">
-      <Filter>ImGui\UI\Create</Filter>
+      <Filter>ImGui\UI\Content\Create</Filter>
     </ClCompile>
     <ClCompile Include="..\private\ElectPanda.cpp">
       <Filter>03. Objects\MeshObject\Character\Pell\ElectricPanda</Filter>
@@ -783,6 +807,21 @@
     </ClCompile>
     <ClCompile Include="..\public\IMG_ModelConvert.cpp">
       <Filter>ImGui\UI\FbxConvertWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EditorLevel.cpp">
+      <Filter>01. Levels\EditorLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Inventory.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Equipment.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Equip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ItemSlot.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\ItemSlot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\EquipSlot.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Equip\EquipSlot</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

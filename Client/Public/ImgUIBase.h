@@ -11,7 +11,7 @@ NS_BEGIN(Client)
 class CImgUIBase abstract : public CBase
 {
 protected :
-	CImgUIBase();
+	CImgUIBase(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual ~CImgUIBase() = default;
 
 public :
@@ -19,12 +19,16 @@ public :
 	virtual HRESULT					Initialize(void* pArg);
 
 	virtual void					Update(_float fDeletaTime);
+	virtual void					Render();
 
 	void							SetVisibility(VISIBILITY eType);
 	const VISIBILITY&				GetVisibility();
 
 protected :
+	ID3D11Device*					m_pDevice	= nullptr;
+	ID3D11DeviceContext*			m_pContext = nullptr;
 	CGameInstance*					m_pGameInstance = nullptr;
+
 	VISIBILITY						m_eVisibility = VISIBILITY::VISIBLE;
 
 public :
