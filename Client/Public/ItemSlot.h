@@ -7,7 +7,7 @@ class CItemSlot : public CSlotBase
 public:
 	enum class ITEM_TYPE { WEAPON, HEAD, BODY, SHIELD, GLIDER, ACCESSORY, END };
 
-	typedef struct ItemSlotDesc
+	typedef struct ItemSlotDesc : GAMEOBJECT_DESC
 	{
 
 

@@ -29,6 +29,7 @@ HRESULT CInventory::Initialize(void* pArg)
     if (FAILED(ADD_Components()))
         return E_FAIL;
     
+    m_SlotCount = { 5, 9 };
     if (FAILED(ADD_Childs()))
         return E_FAIL;
 
@@ -40,11 +41,14 @@ HRESULT CInventory::Initialize(void* pArg)
 
 void CInventory::Update(_float fDeletaTime)
 {
+    for (auto iter : m_pChildList)
+        iter->Update(fDeletaTime);
 }
 
 void CInventory::Late_Update(_float fDeletaTime)
 {
-
+    for (auto iter : m_pChildList)
+        iter->Late_Update(fDeletaTime);
 }
 
 HRESULT CInventory::Render()
@@ -55,6 +59,9 @@ HRESULT CInventory::Render()
     m_pShaderCom->Update_Shader(1);
     m_pTextureCom->SetTexture(0, 0);
     m_pVIBufferCom->Render_VIBuffer();
+
+    for (auto iter : m_pChildList)
+        iter->Render();
     return S_OK;
 }
 
@@ -94,6 +101,34 @@ HRESULT CInventory::ADD_Components()
 
 HRESULT CInventory::ADD_Childs()
 {
+    CItemSlot::ITEM_SLOT_DESC Desc;
+    ZeroMemory(&Desc, sizeof(CItemSlot::ITEM_SLOT_DESC));
+
+    Desc.pParent = this;
+    Desc.vScale = {40.f, 40.f, 0.f};
+
+    _float3 vParentScale = m_pTransformCom->GetScale();
+    _float3 vStartPos = { -vParentScale.x * 0.5f,  -vParentScale.y * 0.5f, 0.f};
+    for (_uInt i = 0; i < m_SlotCount.y; ++i)
+    {
+        Desc.vPosition.y = vStartPos.y;
+        for (_uInt j = 0; j < m_SlotCount.x; ++j)
+        {
+            Desc.vPosition.x = vStartPos.x;
+            CItemSlot* pItemSlot = CItemSlot::Create(m_pGraphic_Device, m_pDeviceContext);
+            if (nullptr == pItemSlot)
+                return E_FAIL;
+
+            if(FAILED(pItemSlot->Initialize(&Desc)))
+                return E_FAIL;
+
+            m_pItemSlot.push_back(pItemSlot);
+            ADD_Child(pItemSlot);
+        }
+    }
+
+
+
     return S_OK;
 }
 

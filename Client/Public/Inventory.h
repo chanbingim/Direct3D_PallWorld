@@ -26,7 +26,7 @@ protected :
 	HRESULT									Apply_ConstantShaderResources();
 
 private:
-	_uInt									m_SlotCount = {};
+	_float2									m_SlotCount = {};
 	vector<CItemSlot*>						m_pItemSlot = {};
 
 	LPD3D11EFFECTVECTORVARIABLE				m_pInven_Color = {};
