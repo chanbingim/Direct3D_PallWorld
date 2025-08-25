@@ -37,6 +37,8 @@ private :
 	HRESULT									ADD_Components();
 	HRESULT									ADD_Childs();
 
+	HRESULT									CreateEquipSlot(_uInt iCount, _uInt iSlotType, _float3 vStartPos, _uInt MajorType);
+
 public :
 	static		CEquipment*					Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual		CUserInterface*				Clone(void* pArg) override;

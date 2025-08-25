@@ -134,12 +134,6 @@
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\QuickSlot">
       <UniqueIdentifier>{a86b77f1-80dc-419c-9392-479f39212d43}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Equipment">
-      <UniqueIdentifier>{1463e50e-78dc-40aa-ba01-b3ac42c34589}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Equipment\EquipSlot">
-      <UniqueIdentifier>{2d13843e-00b1-4d8c-a002-51b489c310d4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu">
       <UniqueIdentifier>{55b0673f-b6d0-44b7-8654-f3ddd5f4e266}</UniqueIdentifier>
     </Filter>
@@ -304,6 +298,9 @@
     </Filter>
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Equip\View">
       <UniqueIdentifier>{cf5f169d-b649-4319-978b-cd1ac3a5cb3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\WeightBar">
+      <UniqueIdentifier>{549c5a4b-06dc-49ac-aa06-e139a23dd551}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

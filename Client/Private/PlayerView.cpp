@@ -31,7 +31,7 @@ HRESULT CPlayerView::Initialize(void* pArg)
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
-    m_fCameraDistance = 20.f;
+    m_fCameraDistance = 15.f;
     return S_OK;
 }
 

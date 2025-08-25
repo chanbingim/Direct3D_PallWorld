@@ -5,7 +5,7 @@ NS_BEGIN(Client)
 class CEquipSlot : public CSlotBase
 {
 public :
-	enum class EQUIP_TYPE {WEAPON, HEAD, BODY, SHIELD, GLIDER, ACCESSORY, END};
+	enum class EQUIP_TYPE {WEAPON, HEAD, BODY, SHIELD, GLIDER, ACCESSORY, FOOD, END};
 
 	typedef struct EquipSlotDesc
 	{

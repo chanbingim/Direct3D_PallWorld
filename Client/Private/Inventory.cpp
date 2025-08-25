@@ -35,8 +35,6 @@ HRESULT CInventory::Initialize(void* pArg)
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
-    m_eType = OBJECT_TYPE::STATIC;
-    m_iZOrder = 3;
     return S_OK;
 }
 

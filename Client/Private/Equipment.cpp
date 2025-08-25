@@ -108,11 +108,75 @@ HRESULT CEquipment::ADD_Childs()
 	CUserInterface::GAMEOBJECT_DESC Desc;
 	ZeroMemory(&Desc, sizeof(CUserInterface::GAMEOBJECT_DESC));
 
+	_float3 ParentScale = m_pTransformCom->GetScale();
+	_float SlotPosX = ParentScale.x * 0.4f;
+	_float SlotPosY = ParentScale.y * 0.32f;
+
+	/* Weapon */
+	_float3 vWeaponPos = {-SlotPosX, -SlotPosY, 0.f};
+	CreateEquipSlot(4, ENUM_CLASS(CEquipSlot::EQUIP_TYPE::WEAPON), vWeaponPos, 0);
+
+	/* Head */
+	SlotPosX = ParentScale.x * 0.15f;
+	_float3 vHeadPos = { SlotPosX, -SlotPosY, 0.f };
+	CreateEquipSlot(1, ENUM_CLASS(CEquipSlot::EQUIP_TYPE::HEAD), vHeadPos, 0);
+
+	/* Body */
+	SlotPosY = ParentScale.y * 0.17f;
+	_float3 vBodyPos = { SlotPosX, -SlotPosY, 0.f };
+	CreateEquipSlot(1, ENUM_CLASS(CEquipSlot::EQUIP_TYPE::BODY), vBodyPos, 0);
+
+	/* Shield */
+	SlotPosY = ParentScale.y * 0.02f;
+	_float3 vShieldPos = { SlotPosX, -SlotPosY, 0.f };
+	CreateEquipSlot(1, ENUM_CLASS(CEquipSlot::EQUIP_TYPE::SHIELD), vShieldPos, 0);
+
+	/* Glider */
+	SlotPosY = ParentScale.y * 0.13f;
+	_float3 vGliderPos = { SlotPosX, SlotPosY, 0.f };
+	CreateEquipSlot(1, ENUM_CLASS(CEquipSlot::EQUIP_TYPE::GLIDER), vGliderPos, 0);
+
+	/* Accessory */
+	SlotPosX = ParentScale.x * 0.4f;
+	SlotPosY = ParentScale.y * 0.2f;
+	_float3 vAccessoryPos = { -SlotPosX, SlotPosY, 0.f };
+	CreateEquipSlot(2, ENUM_CLASS(CEquipSlot::EQUIP_TYPE::ACCESSORY), vAccessoryPos, 0);
+
+	/* Food */
+	SlotPosX = ParentScale.x * 0.3f;
+	SlotPosY = ParentScale.y * 0.46f;
+	_float3 vFoodPos = { -SlotPosX, SlotPosY, 0.f };
+	CreateEquipSlot(5, ENUM_CLASS(CEquipSlot::EQUIP_TYPE::FOOD), vFoodPos, 1);
+
+
 	Desc.pParent = this;
-	Desc.vScale = { 40, 40, 0.f };
-	//슬롯 생성
-	for (_uInt i = 0; i < m_SlotCount; ++i)
+	Desc.vScale = { 200, 500, 0.f};
+	Desc.vPosition = {-100.f, 0.f, 0.f};
+	//부모위치잡고 세팅
+	m_pPlayerView = CPlayerView::Create(m_pGraphic_Device, m_pDeviceContext);
+	if (nullptr == m_pPlayerView)
+		return E_FAIL;
+	m_pPlayerView->Initialize(&Desc);
+	ADD_Child(m_pPlayerView);
+
+	return S_OK;
+}
+
+HRESULT CEquipment::CreateEquipSlot(_uInt iCount, _uInt iSlotType, _float3 vStartPos, _uInt MajorType)
+{
+	CUserInterface::GAMEOBJECT_DESC Desc;
+	ZeroMemory(&Desc, sizeof(CUserInterface::GAMEOBJECT_DESC));
+
+	Desc.pParent = this;
+	Desc.vScale = { 50, 50, 0.f };
+	for (_uInt i = 0; i < iCount; ++i)
 	{
+		Desc.vPosition = vStartPos;
+		if (MajorType)
+			Desc.vPosition.x += ((Desc.vScale.x + 20) * i);
+		else
+			Desc.vPosition.y += ((Desc.vScale.y + 20) * i);
+
 		CEquipSlot* pEquipSlot = CEquipSlot::Create(m_pGraphic_Device, m_pDeviceContext);
 		if (nullptr == pEquipSlot)
 			return E_FAIL;
@@ -122,14 +186,6 @@ HRESULT CEquipment::ADD_Childs()
 		m_pEquipSlot.push_back(pEquipSlot);
 		ADD_Child(pEquipSlot);
 	}
-
-	Desc.vScale = { 400, 500, 0.f};
-	//부모위치잡고 세팅
-	m_pPlayerView = CPlayerView::Create(m_pGraphic_Device, m_pDeviceContext);
-	if (nullptr == m_pPlayerView)
-		return E_FAIL;
-	m_pPlayerView->Initialize(&Desc);
-	ADD_Child(m_pPlayerView);
 
 	return S_OK;
 }
