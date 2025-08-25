@@ -172,6 +172,7 @@
     <ClInclude Include="..\public\ButtonFrame.h" />
     <ClInclude Include="..\public\Camera.h" />
     <ClInclude Include="..\public\Category.h" />
+    <ClInclude Include="..\public\CharacterView.h" />
     <ClInclude Include="..\public\Character_Manager.h" />
     <ClInclude Include="..\Public\Client_Define.h" />
     <ClInclude Include="..\Public\Client_ImgDefines.h" />
@@ -244,9 +245,11 @@
     <ClInclude Include="..\public\PellLogo.h" />
     <ClInclude Include="..\public\PellRock.h" />
     <ClInclude Include="..\public\Player.h" />
+    <ClInclude Include="..\public\PlayerView.h" />
     <ClInclude Include="..\public\Player_Interface.h" />
     <ClInclude Include="..\public\RockObject.h" />
     <ClInclude Include="..\public\SlotBase.h" />
+    <ClInclude Include="..\public\SlotImage.h" />
     <ClInclude Include="..\public\Terrian.h" />
     <ClInclude Include="..\public\TreeObject.h" />
     <ClInclude Include="..\public\TypeIcon.h" />
@@ -264,6 +267,7 @@
     <ClCompile Include="..\private\ButtonFrame.cpp" />
     <ClCompile Include="..\private\Camera.cpp" />
     <ClCompile Include="..\private\Category.cpp" />
+    <ClCompile Include="..\private\CharacterView.cpp" />
     <ClCompile Include="..\private\Character_Manager.cpp" />
     <ClCompile Include="..\private\Compass.cpp" />
     <ClCompile Include="..\private\CompassPoint.cpp" />
@@ -278,6 +282,8 @@
     <ClCompile Include="..\private\Inventory.cpp" />
     <ClCompile Include="..\private\ItemSlot.cpp" />
     <ClCompile Include="..\private\PellRock.cpp" />
+    <ClCompile Include="..\private\PlayerView.cpp" />
+    <ClCompile Include="..\private\SlotImage.cpp" />
     <ClCompile Include="..\private\TreeObject.cpp" />
     <ClCompile Include="..\private\DebugApp.cpp" />
     <ClCompile Include="..\private\DefaultEntity.cpp" />

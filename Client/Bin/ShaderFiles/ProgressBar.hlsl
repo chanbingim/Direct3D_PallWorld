@@ -88,13 +88,13 @@ PS_OUT PS_MAIN(PS_IN In)
     return Out;
 }
 
-/* 픽셀 쉐이더 : 픽셀의 최종적인 색을 결정하낟. */
+/* 픽셀 쉐이더 : 픽셀의 최종적인 색을 결정한다. */
 PS_OUT PS_MAIN1(PS_IN In)
 {
     PS_OUT Out;
     vector vNewBackColor = g_Texture.Sample(sampler0, In.vTexcoord);
     
-    Out.vColor = float4(g_Color.rgb * vNewBackColor.rgb, vNewBackColor.a);
+    Out.vColor = vNewBackColor * g_Color;
     return Out;
 }
 

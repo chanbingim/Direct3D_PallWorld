@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "Category.h"
 #include "GameOption.h"
+#include "CharacterView.h"
 
 CInGameMenu::CInGameMenu(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext) :
     CBackGround(pGraphic_Device, pDeviceContext)
@@ -152,6 +153,10 @@ HRESULT CInGameMenu::ADD_Widgets()
     if (FAILED(m_pGameOptionUI->Initialize(&Desc)))
         return E_FAIL;
 
+    m_pCharacterView = CCharacterView::Create(m_pGraphic_Device, m_pDeviceContext);
+    if (FAILED(m_pCharacterView->Initialize(&Desc)))
+        return E_FAIL;
+
     return S_OK;
 }
 
@@ -175,15 +180,18 @@ void CInGameMenu::SelectCategoryEvent(_uInt iIndex)
         m_CategoryButton[i]->SetActive(false);
 
     m_CategoryButton[iIndex]->SetActive(true);
+    if (m_pSelectWidget)
+        m_pSelectWidget->SetVisibility(VISIBILITY::HIDDEN);
 
     switch (iIndex)
     {
     case 0 :
-        m_pSelectWidget = nullptr;
+        m_pSelectWidget = m_pCharacterView;
+        m_pCharacterView->SetVisibility(VISIBILITY::VISIBLE);
         break;
     case 1:
         m_pSelectWidget = m_pGameOptionUI;
-        m_pGameOptionUI->SetActive(true);
+        m_pGameOptionUI->SetVisibility(VISIBILITY::VISIBLE);
         break;
     }
 }
@@ -218,4 +226,5 @@ void CInGameMenu::Free()
         Safe_Release(iter);
 
     Safe_Release(m_pGameOptionUI);
+    Safe_Release(m_pCharacterView);
 }

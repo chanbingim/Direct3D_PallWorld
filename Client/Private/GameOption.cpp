@@ -40,7 +40,7 @@ HRESULT CGameOption::Initialize(void* pArg)
 
 void CGameOption::Update(_float fDeletaTime)
 {
-	if (!m_bIsActive)
+	if (VISIBILITY::HIDDEN == m_eVisible)
 		return;
 
 	for (auto& iter : m_pChildList)
@@ -49,7 +49,7 @@ void CGameOption::Update(_float fDeletaTime)
 
 void CGameOption::Late_Update(_float fDeletaTime)
 {
-	if (!m_bIsActive)
+	if (VISIBILITY::HIDDEN == m_eVisible)
 		return;
 
 	for (auto& iter : m_pChildList)
@@ -59,16 +59,6 @@ void CGameOption::Late_Update(_float fDeletaTime)
 HRESULT CGameOption::Render()
 {
 	return S_OK;
-}
-
-void CGameOption::SetActive(_bool flag)
-{
-	m_bIsActive = flag;
-}
-
-_bool CGameOption::IsActive()
-{
-	return m_bIsActive;
 }
 
 HRESULT CGameOption::ADD_Components()

@@ -13,7 +13,7 @@ private :
 	virtual ~CModel() = default;
 
 public :
-	virtual HRESULT				Initialize_Prototype(MODEL_TYPE eType, const _char* pModelFilePath);
+	virtual HRESULT				Initialize_Prototype(MODEL_TYPE eType, const _char* pModelFilePath, _matrix PreModelMat = XMMatrixIdentity());
 	virtual HRESULT				Initialize(void* pArg) override;
 
 	virtual HRESULT				Render(_uInt iMeshIndex);
@@ -41,17 +41,17 @@ private :
 	vector<class CMaterial*>	m_Materials;
 
 private:
-	HRESULT						Ready_Meshes();
+	HRESULT						Ready_Meshes(_matrix PreModelMat = XMMatrixIdentity());
 	HRESULT						Ready_Materials(const _char* pModelFilePath);
 
-	HRESULT						Ready_Meshes(void* MeshDesc);
+	HRESULT						Ready_Meshes(void* MeshDesc, _matrix PreModelMat = XMMatrixIdentity());
 	HRESULT						Ready_Materials(void* MatrialDesc, const _char* pModelFilePath);
 
 	HRESULT						SaveModelFile(void* Data, const char* FilePath);
 	HRESULT						ReadModelFile(void* Data, const char* FilePath);
 
 public:
-	static		CModel*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL_TYPE eType, const _char* pModelFilePath);
+	static		CModel*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL_TYPE eType, const _char* pModelFilePath, _matrix PreModelMat = XMMatrixIdentity());
 	virtual		CComponent*		Clone(void* pArg);
 	virtual		void			Free(); public:
 };

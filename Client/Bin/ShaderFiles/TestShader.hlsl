@@ -1,14 +1,3 @@
-//float2, float3, float4 == vector
-
-    //float3 vTmp = float3(0.f, 0.f, 0.f);
-    //float3 vTmp = 1.f;
-    //vTmp.x = 0.f;
-    //vTmp.xy = 0.f;
-
-    //float2 vTmp1 = vTmp.xy;
-
-
-
 matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 Texture2D g_Texture : register(t0);
 
@@ -77,7 +66,6 @@ PS_OUT PS_MAIN(PS_IN In)
     
     float4 vNewColor = g_Texture.Sample(sampler0, In.vTexcoord);
     
-    vNewColor.a = 0.f;
     Out.vColor = vNewColor;
     return Out;
 }

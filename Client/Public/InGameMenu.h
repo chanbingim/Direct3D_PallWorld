@@ -8,6 +8,7 @@ NS_END
 
 NS_BEGIN(Client)
 class CCategory;
+class CCharacterView;
 class CGameOption;
 
 class CInGameMenu final : public CBackGround
@@ -36,6 +37,7 @@ private :
 
 	CUserInterface*							m_pSelectWidget = nullptr;
 	CGameOption*							m_pGameOptionUI = nullptr;
+	CCharacterView*							m_pCharacterView = nullptr;
 
 private:
 	HRESULT									ADD_Childs();

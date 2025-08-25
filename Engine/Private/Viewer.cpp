@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "EditorCamera.h"
 #include "Level.h"
+#include "GameObject.h"
 
 CViewer::CViewer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CUserInterface(pDevice, pContext)
@@ -33,19 +34,26 @@ HRESULT CViewer::Initialize(void* pArg)
     if (FAILED(CreateViewerCamera()))
         return E_FAIL;
 
-    if (FAILED(Bind_ShaderResources()))
-        return E_FAIL;
-
     return S_OK;
 }
 
 void CViewer::Update(_float fDeletaTime)
 {
+    auto iCurLevelID = m_pGameInstance->GetCurrentLevel()->GetLevelID();
+    const list<CGameObject*>* pObjects = m_pGameInstance->GetAllObejctToLayer(iCurLevelID, TEXT("Layer_GamePlay_Player"));
+    
+    SetViewObject(*(*pObjects).begin());
+    _float3 vCameraPos = m_pViewObject->GetTransform()->GetPosition();
+    _vector vUp = XMVector3Normalize(m_pViewObject->GetTransform()->GetUpVector()) * (m_pViewObject->GetTransform()->GetScale().y * 0.5f);
+    _vector vLook = XMVector3Normalize(m_pViewObject->GetTransform()->GetLookVector()) * m_fCameraDistance;
+    
+    XMStoreFloat3(&vCameraPos, XMLoadFloat3(&vCameraPos) + vLook + vUp);
+    SetViewCameraPosition(vCameraPos);
 }
 
 void CViewer::Late_Update(_float fDeletaTime)
 {
-    m_pGameInstance->Add_RenderGroup(RENDER::SCREEN_UI, this);
+   
 }
 
 HRESULT CViewer::Render()
@@ -67,7 +75,8 @@ void CViewer::SetViewCameraPosition(_float3 Pos)
     if (m_pViewObject)
     {
         _float3 vPos = m_pViewObject->GetTransform()->GetPosition();
-        m_pViewerCamera->CameraLookAt(XMLoadFloat3(&vPos));
+        _vector vUp = XMVector3Normalize(m_pViewObject->GetTransform()->GetUpVector()) * (m_pViewObject->GetTransform()->GetScale().y * 0.5f);
+        m_pViewerCamera->CameraLookAt(XMLoadFloat3(&vPos) + vUp);
     }
 }
 
@@ -87,6 +96,10 @@ HRESULT CViewer::Bind_ShaderResources()
     if (FAILED(__super::Bind_ShaderResources()))
         return E_FAIL;
 
+    m_pEMVWorldMat = m_pShaderCom->GetVariable("g_WorldMatrix")->AsMatrix();
+    m_pEMVViewMat = m_pShaderCom->GetVariable("g_ViewMatrix")->AsMatrix();
+    m_pEMVProjMat = m_pShaderCom->GetVariable("g_ProjMatrix")->AsMatrix();
+    m_pShader_Resource = m_pShaderCom->GetVariable("g_Texture")->AsShaderResource();
     return S_OK;
 }
 
@@ -95,48 +108,85 @@ HRESULT CViewer::Apply_ConstantShaderResources()
     if (FAILED(__super::Apply_ConstantShaderResources()))
         return E_FAIL;
 
+    m_pShader_Resource->SetResource(m_pViewTexture);
     return S_OK;
+}
+
+void CViewer::UpdateShaderResource(_uInt iRenderIndex)
+{
 }
 
 HRESULT CViewer::CreateViewTexture()
 {
     //Shader리소스로 생성해서 데이터를 보관한다.
+    ID3D11Texture2D* pBackBuffer = nullptr;
+    m_pGameInstance->GetBackBuffer(&pBackBuffer);
+
     D3D11_TEXTURE2D_DESC TexDesc = {};
-    ZeroMemory(&TexDesc, sizeof(D3D11_TEXTURE2D_DESC));
-
-    TexDesc.Width = 800;
-    TexDesc.Height = 600;
-    TexDesc.Usage = D3D11_USAGE_DEFAULT;
+    pBackBuffer->GetDesc(&TexDesc);
     TexDesc.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
-    TexDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 
-    TexDesc.SampleDesc.Count = 1;
-    TexDesc.SampleDesc.Quality = 0;
-    TexDesc.ArraySize = 1;
-    TexDesc.MipLevels = 1;
-    TexDesc.MiscFlags = 0;
-    TexDesc.CPUAccessFlags = 0;
-    
-    if(FAILED(m_pGraphic_Device->CreateTexture2D(&TexDesc, nullptr, &m_pViewTexture)))
+    ID3D11Texture2D* pTeuxtre2D = nullptr;
+    if (FAILED(m_pGraphic_Device->CreateTexture2D(&TexDesc, nullptr, &pTeuxtre2D)))
         return E_FAIL;
 
+    if (FAILED(m_pGraphic_Device->CreateRenderTargetView(pTeuxtre2D, nullptr, &m_pRenderTargetTex)))
+        return E_FAIL;
+
+    if (FAILED(m_pGraphic_Device->CreateShaderResourceView(pTeuxtre2D, nullptr, &m_pViewTexture)))
+        return E_FAIL;
+
+    TexDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+    TexDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;//텍스쳐를 어떤 용도로 사용하나
+    Safe_Release(pTeuxtre2D);
+
+    if (FAILED(m_pGraphic_Device->CreateTexture2D(&TexDesc, nullptr, &pTeuxtre2D)))
+        return E_FAIL;
+
+    if (FAILED(m_pGraphic_Device->CreateDepthStencilView(pTeuxtre2D, nullptr, &m_pDepthStencil)))
+        return E_FAIL;
+
+    Safe_Release(pTeuxtre2D);
+    Safe_Release(pBackBuffer);
     return S_OK;
 }
 
 HRESULT CViewer::CreateViewerCamera()
 {
+    CBaseCamera::CAMERA_DESC Desc;
+    ZeroMemory(&Desc, sizeof(CBaseCamera::CAMERA_DESC));
+    Desc.fFar = 100.f;
+    Desc.fNear = 0.1f;
+    Desc.fFov = XMConvertToRadians(60.f);
+    Desc.vEye = { 0.f, 0.f, 1.f };
     //카메라를 생성해서 보관함
     m_pViewerCamera = CEditorCamera::Create(m_pGraphic_Device, m_pDeviceContext);
     if (nullptr == m_pViewerCamera)
         return E_FAIL;
 
+    m_pViewerCamera->Initialize(&Desc);
     return S_OK;
 }
 
 void CViewer::RenderObejct()
 {
+    _float vClearColor[4] = {0.f, 0.f, 0.f, 0.f};
+    m_pDeviceContext->ClearRenderTargetView(m_pRenderTargetTex, vClearColor);
+    m_pDeviceContext->ClearDepthStencilView(m_pDepthStencil, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+
+    m_pDeviceContext->OMSetRenderTargets(1, &m_pRenderTargetTex, m_pDepthStencil);
+    _float4x4 m_OldVeiwMat = m_pGameInstance->GetMatrix(MAT_STATE::VIEW);
+    _float4x4 m_OldProjMat = m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION);
+
+    m_pViewerCamera->Priority_Update(0.0f);
+
     m_pViewObject->Render();
+
+    m_pGameInstance->SetMatrix(MAT_STATE::VIEW, m_OldVeiwMat);
+    m_pGameInstance->SetMatrix(MAT_STATE::PROJECTION, m_OldProjMat);
     Safe_Release(m_pViewObject);
+
+    m_pGameInstance->Set_RenderResource(0);
 }
 
 CViewer* CViewer::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -166,6 +216,13 @@ CUserInterface* CViewer::Clone(void* pArg)
 void CViewer::Free()
 {
     __super::Free();
+    Safe_Release(m_pShaderCom);
+    Safe_Release(m_pVIBufferCom);
 
     Safe_Release(m_pViewTexture);
+    Safe_Release(m_pRenderTargetTex);
+
+    Safe_Release(m_pViewerCamera);
+    Safe_Release(m_pDepthStencil);
+    Safe_Release(m_pViewObject);
 }

@@ -7,9 +7,9 @@ class CBaseCamera;
 class CGameObject;
 class CVIBuffer_Rect;
 
-class CViewer : public CUserInterface
+class ENGINE_DLL CViewer : public CUserInterface
 {
-private :
+protected :
 	CViewer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CViewer(const CViewer& rhs);
 	virtual ~CViewer() = default;
@@ -31,15 +31,24 @@ public :
 
 	void									SetViewObject(CGameObject* pGameObject);
 
-
 protected :
 	virtual     HRESULT						Bind_ShaderResources();
 	virtual     HRESULT						Apply_ConstantShaderResources();
 
-private :
+	//셰이더 텍스처 정보를 백버퍼나 내가 원하는거만 랜더링한후 갱신할 예정
+	virtual		void						UpdateShaderResource(_uInt iRenderIndex);
+
+	void									RenderObejct();
+
+protected:
 	CVIBuffer_Rect*							m_pVIBufferCom = nullptr;
 	CShader*								m_pShaderCom = nullptr;
-	ID3D11Texture2D*						m_pViewTexture = nullptr;
+
+	ID3D11RenderTargetView*					m_pRenderTargetTex = nullptr;
+	ID3D11DepthStencilView*					m_pDepthStencil = nullptr;
+
+	ID3D11ShaderResourceView*				m_pViewTexture = nullptr;
+
 
 	// 카메라도 보관해두자
 	CBaseCamera*							m_pViewerCamera = nullptr;
@@ -47,11 +56,14 @@ private :
 	// 게임 오브젝트를 
 	CGameObject*							m_pViewObject = nullptr;
 
+	_float									m_fCameraDistance;
+
 private :
 	HRESULT									CreateViewTexture();
 	HRESULT									CreateViewerCamera();
 
-	void									RenderObejct();
+private :
+	LPD3D11EFFECTSHADERRESOURCEVARIABLE		m_pShader_Resource = nullptr;
 
 public :
 	static		CViewer*					Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

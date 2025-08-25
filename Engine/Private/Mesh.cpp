@@ -12,7 +12,7 @@ CMesh::CMesh(const CMesh& rhs) :
 {
 }
 
-HRESULT CMesh::Initialize_Prototype(MODEL_TYPE eType, const aiMesh* pAIMesh)
+HRESULT CMesh::Initialize_Prototype(MODEL_TYPE eType, const aiMesh* pAIMesh, _matrix PreModelMat)
 {
 	m_iNumVertexBuffers = 1;
 	//정점의 수를 꺼내와서 저장
@@ -48,7 +48,11 @@ HRESULT CMesh::Initialize_Prototype(MODEL_TYPE eType, const aiMesh* pAIMesh)
 	for (_uInt i = 0; i < m_iNumVertices; ++i)
 	{
 		memcpy(&pVtxMeshs[i].vPosition, &pAIMesh->mVertices[i], sizeof(_float3));
+		XMStoreFloat3(&pVtxMeshs[i].vPosition, XMVector3TransformCoord(XMLoadFloat3(&pVtxMeshs[i].vPosition), PreModelMat));
+		
 		memcpy(&pVtxMeshs[i].vNormal, &pAIMesh->mNormals[i], sizeof(_float3));
+		XMStoreFloat3(&pVtxMeshs[i].vNormal, XMVector3TransformCoord(XMLoadFloat3(&pVtxMeshs[i].vNormal), PreModelMat));
+
 		memcpy(&pVtxMeshs[i].vTangent, &pAIMesh->mTangents[i], sizeof(_float3));
 		memcpy(&pVtxMeshs[i].vTexcoord, &pAIMesh->mTextureCoords[0][i], sizeof(_float2));
 	}
@@ -92,7 +96,7 @@ HRESULT CMesh::Initialize_Prototype(MODEL_TYPE eType, const aiMesh* pAIMesh)
     return S_OK;
 }
 
-HRESULT CMesh::Initialize_Prototype(MODEL_TYPE eType,  void* MeshDesc)
+HRESULT CMesh::Initialize_Prototype(MODEL_TYPE eType,  void* MeshDesc, _matrix PreModelMat)
 {
 	if (nullptr == MeshDesc)
 		return E_FAIL;
@@ -131,7 +135,11 @@ HRESULT CMesh::Initialize_Prototype(MODEL_TYPE eType,  void* MeshDesc)
 	for (auto& vertex : pMeshDesc->Vertices)
 	{
 		memcpy(&pVtxMeshs[iIndex].vPosition, &vertex.vPosition, sizeof(_float3));
+		XMStoreFloat3(&pVtxMeshs[iIndex].vPosition, XMVector3TransformCoord(XMLoadFloat3(&pVtxMeshs[iIndex].vPosition), PreModelMat));
+
 		memcpy(&pVtxMeshs[iIndex].vNormal, &vertex.vNormal, sizeof(_float3));
+		XMStoreFloat3(&pVtxMeshs[iIndex].vNormal, XMVector3TransformCoord(XMLoadFloat3(&pVtxMeshs[iIndex].vNormal), PreModelMat));
+
 		memcpy(&pVtxMeshs[iIndex].vTangent, &vertex.vTangent, sizeof(_float3));
 		memcpy(&pVtxMeshs[iIndex].vTexcoord, &vertex.vTexcoord, sizeof(_float2));
 		iIndex++;
@@ -244,10 +252,10 @@ HRESULT CMesh::Export(void* pOut)
 	return S_OK;
 }
 
-CMesh* CMesh::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL_TYPE eType, const aiMesh* pAIMesh)
+CMesh* CMesh::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL_TYPE eType, const aiMesh* pAIMesh, _matrix PreModelMat)
 {
 	CMesh* pMesh = new CMesh(pDevice, pContext);
-	if (FAILED(pMesh->Initialize_Prototype(eType, pAIMesh)))
+	if (FAILED(pMesh->Initialize_Prototype(eType, pAIMesh, PreModelMat)))
 	{
 		Safe_Release(pMesh);
 		MSG_BOX("CREATE FAIL : MESH");
@@ -256,10 +264,10 @@ CMesh* CMesh::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL
 	return pMesh;
 }
 
-CMesh* CMesh::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL_TYPE eType, void* MeshDesc)
+CMesh* CMesh::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL_TYPE eType, void* MeshDesc, _matrix PreModelMat)
 {
 	CMesh* pMesh = new CMesh(pDevice, pContext);
-	if (FAILED(pMesh->Initialize_Prototype(eType, MeshDesc)))
+	if (FAILED(pMesh->Initialize_Prototype(eType, MeshDesc, PreModelMat)))
 	{
 		Safe_Release(pMesh);
 		MSG_BOX("CREATE FAIL : MESH");

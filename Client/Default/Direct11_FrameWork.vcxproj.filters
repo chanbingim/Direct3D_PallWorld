@@ -299,6 +299,12 @@
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Equip\EquipSlot">
       <UniqueIdentifier>{1eec638c-52d5-4c62-8bbd-8eefe7c4c015}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. HUD\Base_UI\Slot\SlotImage">
+      <UniqueIdentifier>{03141a7f-0927-41e5-a027-7ba1e12f24a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Equip\View">
+      <UniqueIdentifier>{cf5f169d-b649-4319-978b-cd1ac3a5cb3e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -565,6 +571,15 @@
     <ClInclude Include="..\public\EquipSlot.h">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Equip\EquipSlot</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\PlayerView.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Equip\View</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\SlotImage.h">
+      <Filter>02. HUD\Base_UI\Slot\SlotImage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CharacterView.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -822,6 +837,15 @@
     </ClCompile>
     <ClCompile Include="..\private\EquipSlot.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Equip\EquipSlot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PlayerView.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Equip\View</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\SlotImage.cpp">
+      <Filter>02. HUD\Base_UI\Slot\SlotImage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CharacterView.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

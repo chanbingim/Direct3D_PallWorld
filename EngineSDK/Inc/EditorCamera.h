@@ -3,7 +3,7 @@
 #include "BaseCamera.h"
 
 NS_BEGIN(Engine)
-class CEditorCamera : public CBaseCamera
+class ENGINE_DLL CEditorCamera : public CBaseCamera
 {
 private:
 	CEditorCamera(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

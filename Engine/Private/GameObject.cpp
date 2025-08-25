@@ -207,6 +207,16 @@ const _wstring& CGameObject::GetObjectTag()
 	return m_ObejctTag;
 }
 
+void CGameObject::SetVisibility(VISIBILITY eVisible)
+{
+	m_eVisible = eVisible;
+}
+
+const VISIBILITY& CGameObject::GetVisibility()
+{
+	return m_eVisible;
+}
+
 CGameObject* CGameObject::Clone(void* pArg)
 {
 	return nullptr;

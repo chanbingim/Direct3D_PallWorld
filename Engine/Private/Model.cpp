@@ -26,7 +26,7 @@ CModel::CModel(const CModel& rhs) :
 		Safe_AddRef(pMaterial);
 }
 
-HRESULT CModel::Initialize_Prototype(MODEL_TYPE eType, const _char* pModelFilePath)
+HRESULT CModel::Initialize_Prototype(MODEL_TYPE eType, const _char* pModelFilePath, _matrix PreModelMat)
 {
 	_char		szEXT[MAX_PATH] = {};
 
@@ -45,7 +45,7 @@ HRESULT CModel::Initialize_Prototype(MODEL_TYPE eType, const _char* pModelFilePa
 		if (nullptr == m_pAIScene)
 			return E_FAIL;
 
-		if (FAILED(Ready_Meshes()))
+		if (FAILED(Ready_Meshes(PreModelMat)))
 			return E_FAIL;
 
 		if (FAILED(Ready_Materials(pModelFilePath)))
@@ -56,7 +56,7 @@ HRESULT CModel::Initialize_Prototype(MODEL_TYPE eType, const _char* pModelFilePa
 		SAVE_MODEL_DESC Data = {};
 		ReadModelFile(&Data, pModelFilePath);
 
-		if (FAILED(Ready_Meshes(&Data)))
+		if (FAILED(Ready_Meshes(&Data, PreModelMat)))
 			return E_FAIL;
 
 		if (FAILED(Ready_Materials(&Data, pModelFilePath)))
@@ -129,12 +129,12 @@ void CModel::Export(const char* FilePath)
 		MSG_BOX("SAVE FAIL : MODEL DATA");
 }
 
-HRESULT CModel::Ready_Meshes()
+HRESULT CModel::Ready_Meshes(_matrix PreModelMat)
 {
 	m_iNumMeshes = m_pAIScene->mNumMeshes;
 	for (_uInt i = 0; i < m_iNumMeshes; ++i)
 	{
-		CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eType, m_pAIScene->mMeshes[i]);
+		CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eType, m_pAIScene->mMeshes[i], PreModelMat);
 		if (nullptr == pMesh)
 			return E_FAIL;
 
@@ -159,13 +159,13 @@ HRESULT CModel::Ready_Materials(const _char* pModelFilePath)
 	return S_OK;
 }
 
-HRESULT CModel::Ready_Meshes(void* MeshDesc)
+HRESULT CModel::Ready_Meshes(void* MeshDesc, _matrix PreModelMat)
 {
 	SAVE_MODEL_DESC* ExportData = static_cast<SAVE_MODEL_DESC*>(MeshDesc);
 	m_iNumMeshes = ExportData->iNumMeshes;
 	for (auto& Meshs : ExportData->MeshDesc)
 	{
-		CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eType, &Meshs);
+		CMesh* pMesh = CMesh::Create(m_pDevice, m_pContext, m_eType, &Meshs, PreModelMat);
 		if (nullptr == pMesh)
 			return E_FAIL;
 
@@ -309,10 +309,10 @@ HRESULT CModel::ReadModelFile(void* Data, const char* FilePath)
 	return S_OK;
 }
 
-CModel* CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL_TYPE eType, const _char* pModelFilePath)
+CModel* CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL_TYPE eType, const _char* pModelFilePath, _matrix PreModelMat)
 {
 	CModel* pModel = new CModel(pDevice, pContext);
-	if (FAILED(pModel->Initialize_Prototype(eType, pModelFilePath)))
+	if (FAILED(pModel->Initialize_Prototype(eType, pModelFilePath, PreModelMat)))
 	{
 		Safe_Release(pModel);
 		MSG_BOX("CREATE FAIL : MODEL");

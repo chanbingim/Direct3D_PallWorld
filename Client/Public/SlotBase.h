@@ -7,13 +7,15 @@ class CTexture;
 NS_END
 
 NS_BEGIN(Client)
+class CSlotImage;
+
 class CSlotBase : public CBackGround
 {
 public :
-	enum class SLOT_TYPE { EQUIP, CONSUM, MISC, FURNITURE, END};
+	enum class SLOT_TYPE { EQUIP, ITEM, QUICKSLOT, END};
 
 protected:
-	CSlotBase(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CSlotBase(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, SLOT_TYPE eType);
 	CSlotBase(const CSlotBase& rhs);
 	virtual ~CSlotBase() = default;
 
@@ -40,18 +42,15 @@ protected :
 	virtual		void						MouseButtonUp();
 
 protected :
+	CSlotImage*								m_pSlotImage = nullptr;
+
 	SLOT_TYPE								m_eSlotType = {};
 	_uInt									m_iItemID = {};
-
-	// 아이템 구조체
-	_float4x4								m_ItemTextureWorldMat = {};
-	CTexture*								m_pItemTexCom = nullptr;
-			
-private:
-	HRESULT									ADD_Components();
+		
+private :
+	HRESULT									CreateSlotImage();
 
 public:
-	static		CSlotBase*					Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual		CGameObject*				Clone(void* pArg) override;
 	virtual		void						Free() override;
 };

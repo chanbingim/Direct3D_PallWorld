@@ -21,12 +21,7 @@ public:
 	// 랜더
 	virtual		HRESULT						Render() override;
 
-	void									SetActive(_bool flag);
-	_bool									IsActive();
-
 private :
-	_bool									m_bIsActive = false;
-
 	vector<COptionButton*>					m_OptionButton = {};
 	//원래 다른버튼도있는데 그건 없어도 될것 같음
 

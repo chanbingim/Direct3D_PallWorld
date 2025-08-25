@@ -3,10 +3,11 @@
 
 NS_BEGIN(Engine)
 class CGameObject;
+class CEditorCamera;
 NS_END
 
 NS_BEGIN(Client)
-class CEditorCamera;
+
 
 class CIMG_ModelConvert : public CImgUIBase
 {

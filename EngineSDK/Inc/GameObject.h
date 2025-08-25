@@ -64,6 +64,9 @@ public :
 	void									SetObjectTag(const WCHAR* szTag);
 	const _wstring&							GetObjectTag();
 
+	void									SetVisibility(VISIBILITY eVisible);
+	const VISIBILITY&						GetVisibility();
+
 protected:
 	_wstring								m_ObejctTag = {};
 

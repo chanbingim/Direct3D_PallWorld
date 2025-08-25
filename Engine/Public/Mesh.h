@@ -10,8 +10,8 @@ private:
 	virtual ~CMesh() = default;
 
 public:
-	virtual HRESULT			Initialize_Prototype(MODEL_TYPE eType, const aiMesh* pAIMesh);
-	virtual HRESULT			Initialize_Prototype(MODEL_TYPE eType, void* MeshDesc);
+	virtual HRESULT			Initialize_Prototype(MODEL_TYPE eType, const aiMesh* pAIMesh, _matrix PreModelMat = XMMatrixIdentity());
+	virtual HRESULT			Initialize_Prototype(MODEL_TYPE eType, void* MeshDesc, _matrix PreModelMat = XMMatrixIdentity());
 	virtual HRESULT			Initialize(void* pArg) override;
 
 	const _uInt				GetMatrialIndex() { return m_iMateriaIndex; }
@@ -22,8 +22,8 @@ private :
 	_uInt					m_iMateriaIndex = {};
 
 public:
-	static CMesh*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL_TYPE eType, const aiMesh* pAIMesh);
-	static CMesh*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL_TYPE eType, void* MeshDesc);
+	static CMesh*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL_TYPE eType, const aiMesh* pAIMesh, _matrix PreModelMat = XMMatrixIdentity());
+	static CMesh*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL_TYPE eType, void* MeshDesc, _matrix PreModelMat = XMMatrixIdentity());
 
 	virtual CComponent*		Clone(void* pArg) override;
 	virtual void			Free() override;
