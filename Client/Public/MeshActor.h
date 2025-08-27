@@ -37,6 +37,7 @@ protected:
 	CShader*								m_pShaderCom = nullptr;
 
 	ID3DX11EffectShaderResourceVariable*	m_pSRVEffect = nullptr;
+	ID3DX11EffectMatrixVariable*			m_pBoneMatrixEffect = nullptr;
 private:
 	HRESULT									ADD_Components();
 

@@ -43,7 +43,7 @@ protected :
 	virtual		HRESULT						Apply_ConstantShaderResources() override;
 
 private :
-	_bool									m_bIsPicking = true;
+	_bool									m_bIsPicking = false;
 
 	CVIBuffer_Terrian*						m_pVIBufferCom = nullptr;
 	CTexture*								m_pTextureCom = nullptr;

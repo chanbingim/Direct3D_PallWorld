@@ -275,9 +275,6 @@
     <Filter Include="ImGui\UI\FbxConvertWindow">
       <UniqueIdentifier>{1e87102c-bf0a-463c-8a92-3843837b9580}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Objects\MeshObject\Terrian">
-      <UniqueIdentifier>{782d235a-43b0-4167-bebb-1c6ac68b5985}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView">
       <UniqueIdentifier>{2882eddc-c641-4e5a-8427-fc0164b0a171}</UniqueIdentifier>
     </Filter>
@@ -307,6 +304,9 @@
     </Filter>
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\InvenSlider\InvenSliderBut">
       <UniqueIdentifier>{cef864c3-6a7d-41ce-8182-7581e7d75e3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\Terrian">
+      <UniqueIdentifier>{782d235a-43b0-4167-bebb-1c6ac68b5985}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -368,7 +368,7 @@
       <Filter>02. HUD\GamePlayHUD</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Terrian.h">
-      <Filter>03. Objects\MeshObject\Terrian</Filter>
+      <Filter>03. Objects\Terrian</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Player_Interface.h">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface</Filter>
@@ -650,7 +650,7 @@
       <Filter>02. HUD\GamePlayHUD</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Terrian.cpp">
-      <Filter>03. Objects\MeshObject\Terrian</Filter>
+      <Filter>03. Objects\Terrian</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Player_Interface.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface</Filter>
@@ -880,6 +880,9 @@
       <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\VTX_Mesh.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\VTX_AnimMesh.hlsl">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>

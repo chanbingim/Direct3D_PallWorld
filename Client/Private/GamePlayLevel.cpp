@@ -22,8 +22,8 @@ HRESULT CGamePlayLevel::Initialize()
 	if (FAILED(ADD_PlayerLayer(TEXT("Layer_GamePlay_Player"))))
 		return E_FAIL;
 
-	if (FAILED(ADD_PellLayer(TEXT("Layer_GamePlay_Pell"))))
-		return E_FAIL;
+	/*if (FAILED(ADD_PellLayer(TEXT("Layer_GamePlay_Pell"))))
+		return E_FAIL;*/
 
 	return S_OK;
 }

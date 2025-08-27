@@ -363,6 +363,7 @@
     <FxCompile Include="..\Bin\ShaderFiles\MutipleBlend.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\ProgressBar.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\TestShader.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\VTX_AnimMesh.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\VTX_Mesh.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\VTX_NorTex.hlsl" />
   </ItemGroup>

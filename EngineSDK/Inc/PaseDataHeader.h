@@ -3,15 +3,38 @@
 
 namespace Engine
 {
+	typedef struct SaveBoneDesc
+	{
+		_char				szName[MAX_PATH];
+		_float4x4			TransformationMatrix;
+		_Int				iParentBoneIndex;
+	}SAVE_BONE_DESC;
+
 	typedef struct SaveMeshDesc
 	{
-		unsigned int	iNumVertices;
-		unsigned int	iNumMaterialIndex;
-		unsigned int	iNumFaces;
+		_char				szName[MAX_PATH];
+		unsigned int		iNumVertices;
+		unsigned int		iNumMaterialIndex;
+		unsigned int		iNumFaces;
 
 		vector<VTX_MESH>	Vertices;
 		vector<_uInt>		Indices;
 	}SAVE_MESH_DESC;
+
+	typedef struct SaveAnimMeshDesc
+	{
+		_char					szName[MAX_PATH];
+		unsigned int			iNumVertices;
+		unsigned int			iNumMaterialIndex;
+		unsigned int			iNumFaces;
+		unsigned int			iNumBones;
+
+		vector<VTX_ANIM_MESH>	Vertices;
+		vector<_uInt>			Indices;
+
+		vector<_uInt>			BoneIndices;
+		vector<_float4x4>		OffsetMatrices;
+	}SAVE_ANIM_MESH_DESC;
 
 	typedef	struct MatrialTextureTypeDesc
 	{
@@ -33,4 +56,16 @@ namespace Engine
 		unsigned int				iNumMaterials;
 		vector<SAVE_MATERIAL_DESC>	MatrialDesc;
 	}SAVE_MODEL_DESC;
+
+	typedef struct SaveAnimModelDesc
+	{
+		unsigned int				iNumMeshes;
+		vector<SAVE_ANIM_MESH_DESC>	MeshDesc;
+
+		unsigned int				iNumMaterials;
+		vector<SAVE_MATERIAL_DESC>	MatrialDesc;
+
+		unsigned int				iNumBones;
+		vector<SAVE_BONE_DESC>		BoneDesc;
+	}SAVE_ANIM_MODEL_DESC;
 }

@@ -1,6 +1,8 @@
 #include "Mesh.h"
 
 #include "PaseDataHeader.h"
+#include "Model.h"
+#include "Bone.h"
 
 CMesh::CMesh(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CVIBuffer(pDevice, pContext)
@@ -12,14 +14,15 @@ CMesh::CMesh(const CMesh& rhs) :
 {
 }
 
-HRESULT CMesh::Initialize_Prototype(MODEL_TYPE eType, const aiMesh* pAIMesh, _matrix PreModelMat)
+HRESULT CMesh::Initialize_Prototype(MODEL_TYPE eType, const CModel* pModel, const aiMesh* pAIMesh, _matrix PreModelMat)
 {
+	strcpy_s(m_szMeshName, pAIMesh->mName.data);
 	m_iNumVertexBuffers = 1;
 	//정점의 수를 꺼내와서 저장
 	m_iNumVertices = pAIMesh->mNumVertices;
 	m_iMateriaIndex = pAIMesh->mMaterialIndex;
 
-	m_iVertexStride = sizeof(VTX_MESH);
+	
 
 	//삼각형의 개수를 꺼내와서 저장
 	m_iNumIndices = pAIMesh->mNumFaces * 3;
@@ -29,39 +32,8 @@ HRESULT CMesh::Initialize_Prototype(MODEL_TYPE eType, const aiMesh* pAIMesh, _ma
 	m_ePrimitive = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 
 #pragma region VERTEX_BUFFER
-	D3D11_BUFFER_DESC		VBDesc{};
-	VBDesc.ByteWidth = m_iVertexStride * m_iNumVertices;
-	VBDesc.Usage = D3D11_USAGE_DEFAULT;
-	VBDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	VBDesc.StructureByteStride = m_iVertexStride;
-	VBDesc.CPUAccessFlags = 0;
-	VBDesc.MiscFlags = 0;
-
-	m_pVertices = new _float3[m_iNumVertices];
-	ZeroMemory(m_pVertices, sizeof(_float3) * m_iNumVertices);
-
-	D3D11_SUBRESOURCE_DATA	InitialVBData{};
-
-	VTX_MESH* pVtxMeshs = new VTX_MESH[m_iNumVertices];
-	ZeroMemory(pVtxMeshs, sizeof(VTX_MESH) * m_iNumVertices);
-
-	for (_uInt i = 0; i < m_iNumVertices; ++i)
-	{
-		memcpy(&pVtxMeshs[i].vPosition, &pAIMesh->mVertices[i], sizeof(_float3));
-		XMStoreFloat3(&pVtxMeshs[i].vPosition, XMVector3TransformCoord(XMLoadFloat3(&pVtxMeshs[i].vPosition), PreModelMat));
-		
-		memcpy(&pVtxMeshs[i].vNormal, &pAIMesh->mNormals[i], sizeof(_float3));
-		XMStoreFloat3(&pVtxMeshs[i].vNormal, XMVector3TransformCoord(XMLoadFloat3(&pVtxMeshs[i].vNormal), PreModelMat));
-
-		memcpy(&pVtxMeshs[i].vTangent, &pAIMesh->mTangents[i], sizeof(_float3));
-		memcpy(&pVtxMeshs[i].vTexcoord, &pAIMesh->mTextureCoords[0][i], sizeof(_float2));
-	}
-	InitialVBData.pSysMem = pVtxMeshs;
-	if (FAILED(m_pDevice->CreateBuffer(&VBDesc, &InitialVBData, &m_pVertexBuffer)))
-		return E_FAIL;
-
-	Safe_Delete_Array(pVtxMeshs);
-	
+	MODEL_TYPE::NONANIM == eType ? Ready_VertexBuffer_For_NonAnim(pAIMesh, PreModelMat) :
+								   Ready_VertexBuffer_For_Anim(pModel, pAIMesh);
 #pragma endregion
 
 #pragma region INDEX_BUFFER
@@ -141,6 +113,7 @@ HRESULT CMesh::Initialize_Prototype(MODEL_TYPE eType,  void* MeshDesc, _matrix P
 		XMStoreFloat3(&pVtxMeshs[iIndex].vNormal, XMVector3TransformCoord(XMLoadFloat3(&pVtxMeshs[iIndex].vNormal), PreModelMat));
 
 		memcpy(&pVtxMeshs[iIndex].vTangent, &vertex.vTangent, sizeof(_float3));
+		XMStoreFloat3(&pVtxMeshs[iIndex].vTangent, XMVector3TransformCoord(XMLoadFloat3(&pVtxMeshs[iIndex].vTangent), PreModelMat));
 		memcpy(&pVtxMeshs[iIndex].vTexcoord, &vertex.vTexcoord, sizeof(_float2));
 		iIndex++;
 	}
@@ -183,6 +156,16 @@ HRESULT CMesh::Initialize_Prototype(MODEL_TYPE eType,  void* MeshDesc, _matrix P
 HRESULT CMesh::Initialize(void* pArg)
 {
     return S_OK;
+}
+
+_float4x4* CMesh::GetMeshBoneMatrices(const vector<CBone*>& Bones)
+{
+	for (size_t i = 0; i < m_iNumBones; i++)
+	{
+		/* 최종적으로 렌더링하기위한 뼈의 행렬(CombinedTransformationMatrix). */
+		XMStoreFloat4x4(&m_pBoneMatrices[i], XMLoadFloat4x4(&m_OffsetMatrices[i]) * Bones[m_BoneIndices[i]]->GetCombinedTransformationMatrix());
+	}
+	return m_pBoneMatrices;
 }
 
 HRESULT CMesh::Export(void* pOut)
@@ -252,10 +235,149 @@ HRESULT CMesh::Export(void* pOut)
 	return S_OK;
 }
 
-CMesh* CMesh::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL_TYPE eType, const aiMesh* pAIMesh, _matrix PreModelMat)
+HRESULT CMesh::Ready_VertexBuffer_For_NonAnim(const aiMesh* pAIMesh, _matrix PreTransformMatrix)
+{
+	m_iVertexStride = sizeof(VTX_MESH);
+
+	D3D11_BUFFER_DESC		VBDesc{};
+	VBDesc.ByteWidth = m_iVertexStride * m_iNumVertices;
+	VBDesc.Usage = D3D11_USAGE_DEFAULT;
+	VBDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	VBDesc.StructureByteStride = m_iVertexStride;
+	VBDesc.CPUAccessFlags = 0;
+	VBDesc.MiscFlags = 0;
+
+	m_pVertices = new _float3[m_iNumVertices];
+	ZeroMemory(m_pVertices, sizeof(_float3) * m_iNumVertices);
+
+	D3D11_SUBRESOURCE_DATA	InitialVBData{};
+	VTX_MESH* pVtxMeshs = new VTX_MESH[m_iNumVertices];
+	ZeroMemory(pVtxMeshs, sizeof(VTX_MESH) * m_iNumVertices);
+
+	for (_uInt i = 0; i < m_iNumVertices; ++i)
+	{
+		memcpy(&pVtxMeshs[i].vPosition, &pAIMesh->mVertices[i], sizeof(_float3));
+		XMStoreFloat3(&pVtxMeshs[i].vPosition, XMVector3TransformCoord(XMLoadFloat3(&pVtxMeshs[i].vPosition), PreTransformMatrix));
+
+		memcpy(&pVtxMeshs[i].vNormal, &pAIMesh->mNormals[i], sizeof(_float3));
+		XMStoreFloat3(&pVtxMeshs[i].vNormal, XMVector3TransformCoord(XMLoadFloat3(&pVtxMeshs[i].vNormal), PreTransformMatrix));
+
+		memcpy(&pVtxMeshs[i].vTangent, &pAIMesh->mTangents[i], sizeof(_float3));
+		XMStoreFloat3(&pVtxMeshs[i].vTangent, XMVector3TransformCoord(XMLoadFloat3(&pVtxMeshs[i].vTangent), PreTransformMatrix));
+
+		memcpy(&pVtxMeshs[i].vTexcoord, &pAIMesh->mTextureCoords[0][i], sizeof(_float2));
+	}
+	InitialVBData.pSysMem = pVtxMeshs;
+	if (FAILED(m_pDevice->CreateBuffer(&VBDesc, &InitialVBData, &m_pVertexBuffer)))
+		return E_FAIL;
+
+	Safe_Delete_Array(pVtxMeshs);
+	return S_OK;
+}
+
+HRESULT CMesh::Ready_VertexBuffer_For_Anim(const CModel* pModel, const aiMesh* pAIMesh)
+{
+	m_iVertexStride = sizeof(VTX_ANIM_MESH);
+	D3D11_BUFFER_DESC		VBDesc{};
+	VBDesc.ByteWidth = m_iVertexStride * m_iNumVertices;
+	VBDesc.Usage = D3D11_USAGE_DEFAULT;
+	VBDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	VBDesc.StructureByteStride = m_iVertexStride;
+	VBDesc.CPUAccessFlags = 0;
+	VBDesc.MiscFlags = 0;
+
+	VTX_ANIM_MESH* pVtxAnimMeshs = new VTX_ANIM_MESH[m_iNumVertices];
+	ZeroMemory(pVtxAnimMeshs, sizeof(VTX_ANIM_MESH) * m_iNumVertices);
+
+	m_pVertices = new _float3[m_iNumVertices];
+	ZeroMemory(m_pVertices, sizeof(_float3) * m_iNumVertices);
+
+	for (_uInt i = 0; i < m_iNumVertices; ++i)
+	{
+		memcpy(&pVtxAnimMeshs[i].vPosition, &pAIMesh->mVertices[i], sizeof(_float3));
+		memcpy(&pVtxAnimMeshs[i].vNormal, &pAIMesh->mNormals[i], sizeof(_float3));
+		memcpy(&pVtxAnimMeshs[i].vTangent, &pAIMesh->mTangents[i], sizeof(_float3));
+		memcpy(&pVtxAnimMeshs[i].vTexcoord, &pAIMesh->mTextureCoords[0][i], sizeof(_float2));
+	}
+
+	m_iNumBones = pAIMesh->mNumBones;
+	m_OffsetMatrices.reserve(m_iNumBones);
+
+	m_pBoneMatrices = new _float4x4[0 == m_iNumBones ? 1 : m_iNumBones];
+	ZeroMemory(m_pBoneMatrices, sizeof(_float4x4) * m_iNumBones);
+
+	_float4x4		OffsetMatrix;
+	XMStoreFloat4x4(&OffsetMatrix, XMMatrixIdentity());
+	for (size_t i = 0; i < m_iNumBones; i++)
+	{
+		aiBone* pAIBone = pAIMesh->mBones[i];
+
+		// 오프셋 메트릭스는 매시안에 뼈정보가 가지고있다.
+		// 그리고 Assimp로 행렬을 가져오게되면 Col Major행렬이라 전치로 바꿔야
+		// Row Major 행렬로 바뀌게 된다.
+		memcpy(&OffsetMatrix, &pAIBone->mOffsetMatrix, sizeof(_float4x4));
+		XMStoreFloat4x4(&OffsetMatrix, XMMatrixTranspose(XMLoadFloat4x4(&OffsetMatrix)));
+
+		// 뼈의 이름을 통해서 뼈의 이름과 일치하는 인덱스를 Model에서 얻어옴
+		// 모델에 이용되는 모든뼈는 모델이 소유하고잇다.
+		_Int		iBoneIndex = pModel->GetBoneIndex(pAIBone->mName.data);
+		
+
+		//부모가 없다면 웨이트 및 Index를 갱신할 이유가 없음
+		if (-1 == iBoneIndex)
+			return E_FAIL;
+
+		m_OffsetMatrices.push_back(OffsetMatrix);
+		m_BoneIndices.push_back(iBoneIndex);
+
+		/* 이 뼈는 몇개의 정점에게 영향을 주는가? */
+		for (size_t j = 0; j < pAIBone->mNumWeights; j++)
+		{
+			aiVertexWeight	AIWeight = pAIBone->mWeights[j];
+			if (0.f == pVtxAnimMeshs[AIWeight.mVertexId].vBlendWeight.x)
+			{
+				pVtxAnimMeshs[AIWeight.mVertexId].vBlendIndex.x = (uint32_t)i;
+				pVtxAnimMeshs[AIWeight.mVertexId].vBlendWeight.x = AIWeight.mWeight;
+			}
+			else if (0.f == pVtxAnimMeshs[AIWeight.mVertexId].vBlendWeight.y)
+			{
+				pVtxAnimMeshs[AIWeight.mVertexId].vBlendIndex.y = (uint32_t)i;
+				pVtxAnimMeshs[AIWeight.mVertexId].vBlendWeight.y = AIWeight.mWeight;
+			}
+			else if (0.f == pVtxAnimMeshs[AIWeight.mVertexId].vBlendWeight.z)
+			{
+				pVtxAnimMeshs[AIWeight.mVertexId].vBlendIndex.z = (uint32_t)i;
+				pVtxAnimMeshs[AIWeight.mVertexId].vBlendWeight.z = AIWeight.mWeight;
+			}
+			else
+			{
+				pVtxAnimMeshs[AIWeight.mVertexId].vBlendIndex.w = (uint32_t)i;
+				pVtxAnimMeshs[AIWeight.mVertexId].vBlendWeight.w = AIWeight.mWeight;
+			}
+		}
+	}
+
+	if (0 == m_iNumBones)
+	{
+		m_iNumBones = 1;
+		m_BoneIndices.push_back(pModel->GetBoneIndex(m_szMeshName));
+		m_OffsetMatrices.push_back(OffsetMatrix);
+	}
+
+	D3D11_SUBRESOURCE_DATA	InitialVBData{};
+	InitialVBData.pSysMem = pVtxAnimMeshs;
+
+	if (FAILED(m_pDevice->CreateBuffer(&VBDesc, &InitialVBData, &m_pVertexBuffer)))
+		return E_FAIL;
+	Safe_Delete_Array(pVtxAnimMeshs);
+
+	return S_OK;
+}
+
+CMesh* CMesh::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL_TYPE eType, const CModel* pModel, const aiMesh* pAIMesh, _matrix PreModelMat)
 {
 	CMesh* pMesh = new CMesh(pDevice, pContext);
-	if (FAILED(pMesh->Initialize_Prototype(eType, pAIMesh, PreModelMat)))
+	if (FAILED(pMesh->Initialize_Prototype(eType, pModel, pAIMesh, PreModelMat)))
 	{
 		Safe_Release(pMesh);
 		MSG_BOX("CREATE FAIL : MESH");
@@ -291,4 +413,6 @@ CComponent* CMesh::Clone(void* pArg)
 void CMesh::Free()
 {
     __super::Free();
+
+	Safe_Delete_Array(m_pBoneMatrices);
 }

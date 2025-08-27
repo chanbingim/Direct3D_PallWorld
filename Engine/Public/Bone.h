@@ -10,10 +10,10 @@ private:
 
 public:
 	HRESULT						Initialize(const aiNode* pAINode, _Int iParentIndex);
-	void						Update_CombinedTransformationMatrix(const vector<CBone*>& Bones, _matrix PreTransformMatrix);
+	void						UpdateCombinedTransformationMatrix(const vector<CBone*>& Bones, _matrix PreTransformMatrix);
 
-	_matrix						Get_CombinedTransformationMatrix();
-	_bool						Compare_Name(const _char* pBoneName);
+	_matrix						GetCombinedTransformationMatrix();
+	_bool						CompareName(const _char* pBoneName);
 
 private:
 	_char						m_szName[MAX_PATH] = {};

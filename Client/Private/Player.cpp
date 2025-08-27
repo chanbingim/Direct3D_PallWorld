@@ -39,11 +39,13 @@ HRESULT CPlayer::Initialize(void* pArg)
 void CPlayer::Priority_Update(_float fDeletaTime)
 {
     __super::Priority_Update(fDeletaTime);
+
 }
 
 void CPlayer::Update(_float fDeletaTime)
 {
     __super::Update(fDeletaTime);
+    m_pVIBufferCom->PlayAnimation(fDeletaTime);
 }
 
 void CPlayer::Late_Update(_float fDeletaTime)
@@ -61,9 +63,22 @@ HRESULT CPlayer::Render()
         Apply_ConstantShaderResources(i);
 
         m_pShaderCom->Update_Shader(0);
-
         m_pVIBufferCom->Render(i);
     }
+
+    return S_OK;
+}
+
+HRESULT CPlayer::Bind_ShaderResources()
+{
+    if (nullptr == m_pShaderCom)
+        return E_FAIL;
+
+    m_pEMVWorldMat = m_pShaderCom->GetVariable("g_WorldMatrix")->AsMatrix();
+    m_pEMVViewMat = m_pShaderCom->GetVariable("g_ViewMatrix")->AsMatrix();
+    m_pEMVProjMat = m_pShaderCom->GetVariable("g_ProjMatrix")->AsMatrix();
+    m_pSRVEffect = m_pShaderCom->GetVariable("g_DiffuseTexture")->AsShaderResource();
+    m_pBoneMatrixEffect = m_pShaderCom->GetVariable("g_BoneMatrices")->AsMatrix();
 
     return S_OK;
 }
@@ -73,7 +88,7 @@ HRESULT CPlayer::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Fiona_Mesh"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
         return E_FAIL;
 
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Mesh"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_AnimMesh"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
         return E_FAIL;
 
     return S_OK;

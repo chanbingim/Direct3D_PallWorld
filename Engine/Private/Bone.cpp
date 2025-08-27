@@ -22,20 +22,20 @@ HRESULT CBone::Initialize(const aiNode* pAINode, _Int iParentIndex)
     return S_OK;
 }
 
-void CBone::Update_CombinedTransformationMatrix(const vector<CBone*>& Bones, _matrix PreTransformMatrix)
+void CBone::UpdateCombinedTransformationMatrix(const vector<CBone*>& Bones, _matrix PreTransformMatrix)
 {
     if (-1 == m_iParentBoneIndex)
-        XMStoreFloat4x4(&m_CombinedTransformationMatrix, XMLoadFloat4x4(&m_TransformationMatrix));
+        XMStoreFloat4x4(&m_CombinedTransformationMatrix, XMLoadFloat4x4(&m_TransformationMatrix) * PreTransformMatrix);
     else
-        XMStoreFloat4x4(&m_CombinedTransformationMatrix, XMLoadFloat4x4(&m_TransformationMatrix) * Bones[m_iParentBoneIndex]->Get_CombinedTransformationMatrix());
+        XMStoreFloat4x4(&m_CombinedTransformationMatrix, XMLoadFloat4x4(&m_TransformationMatrix) * Bones[m_iParentBoneIndex]->GetCombinedTransformationMatrix() );
 }
 
-_matrix CBone::Get_CombinedTransformationMatrix()
+_matrix CBone::GetCombinedTransformationMatrix()
 {
     return XMLoadFloat4x4(&m_CombinedTransformationMatrix);
 }
 
-_bool CBone::Compare_Name(const _char* pBoneName)
+_bool CBone::CompareName(const _char* pBoneName)
 {
     return !strcmp(pBoneName, m_szName);
 }

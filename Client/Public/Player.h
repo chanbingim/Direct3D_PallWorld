@@ -23,6 +23,9 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
+protected :
+	HRESULT									Bind_ShaderResources();
+
 private:
 	HRESULT									ADD_Components();
 

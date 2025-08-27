@@ -146,27 +146,31 @@ HRESULT CMainApp::SetUp_StaticComponents()
 #pragma region Shader
 	/* Mouse Shader */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"),
-		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_TEX::VertexDesc, VTX_TEX::iNumElements, TEXT("../Bin/ShaderFiles/TestShader.hlsl")))))
+		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_TEX::Elements, VTX_TEX::iNumElements, TEXT("../Bin/ShaderFiles/TestShader.hlsl")))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Mouse"),
-		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_TEX::VertexDesc, VTX_TEX::iNumElements, TEXT("../Bin/ShaderFiles/MouseShader.hlsl")))))
+		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_TEX::Elements, VTX_TEX::iNumElements, TEXT("../Bin/ShaderFiles/MouseShader.hlsl")))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VTXNorTex"),
-		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_NORTEX::VertexDesc, VTX_NORTEX::iNumElements, TEXT("../Bin/ShaderFiles/VTX_NorTex.hlsl")))))
+		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_NORTEX::Elements, VTX_NORTEX::iNumElements, TEXT("../Bin/ShaderFiles/VTX_NorTex.hlsl")))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_ProgressBar"),
-		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_TEX::VertexDesc, VTX_TEX::iNumElements, TEXT("../Bin/ShaderFiles/ProgressBar.hlsl")))))
+		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_TEX::Elements, VTX_TEX::iNumElements, TEXT("../Bin/ShaderFiles/ProgressBar.hlsl")))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_MutiplyBlend"),
-		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_TEX::VertexDesc, VTX_TEX::iNumElements, TEXT("../Bin/ShaderFiles/MutipleBlend.hlsl")))))
+		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_TEX::Elements, VTX_TEX::iNumElements, TEXT("../Bin/ShaderFiles/MutipleBlend.hlsl")))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Mesh"),
-		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_MESH::VertexDesc, VTX_MESH::iNumElements, TEXT("../Bin/ShaderFiles/VTX_Mesh.hlsl")))))
+		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_MESH::Elements, VTX_MESH::iNumElements, TEXT("../Bin/ShaderFiles/VTX_Mesh.hlsl")))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_AnimMesh"),
+		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_ANIM_MESH::Elements, VTX_ANIM_MESH::iNumElements, TEXT("../Bin/ShaderFiles/VTX_AnimMesh.hlsl")))))
 		return E_FAIL;
 #pragma endregion
 

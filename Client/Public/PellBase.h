@@ -23,6 +23,9 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
+protected:
+	HRESULT									Bind_ShaderResources();
+
 public:
 	virtual			CGameObject*			Clone(void* pArg) override;
 	virtual			void					Free() override;
