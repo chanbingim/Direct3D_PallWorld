@@ -30,6 +30,7 @@ public:
 	virtual			HRESULT						Render();
 
 	
+	void										SetAspect(_float fWidth, _float fHeight);
 	void										CameraLookAt(_vector LookAt);
 	void										SetFov(_float fAngle);
 	_bool										IsInPoint(_float3& vPos, _float offset);

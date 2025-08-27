@@ -78,19 +78,19 @@ _uInt CUserInterface::GetZOrder()
 
 void CUserInterface::SetLocation(_float3 vPosition)
 {
-	__super::SetLocation(vPosition);
+	memcpy(&m_fPos, &vPosition, sizeof(_float2));
 	UpdateRectSize();
 }
 
 void CUserInterface::SetRotation(_float3 vRotation)
 {
-	__super::SetRotation(vRotation);
+	m_pTransformCom->SetRotation(vRotation);
 	UpdateRectSize();
 }
 
 void CUserInterface::SetScale(_float3 vScale)
 {
-	__super::SetScale(vScale);
+	m_pTransformCom->SetScale(vScale);
 	UpdateRectSize();
 }
 
@@ -109,6 +109,11 @@ void CUserInterface::ADDRotation(_vector vAxis, _float fTurnSpeed, _float fTimeD
 _float2 CUserInterface::GetViewPos()
 {
 	return m_fPos;
+}
+
+const RECT& CUserInterface::GetRectSize()
+{
+	return m_UISize;
 }
 
 void CUserInterface::MouseHoverEnter()

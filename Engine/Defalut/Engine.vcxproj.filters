@@ -154,6 +154,15 @@
     <Filter Include="Utility\Object\EditorObject\EditorCamera">
       <UniqueIdentifier>{18816558-cabf-4847-8222-134bb93db532}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utility\HeadUpDisplay\UserInterface\Slider">
+      <UniqueIdentifier>{6a65cec2-5834-4bb7-acc2-2a831b78905d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\HeadUpDisplay\UserInterface\Slider\SilderButton">
+      <UniqueIdentifier>{4ea96dca-a660-447d-b70f-ee4909d7dcb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Model\Bone">
+      <UniqueIdentifier>{420f7817-c430-4178-aa2a-7a2e14d15388}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Graphic_Device.cpp">
@@ -278,6 +287,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\EditorCamera.cpp">
       <Filter>Utility\Object\EditorObject\EditorCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Slider.cpp">
+      <Filter>Utility\HeadUpDisplay\UserInterface\Slider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\SliderButton.cpp">
+      <Filter>Utility\HeadUpDisplay\UserInterface\Slider\SilderButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Bone.cpp">
+      <Filter>Utility\Components\Model\Bone</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -433,6 +451,15 @@
     </ClInclude>
     <ClInclude Include="..\Public\EditorCamera.h">
       <Filter>Utility\Object\EditorObject\EditorCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Slider.h">
+      <Filter>Utility\HeadUpDisplay\UserInterface\Slider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\SliderButton.h">
+      <Filter>Utility\HeadUpDisplay\UserInterface\Slider\SilderButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Bone.h">
+      <Filter>Utility\Components\Model\Bone</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -98,7 +98,8 @@ void CIMG_LandScape::GenerateTerrian()
             Desc.vPosition = { (_float)(GridX  * j - OffsetX), 0.f, (_float)(GridX * i - OffsetY) };
             Desc.vScale = { 1.f, 1.f, 1.f };
             Desc.iGridCnt = GridX;
-            
+            Desc.IsPicking = true;
+
             if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(CurLevel, TEXT("Prototype_GameObject_Terrian"), CurLevel,
                 TEXT("Layer_GamePlay_Terrian"), &Desc)))
                 return;

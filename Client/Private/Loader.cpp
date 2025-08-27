@@ -272,7 +272,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	_matrix PreModelMat = XMMatrixRotationY(XMConvertToRadians(180.f));
 
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Fiona_Mesh"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx", PreModelMat))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Fiona/asd.dat", PreModelMat))))
 		return E_FAIL;
 #pragma endregion
 

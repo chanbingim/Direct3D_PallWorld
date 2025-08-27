@@ -116,9 +116,10 @@ HRESULT CInGameMenu::ADD_CategoryButton()
     float ButHalfX = Desc.vScale.x * 0.5f + 3.f;
     float CenterX = m_pTransformCom->GetScale().x * 0.5f - ButHalfX;
 
+    _float fButtonPosY = -325;
     /* CharacterInfo Button */
     Desc.Type = 0;
-    Desc.vPosition = { -CenterX, -310.f, 0.f };
+    Desc.vPosition = { -CenterX, fButtonPosY, 0.f };
     pCategorybut = CCategory::Create(m_pGraphic_Device, m_pDeviceContext);
     if (FAILED(pCategorybut->Initialize(&Desc)))
         return E_FAIL;
@@ -127,7 +128,7 @@ HRESULT CInGameMenu::ADD_CategoryButton()
 
     /* Option Button */
     Desc.Type = 1;
-    Desc.vPosition = { -(CenterX - (ButHalfX * 2.f)), -310.f, 0.f };
+    Desc.vPosition = { -(CenterX - (ButHalfX * 2.f)), fButtonPosY, 0.f };
     pCategorybut = CCategory::Create(m_pGraphic_Device, m_pDeviceContext);
     if (FAILED(pCategorybut->Initialize(&Desc)))
         return E_FAIL;

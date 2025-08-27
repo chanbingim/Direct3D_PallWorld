@@ -187,7 +187,7 @@ HRESULT CVIBuffer_Terrian::Initialize_Prototype(const WCHAR* pHegithFilePath)
 		{
 			_uInt		iIndex = _uInt(i * m_iNumVertex.x + j);
 
-			m_pVertices[iIndex] = pVertices[iIndex].vPosition = _float3(j, (pPixels[iIndex] & 0x000000ff) / 10.f, i);
+			m_pVertices[iIndex] = pVertices[iIndex].vPosition = _float3(j, pPixels[iIndex] / 10.f, i);
 			pVertices[iIndex].vNormal = _float3(0.f, 0.f, 0.f);
 			pVertices[iIndex].vTexcoord = _float2(j / (m_iNumVertex.x - 1.f), i / (m_iNumVertex.y - 1.f));
 		}

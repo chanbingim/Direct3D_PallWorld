@@ -145,6 +145,11 @@ POINT& CMouse::GetMousePoint()
 	return m_MouseViewPortPos;
 }
 
+_float3 CMouse::GetMouseWorldPoint()
+{
+	return m_pTransformCom->GetPosition();
+}
+
 CMouse* CMouse::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, HWND hWnd)
 {
 	CMouse* pMouse = new CMouse(pDevice, pContext);

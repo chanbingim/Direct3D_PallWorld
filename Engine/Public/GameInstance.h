@@ -129,6 +129,7 @@ public :
 	BOOL						IsMouseFocus(CUserInterface* Widget);
 
 	_float3&					GetRayPos();
+	_float3						GetMouseWorldPos();
 
 	void						ResetMouseData();
 #pragma endregion

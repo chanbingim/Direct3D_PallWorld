@@ -323,6 +323,11 @@ _float3& CGameInstance::GetRayPos()
     return m_pMouse->GetRayPos();
 }
 
+_float3 CGameInstance::GetMouseWorldPos()
+{
+    return m_pMouse->GetMouseWorldPoint();
+}
+
 void CGameInstance::ResetMouseData()
 {
     m_pMouse->SetMouseFocus(nullptr);

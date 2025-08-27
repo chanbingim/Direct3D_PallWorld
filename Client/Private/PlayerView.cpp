@@ -32,12 +32,18 @@ HRESULT CPlayerView::Initialize(void* pArg)
         return E_FAIL;
 
     m_fCameraDistance = 15.f;
+
+    m_fPlayerViewFov = 80.f;
+    m_pViewerCamera->SetFov(m_fPlayerViewFov);
+    m_fPlayerViewMinMax = { 60.f, 120.f };
+    m_bIsMouseEvent = true;
     return S_OK;
 }
 
 void CPlayerView::Update(_float fDeletaTime)
 {
     __super::Update(fDeletaTime);
+    CUserInterface::Update(fDeletaTime);
 
    
 }
@@ -53,11 +59,6 @@ void CPlayerView::Late_Update(_float fDeletaTime)
 
 HRESULT CPlayerView::Render()
 {
-    //m_pDeviceContext->PSSetShaderResources(0, 1, &m_pViewTexture);
-    /*if(FAILED(__super::Render()))
-        return E_FAIL;*/
-
-
     if (FAILED(Apply_ConstantShaderResources()))
         return E_FAIL;
 
@@ -82,6 +83,41 @@ HRESULT CPlayerView::Apply_ConstantShaderResources()
         return E_FAIL;
 
     return S_OK;
+}
+
+void CPlayerView::MouseHovering()
+{
+    LONG MousePosZ = m_pGameInstance->GetMouseAxis(2);
+    if (0 < MousePosZ)
+    {
+        m_fPlayerViewFov -= 10.f;
+        if (m_fPlayerViewMinMax.x >= m_fPlayerViewFov)
+            m_fPlayerViewFov = m_fPlayerViewMinMax.x;
+    }
+    else if (0 > MousePosZ)
+    {
+        m_fPlayerViewFov += 10.f;
+        if (m_fPlayerViewMinMax.y <= m_fPlayerViewFov)
+            m_fPlayerViewFov = m_fPlayerViewMinMax.y;
+    }
+
+    WCHAR Log[MAX_PATH] = {};
+    wsprintf(Log, TEXT("Mouse Z : %d"), MousePosZ);
+    OutputDebugString(Log);
+
+    m_pViewerCamera->SetFov(m_fPlayerViewFov);
+}
+
+void CPlayerView::MouseButtonDwon()
+{
+}
+
+void CPlayerView::MouseButtonPressed()
+{
+}
+
+void CPlayerView::MouseButtonUp()
+{
 }
 
 HRESULT CPlayerView::ADD_Components()

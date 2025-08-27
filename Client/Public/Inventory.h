@@ -3,6 +3,7 @@
 
 NS_BEGIN(Client)
 class CItemSlot;
+class CInvenSlider;
 
 class CInventory : public CBackGround
 {
@@ -27,13 +28,27 @@ protected :
 
 private:
 	_float2									m_SlotCount = {};
+	_float									m_SlotSize = {};
+
+	RECT									m_SlotViewSize = {};
+	_uInt									m_iSlotIndex = {};
+
 	vector<CItemSlot*>						m_pItemSlot = {};
+	deque<CItemSlot*>						m_pViewItemSlot = {};
+
+	/* 구성 요소 */
+	CInvenSlider*							m_pIvenSlider = nullptr;
 
 	LPD3D11EFFECTVECTORVARIABLE				m_pInven_Color = {};
 
 private:
 	HRESULT									ADD_Components();
 	HRESULT									ADD_Childs();
+
+
+	HRESULT									ADD_Slot();
+	HRESULT									ADD_Slider();
+
 
 public:
 	static		CInventory*					Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

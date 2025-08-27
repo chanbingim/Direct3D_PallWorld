@@ -2,6 +2,7 @@
 
 #include "GameInstance.h"
 #include "ItemSlot.h"
+#include "InvenSlider.h"
 
 CInventory::CInventory(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CBackGround(pDevice, pContext)
@@ -29,18 +30,51 @@ HRESULT CInventory::Initialize(void* pArg)
     if (FAILED(ADD_Components()))
         return E_FAIL;
     
-    m_SlotCount = { 5, 9 };
+    m_SlotCount = { 5, 12 };
+    m_SlotSize = 40.f;
     if (FAILED(ADD_Childs()))
         return E_FAIL;
 
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
+  
+
     return S_OK;
 }
 
 void CInventory::Update(_float fDeletaTime)
 {
+    m_pViewItemSlot.clear();
+    _float3 vStartPos = { (_float)m_SlotViewSize.left, (_float)m_SlotViewSize.top, 0.f };
+    _float fOffset = m_pIvenSlider->GetCurPercent() * 100.f;
+
+    for (_uInt i = 0; i < (_uInt)m_SlotCount.y; ++i)
+    {
+        for (_uInt j = 0; j < (_uInt)m_SlotCount.x; ++j)
+        {
+            _uInt iIndex = i * m_SlotCount.x + j;
+            _float2 SlotPos = m_pItemSlot[iIndex]->GetViewPos();
+            SlotPos.y = vStartPos.y + (m_SlotSize + 10) * i + fOffset;
+            m_pItemSlot[iIndex]->SetLocation({ SlotPos.x ,SlotPos.y ,0.f });
+            RECT rc{};
+            if (IntersectRect(&rc, &m_SlotViewSize, &m_pItemSlot[iIndex]->GetRectSize()))
+            {
+                m_pItemSlot[iIndex]->Update(fDeletaTime);
+                m_pViewItemSlot.push_back(m_pItemSlot[iIndex]);
+            }
+            else
+            {
+                SlotPos.y -= m_SlotViewSize.bottom;
+                SlotPos.y += vStartPos.y - (m_SlotSize + 10);
+                m_pItemSlot[iIndex]->SetLocation({ SlotPos.x, SlotPos.y, 0.f });
+              
+                if (IntersectRect(&rc, &m_SlotViewSize, &m_pItemSlot[iIndex]->GetRectSize()))
+                    m_pViewItemSlot.push_front(m_pItemSlot[iIndex]);
+            }
+        }
+    }
+
     for (auto iter : m_pChildList)
         iter->Update(fDeletaTime);
 }
@@ -62,6 +96,10 @@ HRESULT CInventory::Render()
 
     for (auto iter : m_pChildList)
         iter->Render();
+
+    for (auto pSlot : m_pViewItemSlot)
+        pSlot->Render();
+      
     return S_OK;
 }
 
@@ -101,34 +139,64 @@ HRESULT CInventory::ADD_Components()
 
 HRESULT CInventory::ADD_Childs()
 {
+    if (FAILED(ADD_Slider()))
+        return E_FAIL;
+
+    const RECT& SliderRect = m_pIvenSlider->GetRectSize();
+    m_SlotViewSize = { m_UISize.left,  SliderRect.top,
+                       m_UISize.right, SliderRect.bottom };
+
+    if (FAILED(ADD_Slot()))
+        return E_FAIL;
+
+    return S_OK;
+}
+
+HRESULT CInventory::ADD_Slot()
+{
     CItemSlot::ITEM_SLOT_DESC Desc;
     ZeroMemory(&Desc, sizeof(CItemSlot::ITEM_SLOT_DESC));
 
-    Desc.pParent = this;
-    Desc.vScale = {40.f, 40.f, 0.f};
+    Desc.pParent = nullptr;
+    Desc.vScale = { m_SlotSize, m_SlotSize, 0.f };
 
     _float3 vParentScale = m_pTransformCom->GetScale();
-    _float3 vStartPos = { -vParentScale.x * 0.5f,  -vParentScale.y * 0.5f, 0.f};
+    _float3 vStartPos = { (_float)m_SlotViewSize.left + 50, (_float)m_SlotViewSize.top, 0.f };
     for (_uInt i = 0; i < m_SlotCount.y; ++i)
     {
-        Desc.vPosition.y = vStartPos.y;
         for (_uInt j = 0; j < m_SlotCount.x; ++j)
         {
-            Desc.vPosition.x = vStartPos.x;
+            Desc.vPosition.x = vStartPos.x + (Desc.vScale.x + 10) * j;
             CItemSlot* pItemSlot = CItemSlot::Create(m_pGraphic_Device, m_pDeviceContext);
             if (nullptr == pItemSlot)
                 return E_FAIL;
 
-            if(FAILED(pItemSlot->Initialize(&Desc)))
+            if (FAILED(pItemSlot->Initialize(&Desc)))
                 return E_FAIL;
 
             m_pItemSlot.push_back(pItemSlot);
-            ADD_Child(pItemSlot);
         }
     }
+    return S_OK;
+}
 
+HRESULT CInventory::ADD_Slider()
+{
+    m_pIvenSlider = CInvenSlider::Create(m_pGraphic_Device, m_pDeviceContext);
+    if (nullptr == m_pIvenSlider)
+        return E_FAIL;
 
+    CInvenSlider::SLIDER_DESC SliderDesc;
+    ZeroMemory(&SliderDesc, sizeof(CInvenSlider::SLIDER_DESC));
+    SliderDesc.pParent = this;
+    SliderDesc.vScale = {20.f, 400.f, 0.f};
+    SliderDesc.vPosition = { m_pTransformCom->GetScale().x * 0.4f, -m_pTransformCom->GetScale().y * 0.05f, 0.f };
+    SliderDesc.eType = AXIS::VERTICAL;
 
+    if (FAILED(m_pIvenSlider->Initialize(&SliderDesc)))
+        return E_FAIL;
+
+    ADD_Child(m_pIvenSlider);
     return S_OK;
 }
 
@@ -160,6 +228,7 @@ void CInventory::Free()
 
     for (auto& pSlot : m_pItemSlot)
         Safe_Release(pSlot);
-
     m_pItemSlot.clear();
+
+    Safe_Release(m_pIvenSlider);
 }

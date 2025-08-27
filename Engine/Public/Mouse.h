@@ -27,6 +27,7 @@ public :
 										   const WCHAR* Proto_BufferTag, const WCHAR* ComBuffer_Tag, void* pBufferArg);
 
 	POINT&						GetMousePoint();
+	_float3						GetMouseWorldPoint();
 	_float3&					GetRayPos();
 
 	void						SetMouseFocus(CUserInterface* Widget);

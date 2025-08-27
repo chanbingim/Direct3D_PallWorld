@@ -19,6 +19,7 @@ public:
 	HRESULT					Export(void* pOut);
 
 private :
+
 	_uInt					m_iMateriaIndex = {};
 
 public:

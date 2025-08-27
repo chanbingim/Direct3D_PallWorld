@@ -23,9 +23,17 @@ public :
 	virtual		HRESULT						Render() override;
 
 protected :
-	virtual     HRESULT						Bind_ShaderResources();
-	virtual     HRESULT						Apply_ConstantShaderResources();
+	virtual     HRESULT						Bind_ShaderResources()override;
+	virtual     HRESULT						Apply_ConstantShaderResources()override;
 
+	virtual			void					MouseHovering() override;
+	virtual			void					MouseButtonDwon() override;
+	virtual			void					MouseButtonPressed() override;
+	virtual			void					MouseButtonUp() override;
+
+private :
+	_float									m_fPlayerViewFov = {};
+	_float2									m_fPlayerViewMinMax = {};
 private :
 	HRESULT									ADD_Components();
 

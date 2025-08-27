@@ -32,7 +32,7 @@ public:
 	void									ADDRotation(_vector vAxis, _float fTurnSpeed, _float fTimeDeleta);
 
 	_float2									GetViewPos();
-
+	const		RECT&						GetRectSize();
 protected :
 	_float4x4								m_ViewMatrix = {};
 	_float4x4								m_ProjMatrix = {};

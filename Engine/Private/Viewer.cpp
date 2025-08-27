@@ -28,10 +28,12 @@ HRESULT CViewer::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
+
+    VIEWER_DESC* ViewDesc = static_cast<VIEWER_DESC*>(pArg);
     if (FAILED(CreateViewTexture()))
         return E_FAIL;
 
-    if (FAILED(CreateViewerCamera()))
+    if (FAILED(CreateViewerCamera(ViewDesc->fWidth, ViewDesc->fHeight)))
         return E_FAIL;
 
     return S_OK;
@@ -124,6 +126,7 @@ HRESULT CViewer::CreateViewTexture()
 
     D3D11_TEXTURE2D_DESC TexDesc = {};
     pBackBuffer->GetDesc(&TexDesc);
+
     TexDesc.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
 
     ID3D11Texture2D* pTeuxtre2D = nullptr;
@@ -151,7 +154,7 @@ HRESULT CViewer::CreateViewTexture()
     return S_OK;
 }
 
-HRESULT CViewer::CreateViewerCamera()
+HRESULT CViewer::CreateViewerCamera(_float fWidth, _float fHeight)
 {
     CBaseCamera::CAMERA_DESC Desc;
     ZeroMemory(&Desc, sizeof(CBaseCamera::CAMERA_DESC));
@@ -159,12 +162,15 @@ HRESULT CViewer::CreateViewerCamera()
     Desc.fNear = 0.1f;
     Desc.fFov = XMConvertToRadians(60.f);
     Desc.vEye = { 0.f, 0.f, 1.f };
+
     //카메라를 생성해서 보관함
     m_pViewerCamera = CEditorCamera::Create(m_pGraphic_Device, m_pDeviceContext);
     if (nullptr == m_pViewerCamera)
         return E_FAIL;
 
     m_pViewerCamera->Initialize(&Desc);
+    if (fWidth && fHeight)
+        m_pViewerCamera->SetAspect(fWidth, fHeight);
     return S_OK;
 }
 
@@ -187,6 +193,22 @@ void CViewer::RenderObejct()
     Safe_Release(m_pViewObject);
 
     m_pGameInstance->Set_RenderResource(0);
+}
+
+void CViewer::MouseHovering()
+{
+}
+
+void CViewer::MouseButtonDwon()
+{
+}
+
+void CViewer::MouseButtonPressed()
+{
+}
+
+void CViewer::MouseButtonUp()
+{
 }
 
 CViewer* CViewer::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

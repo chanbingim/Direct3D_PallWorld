@@ -9,6 +9,14 @@ class CVIBuffer_Rect;
 
 class ENGINE_DLL CViewer : public CUserInterface
 {
+public :
+	typedef struct ViewerDesc : GAMEOBJECT_DESC
+	{
+		_float fWidth;
+		_float fHeight;
+
+	}VIEWER_DESC;
+
 protected :
 	CViewer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CViewer(const CViewer& rhs);
@@ -40,6 +48,12 @@ protected :
 
 	void									RenderObejct();
 
+	virtual			void					MouseHovering();
+
+	virtual			void					MouseButtonDwon();
+	virtual			void					MouseButtonPressed();
+	virtual			void					MouseButtonUp();
+
 protected:
 	CVIBuffer_Rect*							m_pVIBufferCom = nullptr;
 	CShader*								m_pShaderCom = nullptr;
@@ -60,7 +74,7 @@ protected:
 
 private :
 	HRESULT									CreateViewTexture();
-	HRESULT									CreateViewerCamera();
+	HRESULT									CreateViewerCamera(_float fWidth = 0, _float fHeight = 0);
 
 private :
 	LPD3D11EFFECTSHADERRESOURCEVARIABLE		m_pShader_Resource = nullptr;

@@ -21,6 +21,7 @@ namespace Engine
 	enum class LIGHT_TYPE		{ POINT = 1, SPOT, DIRECATION, END };
 
 	enum class MAT_STATE		{ VIEW, PROJECTION, END };
+	enum class AXIS				{ HORIZONTAL, VERTICAL, END };
 
 	enum CHANNELID { BGM, EFFECT, END };
 }

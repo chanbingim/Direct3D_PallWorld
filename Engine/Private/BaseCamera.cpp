@@ -92,6 +92,12 @@ HRESULT CBaseCamera::Render()
     return S_OK;
 }
 
+void CBaseCamera::SetAspect(_float fWidth, _float fHeight)
+{
+    if (fWidth && fHeight)
+        m_fAspect = fWidth / fHeight;
+}
+
 void CBaseCamera::CameraLookAt(_vector vLookAt)
 {
     m_pTransformCom->LookAt(vLookAt);

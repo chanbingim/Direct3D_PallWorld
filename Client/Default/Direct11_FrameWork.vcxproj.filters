@@ -284,9 +284,6 @@
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory">
       <UniqueIdentifier>{7b258e60-e33f-4721-a215-d52a3638cb9b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\ItemSlot">
-      <UniqueIdentifier>{7aced7b8-5b81-48fa-be25-3149666bac74}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Equip">
       <UniqueIdentifier>{e9dcb392-6905-47db-95bb-6da6d6257708}</UniqueIdentifier>
     </Filter>
@@ -301,6 +298,15 @@
     </Filter>
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\WeightBar">
       <UniqueIdentifier>{549c5a4b-06dc-49ac-aa06-e139a23dd551}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\ItemSlot">
+      <UniqueIdentifier>{7aced7b8-5b81-48fa-be25-3149666bac74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\InvenSlider">
+      <UniqueIdentifier>{3a0aa367-8eed-4b53-b25e-44c6a9e030fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\InvenSlider\InvenSliderBut">
+      <UniqueIdentifier>{cef864c3-6a7d-41ce-8182-7581e7d75e3b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -577,6 +583,12 @@
     <ClInclude Include="..\public\CharacterView.h">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\InvenSlider.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\InvenSlider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\InvenSliderButton.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\InvenSlider\InvenSliderBut</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -843,6 +855,12 @@
     </ClCompile>
     <ClCompile Include="..\private\CharacterView.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\InvenSlider.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\InvenSlider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\InvenSliderButton.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\InvenSlider\InvenSliderBut</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

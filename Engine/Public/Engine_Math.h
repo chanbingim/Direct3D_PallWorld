@@ -9,4 +9,10 @@ namespace Engine
 		if (value > max) return max;
 		return value;
 	}
+
+	template <typename T>
+	T Lerp(const T& value1, const T& value2, const T& Time)
+	{
+		return value1 + ((value2 - value1) * Time);
+	}
 }
