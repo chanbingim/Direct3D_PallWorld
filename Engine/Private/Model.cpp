@@ -6,6 +6,7 @@
 #include "Mesh.h"
 #include "Bone.h"
 #include "Material.h"
+#include "Animation.h"
 #pragma endregion
 
 #include "StringHelper.h"
@@ -22,6 +23,8 @@ CModel::CModel(const CModel& rhs) :
 	m_iNumMeshes(rhs.m_iNumMeshes),
 	m_iNumMaterials(rhs.m_iNumMaterials),
 	m_Bones(rhs.m_Bones),
+	m_iNumAnimations(rhs.m_iNumAnimations),
+	m_Animations(rhs.m_Animations),
 	m_PreTransformMatrix(rhs.m_PreTransformMatrix),
 	m_Materials(rhs.m_Materials),
 	m_eType(rhs.m_eType)
@@ -34,6 +37,9 @@ CModel::CModel(const CModel& rhs) :
 
 	for (auto& pBone : m_Bones)
 		Safe_AddRef(pBone);
+
+	for (auto& pAnimation : m_Animations)
+		Safe_AddRef(pAnimation);
 }
 
 HRESULT CModel::Initialize_Prototype(MODEL_TYPE eType, const _char* pModelFilePath, _matrix PreModelMat)
@@ -63,6 +69,9 @@ HRESULT CModel::Initialize_Prototype(MODEL_TYPE eType, const _char* pModelFilePa
 			return E_FAIL;
 
 		if (FAILED(Ready_Materials(pModelFilePath)))
+			return E_FAIL;
+
+		if (FAILED(Ready_Animations()))
 			return E_FAIL;
 	}
 	else if ((!strcmp(szEXT, ".dat")))
@@ -142,9 +151,14 @@ _float4x4* CModel::GetBoneMatrices(_uInt iMeshIndex)
 	return m_Meshes[iMeshIndex]->GetMeshBoneMatrices(m_Bones);
 }
 
-void CModel::PlayAnimation(_float DeletaTime)
+void CModel::PlayAnimation(_uInt iCurrentAnimIndex, _float DeletaTime)
 {
+	if (-1 == iCurrentAnimIndex ||
+		iCurrentAnimIndex >= m_iNumAnimations)
+		return;
+
 	/* 내가 재생하고자하는 애니메이션(공격모션)이 이용하고 있는 뼈들의 상태 변환정보(TransformationMatrix)를 갱신해준다.*/
+	m_Animations[iCurrentAnimIndex]->UpdateTransformationMatrices(m_Bones, DeletaTime);
 
 	/* 모든 뼈를 순회하면서 CombinedTransformationMatrix를 갱신한다. */
 	for (auto& pBone : m_Bones)
@@ -227,6 +241,21 @@ HRESULT CModel::Ready_Bones(const aiNode* pAINode, _Int iParentIndex)
 	for (size_t i = 0; i < pAINode->mNumChildren; i++)
 		Ready_Bones(pAINode->mChildren[i], iParent);
 
+	return S_OK;
+}
+
+HRESULT CModel::Ready_Animations()
+{
+	m_iNumAnimations = m_pAIScene->mNumAnimations;
+
+	for (_uInt i = 0; i < m_iNumAnimations; ++i)
+	{
+		CAnimation* pAnim = CAnimation::Create(this, m_pAIScene->mAnimations[i], true);
+		if (nullptr == pAnim)
+			return E_FAIL;
+
+		m_Animations.push_back(pAnim);
+	}
 	return S_OK;
 }
 
@@ -416,6 +445,9 @@ void CModel::Free()
 
 	for (auto& pBone : m_Bones)
 		Safe_Release(pBone);
+
+	for (auto& pAnimation : m_Animations)
+		Safe_Release(pAnimation);
 
 	m_Importer.FreeScene();
 }

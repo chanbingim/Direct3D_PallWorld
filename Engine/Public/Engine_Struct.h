@@ -79,4 +79,13 @@ namespace Engine
 		_float3		vPosition;
 		_float4		vColor;
 	}VTX_COL;
+
+	typedef struct tagKeyFrame
+	{
+		XMFLOAT3		vScale;
+		XMFLOAT4		vRotation;
+		XMFLOAT3		vTranslation;
+		float			fTrackPosition;
+	}KEYFRAME;
+
 }

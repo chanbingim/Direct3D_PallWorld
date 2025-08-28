@@ -35,6 +35,11 @@ _matrix CBone::GetCombinedTransformationMatrix()
     return XMLoadFloat4x4(&m_CombinedTransformationMatrix);
 }
 
+void CBone::SetBoneTransformMatrix(_matrix TransformMat)
+{
+    XMStoreFloat4x4(&m_TransformationMatrix, TransformMat);
+}
+
 _bool CBone::CompareName(const _char* pBoneName)
 {
     return !strcmp(pBoneName, m_szName);

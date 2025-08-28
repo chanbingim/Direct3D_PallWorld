@@ -5,6 +5,7 @@ NS_BEGIN(Engine)
 class CMesh;
 class CMaterial;
 class CBone;
+class CAnimation;
 
 class ENGINE_DLL CModel : public CComponent
 {
@@ -28,7 +29,7 @@ public :
 	_uInt						GetNumBones() const  { return m_iNumBones; }
 	_float4x4*					GetBoneMatrices(_uInt iMeshIndex);
 	
-	void						PlayAnimation(_float DeletaTime);
+	void						PlayAnimation(_uInt iCurrentAnimIndex, _float DeletaTime);
 
 	void						Export(const char* FilePath);
 
@@ -44,20 +45,26 @@ private :
 
 	// 매시 개수 및 매시 저장
 	_uInt						m_iNumMeshes = {};
-	vector<class CMesh*>		m_Meshes;
+	vector<CMesh*>				m_Meshes;
 
 	// 머테리얼 개수 및 머테리얼 저장
 	_uInt						m_iNumMaterials = {};
-	vector<class CMaterial*>	m_Materials;
+	vector<CMaterial*>			m_Materials;
 
 	// 뼈 개수 및 뼈 저장
 	_uInt						m_iNumBones = {};
-	vector<class CBone*>		m_Bones;
+	vector<CBone*>				m_Bones;
+
+	// 애니메이션 개수 및 애니메이션 저장
+	_Int						m_iCurrentAnimIndex = { -1 };
+	_uInt						m_iNumAnimations = {};
+	vector<CAnimation*>			m_Animations;
 
 private:
 	HRESULT						Ready_Meshes(_matrix PreModelMat = XMMatrixIdentity());
 	HRESULT						Ready_Materials(const _char* pModelFilePath);
 	HRESULT						Ready_Bones(const aiNode* pAINode, _Int iParentIndex);
+	HRESULT						Ready_Animations();
 
 	HRESULT						Ready_Meshes(void* MeshDesc, _matrix PreModelMat = XMMatrixIdentity());
 	HRESULT						Ready_Materials(void* MatrialDesc, const _char* pModelFilePath);

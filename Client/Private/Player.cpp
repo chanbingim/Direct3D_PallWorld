@@ -45,7 +45,7 @@ void CPlayer::Priority_Update(_float fDeletaTime)
 void CPlayer::Update(_float fDeletaTime)
 {
     __super::Update(fDeletaTime);
-    m_pVIBufferCom->PlayAnimation(fDeletaTime);
+    m_pVIBufferCom->PlayAnimation(14, fDeletaTime);
 }
 
 void CPlayer::Late_Update(_float fDeletaTime)

@@ -306,7 +306,7 @@
     <ClCompile Include="..\private\Animation.cpp">
       <Filter>Utility\Components\Model\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\CChannel.cpp">
+    <ClCompile Include="..\Private\Channel.cpp">
       <Filter>Utility\Components\Model\Animation\Channel</Filter>
     </ClCompile>
   </ItemGroup>

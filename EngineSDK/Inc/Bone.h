@@ -13,6 +13,7 @@ public:
 	void						UpdateCombinedTransformationMatrix(const vector<CBone*>& Bones, _matrix PreTransformMatrix);
 
 	_matrix						GetCombinedTransformationMatrix();
+	void						SetBoneTransformMatrix(_matrix TransformMat);
 	_bool						CompareName(const _char* pBoneName);
 
 private:
