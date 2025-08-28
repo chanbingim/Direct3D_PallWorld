@@ -303,6 +303,12 @@
     <ClCompile Include="..\private\Slider.cpp">
       <Filter>Utility\HeadUpDisplay\UserInterface\Slider</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\Animation.cpp">
+      <Filter>Utility\Components\Model\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CChannel.cpp">
+      <Filter>Utility\Components\Model\Animation\Channel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\Graphic_Device.h">
@@ -466,6 +472,12 @@
     </ClInclude>
     <ClInclude Include="..\public\Bone.h">
       <Filter>Utility\Components\Model\Bone</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Animation.h">
+      <Filter>Utility\Components\Model\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Channel.h">
+      <Filter>Utility\Components\Model\Animation\Channel</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
