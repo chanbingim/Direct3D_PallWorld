@@ -28,9 +28,9 @@ private :
 	_float2					m_iNumVertex = {};
 
 private :
+	HRESULT					CreateWICTerrian(const WCHAR* pHegithFilePath);
+	HRESULT					CreateBMPTerrian(const WCHAR* pHegithFilePath);
 	_bool					ComputeBoundingBox(CTransform* pTransform);
-
-
 
 public:
 	static		CVIBuffer_Terrian*	Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const WCHAR* pHegithFilePath);

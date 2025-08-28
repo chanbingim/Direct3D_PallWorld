@@ -63,13 +63,13 @@ void CTerrian::Update(_float fDeletaTime)
 		if (m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 0) ||
 			GetAsyncKeyState(VK_LBUTTON) & 0x8000)
 		{
-			m_pVIBufferCom->UpdateHegiht(m_pTransformCom, 0.5f, 2.f);
+			m_pVIBufferCom->UpdateHegiht(m_pTransformCom, 1.f, 2.f);
 		}
 
 		if (m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 1) ||
 			GetAsyncKeyState(VK_RBUTTON) & 0x8000)
 		{
-			m_pVIBufferCom->UpdateHegiht(m_pTransformCom, -0.5f, 2.f);
+			m_pVIBufferCom->UpdateHegiht(m_pTransformCom, -1.f, 2.f);
 		}
 	}
 #endif // _DEBUG

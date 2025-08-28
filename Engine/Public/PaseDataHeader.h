@@ -3,12 +3,38 @@
 
 namespace Engine
 {
+	typedef struct SaveLevelDesc
+	{
+
+
+	}SAVE_LEVEL_DESC;
+
 	typedef struct SaveBoneDesc
 	{
 		_char				szName[MAX_PATH];
 		_float4x4			TransformationMatrix;
 		_Int				iParentBoneIndex;
 	}SAVE_BONE_DESC;
+
+	typedef struct SaveChannelDesc
+	{
+
+
+
+
+
+	}SAVE_CHANNEL_DESC;
+
+
+	typedef struct SaveAnimationDesc
+	{
+
+
+
+
+
+	}SAVE_ANIMATION_DESC;
+
 
 	typedef struct SaveMeshDesc
 	{

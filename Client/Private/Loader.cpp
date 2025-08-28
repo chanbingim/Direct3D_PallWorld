@@ -364,7 +364,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian"), CVIBuffer_Terrian::Create(m_pDevice, m_pContext,
-		TEXT("../Bin/Resources/Textures/Map/HeightMap/Height1.bmp")))))
+		TEXT("../Bin/Resources/Textures/Map/HeightMap/Height.bmp")))))
 		return E_FAIL;
 #pragma endregion
 

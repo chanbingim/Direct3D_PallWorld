@@ -53,7 +53,7 @@ void CIMG_LandScape::Update(_float fDeletaTime)
         if (ImGui::Button("Create HeightMap"))
         {
             //여기서 어떤 곳에다가 저장할지 결정한다음 저장
-            CreateHeightMap();
+            CreateHeightMapToPng();
         }
             
 
@@ -107,7 +107,7 @@ void CIMG_LandScape::GenerateTerrian()
     }
 }
 
-void CIMG_LandScape::CreateHeightMap()
+void CIMG_LandScape::CreateHeightMapToPng()
 {
     WCHAR FilePath[MAX_PATH] = {};
     //현재 레벨에다가 추가

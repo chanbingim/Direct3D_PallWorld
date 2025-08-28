@@ -22,6 +22,7 @@ CModel::CModel(const CModel& rhs) :
 	m_iNumMeshes(rhs.m_iNumMeshes),
 	m_iNumMaterials(rhs.m_iNumMaterials),
 	m_Bones(rhs.m_Bones),
+	m_PreTransformMatrix(rhs.m_PreTransformMatrix),
 	m_Materials(rhs.m_Materials),
 	m_eType(rhs.m_eType)
 {

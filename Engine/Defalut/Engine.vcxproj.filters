@@ -157,11 +157,17 @@
     <Filter Include="Utility\HeadUpDisplay\UserInterface\Slider">
       <UniqueIdentifier>{6a65cec2-5834-4bb7-acc2-2a831b78905d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utility\Components\Model\Bone">
+      <UniqueIdentifier>{420f7817-c430-4178-aa2a-7a2e14d15388}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Utility\HeadUpDisplay\UserInterface\Slider\SilderButton">
       <UniqueIdentifier>{4ea96dca-a660-447d-b70f-ee4909d7dcb9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utility\Components\Model\Bone">
-      <UniqueIdentifier>{420f7817-c430-4178-aa2a-7a2e14d15388}</UniqueIdentifier>
+    <Filter Include="Utility\Components\Model\Animation">
+      <UniqueIdentifier>{54b414e3-5d68-4cb7-b464-e4fe36c0bf9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Model\Animation\Channel">
+      <UniqueIdentifier>{7e5fc024-8484-41f1-90bf-76137095b8d8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -288,14 +294,14 @@
     <ClCompile Include="..\Private\EditorCamera.cpp">
       <Filter>Utility\Object\EditorObject\EditorCamera</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Slider.cpp">
-      <Filter>Utility\HeadUpDisplay\UserInterface\Slider</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\SliderButton.cpp">
       <Filter>Utility\HeadUpDisplay\UserInterface\Slider\SilderButton</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Bone.cpp">
       <Filter>Utility\Components\Model\Bone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Slider.cpp">
+      <Filter>Utility\HeadUpDisplay\UserInterface\Slider</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

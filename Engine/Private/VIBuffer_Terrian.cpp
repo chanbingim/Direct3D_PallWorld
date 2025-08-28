@@ -1,6 +1,7 @@
 #include "VIBuffer_Terrian.h"
 
 #include "GameInstance.h"
+#include "StringHelper.h"
 
 CVIBuffer_Terrian::CVIBuffer_Terrian(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CVIBuffer(pDevice, pContext)
@@ -134,143 +135,23 @@ HRESULT CVIBuffer_Terrian::Initialize_Prototype(_uInt TileCnt)
 
 HRESULT CVIBuffer_Terrian::Initialize_Prototype(const WCHAR* pHegithFilePath)
 {
-	_ulong			dwByte = {};
-	HANDLE			hFile = CreateFile(pHegithFilePath, GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+	char		FilePath[MAX_PATH], szExtend[MAX_PATH];
 
-	BITMAPFILEHEADER			fh{};
-	BITMAPINFOHEADER			ih{};
+	CStringHelper::ConvertWideToUTF(pHegithFilePath, FilePath);
+	_splitpath_s(FilePath, nullptr, 0, nullptr, 0, nullptr, 0, szExtend, MAX_PATH);
 
-	if (!ReadFile(hFile, &fh, sizeof fh, &dwByte, nullptr))
-		return E_FAIL;
-
-	if (!ReadFile(hFile, &ih, sizeof ih, &dwByte, nullptr))
-		return E_FAIL;
-
-	m_iNumVertex.x = (_float)ih.biWidth;
-	m_iNumVertex.y = (_float)ih.biHeight;
-	m_iNumVertices = (_uInt)(m_iNumVertex.x * m_iNumVertex.y);
-
-	_uInt* pPixels = new _uInt[(_uInt)m_iNumVertices];
-	ZeroMemory(pPixels, size_t(sizeof(_uInt) * m_iNumVertices));
-
-	if (!ReadFile(hFile, pPixels, size_t(sizeof(_uInt) * m_iNumVertices), &dwByte, nullptr))
-		return E_FAIL;
-
-	m_iNumVertexBuffers = 1;
-
-	m_iVertexStride = sizeof(VTX_NORTEX);
-
-	m_iNumIndices = _uInt(m_iNumVertex.x - 1) * _uInt(m_iNumVertex.y - 1) * 2 * 3;
-	m_iIndexStride = 4;
-
-	m_eIndexFormat = DXGI_FORMAT_R32_UINT;
-	m_ePrimitive = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-
-#pragma region VERTEX_BUFFER
-	D3D11_BUFFER_DESC		VBDesc{};
-	VBDesc.ByteWidth = _uInt(m_iVertexStride * m_iNumVertices);
-	VBDesc.Usage = D3D11_USAGE_DEFAULT;
-	VBDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	VBDesc.StructureByteStride = m_iVertexStride;
-	VBDesc.CPUAccessFlags = 0;
-	VBDesc.MiscFlags = 0;
-
-	VTX_NORTEX* pVertices = new VTX_NORTEX[(_uInt)m_iNumVertices];
-	ZeroMemory(pVertices, size_t(sizeof(VTX_NORTEX) * m_iNumVertices));
-
-	m_pVertices = new _float3[(_uInt)m_iNumVertices];
-	ZeroMemory(m_pVertices, size_t(sizeof(_float3) * m_iNumVertices));
-
-	for (_float i = 0; i < m_iNumVertex.y; i++)
+	HRESULT hr = {};
+	if (!strcmp(szExtend, ".png"))
+		hr = CreateWICTerrian(pHegithFilePath);
+	else if (!strcmp(szExtend, ".tga"))
 	{
-		for (_float j = 0; j < m_iNumVertex.x; j++)
-		{
-			_uInt		iIndex = _uInt(i * m_iNumVertex.x + j);
-
-			m_pVertices[iIndex] = pVertices[iIndex].vPosition = _float3(j, pPixels[iIndex] / 10.f, i);
-			pVertices[iIndex].vNormal = _float3(0.f, 0.f, 0.f);
-			pVertices[iIndex].vTexcoord = _float2(j / (m_iNumVertex.x - 1.f), i / (m_iNumVertex.y - 1.f));
-		}
+		MSG_BOX("NOT READ FILE");
+		hr = E_FAIL;
 	}
+	else
+		hr = CreateBMPTerrian(pHegithFilePath);
 
-	D3D11_SUBRESOURCE_DATA	InitialVBData{};
-	InitialVBData.pSysMem = pVertices;
-#pragma endregion
-
-#pragma region INDEX_BUFFER
-	D3D11_BUFFER_DESC		IBDesc{};
-	IBDesc.ByteWidth = m_iIndexStride * m_iNumIndices;
-	IBDesc.Usage = D3D11_USAGE_DEFAULT;
-	IBDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	IBDesc.StructureByteStride = m_iIndexStride;
-	IBDesc.CPUAccessFlags = 0;
-	IBDesc.MiscFlags = 0;
-
-	_uInt* pIndices = new _uInt[m_iNumIndices];
-	ZeroMemory(pIndices, sizeof(_uInt) * m_iNumIndices);
-	_uInt		iNumIndices = {};
-
-	for (_float i = 0; i < m_iNumVertex.y - 1; i++)
-	{
-		for (_float j = 0; j < m_iNumVertex.x - 1; j++)
-		{
-			_uInt		iIndex = _uInt(i * m_iNumVertex.x + j);
-
-			_uInt		iIndices[4] = {
-				iIndex + (_uInt)m_iNumVertex.x,
-				iIndex + (_uInt)m_iNumVertex.x + 1,
-				iIndex + 1,
-				iIndex
-			};
-
-			_vector		vSourDir, vDestDir, vNormal;
-
-			pIndices[iNumIndices++] = iIndices[0];
-			pIndices[iNumIndices++] = iIndices[1];
-			pIndices[iNumIndices++] = iIndices[2];
-
-			vSourDir = XMLoadFloat3(&pVertices[iIndices[1]].vPosition) - XMLoadFloat3(&pVertices[iIndices[0]].vPosition);
-			vDestDir = XMLoadFloat3(&pVertices[iIndices[2]].vPosition) - XMLoadFloat3(&pVertices[iIndices[1]].vPosition);
-			vNormal = XMVector3Normalize(XMVector3Cross(vSourDir, vDestDir));
-
-			XMStoreFloat3(&pVertices[iIndices[0]].vNormal, XMLoadFloat3(&pVertices[iIndices[0]].vNormal) + vNormal);
-			XMStoreFloat3(&pVertices[iIndices[1]].vNormal, XMLoadFloat3(&pVertices[iIndices[1]].vNormal) + vNormal);
-			XMStoreFloat3(&pVertices[iIndices[2]].vNormal, XMLoadFloat3(&pVertices[iIndices[2]].vNormal) + vNormal);
-
-			pIndices[iNumIndices++] = iIndices[0];
-			pIndices[iNumIndices++] = iIndices[2];
-			pIndices[iNumIndices++] = iIndices[3];
-
-			vSourDir = XMLoadFloat3(&pVertices[iIndices[2]].vPosition) - XMLoadFloat3(&pVertices[iIndices[0]].vPosition);
-			vDestDir = XMLoadFloat3(&pVertices[iIndices[3]].vPosition) - XMLoadFloat3(&pVertices[iIndices[2]].vPosition);
-			vNormal = XMVector3Normalize(XMVector3Cross(vSourDir, vDestDir));
-
-			XMStoreFloat3(&pVertices[iIndices[0]].vNormal, XMLoadFloat3(&pVertices[iIndices[0]].vNormal) + vNormal);
-			XMStoreFloat3(&pVertices[iIndices[2]].vNormal, XMLoadFloat3(&pVertices[iIndices[2]].vNormal) + vNormal);
-			XMStoreFloat3(&pVertices[iIndices[3]].vNormal, XMLoadFloat3(&pVertices[iIndices[3]].vNormal) + vNormal);
-		}
-	}
-
-	for (size_t i = 0; i < m_iNumVertices; i++)
-		XMStoreFloat3(&pVertices[i].vNormal, XMVector3Normalize(XMLoadFloat3(&pVertices[i].vNormal)));
-
-	D3D11_SUBRESOURCE_DATA	InitialIBData{};
-	InitialIBData.pSysMem = pIndices;
-#pragma endregion
-
-	if (FAILED(m_pDevice->CreateBuffer(&VBDesc, &InitialVBData, &m_pVertexBuffer)))
-		return E_FAIL;
-
-	if (FAILED(m_pDevice->CreateBuffer(&IBDesc, &InitialIBData, &m_pIndexBuffer)))
-		return E_FAIL;
-
-	Safe_Delete_Array(pVertices);
-	Safe_Delete_Array(pIndices);
-
-	Safe_Delete_Array(pPixels);
-	CloseHandle(hFile);
-
-    return S_OK;
+    return hr;
 }
 
 HRESULT CVIBuffer_Terrian::Initialize(void* pArg)
@@ -286,46 +167,46 @@ void CVIBuffer_Terrian::Render_VIBuffer()
 
 HRESULT CVIBuffer_Terrian::ExportHeightMap(const WCHAR* ExportFilePath)
 {
-	//WCHAR       Extension[MAX_PATH] = {};
-	//WCHAR       FileName[MAX_PATH] = {};
-	//_wsplitpath_s(ExportFilePath, nullptr, 0, nullptr, 0, FileName, MAX_PATH, Extension, MAX_PATH);
-	//wsprintf(FileName, TEXT("%s%s"), FileName, Extension);
-
-	ID3D11Texture2D* pTexture2D = nullptr;
+	ID3D11Texture2D* pSaveTex = nullptr;
 	D3D11_TEXTURE2D_DESC TexDesc = {};
-
-	TexDesc.Width = (_uInt)m_iNumVertex.x;
-	TexDesc.Height = (_uInt)m_iNumVertex.y;
+	TexDesc.Width = m_iNumVertex.x;
+	TexDesc.Height = m_iNumVertex.y;
 	TexDesc.MipLevels = 1;
 	TexDesc.ArraySize = 1;
-	TexDesc.Format = DXGI_FORMAT_R32_FLOAT;
+	TexDesc.SampleDesc.Count = 1;
+	TexDesc.SampleDesc.Quality = 0;
 
 	TexDesc.Usage = D3D11_USAGE_DEFAULT;
+	TexDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	TexDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 	TexDesc.CPUAccessFlags = 0;
-	TexDesc.SampleDesc.Count = 1;
+	TexDesc.MiscFlags = 0;
 
-	m_pDevice->CreateTexture2D(&TexDesc, nullptr, &pTexture2D);
+	unsigned __int8* pPixel = new unsigned __int8[m_iNumVertices * 4];
+	for (_uInt i = 0; i < m_iNumVertex.y; ++i)
+	{
+		for (_uInt j = 0; j < m_iNumVertex.x; ++j)
+		{
+			_uInt iIndex = i * m_iNumVertex.x + j;
+			_uInt iPixelIndex = iIndex * 4;
 
-	float* pData = new float[m_iNumVertices];
-	for (_uInt i = 0; i < m_iNumVertices; ++i)
-		pData[i] = m_pVertices[i].y;
+			pPixel[iPixelIndex] = m_pVertices[iIndex].y;
+			pPixel[iPixelIndex + 1] = m_pVertices[iIndex].y;
+			pPixel[iPixelIndex + 2] = m_pVertices[iIndex].y;
+			pPixel[iPixelIndex + 3] = 255;
+		}
+	}
+	D3D11_SUBRESOURCE_DATA SubData;
+	
+	SubData.pSysMem = pPixel;
+	SubData.SysMemPitch = sizeof(_uInt) * m_iNumVertex.x;
+	SubData.SysMemSlicePitch = 0;
+	if (FAILED(m_pDevice->CreateTexture2D(&TexDesc, &SubData, &pSaveTex)))
+		return E_FAIL;
 
-	m_pContext->UpdateSubresource(
-		pTexture2D,							// GPU 텍스처
-		0,									// Subresource
-		nullptr,							// Box (전체 복사)
-		pData,								// CPU 데이터
-		(_uInt)(m_iNumVertex.x * sizeof(_float)),	// RowPitch
-		0									// DepthPitch
-	);
-
-	SaveWICTextureToFile(m_pContext, pTexture2D,
-						 GUID_ContainerFormatPng,
-						 ExportFilePath);
-
-	Safe_Release(pTexture2D);
-	Safe_Delete_Array(pData);
+	SaveWICTextureToFile(m_pContext, pSaveTex, GUID_ContainerFormatPng, ExportFilePath);
+	Safe_Delete_Array(pPixel);
+	Safe_Release(pSaveTex);
 
 	return S_OK;
 }
@@ -477,6 +358,295 @@ HRESULT CVIBuffer_Terrian::UpdateHegiht(CTransform* pTransform, _float Apply, _f
 	}
 	
 	return E_FAIL;
+}
+
+HRESULT CVIBuffer_Terrian::CreateWICTerrian(const WCHAR* pHegithFilePath)
+{
+	ID3D11ShaderResourceView* newResource = nullptr;
+	ID3D11Resource* HeightMapData = nullptr;
+	if(FAILED(CreateWICTextureFromFile(m_pDevice, pHegithFilePath, &HeightMapData, &newResource)))
+		return E_FAIL;
+
+	ID3D11Texture2D* pTexHeight = static_cast<ID3D11Texture2D*>(HeightMapData);
+	D3D11_TEXTURE2D_DESC TexDesc = {};
+	pTexHeight->GetDesc(&TexDesc);
+
+	m_iNumVertex.x = (_float)TexDesc.Width;
+	m_iNumVertex.y = (_float)TexDesc.Height;
+	m_iNumVertices = (_uInt)(m_iNumVertex.x * m_iNumVertex.y);
+	m_iNumVertexBuffers = 1;
+
+	m_iVertexStride = sizeof(VTX_NORTEX);
+
+	m_iNumIndices = _uInt(m_iNumVertex.x - 1) * _uInt(m_iNumVertex.y - 1) * 2 * 3;
+	m_iIndexStride = 4;
+
+	m_eIndexFormat = DXGI_FORMAT_R32_UINT;
+	m_ePrimitive = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+
+#pragma region VERTEX_BUFFER
+	D3D11_BUFFER_DESC		VBDesc{};
+	VBDesc.ByteWidth = _uInt(m_iVertexStride * m_iNumVertices);
+	VBDesc.Usage = D3D11_USAGE_DEFAULT;
+	VBDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	VBDesc.StructureByteStride = m_iVertexStride;
+	VBDesc.CPUAccessFlags = 0;
+	VBDesc.MiscFlags = 0;
+
+	VTX_NORTEX* pVertices = new VTX_NORTEX[(_uInt)m_iNumVertices];
+	ZeroMemory(pVertices, size_t(sizeof(VTX_NORTEX) * m_iNumVertices));
+
+	m_pVertices = new _float3[(_uInt)m_iNumVertices];
+	ZeroMemory(m_pVertices, size_t(sizeof(_float3) * m_iNumVertices));
+
+	ID3D11Texture2D* pStagingTex = nullptr;
+	TexDesc.MipLevels = 1;
+	TexDesc.ArraySize = 1;
+
+	TexDesc.Usage = D3D11_USAGE_STAGING;
+	TexDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+	TexDesc.BindFlags = 0;
+
+	m_pDevice->CreateTexture2D(&TexDesc, nullptr, &pStagingTex);
+	m_pContext->CopyResource(pStagingTex, pTexHeight);
+
+	D3D11_MAPPED_SUBRESOURCE Map;
+	if (S_OK == m_pContext->Map(pStagingTex, 0, D3D11_MAP_READ, 0, &Map))
+	{
+		_uInt* pPixels = reinterpret_cast<_uInt*>(Map.pData);
+		for (_float i = 0; i < m_iNumVertex.y; i++)
+		{
+			for (_float j = 0; j < m_iNumVertex.x; j++)
+			{
+				_uInt		iIndex = _uInt(i * m_iNumVertex.x + j);
+
+				m_pVertices[iIndex] = pVertices[iIndex].vPosition = _float3(j, (pPixels[iIndex] & 0x000000ff), i);
+				pVertices[iIndex].vNormal = _float3(0.f, 0.f, 0.f);
+				pVertices[iIndex].vTexcoord = _float2(j / (m_iNumVertex.x - 1.f), i / (m_iNumVertex.y - 1.f));
+			}
+		}
+	}
+	m_pContext->Unmap(pStagingTex, 0);
+	Safe_Release(pStagingTex);
+	Safe_Release(HeightMapData);
+	Safe_Release(newResource);
+
+	D3D11_SUBRESOURCE_DATA	InitialVBData{};
+	InitialVBData.pSysMem = pVertices;
+#pragma endregion
+
+#pragma region INDEX_BUFFER
+	D3D11_BUFFER_DESC		IBDesc{};
+	IBDesc.ByteWidth = m_iIndexStride * m_iNumIndices;
+	IBDesc.Usage = D3D11_USAGE_DEFAULT;
+	IBDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	IBDesc.StructureByteStride = m_iIndexStride;
+	IBDesc.CPUAccessFlags = 0;
+	IBDesc.MiscFlags = 0;
+
+	_uInt* pIndices = new _uInt[m_iNumIndices];
+	ZeroMemory(pIndices, sizeof(_uInt) * m_iNumIndices);
+	_uInt		iNumIndices = {};
+
+	for (_float i = 0; i < m_iNumVertex.y - 1; i++)
+	{
+		for (_float j = 0; j < m_iNumVertex.x - 1; j++)
+		{
+			_uInt		iIndex = _uInt(i * m_iNumVertex.x + j);
+
+			_uInt		iIndices[4] = {
+				iIndex + (_uInt)m_iNumVertex.x,
+				iIndex + (_uInt)m_iNumVertex.x + 1,
+				iIndex + 1,
+				iIndex
+			};
+
+			_vector		vSourDir, vDestDir, vNormal;
+
+			pIndices[iNumIndices++] = iIndices[0];
+			pIndices[iNumIndices++] = iIndices[1];
+			pIndices[iNumIndices++] = iIndices[2];
+
+			vSourDir = XMLoadFloat3(&pVertices[iIndices[1]].vPosition) - XMLoadFloat3(&pVertices[iIndices[0]].vPosition);
+			vDestDir = XMLoadFloat3(&pVertices[iIndices[2]].vPosition) - XMLoadFloat3(&pVertices[iIndices[1]].vPosition);
+			vNormal = XMVector3Normalize(XMVector3Cross(vSourDir, vDestDir));
+
+			XMStoreFloat3(&pVertices[iIndices[0]].vNormal, XMLoadFloat3(&pVertices[iIndices[0]].vNormal) + vNormal);
+			XMStoreFloat3(&pVertices[iIndices[1]].vNormal, XMLoadFloat3(&pVertices[iIndices[1]].vNormal) + vNormal);
+			XMStoreFloat3(&pVertices[iIndices[2]].vNormal, XMLoadFloat3(&pVertices[iIndices[2]].vNormal) + vNormal);
+
+			pIndices[iNumIndices++] = iIndices[0];
+			pIndices[iNumIndices++] = iIndices[2];
+			pIndices[iNumIndices++] = iIndices[3];
+
+			vSourDir = XMLoadFloat3(&pVertices[iIndices[2]].vPosition) - XMLoadFloat3(&pVertices[iIndices[0]].vPosition);
+			vDestDir = XMLoadFloat3(&pVertices[iIndices[3]].vPosition) - XMLoadFloat3(&pVertices[iIndices[2]].vPosition);
+			vNormal = XMVector3Normalize(XMVector3Cross(vSourDir, vDestDir));
+
+			XMStoreFloat3(&pVertices[iIndices[0]].vNormal, XMLoadFloat3(&pVertices[iIndices[0]].vNormal) + vNormal);
+			XMStoreFloat3(&pVertices[iIndices[2]].vNormal, XMLoadFloat3(&pVertices[iIndices[2]].vNormal) + vNormal);
+			XMStoreFloat3(&pVertices[iIndices[3]].vNormal, XMLoadFloat3(&pVertices[iIndices[3]].vNormal) + vNormal);
+		}
+	}
+
+	for (size_t i = 0; i < m_iNumVertices; i++)
+		XMStoreFloat3(&pVertices[i].vNormal, XMVector3Normalize(XMLoadFloat3(&pVertices[i].vNormal)));
+
+	D3D11_SUBRESOURCE_DATA	InitialIBData{};
+	InitialIBData.pSysMem = pIndices;
+#pragma endregion
+
+	if (FAILED(m_pDevice->CreateBuffer(&VBDesc, &InitialVBData, &m_pVertexBuffer)))
+		return E_FAIL;
+
+	if (FAILED(m_pDevice->CreateBuffer(&IBDesc, &InitialIBData, &m_pIndexBuffer)))
+		return E_FAIL;
+
+	Safe_Delete_Array(pVertices);
+	Safe_Delete_Array(pIndices);
+	return S_OK;
+}
+
+HRESULT CVIBuffer_Terrian::CreateBMPTerrian(const WCHAR* pHegithFilePath)
+{
+	_ulong			dwByte = {};
+	HANDLE			hFile = CreateFile(pHegithFilePath, GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+
+	BITMAPFILEHEADER			fh{};
+	BITMAPINFOHEADER			ih{};
+
+	ReadFile(hFile, &fh, sizeof fh, &dwByte, nullptr);
+	ReadFile(hFile, &ih, sizeof ih, &dwByte, nullptr);
+
+	m_iNumVertex.x = ih.biWidth;
+	m_iNumVertex.y = ih.biHeight;
+	m_iNumVertices = m_iNumVertex.x * m_iNumVertex.y;
+
+	_uInt* pPixels = new _uInt[m_iNumVertices];
+	ZeroMemory(pPixels, sizeof(_uInt) * m_iNumVertices);
+
+	ReadFile(hFile, pPixels, sizeof(_uInt) * m_iNumVertices, &dwByte, nullptr);
+
+	m_iNumVertexBuffers = 1;
+
+	m_iVertexStride = sizeof(VTX_NORTEX);
+
+	m_iNumIndices = (m_iNumVertex.x - 1) * (m_iNumVertex.y - 1) * 2 * 3;
+	m_iIndexStride = 4;
+
+	m_eIndexFormat = DXGI_FORMAT_R32_UINT;
+	m_ePrimitive = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+
+#pragma region VERTEX_BUFFER
+	D3D11_BUFFER_DESC		VBDesc{};
+	VBDesc.ByteWidth = m_iVertexStride * m_iNumVertices;
+	VBDesc.Usage = D3D11_USAGE_DEFAULT;
+	VBDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	VBDesc.StructureByteStride = m_iVertexStride;
+	VBDesc.CPUAccessFlags = 0;
+	VBDesc.MiscFlags = 0;
+
+	VTX_NORTEX* pVertices = new VTX_NORTEX[m_iNumVertices];
+	ZeroMemory(pVertices, sizeof(VTX_NORTEX) * m_iNumVertices);
+
+	m_pVertices = new _float3[m_iNumVertices];
+	ZeroMemory(m_pVertices, sizeof(_float3) * m_iNumVertices);
+
+	for (size_t i = 0; i < m_iNumVertex.y; i++)
+	{
+		for (size_t j = 0; j < m_iNumVertex.x; j++)
+		{
+			_uInt		iIndex = i * m_iNumVertex.x + j;
+
+			m_pVertices[iIndex] = pVertices[iIndex].vPosition = _float3(j, (pPixels[iIndex] & 0x000000ff) / 10.f, i);
+			pVertices[iIndex].vNormal = _float3(0.f, 0.f, 0.f);
+			pVertices[iIndex].vTexcoord = _float2(j / (m_iNumVertex.x - 1.f), i / (m_iNumVertex.y - 1.f));
+		}
+	}
+
+	D3D11_SUBRESOURCE_DATA	InitialVBData{};
+	InitialVBData.pSysMem = pVertices;
+#pragma endregion
+
+#pragma region INDEX_BUFFER
+	D3D11_BUFFER_DESC		IBDesc{};
+	IBDesc.ByteWidth = m_iIndexStride * m_iNumIndices;
+	IBDesc.Usage = D3D11_USAGE_DEFAULT;
+	IBDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	IBDesc.StructureByteStride = m_iIndexStride;
+	IBDesc.CPUAccessFlags = 0;
+	IBDesc.MiscFlags = 0;
+
+
+	_uInt* pIndices = new _uInt[m_iNumIndices];
+	ZeroMemory(pIndices, sizeof(_uInt) * m_iNumIndices);
+
+	_uInt		iNumIndices = {};
+
+	for (size_t i = 0; i < m_iNumVertex.y - 1; i++)
+	{
+		for (size_t j = 0; j < m_iNumVertex.x - 1; j++)
+		{
+			_uInt		iIndex = i * m_iNumVertex.x + j;
+
+			_uInt		iIndices[4] = {
+				iIndex + m_iNumVertex.x,
+				iIndex + m_iNumVertex.x + 1,
+				iIndex + 1,
+				iIndex
+			};
+
+			_vector		vSourDir, vDestDir, vNormal;
+
+			pIndices[iNumIndices++] = iIndices[0];
+			pIndices[iNumIndices++] = iIndices[1];
+			pIndices[iNumIndices++] = iIndices[2];
+
+			vSourDir = XMLoadFloat3(&pVertices[iIndices[1]].vPosition) - XMLoadFloat3(&pVertices[iIndices[0]].vPosition);
+			vDestDir = XMLoadFloat3(&pVertices[iIndices[2]].vPosition) - XMLoadFloat3(&pVertices[iIndices[1]].vPosition);
+			vNormal = XMVector3Normalize(XMVector3Cross(vSourDir, vDestDir));
+
+			XMStoreFloat3(&pVertices[iIndices[0]].vNormal, XMLoadFloat3(&pVertices[iIndices[0]].vNormal) + vNormal);
+			XMStoreFloat3(&pVertices[iIndices[1]].vNormal, XMLoadFloat3(&pVertices[iIndices[1]].vNormal) + vNormal);
+			XMStoreFloat3(&pVertices[iIndices[2]].vNormal, XMLoadFloat3(&pVertices[iIndices[2]].vNormal) + vNormal);
+
+			pIndices[iNumIndices++] = iIndices[0];
+			pIndices[iNumIndices++] = iIndices[2];
+			pIndices[iNumIndices++] = iIndices[3];
+
+			vSourDir = XMLoadFloat3(&pVertices[iIndices[2]].vPosition) - XMLoadFloat3(&pVertices[iIndices[0]].vPosition);
+			vDestDir = XMLoadFloat3(&pVertices[iIndices[3]].vPosition) - XMLoadFloat3(&pVertices[iIndices[2]].vPosition);
+			vNormal = XMVector3Normalize(XMVector3Cross(vSourDir, vDestDir));
+
+			XMStoreFloat3(&pVertices[iIndices[0]].vNormal, XMLoadFloat3(&pVertices[iIndices[0]].vNormal) + vNormal);
+			XMStoreFloat3(&pVertices[iIndices[2]].vNormal, XMLoadFloat3(&pVertices[iIndices[2]].vNormal) + vNormal);
+			XMStoreFloat3(&pVertices[iIndices[3]].vNormal, XMLoadFloat3(&pVertices[iIndices[3]].vNormal) + vNormal);
+		}
+	}
+
+	for (size_t i = 0; i < m_iNumVertices; i++)
+	{
+		XMStoreFloat3(&pVertices[i].vNormal,
+			XMVector3Normalize(XMLoadFloat3(&pVertices[i].vNormal)));
+	}
+
+	D3D11_SUBRESOURCE_DATA	InitialIBData{};
+	InitialIBData.pSysMem = pIndices;
+#pragma endregion
+
+	if (FAILED(m_pDevice->CreateBuffer(&VBDesc, &InitialVBData, &m_pVertexBuffer)))
+		return E_FAIL;
+
+	if (FAILED(m_pDevice->CreateBuffer(&IBDesc, &InitialIBData, &m_pIndexBuffer)))
+		return E_FAIL;
+
+	Safe_Delete_Array(pVertices);
+	Safe_Delete_Array(pIndices);
+
+	Safe_Delete_Array(pPixels);
+	CloseHandle(hFile);
+
+	return S_OK;
 }
 
 _bool CVIBuffer_Terrian::ComputeBoundingBox(CTransform* pTransform)
