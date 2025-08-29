@@ -22,7 +22,7 @@ public:
 	_float4x4*				GetMeshBoneMatrices(const vector<CBone*>& Bones);
 
 	HRESULT					Export(void* pOut);
-
+	HRESULT					AnimExport(void* pOut);
 private :
 	// 메시의 이름을 보관해둔다.
 	_char					m_szMeshName[MAX_PATH] = {};

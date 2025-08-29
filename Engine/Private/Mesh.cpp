@@ -21,7 +21,6 @@ HRESULT CMesh::Initialize_Prototype(MODEL_TYPE eType, const CModel* pModel, cons
 	//정점의 수를 꺼내와서 저장
 	m_iNumVertices = pAIMesh->mNumVertices;
 	m_iMateriaIndex = pAIMesh->mMaterialIndex;
-
 	
 
 	//삼각형의 개수를 꺼내와서 저장
@@ -232,6 +231,76 @@ HRESULT CMesh::Export(void* pOut)
 	}
 	Safe_Release(StagingBuffer);
 
+	return S_OK;
+}
+
+HRESULT CMesh::AnimExport(void* pOut)
+{
+	if (nullptr == pOut)
+		return E_FAIL;
+
+	SAVE_ANIM_MESH_DESC* MeshDesc = static_cast<SAVE_ANIM_MESH_DESC*>(pOut);
+	MeshDesc->iNumVertices = m_iNumVertices;
+	MeshDesc->iNumFaces = m_iNumIndices / 3;
+	MeshDesc->iNumMaterialIndex = m_iMateriaIndex;
+
+	ID3D11Buffer* StagingBuffer = nullptr;
+
+	//버퍼 세팅
+	D3D11_BUFFER_DESC			VertexDesc = {};
+	VertexDesc.ByteWidth = m_iVertexStride * m_iNumVertices;
+	VertexDesc.Usage = D3D11_USAGE_STAGING;
+	VertexDesc.BindFlags = 0;
+	VertexDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+	VertexDesc.MiscFlags = 0;
+	VertexDesc.StructureByteStride = m_iVertexStride;
+	m_pDevice->CreateBuffer(&VertexDesc, nullptr, &StagingBuffer);
+
+	if (StagingBuffer)
+	{
+		m_pContext->CopyResource(StagingBuffer, m_pVertexBuffer);
+
+		D3D11_MAPPED_SUBRESOURCE VerticesMap;
+		if (S_OK == m_pContext->Map(StagingBuffer, 0, D3D11_MAP_READ, 0, &VerticesMap))
+		{
+			VTX_ANIM_MESH* pVertices = reinterpret_cast<VTX_ANIM_MESH*>(VerticesMap.pData);
+			for (_uInt i = 0; i < m_iNumVertices; ++i)
+				MeshDesc->Vertices.push_back(pVertices[i]);
+
+			m_pContext->Unmap(StagingBuffer, 0);
+		}
+	}
+	Safe_Release(StagingBuffer);
+
+	//버퍼 세팅
+	D3D11_BUFFER_DESC			IndexDesc = {};
+	IndexDesc.ByteWidth = m_iIndexStride * m_iNumIndices;
+	IndexDesc.Usage = D3D11_USAGE_STAGING;
+	IndexDesc.BindFlags = 0;
+	IndexDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+	IndexDesc.MiscFlags = 0;
+	IndexDesc.StructureByteStride = m_iIndexStride;
+	m_pDevice->CreateBuffer(&IndexDesc, nullptr, &StagingBuffer);
+
+	if (StagingBuffer)
+	{
+		m_pContext->CopyResource(StagingBuffer, m_pIndexBuffer);
+
+		D3D11_MAPPED_SUBRESOURCE IndicesMap;
+		if (S_OK == m_pContext->Map(StagingBuffer, 0, D3D11_MAP_READ, 0, &IndicesMap))
+		{
+			_uInt* pIndices = reinterpret_cast<_uInt*>(IndicesMap.pData);
+			for (_uInt i = 0; i < m_iNumIndices; ++i)
+				MeshDesc->Indices.push_back(pIndices[i]);
+
+			m_pContext->Unmap(StagingBuffer, 0);
+		}
+	}
+	Safe_Release(StagingBuffer);
+
+	MeshDesc->iNumBones = m_iNumBones;
+	MeshDesc->BoneIndices = m_BoneIndices;
+	MeshDesc->OffsetMatrices = m_OffsetMatrices;
 	return S_OK;
 }
 

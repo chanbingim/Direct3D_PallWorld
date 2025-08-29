@@ -1,5 +1,6 @@
 #include "Animation.h"
 
+#include "PaseDataHeader.h"
 #include "Channel.h"
 #include "Model.h"
 
@@ -45,6 +46,26 @@ void CAnimation::UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTim
 _bool CAnimation::CompareAnimName(const char* szName)
 {
 	return !strcmp(szName, m_szAnimName);
+}
+
+void CAnimation::Export(void* pAnimationDesc)
+{
+	SAVE_ANIMATION_DESC* AnimDesc = static_cast<SAVE_ANIMATION_DESC *>(pAnimationDesc);
+
+	strcpy_s(AnimDesc->szAnimName, m_szAnimName);
+	AnimDesc->fLength = m_fLength;
+	AnimDesc->fTickPerSecond = m_fTickPerSecond;
+	AnimDesc->iNumChannels = m_iNumChannels;
+	AnimDesc->bIsLoop = m_bIsLoop;
+	
+	AnimDesc->Channels.reserve(m_iNumChannels);
+	for (_uInt i = 0; i < m_iNumChannels; ++i)
+	{
+		SAVE_CHANNEL_DESC ChannelDesc = {};
+		m_Channels[i]->Export(&ChannelDesc);
+
+		AnimDesc->Channels.push_back(ChannelDesc);
+	}
 }
 
 CAnimation* CAnimation::Create(const CModel* pModel, const aiAnimation* pAIAnimation, _bool bIsLoop)

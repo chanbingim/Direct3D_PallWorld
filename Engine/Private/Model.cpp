@@ -167,37 +167,30 @@ void CModel::PlayAnimation(_uInt iCurrentAnimIndex, _float DeletaTime)
 
 void CModel::Export(const char* FilePath)
 {
-	SAVE_MODEL_DESC ExportData;
-
-	//데이터를 여기서 구조체로 만들어서 Export한다.
-	// 
-	//Mesh Data Export
-	ExportData.iNumMeshes = m_iNumMeshes;
-	ExportData.MeshDesc.reserve(ExportData.iNumMeshes);
-	for (auto iter : m_Meshes)
+	if (MODEL_TYPE::NONANIM == m_eType)
 	{
-		SAVE_MESH_DESC	MeshDesc;
-		if (FAILED(iter->Export(&MeshDesc)))
-			continue;
-		else
-			ExportData.MeshDesc.push_back(MeshDesc);
-	}
+		SAVE_MODEL_DESC ExportData;
+		//데이터를 여기서 구조체로 만들어서 Export한다.
+		// 
+		//Mesh Data Export
+		ExportNonAnim(&ExportData);
 
-	//Matrial Data Export
-	ExportData.iNumMaterials = m_iNumMaterials;
-	ExportData.MatrialDesc.reserve(ExportData.iNumMaterials);
-	for (auto iter : m_Materials)
+		//여기서 직렬화
+		if (FAILED(SaveModelFile(&ExportData, FilePath)))
+			MSG_BOX("SAVE FAIL : MODEL DATA");
+	}
+	else
 	{
-		SAVE_MATERIAL_DESC MatrialDesc;
-		if(FAILED(iter->Export(&MatrialDesc)))
-			continue;
-		else
-			ExportData.MatrialDesc.push_back(MatrialDesc);
-	}
+		SAVE_ANIM_MODEL_DESC ExportData;
+		//데이터를 여기서 구조체로 만들어서 Export한다.
+		// 
+		//Mesh Data Export
+		ExportAnim(&ExportData);
 
-	//여기서 직렬화
-	if (FAILED(SaveModelFile(&ExportData, FilePath)))
-		MSG_BOX("SAVE FAIL : MODEL DATA");
+		//여기서 직렬화
+		if (FAILED(SaveAnimModelFile(&ExportData, FilePath)))
+			MSG_BOX("SAVE FAIL : ANIM MODEL DATA");
+	}
 }
 
 HRESULT CModel::Ready_Meshes(_matrix PreModelMat)
@@ -291,6 +284,16 @@ HRESULT CModel::Ready_Materials(void* MatrialDesc, const _char* pModelFilePath)
 	return S_OK;
 }
 
+HRESULT CModel::Ready_Bones(void* BoneDesc)
+{
+	return S_OK;
+}
+
+HRESULT CModel::Ready_Animations(void* AnimationDesc)
+{
+	return S_OK;
+}
+
 HRESULT CModel::SaveModelFile(void* Data, const char* FilePath)
 {
 	if (nullptr == Data)
@@ -329,6 +332,83 @@ HRESULT CModel::SaveModelFile(void* Data, const char* FilePath)
 					CStringHelper::ConvertWideToUTF(ResourcePath.c_str(), ResoucePath);
 					file.write(ResoucePath, MAX_PATH);
 				}
+			}
+		}
+	}
+
+	file.close();
+	return S_OK;
+}
+
+HRESULT CModel::SaveAnimModelFile(void* Data, const char* FilePath)
+{
+	if (nullptr == Data)
+		return E_FAIL;
+
+	SAVE_ANIM_MODEL_DESC ExportData = *static_cast<SAVE_ANIM_MODEL_DESC*>(Data);
+	ios_base::openmode flag;
+	flag = ios::out | ios::trunc | ios::binary;
+	char ResoucePath[MAX_PATH] = {};
+
+	ofstream file(FilePath, flag);
+	if (file.is_open())
+	{
+		file.write(reinterpret_cast<char*>(&ExportData.iNumMeshes), sizeof(_uInt));
+		for (auto& MeshDesc : ExportData.MeshDesc)
+		{
+			file.write(reinterpret_cast<char*>(&MeshDesc.iNumVertices), sizeof(_uInt));
+			file.write(reinterpret_cast<char*>(&MeshDesc.iNumFaces), sizeof(_uInt));
+			file.write(reinterpret_cast<char*>(&MeshDesc.iNumMaterialIndex), sizeof(_uInt));
+			for (VTX_ANIM_MESH& Vertex : MeshDesc.Vertices)
+				file.write(reinterpret_cast<char*>(&Vertex), sizeof(VTX_MESH));
+
+			for (_uInt& Index : MeshDesc.Indices)
+				file.write(reinterpret_cast<char*>(&Index), sizeof(_uInt));
+
+			for (_uInt& Index : MeshDesc.BoneIndices)
+				file.write(reinterpret_cast<char*>(&Index), sizeof(_uInt));
+
+			for (_float4x4& OffsetMatrix : MeshDesc.OffsetMatrices)
+				file.write(reinterpret_cast<char*>(&OffsetMatrix), sizeof(_float4x4));
+		}
+
+		file.write(reinterpret_cast<char*>(&ExportData.iNumMaterials), sizeof(_uInt));
+		for (auto& MatrialDesc : ExportData.MatrialDesc)
+		{
+			file.write(reinterpret_cast<char*>(&MatrialDesc.iTextureTypeMax), sizeof(_uInt));
+			for (auto& TextureType : MatrialDesc.TextureType)
+			{
+				file.write(reinterpret_cast<char*>(&TextureType.iNumShaderResourceView), sizeof(_uInt));
+				for (auto& ResourcePath : TextureType.TexturePath)
+				{
+					CStringHelper::ConvertWideToUTF(ResourcePath.c_str(), ResoucePath);
+					file.write(ResoucePath, MAX_PATH);
+				}
+			}
+		}
+
+		file.write(reinterpret_cast<char*>(&ExportData.iNumBones), sizeof(_uInt));
+		for (auto& BoneDesc : ExportData.BoneDesc)
+		{
+			file.write(BoneDesc.szName, sizeof(MAX_PATH));
+			file.write(reinterpret_cast<char*>(&BoneDesc.iParentBoneIndex), sizeof(int));
+		}
+
+		file.write(reinterpret_cast<char*>(&ExportData.iNumAnimations), sizeof(_uInt));
+		for (auto& AnimDesc : ExportData.AnimationDesc)
+		{
+			file.write(AnimDesc.szAnimName, sizeof(MAX_PATH));
+			file.write(reinterpret_cast<char*>(&AnimDesc.fLength), sizeof(_float));
+			file.write(reinterpret_cast<char*>(&AnimDesc.fTickPerSecond), sizeof(_float));
+			file.write(reinterpret_cast<char*>(&AnimDesc.bIsLoop), sizeof(_bool));
+			file.write(reinterpret_cast<char*>(&AnimDesc.iNumChannels), sizeof(_uInt));
+			for (auto& ChannelDesc : AnimDesc.Channels)
+			{
+				file.write(ChannelDesc.szName, sizeof(MAX_PATH));
+				file.write(reinterpret_cast<char*>(&ChannelDesc.iBoneIndex), sizeof(_Int));
+				file.write(reinterpret_cast<char*>(&ChannelDesc.iNumKeyFrames), sizeof(_uInt));
+				for (auto& KeyDesc : ChannelDesc.KeyFrames)
+					file.write(reinterpret_cast<char*>(&KeyDesc), sizeof(KEYFRAME));
 			}
 		}
 	}
@@ -407,6 +487,80 @@ HRESULT CModel::ReadModelFile(void* Data, const char* FilePath)
 
 	file.close();
 	return S_OK;
+}
+
+void CModel::ExportNonAnim(void* pArg)
+{
+	SAVE_MODEL_DESC* ExportData = static_cast<SAVE_MODEL_DESC *>(pArg);
+
+	ExportData->iNumMeshes = m_iNumMeshes;
+	ExportData->MeshDesc.reserve(ExportData->iNumMeshes);
+	for (auto iter : m_Meshes)
+	{
+		SAVE_MESH_DESC	MeshDesc;
+		if (FAILED(iter->Export(&MeshDesc)))
+			continue;
+		else
+			ExportData->MeshDesc.push_back(MeshDesc);
+	}
+	//Matrial Data Export
+	ExportData->iNumMaterials = m_iNumMaterials;
+	ExportData->MatrialDesc.reserve(ExportData->iNumMaterials);
+	for (auto iter : m_Materials)
+	{
+		SAVE_MATERIAL_DESC MatrialDesc;
+		if (FAILED(iter->Export(&MatrialDesc)))
+			continue;
+		else
+			ExportData->MatrialDesc.push_back(MatrialDesc);
+	}
+
+
+}
+
+void CModel::ExportAnim(void* pArg)
+{
+	SAVE_ANIM_MODEL_DESC* ExportData = static_cast<SAVE_ANIM_MODEL_DESC*>(pArg);
+
+	ExportData->iNumMeshes = m_iNumMeshes;
+	ExportData->MeshDesc.reserve(ExportData->iNumMeshes);
+	for (auto iter : m_Meshes)
+	{
+		SAVE_ANIM_MESH_DESC	MeshDesc;
+		if (FAILED(iter->AnimExport(&MeshDesc)))
+			continue;
+		else
+			ExportData->MeshDesc.push_back(MeshDesc);
+	}
+	//Matrial Data Export
+	ExportData->iNumMaterials = m_iNumMaterials;
+	ExportData->MatrialDesc.reserve(ExportData->iNumMaterials);
+	for (auto iter : m_Materials)
+	{
+		SAVE_MATERIAL_DESC MatrialDesc;
+		if (FAILED(iter->Export(&MatrialDesc)))
+			continue;
+		else
+			ExportData->MatrialDesc.push_back(MatrialDesc);
+	}
+
+	ExportData->iNumBones = m_iNumBones;
+	ExportData->BoneDesc.reserve(ExportData->iNumBones);
+	for (auto iter : m_Bones)
+	{
+		SAVE_BONE_DESC BoneDesc;
+		iter->Export(&BoneDesc);
+		ExportData->BoneDesc.push_back(BoneDesc);
+	}
+
+	ExportData->iNumAnimations = m_iNumAnimations;
+	ExportData->AnimationDesc.reserve(ExportData->iNumAnimations);
+	for (auto iter : m_Animations)
+	{
+		SAVE_ANIMATION_DESC AnimationDesc;
+		iter->Export(&AnimationDesc);
+		ExportData->AnimationDesc.push_back(AnimationDesc);
+	}
 }
 
 CModel* CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL_TYPE eType, const _char* pModelFilePath, _matrix PreModelMat)

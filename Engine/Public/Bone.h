@@ -16,6 +16,8 @@ public:
 	void						SetBoneTransformMatrix(_matrix TransformMat);
 	_bool						CompareName(const _char* pBoneName);
 
+	void						Export(void* pBoneDsec);
+
 private:
 	_char						m_szName[MAX_PATH] = {};
 	_float4x4					m_TransformationMatrix = {}; /* 이 뼈만의 상태변환행렬 */

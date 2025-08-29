@@ -14,6 +14,8 @@ private :
 public:
 	HRESULT					Initialize(const class CModel* pModel, const aiNodeAnim* pAIChannel);
 	void					Update_TransformationMatrix(vector<CBone*>& Bones, _float fCurrentTrackPosition);
+	void					Export(void* pChannelDesc);
+
 private:
 	_char					m_szName[MAX_PATH] = {};
 	_Int					m_iBoneIndex = { -1 };

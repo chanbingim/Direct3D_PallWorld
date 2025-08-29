@@ -1,5 +1,6 @@
 #include "Channel.h"
 
+#include "PaseDataHeader.h"
 #include "Model.h"
 #include "Bone.h"
 
@@ -86,6 +87,15 @@ void CChannel::Update_TransformationMatrix(vector<CBone*>& Bones, _float fCurren
 	
 	_matrix		BoneTransformationMatrix = XMMatrixAffineTransformation(vScale, XMVectorSet(0.f, 0.f, 0.f, 1.f), vRotation, vTranslation);
 	Bones[m_iBoneIndex]->SetBoneTransformMatrix(BoneTransformationMatrix);
+}
+
+void CChannel::Export(void* pChannelDesc)
+{
+	SAVE_CHANNEL_DESC* ChannelDesc = static_cast<SAVE_CHANNEL_DESC*>(pChannelDesc);
+	strcpy_s(ChannelDesc->szName, m_szName);
+	ChannelDesc->iBoneIndex = m_iBoneIndex;
+	ChannelDesc->iNumKeyFrames = m_iNumKeyFrames;
+	ChannelDesc->KeyFrames = m_KeyFrames;
 }
 
 CChannel* CChannel::Create(const CModel* pModel, const aiNodeAnim* pAIChannel)

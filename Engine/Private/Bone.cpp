@@ -1,5 +1,7 @@
 #include "Bone.h"
 
+#include "PaseDataHeader.h"
+
 CBone::CBone()
 {
 }
@@ -43,6 +45,14 @@ void CBone::SetBoneTransformMatrix(_matrix TransformMat)
 _bool CBone::CompareName(const _char* pBoneName)
 {
     return !strcmp(pBoneName, m_szName);
+}
+
+void CBone::Export(void* pBoneDsec)
+{
+    SAVE_BONE_DESC* Desc = static_cast<SAVE_BONE_DESC *>(pBoneDsec);
+
+    strcpy_s(Desc->szName, m_szName);
+    Desc->iParentBoneIndex = m_iParentBoneIndex;
 }
 
 CBone* CBone::Create(const aiNode* pAINode, _Int iParentIndex)

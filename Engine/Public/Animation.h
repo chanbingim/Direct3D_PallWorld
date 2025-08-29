@@ -18,6 +18,8 @@ public :
 
 	_bool		CompareAnimName(const char* szName);
 
+	void		Export(void* pAnimationDesc);
+
 private :
 	/*  애니 메이션에 대한 정보를 저장한다. */
 	_char						m_szAnimName[MAX_PATH] = {};
