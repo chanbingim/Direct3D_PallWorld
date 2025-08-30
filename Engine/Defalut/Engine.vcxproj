@@ -158,7 +158,10 @@ popd</Command>
     <ClInclude Include="..\public\BaseCamera.h" />
     <ClInclude Include="..\public\BinaryHelper.h" />
     <ClInclude Include="..\public\Bone.h" />
+    <ClInclude Include="..\public\BoxCollision.h" />
+    <ClInclude Include="..\public\CapsuleCollision.h" />
     <ClInclude Include="..\public\Channel.h" />
+    <ClInclude Include="..\public\Collision.h" />
     <ClInclude Include="..\public\Component.h" />
     <ClInclude Include="..\public\CsvHelper.h" />
     <ClInclude Include="..\Public\EditorCamera.h" />
@@ -169,6 +172,7 @@ popd</Command>
     <ClInclude Include="..\Public\Picking.h" />
     <ClInclude Include="..\public\Slider.h" />
     <ClInclude Include="..\public\SliderButton.h" />
+    <ClInclude Include="..\public\SphereCollision.h" />
     <ClInclude Include="..\Public\StringHelper.h" />
     <ClInclude Include="..\Public\Engine_Defines.h" />
     <ClInclude Include="..\Public\Engine_Enum.h" />
@@ -216,7 +220,10 @@ popd</Command>
     <ClCompile Include="..\private\BaseCamera.cpp" />
     <ClCompile Include="..\private\BinaryHelper.cpp" />
     <ClCompile Include="..\private\Bone.cpp" />
+    <ClCompile Include="..\private\BoxCollision.cpp" />
+    <ClCompile Include="..\private\CapsuleCollision.cpp" />
     <ClCompile Include="..\Private\Channel.cpp" />
+    <ClCompile Include="..\private\Collision.cpp" />
     <ClCompile Include="..\private\Component.cpp" />
     <ClCompile Include="..\private\CsvHelper.cpp" />
     <ClCompile Include="..\Private\EditorCamera.cpp" />
@@ -226,6 +233,7 @@ popd</Command>
     <ClCompile Include="..\Private\Picking.cpp" />
     <ClCompile Include="..\private\Slider.cpp" />
     <ClCompile Include="..\private\SliderButton.cpp" />
+    <ClCompile Include="..\private\SphereCollision.cpp" />
     <ClCompile Include="..\Private\StringHelper.cpp" />
     <ClCompile Include="..\private\GameInstance.cpp" />
     <ClCompile Include="..\Private\GameObject.cpp" />

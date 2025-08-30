@@ -309,6 +309,18 @@
     <ClCompile Include="..\Private\Channel.cpp">
       <Filter>Utility\Components\Model\Animation\Channel</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\Collision.cpp">
+      <Filter>Utility\Components\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\SphereCollision.cpp">
+      <Filter>Utility\Components\Collision\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BoxCollision.cpp">
+      <Filter>Utility\Components\Collision\Box</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CapsuleCollision.cpp">
+      <Filter>Utility\Components\Collision\Capsule</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\Graphic_Device.h">
@@ -478,6 +490,18 @@
     </ClInclude>
     <ClInclude Include="..\public\Channel.h">
       <Filter>Utility\Components\Model\Animation\Channel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Collision.h">
+      <Filter>Utility\Components\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\SphereCollision.h">
+      <Filter>Utility\Components\Collision\Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\BoxCollision.h">
+      <Filter>Utility\Components\Collision\Box</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CapsuleCollision.h">
+      <Filter>Utility\Components\Collision\Capsule</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

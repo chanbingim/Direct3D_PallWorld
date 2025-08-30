@@ -31,6 +31,8 @@ public :
 	const _float3&					GetRayDir(RAY eType);
 
 	void							SetHitPoint(_float3 vHitPoint);
+
+
 private :
 	ID3D11Device*					m_pDevice = nullptr;
 	ID3D11DeviceContext*			m_pContext = nullptr;

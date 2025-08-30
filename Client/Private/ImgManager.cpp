@@ -2,6 +2,8 @@
 
 #include "ImgManager.h"
 
+#include "GameInstance.h"
+#include "Level.h"
 #include "GameObject.h"
 
 #pragma region IMG_UI_HEADER
@@ -25,6 +27,7 @@ HRESULT CImgManager::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCon
 
     if (FAILED(Setting_Img_UI(pDevice, pContext)))
         return E_FAIL;
+
 
     return S_OK;
 }
@@ -214,7 +217,17 @@ void CImgManager::DarwMenuBar()
     {
         if (ImGui::BeginMenu("File"))
         {
+            if (ImGui::MenuItem("Save"))
+            {
+                SaveLevel();
+            }
 
+            ImGui::EndMenu();
+
+            if (ImGui::MenuItem("Load"))
+            {
+                LoadLevel();
+            }
 
             ImGui::EndMenu();
         }
@@ -233,6 +246,44 @@ void CImgManager::DarwMenuBar()
 
         ImGui::EndMenuBar();
     }
+}
+
+HRESULT CImgManager::SaveLevel()
+{
+    //파일 입출력 열어서 저장
+    ios_base::openmode flag;
+    flag = ios::out | ios::trunc | ios::binary;
+
+    char FilePath[MAX_PATH] = {};
+    ofstream file(FilePath, flag);
+
+    if (file.is_open())
+    {
+        auto pGameInstance = CGameInstance::GetInstance();
+        _uInt iCurLevel = pGameInstance->GetCurrentLevel()->GetLevelID();
+        auto CurLevelLayers = pGameInstance->GetCurLevelLayer();
+
+        for (auto& LayerPair : *CurLevelLayers)
+        {
+            auto CurObjectList = pGameInstance->GetAllObejctToLayer(iCurLevel, LayerPair.first);
+            for (auto& Object : *CurObjectList)
+            {
+
+            }
+        }
+    }
+    file.close();
+
+    return S_OK;
+}
+
+HRESULT CImgManager::LoadLevel()
+{
+
+
+
+
+    return S_OK;
 }
 
 void CImgManager::Free()

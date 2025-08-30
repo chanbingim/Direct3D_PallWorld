@@ -40,13 +40,16 @@ private :
 	unordered_map<_wstring, CImgUIBase*>	m_ImgUIMap = {};
 	ImGuiWindowFlags						m_ImGuiWindowFlags = {};
 	list<CGameObject*>						m_SelectList = {};
-	
+
 private :
 	HRESULT			Default_Setting(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	HRESULT			Setting_Img_UI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 
 	void			CreateDockSpace();
 	void			DarwMenuBar();
+
+	HRESULT			SaveLevel();
+	HRESULT			LoadLevel();
 
 public :
 	virtual			void			Free() override;
