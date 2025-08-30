@@ -12,8 +12,10 @@ CIMG_Viewport::CIMG_Viewport(ID3D11Device* pDevice, ID3D11DeviceContext* pContex
 
 HRESULT CIMG_Viewport::Prototype_Initialize()
 {
+    strcpy_s(m_szSelect, "Select");
     m_szModeName[0] = "Select";
     m_szModeName[1] = "LandScape";
+    m_eEditMode = EDIT_MODE::SELECT;
 
     return S_OK;
 }

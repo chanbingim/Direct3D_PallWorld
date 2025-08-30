@@ -14,6 +14,7 @@ CPicking::CPicking(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 
 void CPicking::Update()
 {
+    m_bIsHit = false;
     //메인 카메라의 원근, 직교 상태에 따라  시작지점을 다르게 세팅함
    // 
    //공통적으로하는건 카메라 위치통해서 view와 World 갱신
@@ -141,6 +142,14 @@ const _float3& CPicking::GetRayPos(RAY eType)
 const _float3& CPicking::GetRayDir(RAY eType)
 {
     return m_RayDir[ENUM_CLASS(eType)];
+}
+
+void CPicking::SetHitPoint(_float3 vHitPoint)
+{
+    if (!m_bIsHit)
+        m_LastPickPoint = vHitPoint;
+
+    m_bIsHit = true;
 }
 
 CPicking* CPicking::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

@@ -43,6 +43,23 @@ HRESULT CChannel::Initialize(const CModel* pModel, const aiNodeAnim* pAIChannel)
     return S_OK;
 }
 
+HRESULT CChannel::Initialize(void* pArg)
+{
+	SAVE_CHANNEL_DESC* pChannel = static_cast<SAVE_CHANNEL_DESC *>(pArg);
+
+	strcpy_s(m_szName, pChannel->szName);
+	m_iBoneIndex = pChannel->iBoneIndex;
+	m_iNumKeyFrames = pChannel->iNumKeyFrames;
+	m_KeyFrames = pChannel->KeyFrames;
+
+	return S_OK;
+}
+
+void CChannel::ResetChannel()
+{
+	m_iCurrentKeyFrameIndex = 0;
+}
+
 void CChannel::Update_TransformationMatrix(vector<CBone*>& Bones, _float fCurrentTrackPosition)
 {
 	KEYFRAME	LastFrame = m_KeyFrames.back();
@@ -107,6 +124,17 @@ CChannel* CChannel::Create(const CModel* pModel, const aiNodeAnim* pAIChannel)
         MSG_BOX("CREATE FAIL : ANIM CHANNEL");
     }
     return pChannel;
+}
+
+CChannel* CChannel::Create(void* pArg)
+{
+	CChannel* pChannel = new CChannel();
+	if (FAILED(pChannel->Initialize(pArg)))
+	{
+		Safe_Release(pChannel);
+		MSG_BOX("CREATE FAIL : ANIM CHANNEL");
+	}
+	return pChannel;
 }
 
 void CChannel::Free()

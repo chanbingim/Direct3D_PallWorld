@@ -3,12 +3,12 @@
 #include "GameInstance.h"
 
 CPlayer::CPlayer(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext) :
-    CMeshActor(pGraphic_Device, pDeviceContext)
+    CAnimMeshActor(pGraphic_Device, pDeviceContext)
 {
 }
 
 CPlayer::CPlayer(const CPlayer& rhs) :
-    CMeshActor(rhs)
+    CAnimMeshActor(rhs)
 {
 }
 
@@ -45,7 +45,7 @@ void CPlayer::Priority_Update(_float fDeletaTime)
 void CPlayer::Update(_float fDeletaTime)
 {
     __super::Update(fDeletaTime);
-    m_pVIBufferCom->PlayAnimation(14, fDeletaTime);
+    m_pVIBufferCom->PlayAnimation(2, fDeletaTime);
 }
 
 void CPlayer::Late_Update(_float fDeletaTime)

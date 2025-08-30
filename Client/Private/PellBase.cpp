@@ -3,13 +3,13 @@
 #include "GameInstance.h"
 
 CPellBase::CPellBase(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext) :
-    CMeshActor(pGraphic_Device, pDeviceContext)
+    CAnimMeshActor(pGraphic_Device, pDeviceContext)
 {
    
 }
 
 CPellBase::CPellBase(const CPellBase& rhs) :
-    CMeshActor(rhs)
+    CAnimMeshActor(rhs)
 {
 }
 

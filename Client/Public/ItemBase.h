@@ -1,9 +1,9 @@
 #pragma once
 
-#include "MeshActor.h"
+#include "AnimMeshActor.h"
 
 NS_BEGIN(Client)
-class CItemBase : public CMeshActor
+class CItemBase : public CAnimMeshActor
 {
 public :
 	typedef struct InitItemDesc

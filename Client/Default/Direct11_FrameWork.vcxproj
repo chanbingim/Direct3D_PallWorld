@@ -185,6 +185,7 @@
     <ClInclude Include="..\public\Dororong.h" />
     <ClInclude Include="..\Public\EditorLevel.h" />
     <ClInclude Include="..\public\ElectPanda.h" />
+    <ClInclude Include="..\public\Enviormnent.h" />
     <ClInclude Include="..\public\Equipment.h" />
     <ClInclude Include="..\public\EquipSlot.h" />
     <ClInclude Include="..\public\FlowerRabbit.h" />
@@ -238,8 +239,9 @@
     <ClInclude Include="..\public\Logo_HUD.h" />
     <ClInclude Include="..\public\Logo_Menu.h" />
     <ClInclude Include="..\public\MainApp.h" />
-    <ClInclude Include="..\public\MeshActor.h" />
+    <ClInclude Include="..\public\AnimMeshActor.h" />
     <ClInclude Include="..\public\IMG_ModelConvert.h" />
+    <ClInclude Include="..\public\NoneAnimMesh.h" />
     <ClInclude Include="..\public\OptionButton.h" />
     <ClInclude Include="..\public\PellBase.h" />
     <ClInclude Include="..\public\PellInfo.h" />
@@ -275,6 +277,7 @@
     <ClCompile Include="..\private\CompassPoint.cpp" />
     <ClCompile Include="..\private\CostumeBase.cpp" />
     <ClCompile Include="..\Private\EditorLevel.cpp" />
+    <ClCompile Include="..\private\Enviormnent.cpp" />
     <ClCompile Include="..\private\Equipment.cpp" />
     <ClCompile Include="..\private\EquipSlot.cpp" />
     <ClCompile Include="..\private\FlowerRabbit.cpp" />
@@ -285,6 +288,7 @@
     <ClCompile Include="..\private\InvenSliderButton.cpp" />
     <ClCompile Include="..\private\Inventory.cpp" />
     <ClCompile Include="..\private\ItemSlot.cpp" />
+    <ClCompile Include="..\private\NoneAnimMesh.cpp" />
     <ClCompile Include="..\private\PellRock.cpp" />
     <ClCompile Include="..\private\PlayerView.cpp" />
     <ClCompile Include="..\private\SlotImage.cpp" />
@@ -335,7 +339,7 @@
     <ClCompile Include="..\private\Logo_HUD.cpp" />
     <ClCompile Include="..\private\Logo_Menu.cpp" />
     <ClCompile Include="..\private\MainApp.cpp" />
-    <ClCompile Include="..\private\MeshActor.cpp" />
+    <ClCompile Include="..\private\AnimMeshActor.cpp" />
     <ClCompile Include="..\private\OptionButton.cpp" />
     <ClCompile Include="..\private\PellBase.cpp" />
     <ClCompile Include="..\private\PellInfo.cpp" />

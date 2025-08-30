@@ -28,13 +28,38 @@ HRESULT CAnimation::Initialize(const CModel* pModel, const aiAnimation* pAIAnima
 	return S_OK;
 }
 
+HRESULT CAnimation::Initialize(void* pArg)
+{
+	SAVE_ANIMATION_DESC* AnimDesc = static_cast<SAVE_ANIMATION_DESC*>(pArg);
+	strcpy_s(m_szAnimName, AnimDesc->szAnimName);
+
+	m_bIsLoop = AnimDesc->bIsLoop;
+	m_fLength = AnimDesc->fLength;
+	m_fTickPerSecond = AnimDesc->fTickPerSecond;
+	m_iNumChannels = AnimDesc->iNumChannels;
+
+	for (auto ChannelDesc : AnimDesc->Channels)
+	{
+		CChannel* pChannel = CChannel::Create(&ChannelDesc);
+		if (nullptr == pChannel)
+			return E_FAIL;
+
+		m_Channels.push_back(pChannel);
+	}
+	return S_OK;
+}
+
 void CAnimation::UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTimeDelta)
 {
 	m_fCurrentTrackPosition += m_fTickPerSecond * fTimeDelta;
 	if (m_bIsLoop)
 	{
 		if (m_fCurrentTrackPosition > m_fLength)
+		{
 			m_fCurrentTrackPosition = 0;
+			for (auto& pChannel : m_Channels)
+				pChannel->ResetChannel();
+		}
 	}
 	else
 		m_fCurrentTrackPosition = m_fLength;
@@ -72,6 +97,17 @@ CAnimation* CAnimation::Create(const CModel* pModel, const aiAnimation* pAIAnima
 {
 	CAnimation* pAnim = new CAnimation();
 	if (FAILED(pAnim->Initialize(pModel, pAIAnimation, bIsLoop)))
+	{
+		Safe_Release(pAnim);
+		MSG_BOX("CREATE FAIL : MODEL ANIMATION ");
+	}
+	return pAnim;
+}
+
+CAnimation* CAnimation::Create(void* pArg)
+{
+	CAnimation* pAnim = new CAnimation();
+	if (FAILED(pAnim->Initialize(pArg)))
 	{
 		Safe_Release(pAnim);
 		MSG_BOX("CREATE FAIL : MODEL ANIMATION ");

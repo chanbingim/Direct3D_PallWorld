@@ -14,6 +14,7 @@ private :
 		
 public :
 	HRESULT		Initialize(const CModel* pModel, const aiAnimation* pAIAnimation, _bool bIsLoop = false);
+	HRESULT		Initialize(void* pArg);
 	void		UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTimeDelta);
 
 	_bool		CompareAnimName(const char* szName);
@@ -40,6 +41,7 @@ private :
 
 public :
 	static		CAnimation*					Create(const CModel* pModel, const aiAnimation* pAIAnimation, _bool bIsLoop = false);
+	static		CAnimation*					Create(void* pArg);
 	virtual		void						Free() override;
 
 };

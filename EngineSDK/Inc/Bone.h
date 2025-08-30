@@ -10,6 +10,7 @@ private:
 
 public:
 	HRESULT						Initialize(const aiNode* pAINode, _Int iParentIndex);
+	HRESULT						Initialize(void* pArg);
 	void						UpdateCombinedTransformationMatrix(const vector<CBone*>& Bones, _matrix PreTransformMatrix);
 
 	_matrix						GetCombinedTransformationMatrix();
@@ -26,6 +27,8 @@ private:
 
 public:
 	static		CBone*			Create(const aiNode* pAINode, _Int iParentIndex);
+	static		CBone*			Create(void* pArg);
+
 	virtual		void			Free() override;
 
 };

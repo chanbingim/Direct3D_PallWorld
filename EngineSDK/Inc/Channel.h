@@ -13,7 +13,11 @@ private :
 	virtual ~CChannel() = default;
 public:
 	HRESULT					Initialize(const class CModel* pModel, const aiNodeAnim* pAIChannel);
+	HRESULT					Initialize(void* pArg);
+	
+	void					ResetChannel();
 	void					Update_TransformationMatrix(vector<CBone*>& Bones, _float fCurrentTrackPosition);
+	
 	void					Export(void* pChannelDesc);
 
 private:
@@ -27,6 +31,7 @@ private:
 
 public:
 	static		CChannel*	Create(const class CModel* pModel, const aiNodeAnim* pAIChannel);
+	static		CChannel*	Create(void* pArg);
 	virtual		void		Free() override;
 
 };

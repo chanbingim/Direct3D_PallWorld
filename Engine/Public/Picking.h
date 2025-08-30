@@ -30,6 +30,7 @@ public :
 	const _float3&					GetRayPos(RAY eType);
 	const _float3&					GetRayDir(RAY eType);
 
+	void							SetHitPoint(_float3 vHitPoint);
 private :
 	ID3D11Device*					m_pDevice = nullptr;
 	ID3D11DeviceContext*			m_pContext = nullptr;
@@ -42,6 +43,9 @@ private :
 
 	_float3							m_RayPos[ENUM_CLASS(RAY::END)] = {};
 	_float3							m_RayDir[ENUM_CLASS(RAY::END)] = {};
+
+	_bool							m_bIsHit = false;
+	_float3							m_LastPickPoint = {};
 
 public :
 	static	CPicking*		Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

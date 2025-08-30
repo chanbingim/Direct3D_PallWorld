@@ -3,6 +3,8 @@
 #include "GameInstance.h"
 #include "GamePlayHUD.h"
 
+#include "Enviormnent.h"
+
 CGamePlayLevel::CGamePlayLevel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, _uInt _iID) :
 	CLevel(pDevice, pContext, _iID)
 {
@@ -17,6 +19,9 @@ HRESULT CGamePlayLevel::Initialize()
 		return E_FAIL;
 
 	if (FAILED(ADD_TerrianLayer(TEXT("Layer_GamePlay_Terrian"))))
+		return E_FAIL;
+
+	if (FAILED(ADD_EnviornmentLayer(TEXT("Layer_GamePlay_Enviorment"))))
 		return E_FAIL;
 
 	if (FAILED(ADD_PlayerLayer(TEXT("Layer_GamePlay_Player"))))
@@ -66,6 +71,22 @@ HRESULT CGamePlayLevel::ADD_TerrianLayer(const _wstring& LayerName)
 				ENUM_CLASS(LEVEL::GAMEPLAY), LayerName)))
 		return E_FAIL;
 
+	return S_OK;
+}
+
+HRESULT CGamePlayLevel::ADD_EnviornmentLayer(const _wstring& LayerName)
+{
+	CEnviormnent::ENVIORMNENT_DESC Desc;
+	ZeroMemory(&Desc, sizeof(CEnviormnent::ENVIORMNENT_DESC));
+
+	for (_uInt i = 0; i < 8; ++i)
+	{
+		wsprintf(Desc.ObjectTag, TEXT("ROCK %d"), i);
+		Desc.iModelIndex = i;
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Rock"),
+			ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
+			return E_FAIL;
+	}
 	return S_OK;
 }
 

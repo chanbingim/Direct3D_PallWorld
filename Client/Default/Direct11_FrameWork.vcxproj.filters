@@ -161,21 +161,6 @@
     <Filter Include="02. HUD\Base_UI\Button\Frame">
       <UniqueIdentifier>{4dc99711-e312-41e2-882a-e1d27017f576}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Objects\MeshObject">
-      <UniqueIdentifier>{37a3ab22-7f30-497a-8cdb-8f7990bccad0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\Character">
-      <UniqueIdentifier>{3802a2be-80f8-4d6d-9d50-8a3b3ccd7b25}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\Character\Player">
-      <UniqueIdentifier>{0f96b6b9-85c0-4e44-91e3-7d82ffe2cb66}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\Character\Pell">
-      <UniqueIdentifier>{adf3979a-3a0b-45c4-9016-2b50d2782a08}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\Static_Object">
-      <UniqueIdentifier>{1f27bf68-169c-4b34-b0ba-e3ee98244a80}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ImGui">
       <UniqueIdentifier>{9a2631af-181d-42e7-b1bd-7221d7bed7d3}</UniqueIdentifier>
     </Filter>
@@ -203,15 +188,6 @@
     <Filter Include="ImGui\UI\Hierarchy">
       <UniqueIdentifier>{1816d8ac-46a8-4d76-869c-104477eea4e3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Objects\MeshObject\Static_Object\Item">
-      <UniqueIdentifier>{0baf81af-0ee3-4bde-a5a1-1e8ccc6736f0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\Static_Object\Item\Costum">
-      <UniqueIdentifier>{fe22e618-5524-4a31-ba70-6a8e3b937d0f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\Static_Object\Item\Costum\Head">
-      <UniqueIdentifier>{41b27108-4f6f-48fd-b9a1-b51eb95d4cff}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ImGui\UI\Instpector">
       <UniqueIdentifier>{d5f07d9c-8f42-4928-8033-5e4f39785bdf}</UniqueIdentifier>
     </Filter>
@@ -229,42 +205,6 @@
     </Filter>
     <Filter Include="ImGui\UI\Content">
       <UniqueIdentifier>{4458f3ac-8ea4-4cbd-a863-81fb3930bbdc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\Character\Pell\BedCat">
-      <UniqueIdentifier>{8a306134-5a11-4b99-a6c4-02cf81a51830}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\Character\Pell\Dororong">
-      <UniqueIdentifier>{4bd2b4eb-717a-4b2c-8a47-87fa2fc04cfb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\Static_Object\Environment">
-      <UniqueIdentifier>{ef036d91-8c05-4584-8d98-22e0307a40b2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\Static_Object\Environment\Rock">
-      <UniqueIdentifier>{f5755349-c20b-4be4-b672-987f4e02cef2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\Static_Object\Environment\Tree">
-      <UniqueIdentifier>{1fa4a3de-545c-47c2-ab1b-3a1177afcb7c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\Static_Object\Environment\PellRock">
-      <UniqueIdentifier>{1eb38c84-68eb-4d9a-8f5e-de086f43a8e1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\Character\Pell\ElectricPanda">
-      <UniqueIdentifier>{db9190fe-84c5-4ec8-a9aa-5227a2947d08}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\Character\Pell\Herorong">
-      <UniqueIdentifier>{f14d5a30-85b2-4495-b949-f87672362d51}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\Character\Pell\Hedgehog">
-      <UniqueIdentifier>{e860aeb3-3ad9-485f-adf0-e63efd695eb1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\Character\Pell\Frog">
-      <UniqueIdentifier>{4c7eb1e3-a879-46de-afd0-ce8cac628aee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\Character\Pell\Yeti">
-      <UniqueIdentifier>{85c92a98-9edd-4dd6-b627-81ea497989cd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\Character\Pell\FlowerRabbit">
-      <UniqueIdentifier>{e0f5dc4e-eddf-4979-81fe-ef21965d4052}</UniqueIdentifier>
     </Filter>
     <Filter Include="01. Levels\EditorLevel">
       <UniqueIdentifier>{1eaec55f-18fd-4bce-8a17-f658921b2961}</UniqueIdentifier>
@@ -307,6 +247,72 @@
     </Filter>
     <Filter Include="03. Objects\Terrian">
       <UniqueIdentifier>{782d235a-43b0-4167-bebb-1c6ac68b5985}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject">
+      <UniqueIdentifier>{37a3ab22-7f30-497a-8cdb-8f7990bccad0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh">
+      <UniqueIdentifier>{e33d7d9f-2fb7-4925-b338-40c466ee6dcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character">
+      <UniqueIdentifier>{3802a2be-80f8-4d6d-9d50-8a3b3ccd7b25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player">
+      <UniqueIdentifier>{0f96b6b9-85c0-4e44-91e3-7d82ffe2cb66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NoneMesh">
+      <UniqueIdentifier>{1d362c00-95d8-4e5a-a9d9-a9cf8d8e46ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NoneMesh\Static_Object">
+      <UniqueIdentifier>{1f27bf68-169c-4b34-b0ba-e3ee98244a80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NoneMesh\Static_Object\Item">
+      <UniqueIdentifier>{0baf81af-0ee3-4bde-a5a1-1e8ccc6736f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NoneMesh\Static_Object\Item\Costum">
+      <UniqueIdentifier>{fe22e618-5524-4a31-ba70-6a8e3b937d0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NoneMesh\Static_Object\Item\Costum\Head">
+      <UniqueIdentifier>{41b27108-4f6f-48fd-b9a1-b51eb95d4cff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NoneMesh\Static_Object\Environment">
+      <UniqueIdentifier>{ef036d91-8c05-4584-8d98-22e0307a40b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NoneMesh\Static_Object\Environment\Rock">
+      <UniqueIdentifier>{f5755349-c20b-4be4-b672-987f4e02cef2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NoneMesh\Static_Object\Environment\Tree">
+      <UniqueIdentifier>{1fa4a3de-545c-47c2-ab1b-3a1177afcb7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NoneMesh\Static_Object\Environment\PellRock">
+      <UniqueIdentifier>{1eb38c84-68eb-4d9a-8f5e-de086f43a8e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Pell">
+      <UniqueIdentifier>{adf3979a-3a0b-45c4-9016-2b50d2782a08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Pell\BedCat">
+      <UniqueIdentifier>{8a306134-5a11-4b99-a6c4-02cf81a51830}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Pell\Dororong">
+      <UniqueIdentifier>{4bd2b4eb-717a-4b2c-8a47-87fa2fc04cfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Pell\ElectricPanda">
+      <UniqueIdentifier>{db9190fe-84c5-4ec8-a9aa-5227a2947d08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Pell\Herorong">
+      <UniqueIdentifier>{f14d5a30-85b2-4495-b949-f87672362d51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Pell\Hedgehog">
+      <UniqueIdentifier>{e860aeb3-3ad9-485f-adf0-e63efd695eb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Pell\Frog">
+      <UniqueIdentifier>{4c7eb1e3-a879-46de-afd0-ce8cac628aee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Pell\Yeti">
+      <UniqueIdentifier>{85c92a98-9edd-4dd6-b627-81ea497989cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Pell\FlowerRabbit">
+      <UniqueIdentifier>{e0f5dc4e-eddf-4979-81fe-ef21965d4052}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -445,11 +451,8 @@
     <ClInclude Include="..\public\ButtonFrame.h">
       <Filter>02. HUD\Base_UI\Button\Frame</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\MeshActor.h">
-      <Filter>03. Objects\MeshObject</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Player.h">
-      <Filter>03. Objects\MeshObject\Character\Player</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\ImGui\imconfig.h">
       <Filter>ImGui\Default\Headers</Filter>
@@ -488,13 +491,13 @@
       <Filter>ImGui\UI\Hierarchy</Filter>
     </ClInclude>
     <ClInclude Include="..\public\CostumeBase.h">
-      <Filter>03. Objects\MeshObject\Static_Object\Item\Costum</Filter>
+      <Filter>03. Objects\MeshObject\NoneMesh\Static_Object\Item\Costum</Filter>
     </ClInclude>
     <ClInclude Include="..\public\ImgUIBase.h">
       <Filter>ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\public\ItemBase.h">
-      <Filter>03. Objects\MeshObject\Static_Object\Item</Filter>
+      <Filter>03. Objects\MeshObject\NoneMesh\Static_Object\Item</Filter>
     </ClInclude>
     <ClInclude Include="..\public\IMG_Inspector.h">
       <Filter>ImGui\UI\Instpector</Filter>
@@ -521,40 +524,40 @@
       <Filter>ImGui\UI\Content\Create</Filter>
     </ClInclude>
     <ClInclude Include="..\public\ElectPanda.h">
-      <Filter>03. Objects\MeshObject\Character\Pell\ElectricPanda</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Pell\ElectricPanda</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PellBase.h">
-      <Filter>03. Objects\MeshObject\Character\Pell</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Pell</Filter>
     </ClInclude>
     <ClInclude Include="..\public\BedCat.h">
-      <Filter>03. Objects\MeshObject\Character\Pell\BedCat</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Pell\BedCat</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Dororong.h">
-      <Filter>03. Objects\MeshObject\Character\Pell\Dororong</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Pell\Dororong</Filter>
     </ClInclude>
     <ClInclude Include="..\public\RockObject.h">
-      <Filter>03. Objects\MeshObject\Static_Object\Environment\Rock</Filter>
+      <Filter>03. Objects\MeshObject\NoneMesh\Static_Object\Environment\Rock</Filter>
     </ClInclude>
     <ClInclude Include="..\public\TreeObject.h">
-      <Filter>03. Objects\MeshObject\Static_Object\Environment\Tree</Filter>
+      <Filter>03. Objects\MeshObject\NoneMesh\Static_Object\Environment\Tree</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PellRock.h">
-      <Filter>03. Objects\MeshObject\Static_Object\Environment\PellRock</Filter>
+      <Filter>03. Objects\MeshObject\NoneMesh\Static_Object\Environment\PellRock</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Frog.h">
-      <Filter>03. Objects\MeshObject\Character\Pell\Frog</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Pell\Frog</Filter>
     </ClInclude>
     <ClInclude Include="..\public\FlowerRabbit.h">
-      <Filter>03. Objects\MeshObject\Character\Pell\FlowerRabbit</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Pell\FlowerRabbit</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Herorong.h">
-      <Filter>03. Objects\MeshObject\Character\Pell\Herorong</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Pell\Herorong</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Hedgehog.h">
-      <Filter>03. Objects\MeshObject\Character\Pell\Hedgehog</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Pell\Hedgehog</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Yeti.h">
-      <Filter>03. Objects\MeshObject\Character\Pell\Yeti</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Pell\Yeti</Filter>
     </ClInclude>
     <ClInclude Include="..\public\IMG_ModelConvert.h">
       <Filter>ImGui\UI\FbxConvertWindow</Filter>
@@ -588,6 +591,15 @@
     </ClInclude>
     <ClInclude Include="..\public\InvenSliderButton.h">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\InvenSlider\InvenSliderBut</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Enviormnent.h">
+      <Filter>03. Objects\MeshObject\NoneMesh\Static_Object\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\AnimMeshActor.h">
+      <Filter>03. Objects\MeshObject\AnimMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\NoneAnimMesh.h">
+      <Filter>03. Objects\MeshObject\NoneMesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -724,11 +736,8 @@
     <ClCompile Include="..\private\ButtonFrame.cpp">
       <Filter>02. HUD\Base_UI\Button\Frame</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\MeshActor.cpp">
-      <Filter>03. Objects\MeshObject</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Player.cpp">
-      <Filter>03. Objects\MeshObject\Character\Player</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\imgui.cpp">
       <Filter>ImGui\Default\Codes</Filter>
@@ -764,13 +773,13 @@
       <Filter>ImGui\UI\Hierarchy</Filter>
     </ClCompile>
     <ClCompile Include="..\private\CostumeBase.cpp">
-      <Filter>03. Objects\MeshObject\Static_Object\Item\Costum</Filter>
+      <Filter>03. Objects\MeshObject\NoneMesh\Static_Object\Item\Costum</Filter>
     </ClCompile>
     <ClCompile Include="..\private\ImgUIBase.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\private\ItemBase.cpp">
-      <Filter>03. Objects\MeshObject\Static_Object\Item</Filter>
+      <Filter>03. Objects\MeshObject\NoneMesh\Static_Object\Item</Filter>
     </ClCompile>
     <ClCompile Include="..\private\IMG_Inspector.cpp">
       <Filter>ImGui\UI\Instpector</Filter>
@@ -794,40 +803,40 @@
       <Filter>ImGui\UI\Content\Create</Filter>
     </ClCompile>
     <ClCompile Include="..\private\ElectPanda.cpp">
-      <Filter>03. Objects\MeshObject\Character\Pell\ElectricPanda</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Pell\ElectricPanda</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PellBase.cpp">
-      <Filter>03. Objects\MeshObject\Character\Pell</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Pell</Filter>
     </ClCompile>
     <ClCompile Include="..\private\BedCat.cpp">
-      <Filter>03. Objects\MeshObject\Character\Pell\BedCat</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Pell\BedCat</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Dororong.cpp">
-      <Filter>03. Objects\MeshObject\Character\Pell\Dororong</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Pell\Dororong</Filter>
     </ClCompile>
     <ClCompile Include="..\private\RockObject.cpp">
-      <Filter>03. Objects\MeshObject\Static_Object\Environment\Rock</Filter>
+      <Filter>03. Objects\MeshObject\NoneMesh\Static_Object\Environment\Rock</Filter>
     </ClCompile>
     <ClCompile Include="..\private\TreeObject.cpp">
-      <Filter>03. Objects\MeshObject\Static_Object\Environment\Tree</Filter>
+      <Filter>03. Objects\MeshObject\NoneMesh\Static_Object\Environment\Tree</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PellRock.cpp">
-      <Filter>03. Objects\MeshObject\Static_Object\Environment\PellRock</Filter>
+      <Filter>03. Objects\MeshObject\NoneMesh\Static_Object\Environment\PellRock</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Frog.cpp">
-      <Filter>03. Objects\MeshObject\Character\Pell\Frog</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Pell\Frog</Filter>
     </ClCompile>
     <ClCompile Include="..\private\FlowerRabbit.cpp">
-      <Filter>03. Objects\MeshObject\Character\Pell\FlowerRabbit</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Pell\FlowerRabbit</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Herorong.cpp">
-      <Filter>03. Objects\MeshObject\Character\Pell\Herorong</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Pell\Herorong</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Hedgehog.cpp">
-      <Filter>03. Objects\MeshObject\Character\Pell\Hedgehog</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Pell\Hedgehog</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Yeti.cpp">
-      <Filter>03. Objects\MeshObject\Character\Pell\Yeti</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Pell\Yeti</Filter>
     </ClCompile>
     <ClCompile Include="..\public\IMG_ModelConvert.cpp">
       <Filter>ImGui\UI\FbxConvertWindow</Filter>
@@ -861,6 +870,15 @@
     </ClCompile>
     <ClCompile Include="..\private\InvenSliderButton.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\InvenSlider\InvenSliderBut</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Enviormnent.cpp">
+      <Filter>03. Objects\MeshObject\NoneMesh\Static_Object\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\AnimMeshActor.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\NoneAnimMesh.cpp">
+      <Filter>03. Objects\MeshObject\NoneMesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

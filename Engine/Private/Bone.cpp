@@ -24,6 +24,25 @@ HRESULT CBone::Initialize(const aiNode* pAINode, _Int iParentIndex)
     return S_OK;
 }
 
+HRESULT CBone::Initialize(void* pArg)
+{
+    SAVE_BONE_DESC* BoneDesc =  static_cast<SAVE_BONE_DESC*>(pArg);
+
+    // 뼈의 이름을 받아와서 복사
+    // 뼈의 개수가 0인 녀석의 경우에는 매시의 이름을 그대로 파생하는거같음
+    strcpy_s(m_szName, BoneDesc->szName);
+
+    // 뼈는 계층구조이기떄문에 Root노드가 아닐경우 무조건 부모를 가진다.
+    m_iParentBoneIndex = BoneDesc->iParentBoneIndex;
+
+    // 정보를 읽어서 뼈의 위치 메트릭스를 통해서 갱신한다.
+    m_TransformationMatrix = BoneDesc->PreTransformMat;
+
+    // 나중을 위한 정보
+    XMStoreFloat4x4(&m_CombinedTransformationMatrix, XMMatrixIdentity());
+    return S_OK;
+}
+
 void CBone::UpdateCombinedTransformationMatrix(const vector<CBone*>& Bones, _matrix PreTransformMatrix)
 {
     if (-1 == m_iParentBoneIndex)
@@ -52,6 +71,7 @@ void CBone::Export(void* pBoneDsec)
     SAVE_BONE_DESC* Desc = static_cast<SAVE_BONE_DESC *>(pBoneDsec);
 
     strcpy_s(Desc->szName, m_szName);
+    Desc->PreTransformMat = m_TransformationMatrix;
     Desc->iParentBoneIndex = m_iParentBoneIndex;
 }
 
@@ -59,6 +79,17 @@ CBone* CBone::Create(const aiNode* pAINode, _Int iParentIndex)
 {
     CBone* pBone = new CBone();
     if (FAILED(pBone->Initialize(pAINode, iParentIndex)))
+    {
+        Safe_Release(pBone);
+        MSG_BOX("CREATE FAIL : BONE");
+    }
+    return pBone;
+}
+
+CBone* CBone::Create(void* pArg)
+{
+    CBone* pBone = new CBone();
+    if (FAILED(pBone->Initialize(pArg)))
     {
         Safe_Release(pBone);
         MSG_BOX("CREATE FAIL : BONE");

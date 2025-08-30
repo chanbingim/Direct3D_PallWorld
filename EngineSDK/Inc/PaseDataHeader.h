@@ -12,6 +12,7 @@ namespace Engine
 	typedef struct SaveBoneDesc
 	{
 		_char				szName[MAX_PATH];
+		_float4x4			PreTransformMat;
 		_Int				iParentBoneIndex;
 	}SAVE_BONE_DESC;
 
@@ -45,8 +46,8 @@ namespace Engine
 	{
 		_char				szName[MAX_PATH];
 		unsigned int		iNumVertices;
-		unsigned int		iNumMaterialIndex;
 		unsigned int		iNumFaces;
+		unsigned int		iNumMaterialIndex;
 
 		vector<VTX_MESH>	Vertices;
 		vector<_uInt>		Indices;
@@ -56,8 +57,8 @@ namespace Engine
 	{
 		_char					szName[MAX_PATH];
 		unsigned int			iNumVertices;
-		unsigned int			iNumMaterialIndex;
 		unsigned int			iNumFaces;
+		unsigned int			iNumMaterialIndex;
 		unsigned int			iNumBones;
 
 		vector<VTX_ANIM_MESH>	Vertices;

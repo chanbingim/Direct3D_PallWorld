@@ -1,12 +1,12 @@
 #include "ItemBase.h"
 
 CItemBase::CItemBase(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext) :
-    CMeshActor(pGraphic_Device, pDeviceContext)
+    CAnimMeshActor(pGraphic_Device, pDeviceContext)
 {
 }
 
 CItemBase::CItemBase(const CItemBase& rhs) :
-    CMeshActor(rhs),
+    CAnimMeshActor(rhs),
     m_ItemNum(rhs.m_ItemNum),
     m_ItemType(rhs.m_ItemType)
 {

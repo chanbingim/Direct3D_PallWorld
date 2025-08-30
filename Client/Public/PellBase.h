@@ -1,9 +1,9 @@
 #pragma once
 
-#include "MeshActor.h"
+#include "AnimMeshActor.h"
 
 NS_BEGIN(Client)
-class CPellBase : public CMeshActor
+class CPellBase : public CAnimMeshActor
 {
 protected:
 	CPellBase(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);

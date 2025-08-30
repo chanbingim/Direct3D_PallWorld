@@ -44,6 +44,9 @@ private :
 	HRESULT					Ready_VertexBuffer_For_NonAnim(const aiMesh* pAIMesh, _matrix PreTransformMatrix);
 	HRESULT					Ready_VertexBuffer_For_Anim(const CModel* pModel, const aiMesh* pAIMesh);
 
+	HRESULT					Ready_VertexBuffer_For_NonAnim(void* MeshDesc, _matrix PreTransformMatrix);
+	HRESULT					Ready_VertexBuffer_For_Anim(void* MeshDesc);
+
 	//HRESULT				Ready_VertexBuffer_For_NonAnim(void* MeshDesc, _matrix PreTransformMatrix);
 	//HRESULT				Ready_VertexBuffer_For_Anim(void* MeshDesc, const aiMesh* pAIMesh);
 

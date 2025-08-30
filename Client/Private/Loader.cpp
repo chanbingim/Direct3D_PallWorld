@@ -29,6 +29,10 @@
 #include "Yeti.h"
 #pragma endregion
 
+#pragma region ENVIORNMENT
+#include "RockObject.h"
+#pragma endregion
+
 #pragma region UI
 #include "Player_Interface.h"
 
@@ -272,7 +276,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	_matrix PreModelMat = XMMatrixRotationY(XMConvertToRadians(180.f));
 
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Fiona_Mesh"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Fiona/Fiona.fbx", PreModelMat))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Fiona/Fiona.dat", PreModelMat))))
 		return E_FAIL;
 #pragma endregion
 
@@ -321,6 +325,40 @@ HRESULT CLoader::Loading_For_GamePlay()
 	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Yeti_Mesh"),
 	//	CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Yeti/GrassYeti.fbx"))))
 	//	return E_FAIL;
+#pragma endregion
+
+#pragma region EnviornMent
+	WCHAR szModelName[MAX_PATH] = {};
+	_char szFilePath[MAX_PATH] = {};
+
+#pragma region ROCK
+	for (_uInt i = 0; i < 8; ++i)
+	{
+		wsprintf(szModelName, TEXT("Prototype_Component_VIBuffer_Rock_%d_Mesh"), i);
+		sprintf_s(szFilePath, "../Bin/Resources/Models/Rock/Rock_%d.fbx", i);
+
+		/* EnviornMent Rock MESH  Component */
+		if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), szModelName,
+			CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Rock/Rock_0.fbx"))))
+			return E_FAIL;
+	}
+#pragma endregion
+
+#pragma region TREE
+	//for (_uInt i = 0; i < 8; ++i)
+	//{
+	//	wsprintf(szModelName, TEXT("Prototype_Component_VIBuffer_Rock_%d_Mesh"), i);
+	//	sprintf_s(szFilePath, "../Bin/Resources/Models/Rock/Rock_%d.fbx", i);
+
+	//	/* EnviornMent Rock MESH  Component */
+	//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), szModelName,
+	//		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Rock/Rock_0.fbx"))))
+	//		return E_FAIL;
+	//}
+#pragma endregion
+
+
+
 #pragma endregion
 
 #pragma endregion
@@ -413,6 +451,16 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* GAME_OBJECT_Yeti */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Yeti"), CYeti::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+#pragma endregion
+
+#pragma region ENVIORNMENT
+
+#pragma region ROCK
+	/* GAME_OBJECT_Yeti */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Rock"), CRockObject::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
 #pragma endregion
 
 	

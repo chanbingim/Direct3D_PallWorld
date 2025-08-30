@@ -72,57 +72,8 @@ HRESULT CMesh::Initialize_Prototype(MODEL_TYPE eType,  void* MeshDesc, _matrix P
 	if (nullptr == MeshDesc)
 		return E_FAIL;
 
-	SAVE_MESH_DESC* pMeshDesc = static_cast<SAVE_MESH_DESC*>(MeshDesc);
-	m_iNumVertexBuffers = 1;
-	//정점의 수를 꺼내와서 저장
-	m_iNumVertices = pMeshDesc->iNumVertices;
-	m_iMateriaIndex = pMeshDesc->iNumMaterialIndex;
-
-	m_iVertexStride = sizeof(VTX_MESH);
-
-	//삼각형의 개수를 꺼내와서 저장
-	m_iNumIndices = pMeshDesc->iNumFaces * 3;
-	m_iIndexStride = 4;
-
-	m_eIndexFormat = DXGI_FORMAT_R32_UINT;
-	m_ePrimitive = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-
-#pragma region VERTEX_BUFFER
-	D3D11_BUFFER_DESC		VBDesc{};
-	VBDesc.ByteWidth = m_iVertexStride * m_iNumVertices;
-	VBDesc.Usage = D3D11_USAGE_DEFAULT;
-	VBDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	VBDesc.StructureByteStride = m_iVertexStride;
-	VBDesc.CPUAccessFlags = 0;
-	VBDesc.MiscFlags = 0;
-
-	VTX_MESH* pVtxMeshs = new VTX_MESH[m_iNumVertices];
-	ZeroMemory(pVtxMeshs, sizeof(VTX_MESH) * m_iNumVertices);
-
-	m_pVertices = new _float3[m_iNumVertices];
-	ZeroMemory(m_pVertices, sizeof(_float3) * m_iNumVertices);
-
-	_uInt iIndex = {};
-	for (auto& vertex : pMeshDesc->Vertices)
-	{
-		memcpy(&pVtxMeshs[iIndex].vPosition, &vertex.vPosition, sizeof(_float3));
-		XMStoreFloat3(&pVtxMeshs[iIndex].vPosition, XMVector3TransformCoord(XMLoadFloat3(&pVtxMeshs[iIndex].vPosition), PreModelMat));
-
-		memcpy(&pVtxMeshs[iIndex].vNormal, &vertex.vNormal, sizeof(_float3));
-		XMStoreFloat3(&pVtxMeshs[iIndex].vNormal, XMVector3TransformCoord(XMLoadFloat3(&pVtxMeshs[iIndex].vNormal), PreModelMat));
-
-		memcpy(&pVtxMeshs[iIndex].vTangent, &vertex.vTangent, sizeof(_float3));
-		XMStoreFloat3(&pVtxMeshs[iIndex].vTangent, XMVector3TransformCoord(XMLoadFloat3(&pVtxMeshs[iIndex].vTangent), PreModelMat));
-		memcpy(&pVtxMeshs[iIndex].vTexcoord, &vertex.vTexcoord, sizeof(_float2));
-		iIndex++;
-	}
-
-	D3D11_SUBRESOURCE_DATA	InitialVBData{};
-	InitialVBData.pSysMem = pVtxMeshs;
-
-	if (FAILED(m_pDevice->CreateBuffer(&VBDesc, &InitialVBData, &m_pVertexBuffer)))
-		return E_FAIL;
-#pragma endregion
+	MODEL_TYPE::NONANIM == eType ? Ready_VertexBuffer_For_NonAnim(MeshDesc, PreModelMat) :
+								   Ready_VertexBuffer_For_Anim(MeshDesc);
 
 #pragma region INDEX_BUFFER
 	D3D11_BUFFER_DESC		IBDesc{};
@@ -137,7 +88,9 @@ HRESULT CMesh::Initialize_Prototype(MODEL_TYPE eType,  void* MeshDesc, _matrix P
 	ZeroMemory(pIndices, sizeof(_uInt) * m_iNumIndices);
 
 	_uInt iNumIndices = {};
-	for (auto& Index : pMeshDesc->Indices)
+	vector<_uInt>& Indices = MODEL_TYPE::NONANIM == eType ?  static_cast<SAVE_MESH_DESC*>(MeshDesc)->Indices :
+															 static_cast<SAVE_ANIM_MESH_DESC*>(MeshDesc)->Indices;
+	for (auto& Index : Indices)
 		pIndices[iNumIndices++] = Index;
 
 	D3D11_SUBRESOURCE_DATA	InitialIBData{};
@@ -146,7 +99,7 @@ HRESULT CMesh::Initialize_Prototype(MODEL_TYPE eType,  void* MeshDesc, _matrix P
 	if (FAILED(m_pDevice->CreateBuffer(&IBDesc, &InitialIBData, &m_pIndexBuffer)))
 		return E_FAIL;
 #pragma endregion
-	Safe_Delete_Array(pVtxMeshs);
+	
 	Safe_Delete_Array(pIndices);
 
 	return S_OK;
@@ -173,6 +126,7 @@ HRESULT CMesh::Export(void* pOut)
 		return E_FAIL;
 
 	SAVE_MESH_DESC* MeshDesc = static_cast<SAVE_MESH_DESC*>(pOut);
+	strcpy_s(MeshDesc->szName, m_szMeshName);
 	MeshDesc->iNumVertices = m_iNumVertices;
 	MeshDesc->iNumFaces = m_iNumIndices / 3;
 	MeshDesc->iNumMaterialIndex = m_iMateriaIndex;
@@ -240,6 +194,7 @@ HRESULT CMesh::AnimExport(void* pOut)
 		return E_FAIL;
 
 	SAVE_ANIM_MESH_DESC* MeshDesc = static_cast<SAVE_ANIM_MESH_DESC*>(pOut);
+	strcpy_s(MeshDesc->szName, m_szMeshName);
 	MeshDesc->iNumVertices = m_iNumVertices;
 	MeshDesc->iNumFaces = m_iNumIndices / 3;
 	MeshDesc->iNumMaterialIndex = m_iMateriaIndex;
@@ -439,6 +394,128 @@ HRESULT CMesh::Ready_VertexBuffer_For_Anim(const CModel* pModel, const aiMesh* p
 	if (FAILED(m_pDevice->CreateBuffer(&VBDesc, &InitialVBData, &m_pVertexBuffer)))
 		return E_FAIL;
 	Safe_Delete_Array(pVtxAnimMeshs);
+
+	return S_OK;
+}
+
+HRESULT CMesh::Ready_VertexBuffer_For_NonAnim(void* MeshDesc, _matrix PreTransformMatrix)
+{
+	SAVE_MESH_DESC* pMeshDesc = static_cast<SAVE_MESH_DESC*>(MeshDesc);
+
+	strcpy_s(m_szMeshName, pMeshDesc->szName);
+	m_iNumVertexBuffers = 1;
+	//정점의 수를 꺼내와서 저장
+	m_iNumVertices = pMeshDesc->iNumVertices;
+	m_iMateriaIndex = pMeshDesc->iNumMaterialIndex;
+
+	m_iVertexStride = sizeof(VTX_MESH);
+
+	//삼각형의 개수를 꺼내와서 저장
+	m_iNumIndices = pMeshDesc->iNumFaces * 3;
+	m_iIndexStride = 4;
+
+	m_eIndexFormat = DXGI_FORMAT_R32_UINT;
+	m_ePrimitive = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+
+#pragma region VERTEX_BUFFER
+	D3D11_BUFFER_DESC		VBDesc{};
+	VBDesc.ByteWidth = m_iVertexStride * m_iNumVertices;
+	VBDesc.Usage = D3D11_USAGE_DEFAULT;
+	VBDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	VBDesc.StructureByteStride = m_iVertexStride;
+	VBDesc.CPUAccessFlags = 0;
+	VBDesc.MiscFlags = 0;
+
+	VTX_MESH* pVtxMeshs = new VTX_MESH[m_iNumVertices];
+	ZeroMemory(pVtxMeshs, sizeof(VTX_MESH) * m_iNumVertices);
+
+	m_pVertices = new _float3[m_iNumVertices];
+	ZeroMemory(m_pVertices, sizeof(_float3) * m_iNumVertices);
+
+	_uInt iIndex = {};
+	for (auto& vertex : pMeshDesc->Vertices)
+	{
+		memcpy(&pVtxMeshs[iIndex].vPosition, &vertex.vPosition, sizeof(_float3));
+		XMStoreFloat3(&pVtxMeshs[iIndex].vPosition, XMVector3TransformCoord(XMLoadFloat3(&pVtxMeshs[iIndex].vPosition), PreTransformMatrix));
+
+		memcpy(&pVtxMeshs[iIndex].vNormal, &vertex.vNormal, sizeof(_float3));
+		XMStoreFloat3(&pVtxMeshs[iIndex].vNormal, XMVector3TransformCoord(XMLoadFloat3(&pVtxMeshs[iIndex].vNormal), PreTransformMatrix));
+
+		memcpy(&pVtxMeshs[iIndex].vTangent, &vertex.vTangent, sizeof(_float3));
+		XMStoreFloat3(&pVtxMeshs[iIndex].vTangent, XMVector3TransformCoord(XMLoadFloat3(&pVtxMeshs[iIndex].vTangent), PreTransformMatrix));
+		memcpy(&pVtxMeshs[iIndex].vTexcoord, &vertex.vTexcoord, sizeof(_float2));
+		iIndex++;
+	}
+
+	D3D11_SUBRESOURCE_DATA	InitialVBData{};
+	InitialVBData.pSysMem = pVtxMeshs;
+
+	if (FAILED(m_pDevice->CreateBuffer(&VBDesc, &InitialVBData, &m_pVertexBuffer)))
+		return E_FAIL;
+	Safe_Delete_Array(pVtxMeshs);
+#pragma endregion
+	return S_OK;
+}
+
+HRESULT CMesh::Ready_VertexBuffer_For_Anim(void* MeshDesc)
+{
+	SAVE_ANIM_MESH_DESC* pMeshDesc = static_cast<SAVE_ANIM_MESH_DESC*>(MeshDesc);
+
+	strcpy_s(m_szMeshName, pMeshDesc->szName);
+	m_iNumVertexBuffers = 1;
+	//정점의 수를 꺼내와서 저장
+	m_iNumVertices = pMeshDesc->iNumVertices;
+	m_iMateriaIndex = pMeshDesc->iNumMaterialIndex;
+
+	m_iVertexStride = sizeof(VTX_ANIM_MESH);
+
+	//삼각형의 개수를 꺼내와서 저장
+	m_iNumIndices = pMeshDesc->iNumFaces * 3;
+	m_iIndexStride = 4;
+
+	m_eIndexFormat = DXGI_FORMAT_R32_UINT;
+	m_ePrimitive = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+
+#pragma region VERTEX_BUFFER
+	D3D11_BUFFER_DESC		VBDesc{};
+	VBDesc.ByteWidth = m_iVertexStride * m_iNumVertices;
+	VBDesc.Usage = D3D11_USAGE_DEFAULT;
+	VBDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	VBDesc.StructureByteStride = m_iVertexStride;
+	VBDesc.CPUAccessFlags = 0;
+	VBDesc.MiscFlags = 0;
+
+	VTX_ANIM_MESH* pVtxMeshs = new VTX_ANIM_MESH[m_iNumVertices];
+	ZeroMemory(pVtxMeshs, sizeof(VTX_ANIM_MESH) * m_iNumVertices);
+
+	m_pVertices = new _float3[m_iNumVertices];
+	ZeroMemory(m_pVertices, sizeof(_float3) * m_iNumVertices);
+
+	_uInt iIndex = {};
+	for (auto& vertex : pMeshDesc->Vertices)
+	{
+		memcpy(&pVtxMeshs[iIndex].vPosition, &vertex.vPosition, sizeof(_float3));
+		memcpy(&pVtxMeshs[iIndex].vNormal, &vertex.vNormal, sizeof(_float3));
+		memcpy(&pVtxMeshs[iIndex].vTangent, &vertex.vTangent, sizeof(_float3));
+		memcpy(&pVtxMeshs[iIndex].vTexcoord, &vertex.vTexcoord, sizeof(_float2));
+		memcpy(&pVtxMeshs[iIndex].vBlendIndex, &vertex.vBlendIndex, sizeof(XMUINT4));
+		memcpy(&pVtxMeshs[iIndex].vBlendWeight, &vertex.vBlendWeight, sizeof(_float4));
+		iIndex++;
+	}
+
+	D3D11_SUBRESOURCE_DATA	InitialVBData{};
+	InitialVBData.pSysMem = pVtxMeshs;
+
+	if (FAILED(m_pDevice->CreateBuffer(&VBDesc, &InitialVBData, &m_pVertexBuffer)))
+		return E_FAIL;
+	Safe_Delete_Array(pVtxMeshs);
+
+	m_iNumBones = pMeshDesc->iNumBones;
+	m_pBoneMatrices = new _float4x4[m_iNumBones];
+	m_OffsetMatrices = pMeshDesc->OffsetMatrices;
+	m_BoneIndices = pMeshDesc->BoneIndices;
+
+#pragma endregion
 
 	return S_OK;
 }

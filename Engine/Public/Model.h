@@ -61,11 +61,20 @@ private :
 	vector<CAnimation*>			m_Animations;
 
 private:
+#ifdef _DEBUG
 	/* fbx 파일의 정보를 가져오기위한 함수 */
 	HRESULT						Ready_Meshes(_matrix PreModelMat = XMMatrixIdentity());
 	HRESULT						Ready_Materials(const _char* pModelFilePath);
 	HRESULT						Ready_Bones(const aiNode* pAINode, _Int iParentIndex);
 	HRESULT						Ready_Animations();
+
+	/* fbx 파일 저장하는 함수 */
+	HRESULT						SaveModelFile(void* Data, const char* FilePath);
+	HRESULT						SaveAnimModelFile(void* Data, const char* FilePath);
+
+	void						ExportNonAnim(void* pArg);
+	void						ExportAnim(void* pArg);
+#endif
 
 	/* 인게임내에 만들어진 파일의 정보를 가져오기위한 함수 */
 	HRESULT						Ready_Meshes(void* MeshDesc, _matrix PreModelMat = XMMatrixIdentity());
@@ -73,15 +82,9 @@ private:
 	HRESULT						Ready_Bones(void* BoneDesc);
 	HRESULT						Ready_Animations(void* AnimationDesc);
 
-	/* fbx 파일 저장하는 함수 */
-	HRESULT						SaveModelFile(void* Data, const char* FilePath);
-	HRESULT						SaveAnimModelFile(void* Data, const char* FilePath);
-
 	/* 저장된 파일 읽어들이는 함수 */
 	HRESULT						ReadModelFile(void* Data, const char* FilePath);
-
-	void						ExportNonAnim(void *pArg);
-	void						ExportAnim(void* pArg);
+	HRESULT						ReadAnimModelFile(void* Data, const char* FilePath);
 
 public:
 	static		CModel*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL_TYPE eType, const _char* pModelFilePath, _matrix PreModelMat = XMMatrixIdentity());
