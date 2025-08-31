@@ -2,6 +2,7 @@
 
 #include "Client_Define.h"
 #include "Client_ImgDefines.h"
+#include "PaseDataHeader.h"
 #include "Base.h"
 
 NS_BEGIN(Engine)
@@ -50,6 +51,9 @@ private :
 
 	HRESULT			SaveLevel();
 	HRESULT			LoadLevel();
+
+	void			SaveFile(const char* FilePath, list<SAVE_LEVEL_DESC>& SaveData);
+	void			LoadFile(_uInt iType);
 
 public :
 	virtual			void			Free() override;

@@ -1,7 +1,11 @@
 #include "GameObject.h"
 
 #include "GameInstance.h"
+#include "Level.h"
 #include "Component.h"
+
+#include "StringHelper.h"
+#include "PaseDataHeader.h"
 
 CGameObject::CGameObject(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext) :
 	m_pGraphic_Device(pGraphic_Device),
@@ -215,6 +219,26 @@ void CGameObject::SetVisibility(VISIBILITY eVisible)
 const VISIBILITY& CGameObject::GetVisibility()
 {
 	return m_eVisible;
+}
+
+void CGameObject::ExportData(void* pArg)
+{
+	SAVE_LEVEL_DESC* Desc = static_cast<SAVE_LEVEL_DESC*>(pArg);
+
+	_string		PrototypeName = "";
+	_wstring	widePrototypeName = L"";
+	WCHAR		szTemp[MAX_PATH] = {};
+
+	m_pGameInstance->GetPrototypeName(typeid(*this).name(), PrototypeName);
+	CStringHelper::ConvertUTFToWide(PrototypeName.c_str(), szTemp);
+	widePrototypeName = szTemp;
+	Desc->iPrototypeLevelID = m_pGameInstance->GetPrototypeLevel(widePrototypeName);
+
+	//prototype 이름으로 가져오기
+	strcpy_s(Desc->PrototypeName, PrototypeName.c_str());
+	Desc->vScale = m_pTransformCom->GetScale();
+	Desc->vRotation = m_pTransformCom->GetRotation();
+	Desc->vPosition = m_pTransformCom->GetPosition();
 }
 
 CGameObject* CGameObject::Clone(void* pArg)

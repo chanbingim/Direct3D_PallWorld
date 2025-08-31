@@ -220,6 +220,16 @@ void CGameInstance::Clear_Resource(_uInt iLevelIndex)
 }
 
 #pragma region Timer_Manager
+void CGameInstance::GetPrototypeName(const char* classTypeName, _string& OutName)
+{
+    m_pPrototype_Manager->GetPrototypeName(classTypeName, OutName);
+}
+
+_uInt CGameInstance::GetPrototypeLevel(const _wstring& PrototypeName)
+{
+    return m_pPrototype_Manager->GetPrototypeLevel(PrototypeName);
+}
+
 HRESULT CGameInstance::Add_Timer(const _wstring& strTimerTag)
 {
     return m_pTimer_Manager->Add_Timer(strTimerTag);

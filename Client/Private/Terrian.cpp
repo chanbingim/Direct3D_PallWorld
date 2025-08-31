@@ -1,6 +1,8 @@
 #include "Terrian.h"
 
 #include "GameInstance.h"
+#include "PaseDataHeader.h"
+#include "StringHelper.h"
 
 CTerrian::CTerrian(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext) :
 	CActor(pGraphic_Device, pDeviceContext)
@@ -93,6 +95,17 @@ HRESULT CTerrian::Render()
 	return S_OK;
 }
 
+#ifdef _DEBUG
+void CTerrian::ExportData(void* pArg)
+{
+	__super::ExportData(pArg);
+	SAVE_LEVEL_DESC* Desc = static_cast<SAVE_LEVEL_DESC*>(pArg);
+	Desc->ObjectDesc.TerrianDesc.TerrainType = 0;
+	Desc->ObjectDesc.TerrianDesc.TileCnt = m_pVIBufferCom->GetTerrianSize();
+	CStringHelper::ConvertWideToUTF(szVIBuffer, Desc->ObjectDesc.TerrianDesc.HeightMapCom);
+}
+#endif // _DEBUG
+
 HRESULT CTerrian::Apply_ConstantShaderResources()
 {
 	m_pEMVWorldMat->SetMatrix(reinterpret_cast<const float*>(&m_pTransformCom->GetWorldMat()));
@@ -106,7 +119,6 @@ HRESULT CTerrian::ADD_Components(_uInt iGridCnt)
 {
 	if (iGridCnt > 0)
 	{
-		WCHAR		szVIBuffer[MAX_PATH] = {};
 		wsprintf(szVIBuffer, TEXT("Prototype_Component_VIBuffer_Terrian%dx%d"), iGridCnt, iGridCnt);
 
 		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), szVIBuffer, TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
@@ -114,6 +126,7 @@ HRESULT CTerrian::ADD_Components(_uInt iGridCnt)
 	}
 	else
 	{
+		wsprintf(szVIBuffer, TEXT("Prototype_Component_VIBuffer_Terrian"));
 		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
 			return E_FAIL;
 	}

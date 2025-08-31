@@ -66,6 +66,11 @@ public :
 
 	void									SetVisibility(VISIBILITY eVisible);
 	const VISIBILITY&						GetVisibility();
+	
+
+#ifdef _DEBUG
+	virtual void							ExportData(void* pArg);
+#endif // _DEBUG
 
 protected:
 	_wstring								m_ObejctTag = {};

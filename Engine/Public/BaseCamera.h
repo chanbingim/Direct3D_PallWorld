@@ -5,7 +5,7 @@ NS_BEGIN(Engine)
 class ENGINE_DLL CBaseCamera abstract : public CGameObject
 {
 public :
-	typedef struct Camera_Desc
+	typedef struct Camera_Desc : public CGameObject::GAMEOBJECT_DESC
 	{
 		_float3	 vEye{}, vAt{};
 		_float	 fFov{}, fFar{}, fNear{};
@@ -35,6 +35,10 @@ public:
 	void										SetFov(_float fAngle);
 	_bool										IsInPoint(_float3& vPos, _float offset);
 	 
+#ifdef _DEBUG
+	virtual void								ExportData(void* pArg);
+#endif // _DEBUG
+
 private :
 	//카메라 정보
 	_float										m_fFov = {};

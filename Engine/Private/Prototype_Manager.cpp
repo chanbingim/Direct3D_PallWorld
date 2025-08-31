@@ -1,5 +1,7 @@
 #include "Prototype_Manager.h"
 
+#include "StringHelper.h"
+
 HRESULT CPrototype_Manager::Initialize(_uInt iLevelNum)
 {
     m_iLevelCnt = iLevelNum;
@@ -26,6 +28,42 @@ void CPrototype_Manager::Clear_Resource(_uInt iLevelIndex)
         Safe_Release(pair.second);
 
     m_Prototypes[iLevelIndex].clear();
+}
+
+void CPrototype_Manager::GetPrototypeName(const char* classTypeName, _string& OutName)
+{
+    WCHAR ClassName[MAX_PATH] = {};
+    char  PrototypeName[MAX_PATH] = {};
+
+    CStringHelper::ConvertUTFToWide(classTypeName, ClassName);
+    
+    for (_uInt i = 0; i < m_iLevelCnt; ++i)
+    {
+        auto iter = find_if(m_Prototypes[i].begin(), m_Prototypes[i].end(), [&](auto& pair)
+            {
+                return !strcmp(classTypeName, typeid(*(pair.second)).name());
+            });
+
+        if (iter == m_Prototypes[i].end())
+            OutName = "";
+        else
+        {
+            CStringHelper::ConvertWideToUTF(iter->first.c_str(), PrototypeName);
+            OutName = PrototypeName;
+            break;
+        }
+    }
+}
+
+_uInt CPrototype_Manager::GetPrototypeLevel(const _wstring& PrototypeName)
+{
+    for (_uInt i = 0; i < m_iLevelCnt; ++i)
+    {
+        auto iter = m_Prototypes[i].find(PrototypeName);
+        if (iter != m_Prototypes[i].end())
+            return i;
+    }
+    return -1;
 }
 
 CBase* CPrototype_Manager::Find_Prototype(_uInt iLevelNum, const _wstring& PrototypeTag)

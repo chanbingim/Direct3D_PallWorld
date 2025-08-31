@@ -3,8 +3,13 @@
 #include "ImgManager.h"
 
 #include "GameInstance.h"
+#include "StringHelper.h"
 #include "Level.h"
 #include "GameObject.h"
+
+#include "Terrian.h"
+#include "Enviormnent.h"
+#include "Camera.h"
 
 #pragma region IMG_UI_HEADER
 #include "IMG_Profiler.h"
@@ -222,8 +227,6 @@ void CImgManager::DarwMenuBar()
                 SaveLevel();
             }
 
-            ImGui::EndMenu();
-
             if (ImGui::MenuItem("Load"))
             {
                 LoadLevel();
@@ -250,40 +253,189 @@ void CImgManager::DarwMenuBar()
 
 HRESULT CImgManager::SaveLevel()
 {
-    //파일 입출력 열어서 저장
-    ios_base::openmode flag;
-    flag = ios::out | ios::trunc | ios::binary;
+    char FilePath[MAX_PATH] = "";
+    char LayerName[MAX_PATH] = "";
 
-    char FilePath[MAX_PATH] = {};
-    ofstream file(FilePath, flag);
-
-    if (file.is_open())
+    auto pGameInstance = CGameInstance::GetInstance();
+    _uInt iCurLevel = pGameInstance->GetCurrentLevel()->GetLevelID();
+  
+    auto CurLevelLayers = pGameInstance->GetCurLevelLayer();
+    for (auto& LayerPair : *CurLevelLayers)
     {
-        auto pGameInstance = CGameInstance::GetInstance();
-        _uInt iCurLevel = pGameInstance->GetCurrentLevel()->GetLevelID();
-        auto CurLevelLayers = pGameInstance->GetCurLevelLayer();
+        strcpy_s(FilePath, "../Bin/Save/Map/");
+        list<SAVE_LEVEL_DESC> SaveList;
+        auto CurObjectList = pGameInstance->GetAllObejctToLayer(iCurLevel, LayerPair.first);
+        CStringHelper::ConvertWideToUTF(LayerPair.first.c_str(), LayerName);
 
-        for (auto& LayerPair : *CurLevelLayers)
+        SAVE_OBJECT_TYPE type;
+        if (0 != LayerPair.first.find(L"Camera"))
+            type = SAVE_OBJECT_TYPE::CAMERA;
+        else if(0 != LayerPair.first.find(L"Terrian"))
+            type = SAVE_OBJECT_TYPE::TERRAIN;
+        else if (0 != LayerPair.first.find(L"Enviorment"))
+            type = SAVE_OBJECT_TYPE::ENVIORNMENT;
+        else
+            type = SAVE_OBJECT_TYPE::OBEJCT;
+
+        sprintf_s(FilePath, "%s%s.txt", FilePath, LayerName);
+        for (auto& Object : *CurObjectList)
         {
-            auto CurObjectList = pGameInstance->GetAllObejctToLayer(iCurLevel, LayerPair.first);
-            for (auto& Object : *CurObjectList)
-            {
-
-            }
+            SAVE_LEVEL_DESC PaserData;
+            ZeroMemory(&PaserData, sizeof(SAVE_LEVEL_DESC));
+            PaserData.eType = type;
+            PaserData.iSaveLevelID = iCurLevel;
+            strcpy_s(PaserData.LayerName, LayerName);
+            Object->ExportData(&PaserData);
+            SaveList.push_back(PaserData);
         }
-    }
-    file.close();
 
+        SaveFile(FilePath, SaveList);
+    }
+   
     return S_OK;
 }
 
 HRESULT CImgManager::LoadLevel()
 {
-
-
-
+    for(_Int i= 0; i < 4; ++i)
+        LoadFile(i);
 
     return S_OK;
+}
+
+void CImgManager::SaveFile(const char* FilePath, list<SAVE_LEVEL_DESC>& SaveData)
+{
+    //파일 입출력 열어서 저장
+    ios_base::openmode flag;
+    flag = ios::out | ios::trunc;
+    ofstream file(FilePath, flag);
+
+    if (file.is_open())
+    {
+        _uInt iSaveObjectCnt = (_uInt)SaveData.size();
+        file.write(reinterpret_cast<_char*>(&iSaveObjectCnt), sizeof(_uInt));
+        for (SAVE_LEVEL_DESC& iter : SaveData)
+        {
+            file.write(reinterpret_cast<_char*>(&iter), sizeof(SAVE_LEVEL_DESC));
+        }
+    }
+
+    file.close();
+}
+
+void CImgManager::LoadFile(_uInt iType)
+{
+    //파일 입출력 열어서 저장
+    ios_base::openmode flag;
+    flag = ios::in;
+
+    list<SAVE_LEVEL_DESC> LoadList;
+    auto pGameInstance = CGameInstance::GetInstance();
+    char FilePath[MAX_PATH] = "";
+    SAVE_OBJECT_TYPE ObjectType = SAVE_OBJECT_TYPE(iType);
+    switch (ObjectType)
+    {
+    case SAVE_OBJECT_TYPE::CAMERA :
+        strcpy_s(FilePath, "../Bin/Save/Map/Layer_GamePlay_Camera.txt");
+        break;
+    case SAVE_OBJECT_TYPE::TERRAIN:
+        strcpy_s(FilePath, "../Bin/Save/Map/Layer_GamePlay_Terrian.txt");
+        break;
+    case SAVE_OBJECT_TYPE::ENVIORNMENT:
+        strcpy_s(FilePath, "../Bin/Save/Map/Layer_GamePlay_Enviorment.txt");
+        break;
+    case SAVE_OBJECT_TYPE::OBEJCT:
+        strcpy_s(FilePath, "../Bin/Save/Map/Layer_GamePlay_Player.txt");
+        break;
+    }
+
+    ifstream file(FilePath, flag);
+    if (file.is_open())
+    {
+        _uInt iLoadObjectCnt = {};
+        file.read(reinterpret_cast<_char*>(&iLoadObjectCnt), sizeof(_uInt));
+        for (_uInt i = 0; i < iLoadObjectCnt; ++i)
+        {
+            SAVE_LEVEL_DESC LoadData;
+            file.read(reinterpret_cast<_char*>(&LoadData), sizeof(SAVE_LEVEL_DESC));
+            LoadList.push_back(LoadData);
+        }
+    }
+    file.close();
+
+    WCHAR szPrototypeName[MAX_PATH] = {};
+    WCHAR szLayerName[MAX_PATH] = {};
+    _uInt ObejctCnt = {};
+    for (auto& iter : LoadList)
+    {
+        CGameObject::GAMEOBJECT_DESC* Desc = nullptr;
+#pragma region Bind
+        switch (ObjectType)
+        {
+        case SAVE_OBJECT_TYPE::CAMERA:
+        {
+            Desc = new CCamera::CAMERA_DESC;
+            ZeroMemory(Desc, sizeof(CCamera::CAMERA_DESC));
+
+            CCamera::CAMERA_DESC* CameraDesc = static_cast<CCamera::CAMERA_DESC*>(Desc);
+            CameraDesc->vEye = iter.vPosition;
+            CameraDesc->vAt = {0, 0, 0};
+            CameraDesc->fFar = iter.ObjectDesc.CameraDesc.fFar;
+            CameraDesc->fNear = iter.ObjectDesc.CameraDesc.fNear;
+            CameraDesc->fFov = iter.ObjectDesc.CameraDesc.fFov;
+
+            wsprintf(Desc->ObjectTag, TEXT("Camera %d"), ObejctCnt);
+        }
+        break;
+        case SAVE_OBJECT_TYPE::TERRAIN:
+        {
+            Desc = new CTerrian::TERRIAN_DESC;
+            ZeroMemory(Desc, sizeof(CTerrian::TERRIAN_DESC));
+
+            CTerrian::TERRIAN_DESC* TerrianDesc = static_cast<CTerrian::TERRIAN_DESC*>(Desc);
+            TerrianDesc->TerrianType = iter.ObjectDesc.TerrianDesc.TerrainType;
+            TerrianDesc->iGridCnt = (_uInt)iter.ObjectDesc.TerrianDesc.TileCnt.x;
+            //TerrianDesc-> = iter.ObjectDesc.TerrianDesc.TileCnt.x;
+
+            wsprintf(Desc->ObjectTag, TEXT("Terrian %d"), ObejctCnt);
+        }
+        break;
+        case SAVE_OBJECT_TYPE::ENVIORNMENT:
+        {
+            Desc = new CEnviormnent::ENVIORMNENT_DESC;
+            ZeroMemory(Desc, sizeof(CEnviormnent::ENVIORMNENT_DESC));
+
+            CEnviormnent::ENVIORMNENT_DESC* EnvDesc = static_cast<CEnviormnent::ENVIORMNENT_DESC*>(Desc);
+            EnvDesc->iModelIndex = iter.PrototypeIndex;
+            wsprintf(Desc->ObjectTag, TEXT("Enviroment %d"), ObejctCnt);
+        }
+        break;
+        case SAVE_OBJECT_TYPE::OBEJCT:
+        {
+            Desc = new CGameObject::GAMEOBJECT_DESC;
+            ZeroMemory(Desc, sizeof(CGameObject::GAMEOBJECT_DESC));
+
+            wsprintf(Desc->ObjectTag, TEXT("GameObject %d"), ObejctCnt);
+        }
+        break;
+        }
+#pragma endregion
+        if (nullptr == Desc)
+            return;
+
+        Desc->vScale = iter.vScale;
+        Desc->vRotation = iter.vRotation;
+        Desc->vPosition = iter.vPosition;
+
+        CStringHelper::ConvertUTFToWide(iter.PrototypeName, szPrototypeName);
+        CStringHelper::ConvertUTFToWide(iter.LayerName, szLayerName);
+       
+       
+        pGameInstance->Add_GameObject_ToLayer(iter.iPrototypeLevelID, szPrototypeName, iter.iSaveLevelID, szLayerName, Desc);
+        ObejctCnt++;
+
+        Safe_Delete(Desc);
+    }
 }
 
 void CImgManager::Free()

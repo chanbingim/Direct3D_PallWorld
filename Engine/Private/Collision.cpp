@@ -1,5 +1,7 @@
 #include "Collision.h"
 
+#include  "GameObject.h"
+
 CCollision::CCollision(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CComponent(pDevice, pContext)
 {

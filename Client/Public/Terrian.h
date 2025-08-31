@@ -15,9 +15,9 @@ class CTerrian : public CActor
 public :
 	typedef struct Terrian_Desc : GAMEOBJECT_DESC
 	{
+		_uInt			TerrianType;
 		_uInt			iGridCnt;
 		_bool			IsPicking;
-
 	}TERRIAN_DESC;
 
 protected:
@@ -38,12 +38,17 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render();
 
+#ifdef _DEBUG
+	virtual void							ExportData(void* pArg);
+#endif // _DEBUG
+
 protected :
 	virtual		HRESULT						Bind_ShaderResources() override;
 	virtual		HRESULT						Apply_ConstantShaderResources() override;
 
 private :
 	_bool									m_bIsPicking = false;
+	WCHAR									szVIBuffer[MAX_PATH] = {};
 
 	CVIBuffer_Terrian*						m_pVIBufferCom = nullptr;
 	CTexture*								m_pTextureCom = nullptr;

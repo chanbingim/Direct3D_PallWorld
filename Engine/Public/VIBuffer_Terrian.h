@@ -23,6 +23,7 @@ public:
 	virtual _bool			IsPicking(_vector vRayOrizin, _vector vRayDir, class CTransform* pTransform, _float3* pOut);
 	
 	HRESULT					UpdateHegiht(CTransform* pTransform, _float Apply, _float Offset);
+	_float2					GetTerrianSize() { return m_iNumVertex; }
 
 private :
 	_float2					m_iNumVertex = {};

@@ -339,7 +339,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 		/* EnviornMent Rock MESH  Component */
 		if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), szModelName,
-			CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Rock/Rock_0.fbx"))))
+			CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, szFilePath))))
 			return E_FAIL;
 	}
 #pragma endregion

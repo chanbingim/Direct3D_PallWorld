@@ -22,6 +22,9 @@ public :
 	template<typename T>
 	void			GetPrototypeList(_uInt iLevelIndex, list<pair<_wstring, T*>>* pOutList);
 
+	void			GetPrototypeName(const char* classTypeName, _string& OutName);
+	_uInt			GetPrototypeLevel(const _wstring& PrototypeName);
+
 private :
 	unordered_map<_wstring, CBase*>*	m_Prototypes = nullptr;
 	_uInt								m_iLevelCnt = {};
