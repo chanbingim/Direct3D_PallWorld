@@ -60,7 +60,6 @@ _matrix CBone::GetCombinedTransformationMatrix()
 
 void CBone::SetBoneTransformMatrix(_matrix TransformMat)
 {
-    m_IsAnim = true;
     XMStoreFloat4x4(&m_TransformationMatrix, TransformMat);
 }
 

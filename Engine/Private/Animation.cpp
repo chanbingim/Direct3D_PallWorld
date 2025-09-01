@@ -108,13 +108,7 @@ _float2 CAnimation::GetPreFrameKey()
 {
 	_float2 ReturnData = { m_fCurrentTrackPosition , m_Channels[0]->GetPreKeyFrameTrackPos(m_iChannelIndex[0]) };
 	m_fCurrentTrackPosition = 0;
-	_uInt iIndex = {};
-	for (_uInt i = 0; i <m_iNumChannels; ++i)
-	{
-		m_iChannelIndex[i] = 0;
-		iIndex++;
-	}
-		
+	fill(m_iChannelIndex.begin(), m_iChannelIndex.end(), 0);
 	return ReturnData;
 }
 
@@ -138,12 +132,10 @@ void CAnimation::Export(void* pAnimationDesc)
 	}
 }
 
-vector<_Int> CAnimation::GetUseBoneIndex()
+void CAnimation::GetUseBoneIndex(vector<_bool>& BoneList)
 {
-	vector<_Int> iUseBoneIndex;
 	for (auto& pChannel : m_Channels)
-		iUseBoneIndex.push_back(pChannel->GetBoneIndex());
-	return iUseBoneIndex;
+		BoneList[pChannel->GetBoneIndex()] = true;
 }
 
 CAnimation* CAnimation::Create(const CModel* pModel, const aiAnimation* pAIAnimation, _bool bIsLoop)

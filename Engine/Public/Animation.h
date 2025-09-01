@@ -25,7 +25,7 @@ public :
 	const	char*	GetAnimationName() { return m_szAnimName; }
 
 	void			Export(void* pAnimationDesc);
-	vector<_Int>	GetUseBoneIndex();
+	void			GetUseBoneIndex(vector<_bool>& BoneList);
 
 private :
 	/*  애니 메이션에 대한 정보를 저장한다. */

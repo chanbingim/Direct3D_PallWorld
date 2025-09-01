@@ -26,6 +26,8 @@ CModel::CModel(const CModel& rhs) :
 	m_iNumAnimations(rhs.m_iNumAnimations),
 	m_PreTransformMatrix(rhs.m_PreTransformMatrix),
 	m_Materials(rhs.m_Materials),
+	m_PreAnimBones(rhs.m_PreAnimBones),
+	m_CurAnimBones(rhs.m_CurAnimBones),
 	m_eType(rhs.m_eType)
 {
 	for (auto& pMesh : m_Meshes)
@@ -106,6 +108,8 @@ HRESULT CModel::Initialize_Prototype(MODEL_TYPE eType, const _char* pModelFilePa
 		}
 	}
 
+	m_PreAnimBones.resize(m_iNumBones, false);
+	m_CurAnimBones.resize(m_iNumBones, false);
 	return S_OK;
 }
 
@@ -772,37 +776,35 @@ HRESULT CModel::ReadAnimModelFile(void* Data, const char* FilePath)
 
 void CModel::ChangeAnimation(_uInt iAnimIndex)
 {
-	vector<_Int> PreAnimBones, ChangeAnimBones;
-
+	// 여기서 Bone 가져올 필요가없음
+	// Vector랑 같이 넘겨서 받아오자.
 	if (-1 != m_iCurrentAnimIndex)
 	{
 		if (m_iCurrentAnimIndex != iAnimIndex)
 		{
-			PreAnimBones = m_Animations[m_iCurrentAnimIndex]->GetUseBoneIndex();
+			m_Animations[m_iCurrentAnimIndex]->GetUseBoneIndex(m_PreAnimBones);
 			m_PreFrameTrackPos = m_Animations[m_iCurrentAnimIndex]->GetPreFrameKey();
 			if(-1 != m_PreFrameTrackPos.x)
 				m_bIsLerpAnimation = true;
-		}
-	}
 
-	m_iCurrentAnimIndex = iAnimIndex;
-	ChangeAnimBones = m_Animations[m_iCurrentAnimIndex]->GetUseBoneIndex();
-	for (auto& iIndex : PreAnimBones)
-	{
-		auto iter = find(ChangeAnimBones.begin(), ChangeAnimBones.end(), iIndex);
-		if (iter == ChangeAnimBones.end())
-			m_Bones[iIndex]->InitTransformationMatrix();
+			m_iCurrentAnimIndex = iAnimIndex;
+			m_Animations[m_iCurrentAnimIndex]->GetUseBoneIndex(m_CurAnimBones);
+			for (_uInt i = 0; i < m_iNumBones; ++i)
+			{
+				if (false == (m_PreAnimBones[i] & m_CurAnimBones[i]))
+				{
+					m_Bones[i]->InitTransformationMatrix();
+					m_PreAnimBones[i] = m_CurAnimBones[i];
+				}
+			}
+		}
 	}
 }
 
 void CModel::LerpAnimation(_float fDeletaTime)
 {
 	if (m_Animations[m_iCurrentAnimIndex]->UpdateTransformationMatrices(m_Bones, fDeletaTime, &m_PreFrameTrackPos, 0.5f))
-	{
-		ZeroMemory(&m_PreFrameTrackPos, sizeof(_float2));
 		m_bIsLerpAnimation = false;
-	}
-
 }
 
 CModel* CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL_TYPE eType, const _char* pModelFilePath, _matrix PreModelMat)

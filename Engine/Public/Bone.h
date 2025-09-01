@@ -23,7 +23,6 @@ public:
 	void						InitTransformationMatrix();
 
 private:
-	_bool						m_IsAnim = false;
 	_char						m_szName[MAX_PATH] = {};
 
 	_float4x4					m_InitTransformationMatrix = {};
