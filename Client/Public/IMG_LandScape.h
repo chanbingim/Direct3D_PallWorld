@@ -22,9 +22,17 @@ private :
 	const _char*					m_SelectQuad = "";
 	_char							m_szQuadPreview[8][50] = {};
 
+	// 지형 픽킹을 위한 데이터
+	_bool							m_bIsPrefabBursh = false;
+	_Int							m_iBrushSize = {};
+	_Int							m_iPrefabIndex = {};
+	_char							m_szPrafeName[MAX_PATH] = {};
+	_char							m_szLayerName[MAX_PATH] = {};
+
 private :
 	void							DrawTileCount();
 	void							GenerateTerrian();
+	void							DrawPrefabBrush();
 	void							CreateHeightMapToPng();
 
 public:

@@ -29,6 +29,10 @@ void CIMG_LandScape::Update(_float fDeletaTime)
 {
     if (ImGui::Begin("LandScape"))
     {
+        ImGui::SetNextItemWidth(400);
+        if (ImGui::Button("PreFab_View"))
+            m_bIsPrefabBursh = !m_bIsPrefabBursh;
+
         ImGui::SetNextItemWidth(200);
         if (ImGui::BeginCombo("Quad", m_SelectQuad))
         {
@@ -55,10 +59,11 @@ void CIMG_LandScape::Update(_float fDeletaTime)
             //여기서 어떤 곳에다가 저장할지 결정한다음 저장
             CreateHeightMapToPng();
         }
-            
-
-        ImGui::End();
     }
+    ImGui::End();
+
+    if (m_bIsPrefabBursh)
+        DrawPrefabBrush();
 }
 
 void CIMG_LandScape::DrawTileCount()
@@ -105,6 +110,22 @@ void CIMG_LandScape::GenerateTerrian()
                 return;
         }
     }
+}
+
+void CIMG_LandScape::DrawPrefabBrush()
+{
+    if (ImGui::Begin("PreFab_Brsuh"))
+    {
+        ImGui::SetNextItemWidth(150.f);
+        ImGui::InputInt("BrushSize", &m_iBrushSize, 0);
+
+        ImGui::SetNextItemWidth(50.f);
+        ImGui::InputInt("PreFab_Index", &m_iPrefabIndex, 0);
+
+        ImGui::InputText("CreatePreFabPrototypeName", m_szPrafeName, MAX_PATH);
+        ImGui::InputText("CreatePreFabLayerName", m_szLayerName, MAX_PATH);
+    }
+    ImGui::End();
 }
 
 void CIMG_LandScape::CreateHeightMapToPng()

@@ -65,7 +65,7 @@ HRESULT CModel::Initialize_Prototype(MODEL_TYPE eType, const _char* pModelFilePa
 
 		if (FAILED(Ready_Bones(m_pAIScene->mRootNode, -1)))
 			return E_FAIL;
-		m_iNumBones = (_uInt)m_Bones.size();
+		
 
 		if (FAILED(Ready_Meshes(PreModelMat)))
 			return E_FAIL;
@@ -108,6 +108,7 @@ HRESULT CModel::Initialize_Prototype(MODEL_TYPE eType, const _char* pModelFilePa
 		}
 	}
 
+	m_iNumBones = (_uInt)m_Bones.size();
 	m_PreAnimBones.resize(m_iNumBones, false);
 	m_CurAnimBones.resize(m_iNumBones, false);
 	return S_OK;
@@ -778,14 +779,17 @@ void CModel::ChangeAnimation(_uInt iAnimIndex)
 {
 	// 여기서 Bone 가져올 필요가없음
 	// Vector랑 같이 넘겨서 받아오자.
-	if (-1 != m_iCurrentAnimIndex)
+	if (-1 != iAnimIndex)
 	{
 		if (m_iCurrentAnimIndex != iAnimIndex)
 		{
-			m_Animations[m_iCurrentAnimIndex]->GetUseBoneIndex(m_PreAnimBones);
-			m_PreFrameTrackPos = m_Animations[m_iCurrentAnimIndex]->GetPreFrameKey();
-			if(-1 != m_PreFrameTrackPos.x)
-				m_bIsLerpAnimation = true;
+			if (-1 != m_iCurrentAnimIndex)
+			{
+				m_Animations[m_iCurrentAnimIndex]->GetUseBoneIndex(m_PreAnimBones);
+				m_PreFrameTrackPos = m_Animations[m_iCurrentAnimIndex]->GetPreFrameKey();
+				if (-1 != m_PreFrameTrackPos.x)
+					m_bIsLerpAnimation = true;
+			}
 
 			m_iCurrentAnimIndex = iAnimIndex;
 			m_Animations[m_iCurrentAnimIndex]->GetUseBoneIndex(m_CurAnimBones);

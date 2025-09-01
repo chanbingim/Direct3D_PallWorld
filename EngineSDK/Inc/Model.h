@@ -57,6 +57,7 @@ private :
 	// 뼈 개수 및 뼈 저장
 	_uInt						m_iNumBones = {};
 	vector<CBone*>				m_Bones;
+	vector<_bool>				m_PreAnimBones, m_CurAnimBones;
 
 	// 애니메이션 개수 및 애니메이션 저장
 	_bool						m_bIsLerpAnimation = false;

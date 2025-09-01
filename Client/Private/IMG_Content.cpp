@@ -19,8 +19,9 @@ void CIMG_Content::Update(_float fDeletaTime)
 {
     if (ImGui::Begin("Browser"))
     {
-        ImGui::End();
+        
     }
+    ImGui::End();
 }
 
 CIMG_Content* CIMG_Content::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

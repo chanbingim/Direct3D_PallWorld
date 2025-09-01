@@ -20,6 +20,7 @@
 #include <queue>
 #include <functional>
 #include <string>
+#include <bitset>
 
 using namespace std;
 
