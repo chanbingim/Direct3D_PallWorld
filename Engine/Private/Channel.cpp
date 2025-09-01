@@ -55,15 +55,11 @@ HRESULT CChannel::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CChannel::ResetChannel()
-{
-	m_iCurrentKeyFrameIndex = 0;
-}
-
-void CChannel::Update_TransformationMatrix(vector<CBone*>& Bones, _float fCurrentTrackPosition)
+void CChannel::Update_TransformationMatrix(vector<CBone*>& Bones, _float fCurrentTrackPosition, _uInt* iKeyIndex)
 {
 	KEYFRAME	LastFrame = m_KeyFrames.back();
 	_vector		vScale{}, vRotation{}, vTranslation{};
+
 	if (LastFrame.fTrackPosition <= fCurrentTrackPosition)
 	{
 		vScale = XMLoadFloat3(&LastFrame.vScale);
@@ -72,21 +68,24 @@ void CChannel::Update_TransformationMatrix(vector<CBone*>& Bones, _float fCurren
 	}
 	else
 	{
-		if (fCurrentTrackPosition >= m_KeyFrames[(_uInt)m_iCurrentKeyFrameIndex + 1].fTrackPosition)
-			m_iCurrentKeyFrameIndex++;
+		if (0.f == fCurrentTrackPosition)
+			(*iKeyIndex) = 0;
+
+		while (fCurrentTrackPosition >= m_KeyFrames[(_uInt)(*iKeyIndex) + 1].fTrackPosition)
+				(*iKeyIndex)++;
 
 		_float3		vSourScale{}, vDestScale{};
 		_float4		vSourRotation{}, vDestRotation{};
 		_float3		vSourTranslation{}, vDestTranslation{};
 
-		vSourScale = m_KeyFrames[m_iCurrentKeyFrameIndex].vScale;
-		vDestScale = m_KeyFrames[m_iCurrentKeyFrameIndex + 1].vScale;
+		vSourScale = m_KeyFrames[(*iKeyIndex)].vScale;
+		vDestScale = m_KeyFrames[(*iKeyIndex) + 1].vScale;
 
-		vSourRotation = m_KeyFrames[m_iCurrentKeyFrameIndex].vRotation;
-		vDestRotation = m_KeyFrames[m_iCurrentKeyFrameIndex + 1].vRotation;
+		vSourRotation = m_KeyFrames[(*iKeyIndex)].vRotation;
+		vDestRotation = m_KeyFrames[(*iKeyIndex) + 1].vRotation;
 
-		vSourTranslation = m_KeyFrames[m_iCurrentKeyFrameIndex].vTranslation;
-		vDestTranslation = m_KeyFrames[m_iCurrentKeyFrameIndex + 1].vTranslation;
+		vSourTranslation = m_KeyFrames[(*iKeyIndex)].vTranslation;
+		vDestTranslation = m_KeyFrames[(*iKeyIndex) + 1].vTranslation;
 
 		// 수식 
 		// 현재 프레임기준 진행된 길이 : 현재 트랙 위치 - 현재 프레임기준 왼쪽 Frame노드
@@ -94,8 +93,8 @@ void CChannel::Update_TransformationMatrix(vector<CBone*>& Bones, _float fCurren
 		// 진행된 길이 / 프레임 사이거리 = 진행된 비율값
 		// 즉 현재 진행 위치로 부터 다음위치까지의 진행 비율이다.
 		// 이걸이용해 선형 보간
-		_float		fRatio = (fCurrentTrackPosition - m_KeyFrames[m_iCurrentKeyFrameIndex].fTrackPosition) /
-							 (m_KeyFrames[m_iCurrentKeyFrameIndex + 1].fTrackPosition - m_KeyFrames[m_iCurrentKeyFrameIndex].fTrackPosition);
+		_float		fRatio = (fCurrentTrackPosition - m_KeyFrames[(*iKeyIndex)].fTrackPosition) /
+							 (m_KeyFrames[(*iKeyIndex) + 1].fTrackPosition - m_KeyFrames[(*iKeyIndex)].fTrackPosition);
 
 		vScale = XMVectorLerp(XMLoadFloat3(&vSourScale), XMLoadFloat3(&vDestScale), fRatio);
 		vRotation = XMQuaternionSlerp(XMLoadFloat4(&vSourRotation), XMLoadFloat4(&vDestRotation), fRatio);
@@ -106,6 +105,38 @@ void CChannel::Update_TransformationMatrix(vector<CBone*>& Bones, _float fCurren
 	Bones[m_iBoneIndex]->SetBoneTransformMatrix(BoneTransformationMatrix);
 }
 
+void CChannel::Update_TransformationMatrix(vector<CBone*>& Bones, _float fRatio)
+{
+	if (!m_bIsBoneLerp)
+	{
+		XMStoreFloat4x4(&m_PreBoneMatrix, Bones[m_iBoneIndex]->GetBoneTransformMatrix());
+		m_bIsBoneLerp = true;
+	}
+
+	_vector		vScale{}, vRotation{}, vTranslation{};
+	_vector		vSourScale{}, vSourRotation{}, vSourTranslation{};
+
+	_float3		vDestScale{}, vDestTranslation{};
+	_float4		vDestRotation{};
+
+	_matrix PreBoneMatrix = XMLoadFloat4x4(&m_PreBoneMatrix);
+	XMMatrixDecompose(&vSourScale, &vSourRotation, &vSourTranslation, PreBoneMatrix);
+
+	vDestScale = m_KeyFrames[0].vScale;
+	vDestRotation = m_KeyFrames[0].vRotation;
+	vDestTranslation = m_KeyFrames[0].vTranslation;
+
+	vScale = XMVectorLerp(vSourScale, XMLoadFloat3(&vDestScale), fRatio);
+	vRotation = XMQuaternionSlerp(vSourRotation, XMLoadFloat4(&vDestRotation), fRatio);
+	vTranslation = XMVectorSetW(XMVectorLerp(vSourTranslation, XMLoadFloat3(&vDestTranslation), fRatio), 1.f);
+
+	_matrix		BoneTransformationMatrix = XMMatrixAffineTransformation(vScale, XMVectorSet(0.f, 0.f, 0.f, 1.f), vRotation, vTranslation);
+	Bones[m_iBoneIndex]->SetBoneTransformMatrix(BoneTransformationMatrix);
+
+	if(1.0f <= fRatio)
+		m_bIsBoneLerp = false;
+}
+
 void CChannel::Export(void* pChannelDesc)
 {
 	SAVE_CHANNEL_DESC* ChannelDesc = static_cast<SAVE_CHANNEL_DESC*>(pChannelDesc);
@@ -113,6 +144,11 @@ void CChannel::Export(void* pChannelDesc)
 	ChannelDesc->iBoneIndex = m_iBoneIndex;
 	ChannelDesc->iNumKeyFrames = m_iNumKeyFrames;
 	ChannelDesc->KeyFrames = m_KeyFrames;
+}
+
+_float CChannel::GetPreKeyFrameTrackPos(_uInt iIndex)
+{
+	return m_KeyFrames[iIndex].fTrackPosition;
 }
 
 CChannel* CChannel::Create(const CModel* pModel, const aiNodeAnim* pAIChannel)

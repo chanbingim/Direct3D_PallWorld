@@ -10,16 +10,22 @@ class CAnimation final : public CBase
 {
 private :
 	CAnimation();
+	CAnimation(const CAnimation& rhs);
 	virtual ~CAnimation() = default;
 		
 public :
-	HRESULT		Initialize(const CModel* pModel, const aiAnimation* pAIAnimation, _bool bIsLoop = false);
-	HRESULT		Initialize(void* pArg);
-	void		UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTimeDelta);
+	HRESULT			Initialize(const CModel* pModel, const aiAnimation* pAIAnimation, _bool bIsLoop = false);
+	HRESULT			Initialize(void* pArg);
 
-	_bool		CompareAnimName(const char* szName);
+	void			UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTimeDelta);
+	_bool			UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTimeDelta, _float2* LastAnimTrackPos, _float fLength);
 
-	void		Export(void* pAnimationDesc);
+	_bool			CompareAnimName(const char* szName);
+	_float2			GetPreFrameKey();
+	const	char*	GetAnimationName() { return m_szAnimName; }
+
+	void			Export(void* pAnimationDesc);
+	vector<_Int>	GetUseBoneIndex();
 
 private :
 	/*  애니 메이션에 대한 정보를 저장한다. */
@@ -37,11 +43,15 @@ private :
 	_bool						m_bIsLoop = false;
 
 	_uInt						m_iNumChannels = {};
+
 	vector<CChannel*>			m_Channels;
+	vector<_uInt>				m_iChannelIndex;
 
 public :
 	static		CAnimation*					Create(const CModel* pModel, const aiAnimation* pAIAnimation, _bool bIsLoop = false);
 	static		CAnimation*					Create(void* pArg);
+	CAnimation*								Clone();
+
 	virtual		void						Free() override;
 
 };

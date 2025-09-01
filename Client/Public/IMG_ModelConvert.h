@@ -3,6 +3,7 @@
 
 NS_BEGIN(Engine)
 class CGameObject;
+class CModel;
 class CEditorCamera;
 NS_END
 
@@ -31,9 +32,11 @@ private :
 private :
 	list<CGameObject*>						m_ShowGameObject = {};
 	CGameObject*							m_pSelectObejct = nullptr;
+	CModel*									m_pSelectObjectModelCom = nullptr;
 	CEditorCamera*							m_pModelCamera = nullptr;
 
 	char									m_SelectObejctName[MAX_PATH] = {};
+	char									m_SelectObjAnimName[MAX_PATH] = {};
 	char									m_showObejctName[MAX_PATH] = {};
 	char									m_SaveFilePath[MAX_PATH] = {};
 

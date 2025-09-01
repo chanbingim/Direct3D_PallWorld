@@ -45,7 +45,7 @@ void CPlayer::Priority_Update(_float fDeletaTime)
 void CPlayer::Update(_float fDeletaTime)
 {
     __super::Update(fDeletaTime);
-    m_pVIBufferCom->PlayAnimation(2, fDeletaTime);
+    m_pVIBufferCom->PlayAnimation(m_iAnimIndex, fDeletaTime);
 }
 
 void CPlayer::Late_Update(_float fDeletaTime)
@@ -85,6 +85,7 @@ HRESULT CPlayer::Bind_ShaderResources()
 
 HRESULT CPlayer::ADD_Components()
 {
+
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Fiona_Mesh"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
         return E_FAIL;
 

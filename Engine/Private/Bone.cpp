@@ -18,6 +18,7 @@ HRESULT CBone::Initialize(const aiNode* pAINode, _Int iParentIndex)
     // 정보를 읽어서 뼈의 위치 메트릭스를 통해서 갱신한다.
     memcpy(&m_TransformationMatrix, &pAINode->mTransformation, sizeof(_float4x4));
     XMStoreFloat4x4(&m_TransformationMatrix, XMMatrixTranspose(XMLoadFloat4x4(&m_TransformationMatrix)));
+    m_InitTransformationMatrix = m_TransformationMatrix;
 
     // 나중을 위한 정보
     XMStoreFloat4x4(&m_CombinedTransformationMatrix, XMMatrixIdentity());
@@ -37,6 +38,7 @@ HRESULT CBone::Initialize(void* pArg)
 
     // 정보를 읽어서 뼈의 위치 메트릭스를 통해서 갱신한다.
     m_TransformationMatrix = BoneDesc->PreTransformMat;
+    m_InitTransformationMatrix = m_TransformationMatrix;
 
     // 나중을 위한 정보
     XMStoreFloat4x4(&m_CombinedTransformationMatrix, XMMatrixIdentity());
@@ -48,7 +50,7 @@ void CBone::UpdateCombinedTransformationMatrix(const vector<CBone*>& Bones, _mat
     if (-1 == m_iParentBoneIndex)
         XMStoreFloat4x4(&m_CombinedTransformationMatrix, XMLoadFloat4x4(&m_TransformationMatrix) * PreTransformMatrix);
     else
-        XMStoreFloat4x4(&m_CombinedTransformationMatrix, XMLoadFloat4x4(&m_TransformationMatrix) * Bones[m_iParentBoneIndex]->GetCombinedTransformationMatrix() );
+        XMStoreFloat4x4(&m_CombinedTransformationMatrix, XMLoadFloat4x4(&m_TransformationMatrix) * Bones[m_iParentBoneIndex]->GetCombinedTransformationMatrix());
 }
 
 _matrix CBone::GetCombinedTransformationMatrix()
@@ -58,7 +60,13 @@ _matrix CBone::GetCombinedTransformationMatrix()
 
 void CBone::SetBoneTransformMatrix(_matrix TransformMat)
 {
+    m_IsAnim = true;
     XMStoreFloat4x4(&m_TransformationMatrix, TransformMat);
+}
+
+_matrix CBone::GetBoneTransformMatrix()
+{
+    return XMLoadFloat4x4(&m_TransformationMatrix);
 }
 
 _bool CBone::CompareName(const _char* pBoneName)
@@ -73,6 +81,11 @@ void CBone::Export(void* pBoneDsec)
     strcpy_s(Desc->szName, m_szName);
     Desc->PreTransformMat = m_TransformationMatrix;
     Desc->iParentBoneIndex = m_iParentBoneIndex;
+}
+
+void CBone::InitTransformationMatrix()
+{
+    m_TransformationMatrix = m_InitTransformationMatrix;
 }
 
 CBone* CBone::Create(const aiNode* pAINode, _Int iParentIndex)
@@ -95,6 +108,11 @@ CBone* CBone::Create(void* pArg)
         MSG_BOX("CREATE FAIL : BONE");
     }
     return pBone;
+}
+
+CBone* CBone::Clone()
+{
+    return new CBone(*this);
 }
 
 void CBone::Free()

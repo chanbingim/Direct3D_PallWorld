@@ -27,6 +27,7 @@ public:
 
 	// ·£´õ
 	virtual		HRESULT						Render() override;
+	void									SetAnimIndex(_uInt iIndex);
 
 protected:
 	virtual		HRESULT						Bind_ShaderResources() override;
@@ -38,6 +39,9 @@ protected:
 
 	ID3DX11EffectShaderResourceVariable*	m_pSRVEffect = nullptr;
 	ID3DX11EffectMatrixVariable*			m_pBoneMatrixEffect = nullptr;
+
+	_uInt									m_iAnimIndex = {};
+
 private:
 	HRESULT									ADD_Components();
 

@@ -49,6 +49,11 @@ HRESULT CAnimMeshActor::Render()
     return S_OK;
 }
 
+void CAnimMeshActor::SetAnimIndex(_uInt iIndex)
+{
+    m_iAnimIndex = iIndex;
+}
+
 HRESULT CAnimMeshActor::Bind_ShaderResources()
 {
     if (nullptr == m_pShaderCom)

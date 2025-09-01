@@ -23,9 +23,7 @@ CModel::CModel(const CModel& rhs) :
 	m_iNumMeshes(rhs.m_iNumMeshes),
 	m_iNumMaterials(rhs.m_iNumMaterials),
 	m_iNumBones(rhs.m_iNumBones),
-	m_Bones(rhs.m_Bones),
 	m_iNumAnimations(rhs.m_iNumAnimations),
-	m_Animations(rhs.m_Animations),
 	m_PreTransformMatrix(rhs.m_PreTransformMatrix),
 	m_Materials(rhs.m_Materials),
 	m_eType(rhs.m_eType)
@@ -36,11 +34,11 @@ CModel::CModel(const CModel& rhs) :
 	for (auto& pMaterial : m_Materials)
 		Safe_AddRef(pMaterial);
 
-	for (auto& pBone : m_Bones)
-		Safe_AddRef(pBone);
+	for (auto& pBone : rhs.m_Bones)
+		m_Bones.push_back(pBone->Clone());
 
-	for (auto& pAnimation : m_Animations)
-		Safe_AddRef(pAnimation);
+	for (auto& pAnimation : rhs.m_Animations)
+		m_Animations.push_back(pAnimation->Clone());
 }
 
 HRESULT CModel::Initialize_Prototype(MODEL_TYPE eType, const _char* pModelFilePath, _matrix PreModelMat)
@@ -179,12 +177,24 @@ void CModel::PlayAnimation(_uInt iCurrentAnimIndex, _float DeletaTime)
 		iCurrentAnimIndex >= m_iNumAnimations)
 		return;
 
-	/* 내가 재생하고자하는 애니메이션(공격모션)이 이용하고 있는 뼈들의 상태 변환정보(TransformationMatrix)를 갱신해준다.*/
-	m_Animations[iCurrentAnimIndex]->UpdateTransformationMatrices(m_Bones, DeletaTime);
+	ChangeAnimation(iCurrentAnimIndex);
+	if(!m_bIsLerpAnimation)
+		/* 내가 재생하고자하는 애니메이션(공격모션)이 이용하고 있는 뼈들의 상태 변환정보(TransformationMatrix)를 갱신해준다.*/
+		m_Animations[m_iCurrentAnimIndex]->UpdateTransformationMatrices(m_Bones, DeletaTime);
+	else
+		LerpAnimation(DeletaTime);
 
 	/* 모든 뼈를 순회하면서 CombinedTransformationMatrix를 갱신한다. */
 	for (auto& pBone : m_Bones)
 		pBone->UpdateCombinedTransformationMatrix(m_Bones, XMLoadFloat4x4(&m_PreTransformMatrix));
+}
+
+const char* CModel::GetAnimationName(_uInt iIndex)
+{
+	if (0 > iIndex || m_iNumAnimations <= iIndex)
+		return "";
+
+	return m_Animations[iIndex]->GetAnimationName();
 }
 
 HRESULT CModel::Ready_Meshes(void* MeshDesc, _matrix PreModelMat)
@@ -758,6 +768,41 @@ HRESULT CModel::ReadAnimModelFile(void* Data, const char* FilePath)
 
 	file.close();
 	return S_OK;
+}
+
+void CModel::ChangeAnimation(_uInt iAnimIndex)
+{
+	vector<_Int> PreAnimBones, ChangeAnimBones;
+
+	if (-1 != m_iCurrentAnimIndex)
+	{
+		if (m_iCurrentAnimIndex != iAnimIndex)
+		{
+			PreAnimBones = m_Animations[m_iCurrentAnimIndex]->GetUseBoneIndex();
+			m_PreFrameTrackPos = m_Animations[m_iCurrentAnimIndex]->GetPreFrameKey();
+			if(-1 != m_PreFrameTrackPos.x)
+				m_bIsLerpAnimation = true;
+		}
+	}
+
+	m_iCurrentAnimIndex = iAnimIndex;
+	ChangeAnimBones = m_Animations[m_iCurrentAnimIndex]->GetUseBoneIndex();
+	for (auto& iIndex : PreAnimBones)
+	{
+		auto iter = find(ChangeAnimBones.begin(), ChangeAnimBones.end(), iIndex);
+		if (iter == ChangeAnimBones.end())
+			m_Bones[iIndex]->InitTransformationMatrix();
+	}
+}
+
+void CModel::LerpAnimation(_float fDeletaTime)
+{
+	if (m_Animations[m_iCurrentAnimIndex]->UpdateTransformationMatrices(m_Bones, fDeletaTime, &m_PreFrameTrackPos, 0.5f))
+	{
+		ZeroMemory(&m_PreFrameTrackPos, sizeof(_float2));
+		m_bIsLerpAnimation = false;
+	}
+
 }
 
 CModel* CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL_TYPE eType, const _char* pModelFilePath, _matrix PreModelMat)

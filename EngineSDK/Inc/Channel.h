@@ -15,19 +15,23 @@ public:
 	HRESULT					Initialize(const class CModel* pModel, const aiNodeAnim* pAIChannel);
 	HRESULT					Initialize(void* pArg);
 	
-	void					ResetChannel();
-	void					Update_TransformationMatrix(vector<CBone*>& Bones, _float fCurrentTrackPosition);
-	
+	void					Update_TransformationMatrix(vector<CBone*>& Bones, _float fCurrentTrackPosition, _uInt* iKeyIndex);
+	void					Update_TransformationMatrix(vector<CBone*>& Bones, _float fRatio);
 	void					Export(void* pChannelDesc);
+
+	_float					GetPreKeyFrameTrackPos(_uInt iIndex);
+	_Int					GetBoneIndex() { return m_iBoneIndex; }
 
 private:
 	_char					m_szName[MAX_PATH] = {};
 	_Int					m_iBoneIndex = { -1 };
 
 	_uInt					m_iNumKeyFrames = {};
-	vector<KEYFRAME>		m_KeyFrames;
 
-	_uInt					m_iCurrentKeyFrameIndex = { 0 };
+	// 새로운 애니메이션을 재생할때 필요한 이전 뼈의 정보
+	_bool					m_bIsBoneLerp = false;
+	_float4x4				m_PreBoneMatrix = {};
+	vector<KEYFRAME>		m_KeyFrames;
 
 public:
 	static		CChannel*	Create(const class CModel* pModel, const aiNodeAnim* pAIChannel);

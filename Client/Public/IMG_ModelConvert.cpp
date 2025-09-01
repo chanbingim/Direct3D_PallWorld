@@ -2,6 +2,7 @@
 
 #include "EditorCamera.h"
 #include "GameObject.h"
+#include "AnimMeshActor.h"
 
 #include "GameInstance.h"
 #include "StringHelper.h"
@@ -98,6 +99,10 @@ void CIMG_ModelConvert::DrawConvertUI()
 				m_pModelCamera->SetLocation(CameraAt);
 				m_pModelCamera->CameraLookAt(vLookAt);
 
+				auto pFindCom = m_pSelectObejct->Find_Component(L"VIBuffer_Com");
+				if (nullptr == pFindCom)
+					continue;
+				m_pSelectObjectModelCom = dynamic_cast<CModel*>(pFindCom);
 			}
 			iIndex++;
 		}
@@ -132,7 +137,32 @@ void CIMG_ModelConvert::UpdateSelect()
 		if (iter == m_ShowGameObject.end())
 		{
 			m_pSelectObejct = nullptr;
+			m_pSelectObjectModelCom = nullptr;
 			strcpy_s(m_SelectObejctName, MAX_PATH, "NONE");
+		}
+		else
+		{
+			if (ImGui::BeginCombo("Animation View", m_SelectObjAnimName))
+			{
+				if (m_pSelectObjectModelCom)
+				{
+					_uInt iNumAnimation = m_pSelectObjectModelCom->GetNumAnimations();
+					for (_uInt i = 0; i < iNumAnimation; ++i)
+					{
+						if (ImGui::Selectable(m_pSelectObjectModelCom->GetAnimationName(i), false))
+						{
+							auto AnimMesh = dynamic_cast<CAnimMeshActor*>(m_pSelectObejct);
+							if (AnimMesh)
+							{
+								AnimMesh->SetAnimIndex(i);
+								strcpy_s(m_SelectObjAnimName, m_pSelectObjectModelCom->GetAnimationName(i));
+							}
+						}
+					}
+				}
+				ImGui::EndCombo();
+			}
+			
 		}
 	}
 }

@@ -8,6 +8,21 @@ CAnimation::CAnimation()
 {
 }
 
+CAnimation::CAnimation(const CAnimation& rhs) :
+	m_fCurrentTrackPosition(rhs.m_fCurrentTrackPosition),
+	m_fLength(rhs.m_fLength),
+	m_fTickPerSecond(rhs.m_fTickPerSecond),
+	m_bIsLoop(rhs.m_bIsLoop),
+	m_iNumChannels(rhs.m_iNumChannels),
+	m_Channels(rhs.m_Channels),
+	m_iChannelIndex(rhs.m_iChannelIndex)
+{
+	strcpy_s(m_szAnimName, rhs.m_szAnimName);
+
+	for (auto& iter : m_Channels)
+		Safe_AddRef(iter);
+}
+
 HRESULT CAnimation::Initialize(const CModel* pModel, const aiAnimation* pAIAnimation, _bool bIsLoop)
 {
 	strcpy_s(m_szAnimName, pAIAnimation->mName.data);
@@ -24,6 +39,7 @@ HRESULT CAnimation::Initialize(const CModel* pModel, const aiAnimation* pAIAnima
 			return E_FAIL;
 
 		m_Channels.push_back(pChannel);
+		m_iChannelIndex.push_back(0);
 	}
 	return S_OK;
 }
@@ -45,6 +61,7 @@ HRESULT CAnimation::Initialize(void* pArg)
 			return E_FAIL;
 
 		m_Channels.push_back(pChannel);
+		m_iChannelIndex.push_back(0);
 	}
 	return S_OK;
 }
@@ -54,23 +71,51 @@ void CAnimation::UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTim
 	m_fCurrentTrackPosition += m_fTickPerSecond * fTimeDelta;
 	if (m_bIsLoop)
 	{
-		if (m_fCurrentTrackPosition > m_fLength)
-		{
-			m_fCurrentTrackPosition = 0;
-			for (auto& pChannel : m_Channels)
-				pChannel->ResetChannel();
-		}
+		if (m_fCurrentTrackPosition >= m_fLength)
+			m_fCurrentTrackPosition = 0.f;
 	}
 	else
-		m_fCurrentTrackPosition = m_fLength;
+	{
+		if (m_fCurrentTrackPosition >= m_fLength)
+			m_fCurrentTrackPosition = m_fLength;
+	}
 
+	_uInt iIndex = {};
 	for (auto& pChannel : m_Channels)
-		pChannel->Update_TransformationMatrix(Bones, m_fCurrentTrackPosition);
+		pChannel->Update_TransformationMatrix(Bones, m_fCurrentTrackPosition, &m_iChannelIndex[iIndex++]);
+}
+
+_bool CAnimation::UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTimeDelta, _float2* LastAnimTrackPos, _float fLength)
+{
+	LastAnimTrackPos->x += m_fTickPerSecond * fTimeDelta;
+	_float fRatio = (LastAnimTrackPos->x - LastAnimTrackPos->y) / 0.2f;
+	fRatio = Clamp<_float>(fRatio, 0.f, 1.f);
+	for (auto& pChannel : m_Channels)
+		pChannel->Update_TransformationMatrix(Bones, fRatio);
+
+	if (1.0f <= fRatio)
+		return true;
+
+	return false;
 }
 
 _bool CAnimation::CompareAnimName(const char* szName)
 {
 	return !strcmp(szName, m_szAnimName);
+}
+
+_float2 CAnimation::GetPreFrameKey()
+{
+	_float2 ReturnData = { m_fCurrentTrackPosition , m_Channels[0]->GetPreKeyFrameTrackPos(m_iChannelIndex[0]) };
+	m_fCurrentTrackPosition = 0;
+	_uInt iIndex = {};
+	for (_uInt i = 0; i <m_iNumChannels; ++i)
+	{
+		m_iChannelIndex[i] = 0;
+		iIndex++;
+	}
+		
+	return ReturnData;
 }
 
 void CAnimation::Export(void* pAnimationDesc)
@@ -93,6 +138,14 @@ void CAnimation::Export(void* pAnimationDesc)
 	}
 }
 
+vector<_Int> CAnimation::GetUseBoneIndex()
+{
+	vector<_Int> iUseBoneIndex;
+	for (auto& pChannel : m_Channels)
+		iUseBoneIndex.push_back(pChannel->GetBoneIndex());
+	return iUseBoneIndex;
+}
+
 CAnimation* CAnimation::Create(const CModel* pModel, const aiAnimation* pAIAnimation, _bool bIsLoop)
 {
 	CAnimation* pAnim = new CAnimation();
@@ -113,6 +166,11 @@ CAnimation* CAnimation::Create(void* pArg)
 		MSG_BOX("CREATE FAIL : MODEL ANIMATION ");
 	}
 	return pAnim;
+}
+
+CAnimation* CAnimation::Clone()
+{
+	return new CAnimation(*this);
 }
 
 void CAnimation::Free()

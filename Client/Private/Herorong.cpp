@@ -40,6 +40,7 @@ void CHerorong::Priority_Update(_float fDeletaTime)
 
 void CHerorong::Update(_float fDeletaTime)
 {
+    m_pVIBufferCom->PlayAnimation(m_iAnimIndex, fDeletaTime);
 }
 
 void CHerorong::Late_Update(_float fDeletaTime)
@@ -69,7 +70,7 @@ HRESULT CHerorong::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Herorong_Mesh"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
         return E_FAIL;
 
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Mesh"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_AnimMesh"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
         return E_FAIL;
 
     return S_OK;
