@@ -8,7 +8,6 @@ class CShader;
 
 class ENGINE_DLL CPartObject : public CGameObject
 {
-
 public :
 	typedef struct PartObject_Desc
 	{

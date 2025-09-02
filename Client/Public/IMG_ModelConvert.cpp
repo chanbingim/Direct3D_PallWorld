@@ -2,7 +2,7 @@
 
 #include "EditorCamera.h"
 #include "GameObject.h"
-#include "ContainerObject.h"
+#include "ImgViewModel.h"
 
 #include "GameInstance.h"
 #include "StringHelper.h"
@@ -17,6 +17,9 @@ CIMG_ModelConvert::CIMG_ModelConvert(ID3D11Device* pDevice, ID3D11DeviceContext*
 HRESULT CIMG_ModelConvert::Prototype_Initialize()
 {
 	if (FAILED(ADD_ModelViewCameraLayer()))
+		return E_FAIL;
+
+	if (FAILED(ADD_ModelViewLayer()))
 		return E_FAIL;
 	return S_OK;
 }
@@ -36,10 +39,13 @@ void CIMG_ModelConvert::Update(_float fDeletaTime)
 		UpdateCurrentModelList();
 		DrawConvertUI();
 
-		if (ImGui::IsWindowFocused() && m_pSelectObejct)
+		if (ImGui::IsWindowFocused() && m_pSelectObjectModelCom)
 		{
 			m_pModelCamera->Priority_Update(fDeletaTime);
-			m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, m_pSelectObejct);
+
+			m_pViewModel->Update(fDeletaTime);
+			m_pViewModel->Late_Update(fDeletaTime);
+			m_pViewModel->Render();
 		}
 	}
 	ImGui::End();
@@ -56,21 +62,7 @@ void CIMG_ModelConvert::UpdateCurrentModelList()
 	//// 여기서  Model 컴포넌트를 가지고있는 녀석들을 확인하고 Export하게끔
 	auto CurLevelLayers = m_pGameInstance->GetCurLevelLayer();
 	_uInt CurLevelID = m_pGameInstance->GetCurrentLevel()->GetLevelID();
-
-	for (auto& pair : *CurLevelLayers)
-	{
-		auto LayerObejcts = m_pGameInstance->GetAllObejctToLayer(CurLevelID, pair.first);
-		for (auto& Object : *LayerObejcts)
-		{
-			auto pFindCom = Object->Find_Component(L"VIBuffer_Com");
-			if (nullptr == pFindCom)
-				continue;
-
-			CModel* pModelCom = dynamic_cast<CModel*>(pFindCom);
-			if (pModelCom)
-				m_ShowGameObject.push_back(Object);
-		}
-	}
+	m_pGameInstance->GetPrototypeList<CModel>(CurLevelID, &m_ShowGameObject);
 }
 
 void CIMG_ModelConvert::DrawConvertUI()
@@ -80,18 +72,18 @@ void CIMG_ModelConvert::DrawConvertUI()
 		_Int iIndex = 0;
 		for (auto& iter : m_ShowGameObject)
 		{
-			CStringHelper::ConvertWideToUTF(iter->GetObjectTag().c_str(), m_showObejctName);
+			CStringHelper::ConvertWideToUTF(iter.first.c_str(), m_showObejctName);
 			sprintf_s(m_showObejctName, "%s##Editor_Model%d", m_showObejctName, iIndex);
 
 			if (ImGui::Selectable(m_showObejctName, false))
 			{
 				strcpy_s(m_SelectObejctName, sizeof(m_showObejctName), m_showObejctName);
-				m_pSelectObejct = iter;
+				m_pSelectObjectModelCom = iter.second;
 
-				_float3 ObjectPos = m_pSelectObejct->GetTransform()->GetPosition();
+				_float3 ObjectPos = { 0, 0, 0 };
 				_vector vLookAt = XMLoadFloat3(&ObjectPos);
 
-				_vector vCameraPos = m_pSelectObejct->GetTransform()->GetLookVector() * 7.f; 
+				_vector vCameraPos = XMVectorSet(0, 0, 1, 0) * 7.f; 
 				vCameraPos = vLookAt + vCameraPos;
 
 				_float3 CameraAt = {};
@@ -99,10 +91,7 @@ void CIMG_ModelConvert::DrawConvertUI()
 				m_pModelCamera->SetLocation(CameraAt);
 				m_pModelCamera->CameraLookAt(vLookAt);
 
-				auto pFindCom = m_pSelectObejct->Find_Component(L"VIBuffer_Com");
-				if (nullptr == pFindCom)
-					continue;
-				m_pSelectObjectModelCom = dynamic_cast<CModel*>(pFindCom);
+				m_pViewModel->Bind_Model(m_pSelectObjectModelCom);
 			}
 			iIndex++;
 		}
@@ -115,10 +104,8 @@ void CIMG_ModelConvert::DrawConvertUI()
 	if (ImGui::Button("Make Binary"))
 	{
 		//모델에 있는 바이너리 파일 생성 호출
-		auto pFindCom = m_pSelectObejct->Find_Component(L"VIBuffer_Com");
-		CModel* pModelCom = dynamic_cast<CModel*>(pFindCom);
-		if (pModelCom)
-			pModelCom->Export(m_SaveFilePath);
+		if(m_pSelectObjectModelCom)
+			m_pSelectObjectModelCom->Export(m_SaveFilePath);
 	}
 
 	// 랜더 타겟을 이용해 내가 원하는 시점에서 보게끔
@@ -131,33 +118,33 @@ void CIMG_ModelConvert::DrawConvertUI()
 
 void CIMG_ModelConvert::UpdateSelect()
 {
-	if (m_pSelectObejct)
+	if (m_pSelectObjectModelCom)
 	{
-		auto iter = find(m_ShowGameObject.begin(), m_ShowGameObject.end(), m_pSelectObejct);
+		auto iter = find_if(m_ShowGameObject.begin(), m_ShowGameObject.end(), [&](auto& pair)
+			{
+				if (m_pSelectObjectModelCom == pair.second)
+					return true;
+
+				return false;
+			});
+
 		if (iter == m_ShowGameObject.end())
 		{
-			m_pSelectObejct = nullptr;
 			m_pSelectObjectModelCom = nullptr;
+			m_pViewModel->Bind_Model(m_pSelectObjectModelCom);
 			strcpy_s(m_SelectObejctName, MAX_PATH, "NONE");
 		}
 		else
 		{
 			if (ImGui::BeginCombo("Animation View", m_SelectObjAnimName))
 			{
-				if (m_pSelectObjectModelCom)
+				_uInt iNumAnimation = m_pSelectObjectModelCom->GetNumAnimations();
+				for (_uInt i = 0; i < iNumAnimation; ++i)
 				{
-					_uInt iNumAnimation = m_pSelectObjectModelCom->GetNumAnimations();
-					for (_uInt i = 0; i < iNumAnimation; ++i)
+					if (ImGui::Selectable(m_pSelectObjectModelCom->GetAnimationName(i), false))
 					{
-						if (ImGui::Selectable(m_pSelectObjectModelCom->GetAnimationName(i), false))
-						{
-							auto AnimMesh = dynamic_cast<CContainerObject*>(m_pSelectObejct);
-							if (AnimMesh)
-							{
-								AnimMesh->SetAnimIndex(i);
-								strcpy_s(m_SelectObjAnimName, m_pSelectObjectModelCom->GetAnimationName(i));
-							}
-						}
+						m_pViewModel->SetAnimationIndex(i);
+						strcpy_s(m_SelectObjAnimName, m_pSelectObjectModelCom->GetAnimationName(i));
 					}
 				}
 				ImGui::EndCombo();
@@ -188,6 +175,15 @@ HRESULT CIMG_ModelConvert::ADD_ModelViewCameraLayer()
 	return S_OK;
 }
 
+HRESULT CIMG_ModelConvert::ADD_ModelViewLayer()
+{
+	m_pViewModel = CImgViewModel::Create(m_pDevice, m_pContext);
+	if (nullptr == m_pViewModel)
+		return E_FAIL;
+
+	return S_OK;
+}
+
 CIMG_ModelConvert* CIMG_ModelConvert::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CIMG_ModelConvert* pModelConvert = new CIMG_ModelConvert(pDevice, pContext);
@@ -204,4 +200,5 @@ void CIMG_ModelConvert::Free()
 	__super::Free();
 
 	Safe_Release(m_pModelCamera);
+	Safe_Release(m_pViewModel);
 }

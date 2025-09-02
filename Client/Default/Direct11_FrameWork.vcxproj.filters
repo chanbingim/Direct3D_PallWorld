@@ -359,6 +359,9 @@
     <Filter Include="03. Objects\MeshObject\AnimMesh\Pell\Container\Yeti\YetiBody">
       <UniqueIdentifier>{17d35d0a-7b4f-46ed-98e1-9642f6682023}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ImGui\UI\FbxConvertWindow\FbxModel">
+      <UniqueIdentifier>{a1327c88-59f0-4d32-ac82-34ca95e4d2a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -676,6 +679,9 @@
     <ClInclude Include="..\public\FlowerLabbitBody.h">
       <Filter>03. Objects\MeshObject\AnimMesh\Pell\Container\FlowerRabbit\FlowerRabbitBody</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\ImgViewModel.h">
+      <Filter>ImGui\UI\FbxConvertWindow\FbxModel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -984,6 +990,9 @@
     </ClCompile>
     <ClCompile Include="..\private\FlowerLabbitBody.cpp">
       <Filter>03. Objects\MeshObject\AnimMesh\Pell\Container\FlowerRabbit\FlowerRabbitBody</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ImgViewModel.cpp">
+      <Filter>ImGui\UI\FbxConvertWindow\FbxModel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

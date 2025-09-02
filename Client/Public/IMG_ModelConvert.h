@@ -8,7 +8,7 @@ class CEditorCamera;
 NS_END
 
 NS_BEGIN(Client)
-
+class CImgViewModel;
 
 class CIMG_ModelConvert : public CImgUIBase
 {
@@ -30,10 +30,10 @@ private :
 
 
 private :
-	list<CGameObject*>						m_ShowGameObject = {};
-	CGameObject*							m_pSelectObejct = nullptr;
+	list<pair<_wstring, CModel*>>			m_ShowGameObject = {};
 	CModel*									m_pSelectObjectModelCom = nullptr;
 	CEditorCamera*							m_pModelCamera = nullptr;
+	CImgViewModel*							m_pViewModel = nullptr;
 
 	char									m_SelectObejctName[MAX_PATH] = {};
 	char									m_SelectObjAnimName[MAX_PATH] = {};
@@ -42,6 +42,7 @@ private :
 
 private :
 	HRESULT									ADD_ModelViewCameraLayer();
+	HRESULT									ADD_ModelViewLayer();
 
 public :
 	static			CIMG_ModelConvert*		Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

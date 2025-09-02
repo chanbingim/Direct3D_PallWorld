@@ -191,6 +191,11 @@ void CModel::PlayAnimation(_uInt iCurrentAnimIndex, _float DeletaTime, _bool bIs
 		else
 			ChildEndIndex = m_Bones[RootBoneIndex]->GetChildCount();
 	}
+	else
+	{
+		RootBoneIndex = 0;
+		ChildEndIndex = m_iNumBones;
+	}
 
 	ChangeAnimation(iCurrentAnimIndex);
 	if (!m_bIsLerpAnimation)
