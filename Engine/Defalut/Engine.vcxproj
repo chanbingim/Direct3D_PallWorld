@@ -154,6 +154,7 @@ popd</Command>
     <ClInclude Include="..\public\Actor.h" />
     <ClInclude Include="..\public\Animation.h" />
     <ClInclude Include="..\public\AnimEntity.h" />
+    <ClInclude Include="..\Public\ContainerObject.h" />
     <ClInclude Include="..\public\Base.h" />
     <ClInclude Include="..\public\BaseCamera.h" />
     <ClInclude Include="..\public\BinaryHelper.h" />
@@ -168,6 +169,7 @@ popd</Command>
     <ClInclude Include="..\public\Font.h" />
     <ClInclude Include="..\public\JsonHelper.h" />
     <ClInclude Include="..\public\Material.h" />
+    <ClInclude Include="..\public\PartObject.h" />
     <ClInclude Include="..\Public\PaseDataHeader.h" />
     <ClInclude Include="..\Public\Picking.h" />
     <ClInclude Include="..\public\Slider.h" />
@@ -216,6 +218,7 @@ popd</Command>
     <ClCompile Include="..\private\Actor.cpp" />
     <ClCompile Include="..\private\Animation.cpp" />
     <ClCompile Include="..\private\AnimEntity.cpp" />
+    <ClCompile Include="..\Private\ContainerObject.cpp" />
     <ClCompile Include="..\private\Base.cpp" />
     <ClCompile Include="..\private\BaseCamera.cpp" />
     <ClCompile Include="..\private\BinaryHelper.cpp" />
@@ -230,6 +233,7 @@ popd</Command>
     <ClCompile Include="..\private\Font.cpp" />
     <ClCompile Include="..\private\JsonHelper.cpp" />
     <ClCompile Include="..\private\Material.cpp" />
+    <ClCompile Include="..\private\PartObject.cpp" />
     <ClCompile Include="..\Private\Picking.cpp" />
     <ClCompile Include="..\private\Slider.cpp" />
     <ClCompile Include="..\private\SliderButton.cpp" />

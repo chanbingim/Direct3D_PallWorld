@@ -3,7 +3,7 @@
 #include "AnimMeshActor.h"
 
 NS_BEGIN(Client)
-class CItemBase : public CAnimMeshActor
+class CItemBase : public CContainerObject
 {
 public :
 	typedef struct InitItemDesc

@@ -169,6 +169,12 @@
     <Filter Include="Utility\Components\Model\Animation\Channel">
       <UniqueIdentifier>{7e5fc024-8484-41f1-90bf-76137095b8d8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utility\Object\Container">
+      <UniqueIdentifier>{65762a26-949d-4551-99de-bc014cc94326}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Object\PartObject">
+      <UniqueIdentifier>{6ed40050-0b7a-4907-91db-7e734f5092d9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Graphic_Device.cpp">
@@ -258,9 +264,6 @@
     <ClCompile Include="..\private\AnimEntity.cpp">
       <Filter>Utility\Components\SpriteAnimation\AnimEntity</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Model.cpp">
-      <Filter>Utility\Components\Model</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Mesh.cpp">
       <Filter>Utility\Components\Model\Mesh</Filter>
     </ClCompile>
@@ -320,6 +323,15 @@
     </ClCompile>
     <ClCompile Include="..\private\CapsuleCollision.cpp">
       <Filter>Utility\Components\Collision\Capsule</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Model.cpp">
+      <Filter>Utility\Components\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ContainerObject.cpp">
+      <Filter>Utility\Object\Container</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PartObject.cpp">
+      <Filter>Utility\Object\PartObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -502,6 +514,12 @@
     </ClInclude>
     <ClInclude Include="..\public\CapsuleCollision.h">
       <Filter>Utility\Components\Collision\Capsule</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ContainerObject.h">
+      <Filter>Utility\Object\Container</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PartObject.h">
+      <Filter>Utility\Object\PartObject</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

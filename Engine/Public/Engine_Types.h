@@ -29,6 +29,11 @@ namespace Engine
 	typedef		char				_char;
 	typedef		wchar_t				_tchar;
 
+	//INT
+	typedef		XMINT2				_int2;
+	typedef		XMINT3				_int3;
+	typedef		XMINT4				_int4;
+
 	//Float
 	typedef		float				_float;
 	typedef		double				_double;

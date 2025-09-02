@@ -3,7 +3,7 @@
 #include "AnimMeshActor.h"
 
 NS_BEGIN(Client)
-class CPellBase : public CAnimMeshActor
+class CPellBase : public CContainerObject
 {
 protected:
 	CPellBase(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);

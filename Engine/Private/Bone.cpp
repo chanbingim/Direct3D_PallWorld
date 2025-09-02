@@ -14,7 +14,7 @@ HRESULT CBone::Initialize(const aiNode* pAINode, _Int iParentIndex)
 
     // 뼈는 계층구조이기떄문에 Root노드가 아닐경우 무조건 부모를 가진다.
     m_iParentBoneIndex = iParentIndex;
-    
+
     // 정보를 읽어서 뼈의 위치 메트릭스를 통해서 갱신한다.
     memcpy(&m_TransformationMatrix, &pAINode->mTransformation, sizeof(_float4x4));
     XMStoreFloat4x4(&m_TransformationMatrix, XMMatrixTranspose(XMLoadFloat4x4(&m_TransformationMatrix)));
@@ -85,6 +85,11 @@ void CBone::Export(void* pBoneDsec)
 void CBone::InitTransformationMatrix()
 {
     m_TransformationMatrix = m_InitTransformationMatrix;
+}
+
+void CBone::Set_ChildCount(_uInt iCount)
+{
+    m_iChildCnt = iCount;
 }
 
 CBone* CBone::Create(const aiNode* pAINode, _Int iParentIndex)

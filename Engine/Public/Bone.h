@@ -22,14 +22,19 @@ public:
 	void						Export(void* pBoneDsec);
 	void						InitTransformationMatrix();
 
+	void						Set_ChildCount(_uInt iCount);
+	_Int						GetChildCount() { return m_iChildCnt; }
+
 private:
 	_char						m_szName[MAX_PATH] = {};
 
 	_float4x4					m_InitTransformationMatrix = {};
 	_float4x4					m_TransformationMatrix = {}; /* 이 뼈만의 상태변환행렬 */
 	_float4x4					m_CombinedTransformationMatrix = {}; /* m_TransformatinoMatrix * Parent`s m_CombinedTransformationMatrix */
+	
 	_Int						m_iParentBoneIndex = { -1 };
-
+	_Int						m_iChildCnt = {};
+	
 public:
 	static		CBone*			Create(const aiNode* pAINode, _Int iParentIndex);
 	static		CBone*			Create(void* pArg);

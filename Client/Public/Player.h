@@ -1,9 +1,10 @@
 #pragma once
 
-#include "AnimMeshActor.h"
+#include "Client_Define.h"
+#include "ContainerObject.h"
 
 NS_BEGIN(Client)
-class CPlayer : public CAnimMeshActor
+class CPlayer : public CContainerObject
 {
 protected:
 	CPlayer(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);
@@ -23,11 +24,8 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
-protected :
-	HRESULT									Bind_ShaderResources();
-
 private:
-	HRESULT									ADD_Components();
+	HRESULT									ADD_PartObejcts();
 
 public:
 	static			CPlayer*				Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);

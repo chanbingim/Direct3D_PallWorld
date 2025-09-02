@@ -151,7 +151,7 @@ void CIMG_ModelConvert::UpdateSelect()
 					{
 						if (ImGui::Selectable(m_pSelectObjectModelCom->GetAnimationName(i), false))
 						{
-							auto AnimMesh = dynamic_cast<CAnimMeshActor*>(m_pSelectObejct);
+							auto AnimMesh = dynamic_cast<CContainerObject*>(m_pSelectObejct);
 							if (AnimMesh)
 							{
 								AnimMesh->SetAnimIndex(i);

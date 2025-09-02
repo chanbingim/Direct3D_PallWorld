@@ -314,6 +314,18 @@
     <Filter Include="03. Objects\MeshObject\AnimMesh\Pell\FlowerRabbit">
       <UniqueIdentifier>{e0f5dc4e-eddf-4979-81fe-ef21965d4052}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\Head">
+      <UniqueIdentifier>{fddf78ea-5e03-4ecd-92fc-f4088a2e4b39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\Body">
+      <UniqueIdentifier>{c29d5bc8-00ab-470f-831f-03958b0dd873}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\Body\UpperBody">
+      <UniqueIdentifier>{57553175-20a0-4b69-973b-090e05cf462b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\Body\LowerBody">
+      <UniqueIdentifier>{92b55b2a-5fc4-4eaf-87ca-1328e8b94b21}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -595,11 +607,14 @@
     <ClInclude Include="..\public\Enviormnent.h">
       <Filter>03. Objects\MeshObject\NoneMesh\Static_Object\Environment</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\AnimMeshActor.h">
-      <Filter>03. Objects\MeshObject\AnimMesh</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\NoneAnimMesh.h">
       <Filter>03. Objects\MeshObject\NoneMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PlayerUpperBody.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Body\UpperBody</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PlayerLowerBody.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Body\LowerBody</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -874,11 +889,14 @@
     <ClCompile Include="..\private\Enviormnent.cpp">
       <Filter>03. Objects\MeshObject\NoneMesh\Static_Object\Environment</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\AnimMeshActor.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\NoneAnimMesh.cpp">
       <Filter>03. Objects\MeshObject\NoneMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PlayerUpperBody.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Body\UpperBody</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PlayerLowerBody.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Body\LowerBody</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -3,12 +3,12 @@
 #include "GameInstance.h"
 
 CPlayer::CPlayer(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext) :
-    CAnimMeshActor(pGraphic_Device, pDeviceContext)
+    CContainerObject(pGraphic_Device, pDeviceContext)
 {
 }
 
 CPlayer::CPlayer(const CPlayer& rhs) :
-    CAnimMeshActor(rhs)
+    CContainerObject(rhs)
 {
 }
 
@@ -25,10 +25,7 @@ HRESULT CPlayer::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
-    if (FAILED(ADD_Components()))
-        return E_FAIL;
-
-    if (FAILED(Bind_ShaderResources()))
+    if (FAILED(ADD_PartObejcts()))
         return E_FAIL;
 
     if(m_ObejctTag.c_str() == L"")
@@ -45,7 +42,10 @@ void CPlayer::Priority_Update(_float fDeletaTime)
 void CPlayer::Update(_float fDeletaTime)
 {
     __super::Update(fDeletaTime);
-    m_pVIBufferCom->PlayAnimation(m_iAnimIndex, fDeletaTime);
+
+    //m_pVIBufferCom->PlayAnimation(4, fDeletaTime, true, "Bip001 L Thigh", "Bip001 R Thigh");
+   // m_pVIBufferCom->PlayAnimation(m_iAnimIndex, fDeletaTime, true, "Bip001 Spine1");
+    //m_pVIBufferCom->PlayAnimation(m_iAnimIndex, fDeletaTime, true, "Bip001");
 }
 
 void CPlayer::Late_Update(_float fDeletaTime)
@@ -56,7 +56,7 @@ void CPlayer::Late_Update(_float fDeletaTime)
 
 HRESULT CPlayer::Render()
 {
-    _uInt iNumMeshes = m_pVIBufferCom->GetNumMeshes();
+    /*_uInt iNumMeshes = m_pVIBufferCom->GetNumMeshes();
 
     for (_uInt i = 0; i < iNumMeshes; ++i)
     {
@@ -64,33 +64,19 @@ HRESULT CPlayer::Render()
 
         m_pShaderCom->Update_Shader(0);
         m_pVIBufferCom->Render(i);
-    }
+    }*/
 
     return S_OK;
 }
 
-HRESULT CPlayer::Bind_ShaderResources()
-{
-    if (nullptr == m_pShaderCom)
-        return E_FAIL;
-
-    m_pEMVWorldMat = m_pShaderCom->GetVariable("g_WorldMatrix")->AsMatrix();
-    m_pEMVViewMat = m_pShaderCom->GetVariable("g_ViewMatrix")->AsMatrix();
-    m_pEMVProjMat = m_pShaderCom->GetVariable("g_ProjMatrix")->AsMatrix();
-    m_pSRVEffect = m_pShaderCom->GetVariable("g_DiffuseTexture")->AsShaderResource();
-    m_pBoneMatrixEffect = m_pShaderCom->GetVariable("g_BoneMatrices")->AsMatrix();
-
-    return S_OK;
-}
-
-HRESULT CPlayer::ADD_Components()
+HRESULT CPlayer::ADD_PartObejcts()
 {
 
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Fiona_Mesh"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
+    /*if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Fiona_Mesh"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
         return E_FAIL;
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_AnimMesh"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
-        return E_FAIL;
+        return E_FAIL;*/
 
     return S_OK;
 }

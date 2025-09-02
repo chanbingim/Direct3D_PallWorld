@@ -31,9 +31,9 @@ public :
 	
 	//모델 애니메이션 관련 함수
 	_uInt						GetNumAnimations() { return m_iNumAnimations; }
-	void						PlayAnimation(_uInt iCurrentAnimIndex, _float DeletaTime);
+	void						PlayAnimation(_uInt iCurrentAnimIndex, _float DeletaTime, _bool bIsLoop = true, const char* BoneName = "Root Node", const char* EndBoneName = "");
+	
 	const char*					GetAnimationName(_uInt iIndex);
-
 	void						Export(const char* FilePath);
 
 private :
@@ -57,6 +57,7 @@ private :
 	// 뼈 개수 및 뼈 저장
 	_uInt						m_iNumBones = {};
 	vector<CBone*>				m_Bones;
+	list<CBone*>				m_UpdateBonesList;
 	vector<_bool>				m_PreAnimBones, m_CurAnimBones;
 
 	// 애니메이션 개수 및 애니메이션 저장
@@ -94,7 +95,7 @@ private:
 	HRESULT						ReadAnimModelFile(void* Data, const char* FilePath);
 
 	void						ChangeAnimation(_uInt iAnimIndex);
-	void						LerpAnimation(_float fDeletaTime);
+	void						LerpAnimation(_float fDeletaTime, _int2 UpdateBoneIdx);
 
 public:
 	static		CModel*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL_TYPE eType, const _char* pModelFilePath, _matrix PreModelMat = XMMatrixIdentity());

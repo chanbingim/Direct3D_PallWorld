@@ -17,8 +17,8 @@ public :
 	HRESULT			Initialize(const CModel* pModel, const aiAnimation* pAIAnimation, _bool bIsLoop = false);
 	HRESULT			Initialize(void* pArg);
 
-	void			UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTimeDelta);
-	_bool			UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTimeDelta, _float2* LastAnimTrackPos, _float fLength);
+	_bool			UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTimeDelta, _int2 UpdateBoneIdx, _bool bIsLoop);
+	_bool			UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTimeDelta, _int2 UpdateBoneIdx, _float2* LastAnimTrackPos, _float fLength);
 
 	_bool			CompareAnimName(const char* szName);
 	_float2			GetPreFrameKey();
@@ -39,9 +39,6 @@ private :
 
 	/* 초당 얼마나 재생되어야하는지 : 재생 속도 */
 	_float						m_fTickPerSecond = {};
-
-	_bool						m_bIsLoop = false;
-
 	_uInt						m_iNumChannels = {};
 
 	vector<CChannel*>			m_Channels;

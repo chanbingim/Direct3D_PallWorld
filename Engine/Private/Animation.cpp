@@ -12,7 +12,6 @@ CAnimation::CAnimation(const CAnimation& rhs) :
 	m_fCurrentTrackPosition(rhs.m_fCurrentTrackPosition),
 	m_fLength(rhs.m_fLength),
 	m_fTickPerSecond(rhs.m_fTickPerSecond),
-	m_bIsLoop(rhs.m_bIsLoop),
 	m_iNumChannels(rhs.m_iNumChannels),
 	m_Channels(rhs.m_Channels),
 	m_iChannelIndex(rhs.m_iChannelIndex)
@@ -27,7 +26,6 @@ HRESULT CAnimation::Initialize(const CModel* pModel, const aiAnimation* pAIAnima
 {
 	strcpy_s(m_szAnimName, pAIAnimation->mName.data);
 
-	m_bIsLoop = bIsLoop;
 	m_fLength = (_float)pAIAnimation->mDuration;
 	m_fTickPerSecond = (_float)pAIAnimation->mTicksPerSecond;
 	m_iNumChannels = pAIAnimation->mNumChannels;
@@ -49,7 +47,6 @@ HRESULT CAnimation::Initialize(void* pArg)
 	SAVE_ANIMATION_DESC* AnimDesc = static_cast<SAVE_ANIMATION_DESC*>(pArg);
 	strcpy_s(m_szAnimName, AnimDesc->szAnimName);
 
-	m_bIsLoop = AnimDesc->bIsLoop;
 	m_fLength = AnimDesc->fLength;
 	m_fTickPerSecond = AnimDesc->fTickPerSecond;
 	m_iNumChannels = AnimDesc->iNumChannels;
@@ -66,32 +63,44 @@ HRESULT CAnimation::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CAnimation::UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTimeDelta)
+_bool CAnimation::UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTimeDelta, _int2 UpdateBoneIdx, _bool bIsLoop)
 {
 	m_fCurrentTrackPosition += m_fTickPerSecond * fTimeDelta;
-	if (m_bIsLoop)
+	if (m_fCurrentTrackPosition >= m_fLength)
 	{
-		if (m_fCurrentTrackPosition >= m_fLength)
-			m_fCurrentTrackPosition = 0.f;
-	}
-	else
-	{
-		if (m_fCurrentTrackPosition >= m_fLength)
-			m_fCurrentTrackPosition = m_fLength;
+		m_fCurrentTrackPosition = 0.f;
+		if (!bIsLoop)
+		{
+			fill(m_iChannelIndex.begin(), m_iChannelIndex.end(), 0);
+			return true;
+		}
 	}
 
 	_uInt iIndex = {};
 	for (auto& pChannel : m_Channels)
+	{
+		_Int ChannelBoneIdx = pChannel->GetBoneIndex();
+		if (UpdateBoneIdx.x > ChannelBoneIdx || UpdateBoneIdx.y < ChannelBoneIdx)
+			continue;
+
 		pChannel->Update_TransformationMatrix(Bones, m_fCurrentTrackPosition, &m_iChannelIndex[iIndex++]);
+	}
+	return false;
 }
 
-_bool CAnimation::UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTimeDelta, _float2* LastAnimTrackPos, _float fLength)
+_bool CAnimation::UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTimeDelta, _int2 UpdateBoneIdx, _float2* LastAnimTrackPos, _float fLength)
 {
 	LastAnimTrackPos->x += m_fTickPerSecond * fTimeDelta;
 	_float fRatio = (LastAnimTrackPos->x - LastAnimTrackPos->y) / 0.2f;
 	fRatio = Clamp<_float>(fRatio, 0.f, 1.f);
 	for (auto& pChannel : m_Channels)
+	{
+		_Int ChannelBoneIdx = pChannel->GetBoneIndex();
+		if (UpdateBoneIdx.x > ChannelBoneIdx || UpdateBoneIdx.y < ChannelBoneIdx)
+			continue;
+
 		pChannel->Update_TransformationMatrix(Bones, fRatio);
+	}
 
 	if (1.0f <= fRatio)
 		return true;
@@ -120,7 +129,6 @@ void CAnimation::Export(void* pAnimationDesc)
 	AnimDesc->fLength = m_fLength;
 	AnimDesc->fTickPerSecond = m_fTickPerSecond;
 	AnimDesc->iNumChannels = m_iNumChannels;
-	AnimDesc->bIsLoop = m_bIsLoop;
 	
 	AnimDesc->Channels.reserve(m_iNumChannels);
 	for (_uInt i = 0; i < m_iNumChannels; ++i)
