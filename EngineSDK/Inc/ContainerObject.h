@@ -25,11 +25,13 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
+	void									SetAnimIndex(_uInt iIndex);
+	CPartObject*							FindPartObject(const _wstring& PartObjectTag);
+
 protected:
 	unordered_map<_wstring, CPartObject*>	m_PartObjects;
 
-private :
-	CPartObject*							FindPartObject(const _wstring& PartObjectTag);
+protected :
 	HRESULT									AddPartObject(_uInt iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strPartTag, void* pArg = nullptr);
 
 public:

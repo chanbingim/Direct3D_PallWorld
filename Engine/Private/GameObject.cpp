@@ -69,13 +69,7 @@ void CGameObject::Update(_float fDeletaTime)
 //Initaize에서 부모를 세팅한 경우 부모의 월드 행렬을 가져온다.
 void CGameObject::Late_Update(_float fDeletaTime)
 {
-	if (m_IsMoveParentTransform)
-	{
-		for (auto iter : m_pChildList)
-			iter->GetTransform()->SetParentMatrix(GetTransform()->GetWorldMat());
 
-		m_IsMoveParentTransform = false;
-	}
 }
 
 HRESULT CGameObject::Render()

@@ -14,8 +14,6 @@ CFrog::CFrog(const CFrog& rhs) :
 
 HRESULT CFrog::Initalize_Prototype()
 {
-	if (FAILED(__super::Initalize_Prototype()))
-		return E_FAIL;
 
 	return S_OK;
 }
@@ -25,54 +23,39 @@ HRESULT CFrog::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	if (FAILED(ADD_Components()))
+	if (FAILED(ADD_PartObjects()))
 		return E_FAIL;
 
-	if (FAILED(Bind_ShaderResources()))
-		return E_FAIL;
 
 	return S_OK;
 }
 
 void CFrog::Priority_Update(_float fDeletaTime)
 {
+	__super::Priority_Update(fDeletaTime);
 }
 
 void CFrog::Update(_float fDeletaTime)
 {
-	m_pVIBufferCom->PlayAnimation(m_iAnimIndex, fDeletaTime);
+	__super::Update(fDeletaTime);
 }
 
 void CFrog::Late_Update(_float fDeletaTime)
 {
 	__super::Late_Update(fDeletaTime);
-	m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
 }
 
 HRESULT CFrog::Render()
 {
-	_uInt iNumMeshes = m_pVIBufferCom->GetNumMeshes();
 
-	for (_uInt i = 0; i < iNumMeshes; ++i)
-	{
-		Apply_ConstantShaderResources(i);
-
-		m_pShaderCom->Update_Shader(0);
-
-		m_pVIBufferCom->Render(i);
-	}
 
 	return S_OK;
 }
 
-HRESULT CFrog::ADD_Components()
+HRESULT CFrog::ADD_PartObjects()
 {
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Frog_Mesh"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
+	if (FAILED(__super::AddPartObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Frog_Body_Default"), TEXT("Part_Body"))))
 		return E_FAIL;
-
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_AnimMesh"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
-		return E_FAIL;
-
 	return S_OK;
 }
 

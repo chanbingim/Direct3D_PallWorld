@@ -18,15 +18,35 @@
 #include "Camera.h"
 #include "Terrian.h"
 
+#pragma region PLAYER
+#include "PlayerUpperBody.h"
+#include "PlayerLowerBody.h"
+#pragma endregion
+
 #pragma region PELL
 #include "BedCat.h"
+#include "BedCatBody.h"
+
 #include "Dororong.h"
+#include "DororongBody.h"
+
 #include "ElectPanda.h"
+#include "ElectricPandaBody.h"
+
 #include "Herorong.h"
+#include "HerorongBody.h"
+
 #include "FlowerRabbit.h"
+#include "FlowerLabbitBody.h"
+
 #include "Hedgehog.h"
+#include "HedgehogBody.h"
+
 #include "Frog.h"
+#include "FrogBody.h"
+
 #include "Yeti.h"
+#include "YetiBody.h"
 #pragma endregion
 
 #pragma region ENVIORNMENT
@@ -281,10 +301,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma endregion
 
 #pragma region PELL
-	///* VIBuffer  BedCat MESH  Component */
-	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_BedCat_Mesh"),
-	//	CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM,"../Bin/Resources/Models/BedCat/PinkCat.fbx"))))
-	//	return E_FAIL;
+	/* VIBuffer  BedCat MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_BedCat_Mesh"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM,"../Bin/Resources/Models/BedCat/PinkCat.fbx"))))
+		return E_FAIL;
 
 	///* VIBuffer  Dororong MESH  Component */
 	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Drorong_Mesh"),
@@ -415,42 +435,89 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Terrian"), CTerrian::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	/* GAME_OBJECT_Player */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player"), CPlayer::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
+
 
 #pragma region PELL
+
+#pragma region BedCat
 	/* GAME_OBJECT_BedCat */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_BedCat"), CBedCat::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	/* GAME_OBJECT_BedCatBody */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_BedCat_Body_Default"), CBedCatBody::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region Drorong
 	/* GAME_OBJECT_Dororong */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Drorong"), CDororong::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	/* GAME_OBJECT_DrorongBody */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Drorong_Body_Default"), CDororongBody::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region ElectricPanda
 	/* GAME_OBJECT_ElectricPanda */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ElectricPanda"), CElectPanda::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	/* GAME_OBJECT_ElectricPanda */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ElectricPanda_Body_Default"), CElectricPandaBody::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region Herorong
 	/* GAME_OBJECT_Herorong */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Herorong"), CHerorong::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	/* GAME_OBJECT_Herorong */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Herorong_Body_Default"), CHerorongBody::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region FlowerRabbit
 	/* GAME_OBJECT_FlowerRabbit */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_FlowerRabbit"), CFlowerRabbit::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	/* GAME_OBJECT_FlowerRabbitBody */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_FlowerRabbit_Body_Default"), CFlowerLabbitBody::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region Hedgehog
 	/* GAME_OBJECT_Hedgehog */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Hedgehog"), CHedgehog::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	/* GAME_OBJECT_HedgehogBody */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Hedgehog_Body_Default"), CHedgehogBody::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region Frog
 	/* GAME_OBJECT_Frog */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Frog"), CFrog::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	/* GAME_OBJECT_FrogBody */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Frog_Body_Default"), CFrogBody::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region Yeti
 	/* GAME_OBJECT_Yeti */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Yeti"), CYeti::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
+	/* GAME_OBJECT_YetiBody */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Yeti_Body_Default"), CYetiBody::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
 #pragma endregion
 
 #pragma region ENVIORNMENT
@@ -464,6 +531,20 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma endregion
 
 	
+#pragma endregion
+
+#pragma region PLAYER
+	/* GAME_OBJECT_Player */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player"), CPlayer::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_Camera */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_Upper_Body_Default"), CPlayerUpperBody::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_Camera */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_Lower_Body_Default"), CPlayerLowerBody::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 #pragma endregion
 
 #pragma region PLAYER_INFO

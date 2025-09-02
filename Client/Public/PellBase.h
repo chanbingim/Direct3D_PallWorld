@@ -1,6 +1,7 @@
 #pragma once
 
-#include "AnimMeshActor.h"
+#include "Client_Define.h"
+#include "ContainerObject.h"
 
 NS_BEGIN(Client)
 class CPellBase : public CContainerObject
@@ -22,9 +23,6 @@ public:
 
 	// ·£´õ
 	virtual		HRESULT						Render() override;
-
-protected:
-	HRESULT									Bind_ShaderResources();
 
 public:
 	virtual			CGameObject*			Clone(void* pArg) override;

@@ -27,8 +27,8 @@ HRESULT CGamePlayLevel::Initialize()
 	if (FAILED(ADD_PlayerLayer(TEXT("Layer_GamePlay_Player"))))
 		return E_FAIL;
 
-	/*if (FAILED(ADD_PellLayer(TEXT("Layer_GamePlay_Pell"))))
-		return E_FAIL;*/
+	if (FAILED(ADD_PellLayer(TEXT("Layer_GamePlay_Pell"))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -115,7 +115,7 @@ HRESULT CGamePlayLevel::ADD_PellLayer(const _wstring& LayerName)
 		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
 		return E_FAIL;
 
-	wsprintf(Desc.ObjectTag, TEXT("Drorong"));
+	/*wsprintf(Desc.ObjectTag, TEXT("Drorong"));
 	Desc.vScale = { 0.1f, 0.1f, 0.1f };
 	Desc.vPosition = { 10.f, 1.f, 10.f };
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Drorong"),
@@ -155,7 +155,7 @@ HRESULT CGamePlayLevel::ADD_PellLayer(const _wstring& LayerName)
 	Desc.vPosition = { 100.f, 1.f, 20.f };
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Yeti"),
 		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
-		return E_FAIL;
+		return E_FAIL;*/
 	return S_OK;
 }
 

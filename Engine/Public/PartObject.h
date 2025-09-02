@@ -35,6 +35,7 @@ public:
 	void									SetAnimIndex(_uInt iIndex);
 
 protected :
+	_float4x4								m_CombinedWorldMatrix = {};
 #pragma region Animation
 	CModel*									m_pVIBufferCom = nullptr;
 	CShader*								m_pShaderCom = nullptr;

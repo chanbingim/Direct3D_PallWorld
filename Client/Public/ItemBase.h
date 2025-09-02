@@ -1,6 +1,7 @@
 #pragma once
 
-#include "AnimMeshActor.h"
+#include "Client_Define.h"
+#include "ContainerObject.h"
 
 NS_BEGIN(Client)
 class CItemBase : public CContainerObject

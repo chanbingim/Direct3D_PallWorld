@@ -1,6 +1,14 @@
 C:\Git\GitHub\Direct3D_PallWorld\Client\private\BackGround.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\BackGround.obj
 C:\Git\GitHub\Direct3D_PallWorld\Client\private\BattlePell.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\BattlePell.obj
 C:\Git\GitHub\Direct3D_PallWorld\Client\private\BedCat.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\BedCat.obj
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\BedCatBody.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\BedCatBody.obj
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\DororongBody.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\DororongBody.obj
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\ElectricPandaBody.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\ElectricPandaBody.obj
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\FlowerLabbitBody.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\FlowerLabbitBody.obj
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\FrogBody.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\FrogBody.obj
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\HedgehogBody.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\HedgehogBody.obj
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\HerorongBody.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\HerorongBody.obj
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\PellBody.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\PellBody.obj
 C:\Git\GitHub\Direct3D_PallWorld\Client\private\Button.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\Button.obj
 C:\Git\GitHub\Direct3D_PallWorld\Client\private\ButtonFrame.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\ButtonFrame.obj
 C:\Git\GitHub\Direct3D_PallWorld\Client\private\Camera.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\Camera.obj
@@ -24,6 +32,8 @@ C:\Git\GitHub\Direct3D_PallWorld\Client\private\Inventory.cpp;C:\Git\GitHub\Dire
 C:\Git\GitHub\Direct3D_PallWorld\Client\private\ItemSlot.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\ItemSlot.obj
 C:\Git\GitHub\Direct3D_PallWorld\Client\private\NoneAnimMesh.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\NoneAnimMesh.obj
 C:\Git\GitHub\Direct3D_PallWorld\Client\private\PellRock.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\PellRock.obj
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\PlayerLowerBody.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\PlayerLowerBody.obj
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\PlayerUpperBody.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\PlayerUpperBody.obj
 C:\Git\GitHub\Direct3D_PallWorld\Client\private\PlayerView.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\PlayerView.obj
 C:\Git\GitHub\Direct3D_PallWorld\Client\private\SlotImage.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\SlotImage.obj
 C:\Git\GitHub\Direct3D_PallWorld\Client\private\TreeObject.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\TreeObject.obj
@@ -71,7 +81,6 @@ C:\Git\GitHub\Direct3D_PallWorld\Client\private\Logo_GameStart_But.cpp;C:\Git\Gi
 C:\Git\GitHub\Direct3D_PallWorld\Client\private\Logo_HUD.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\Logo_HUD.obj
 C:\Git\GitHub\Direct3D_PallWorld\Client\private\Logo_Menu.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\Logo_Menu.obj
 C:\Git\GitHub\Direct3D_PallWorld\Client\private\MainApp.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\MainApp.obj
-C:\Git\GitHub\Direct3D_PallWorld\Client\private\AnimMeshActor.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\AnimMeshActor.obj
 C:\Git\GitHub\Direct3D_PallWorld\Client\private\OptionButton.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\OptionButton.obj
 C:\Git\GitHub\Direct3D_PallWorld\Client\private\PellBase.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\PellBase.obj
 C:\Git\GitHub\Direct3D_PallWorld\Client\private\PellInfo.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\PellInfo.obj
@@ -84,5 +93,6 @@ C:\Git\GitHub\Direct3D_PallWorld\Client\private\SlotBase.cpp;C:\Git\GitHub\Direc
 C:\Git\GitHub\Direct3D_PallWorld\Client\private\Terrian.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\Terrian.obj
 C:\Git\GitHub\Direct3D_PallWorld\Client\private\TypeIcon.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\TypeIcon.obj
 C:\Git\GitHub\Direct3D_PallWorld\Client\private\Yeti.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\Yeti.obj
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\YetiBody.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\YetiBody.obj
 C:\Git\GitHub\Direct3D_PallWorld\Client\public\IMG_ModelConvert.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\IMG_ModelConvert.obj
 C:\Git\GitHub\Direct3D_PallWorld\Client\Default\Direct11_FrameWork.cpp;C:\Git\GitHub\Direct3D_PallWorld\Client\Default\x64\Debug\Direct11_FrameWork.obj

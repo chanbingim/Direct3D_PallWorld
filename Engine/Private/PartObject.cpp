@@ -36,11 +36,13 @@ void CPartObject::Priority_Update(_float fDeletaTime)
 
 void CPartObject::Update(_float fDeletaTime)
 {
+	
 }
 
 void CPartObject::Late_Update(_float fDeletaTime)
 {
-	__super::Late_Update(fDeletaTime);
+	XMStoreFloat4x4(&m_CombinedWorldMatrix,
+		XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()) * XMLoadFloat4x4(&m_pParent->GetTransform()->GetWorldMat()));
 }
 
 HRESULT CPartObject::Render()
@@ -61,14 +63,14 @@ HRESULT CPartObject::Bind_ShaderResources()
 	m_pEMVWorldMat = m_pShaderCom->GetVariable("g_WorldMatrix")->AsMatrix();
 	m_pEMVViewMat = m_pShaderCom->GetVariable("g_ViewMatrix")->AsMatrix();
 	m_pEMVProjMat = m_pShaderCom->GetVariable("g_ProjMatrix")->AsMatrix();
-	m_pSRVEffect = m_pShaderCom->GetVariable("g_Texture")->AsShaderResource();
+	m_pSRVEffect = m_pShaderCom->GetVariable("g_DiffuseTexture")->AsShaderResource();
 	m_pBoneMatrixEffect = m_pShaderCom->GetVariable("g_BoneMatrices")->AsMatrix();
 	return S_OK;
 }
 
 HRESULT CPartObject::Apply_ConstantShaderResources(_uInt iMeshIndex)
 {
-	m_pEMVWorldMat->SetMatrix(reinterpret_cast<const float*>(&m_pTransformCom->GetWorldMat()));
+	m_pEMVWorldMat->SetMatrix(reinterpret_cast<const float*>(&m_CombinedWorldMatrix));
 	m_pEMVViewMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::VIEW)));
 	m_pEMVProjMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION)));
 	m_pBoneMatrixEffect->SetMatrixArray(reinterpret_cast<const float*>(m_pVIBufferCom->GetBoneMatrices(iMeshIndex)), 0, m_pVIBufferCom->GetMeshNumBones(iMeshIndex));

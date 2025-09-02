@@ -23,6 +23,9 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
+private :
+	HRESULT									ADD_Components();
+
 public:
 	static			CPlayerUpperBody*		Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual			CGameObject*			Clone(void* pArg) override;

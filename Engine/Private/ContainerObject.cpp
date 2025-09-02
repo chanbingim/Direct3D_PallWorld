@@ -43,7 +43,6 @@ void CContainerObject::Update(_float fDeletaTime)
 
 void CContainerObject::Late_Update(_float fDeletaTime)
 {
-    __super::Late_Update(fDeletaTime);
     for (auto& Pair : m_PartObjects)
         Pair.second->Late_Update(fDeletaTime);
 }
@@ -54,11 +53,17 @@ HRESULT CContainerObject::Render()
     return S_OK;
 }
 
+void CContainerObject::SetAnimIndex(_uInt iIndex)
+{
+    for (auto& Pair : m_PartObjects)
+        Pair.second->SetAnimIndex(iIndex);
+}
+
 CPartObject* CContainerObject::FindPartObject(const _wstring& PartObjectTag)
 {
     auto pair = m_PartObjects.find(PartObjectTag);
     if (pair == m_PartObjects.end())
-        nullptr;
+        return nullptr;
 
     return pair->second;
 }

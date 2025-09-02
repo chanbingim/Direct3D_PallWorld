@@ -46,20 +46,6 @@ HRESULT CPellBase::Render()
     return E_NOTIMPL;
 }
 
-HRESULT CPellBase::Bind_ShaderResources()
-{
-    if (nullptr == m_pShaderCom)
-        return E_FAIL;
-
-    m_pEMVWorldMat = m_pShaderCom->GetVariable("g_WorldMatrix")->AsMatrix();
-    m_pEMVViewMat = m_pShaderCom->GetVariable("g_ViewMatrix")->AsMatrix();
-    m_pEMVProjMat = m_pShaderCom->GetVariable("g_ProjMatrix")->AsMatrix();
-    m_pSRVEffect = m_pShaderCom->GetVariable("g_DiffuseTexture")->AsShaderResource();
-    m_pBoneMatrixEffect = m_pShaderCom->GetVariable("g_BoneMatrices")->AsMatrix();
-
-    return S_OK;
-}
-
 CGameObject* CPellBase::Clone(void* pArg)
 {
     return nullptr;

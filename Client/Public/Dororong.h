@@ -24,7 +24,7 @@ public:
 	virtual		HRESULT						Render() override;
 
 private:
-	HRESULT									ADD_Components();
+	HRESULT									ADD_PartObjects();
 
 public:
 	static			CDororong*				Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);
