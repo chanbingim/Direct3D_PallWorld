@@ -24,7 +24,7 @@ CAnimation::CAnimation(const CAnimation& rhs) :
 
 HRESULT CAnimation::Initialize(const CModel* pModel, const aiAnimation* pAIAnimation, _bool bIsLoop)
 {
-	strcpy_s(m_szAnimName, pAIAnimation->mName.data);
+	strcpy_s(m_szAnimName, MAX_PATH, strchr(pAIAnimation->mName.data, '|') + 1);
 
 	m_fLength = (_float)pAIAnimation->mDuration;
 	m_fTickPerSecond = (_float)pAIAnimation->mTicksPerSecond;
@@ -80,10 +80,8 @@ _bool CAnimation::UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTi
 	for (auto& pChannel : m_Channels)
 	{
 		_Int ChannelBoneIdx = pChannel->GetBoneIndex();
-		if (UpdateBoneIdx.x > ChannelBoneIdx || UpdateBoneIdx.y < ChannelBoneIdx)
-			continue;
-
-		pChannel->Update_TransformationMatrix(Bones, m_fCurrentTrackPosition, &m_iChannelIndex[iIndex++]);
+		if (UpdateBoneIdx.x <= ChannelBoneIdx && UpdateBoneIdx.y >= ChannelBoneIdx)
+			pChannel->Update_TransformationMatrix(Bones, m_fCurrentTrackPosition, &m_iChannelIndex[iIndex++]);
 	}
 	return false;
 }
@@ -91,15 +89,13 @@ _bool CAnimation::UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTi
 _bool CAnimation::UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTimeDelta, _int2 UpdateBoneIdx, _float2* LastAnimTrackPos, _float fLength)
 {
 	LastAnimTrackPos->x += m_fTickPerSecond * fTimeDelta;
-	_float fRatio = (LastAnimTrackPos->x - LastAnimTrackPos->y) / 0.2f;
+	_float fRatio = (LastAnimTrackPos->x - LastAnimTrackPos->y) / 0.4f;
 	fRatio = Clamp<_float>(fRatio, 0.f, 1.f);
 	for (auto& pChannel : m_Channels)
 	{
 		_Int ChannelBoneIdx = pChannel->GetBoneIndex();
-		if (UpdateBoneIdx.x > ChannelBoneIdx || UpdateBoneIdx.y < ChannelBoneIdx)
-			continue;
-
-		pChannel->Update_TransformationMatrix(Bones, fRatio);
+		if (UpdateBoneIdx.x <= ChannelBoneIdx && UpdateBoneIdx.y >= ChannelBoneIdx)
+			pChannel->Update_TransformationMatrix(Bones, fRatio);
 	}
 
 	if (1.0f <= fRatio)

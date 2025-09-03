@@ -4,6 +4,8 @@
 #include "ContainerObject.h"
 
 NS_BEGIN(Client)
+class CPlayerStateMachine;
+
 class CPlayer : public CContainerObject
 {
 protected:
@@ -24,7 +26,18 @@ public:
 	// 랜더
 	virtual		HRESULT						Render() override;
 
+private :
+	CPlayerStateMachine*					m_pPlayerFSM = nullptr;
+
+	// 플레이어의 현재 방향
+	DIREACTION								m_eDireaction;
+
 private:
+	void									Key_Input(_float fDeletaTime);
+	void									MoveAction(_float fDeletaTime);
+	void									ChangeAction(_float fDeltaTime);
+
+	HRESULT									ADD_PlayerStateMachine();
 	HRESULT									ADD_PartObejcts();
 
 public:

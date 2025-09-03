@@ -41,7 +41,12 @@ void CPlayerUpperBody::Priority_Update(_float fDeletaTime)
 
 void CPlayerUpperBody::Update(_float fDeletaTime)
 {
-    m_pVIBufferCom->PlayAnimation(m_iAnimIndex, fDeletaTime, true, "Bip001 Spine1");
+    if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_O))
+        m_iAnimIndex += 1;
+    if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_P))
+        m_iAnimIndex -= 1;
+
+    m_pVIBufferCom->PlayAnimation(m_iAnimIndex, fDeletaTime);
 }
 
 void CPlayerUpperBody::Late_Update(_float fDeletaTime)
@@ -66,7 +71,7 @@ HRESULT CPlayerUpperBody::Render()
 
 HRESULT CPlayerUpperBody::ADD_Components()
 {
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Fiona_Mesh"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Player_Mesh"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
         return E_FAIL;
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_AnimMesh"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))

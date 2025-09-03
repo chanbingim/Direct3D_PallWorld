@@ -13,6 +13,10 @@ namespace Client
 	enum class LEVEL { EDITOR, STATIC, LOGO, GAMEPLAY, LOADING, END };
 	enum class ITEM_TYPE { EQUIPMENT, CONSUM, ETC, END };
 	enum class COSTUME_TYPE { HEAD, BODY, BOTTOM, WHOLE_BODY, SHOES,END};
+
+	enum class DIREACTION { FRONT, LEFT, RIGHT, BACK, END};
+	enum class WEAPON { MELEE, GUN, AXE, NONE, END };
+
 }
 
 extern HWND					g_hWnd;

@@ -40,7 +40,7 @@ void CPlayerLowerBody::Priority_Update(_float fDeletaTime)
 
 void CPlayerLowerBody::Update(_float fDeletaTime)
 {
-    m_pVIBufferCom->PlayAnimation(m_iAnimIndex, fDeletaTime, true, "Fiona", "Bip001 Spine1");
+    m_pVIBufferCom->PlayAnimation(m_iAnimIndex, fDeletaTime, true, "Bip001 L Thigh", "Bip001 R Thigh");
 }
 
 void CPlayerLowerBody::Late_Update(_float fDeletaTime)

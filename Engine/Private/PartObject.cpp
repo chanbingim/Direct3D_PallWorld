@@ -52,7 +52,15 @@ HRESULT CPartObject::Render()
 
 void CPartObject::SetAnimIndex(_uInt iIndex)
 {
+	if (-1 == iIndex)
+		return;
+
 	m_iAnimIndex = iIndex;
+}
+
+_uInt CPartObject::GetAnimIndex(const char* szName)
+{
+	return	m_pVIBufferCom->GetNumAnimation(szName);
 }
 
 HRESULT CPartObject::Bind_ShaderResources()

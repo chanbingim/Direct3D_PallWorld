@@ -34,6 +34,7 @@ public :
 	void						PlayAnimation(_uInt iCurrentAnimIndex, _float DeletaTime, _bool bIsLoop = true, const char* BoneName = "Root Node", const char* EndBoneName = "");
 	
 	const char*					GetAnimationName(_uInt iIndex);
+	_uInt						GetNumAnimation(const char* szName);
 	void						Export(const char* FilePath);
 
 private :
@@ -57,7 +58,6 @@ private :
 	// 뼈 개수 및 뼈 저장
 	_uInt						m_iNumBones = {};
 	vector<CBone*>				m_Bones;
-	list<CBone*>				m_UpdateBonesList;
 	vector<_bool>				m_PreAnimBones, m_CurAnimBones;
 
 	// 애니메이션 개수 및 애니메이션 저장

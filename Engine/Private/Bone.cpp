@@ -38,6 +38,7 @@ HRESULT CBone::Initialize(void* pArg)
 
     // 정보를 읽어서 뼈의 위치 메트릭스를 통해서 갱신한다.
     m_TransformationMatrix = BoneDesc->PreTransformMat;
+    m_iChildCnt = BoneDesc->iChildCnt;
     m_InitTransformationMatrix = m_TransformationMatrix;
 
     // 나중을 위한 정보
@@ -80,6 +81,7 @@ void CBone::Export(void* pBoneDsec)
     strcpy_s(Desc->szName, m_szName);
     Desc->PreTransformMat = m_TransformationMatrix;
     Desc->iParentBoneIndex = m_iParentBoneIndex;
+    Desc->iChildCnt = m_iChildCnt;
 }
 
 void CBone::InitTransformationMatrix()

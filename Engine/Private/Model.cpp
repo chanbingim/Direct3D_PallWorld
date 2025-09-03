@@ -194,7 +194,7 @@ void CModel::PlayAnimation(_uInt iCurrentAnimIndex, _float DeletaTime, _bool bIs
 	else
 	{
 		RootBoneIndex = 0;
-		ChildEndIndex = m_iNumBones;
+		ChildEndIndex = (_uInt)m_Bones.size();
 	}
 
 	ChangeAnimation(iCurrentAnimIndex);
@@ -215,6 +215,19 @@ const char* CModel::GetAnimationName(_uInt iIndex)
 		return "";
 
 	return m_Animations[iIndex]->GetAnimationName();
+}
+
+_uInt CModel::GetNumAnimation(const char* szName)
+{
+	_uInt iIndex = 0;
+	for (auto iter : m_Animations)
+	{
+		if (!strcmp(iter->GetAnimationName(), szName))
+			return iIndex;
+
+		iIndex++;
+	}
+	return -1;
 }
 
 HRESULT CModel::Ready_Meshes(void* MeshDesc, _matrix PreModelMat)
@@ -269,6 +282,7 @@ HRESULT CModel::Ready_Bones(void* BoneDesc)
 {
 	SAVE_ANIM_MODEL_DESC* ExportData = static_cast<SAVE_ANIM_MODEL_DESC*>(BoneDesc);
 	m_iNumBones = ExportData->iNumBones;
+
 	for (auto& BoneDesc : ExportData->BoneDesc)
 	{
 		CBone* pBone = CBone::Create(&BoneDesc);
@@ -276,7 +290,6 @@ HRESULT CModel::Ready_Bones(void* BoneDesc)
 			return E_FAIL;
 
 		m_Bones.push_back(pBone);
-
 	}
 	return S_OK;
 }
@@ -565,6 +578,7 @@ HRESULT CModel::SaveAnimModelFile(void* Data, const char* FilePath)
 			file.write(BoneDesc.szName, MAX_PATH);
 			file.write(reinterpret_cast<char*>(&BoneDesc.PreTransformMat), sizeof(_float4x4));
 			file.write(reinterpret_cast<char*>(&BoneDesc.iParentBoneIndex), sizeof(int));
+			file.write(reinterpret_cast<char*>(&BoneDesc.iChildCnt), sizeof(int));
 		}
 
 		file.write(reinterpret_cast<char*>(&ExportData->iNumAnimations), sizeof(_uInt));
@@ -756,6 +770,7 @@ HRESULT CModel::ReadAnimModelFile(void* Data, const char* FilePath)
 			file.read(BoneDesc.szName, MAX_PATH);
 			file.read(reinterpret_cast<char*>(&BoneDesc.PreTransformMat), sizeof(_float4x4));
 			file.read(reinterpret_cast<char*>(&BoneDesc.iParentBoneIndex), sizeof(_uInt));
+			file.read(reinterpret_cast<char*>(&BoneDesc.iChildCnt), sizeof(_uInt));
 			ImportData->BoneDesc.push_back(BoneDesc);
 		}
 #pragma endregion

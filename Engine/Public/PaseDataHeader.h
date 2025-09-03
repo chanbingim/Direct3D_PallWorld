@@ -51,6 +51,7 @@ namespace Engine
 		_char				szName[MAX_PATH];
 		_float4x4			PreTransformMat;
 		_Int				iParentBoneIndex;
+		_Int				iChildCnt;
 	}SAVE_BONE_DESC;
 
 	typedef struct SaveChannelDesc

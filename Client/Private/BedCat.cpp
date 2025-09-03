@@ -56,6 +56,8 @@ HRESULT CBedCat::ADD_PartObjects()
 {
     if (FAILED(__super::AddPartObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_BedCat_Body_Default"), TEXT("Part_Body"))))
         return E_FAIL;
+
+    return S_OK;
 }
 
 CBedCat* CBedCat::Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext)

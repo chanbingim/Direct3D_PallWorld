@@ -32,6 +32,7 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 	void									SetAnimIndex(_uInt iIndex);
+	_uInt									GetAnimIndex(const char* szName);
 
 protected :
 	_float4x4								m_CombinedWorldMatrix = {};

@@ -94,7 +94,7 @@ HRESULT CGamePlayLevel::ADD_PlayerLayer(const _wstring& LayerName)
 {
 	CGameObject::GAMEOBJECT_DESC Desc;
 	ZeroMemory(&Desc, sizeof(CGameObject::GAMEOBJECT_DESC));
-	Desc.vScale = { 10.f, 10.f, 10.f };
+	Desc.vScale = { 0.05f, 0.05f, 0.05f };
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player"),
 		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
