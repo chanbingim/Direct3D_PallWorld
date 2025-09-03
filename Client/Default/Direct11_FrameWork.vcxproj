@@ -181,6 +181,7 @@
     <ClInclude Include="..\public\HitState.h" />
     <ClInclude Include="..\public\ImgViewModel.h" />
     <ClInclude Include="..\public\JumpState.h" />
+    <ClInclude Include="..\public\PlayerCamera.h" />
     <ClInclude Include="..\public\PlayerChildIdleState.h" />
     <ClInclude Include="..\public\PlayerJog.h" />
     <ClInclude Include="..\public\PellBody.h" />
@@ -303,6 +304,7 @@
     <ClCompile Include="..\private\HitState.cpp" />
     <ClCompile Include="..\private\ImgViewModel.cpp" />
     <ClCompile Include="..\private\JumpState.cpp" />
+    <ClCompile Include="..\private\PlayerCamera.cpp" />
     <ClCompile Include="..\private\PlayerChildIdleState.cpp" />
     <ClCompile Include="..\private\PlayerJog.cpp" />
     <ClCompile Include="..\private\PellBody.cpp" />

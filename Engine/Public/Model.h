@@ -23,7 +23,8 @@ public :
 	HRESULT						GetMeshResource(_uInt iMeshIndex, aiTextureType eType, _uInt iTextureIndex, ID3D11ShaderResourceView** ppOut);
 	_uInt						GetMeshNumBones(_uInt iMeshIndex) const;
 	_uInt						GetNumMeshes() const { return m_iNumMeshes; }
-	
+	_matrix						GetBoneTransformation(const char* szBoneName);
+
 	// Model의 뼈에대한 함수
 	_Int						GetBoneIndex(const char* szBoneName) const;
 	_uInt						GetNumBones() const  { return m_iNumBones; }

@@ -410,6 +410,9 @@
     <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Child\Idle">
       <UniqueIdentifier>{05b34386-200b-4201-b6a8-f902e14cc22b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Objects\PlayerCamera">
+      <UniqueIdentifier>{6826cef0-6912-4665-8e2a-e023474bf724}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -766,6 +769,9 @@
     <ClInclude Include="..\public\PlayerChildIdleState.h">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Child\Idle</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\PlayerCamera.h">
+      <Filter>03. Objects\PlayerCamera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -1113,6 +1119,9 @@
     </ClCompile>
     <ClCompile Include="..\private\PlayerChildIdleState.cpp">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Child\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PlayerCamera.cpp">
+      <Filter>03. Objects\PlayerCamera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

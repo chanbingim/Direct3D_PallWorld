@@ -39,7 +39,7 @@ public:
 	virtual void								ExportData(void* pArg);
 #endif // _DEBUG
 
-private :
+protected :
 	//카메라 정보
 	_float										m_fFov = {};
 	_float										m_fAspect = {};
@@ -52,7 +52,7 @@ private :
 	vector<_vector>								m_FustomWorldPointVec;
 	_float4										m_FustomPlane[6] = {};
 
-private :
+protected:
 	void										Compute_FustomPlane();
 
 public:

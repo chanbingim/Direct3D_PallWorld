@@ -21,10 +21,10 @@ HRESULT CGamePlayLevel::Initialize()
 	if (FAILED(ADD_TerrianLayer(TEXT("Layer_GamePlay_Terrian"))))
 		return E_FAIL;
 
-	if (FAILED(ADD_EnviornmentLayer(TEXT("Layer_GamePlay_Enviorment"))))
+	if (FAILED(ADD_PlayerLayer(TEXT("Layer_GamePlay_Player"))))
 		return E_FAIL;
 
-	if (FAILED(ADD_PlayerLayer(TEXT("Layer_GamePlay_Player"))))
+	if (FAILED(ADD_EnviornmentLayer(TEXT("Layer_GamePlay_Enviorment"))))
 		return E_FAIL;
 
 	if (FAILED(ADD_PellLayer(TEXT("Layer_GamePlay_Pell"))))

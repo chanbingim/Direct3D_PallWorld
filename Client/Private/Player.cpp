@@ -43,6 +43,7 @@ void CPlayer::Priority_Update(_float fDeletaTime)
     __super::Priority_Update(fDeletaTime);
     if (GAMEMODE::GAME == m_pGameInstance->GetGameMode())
         Key_Input(fDeletaTime);
+        
 }
 
 void CPlayer::Update(_float fDeletaTime)
@@ -193,4 +194,6 @@ CGameObject* CPlayer::Clone(void* pArg)
 void CPlayer::Free()
 {
     __super::Free();
+
+    Safe_Release(m_pPlayerFSM);
 }

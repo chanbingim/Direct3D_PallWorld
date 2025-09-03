@@ -3,6 +3,8 @@
 #include "PartObject.h"
 
 NS_BEGIN(Client)
+class CPlayerCamera;
+
 class CPlayerUpperBody : public CPartObject
 {
 protected:
@@ -24,7 +26,13 @@ public:
 	virtual		HRESULT						Render() override;
 
 private :
+	CPlayerCamera*							m_pPlayerCamera = nullptr;
+
+private :
 	HRESULT									ADD_Components();
+	HRESULT									ADD_ChildObject();
+
+	void									PlayerCameraUpdate(_float fDeletaTime);
 
 public:
 	static			CPlayerUpperBody*		Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

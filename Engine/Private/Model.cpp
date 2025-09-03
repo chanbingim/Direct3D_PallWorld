@@ -154,6 +154,12 @@ _uInt CModel::GetMeshNumBones(_uInt iMeshIndex) const
 	return iNumBone;
 }
 
+_matrix CModel::GetBoneTransformation(const char* szBoneName)
+{
+	_uInt BoneiIndex = GetBoneIndex(szBoneName);
+	return m_Bones[BoneiIndex]->GetCombinedTransformationMatrix();
+}
+
 _Int CModel::GetBoneIndex(const char* szBoneName) const
 {
 	_Int	iBoneIndex = {};
