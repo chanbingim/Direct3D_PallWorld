@@ -25,9 +25,12 @@ public:
 
 	// ·£´õ
 	virtual		HRESULT						Render() override;
+	_bool									IsAnimFinished() { return m_bIsFinished; }
+
 
 private:
 	CPlayerBody*							m_pPlayerBody = nullptr;
+	_bool									m_bIsFinished = false;
 
 private:
 	HRESULT									ADD_Components();

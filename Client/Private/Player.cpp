@@ -4,6 +4,7 @@
 #include "PlayerStateMachine.h"
 #include "PartObject.h"
 #include "PlayerCamera.h"
+#include "PlayerPartData.h"
 
 CPlayer::CPlayer(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext) :
     CContainerObject(pGraphic_Device, pDeviceContext)
@@ -54,7 +55,7 @@ void CPlayer::Update(_float fDeletaTime)
 {
     m_pPlayerFSM->Update(fDeletaTime);
     auto UpperBody = FindPartObject(TEXT("Player_Animator"));
-    UpperBody->SetAnimIndex(UpperBody->GetAnimIndex(m_pPlayerFSM->GetStateFullName().c_str()));
+    UpperBody->SetAnimIndex(UpperBody->GetAnimIndex(m_pPlayerFSM->GetStateFullName().c_str()), m_bIsAnimLoop);
 
     __super::Update(fDeletaTime);
 }
@@ -81,14 +82,23 @@ void CPlayer::Key_Input(_float fDeletaTime)
     }
     else
     {
-        if (m_pGameInstance->KeyUp(KEY_INPUT::KEYBOARD, DIK_LSHIFT) || m_pGameInstance->KeyUp(KEY_INPUT::KEYBOARD, MK_CONTROL))
+        if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_LSHIFT))
+        {
+            m_pPlayerFSM->ChangeState(2, ENUM_CLASS(CPlayerStateMachine::MOVE_CHILD_ACTION::SPRINT), TEXT("Sprint"));
+            m_fMoveSpeed = P_RUN_SPEED;
+        }
+        else if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_LCONTROL))
+        {
+            m_pPlayerFSM->ChangeState(2, ENUM_CLASS(CPlayerStateMachine::MOVE_CHILD_ACTION::WALK), TEXT("Walk"));
+            m_fMoveSpeed = P_WALK_SPEED;
+        }
+        else
+        {
             m_pPlayerFSM->ChangeState(2, ENUM_CLASS(CPlayerStateMachine::MOVE_CHILD_ACTION::JOG), TEXT("Jog"));
+            m_fMoveSpeed = P_JOG_SPEED;
+        }
     }
-
-    if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_LSHIFT))
-        m_pPlayerFSM->ChangeState(2, ENUM_CLASS(CPlayerStateMachine::MOVE_CHILD_ACTION::SPRINT), TEXT("Sprint"));
-    else if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_LCONTROL))
-        m_pPlayerFSM->ChangeState(2, ENUM_CLASS(CPlayerStateMachine::MOVE_CHILD_ACTION::WALK), TEXT("Walk"));
+   
 
     if (CPlayerStateMachine::NONE_MOVE_ACTION::END == State.eNone_Move_State)
     {
@@ -107,24 +117,23 @@ void CPlayer::MoveAction(_float fDeletaTime)
     _vector MovePos = {};
     if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_W))
     {
-        MovePos = m_pTransformCom->GetLookVector() * 15.f * fDeletaTime;
+        MovePos = m_pTransformCom->GetLookVector() * m_fMoveSpeed * fDeletaTime;
         m_eDireaction = DIREACTION::FRONT;
     }
     if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_S))
     {
-        MovePos = m_pTransformCom->GetLookVector() * -15.f * fDeletaTime;
+        MovePos = m_pTransformCom->GetLookVector() * -m_fMoveSpeed * fDeletaTime;
         m_eDireaction = DIREACTION::BACK;
     }
     if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_A))
     {
-        MovePos = m_pTransformCom->GetRightVector() * -15.f * fDeletaTime;
+        MovePos = m_pTransformCom->GetRightVector() * -m_fMoveSpeed * fDeletaTime;
         m_eDireaction = DIREACTION::LEFT;
     }
     if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_D))
     {
-        MovePos = m_pTransformCom->GetRightVector() * 15.f * fDeletaTime;
+        MovePos = m_pTransformCom->GetRightVector() * m_fMoveSpeed * fDeletaTime;
         m_eDireaction = DIREACTION::RIGHT;
-        
     }
 
     if(!XMVector3Equal(MovePos, XMVectorZero()))
@@ -175,6 +184,30 @@ void CPlayer::ChangeAction(_float fDeltaTime)
             m_pPlayerFSM->SetAiming(true);
         else if(m_pGameInstance->KeyUp(KEY_INPUT::MOUSE, 1))
             m_pPlayerFSM->SetAiming(false);
+    }
+    else
+    {
+        if (CPlayerStateMachine::MOVE_ACTION::ATTACK == State.eMove_State)
+        {
+            auto Animator = dynamic_cast<CPlayerPartData *>(FindPartObject(TEXT("Player_Animator")));
+            if (Animator)
+            {
+                if (Animator->IsAnimFinished())
+                {
+                    m_pPlayerFSM->ChangeState(0, ENUM_CLASS(CPlayerStateMachine::MOVE_ACTION::DEFAULT), TEXT("Default"));
+                    m_bIsAnimLoop = true;
+                }
+            }
+        }
+
+        if (m_pGameInstance->KeyPressed(KEY_INPUT::MOUSE, 0))
+        {
+            if (CPlayerStateMachine::MOVE_ACTION::ATTACK != State.eMove_State)
+            {
+                m_pPlayerFSM->ChangeState(0, ENUM_CLASS(CPlayerStateMachine::MOVE_ACTION::ATTACK), TEXT("Attack"));
+                m_bIsAnimLoop = false;
+            }
+        }
     }
 }
 

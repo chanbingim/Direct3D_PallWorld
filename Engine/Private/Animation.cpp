@@ -86,10 +86,10 @@ _bool CAnimation::UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTi
 	return false;
 }
 
-_bool CAnimation::UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTimeDelta, _int2 UpdateBoneIdx, _float2* LastAnimTrackPos, _float fLength)
+_bool CAnimation::UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTimeDelta, _int2 UpdateBoneIdx, _float2* LastAnimTrackPos, _float fLength, _float LerpSpeed)
 {
-	LastAnimTrackPos->x += m_fTickPerSecond * fTimeDelta;
-	_float fRatio = (LastAnimTrackPos->x - LastAnimTrackPos->y) / 0.4f;
+	LastAnimTrackPos->x += LerpSpeed * fTimeDelta;
+	_float fRatio = LastAnimTrackPos->x / 0.2f; //(LastAnimTrackPos->x - LastAnimTrackPos->y) / 0.2f;
 	fRatio = Clamp<_float>(fRatio, 0.f, 1.f);
 	for (auto& pChannel : m_Channels)
 	{
@@ -111,7 +111,11 @@ _bool CAnimation::CompareAnimName(const char* szName)
 
 _float2 CAnimation::GetPreFrameKey()
 {
-	_float2 ReturnData = { m_fCurrentTrackPosition , m_Channels[0]->GetPreKeyFrameTrackPos(m_iChannelIndex[0]) };
+	_uInt iIndex = 0;
+	for (auto& iter : m_iChannelIndex)
+		iIndex = max(iter, iIndex);
+
+	_float2 ReturnData = { 0 , m_Channels[iIndex]->GetPreKeyFrameTrackPos(m_iChannelIndex[iIndex]) };
 	m_fCurrentTrackPosition = 0;
 	fill(m_iChannelIndex.begin(), m_iChannelIndex.end(), 0);
 	return ReturnData;

@@ -3,6 +3,10 @@
 #include "Client_Define.h"
 #include "ContainerObject.h"
 
+#define P_WALK_SPEED 25.f
+#define P_JOG_SPEED 50.f
+#define P_RUN_SPEED 100.f
+
 NS_BEGIN(Client)
 class CPlayerStateMachine;
 class CPlayerCamera;
@@ -33,6 +37,9 @@ private :
 
 	// 플레이어의 현재 방향
 	DIREACTION								m_eDireaction;
+	_bool									m_bIsAnimLoop = true;
+	_float									m_fMoveSpeed = P_WALK_SPEED;
+
 	_float3									m_PreMovePos;
 	_float3									m_PrePlayerRot;
 

@@ -18,7 +18,7 @@ public :
 	HRESULT			Initialize(void* pArg);
 
 	_bool			UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTimeDelta, _int2 UpdateBoneIdx, _bool bIsLoop);
-	_bool			UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTimeDelta, _int2 UpdateBoneIdx, _float2* LastAnimTrackPos, _float fLength);
+	_bool			UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTimeDelta, _int2 UpdateBoneIdx, _float2* LastAnimTrackPos, _float fLength, _float LerpSpeed);
 
 	_bool			CompareAnimName(const char* szName);
 	_float2			GetPreFrameKey();

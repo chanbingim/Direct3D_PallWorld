@@ -34,7 +34,7 @@ public :
 
 	//모델 애니메이션 관련 함수
 	_uInt						GetNumAnimations() { return m_iNumAnimations; }
-	void						PlayAnimation(_uInt iCurrentAnimIndex, _float DeletaTime, _bool bIsLoop = true, const char* BoneName = "Root Node", const char* EndBoneName = "");
+	_bool						PlayAnimation(_uInt iCurrentAnimIndex, _float fDeletaTime, _float fAnimSpeed = 10.f, _bool bIsLoop = true, const char* BoneName = "Root Node", const char* EndBoneName = "");
 	void						BindParentAnim(CModel* DstData);
 
 	const char*					GetAnimationName(_uInt iIndex);
@@ -107,7 +107,7 @@ private:
 	HRESULT						ReadAnimModelFile(void* Data, const char* FilePath);
 
 	void						ChangeAnimation(_uInt iAnimIndex);
-	void						LerpAnimation(_float fDeletaTime, _int2 UpdateBoneIdx);
+	_bool						LerpAnimation(_float fDeletaTime, _float fAnimSpeed, _int2 UpdateBoneIdx);
 
 public:
 	static		CModel*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL_TYPE eType, const _char* pModelFilePath, _matrix PreModelMat = XMMatrixIdentity(), const char* RetargetFile = "");

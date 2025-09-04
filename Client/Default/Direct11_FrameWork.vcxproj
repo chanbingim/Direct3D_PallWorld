@@ -182,6 +182,7 @@
     <ClInclude Include="..\public\ImgViewModel.h" />
     <ClInclude Include="..\public\JumpState.h" />
     <ClInclude Include="..\Public\Player.h" />
+    <ClInclude Include="..\public\PlayerAttackState.h" />
     <ClInclude Include="..\public\PlayerPartData.h" />
     <ClInclude Include="..\public\PlayerCamera.h" />
     <ClInclude Include="..\public\PlayerChildIdleState.h" />
@@ -305,6 +306,7 @@
     <ClCompile Include="..\private\ImgViewModel.cpp" />
     <ClCompile Include="..\Private\IMG_ModelConvert.cpp" />
     <ClCompile Include="..\private\JumpState.cpp" />
+    <ClCompile Include="..\private\PlayerAttackState.cpp" />
     <ClCompile Include="..\private\PlayerPartData.cpp" />
     <ClCompile Include="..\private\PlayerCamera.cpp" />
     <ClCompile Include="..\private\PlayerChildIdleState.cpp" />

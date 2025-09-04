@@ -7,6 +7,7 @@
 #include "ClimbState.h"
 #include "JumpState.h"
 #include "PlayerIdleState.h"
+#include "PlayerAttackState.h"
 #pragma endregion
 
 #pragma region Child State
@@ -89,10 +90,17 @@ _string CPlayerStateMachine::GetStateFullName()
 {
     _wstring FullName = {};
 
-    if (lstrcmp(m_CurrentStates[0].first.c_str(), L"Default"))
-        FullName = m_CurrentStates[0].first + L"_";
+    if (MOVE_ACTION::DEFAULT != m_StateData.eMove_State)
+    {
+        if (MOVE_ACTION::ATTACK == m_StateData.eMove_State)
+            FullName = L"Attack";
+        else
+            FullName = m_CurrentStates[0].first + L"_";
+    }
 
-    FullName += m_CurrentStates[2].first;
+    if (MOVE_ACTION::ATTACK != m_StateData.eMove_State)
+        FullName += m_CurrentStates[2].first;
+
     if (m_StateData.bIsAiming)
         FullName += L"_Anim";
 
@@ -127,10 +135,15 @@ HRESULT CPlayerStateMachine::ADD_PlayerMoveState(_uInt iIndex)
     if (FAILED(AddState(iIndex, TEXT("Jump"), CJumpState::Create())))
         return E_FAIL;
 
+    m_StatesIndex[iIndex].push_back(4);
+
     m_StatesIndex[iIndex].push_back(5);
     if (FAILED(AddState(iIndex, TEXT("Hit"), CHitState::Create())))
         return E_FAIL;
 
+    m_StatesIndex[iIndex].push_back(6);
+    if (FAILED(AddState(iIndex, TEXT("Attack"), CPlayerAttackState::Create())))
+        return E_FAIL;
     return S_OK;
 }
 

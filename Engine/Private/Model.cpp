@@ -202,11 +202,12 @@ const _float4x4* CModel::GetCombinedTransformationMatrixPtr(const char* szBoneNa
 	return (*iter)->GetCombinedTransformationMatrixPtr();
 }
 
-void CModel::PlayAnimation(_uInt iCurrentAnimIndex, _float DeletaTime, _bool bIsLoop, const char* BoneName, const char* EndBoneName)
+_bool CModel::PlayAnimation(_uInt iCurrentAnimIndex, _float fDeletaTime, _float fAnimSpeed, _bool bIsLoop, const char* BoneName, const char* EndBoneName)
 {
+	_bool Finished = false;
 	if (-1 == iCurrentAnimIndex ||
 		iCurrentAnimIndex >= m_iNumAnimations)
-		return;
+		return Finished;
 
 	_Int RootBoneIndex{}, ChildEndIndex{};
 	if (strcmp(BoneName, "Root Node"))
@@ -226,13 +227,15 @@ void CModel::PlayAnimation(_uInt iCurrentAnimIndex, _float DeletaTime, _bool bIs
 	ChangeAnimation(iCurrentAnimIndex);
 	if (!m_bIsLerpAnimation)
 		/* 내가 재생하고자하는 애니메이션(공격모션)이 이용하고 있는 뼈들의 상태 변환정보(TransformationMatrix)를 갱신해준다.*/
-		m_Animations[m_iCurrentAnimIndex]->UpdateTransformationMatrices(m_Bones, DeletaTime, { RootBoneIndex, RootBoneIndex + ChildEndIndex }, bIsLoop);
+		Finished = m_Animations[m_iCurrentAnimIndex]->UpdateTransformationMatrices(m_Bones, fDeletaTime, { RootBoneIndex, RootBoneIndex + ChildEndIndex }, bIsLoop);
 	else
-		LerpAnimation(DeletaTime, { RootBoneIndex, RootBoneIndex + ChildEndIndex });
+		LerpAnimation(fDeletaTime, fAnimSpeed, { RootBoneIndex, RootBoneIndex + ChildEndIndex });
 
 	/* 모든 뼈를 순회하면서 CombinedTransformationMatrix를 갱신한다. */
 	for (auto& pBone : m_Bones)
 		pBone->UpdateCombinedTransformationMatrix(m_Bones, XMLoadFloat4x4(&m_PreTransformMatrix));
+
+	return Finished;
 }
 
 void CModel::BindParentAnim(CModel* DstData)
@@ -913,10 +916,15 @@ void CModel::ChangeAnimation(_uInt iAnimIndex)
 	}
 }
 
-void CModel::LerpAnimation(_float fDeletaTime, _int2 UpdateBoneIdx)
+_bool CModel::LerpAnimation(_float fDeletaTime, _float AnimSpeed, _int2 UpdateBoneIdx)
 {
-	if (m_Animations[m_iCurrentAnimIndex]->UpdateTransformationMatrices(m_Bones, fDeletaTime, UpdateBoneIdx, &m_PreFrameTrackPos, 0.5f))
+	if (m_Animations[m_iCurrentAnimIndex]->UpdateTransformationMatrices(m_Bones, fDeletaTime, UpdateBoneIdx, &m_PreFrameTrackPos, 0.5f, AnimSpeed))
+	{
 		m_bIsLerpAnimation = false;
+		return true;
+	}
+
+	return false;
 }
 
 CModel* CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL_TYPE eType, const _char* pModelFilePath, _matrix PreModelMat, const char* RetargetFile)

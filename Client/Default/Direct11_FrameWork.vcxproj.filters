@@ -410,6 +410,9 @@
     <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\Animator">
       <UniqueIdentifier>{6ee192b4-a72c-45ef-a283-7d10ba530904}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Parent\Attack">
+      <UniqueIdentifier>{1f29dd75-ce26-40c3-b8b0-0c570acf198c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -769,6 +772,9 @@
     <ClInclude Include="..\Public\Player.h">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\PlayerAttackState.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Parent\Attack</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -1119,6 +1125,9 @@
     </ClCompile>
     <ClCompile Include="..\private\PlayerBody.cpp">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Body</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PlayerAttackState.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Parent\Attack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

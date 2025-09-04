@@ -59,12 +59,13 @@ HRESULT CPartObject::Render()
 	return S_OK;
 }
 
-void CPartObject::SetAnimIndex(_uInt iIndex)
+void CPartObject::SetAnimIndex(_uInt iIndex, _bool bIsLoop)
 {
 	if (-1 == iIndex)
 		return;
 
 	m_iAnimIndex = iIndex;
+	m_bIsAnimLoop = bIsLoop;
 }
 
 _uInt CPartObject::GetAnimIndex(const char* szName)

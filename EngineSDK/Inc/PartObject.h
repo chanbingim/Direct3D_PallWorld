@@ -31,7 +31,7 @@ public:
 
 	// ·£´õ
 	virtual		HRESULT						Render() override;
-	void									SetAnimIndex(_uInt iIndex);
+	void									SetAnimIndex(_uInt iIndex, _bool bIsLoop = true);
 	_uInt									GetAnimIndex(const char* szName);
 
 	const _float4x4*						GetPartObejctWorldMat() { return &m_CombinedWorldMatrix; }
@@ -49,6 +49,7 @@ protected :
 	ID3DX11EffectMatrixVariable*			m_pBoneMatrixEffect = nullptr;
 
 	_uInt									m_iAnimIndex = {};
+	_bool									m_bIsAnimLoop = true;
 #pragma endregion
 
 protected :

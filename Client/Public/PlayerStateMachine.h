@@ -6,7 +6,7 @@ NS_BEGIN(Client)
 class CPlayerStateMachine final : public CFiniteStateMachine
 {
 public:
-	enum class MOVE_ACTION { DEFAULT, CROUCH, CLIMB, JUMP, EMOTE, HIT, END };
+	enum class MOVE_ACTION { DEFAULT, CROUCH, CLIMB, JUMP, EMOTE, HIT, ATTACK,END };
 	enum class MOVE_CHILD_ACTION { WALK, IDLE, JOG, SPRINT, END };
 	enum class NONE_MOVE_ACTION { PETTING, CARRY, SLEEP, COOK, END };
 

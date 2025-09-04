@@ -43,7 +43,7 @@ void CPlayerPartData::Priority_Update(_float fDeletaTime)
 
 void CPlayerPartData::Update(_float fDeletaTime)
 {
-    m_pVIBufferCom->PlayAnimation(m_iAnimIndex, fDeletaTime);
+    m_bIsFinished = m_pVIBufferCom->PlayAnimation(m_iAnimIndex, fDeletaTime, 5.f, m_bIsAnimLoop);
 }
 
 void CPlayerPartData::Late_Update(_float fDeletaTime)
