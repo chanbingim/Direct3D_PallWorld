@@ -13,6 +13,8 @@ CMaterial::CMaterial(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 
 HRESULT CMaterial::Initialize(const _char* pModelFilePath, const aiMaterial* pAIMaterial)
 {
+    strcpy_s(m_MatrialName, pAIMaterial->GetName().data);
+
     for (size_t i = 0; i < AI_TEXTURE_TYPE_MAX; i++)
     {
         //해당 타입의 텍스처의 개수를 가져오는 함수이다.

@@ -25,8 +25,8 @@ HRESULT CPlayerCamera::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
-    if(m_ObejctTag == L"")
-         m_ObejctTag = TEXT("Player Camera");
+    PLAYER_CAMERA_DESC* Desc = static_cast<PLAYER_CAMERA_DESC*>(pArg);
+    m_SocketMatrix = Desc->pSocketMatrix;
 
     return S_OK;
 }
@@ -42,8 +42,20 @@ void CPlayerCamera::Update(_float fDeletaTime)
 
 void CPlayerCamera::Late_Update(_float fDeletaTime)
 {
-    __super::Priority_Update(fDeletaTime);
+    _matrix SocMatrix = XMLoadFloat4x4(m_SocketMatrix);
+    SocMatrix.r[0] = XMVectorSet(1.f,0.f,0.f,0.f);
+    SocMatrix.r[1] = XMVectorSet(0.f, 1.f, 0.f, 0.f);
+    SocMatrix.r[2] = XMVectorSet(0.f, 0.f, 1.f, 0.f);
 
+    XMStoreFloat4x4(&m_CombinedMatrix,
+        XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()) * SocMatrix * XMLoadFloat4x4(&m_pParent->GetTransform()->GetWorldMat()));
+
+    XMStoreFloat4x4(&m_InvCombinedMatrix, XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_CombinedMatrix)));
+    XMStoreFloat4x4(&m_ProjMat, XMMatrixPerspectiveFovLH(m_fFov, m_fAspect, m_fNear, m_fFar));
+
+    m_pGameInstance->SetMatrix(MAT_STATE::VIEW, m_InvCombinedMatrix);
+    m_pGameInstance->SetMatrix(MAT_STATE::PROJECTION, m_ProjMat);
+    Compute_FustomPlane();
 }
 
 HRESULT CPlayerCamera::Render()

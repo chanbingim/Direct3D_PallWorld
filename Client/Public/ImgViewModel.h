@@ -26,6 +26,16 @@ public:
 	void									Bind_Model(CModel* pModel);
 	void									SetAnimationIndex(_uInt iIndex);
 
+	void									SetAnimFlag(_bool bIsAnim) { m_IsAnimModel = bIsAnim; }
+
+protected :
+	virtual     HRESULT						Bind_ShaderResources();
+	virtual     HRESULT						Apply_ConstantShaderResources(_uInt iMeshIndex);
+
+private :
+	CShader*								m_NonAnimShader = nullptr;
+	_bool									m_IsAnimModel = false;
+
 private:
 	HRESULT									ADD_Components();
 

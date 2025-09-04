@@ -51,6 +51,7 @@ HRESULT CBaseCamera::Initialize(void* pArg)
         _uInt iViewprotNum = { 1 };
         m_pDeviceContext->RSGetViewports(&iViewprotNum, &viewPortDesc);
 
+        m_pParent = Desc->pParent;
         m_fFov = Desc->fFov;
         m_fAspect = viewPortDesc.Width / viewPortDesc.Height;
         m_fFar = Desc->fFar;

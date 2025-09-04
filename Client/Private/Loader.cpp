@@ -19,8 +19,8 @@
 #include "Terrian.h"
 
 #pragma region PLAYER
-#include "PlayerUpperBody.h"
-#include "PlayerLowerBody.h"
+#include "PlayerPartData.h"
+#include "PlayerBody.h"
 #pragma endregion
 
 #pragma region PELL
@@ -291,9 +291,23 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 #pragma region Models
 
+#pragma region Clothes
+	_matrix PreModelMat = XMMatrixRotationY(XMConvertToRadians(180.f));
+	/* VIBuffer  MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_OldClothes"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Clothes/OldClothes/OldClothes.fbx"))))
+		return E_FAIL;
+
+	/* VIBuffer  MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Clothes02"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Clothes/Clothes02/Clothes02.fbx", PreModelMat, 
+			"../Bin/Resources/Models/Clothes/Clothes02/Clothes02_Mapping.txt"))))
+		return E_FAIL;
+#pragma endregion
+
 #pragma region Player
 	/* VIBuffer  MESH  Component */
-	_matrix PreModelMat = XMMatrixRotationY(XMConvertToRadians(180.f));
+	PreModelMat = XMMatrixRotationY(XMConvertToRadians(180.f));
 
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Player_Mesh"),
 		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Player/Player.fbx", PreModelMat))))
@@ -301,15 +315,15 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma endregion
 
 #pragma region PELL
-	/* VIBuffer  BedCat MESH  Component */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_BedCat_Mesh"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM,"../Bin/Resources/Models/BedCat/BedCat.fbx", PreModelMat))))
-		return E_FAIL;
+	///* VIBuffer  BedCat MESH  Component */
+	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_BedCat_Mesh"),
+	//	CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM,"../Bin/Resources/Models/BedCat/BedCat.fbx", PreModelMat))))
+	//	return E_FAIL;
 
-	/* VIBuffer  Dororong MESH  Component */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Drorong_Mesh"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Dororong/SheepBall.fbx", PreModelMat))))
-		return E_FAIL;
+	///* VIBuffer  Dororong MESH  Component */
+	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Drorong_Mesh"),
+	//	CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Dororong/SheepBall.fbx", PreModelMat))))
+	//	return E_FAIL;
 
 	///* VIBuffer  Electric Panda MESH  Component */
 	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_ElectricPanda_Mesh"),
@@ -538,12 +552,12 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player"), CPlayer::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	/* GAME_OBJECT_Camera */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_Upper_Body_Default"), CPlayerUpperBody::Create(m_pDevice, m_pContext))))
+	/* GAME_OBJECT_Animatior */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_PartData_Default"), CPlayerPartData::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	/* GAME_OBJECT_Camera */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_Lower_Body_Default"), CPlayerLowerBody::Create(m_pDevice, m_pContext))))
+	/* GAME_OBJECT_Clothes */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_Body_Default"), CPlayerBody::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 #pragma endregion
 

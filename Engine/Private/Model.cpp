@@ -27,6 +27,7 @@ CModel::CModel(const CModel& rhs) :
 	m_PreTransformMatrix(rhs.m_PreTransformMatrix),
 	m_Materials(rhs.m_Materials),
 	m_PreAnimBones(rhs.m_PreAnimBones),
+	m_RetargetIndices(rhs.m_RetargetIndices),
 	m_CurAnimBones(rhs.m_CurAnimBones),
 	m_eType(rhs.m_eType)
 {
@@ -43,7 +44,7 @@ CModel::CModel(const CModel& rhs) :
 		m_Animations.push_back(pAnimation->Clone());
 }
 
-HRESULT CModel::Initialize_Prototype(MODEL_TYPE eType, const _char* pModelFilePath, _matrix PreModelMat)
+HRESULT CModel::Initialize_Prototype(MODEL_TYPE eType, const _char* pModelFilePath, _matrix PreModelMat, const char* RetargetFile)
 {
 	_char		szEXT[MAX_PATH] = {};
 
@@ -107,14 +108,16 @@ HRESULT CModel::Initialize_Prototype(MODEL_TYPE eType, const _char* pModelFilePa
 				return E_FAIL;
 		}
 	}
-
 	m_iNumBones = (_uInt)m_Bones.size();
+	if (strcmp(RetargetFile, ""))
+		ReadReTargetlFile(RetargetFile);
+
 	m_PreAnimBones.resize(m_iNumBones, false);
 	m_CurAnimBones.resize(m_iNumBones, false);
 	return S_OK;
 }
 
-HRESULT CModel::Initialize(void* pArg)
+HRESULT CModel::Initialize(void* pArg, const char* RetargetFile)
 {
 	return S_OK;
 }
@@ -160,9 +163,14 @@ _matrix CModel::GetBoneTransformation(const char* szBoneName)
 	return m_Bones[BoneiIndex]->GetCombinedTransformationMatrix();
 }
 
+_matrix CModel::GetBoneTransformation(_uInt iIndex)
+{
+	return m_Bones[iIndex]->GetBoneTransformMatrix();
+}
+
 _Int CModel::GetBoneIndex(const char* szBoneName) const
 {
-	_Int	iBoneIndex = {};
+	_Int	iBoneIndex = {0};
 	auto iter = find_if(m_Bones.begin(), m_Bones.end(), [&](CBone* pBone)
 		{
 			if (pBone->CompareName(szBoneName))
@@ -180,6 +188,18 @@ _Int CModel::GetBoneIndex(const char* szBoneName) const
 _float4x4* CModel::GetBoneMatrices(_uInt iMeshIndex)
 {
 	return m_Meshes[iMeshIndex]->GetMeshBoneMatrices(m_Bones);
+}
+
+const _float4x4* CModel::GetCombinedTransformationMatrixPtr(const char* szBoneName) const
+{
+	auto iter = find_if(m_Bones.begin(), m_Bones.end(), [&](CBone* pBone)
+	{
+		return pBone->CompareName(szBoneName);
+	});
+
+	if (iter == m_Bones.end())
+		return nullptr;
+	return (*iter)->GetCombinedTransformationMatrixPtr();
 }
 
 void CModel::PlayAnimation(_uInt iCurrentAnimIndex, _float DeletaTime, _bool bIsLoop, const char* BoneName, const char* EndBoneName)
@@ -213,6 +233,21 @@ void CModel::PlayAnimation(_uInt iCurrentAnimIndex, _float DeletaTime, _bool bIs
 	/* 모든 뼈를 순회하면서 CombinedTransformationMatrix를 갱신한다. */
 	for (auto& pBone : m_Bones)
 		pBone->UpdateCombinedTransformationMatrix(m_Bones, XMLoadFloat4x4(&m_PreTransformMatrix));
+}
+
+void CModel::BindParentAnim(CModel* DstData)
+{
+	if (m_RetargetIndices.empty())
+		return;
+
+	_uInt i = 0;
+	for (_uInt i = 0; i < m_iNumBones; ++i)
+	{
+		if (-1 != m_RetargetIndices[i])
+			m_Bones[i]->SetBoneTransformMatrix(DstData->GetBoneTransformation(m_RetargetIndices[i]));
+
+		m_Bones[i]->UpdateCombinedTransformationMatrix(m_Bones, XMLoadFloat4x4(&m_PreTransformMatrix));
+	}
 }
 
 const char* CModel::GetAnimationName(_uInt iIndex)
@@ -405,6 +440,19 @@ void CModel::Export(const char* FilePath)
 		//여기서 직렬화
 		if (FAILED(SaveAnimModelFile(&ExportData, FilePath)))
 			MSG_BOX("SAVE FAIL : ANIM MODEL DATA");
+	}
+}
+
+void CModel::ExportMappingData(CModel* DstData, unordered_map<_string, pair<_Int, _Int>>* pOut)
+{
+	_uInt iIndex = { };
+	for (auto pBones : m_Bones)
+	{
+		_string MappingName = pBones->GetBoneName();
+		_Int i = DstData->GetBoneIndex(MappingName.c_str());
+		
+		(*pOut).emplace(MappingName, make_pair(iIndex, i));
+		iIndex++;
 	}
 }
 
@@ -683,6 +731,27 @@ HRESULT CModel::ReadModelFile(void* Data, const char* FilePath)
 	return S_OK;
 }
 
+HRESULT CModel::ReadReTargetlFile(const char* FilePath)
+{
+	m_RetargetIndices.resize(m_iNumBones, 0);
+	ios_base::openmode flag;
+	flag = ios::in;
+
+	ifstream file(FilePath, flag);
+	if (file.is_open())
+	{
+		char szFileData[MAX_PATH];
+		while (file)
+		{
+			_Int From, To;
+			file >> szFileData >> From >> To;
+			m_RetargetIndices[From] = To;
+		}
+	}
+	file.close();
+	return S_OK;
+}
+
 HRESULT CModel::ReadAnimModelFile(void* Data, const char* FilePath)
 {
 	if (nullptr == Data)
@@ -850,10 +919,10 @@ void CModel::LerpAnimation(_float fDeletaTime, _int2 UpdateBoneIdx)
 		m_bIsLerpAnimation = false;
 }
 
-CModel* CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL_TYPE eType, const _char* pModelFilePath, _matrix PreModelMat)
+CModel* CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL_TYPE eType, const _char* pModelFilePath, _matrix PreModelMat, const char* RetargetFile)
 {
 	CModel* pModel = new CModel(pDevice, pContext);
-	if (FAILED(pModel->Initialize_Prototype(eType, pModelFilePath, PreModelMat)))
+	if (FAILED(pModel->Initialize_Prototype(eType, pModelFilePath, PreModelMat, RetargetFile)))
 	{
 		Safe_Release(pModel);
 		MSG_BOX("CREATE FAIL : MODEL");

@@ -15,8 +15,8 @@ private :
 	virtual ~CModel() = default;
 
 public :
-	virtual HRESULT				Initialize_Prototype(MODEL_TYPE eType, const _char* pModelFilePath, _matrix PreModelMat = XMMatrixIdentity());
-	virtual HRESULT				Initialize(void* pArg) override;
+	virtual HRESULT				Initialize_Prototype(MODEL_TYPE eType, const _char* pModelFilePath, _matrix PreModelMat = XMMatrixIdentity(), const char* RetargetFile = "");
+	virtual HRESULT				Initialize(void* pArg, const char* RetargetFile = "");
 
 	virtual HRESULT				Render(_uInt iMeshIndex);
 
@@ -24,20 +24,26 @@ public :
 	_uInt						GetMeshNumBones(_uInt iMeshIndex) const;
 	_uInt						GetNumMeshes() const { return m_iNumMeshes; }
 	_matrix						GetBoneTransformation(const char* szBoneName);
+	_matrix						GetBoneTransformation(_uInt iIndex);
 
 	// Model의 뼈에대한 함수
 	_Int						GetBoneIndex(const char* szBoneName) const;
 	_uInt						GetNumBones() const  { return m_iNumBones; }
 	_float4x4*					GetBoneMatrices(_uInt iMeshIndex);
-	
+	const _float4x4*			GetCombinedTransformationMatrixPtr(const char* szBoneName) const;
+
 	//모델 애니메이션 관련 함수
 	_uInt						GetNumAnimations() { return m_iNumAnimations; }
 	void						PlayAnimation(_uInt iCurrentAnimIndex, _float DeletaTime, _bool bIsLoop = true, const char* BoneName = "Root Node", const char* EndBoneName = "");
-	
+	void						BindParentAnim(CModel* DstData);
+
 	const char*					GetAnimationName(_uInt iIndex);
 	_uInt						GetNumAnimation(const char* szName);
 	void						Export(const char* FilePath);
 
+	void						ExportMappingData(CModel* DstData, unordered_map<_string, pair<_Int, _Int>>* pOut);
+
+							
 private :
 	// Assimp Lib
 #ifdef _DEBUG
@@ -69,6 +75,8 @@ private :
 	_uInt						m_iNumAnimations = {};
 	vector<CAnimation*>			m_Animations;
 
+	vector<_Int>				m_RetargetIndices;
+
 private:
 #ifdef _DEBUG
 	/* fbx 파일의 정보를 가져오기위한 함수 */
@@ -93,13 +101,16 @@ private:
 
 	/* 저장된 파일 읽어들이는 함수 */
 	HRESULT						ReadModelFile(void* Data, const char* FilePath);
+
+	/* 저장된 파일 리타겟팅 함수 */
+	HRESULT						ReadReTargetlFile(const char* FilePath);
 	HRESULT						ReadAnimModelFile(void* Data, const char* FilePath);
 
 	void						ChangeAnimation(_uInt iAnimIndex);
 	void						LerpAnimation(_float fDeletaTime, _int2 UpdateBoneIdx);
 
 public:
-	static		CModel*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL_TYPE eType, const _char* pModelFilePath, _matrix PreModelMat = XMMatrixIdentity());
+	static		CModel*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL_TYPE eType, const _char* pModelFilePath, _matrix PreModelMat = XMMatrixIdentity(), const char* RetargetFile = "");
 	virtual		CComponent*		Clone(void* pArg);
 	virtual		void			Free(); public:
 };

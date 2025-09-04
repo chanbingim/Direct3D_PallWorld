@@ -9,9 +9,9 @@ class CShader;
 class ENGINE_DLL CPartObject : public CGameObject
 {
 public :
-	typedef struct PartObject_Desc
+	typedef struct PartObject_Desc : public GAMEOBJECT_DESC
 	{
-		CTransform* m_pParentTransform;
+		const _float4x4*		SocketMatrix;
 	}PARTOBJECT_DESC;
 
 protected:
@@ -34,8 +34,14 @@ public:
 	void									SetAnimIndex(_uInt iIndex);
 	_uInt									GetAnimIndex(const char* szName);
 
+	const _float4x4*						GetPartObejctWorldMat() { return &m_CombinedWorldMatrix; }
+	const _float4x4*						GetBoneMatrix(const char* szBone) const;
+
+
 protected :
 	_float4x4								m_CombinedWorldMatrix = {};
+	const _float4x4*						m_SocketMatrix = nullptr;
+
 #pragma region Animation
 	CModel*									m_pVIBufferCom = nullptr;
 	CShader*								m_pShaderCom = nullptr;
@@ -48,6 +54,8 @@ protected :
 protected :
 	virtual     HRESULT						Bind_ShaderResources();
 	virtual     HRESULT						Apply_ConstantShaderResources(_uInt iMeshIndex);
+
+	void									UpdateCombinedMatrix();
 
 public:
 	virtual			CGameObject*			Clone(void* pArg) override;

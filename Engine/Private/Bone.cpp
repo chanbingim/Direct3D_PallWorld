@@ -59,6 +59,11 @@ _matrix CBone::GetCombinedTransformationMatrix()
     return XMLoadFloat4x4(&m_CombinedTransformationMatrix);
 }
 
+const _float4x4* CBone::GetCombinedTransformationMatrixPtr()
+{
+    return &m_CombinedTransformationMatrix;
+}
+
 void CBone::SetBoneTransformMatrix(_matrix TransformMat)
 {
     XMStoreFloat4x4(&m_TransformationMatrix, TransformMat);

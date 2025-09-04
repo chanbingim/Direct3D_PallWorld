@@ -14,8 +14,11 @@ public:
 	void						UpdateCombinedTransformationMatrix(const vector<CBone*>& Bones, _matrix PreTransformMatrix);
 
 	_matrix						GetCombinedTransformationMatrix();
+	const _float4x4*			GetCombinedTransformationMatrixPtr();
+
 	void						SetBoneTransformMatrix(_matrix TransformMat);
 	_matrix						GetBoneTransformMatrix();
+
 
 	_bool						CompareName(const _char* pBoneName);
 
@@ -24,6 +27,7 @@ public:
 
 	void						Set_ChildCount(_uInt iCount);
 	_Int						GetChildCount() { return m_iChildCnt; }
+	const char*					GetBoneName() { return m_szName; }
 
 private:
 	_char						m_szName[MAX_PATH] = {};

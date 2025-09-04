@@ -26,6 +26,8 @@ HRESULT CYetiBody::Initialize(void* pArg)
 
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
+
+	return S_OK;
 }
 
 void CYetiBody::Priority_Update(_float fDeletaTime)

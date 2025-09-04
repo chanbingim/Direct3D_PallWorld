@@ -22,27 +22,36 @@ public:
 
 	virtual void							Update(_float fDeletaTime);
 	virtual void							Render();
-	
-private :
-	void									UpdateCurrentModelList();
-	void									DrawConvertUI();
-	void									UpdateSelect();
-
 
 private :
 	list<pair<_wstring, CModel*>>			m_ShowGameObject = {};
 	CModel*									m_pSelectObjectModelCom = nullptr;
+	CModel*									m_pMappingModelCom = nullptr;
+
 	CEditorCamera*							m_pModelCamera = nullptr;
 	CImgViewModel*							m_pViewModel = nullptr;
 
 	char									m_SelectObejctName[MAX_PATH] = {};
 	char									m_SelectObjAnimName[MAX_PATH] = {};
+
 	char									m_showObejctName[MAX_PATH] = {};
 	char									m_SaveFilePath[MAX_PATH] = {};
+
+	char									m_SelectMappingObejctName[MAX_PATH] = {};
+	char									m_ShowMappingObjName[MAX_PATH] = {};
+	char									m_SaveMappingFilePath[MAX_PATH] = {};
 
 private :
 	HRESULT									ADD_ModelViewCameraLayer();
 	HRESULT									ADD_ModelViewLayer();
+
+
+	void									UpdateCurrentModelList();
+	void									DrawConvertUI();
+	void									UpdateSelect();
+
+	void									DrawMakeMappingDataUI();
+	void									DrawMappingUI();
 
 public :
 	static			CIMG_ModelConvert*		Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

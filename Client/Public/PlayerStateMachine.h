@@ -35,7 +35,7 @@ public:
 	virtual		void					Update(_float DeltaTime);
 
 	const PLAYER_STATE&					GetState() { return m_StateData; }
-	void								ChangeState(_uInt iIndex, const _wstring& StateTag);
+	void								ChangeState(_uInt iStateID, _uInt iSTateIndex, const _wstring& StateTag);
 
 	void								SetAiming(_bool	bFlag) { m_StateData.bIsAiming = bFlag; }
 	void								SetWeapon(const WEAPON	eWeapon) { m_StateData.eWeaponType = eWeapon; }
@@ -46,7 +46,9 @@ public:
 private : 
 	char								m_FullName[MAX_PATH] = {};
 	PLAYER_STATE						m_StateData = {};
-	pair<_wstring, CState*>*			m_CurrentStates = {};
+
+	vector<_uInt>*						m_StatesIndex = nullptr;
+	pair<_wstring, CState*>*			m_CurrentStates = nullptr;
 
 private :
 	HRESULT								ADD_PlayerMoveState(_uInt iIndex);

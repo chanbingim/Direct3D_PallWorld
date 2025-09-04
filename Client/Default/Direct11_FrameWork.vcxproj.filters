@@ -293,12 +293,6 @@
     <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\Body">
       <UniqueIdentifier>{c29d5bc8-00ab-470f-831f-03958b0dd873}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\Body\UpperBody">
-      <UniqueIdentifier>{57553175-20a0-4b69-973b-090e05cf462b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\Body\LowerBody">
-      <UniqueIdentifier>{92b55b2a-5fc4-4eaf-87ca-1328e8b94b21}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. Objects\MeshObject\AnimMesh\Pell\Part">
       <UniqueIdentifier>{a60ebd95-3de3-4146-b5eb-036cff0d5f04}</UniqueIdentifier>
     </Filter>
@@ -412,6 +406,9 @@
     </Filter>
     <Filter Include="03. Objects\PlayerCamera">
       <UniqueIdentifier>{6826cef0-6912-4665-8e2a-e023474bf724}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\Animator">
+      <UniqueIdentifier>{6ee192b4-a72c-45ef-a283-7d10ba530904}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -549,9 +546,6 @@
     </ClInclude>
     <ClInclude Include="..\public\ButtonFrame.h">
       <Filter>02. HUD\Base_UI\Button\Frame</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Player.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\ImGui\imconfig.h">
       <Filter>ImGui\Default\Headers</Filter>
@@ -697,12 +691,6 @@
     <ClInclude Include="..\public\NoneAnimMesh.h">
       <Filter>03. Objects\MeshObject\NoneMesh</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\PlayerUpperBody.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Body\UpperBody</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\PlayerLowerBody.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Body\LowerBody</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\PellBody.h">
       <Filter>03. Objects\MeshObject\AnimMesh\Pell\Part\Body</Filter>
     </ClInclude>
@@ -771,6 +759,15 @@
     </ClInclude>
     <ClInclude Include="..\public\PlayerCamera.h">
       <Filter>03. Objects\PlayerCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PlayerPartData.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PlayerBody.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Body</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1009,9 +1006,6 @@
     <ClCompile Include="..\private\Yeti.cpp">
       <Filter>03. Objects\MeshObject\AnimMesh\Pell\Container\Yeti</Filter>
     </ClCompile>
-    <ClCompile Include="..\public\IMG_ModelConvert.cpp">
-      <Filter>ImGui\UI\FbxConvertWindow</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\EditorLevel.cpp">
       <Filter>01. Levels\EditorLevel</Filter>
     </ClCompile>
@@ -1047,12 +1041,6 @@
     </ClCompile>
     <ClCompile Include="..\private\NoneAnimMesh.cpp">
       <Filter>03. Objects\MeshObject\NoneMesh</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\PlayerUpperBody.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Body\UpperBody</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\PlayerLowerBody.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Body\LowerBody</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PellBody.cpp">
       <Filter>03. Objects\MeshObject\AnimMesh\Pell\Part\Body</Filter>
@@ -1122,6 +1110,15 @@
     </ClCompile>
     <ClCompile Include="..\private\PlayerCamera.cpp">
       <Filter>03. Objects\PlayerCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PlayerPartData.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\IMG_ModelConvert.cpp">
+      <Filter>ImGui\UI\FbxConvertWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PlayerBody.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Body</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

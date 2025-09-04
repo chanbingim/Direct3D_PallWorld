@@ -22,6 +22,8 @@ private :
 	ID3D11Device*					m_pDevice = { nullptr };
 	ID3D11DeviceContext*			m_pContext = { nullptr };
 
+	char							m_MatrialName[MAX_PATH] = {};
+
 #ifdef _DEBUG
 	vector<pair<_wstring ,ID3D11ShaderResourceView*>>		m_SRVs[AI_TEXTURE_TYPE_MAX];
 #elif

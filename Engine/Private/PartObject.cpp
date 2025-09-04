@@ -27,6 +27,16 @@ HRESULT CPartObject::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+	if (nullptr == pArg)
+	{
+		
+	}
+	else
+	{
+		PARTOBJECT_DESC* Desc = static_cast<PARTOBJECT_DESC*>(pArg);
+		m_SocketMatrix = Desc->SocketMatrix;
+	}
+
 	return S_OK;
 }
 
@@ -41,8 +51,7 @@ void CPartObject::Update(_float fDeletaTime)
 
 void CPartObject::Late_Update(_float fDeletaTime)
 {
-	XMStoreFloat4x4(&m_CombinedWorldMatrix,
-		XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()) * XMLoadFloat4x4(&m_pParent->GetTransform()->GetWorldMat()));
+
 }
 
 HRESULT CPartObject::Render()
@@ -61,6 +70,11 @@ void CPartObject::SetAnimIndex(_uInt iIndex)
 _uInt CPartObject::GetAnimIndex(const char* szName)
 {
 	return	m_pVIBufferCom->GetNumAnimation(szName);
+}
+
+const _float4x4* CPartObject::GetBoneMatrix(const char* szBone) const
+{
+	return m_pVIBufferCom->GetCombinedTransformationMatrixPtr(szBone);;
 }
 
 HRESULT CPartObject::Bind_ShaderResources()
@@ -89,6 +103,18 @@ HRESULT CPartObject::Apply_ConstantShaderResources(_uInt iMeshIndex)
 	    m_pSRVEffect->SetResource(pResourceVeiw);
 	
 	return S_OK;
+}
+
+void CPartObject::UpdateCombinedMatrix()
+{
+	if (m_SocketMatrix)
+	{
+		XMStoreFloat4x4(&m_CombinedWorldMatrix,
+			XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()) * XMLoadFloat4x4(m_SocketMatrix) * XMLoadFloat4x4(&m_pParent->GetTransform()->GetWorldMat()));
+	}
+	else
+		XMStoreFloat4x4(&m_CombinedWorldMatrix,
+			XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()) * XMLoadFloat4x4(&m_pParent->GetTransform()->GetWorldMat()));
 }
 
 CGameObject* CPartObject::Clone(void* pArg)

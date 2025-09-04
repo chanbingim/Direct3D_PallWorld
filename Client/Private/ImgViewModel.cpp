@@ -24,7 +24,7 @@ HRESULT CImgViewModel::Initalize_Prototype()
     if (FAILED(ADD_Components()))
         return E_FAIL;
 
-    if (FAILED(__super::Bind_ShaderResources()))
+    if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
 
@@ -41,7 +41,8 @@ void CImgViewModel::Update(_float fDeletaTime)
     if (nullptr == m_pVIBufferCom)
         return;
 
-    m_pVIBufferCom->PlayAnimation(m_iAnimIndex, fDeletaTime);
+    if(m_IsAnimModel)
+        m_pVIBufferCom->PlayAnimation(m_iAnimIndex, fDeletaTime);
 }
 
 void CImgViewModel::Late_Update(_float fDeletaTime)
@@ -56,12 +57,17 @@ HRESULT CImgViewModel::Render()
         return E_FAIL;
 
     _uInt iNumMeshes = m_pVIBufferCom->GetNumMeshes();
+    Bind_ShaderResources();
 
     for (_uInt i = 0; i < iNumMeshes; ++i)
     {
         Apply_ConstantShaderResources(i);
 
-        m_pShaderCom->Update_Shader(0);
+        if (m_IsAnimModel)
+            m_pShaderCom->Update_Shader(0);
+        else
+            m_NonAnimShader->Update_Shader(0);
+
         m_pVIBufferCom->Render(i);
     }
 
@@ -87,9 +93,49 @@ void CImgViewModel::SetAnimationIndex(_uInt iIndex)
     m_iAnimIndex = iIndex;
 }
 
+HRESULT CImgViewModel::Bind_ShaderResources()
+{
+    if (m_IsAnimModel)
+    {
+        m_pEMVWorldMat = m_pShaderCom->GetVariable("g_WorldMatrix")->AsMatrix();
+        m_pEMVViewMat = m_pShaderCom->GetVariable("g_ViewMatrix")->AsMatrix();
+        m_pEMVProjMat = m_pShaderCom->GetVariable("g_ProjMatrix")->AsMatrix();
+        m_pSRVEffect = m_pShaderCom->GetVariable("g_DiffuseTexture")->AsShaderResource();
+        m_pBoneMatrixEffect = m_pShaderCom->GetVariable("g_BoneMatrices")->AsMatrix();
+    }
+    else
+    {
+        m_pEMVWorldMat = m_NonAnimShader->GetVariable("g_WorldMatrix")->AsMatrix();
+        m_pEMVViewMat = m_NonAnimShader->GetVariable("g_ViewMatrix")->AsMatrix();
+        m_pEMVProjMat = m_NonAnimShader->GetVariable("g_ProjMatrix")->AsMatrix();
+        m_pSRVEffect = m_NonAnimShader->GetVariable("g_Texture")->AsShaderResource();
+    }
+    return S_OK;
+}
+
+HRESULT CImgViewModel::Apply_ConstantShaderResources(_uInt iMeshIndex)
+{
+    m_pEMVWorldMat->SetMatrix(reinterpret_cast<const float*>(&m_CombinedWorldMatrix));
+    m_pEMVViewMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::VIEW)));
+    m_pEMVProjMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION)));
+
+    ID3D11ShaderResourceView* pResourceVeiw = {};
+    m_pVIBufferCom->GetMeshResource(iMeshIndex, aiTextureType_DIFFUSE, 0, &pResourceVeiw);
+    if (pResourceVeiw)
+        m_pSRVEffect->SetResource(pResourceVeiw);
+
+    if (m_IsAnimModel)
+        m_pBoneMatrixEffect->SetMatrixArray(reinterpret_cast<const float*>(m_pVIBufferCom->GetBoneMatrices(iMeshIndex)), 0, m_pVIBufferCom->GetMeshNumBones(iMeshIndex));
+
+    return S_OK;
+}
+
 HRESULT CImgViewModel::ADD_Components()
 {
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_AnimMesh"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_AnimMesh"), TEXT("AnimShader_Com"), (CComponent**)&m_pShaderCom)))
+        return E_FAIL;
+
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Mesh"), TEXT("Shader_Com"), (CComponent**)&m_NonAnimShader)))
         return E_FAIL;
 
     return S_OK;
@@ -109,4 +155,6 @@ CImgViewModel* CImgViewModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext*
 void CImgViewModel::Free()
 {
     __super::Free();
+
+    Safe_Release(m_NonAnimShader);
 }

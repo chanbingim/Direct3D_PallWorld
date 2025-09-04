@@ -5,6 +5,12 @@
 NS_BEGIN(Client)
 class CPlayerCamera : public CBaseCamera
 {
+public :
+	typedef struct PlayerCmaeraDesc : public CAMERA_DESC
+	{
+		const _float4x4*					pSocketMatrix;
+	}PLAYER_CAMERA_DESC;
+
 private:
 	CPlayerCamera(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CPlayerCamera(const CPlayerCamera& rhs);
@@ -24,9 +30,11 @@ public:
 	void							AttachCamera(_vector BonesTransformation);
 
 private:
+	const _float4x4*				m_SocketMatrix = nullptr;
 	_float							m_fRotSpeed = 5.f;
 	_float4x4						m_CombinedMatrix = {};
 	_float4x4						m_InvCombinedMatrix = {};
+
 public:
 	static	CPlayerCamera*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject*			Clone(void* pArg) override;

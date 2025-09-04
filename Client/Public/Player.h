@@ -5,6 +5,7 @@
 
 NS_BEGIN(Client)
 class CPlayerStateMachine;
+class CPlayerCamera;
 
 class CPlayer : public CContainerObject
 {
@@ -27,17 +28,23 @@ public:
 	virtual		HRESULT						Render() override;
 
 private :
+	CPlayerCamera*							m_pPlayerCamera = nullptr;
 	CPlayerStateMachine*					m_pPlayerFSM = nullptr;
 
 	// 플레이어의 현재 방향
 	DIREACTION								m_eDireaction;
+	_float3									m_PreMovePos;
+	_float3									m_PrePlayerRot;
 
 private:
 	void									Key_Input(_float fDeletaTime);
 	void									MoveAction(_float fDeletaTime);
+	void									PlayerMoveView(_float fDeletaTime);
+
 	void									ChangeAction(_float fDeltaTime);
 
 	HRESULT									ADD_PlayerStateMachine();
+	HRESULT									ADD_PlayerCamera();
 	HRESULT									ADD_PartObejcts();
 
 public:
