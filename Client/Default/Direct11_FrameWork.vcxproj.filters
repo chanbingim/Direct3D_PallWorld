@@ -353,56 +353,11 @@
     <Filter Include="ImGui\UI\FbxConvertWindow\FbxModel">
       <UniqueIdentifier>{a1327c88-59f0-4d32-ac82-34ca95e4d2a3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\StateMachine">
-      <UniqueIdentifier>{1c3e7196-3064-48e7-a503-ccda51eacf11}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\StateMachine\FSM">
-      <UniqueIdentifier>{58eff4fb-461d-429d-995b-d5bb4a37d08a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine">
       <UniqueIdentifier>{122a5401-6e9c-4223-aeec-e0ecf8361844}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State">
-      <UniqueIdentifier>{10ce87fc-a545-456d-b9dc-ce63c3787813}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move">
-      <UniqueIdentifier>{0322e86f-b5fc-42b6-a67c-33eb48561091}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Child">
-      <UniqueIdentifier>{5cf0bb91-ba6e-4034-b313-531f06e82c4f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Parent">
-      <UniqueIdentifier>{4832323b-c6d4-4e4e-acaa-5afef7dc239f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Child\jog">
-      <UniqueIdentifier>{c006f5ba-b1fa-4835-901f-87015e6490a8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Child\Walk">
-      <UniqueIdentifier>{1459d242-8a34-442a-9a4a-a6ffbb93e975}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Child\Sprint">
-      <UniqueIdentifier>{acdfb281-543e-4f35-b934-3df53dd12206}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Parent\Hit">
-      <UniqueIdentifier>{e61f5299-91b0-430d-8ce2-a2cd2b193f65}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Parent\Crouch">
-      <UniqueIdentifier>{0f138dee-2052-4683-876f-ce3a899e26d0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Parent\Climb">
-      <UniqueIdentifier>{d3e9f986-9ee2-49fa-bf18-72b83e15da3d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Parent\Jump">
-      <UniqueIdentifier>{909ab7a0-3cc0-4241-8624-970962d5f3f8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="FrameWork">
       <UniqueIdentifier>{5a0426c5-bfbe-4d8b-bf8d-70ec643ffd2e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Parent\Idle">
-      <UniqueIdentifier>{746577e6-7d29-4318-b62a-4e59ad9b1647}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Child\Idle">
-      <UniqueIdentifier>{05b34386-200b-4201-b6a8-f902e14cc22b}</UniqueIdentifier>
     </Filter>
     <Filter Include="03. Objects\PlayerCamera">
       <UniqueIdentifier>{6826cef0-6912-4665-8e2a-e023474bf724}</UniqueIdentifier>
@@ -410,8 +365,41 @@
     <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\Animator">
       <UniqueIdentifier>{6ee192b4-a72c-45ef-a283-7d10ba530904}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Parent\Attack">
-      <UniqueIdentifier>{1f29dd75-ce26-40c3-b8b0-0c570acf198c}</UniqueIdentifier>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\LowerLayer">
+      <UniqueIdentifier>{5cf0bb91-ba6e-4034-b313-531f06e82c4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\UpperLayer">
+      <UniqueIdentifier>{4832323b-c6d4-4e4e-acaa-5afef7dc239f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\UpperLayer\State">
+      <UniqueIdentifier>{388d4162-1be1-44b9-a7f8-8c3f4cddbcda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\UpperLayer\State\Climb">
+      <UniqueIdentifier>{d3e9f986-9ee2-49fa-bf18-72b83e15da3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\UpperLayer\State\Crouch">
+      <UniqueIdentifier>{0f138dee-2052-4683-876f-ce3a899e26d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\UpperLayer\State\Idle">
+      <UniqueIdentifier>{746577e6-7d29-4318-b62a-4e59ad9b1647}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\UpperLayer\State\Jump">
+      <UniqueIdentifier>{909ab7a0-3cc0-4241-8624-970962d5f3f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\LowerLayer\State">
+      <UniqueIdentifier>{ef4412cb-29be-4ebd-b461-5d54d050d74f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\LowerLayer\State\Idle">
+      <UniqueIdentifier>{05b34386-200b-4201-b6a8-f902e14cc22b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\LowerLayer\State\jog">
+      <UniqueIdentifier>{c006f5ba-b1fa-4835-901f-87015e6490a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\LowerLayer\State\Sprint">
+      <UniqueIdentifier>{acdfb281-543e-4f35-b934-3df53dd12206}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\LowerLayer\State\Walk">
+      <UniqueIdentifier>{1459d242-8a34-442a-9a4a-a6ffbb93e975}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -724,41 +712,32 @@
     <ClInclude Include="..\public\ImgViewModel.h">
       <Filter>ImGui\UI\FbxConvertWindow\FbxModel</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\FiniteStateMachine.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\StateMachine\FSM</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\State.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\StateMachine</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\PlayerStateMachine.h">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PlayerJog.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Child\jog</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\LowerLayer\State\jog</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PlayerIdleState.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Parent\Idle</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\UpperLayer\State\Idle</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PlayerSprint.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Child\Sprint</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\LowerLayer\State\Sprint</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PlayerWalkState.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Child\Walk</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\LowerLayer\State\Walk</Filter>
     </ClInclude>
     <ClInclude Include="..\public\JumpState.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Parent\Jump</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\HitState.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Parent\Hit</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\UpperLayer\State\Jump</Filter>
     </ClInclude>
     <ClInclude Include="..\public\ClimbState.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Parent\Climb</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\UpperLayer\State\Climb</Filter>
     </ClInclude>
     <ClInclude Include="..\public\CrouchState.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Parent\Crouch</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\UpperLayer\State\Crouch</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PlayerChildIdleState.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Child\Idle</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\LowerLayer\State\Idle</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PlayerCamera.h">
       <Filter>03. Objects\PlayerCamera</Filter>
@@ -772,8 +751,11 @@
     <ClInclude Include="..\Public\Player.h">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\PlayerAttackState.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Parent\Attack</Filter>
+    <ClInclude Include="..\public\PlayerLowerLayer.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\LowerLayer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PlayerUpperLayer.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\UpperLayer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1078,41 +1060,29 @@
     <ClCompile Include="..\private\ImgViewModel.cpp">
       <Filter>ImGui\UI\FbxConvertWindow\FbxModel</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\FiniteStateMachine.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\StateMachine\FSM</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\State.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\StateMachine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\PlayerStateMachine.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\PlayerJog.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Child\jog</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\LowerLayer\State\jog</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PlayerIdleState.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Parent\Idle</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\UpperLayer\State\Idle</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PlayerSprint.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Child\Sprint</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\LowerLayer\State\Sprint</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PlayerWalkState.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Child\Walk</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\LowerLayer\State\Walk</Filter>
     </ClCompile>
     <ClCompile Include="..\private\JumpState.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Parent\Jump</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\HitState.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Parent\Hit</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\UpperLayer\State\Jump</Filter>
     </ClCompile>
     <ClCompile Include="..\private\ClimbState.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Parent\Climb</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\UpperLayer\State\Climb</Filter>
     </ClCompile>
     <ClCompile Include="..\private\CrouchState.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Parent\Crouch</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\UpperLayer\State\Crouch</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PlayerChildIdleState.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Child\Idle</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\LowerLayer\State\Idle</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PlayerCamera.cpp">
       <Filter>03. Objects\PlayerCamera</Filter>
@@ -1126,8 +1096,14 @@
     <ClCompile Include="..\private\PlayerBody.cpp">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Body</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\PlayerAttackState.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\State\Move\Parent\Attack</Filter>
+    <ClCompile Include="..\private\PlayerStateMachine.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PlayerLowerLayer.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\LowerLayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PlayerUpperLayer.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\UpperLayer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

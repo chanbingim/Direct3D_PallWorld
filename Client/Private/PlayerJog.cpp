@@ -1,24 +1,25 @@
 #include "PlayerJog.h"
 
-CPlayerJogState::CPlayerJogState()
+CPlayerJogState::CPlayerJogState(const char* szStateName) :
+    CState(szStateName)
 {
 }
 
-void CPlayerJogState::OnEnterState(void* pArg)
+void CPlayerJogState::OnStateEnter(void* pArg)
 {
 }
 
-void CPlayerJogState::PlayState(void* pArg)
+void CPlayerJogState::OnStateExcution(void* pArg)
 {
 }
 
-void CPlayerJogState::OnEndState(void* pArg)
+void CPlayerJogState::OnStateExit(void* pArg)
 {
 }
 
-CPlayerJogState* CPlayerJogState::Create()
+CPlayerJogState* CPlayerJogState::Create(const char* szStateName)
 {
-    return new CPlayerJogState();
+    return new CPlayerJogState(szStateName);
 }
 
 void CPlayerJogState::Free()

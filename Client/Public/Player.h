@@ -31,28 +31,38 @@ public:
 	// 랜더
 	virtual		HRESULT						Render() override;
 
+	_bool									IsFinishedAnimationAction();
+
 private :
 	CPlayerCamera*							m_pPlayerCamera = nullptr;
 	CPlayerStateMachine*					m_pPlayerFSM = nullptr;
 
 	// 플레이어의 현재 방향
-	DIREACTION								m_eDireaction;
 	_bool									m_bIsAnimLoop = true;
+
 	_float									m_fMoveSpeed = P_WALK_SPEED;
+
+	// Jump Variable
+	_float									m_fJumpSpeed = 1.f;
+	_float									m_fLandingPointY = 0;
 
 	_float3									m_PreMovePos;
 	_float3									m_PrePlayerRot;
+	_float									m_fAccTime = {};
 
 private:
 	void									Key_Input(_float fDeletaTime);
 	void									MoveAction(_float fDeletaTime);
 	void									PlayerMoveView(_float fDeletaTime);
-
 	void									ChangeAction(_float fDeltaTime);
 
 	HRESULT									ADD_PlayerStateMachine();
 	HRESULT									ADD_PlayerCamera();
 	HRESULT									ADD_PartObejcts();
+
+	//플레이어 상태에따른 위치 갱신 로직
+	void									UpdatePlayerAction(_float fDeletaTime);
+	void									UpdateJump(_float fDeletaTime);
 
 public:
 	static			CPlayer*				Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);

@@ -1,24 +1,25 @@
 #include "PlayerSprint.h"
 
-CPlayerSprintState::CPlayerSprintState()
+CPlayerSprintState::CPlayerSprintState(const char* szStateName) :
+    CState(szStateName)
 {
 }
 
-void CPlayerSprintState::OnEnterState(void* pArg)
+void CPlayerSprintState::OnStateEnter(void* pArg)
 {
 }
 
-void CPlayerSprintState::PlayState(void* pArg)
+void CPlayerSprintState::OnStateExcution(void* pArg)
 {
 }
 
-void CPlayerSprintState::OnEndState(void* pArg)
+void CPlayerSprintState::OnStateExit(void* pArg)
 {
 }
 
-CPlayerSprintState* CPlayerSprintState::Create()
+CPlayerSprintState* CPlayerSprintState::Create(const char* szStateName)
 {
-    return new CPlayerSprintState();
+    return new CPlayerSprintState(szStateName);
 }
 
 void CPlayerSprintState::Free()

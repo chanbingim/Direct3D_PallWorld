@@ -1,24 +1,25 @@
 #include "PlayerIdleState.h"
 
-CPlayerIdleState::CPlayerIdleState()
+CPlayerIdleState::CPlayerIdleState(const char* szStateName) : 
+    CState(szStateName)
 {
 }
 
-void CPlayerIdleState::OnEnterState(void* pArg)
+void CPlayerIdleState::OnStateEnter(void* pArg)
 {
 }
 
-void CPlayerIdleState::PlayState(void* pArg)
+void CPlayerIdleState::OnStateExcution(void* pArg)
 {
 }
 
-void CPlayerIdleState::OnEndState(void* pArg)
+void CPlayerIdleState::OnStateExit(void* pArg)
 {
 }
 
-CPlayerIdleState* CPlayerIdleState::Create()
+CPlayerIdleState* CPlayerIdleState::Create(const char* szStateName)
 {
-    return new CPlayerIdleState();
+    return new CPlayerIdleState(szStateName);
 }
 
 void CPlayerIdleState::Free()

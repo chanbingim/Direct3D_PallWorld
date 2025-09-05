@@ -1,20 +1,23 @@
 #pragma once
 
+#include "Client_Define.h"
 #include "FiniteStateMachine.h"
 
 NS_BEGIN(Client)
 class CPlayerStateMachine final : public CFiniteStateMachine
 {
 public:
-	enum class MOVE_ACTION { DEFAULT, CROUCH, CLIMB, JUMP, EMOTE, HIT, ATTACK,END };
+	enum class MOVE_ACTION { DEFAULT, CROUCH, CLIMB, JUMP, END };
 	enum class MOVE_CHILD_ACTION { WALK, IDLE, JOG, SPRINT, END };
 	enum class NONE_MOVE_ACTION { PETTING, CARRY, SLEEP, COOK, END };
+	
 
 	typedef	struct	PLAYER_STATE
 	{
 		// 현재 무기를 Player가 들고있는가
 		_bool				bIsAiming;
 		_bool				bIsAttacking;
+		DIREACTION			eDireaction;
 		WEAPON				eWeaponType;
 
 		// 이동 과 같이 나와야하는 상태들
@@ -31,29 +34,30 @@ protected:
 	virtual ~CPlayerStateMachine() = default;
 
 public:
-	virtual		HRESULT					Initialize(void* pArg = nullptr);
-	virtual		void					Update(_float DeltaTime);
+	virtual		HRESULT					Initialize(void* pArg = nullptr) override;
+	virtual		void					Update(_float DeltaTime) override;
 
 	const PLAYER_STATE&					GetState() { return m_StateData; }
-	void								ChangeState(_uInt iStateID, _uInt iSTateIndex, const _wstring& StateTag);
+	_bool								ChangeState(const _wstring& LayerTag, const _wstring& StateTag);
 
 	void								SetAiming(_bool	bFlag) { m_StateData.bIsAiming = bFlag; }
 	void								SetWeapon(const WEAPON	eWeapon) { m_StateData.eWeaponType = eWeapon; }
 	void								SetAttack(_bool	bFlag) { m_StateData.bIsAttacking = bFlag; }
+	void								SetDireaction(DIREACTION eType) { m_StateData.eDireaction = eType; }
 
 	_string								GetStateFullName();
+	_uInt								NextStatePhase(const _wstring& LayerTag);
+	_uInt								GetStatePhase(const _wstring& LayerTag);
+
 
 private : 
-	char								m_FullName[MAX_PATH] = {};
 	PLAYER_STATE						m_StateData = {};
 
-	vector<_uInt>*						m_StatesIndex = nullptr;
-	pair<_wstring, CState*>*			m_CurrentStates = nullptr;
-
 private :
-	HRESULT								ADD_PlayerMoveState(_uInt iIndex);
-	HRESULT								ADD_PlayerChildState(_uInt iIndex);
+	HRESULT								ADD_PlayerLayer();
 	void								SettingPlayerState(void* pArg = nullptr);
+
+	_bool								StateChildChangeAble(CStateLayer* pLayer, const _wstring& StateTag);
 
 public:
 	static		CPlayerStateMachine*		Create();

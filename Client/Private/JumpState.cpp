@@ -1,24 +1,46 @@
 #include "JumpState.h"
 
-CJumpState::CJumpState()
+CJumpState::CJumpState(const char* szStateName) :
+	CState(szStateName)
 {
 }
 
-void CJumpState::OnEnterState(void* pArg)
+void CJumpState::OnStateEnter(void* pArg)
 {
+	m_szStateName = "JumpStart";
 }
 
-void CJumpState::PlayState(void* pArg)
+void CJumpState::OnStateExcution(void* pArg)
 {
+	// 애니메이션 진행 위치와 포물선 공식의 힘의 방향에 따라서
+	// 재생할 애니메이션의 이름을 바꿔주자
+	ChangeStateName();
 }
 
-void CJumpState::OnEndState(void* pArg)
+void CJumpState::OnStateExit(void* pArg)
 {
+
 }
 
-CJumpState* CJumpState::Create()
+void CJumpState::ChangeStateName()
 {
-    return new CJumpState();
+	switch (m_iPhaseIndex)
+	{
+	case ENUM_CLASS(ACTION_PHASE::STARTLOOP):
+		m_szStateName = "JumpUpLoop";
+		break;
+	case ENUM_CLASS(ACTION_PHASE::ENDLOOP):
+		m_szStateName = "JumpDwonLoop";
+		break;
+	case ENUM_CLASS(ACTION_PHASE::END):
+		m_szStateName = "JumpEnd";
+		break;
+	}
+}
+
+CJumpState* CJumpState::Create(const char* szStateName)
+{
+	return new CJumpState(szStateName);
 }
 
 void CJumpState::Free()

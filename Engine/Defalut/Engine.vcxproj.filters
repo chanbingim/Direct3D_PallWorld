@@ -175,6 +175,18 @@
     <Filter Include="Utility\Object\PartObject">
       <UniqueIdentifier>{6ed40050-0b7a-4907-91db-7e734f5092d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utility\StateMachine">
+      <UniqueIdentifier>{6aa12991-8d10-4624-b8c8-206dc57d733f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\StateMachine\FSM">
+      <UniqueIdentifier>{44fcd9f9-3289-4775-8c69-d674e801dda0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\StateMachine\Layer">
+      <UniqueIdentifier>{ffc4d072-daa5-47d0-a8b2-9f8d43aecb1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\StateMachine\State">
+      <UniqueIdentifier>{22105f21-9be3-44ac-b73c-9325aa478734}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Graphic_Device.cpp">
@@ -332,6 +344,15 @@
     </ClCompile>
     <ClCompile Include="..\private\PartObject.cpp">
       <Filter>Utility\Object\PartObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\StateLayer.cpp">
+      <Filter>Utility\StateMachine\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\FiniteStateMachine.cpp">
+      <Filter>Utility\StateMachine\FSM</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State.cpp">
+      <Filter>Utility\StateMachine\State</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -520,6 +541,15 @@
     </ClInclude>
     <ClInclude Include="..\public\PartObject.h">
       <Filter>Utility\Object\PartObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\StateLayer.h">
+      <Filter>Utility\StateMachine\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\FiniteStateMachine.h">
+      <Filter>Utility\StateMachine\FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State.h">
+      <Filter>Utility\StateMachine\State</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

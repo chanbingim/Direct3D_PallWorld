@@ -42,13 +42,21 @@ void CPlayerCamera::Update(_float fDeletaTime)
 
 void CPlayerCamera::Late_Update(_float fDeletaTime)
 {
-    _matrix SocMatrix = XMLoadFloat4x4(m_SocketMatrix);
-    SocMatrix.r[0] = XMVectorSet(1.f,0.f,0.f,0.f);
-    SocMatrix.r[1] = XMVectorSet(0.f, 1.f, 0.f, 0.f);
-    SocMatrix.r[2] = XMVectorSet(0.f, 0.f, 1.f, 0.f);
+    if (m_SocketMatrix)
+    {
+        _matrix SocMatrix = XMLoadFloat4x4(m_SocketMatrix);
+        SocMatrix.r[0] = XMVectorSet(1.f, 0.f, 0.f, 0.f);
+        SocMatrix.r[1] = XMVectorSet(0.f, 1.f, 0.f, 0.f);
+        SocMatrix.r[2] = XMVectorSet(0.f, 0.f, 1.f, 0.f);
 
-    XMStoreFloat4x4(&m_CombinedMatrix,
-        XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()) * SocMatrix * XMLoadFloat4x4(&m_pParent->GetTransform()->GetWorldMat()));
+        XMStoreFloat4x4(&m_CombinedMatrix,
+            XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()) * SocMatrix * XMLoadFloat4x4(&m_pParent->GetTransform()->GetWorldMat()));
+    }
+    else
+
+        XMStoreFloat4x4(&m_CombinedMatrix,
+            XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()) * XMLoadFloat4x4(&m_pParent->GetTransform()->GetWorldMat()));
+    
 
     XMStoreFloat4x4(&m_InvCombinedMatrix, XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_CombinedMatrix)));
     XMStoreFloat4x4(&m_ProjMat, XMMatrixPerspectiveFovLH(m_fFov, m_fAspect, m_fNear, m_fFar));

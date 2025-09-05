@@ -1,24 +1,25 @@
 #include "ClimbState.h"
 
-CClimbState::CClimbState()
+CClimbState::CClimbState(const char* szStateName) :
+    CState(szStateName)
 {
 }
 
-void CClimbState::OnEnterState(void* pArg)
+void CClimbState::OnStateEnter(void* pArg)
 {
 }
 
-void CClimbState::PlayState(void* pArg)
+void CClimbState::OnStateExcution(void* pArg)
 {
 }
 
-void CClimbState::OnEndState(void* pArg)
+void CClimbState::OnStateExit(void* pArg)
 {
 }
 
-CClimbState* CClimbState::Create()
+CClimbState* CClimbState::Create(const char* szStateName)
 {
-    return new CClimbState();
+    return new CClimbState(szStateName);
 }
 
 void CClimbState::Free()

@@ -1,20 +1,21 @@
 #pragma once
+#include "Client_Define.h"
 #include "State.h"
 
 NS_BEGIN(Client)
 class CClimbState : public CState
 {
-protected:
-	CClimbState();
+private:
+	CClimbState(const char* szStateName);
 	virtual ~CClimbState() = default;
 
 public:
-	virtual void	OnEnterState(void* pArg = nullptr) override;
-	virtual void	PlayState(void* pArg = nullptr) override;
-	virtual void	OnEndState(void* pArg = nullptr) override;
+	virtual void OnStateEnter(void* pArg = nullptr) override;
+	virtual void OnStateExcution(void* pArg = nullptr) override;
+	virtual void OnStateExit(void* pArg = nullptr) override;
 
 public:
-	static CClimbState*			Create();
+	static CClimbState*			Create(const char* szStateName);
 	virtual void				Free() override;
 };
 NS_END

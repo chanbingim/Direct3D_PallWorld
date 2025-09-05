@@ -1,24 +1,25 @@
 #include "CrouchState.h"
 
-CCrouchState::CCrouchState()
+CCrouchState::CCrouchState(const char* szStateName) :
+    CState(szStateName)
 {
 }
 
-void CCrouchState::OnEnterState(void* pArg)
+void CCrouchState::OnStateEnter(void* pArg)
 {
 }
 
-void CCrouchState::PlayState(void* pArg)
+void CCrouchState::OnStateExcution(void* pArg)
 {
 }
 
-void CCrouchState::OnEndState(void* pArg)
+void CCrouchState::OnStateExit(void* pArg)
 {
 }
 
-CCrouchState* CCrouchState::Create()
+CCrouchState* CCrouchState::Create(const char* szStateName)
 {
-    return new CCrouchState();
+    return new CCrouchState(szStateName);
 }
 
 void CCrouchState::Free()

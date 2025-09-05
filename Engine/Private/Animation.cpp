@@ -68,10 +68,14 @@ _bool CAnimation::UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTi
 	m_fCurrentTrackPosition += m_fTickPerSecond * fTimeDelta;
 	if (m_fCurrentTrackPosition >= m_fLength)
 	{
-		m_fCurrentTrackPosition = 0.f;
-		if (!bIsLoop)
+		if (bIsLoop)
 		{
+			m_fCurrentTrackPosition = 0.f;
 			fill(m_iChannelIndex.begin(), m_iChannelIndex.end(), 0);
+		}
+		else
+		{
+			m_fCurrentTrackPosition = m_fLength;
 			return true;
 		}
 	}

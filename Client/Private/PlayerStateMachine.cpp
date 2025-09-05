@@ -1,21 +1,9 @@
 #include "PlayerStateMachine.h"
 
 #include "StringHelper.h"
-#pragma region Parent State
-#include "HitState.h"
-#include "CrouchState.h"
-#include "ClimbState.h"
-#include "JumpState.h"
-#include "PlayerIdleState.h"
-#include "PlayerAttackState.h"
-#pragma endregion
 
-#pragma region Child State
-#include "PlayerWalkState.h"
-#include "PlayerChildIdleState.h"
-#include "PlayerJog.h"
-#include "PlayerSprint.h"
-#pragma endregion
+#include "PlayerLowerLayer.h"
+#include "PlayerUpperLayer.h"
 
 CPlayerStateMachine::CPlayerStateMachine() :
     CFiniteStateMachine()
@@ -29,142 +17,139 @@ CPlayerStateMachine::CPlayerStateMachine(const CPlayerStateMachine& rhs) :
 
 HRESULT CPlayerStateMachine::Initialize(void* pArg)
 {
-    m_MaxHeirary = 3;
-    m_StatesIndex = new vector<_uInt>[m_MaxHeirary];
-    m_States = new unordered_map<_wstring, CState*>[m_MaxHeirary];
-    m_CurrentStates = new pair<_wstring, CState*>[m_MaxHeirary];
+    __super::Initialize(pArg);
 
-    if (FAILED(ADD_PlayerMoveState(0)))
+    if (FAILED(ADD_PlayerLayer()))
         return E_FAIL;
 
-    if (FAILED(ADD_PlayerChildState(2)))
-        return E_FAIL;
-
-    SettingPlayerState(pArg);
-    ChangeState(0, ENUM_CLASS(MOVE_ACTION::DEFAULT), TEXT("Default"));
-    ChangeState(2, ENUM_CLASS(MOVE_CHILD_ACTION::IDLE), TEXT("Idle"));
+    SettingPlayerState();
+    ChangeState(TEXT("UpperLayer"), TEXT("Default"));
+    ChangeState(TEXT("LowerLayer"), TEXT("Idle"));
     return S_OK;
 }
 
 void CPlayerStateMachine::Update(_float DeltaTime)
 {
-    for (_uInt i = 0; i < m_MaxHeirary; ++i)
-    {
-        if(m_CurrentStates[i].second)
-            m_CurrentStates[i].second->PlayState();
-    }
-        
+    __super::Update(DeltaTime);
 }
 
-void CPlayerStateMachine::ChangeState(_uInt iStateID, _uInt iSTateIndex, const _wstring& StateTag)
+_bool CPlayerStateMachine::ChangeState(const _wstring& LayerTag, const _wstring& StateTag)
 {
-    auto pair = m_States[iStateID].find(StateTag);
-    if (pair == m_States[iStateID].end())
-        return;
+    auto pLayer = FindLayer(LayerTag);
+    if (nullptr == pLayer)
+        return false;
 
-    if (m_CurrentStates[iStateID].second != pair->second)
+    _uInt iLayerIndex = GetNumLayer(LayerTag);
+    switch (iLayerIndex)
     {
-        if (m_CurrentStates[iStateID].second)
-            m_CurrentStates[iStateID].second->OnEndState();
-
-        pair->second->OnEnterState();
-        m_CurrentStates[iStateID].first = pair->first;
-        m_CurrentStates[iStateID].second = pair->second;
-
-        switch (iStateID)
-        {
-        case 0 :
-            m_StateData.eMove_State = MOVE_ACTION(m_StatesIndex[iStateID][iSTateIndex]);
-            break;
-        case 1:
-            m_StateData.eNone_Move_State = NONE_MOVE_ACTION(m_StatesIndex[iStateID][iSTateIndex]);
-            break;
-        case 2:
-            m_StateData.eMove_Child_State = MOVE_CHILD_ACTION(m_StatesIndex[iStateID][iSTateIndex]);
-            break;
-        }
+    case 1:
+        if (!StateChildChangeAble(pLayer, StateTag))
+            return false;
+        break;
     }
+
+    if(FAILED(pLayer->ChangeState(StateTag)))
+        return false;
+
+    _uInt iStateIndex = pLayer->GetCurrentStateNum();
+    //레이어 번호 가져와서 데이터 세팅
+    switch(iLayerIndex)
+    {
+    case 0 :
+        m_StateData.eMove_State = MOVE_ACTION(iStateIndex);
+        break;
+    case 1:
+        m_StateData.eMove_Child_State = MOVE_CHILD_ACTION(iStateIndex);
+        break;
+    }
+    return true;
 }
 
 _string CPlayerStateMachine::GetStateFullName()
 {
-    _wstring FullName = {};
+    _string FullName = {};
+    auto UpperLayer = FindLayer(TEXT("UpperLayer"));
+    auto LowerLayer = FindLayer(TEXT("LowerLayer"));
+
+    const char* TopStateName = UpperLayer->GetCurStateName();
+    const char* LowStateName = LowerLayer->GetCurStateName();
 
     if (MOVE_ACTION::DEFAULT != m_StateData.eMove_State)
     {
-        if (MOVE_ACTION::ATTACK == m_StateData.eMove_State)
-            FullName = L"Attack";
-        else
-            FullName = m_CurrentStates[0].first + L"_";
+        if (!m_StateData.bIsAttacking)
+            FullName += TopStateName;
+
+        if(MOVE_ACTION::JUMP > m_StateData.eMove_State)
+        {
+            FullName += "_";
+            FullName += LowStateName;
+        }
     }
+    else
+        FullName = LowStateName;
 
-    if (MOVE_ACTION::ATTACK != m_StateData.eMove_State)
-        FullName += m_CurrentStates[2].first;
+    if (m_StateData.bIsAttacking)
+        FullName = "Attack";
 
-    if (m_StateData.bIsAiming)
-        FullName += L"_Anim";
+    if (MOVE_ACTION::CLIMB == m_StateData.eMove_State || m_StateData.bIsAiming)
+    {
+        if (MOVE_CHILD_ACTION::IDLE != m_StateData.eMove_Child_State)
+        {
+            switch (m_StateData.eDireaction)
+            {
+            case DIREACTION::LEFT:
+                FullName += "_Left";
+                break;
+            case DIREACTION::RIGHT:
+                FullName += "_Right";
+                break;
+            case DIREACTION::BACK:
+                FullName += "_Bwd";
+                break;
+            }
+
+            if (m_StateData.bIsAiming)
+                FullName += "_Aim";
+        }
+    }
 
     //무기 타입에 의해 네이밍
     switch (m_StateData.eWeaponType)
     {
     case WEAPON::NONE :
-        FullName += L"_None";
+    {
+        if(!(MOVE_ACTION::CROUCH == m_StateData.eMove_State && MOVE_CHILD_ACTION::WALK == m_StateData.eMove_Child_State))
+            FullName += "_None";
+    }
         break;
     }
-    CStringHelper::ConvertWideToUTF(FullName.c_str(), m_FullName);
-    return m_FullName;
+    return FullName;
 }
 
-HRESULT CPlayerStateMachine::ADD_PlayerMoveState(_uInt iIndex)
+_uInt CPlayerStateMachine::NextStatePhase(const _wstring& LayerTag)
 {
-    m_StatesIndex[iIndex].reserve(ENUM_CLASS(MOVE_ACTION::END));
+    auto pLayer = FindLayer(LayerTag);
+    if (nullptr == pLayer)
+        return -1;
 
-    m_StatesIndex[iIndex].push_back(0);
-    if (FAILED(AddState(iIndex, TEXT("Default"), CPlayerIdleState::Create())))
-        return E_FAIL;
-
-    m_StatesIndex[iIndex].push_back(1);
-    if (FAILED(AddState(iIndex, TEXT("Crouch"), CCrouchState::Create())))
-        return E_FAIL;
-
-    m_StatesIndex[iIndex].push_back(2);
-    if (FAILED(AddState(iIndex, TEXT("Climb"), CClimbState::Create())))
-        return E_FAIL;
-
-    m_StatesIndex[iIndex].push_back(3);
-    if (FAILED(AddState(iIndex, TEXT("Jump"), CJumpState::Create())))
-        return E_FAIL;
-
-    m_StatesIndex[iIndex].push_back(4);
-
-    m_StatesIndex[iIndex].push_back(5);
-    if (FAILED(AddState(iIndex, TEXT("Hit"), CHitState::Create())))
-        return E_FAIL;
-
-    m_StatesIndex[iIndex].push_back(6);
-    if (FAILED(AddState(iIndex, TEXT("Attack"), CPlayerAttackState::Create())))
-        return E_FAIL;
-    return S_OK;
+    return pLayer->StateNextPhase();
 }
 
-HRESULT CPlayerStateMachine::ADD_PlayerChildState(_uInt iIndex)
+_uInt CPlayerStateMachine::GetStatePhase(const _wstring& LayerTag)
 {
-    m_StatesIndex[iIndex].reserve(ENUM_CLASS(MOVE_CHILD_ACTION::END));
+    auto pLayer = FindLayer(LayerTag);
+    if (nullptr == pLayer)
+        return -1;
 
-    m_StatesIndex[iIndex].push_back(0);
-    if (FAILED(AddState(iIndex, TEXT("Walk"), CPlayerWalkState::Create())))
+    return pLayer->GetCurStatePhase();
+}
+
+HRESULT CPlayerStateMachine::ADD_PlayerLayer()
+{
+    if (FAILED(__super::AddLayer(TEXT("UpperLayer"), CPlayerUpperLayer::Create(ENUM_CLASS(MOVE_ACTION::END)))))
         return E_FAIL;
 
-    m_StatesIndex[iIndex].push_back(1);
-    if (FAILED(AddState(iIndex, TEXT("Idle"), CPlayerChildIdleState::Create())))
-        return E_FAIL;
-
-    m_StatesIndex[iIndex].push_back(2);
-    if (FAILED(AddState(iIndex, TEXT("Jog"), CPlayerJogState::Create())))
-        return E_FAIL;
-
-    m_StatesIndex[iIndex].push_back(3);
-    if (FAILED(AddState(iIndex, TEXT("Sprint"), CPlayerSprintState::Create())))
+    if (FAILED(__super::AddLayer(TEXT("LowerLayer"), CPlayerLowerLayer::Create(ENUM_CLASS(MOVE_CHILD_ACTION::END)))))
         return E_FAIL;
 
     return S_OK;
@@ -193,6 +178,18 @@ void CPlayerStateMachine::SettingPlayerState(void* pArg)
     }
 }
 
+_bool CPlayerStateMachine::StateChildChangeAble(CStateLayer* pLayer, const _wstring& StateTag)
+{
+    if (MOVE_ACTION::DEFAULT != m_StateData.eMove_State)
+    {
+        _uInt iStateIndex = pLayer->GetStateNum(StateTag);
+        if (ENUM_CLASS(MOVE_CHILD_ACTION::JOG) <= iStateIndex)
+            return false;
+    }
+
+    return true;
+}
+
 CPlayerStateMachine* CPlayerStateMachine::Create()
 {
     return new CPlayerStateMachine();
@@ -201,8 +198,4 @@ CPlayerStateMachine* CPlayerStateMachine::Create()
 void CPlayerStateMachine::Free()
 {
     __super::Free();
-
-    Safe_Delete_Array(m_CurrentStates);
-    Safe_Delete_Array(m_StatesIndex);
-    Safe_Delete_Array(m_States);
 }

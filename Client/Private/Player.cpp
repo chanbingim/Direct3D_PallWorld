@@ -1,7 +1,10 @@
 #include "Player.h"
 
 #include "GameInstance.h"
+
 #include "PlayerStateMachine.h"
+#include "State.h"
+
 #include "PartObject.h"
 #include "PlayerCamera.h"
 #include "PlayerPartData.h"
@@ -57,6 +60,7 @@ void CPlayer::Update(_float fDeletaTime)
     auto UpperBody = FindPartObject(TEXT("Player_Animator"));
     UpperBody->SetAnimIndex(UpperBody->GetAnimIndex(m_pPlayerFSM->GetStateFullName().c_str()), m_bIsAnimLoop);
 
+    UpdatePlayerAction(fDeletaTime);
     __super::Update(fDeletaTime);
 }
 
@@ -78,24 +82,32 @@ void CPlayer::Key_Input(_float fDeletaTime)
     CPlayerStateMachine::PLAYER_STATE State = m_pPlayerFSM->GetState();
     if (XMVector3Equal(XMLoadFloat3(&m_PreMovePos), XMVectorZero()))
     {
-        m_pPlayerFSM->ChangeState(2, ENUM_CLASS(CPlayerStateMachine::MOVE_CHILD_ACTION::IDLE), TEXT("Idle"));
+        m_pPlayerFSM->ChangeState(TEXT("LowerLayer"), TEXT("Idle"));
     }
     else
     {
         if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_LSHIFT))
         {
-            m_pPlayerFSM->ChangeState(2, ENUM_CLASS(CPlayerStateMachine::MOVE_CHILD_ACTION::SPRINT), TEXT("Sprint"));
-            m_fMoveSpeed = P_RUN_SPEED;
+            if(m_pPlayerFSM->ChangeState(TEXT("LowerLayer"), TEXT("Sprint")))
+                m_fMoveSpeed = P_RUN_SPEED;
         }
         else if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_LCONTROL))
         {
-            m_pPlayerFSM->ChangeState(2, ENUM_CLASS(CPlayerStateMachine::MOVE_CHILD_ACTION::WALK), TEXT("Walk"));
-            m_fMoveSpeed = P_WALK_SPEED;
+            if(m_pPlayerFSM->ChangeState(TEXT("LowerLayer"), TEXT("Walk")))
+                m_fMoveSpeed = P_WALK_SPEED;
         }
         else
         {
-            m_pPlayerFSM->ChangeState(2, ENUM_CLASS(CPlayerStateMachine::MOVE_CHILD_ACTION::JOG), TEXT("Jog"));
-            m_fMoveSpeed = P_JOG_SPEED;
+            if (CPlayerStateMachine::MOVE_ACTION::CROUCH == State.eMove_State)
+            {
+                if (m_pPlayerFSM->ChangeState(TEXT("LowerLayer"), TEXT("Walk")))
+                    m_fMoveSpeed = P_WALK_SPEED;
+            }
+            else
+            {
+                if (m_pPlayerFSM->ChangeState(TEXT("LowerLayer"), TEXT("Jog")))
+                    m_fMoveSpeed = P_JOG_SPEED;
+            }
         }
     }
    
@@ -114,26 +126,82 @@ void CPlayer::Key_Input(_float fDeletaTime)
 
 void CPlayer::MoveAction(_float fDeletaTime)
 {
-    _vector MovePos = {};
+    CPlayerStateMachine::PLAYER_STATE State = m_pPlayerFSM->GetState();
+
+    _bool   KeyInput = false;
+    _vector MovePos{}, vDir{}, vPos{}, vPlayerLook{};
+
+    if (!State.bIsAiming)
+    {
+        _float3 PlayerPos = m_pTransformCom->GetPosition();
+        vPos = XMLoadFloat3(&PlayerPos);
+    }
+
     if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_W))
     {
-        MovePos = m_pTransformCom->GetLookVector() * m_fMoveSpeed * fDeletaTime;
-        m_eDireaction = DIREACTION::FRONT;
+        if (State.bIsAiming)
+        {
+            vDir = m_pTransformCom->GetLookVector();
+            m_pPlayerFSM->SetDireaction(DIREACTION::FRONT);
+        }
+        else
+        {
+            vDir += XMVectorSet(0.f, 0.f, 1.f, 0.f);
+            m_pPlayerFSM->SetDireaction(DIREACTION::FRONT);
+        }
+        KeyInput = true;
     }
     if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_S))
     {
-        MovePos = m_pTransformCom->GetLookVector() * -m_fMoveSpeed * fDeletaTime;
-        m_eDireaction = DIREACTION::BACK;
+        if (State.bIsAiming)
+        {
+            vDir = m_pTransformCom->GetLookVector() * -1.f;
+            m_pPlayerFSM->SetDireaction(DIREACTION::BACK);
+        }
+        else
+        {
+            vDir += XMVectorSet(0.f, 0.f, -1.f, 0.f);
+            m_pPlayerFSM->SetDireaction(DIREACTION::FRONT);
+        }
+        KeyInput = true;
     }
     if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_A))
     {
-        MovePos = m_pTransformCom->GetRightVector() * -m_fMoveSpeed * fDeletaTime;
-        m_eDireaction = DIREACTION::LEFT;
+        if (State.bIsAiming)
+        {
+            vDir = m_pTransformCom->GetRightVector() * -1.f;
+            m_pPlayerFSM->SetDireaction(DIREACTION::LEFT);
+        }
+        else
+        {
+            vDir += XMVectorSet(-1.f, 0.f, 0.f, 0.f);
+            m_pPlayerFSM->SetDireaction(DIREACTION::FRONT);
+        }
+        KeyInput = true;
     }
     if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_D))
     {
-        MovePos = m_pTransformCom->GetRightVector() * m_fMoveSpeed * fDeletaTime;
-        m_eDireaction = DIREACTION::RIGHT;
+        if (State.bIsAiming)
+        {
+            vDir = m_pTransformCom->GetRightVector();
+            m_pPlayerFSM->SetDireaction(DIREACTION::RIGHT);
+        }
+        else
+        {
+            vDir += XMVectorSet(1.f, 0.f, 0.f, 0.f);
+            m_pPlayerFSM->SetDireaction(DIREACTION::FRONT);
+        }
+        KeyInput = true;
+    }
+    if (KeyInput)
+    {
+        if (!State.bIsAiming)
+        {
+            if (!XMVector4Equal(vDir, XMVectorZero()))
+                m_pTransformCom->LookAt(vPos + vDir);
+        }
+
+        MovePos = vDir * m_fMoveSpeed * fDeletaTime;
     }
 
     if(!XMVector3Equal(MovePos, XMVectorZero()))
@@ -143,16 +211,18 @@ void CPlayer::MoveAction(_float fDeletaTime)
 
 void CPlayer::PlayerMoveView(_float fDeletaTime)
 {
+    // 이건 이제 조준상태가 아니라면 이런식으로 하고 
+    
     LONG MoveMouseX = m_pGameInstance->GetMouseAxis(0);
     LONG MoveMouseY = m_pGameInstance->GetMouseAxis(1);
 
     if (-10 > MoveMouseX)
     {
-        m_pTransformCom->Turn(m_pTransformCom->GetUpVector(), -XMConvertToRadians(90.f), fDeletaTime);
+        m_pPlayerCamera->GetTransform()->Turn(m_pTransformCom->GetUpVector(), -XMConvertToRadians(90.f), fDeletaTime);
     }
     else if (10 < MoveMouseX)
     {
-        m_pTransformCom->Turn(m_pTransformCom->GetUpVector(), XMConvertToRadians(90.f), fDeletaTime);
+        m_pPlayerCamera->GetTransform()->Turn(m_pTransformCom->GetUpVector(), XMConvertToRadians(90.f), fDeletaTime);
     }
 
     if (-4 > MoveMouseY)
@@ -173,39 +243,55 @@ void CPlayer::ChangeAction(_float fDeltaTime)
     if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_C))
     {
         if (CPlayerStateMachine::MOVE_ACTION::CROUCH == State.eMove_State)
-            m_pPlayerFSM->ChangeState(0, ENUM_CLASS(CPlayerStateMachine::MOVE_ACTION::DEFAULT), TEXT("Default"));
+            m_pPlayerFSM->ChangeState(TEXT("UpperLayer"), TEXT("Default"));
         else
-            m_pPlayerFSM->ChangeState(0, ENUM_CLASS(CPlayerStateMachine::MOVE_ACTION::CROUCH), TEXT("Crouch"));
+            m_pPlayerFSM->ChangeState(TEXT("UpperLayer"), TEXT("Crouch"));
     }
 
-    if (WEAPON::NONE != State.eWeaponType)
+    if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_RIGHT))
     {
-        if (m_pGameInstance->KeyPressed(KEY_INPUT::MOUSE, 1))
-            m_pPlayerFSM->SetAiming(true);
-        else if(m_pGameInstance->KeyUp(KEY_INPUT::MOUSE, 1))
-            m_pPlayerFSM->SetAiming(false);
+        m_fJumpSpeed += 1.f;
     }
-    else
+
+    if (CPlayerStateMachine::MOVE_ACTION::CROUCH >= State.eMove_State)
     {
-        if (CPlayerStateMachine::MOVE_ACTION::ATTACK == State.eMove_State)
+        if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_SPACE))
         {
-            auto Animator = dynamic_cast<CPlayerPartData *>(FindPartObject(TEXT("Player_Animator")));
-            if (Animator)
+            if (CPlayerStateMachine::MOVE_ACTION::DEFAULT == State.eMove_State)
             {
-                if (Animator->IsAnimFinished())
-                {
-                    m_pPlayerFSM->ChangeState(0, ENUM_CLASS(CPlayerStateMachine::MOVE_ACTION::DEFAULT), TEXT("Default"));
-                    m_bIsAnimLoop = true;
-                }
+                m_pPlayerFSM->ChangeState(TEXT("UpperLayer"), TEXT("Jump"));
+                auto vPos = m_pTransformCom->GetPosition();
+                m_fLandingPointY = vPos.y;
+                m_fAccTime = 0.f;
+                m_bIsAnimLoop = false;
             }
         }
 
-        if (m_pGameInstance->KeyPressed(KEY_INPUT::MOUSE, 0))
+        if (WEAPON::NONE != State.eWeaponType)
         {
-            if (CPlayerStateMachine::MOVE_ACTION::ATTACK != State.eMove_State)
+            if (m_pGameInstance->KeyPressed(KEY_INPUT::MOUSE, 1))
+                m_pPlayerFSM->SetAiming(true);
+            else if (m_pGameInstance->KeyUp(KEY_INPUT::MOUSE, 1))
+                m_pPlayerFSM->SetAiming(false);
+        }
+        else
+        {
+            if (State.bIsAttacking)
             {
-                m_pPlayerFSM->ChangeState(0, ENUM_CLASS(CPlayerStateMachine::MOVE_ACTION::ATTACK), TEXT("Attack"));
-                m_bIsAnimLoop = false;
+                if (IsFinishedAnimationAction())
+                {
+                    m_pPlayerFSM->SetAttack(false);
+                    m_bIsAnimLoop = true;
+                }
+            }
+
+            if (m_pGameInstance->KeyPressed(KEY_INPUT::MOUSE, 0))
+            {
+                if (!State.bIsAttacking)
+                {
+                    m_pPlayerFSM->SetAttack(true);
+                    m_bIsAnimLoop = false;
+                }
             }
         }
     }
@@ -219,7 +305,11 @@ HRESULT CPlayer::ADD_PlayerStateMachine()
     if (nullptr == m_pPlayerFSM)
         return E_FAIL;
 
-    if (FAILED(m_pPlayerFSM->Initialize()))
+    CPlayerStateMachine::FSM_DESC Desc;
+    Desc.pOwner = this;
+    Desc.iLayerSize = 2;
+
+    if (FAILED(m_pPlayerFSM->Initialize(&Desc)))
     {
         Safe_Release(m_pPlayerFSM);
         MSG_BOX("CREATE FAIL : STATE MACHNIE");
@@ -240,11 +330,8 @@ HRESULT CPlayer::ADD_PlayerCamera()
     Desc.fNear = 0.1f;
     Desc.fFov = XMConvertToRadians(90.f);
 
-    Desc.vEye = { 30.f, 10.f, -60.f };
-    Desc.vAt = { 30.f, 10.f, 1.f };
-
-    auto UpperBody = FindPartObject(TEXT("Player_Animator"));
-    Desc.pSocketMatrix = UpperBody->GetBoneMatrix("neck_01");
+    Desc.vEye = { 30.f, 100.f, -60.f };
+    Desc.vAt = { 30.f, 100.f, 1.f };
 
     m_pPlayerCamera = CPlayerCamera::Create(m_pGraphic_Device, m_pDeviceContext);
     if (FAILED(m_pPlayerCamera->Initialize(&Desc)))
@@ -267,6 +354,60 @@ HRESULT CPlayer::ADD_PartObejcts()
         return E_FAIL;
     
     return S_OK;
+}
+
+void CPlayer::UpdatePlayerAction(_float fDeletaTime)
+{
+    CPlayerStateMachine::PLAYER_STATE State = m_pPlayerFSM->GetState();
+    if (CPlayerStateMachine::MOVE_ACTION::JUMP == State.eMove_State)
+    {
+        _uInt i = m_pPlayerFSM->GetStatePhase(TEXT("UpperLayer"));
+        if (i < ENUM_CLASS(CState::ACTION_PHASE::END))
+            UpdateJump(fDeletaTime);
+
+        if (IsFinishedAnimationAction())
+        {
+            switch (i)
+            {
+            case 0:
+                i = m_pPlayerFSM->NextStatePhase(TEXT("UpperLayer"));
+                m_bIsAnimLoop = true;
+            break;
+            case 3 :
+                i = m_pPlayerFSM->NextStatePhase(TEXT("UpperLayer"));
+                m_pPlayerFSM->ChangeState(TEXT("UpperLayer"), TEXT("Default"));
+                m_bIsAnimLoop = true;
+            break;
+            }
+        }
+    }
+}
+
+void CPlayer::UpdateJump(_float fDeletaTime)
+{
+    m_fAccTime += fDeletaTime;
+    _float Velocity = m_fJumpSpeed - (0.5f * GRAVITY) * m_fAccTime * m_fAccTime;
+    if ( 0.f >= Velocity && ENUM_CLASS(CState::ACTION_PHASE::STARTLOOP) == m_pPlayerFSM->GetStatePhase(TEXT("UpperLayer")))
+        _uInt index =  m_pPlayerFSM->NextStatePhase(TEXT("UpperLayer"));
+
+    ADDPosition(XMVectorSet(0.f, Velocity, 0.f, 0.f));
+    auto vPos = m_pTransformCom->GetPosition();
+    if (vPos.y <= m_fLandingPointY)
+    {
+        m_pPlayerFSM->NextStatePhase(TEXT("UpperLayer"));
+        vPos.y = m_fLandingPointY;
+        m_pTransformCom->SetPosition(vPos);
+        m_bIsAnimLoop = false; 
+    }
+}
+
+_bool CPlayer::IsFinishedAnimationAction()
+{
+    auto Animator = dynamic_cast<CPlayerPartData*>(FindPartObject(TEXT("Player_Animator")));
+    if (Animator)
+        return  Animator->IsAnimFinished();
+
+    return false;
 }
 
 CPlayer* CPlayer::Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext)

@@ -1,20 +1,29 @@
 #pragma once
+#include "Client_Define.h"
 #include "State.h"
 
 NS_BEGIN(Client)
+class CPlayer; 
+
 class CJumpState : public CState
 {
-protected:
-	CJumpState();
+private :
+	CJumpState(const char* szStateName);
 	virtual ~CJumpState() = default;
 
 public:
-	virtual void	OnEnterState(void* pArg = nullptr) override;
-	virtual void	PlayState(void* pArg = nullptr) override;
-	virtual void	OnEndState(void* pArg = nullptr) override;
+	virtual void OnStateEnter(void* pArg = nullptr) override;
+	virtual void OnStateExcution(void* pArg = nullptr) override;
+	virtual void OnStateExit(void* pArg = nullptr) override;
+
+private :
+	_uInt						m_iJumpIndex = 0;
+
+private :
+	void						ChangeStateName();
 
 public:
-	static CJumpState*			Create();
+	static CJumpState*			Create(const char* szStateName);
 	virtual void				Free() override;
 	
 };

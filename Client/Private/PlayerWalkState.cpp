@@ -1,33 +1,25 @@
 #include "PlayerWalkState.h"
-#include "PlayerStateMachine.h"
 
-
-CPlayerWalkState::CPlayerWalkState()
+CPlayerWalkState::CPlayerWalkState(const char* szStateName) :
+    CState(szStateName)
 {
 }
 
-void CPlayerWalkState::OnEnterState(void* pArg)
+void CPlayerWalkState::OnStateEnter(void* pArg)
 {
-
-
-
 }
 
-void CPlayerWalkState::PlayState(void* pArg)
+void CPlayerWalkState::OnStateExcution(void* pArg)
 {
-
-
 }
 
-void CPlayerWalkState::OnEndState(void* pArg)
+void CPlayerWalkState::OnStateExit(void* pArg)
 {
-
-   
 }
 
-CPlayerWalkState* CPlayerWalkState::Create()
+CPlayerWalkState* CPlayerWalkState::Create(const char* szStateName)
 {
-    return new CPlayerWalkState();
+    return new CPlayerWalkState(szStateName);
 }
 
 void CPlayerWalkState::Free()

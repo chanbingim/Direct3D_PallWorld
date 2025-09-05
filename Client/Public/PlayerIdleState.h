@@ -1,20 +1,21 @@
 #pragma once
+#include "Client_Define.h"
 #include "State.h"
 
 NS_BEGIN(Client)
 class CPlayerIdleState : public CState
 {
-protected:
-	CPlayerIdleState();
+private :
+	CPlayerIdleState(const char* szStateName);
 	virtual ~CPlayerIdleState() = default;
 
-public:
-	virtual void	OnEnterState(void* pArg = nullptr) override;
-	virtual void	PlayState(void* pArg = nullptr) override;
-	virtual void	OnEndState(void* pArg = nullptr) override;
+public :
+	virtual void OnStateEnter(void* pArg = nullptr) override;
+	virtual void OnStateExcution(void* pArg = nullptr) override;
+	virtual void OnStateExit(void* pArg = nullptr) override;
 
-public:
-	static CPlayerIdleState*	Create();
+public :
+	static CPlayerIdleState*	Create(const char* szStateName);
 	virtual void				Free() override;
 };
 NS_END

@@ -295,12 +295,12 @@ HRESULT CLoader::Loading_For_GamePlay()
 	_matrix PreModelMat = XMMatrixRotationY(XMConvertToRadians(180.f));
 	/* VIBuffer  MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_OldClothes"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Clothes/OldClothes/OldClothes.fbx"))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Clothes/OldClothes/OldClothes.dat"))))
 		return E_FAIL;
 
 	/* VIBuffer  MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Clothes02"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Clothes/Clothes02/Clothes02.fbx", PreModelMat, 
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Clothes/Clothes02/Clothes02.dat", PreModelMat, 
 			"../Bin/Resources/Models/Clothes/Clothes02/Clothes02_Mapping.txt"))))
 		return E_FAIL;
 #pragma endregion
