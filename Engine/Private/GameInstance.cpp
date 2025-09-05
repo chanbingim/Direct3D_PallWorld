@@ -13,6 +13,7 @@
 #include "Mouse.h"
 #include "Picking.h"
 #include "Pipeline.h"
+#include "LightManager.h"
 #pragma endregion
 
 #include "Level.h"
@@ -72,6 +73,10 @@ HRESULT CGameInstance::Initialize_Engine(void* pArg)
     if (nullptr == m_pPicking)
         return E_FAIL;
     
+    m_pLightManager = CLightManager::Create();
+    if (nullptr == m_pLightManager)
+        return E_FAIL;
+
 #ifdef _DEBUG
     m_pTimer_Manager->Add_Timer(TEXT("PriorityUpdate_Loop"));
     m_pTimer_Manager->Add_Timer(TEXT("Update_Loop"));
@@ -421,6 +426,14 @@ const _float2& CGameInstance::GetScreenSize()
 {
     return m_ScreenSize;
 }
+void CGameInstance::ADDLight(CLight* pLight)
+{
+    m_pLightManager->ADDLight(pLight);
+}
+const CLight* CGameInstance::GetLight(_uInt iIndex)
+{
+    return m_pLightManager->GetLight(iIndex);
+}
 _float CGameInstance::GetPipeLineLoopTime(const TCHAR* Str)
 {
     return m_pTimer_Manager->Get_TimeDelta(Str);
@@ -440,8 +453,10 @@ void CGameInstance::Release_Engine()
     Safe_Release(m_pInput_Manager);
     Safe_Release(m_pSound_Manager);
     Safe_Release(m_pMouse);
+    Safe_Release(m_pLightManager);
     Safe_Release(m_pPipeline);
     Safe_Release(m_pGraphic_Device);
+
 }
 
 void CGameInstance::Free()

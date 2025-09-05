@@ -142,12 +142,12 @@ void CPlayer::MoveAction(_float fDeletaTime)
         if (State.bIsAiming)
         {
             vDir = m_pTransformCom->GetLookVector();
-            m_pPlayerFSM->SetDireaction(DIREACTION::FRONT);
+            m_pPlayerFSM->SetDireaction(DIRECTION::FRONT);
         }
         else
         {
             vDir += XMVectorSet(0.f, 0.f, 1.f, 0.f);
-            m_pPlayerFSM->SetDireaction(DIREACTION::FRONT);
+            m_pPlayerFSM->SetDireaction(DIRECTION::FRONT);
         }
         KeyInput = true;
     }
@@ -156,12 +156,12 @@ void CPlayer::MoveAction(_float fDeletaTime)
         if (State.bIsAiming)
         {
             vDir = m_pTransformCom->GetLookVector() * -1.f;
-            m_pPlayerFSM->SetDireaction(DIREACTION::BACK);
+            m_pPlayerFSM->SetDireaction(DIRECTION::BACK);
         }
         else
         {
             vDir += XMVectorSet(0.f, 0.f, -1.f, 0.f);
-            m_pPlayerFSM->SetDireaction(DIREACTION::FRONT);
+            m_pPlayerFSM->SetDireaction(DIRECTION::FRONT);
         }
         KeyInput = true;
     }
@@ -170,12 +170,12 @@ void CPlayer::MoveAction(_float fDeletaTime)
         if (State.bIsAiming)
         {
             vDir = m_pTransformCom->GetRightVector() * -1.f;
-            m_pPlayerFSM->SetDireaction(DIREACTION::LEFT);
+            m_pPlayerFSM->SetDireaction(DIRECTION::LEFT);
         }
         else
         {
             vDir += XMVectorSet(-1.f, 0.f, 0.f, 0.f);
-            m_pPlayerFSM->SetDireaction(DIREACTION::FRONT);
+            m_pPlayerFSM->SetDireaction(DIRECTION::FRONT);
         }
         KeyInput = true;
     }
@@ -184,12 +184,12 @@ void CPlayer::MoveAction(_float fDeletaTime)
         if (State.bIsAiming)
         {
             vDir = m_pTransformCom->GetRightVector();
-            m_pPlayerFSM->SetDireaction(DIREACTION::RIGHT);
+            m_pPlayerFSM->SetDireaction(DIRECTION::RIGHT);
         }
         else
         {
             vDir += XMVectorSet(1.f, 0.f, 0.f, 0.f);
-            m_pPlayerFSM->SetDireaction(DIREACTION::FRONT);
+            m_pPlayerFSM->SetDireaction(DIRECTION::FRONT);
         }
         KeyInput = true;
     }
@@ -218,11 +218,11 @@ void CPlayer::PlayerMoveView(_float fDeletaTime)
 
     if (-10 > MoveMouseX)
     {
-        m_pPlayerCamera->GetTransform()->Turn(m_pTransformCom->GetUpVector(), -XMConvertToRadians(90.f), fDeletaTime);
+        m_pPlayerCamera->ADDRevolutionMatrix(-10.f);
     }
     else if (10 < MoveMouseX)
     {
-        m_pPlayerCamera->GetTransform()->Turn(m_pTransformCom->GetUpVector(), XMConvertToRadians(90.f), fDeletaTime);
+        m_pPlayerCamera->ADDRevolutionMatrix(10.f);
     }
 
     if (-4 > MoveMouseY)
@@ -267,31 +267,26 @@ void CPlayer::ChangeAction(_float fDeltaTime)
             }
         }
 
-        if (WEAPON::NONE != State.eWeaponType)
-        {
-            if (m_pGameInstance->KeyPressed(KEY_INPUT::MOUSE, 1))
-                m_pPlayerFSM->SetAiming(true);
-            else if (m_pGameInstance->KeyUp(KEY_INPUT::MOUSE, 1))
-                m_pPlayerFSM->SetAiming(false);
-        }
-        else
-        {
-            if (State.bIsAttacking)
-            {
-                if (IsFinishedAnimationAction())
-                {
-                    m_pPlayerFSM->SetAttack(false);
-                    m_bIsAnimLoop = true;
-                }
-            }
+        if (m_pGameInstance->KeyPressed(KEY_INPUT::MOUSE, 1))
+            m_pPlayerFSM->SetAiming(true);
+        else if (m_pGameInstance->KeyUp(KEY_INPUT::MOUSE, 1))
+            m_pPlayerFSM->SetAiming(false);
 
-            if (m_pGameInstance->KeyPressed(KEY_INPUT::MOUSE, 0))
+        if (State.bIsAttacking)
+        {
+            if (IsFinishedAnimationAction())
             {
-                if (!State.bIsAttacking)
-                {
-                    m_pPlayerFSM->SetAttack(true);
-                    m_bIsAnimLoop = false;
-                }
+                m_pPlayerFSM->SetAttack(false);
+                m_bIsAnimLoop = true;
+            }
+        }
+
+        if (m_pGameInstance->KeyPressed(KEY_INPUT::MOUSE, 0))
+        {
+            if (!State.bIsAttacking)
+            {
+                m_pPlayerFSM->SetAttack(true);
+                m_bIsAnimLoop = false;
             }
         }
     }
@@ -330,8 +325,8 @@ HRESULT CPlayer::ADD_PlayerCamera()
     Desc.fNear = 0.1f;
     Desc.fFov = XMConvertToRadians(90.f);
 
-    Desc.vEye = { 30.f, 100.f, -60.f };
-    Desc.vAt = { 30.f, 100.f, 1.f };
+    Desc.vEye = { 1.f, 8.f, -6.f };
+    Desc.vAt = { 1.f, 8.f, 1.f };
 
     m_pPlayerCamera = CPlayerCamera::Create(m_pGraphic_Device, m_pDeviceContext);
     if (FAILED(m_pPlayerCamera->Initialize(&Desc)))

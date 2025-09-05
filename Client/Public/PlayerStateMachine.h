@@ -17,7 +17,7 @@ public:
 		// 현재 무기를 Player가 들고있는가
 		_bool				bIsAiming;
 		_bool				bIsAttacking;
-		DIREACTION			eDireaction;
+		DIRECTION			eDireaction;
 		WEAPON				eWeaponType;
 
 		// 이동 과 같이 나와야하는 상태들
@@ -43,7 +43,7 @@ public:
 	void								SetAiming(_bool	bFlag) { m_StateData.bIsAiming = bFlag; }
 	void								SetWeapon(const WEAPON	eWeapon) { m_StateData.eWeaponType = eWeapon; }
 	void								SetAttack(_bool	bFlag) { m_StateData.bIsAttacking = bFlag; }
-	void								SetDireaction(DIREACTION eType) { m_StateData.eDireaction = eType; }
+	void								SetDireaction(DIRECTION eType) { m_StateData.eDireaction = eType; }
 
 	_string								GetStateFullName();
 	_uInt								NextStatePhase(const _wstring& LayerTag);

@@ -29,11 +29,16 @@ public:
 	virtual			HRESULT			Render()override;
 	void							AttachCamera(_vector BonesTransformation);
 
+	void							ADDRevolutionMatrix(_float Angle);
+
 private:
 	const _float4x4*				m_SocketMatrix = nullptr;
 	_float							m_fRotSpeed = 5.f;
+
 	_float4x4						m_CombinedMatrix = {};
 	_float4x4						m_InvCombinedMatrix = {};
+
+	_float							m_RevolutionAngle = {};
 
 public:
 	static	CPlayerCamera*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

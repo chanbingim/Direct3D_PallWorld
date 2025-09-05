@@ -16,7 +16,7 @@ namespace Client
 	enum class ITEM_TYPE { EQUIPMENT, CONSUM, ETC, END };
 	enum class COSTUME_TYPE { HEAD, BODY, BOTTOM, WHOLE_BODY, SHOES,END};
 
-	enum class DIREACTION { FRONT, LEFT, RIGHT, BACK, END};
+	enum class DIRECTION { FRONT, LEFT, RIGHT, BACK, END};
 	enum class WEAPON { MELEE, GUN, AXE, NONE, END };
 
 }

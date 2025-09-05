@@ -97,13 +97,13 @@ _string CPlayerStateMachine::GetStateFullName()
         {
             switch (m_StateData.eDireaction)
             {
-            case DIREACTION::LEFT:
+            case DIRECTION::LEFT:
                 FullName += "_Left";
                 break;
-            case DIREACTION::RIGHT:
+            case DIRECTION::RIGHT:
                 FullName += "_Right";
                 break;
-            case DIREACTION::BACK:
+            case DIRECTION::BACK:
                 FullName += "_Bwd";
                 break;
             }

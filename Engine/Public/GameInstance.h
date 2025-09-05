@@ -19,6 +19,8 @@ class CPrototype_Manager;
 class CHeadUpDisplay;
 class CInputManager;
 class CSound_Manager;
+class CLightManager;
+class CLight;
 
 class ENGINE_DLL CGameInstance : public CBase
 {
@@ -167,6 +169,13 @@ public :
 	_float						GetPipeLineLoopTime(const TCHAR* Str);
 	const _float2&				GetScreenSize();
 #pragma endregion
+
+#pragma region LIGHT_MANAGER
+	void						ADDLight(CLight* pLight);
+	const CLight*				GetLight(_uInt iIndex);
+#pragma endregion
+
+
 private :
 	CGraphic_Device*			m_pGraphic_Device = nullptr;
 	CLevel_Manager*				m_pLevel_Manager = nullptr;
@@ -179,6 +188,7 @@ private :
 	CMouse*						m_pMouse = nullptr;
 	CPipeline*					m_pPipeline = nullptr;
 	CPicking*					m_pPicking = nullptr;
+	CLightManager*				m_pLightManager = nullptr;
 
 	_float2						m_ScreenSize = {};
 

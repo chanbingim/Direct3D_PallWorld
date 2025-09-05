@@ -53,10 +53,12 @@ void CPlayerCamera::Late_Update(_float fDeletaTime)
             XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()) * SocMatrix * XMLoadFloat4x4(&m_pParent->GetTransform()->GetWorldMat()));
     }
     else
-
-        XMStoreFloat4x4(&m_CombinedMatrix,
-            XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()) * XMLoadFloat4x4(&m_pParent->GetTransform()->GetWorldMat()));
-    
+    {
+        _matrix RevolutionMatrix = XMMatrixRotationY(XMConvertToRadians(m_RevolutionAngle));
+        _matrix ParentMatrix = XMLoadFloat4x4(&m_pParent->GetTransform()->GetWorldMat());
+        _matrix CombinedMatrix = XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()) * RevolutionMatrix * XMMatrixTranslationFromVector(ParentMatrix.r[3]);
+        XMStoreFloat4x4(&m_CombinedMatrix, CombinedMatrix);
+    }
 
     XMStoreFloat4x4(&m_InvCombinedMatrix, XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_CombinedMatrix)));
     XMStoreFloat4x4(&m_ProjMat, XMMatrixPerspectiveFovLH(m_fFov, m_fAspect, m_fNear, m_fFar));
@@ -76,6 +78,14 @@ void CPlayerCamera::AttachCamera(_vector BonesTransformation)
     _float3 vPos = {};
     XMStoreFloat3(&vPos, BonesTransformation);
     SetLocation(vPos);
+}
+
+void CPlayerCamera::ADDRevolutionMatrix(_float Angle)
+{
+    m_RevolutionAngle += Angle;
+    m_RevolutionAngle = fmodf(m_RevolutionAngle, 360.f);
+    if (m_RevolutionAngle < 0.f)
+        m_RevolutionAngle += 360.f;
 }
 
 CPlayerCamera* CPlayerCamera::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
