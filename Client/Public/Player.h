@@ -56,6 +56,8 @@ private:
 	void									MoveAction(_float fDeletaTime);
 	void									PlayerMoveView(_float fDeletaTime);
 	void									ChangeAction(_float fDeltaTime);
+	void									ChangeWeapon();
+
 
 	HRESULT									ADD_PlayerStateMachine();
 	HRESULT									ADD_PlayerCamera();

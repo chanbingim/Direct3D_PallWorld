@@ -42,21 +42,13 @@ HRESULT CCompass::Initialize(void* pArg)
 
 void CCompass::Update(_float fDeletaTime)
 {
-    if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_2))
-    {
-        m_fRadius += 0.5f;
+    WCHAR Debug_Log[MAX_PATH] = {};
 
-        if (m_fRadius >= 360.f)
-            m_fRadius = 0.f;
-    }
-
-    if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_9))
-    {
-        m_fRadius -= 0.5f;
-
-        if (m_fRadius <= 0.f)
-            m_fRadius = 360.f;
-    }
+    _vector vLook = XMVector3Normalize(m_pGameInstance->GetCameraState(WORLDSTATE::LOOK));
+    vLook.m128_f32[1] = 0.f;
+    m_fRadius = atan2f(XMVectorGetX(vLook), XMVectorGetZ(vLook));
+    if (m_fRadius < 0)
+        m_fRadius += XM_2PI;
 }
 
 void CCompass::Late_Update(_float fDeletaTime)
@@ -94,7 +86,7 @@ HRESULT CCompass::Apply_ConstantShaderResources()
 {
     __super::Apply_ConstantShaderResources();
 
-    _float RadiusPercnet = m_fRadius / 360.f;
+    _float RadiusPercnet = XMConvertToDegrees(m_fRadius) / 360.f;
     m_pUvPercent->SetRawValue(&RadiusPercnet, 0, sizeof(_float));
 
     return S_OK;

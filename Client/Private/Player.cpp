@@ -310,6 +310,19 @@ void CPlayer::ChangeAction(_float fDeltaTime)
     }
 }
 
+void CPlayer::ChangeWeapon()
+{
+
+
+
+
+
+
+
+
+
+}
+
 HRESULT CPlayer::ADD_PlayerStateMachine()
 {
     //여기서 플레이어가 데이터를 읽어서 이전에 데이터를 저장했다면

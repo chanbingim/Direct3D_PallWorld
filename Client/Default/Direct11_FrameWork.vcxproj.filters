@@ -404,6 +404,12 @@
     <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\Wepon">
       <UniqueIdentifier>{4b99c399-e4e4-4009-9a69-35c6f25c13ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Manager">
+      <UniqueIdentifier>{7d19f0b4-62a3-4192-98d7-48a8d219db7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Aim">
+      <UniqueIdentifier>{bcb12343-7f9b-459c-8f34-23f2358722ea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -763,6 +769,12 @@
     <ClInclude Include="..\public\PlayerWeapon.h">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Wepon</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\PlayerManager.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\AimInterface.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Aim</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -1113,6 +1125,12 @@
     </ClCompile>
     <ClCompile Include="..\private\PlayerWeapon.cpp">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Wepon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PlayerManager.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\AimInterface.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Aim</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
