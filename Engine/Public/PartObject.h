@@ -12,6 +12,9 @@ public :
 	typedef struct PartObject_Desc : public GAMEOBJECT_DESC
 	{
 		const _float4x4*		SocketMatrix;
+
+		// 비트 마스킹을 통해 제어한다.
+		_char					UseSocketMatrixFlag = { 0b00000111 };
 	}PARTOBJECT_DESC;
 
 protected:
@@ -40,7 +43,11 @@ public:
 
 protected :
 	_float4x4								m_CombinedWorldMatrix = {};
+	
+	
+	_char									m_UseSocketMatrixFlag = { 0b00000111 };
 	const _float4x4*						m_SocketMatrix = nullptr;
+
 
 #pragma region Animation
 	CModel*									m_pVIBufferCom = nullptr;

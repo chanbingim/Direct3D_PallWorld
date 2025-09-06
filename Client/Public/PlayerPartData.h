@@ -5,10 +5,11 @@
 NS_BEGIN(Client)
 
 class CPlayerBody;
+class CPlayerWeapon;
 
 class CPlayerPartData : public CPartObject
 {
-protected:
+private:
 	CPlayerPartData(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CPlayerPartData(const CPlayerPartData& rhs);
 	virtual ~CPlayerPartData() = default;
@@ -27,10 +28,15 @@ public:
 	virtual		HRESULT						Render() override;
 	_bool									IsAnimFinished() { return m_bIsFinished; }
 
-
 private:
 	CPlayerBody*							m_pPlayerBody = nullptr;
+	CPlayerWeapon*							m_pPlayerWeapon = nullptr;
+
 	_bool									m_bIsFinished = false;
+
+	const _float4x4*						m_pWeaponSocketMatrix[3];
+
+
 
 private:
 	HRESULT									ADD_Components();

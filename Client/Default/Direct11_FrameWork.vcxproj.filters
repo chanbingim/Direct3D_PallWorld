@@ -401,6 +401,9 @@
     <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\LowerLayer\State\Walk">
       <UniqueIdentifier>{1459d242-8a34-442a-9a4a-a6ffbb93e975}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\Wepon">
+      <UniqueIdentifier>{4b99c399-e4e4-4009-9a69-35c6f25c13ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -757,6 +760,9 @@
     <ClInclude Include="..\public\PlayerUpperLayer.h">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\UpperLayer</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\PlayerWeapon.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Wepon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -1104,6 +1110,9 @@
     </ClCompile>
     <ClCompile Include="..\private\PlayerUpperLayer.cpp">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\UpperLayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PlayerWeapon.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Wepon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

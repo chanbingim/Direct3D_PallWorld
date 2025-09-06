@@ -35,6 +35,7 @@ HRESULT CPartObject::Initialize(void* pArg)
 	{
 		PARTOBJECT_DESC* Desc = static_cast<PARTOBJECT_DESC*>(pArg);
 		m_SocketMatrix = Desc->SocketMatrix;
+		m_UseSocketMatrixFlag = Desc->UseSocketMatrixFlag;
 	}
 
 	return S_OK;
@@ -110,8 +111,22 @@ void CPartObject::UpdateCombinedMatrix()
 {
 	if (m_SocketMatrix)
 	{
+		_matrix ScoketMatrix = XMLoadFloat4x4(m_SocketMatrix);
+
+		if (m_UseSocketMatrixFlag & 0b00000001)
+		{
+			for (_uInt i = 0; i < 3; ++i)
+				ScoketMatrix.r[i] = XMVector4Normalize(ScoketMatrix.r[i]);
+		}
+		if (m_UseSocketMatrixFlag & 0b00000010)
+		{
+			ScoketMatrix.r[0] = XMVectorSet(1.f, 0.f, 0.f, 0.f);
+			ScoketMatrix.r[1] = XMVectorSet(0.f, 1.f, 0.f, 0.f);
+			ScoketMatrix.r[2] = XMVectorSet(0.f, 0.f, 1.f, 0.f);
+		}
+
 		XMStoreFloat4x4(&m_CombinedWorldMatrix,
-			XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()) * XMLoadFloat4x4(m_SocketMatrix) * XMLoadFloat4x4(&m_pParent->GetTransform()->GetWorldMat()));
+			XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()) * ScoketMatrix * XMLoadFloat4x4(&m_pParent->GetTransform()->GetWorldMat()));
 	}
 	else
 		XMStoreFloat4x4(&m_CombinedWorldMatrix,

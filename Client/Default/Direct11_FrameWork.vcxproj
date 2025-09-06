@@ -272,6 +272,7 @@
     <ClInclude Include="..\public\PlayerUpperLayer.h" />
     <ClInclude Include="..\public\PlayerView.h" />
     <ClInclude Include="..\public\PlayerWalkState.h" />
+    <ClInclude Include="..\public\PlayerWeapon.h" />
     <ClInclude Include="..\public\Player_Interface.h" />
     <ClInclude Include="..\public\RockObject.h" />
     <ClInclude Include="..\public\SlotBase.h" />
@@ -338,6 +339,7 @@
     <ClCompile Include="..\private\PlayerUpperLayer.cpp" />
     <ClCompile Include="..\private\PlayerView.cpp" />
     <ClCompile Include="..\private\PlayerWalkState.cpp" />
+    <ClCompile Include="..\private\PlayerWeapon.cpp" />
     <ClCompile Include="..\private\SlotImage.cpp" />
     <ClCompile Include="..\private\TreeObject.cpp" />
     <ClCompile Include="..\private\DebugApp.cpp" />

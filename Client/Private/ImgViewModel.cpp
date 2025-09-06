@@ -108,8 +108,11 @@ HRESULT CImgViewModel::Bind_ShaderResources()
         m_pEMVWorldMat = m_NonAnimShader->GetVariable("g_WorldMatrix")->AsMatrix();
         m_pEMVViewMat = m_NonAnimShader->GetVariable("g_ViewMatrix")->AsMatrix();
         m_pEMVProjMat = m_NonAnimShader->GetVariable("g_ProjMatrix")->AsMatrix();
-        m_pSRVEffect = m_NonAnimShader->GetVariable("g_Texture")->AsShaderResource();
+        m_pSRVEffect = m_NonAnimShader->GetVariable("g_DiffuseTexture")->AsShaderResource();
+        m_pBoneMatrixEffect = m_NonAnimShader->GetVariable("g_BoneMatrices")->AsMatrix();
     }
+  
+   
     return S_OK;
 }
 

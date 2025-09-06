@@ -39,6 +39,7 @@ private :
 
 	// 플레이어의 현재 방향
 	_bool									m_bIsAnimLoop = true;
+	_bool									m_ViewCamera = false;
 
 	_float									m_fMoveSpeed = P_WALK_SPEED;
 

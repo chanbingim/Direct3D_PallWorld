@@ -93,9 +93,9 @@ HRESULT CGameObject::Add_Component(_uInt iLevelIndex, const _wstring& _Prototype
 
 	if (pair == m_pComponentMap.end())
 	{
-		auto pComponent = m_pGameInstance->Clone_Prototype<CComponent>(iLevelIndex, _PrototypeTag, pArg);
+		auto pComponent = static_cast<CComponent *>(m_pGameInstance->Clone_Prototype(OBJECT_ID::COMPONENT, iLevelIndex, _PrototypeTag, pArg));
 		m_pComponentMap.emplace(ComponentTag, pComponent);
-		*ppOut = pComponent;
+		*ppOut = static_cast<CComponent*>(pComponent);
 		Safe_AddRef(*ppOut);
 	}
 	else

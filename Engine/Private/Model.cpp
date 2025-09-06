@@ -550,6 +550,7 @@ HRESULT CModel::SaveModelFile(void* Data, const char* FilePath)
 		file.write(reinterpret_cast<char*>(&ExportData.iNumMeshes), sizeof(_uInt));
 		for (auto& MeshDesc : ExportData.MeshDesc)
 		{
+			file.write(MeshDesc.szName, MAX_PATH);
 			file.write(reinterpret_cast<char*>(&MeshDesc.iNumVertices), sizeof(_uInt));
 			file.write(reinterpret_cast<char*>(&MeshDesc.iNumFaces), sizeof(_uInt));
 			file.write(reinterpret_cast<char*>(&MeshDesc.iNumMaterialIndex), sizeof(_uInt));
@@ -680,6 +681,7 @@ HRESULT CModel::ReadModelFile(void* Data, const char* FilePath)
 		for (_uInt i = 0; i < ImportData->iNumMeshes; ++i)
 		{
 			SAVE_MESH_DESC MeshDesc;
+			file.read(MeshDesc.szName, MAX_PATH);
 			file.read(reinterpret_cast<char*>(&MeshDesc.iNumVertices), sizeof(_uInt));
 			file.read(reinterpret_cast<char*>(&MeshDesc.iNumFaces), sizeof(_uInt));
 			file.read(reinterpret_cast<char*>(&MeshDesc.iNumMaterialIndex), sizeof(_uInt));

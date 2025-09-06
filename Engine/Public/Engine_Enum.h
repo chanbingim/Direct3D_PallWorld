@@ -8,6 +8,8 @@ namespace Engine
 	enum class MODEL_TYPE	{ ANIM, NONANIM, END };
 	enum class VISIBILITY	{ VISIBLE, HIDDEN, END };
 	enum class WORLDSTATE	{ RIGHT, UP, LOOK, POSITION, END };
+	enum class OBJECT_ID	{ GAMEOBJECT, COMPONENT, END };
+
 	enum class RENDER {
 		PRIORITY,
 		NONBLEND,

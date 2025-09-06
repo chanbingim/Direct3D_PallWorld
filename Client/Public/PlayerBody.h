@@ -5,7 +5,7 @@
 NS_BEGIN(Client)
 class CPlayerBody : public CPartObject
 {
-protected:
+private :
 	CPlayerBody(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CPlayerBody(const CPlayerBody& rhs);
 	virtual ~CPlayerBody() = default;

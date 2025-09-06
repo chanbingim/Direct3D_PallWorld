@@ -79,8 +79,7 @@ public :
 	HRESULT						Add_Prototype(_uInt iLevelNum, const _wstring& PrototypeTag, CBase* pPrototype);
 	void						Clear_Resource(_uInt iLevelIndex);
 
-	template<typename T>
-	T* Clone_Prototype(_uInt iLevelIndex, const _wstring& strPrototypeTag, void* pArg);
+	CBase*						Clone_Prototype(OBJECT_ID eType, _uInt iLevelIndex, const _wstring& strPrototypeTag, void* pArg);
 
 	template<typename T>
 	void						GetPrototypeList(_uInt iLevelIndex, list<pair<_wstring, T*>>* pOutList);
@@ -148,6 +147,8 @@ public :
 
 	void						SetPostBuffer(_uInt iIndex, ID3D11ShaderResourceView* pTex);
 	ID3D11ShaderResourceView*	GetPostBuffer(_uInt iIndex);
+
+	_vector						GetCameraState(WORLDSTATE eType);
 #pragma endregion
 
 #pragma region Editor_Picking
@@ -198,13 +199,6 @@ public :
 
 };
 NS_END
-
-template<typename T>
-inline T* CGameInstance::Clone_Prototype(_uInt iLevelIndex, const _wstring& strPrototypeTag, void* pArg)
-{
-	return m_pPrototype_Manager->Clone_Prototype<T>(iLevelIndex, strPrototypeTag, pArg);
-}
-
 template<typename T>
 inline void CGameInstance::GetPrototypeList(_uInt iLevelIndex, list<pair<_wstring, T*>>* pOutList)
 {

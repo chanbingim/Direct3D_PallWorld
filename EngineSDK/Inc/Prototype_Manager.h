@@ -14,13 +14,12 @@ public :
 
 	HRESULT			Add_Prototype(_uInt iLevelNum, const _wstring& PrototypeTag, CBase* pPrototype);
 	
-	template<typename T>
-	T*				Clone_Prototype(_uInt iLevelIndex, const _wstring& strPrototypeTag, void* pArg);
+	CBase*			Clone_Prototype(OBJECT_ID eType, _uInt iLevelIndex, const _wstring& strPrototypeTag, void* pArg);
 
 	void			Clear_Resource(_uInt iLevelIndex);
 
 	template<typename T>
-	void			GetPrototypeList(_uInt iLevelIndex, list<pair<_wstring, T*>>* pOutList);
+	void			GetPrototypeList( _uInt iLevelIndex, list<pair<_wstring, T*>>* pOutList);
 
 	void			GetPrototypeName(const char* classTypeName, _string& OutName);
 	_uInt			GetPrototypeLevel(const _wstring& PrototypeName);
@@ -38,21 +37,6 @@ public :
 
 };
 NS_END
-
-template<typename T>
-inline T* CPrototype_Manager::Clone_Prototype(_uInt iLevelIndex, const _wstring& strPrototypeTag, void* pArg)
-{
-	CBase* pPrototype = Find_Prototype(iLevelIndex, strPrototypeTag);
-	if (nullptr == pPrototype)
-		return nullptr;
-
-	T* pGameObject = { nullptr };
-	pGameObject = dynamic_cast<T*>(pPrototype);
-	if (nullptr == pGameObject)
-		return nullptr;
-
-	return static_cast<T*>(pGameObject->Clone(pArg));
-}
 
 template<typename T>
 inline void CPrototype_Manager::GetPrototypeList(_uInt iLevelIndex, list<pair<_wstring, T*>>* pOutList)

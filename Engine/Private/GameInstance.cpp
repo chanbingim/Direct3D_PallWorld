@@ -224,6 +224,11 @@ void CGameInstance::Clear_Resource(_uInt iLevelIndex)
     ResetMouseData();
 }
 
+CBase* CGameInstance::Clone_Prototype(OBJECT_ID eType, _uInt iLevelIndex, const _wstring& strPrototypeTag, void* pArg)
+{
+    return m_pPrototype_Manager->Clone_Prototype(eType, iLevelIndex, strPrototypeTag, pArg);
+}
+
 #pragma region Timer_Manager
 void CGameInstance::GetPrototypeName(const char* classTypeName, _string& OutName)
 {
@@ -375,6 +380,10 @@ void CGameInstance::SetPostBuffer(_uInt iIndex, ID3D11ShaderResourceView* pTex)
 ID3D11ShaderResourceView* CGameInstance::GetPostBuffer(_uInt iIndex)
 {
     return m_pPipeline->GetPostBuffer(iIndex);
+}
+_vector CGameInstance::GetCameraState(WORLDSTATE eType)
+{
+    return m_pPipeline->GetCameraState(eType);
 }
 void CGameInstance::SetEditor_MousePos(_float3 vPos)
 {

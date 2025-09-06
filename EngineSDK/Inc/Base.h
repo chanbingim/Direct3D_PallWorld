@@ -16,6 +16,6 @@ private :
 	_uInt		m_RefCount = {0};
 
 public:
-	virtual void Free();
+	virtual void	Free();
 };
 NS_END

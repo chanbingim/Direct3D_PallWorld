@@ -69,6 +69,12 @@ ID3D11ShaderResourceView* CPipeline::GetPostBuffer(_uInt iIndex)
 	return m_PipeTextures[iIndex];
 }
 
+_vector CPipeline::GetCameraState(WORLDSTATE eType)
+{
+	_matrix CameraWolrdMat = XMLoadFloat4x4(&m_PipeLineInvMat[ENUM_CLASS(MAT_STATE::VIEW)]);
+	return CameraWolrdMat.r[ENUM_CLASS(eType)];
+}
+
 HRESULT CPipeline::SettingPipeTextures()
 {
 	//백버퍼의 정보를 가져와서 전역으로 사용할 용도로 보관할 텍스처들을 세팅한다.

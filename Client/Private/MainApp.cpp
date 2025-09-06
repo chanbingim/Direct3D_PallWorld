@@ -4,6 +4,7 @@
 #include "MainApp.h"
 
 #include "GameInstance.h"
+#include "GameObject.h"
 #include "LoadingLevel.h"
 #include "HeadUpDisplay.h"
 #include "GameData_Manager.h"
@@ -35,6 +36,7 @@ HRESULT CMainApp::Initialize_MainApp()
 	if (FAILED(SetUp_DebugWindow()))
 		return E_FAIL;
 #endif // _DEBUG
+
 
 	//// 와이어프레임 RasterizerState 생성
 	//D3D11_RASTERIZER_DESC desc = {};

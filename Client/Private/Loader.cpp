@@ -21,6 +21,7 @@
 #pragma region PLAYER
 #include "PlayerPartData.h"
 #include "PlayerBody.h"
+#include "PlayerWeapon.h"
 #pragma endregion
 
 #pragma region PELL
@@ -293,16 +294,29 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 #pragma region Clothes
 	_matrix PreModelMat = XMMatrixRotationY(XMConvertToRadians(180.f));
-	/* VIBuffer  MESH  Component */
+	/* VIBuffer  Old_Clothes MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_OldClothes"),
 		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Clothes/OldClothes/OldClothes.dat"))))
 		return E_FAIL;
 
-	/* VIBuffer  MESH  Component */
+	/* VIBuffer  Clothes2 MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Clothes02"),
 		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Clothes/Clothes02/Clothes02.dat", PreModelMat, 
 			"../Bin/Resources/Models/Clothes/Clothes02/Clothes02_Mapping.txt"))))
 		return E_FAIL;
+#pragma endregion
+
+#pragma region WEAPON
+	/* VIBuffer  CatBlade MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_CatBlade"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Weapon/CatBlade/CatBlade.dat", PreModelMat))))
+		return E_FAIL;
+
+	/* VIBuffer  Prop MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_CatBladeProp"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Weapon/CatBlade/CatBladeProp.fbx", PreModelMat))))
+		return E_FAIL;
+
 #pragma endregion
 
 #pragma region Player
@@ -312,6 +326,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Player_Mesh"),
 		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Player/Player.fbx", PreModelMat))))
 		return E_FAIL;
+
 #pragma endregion
 
 #pragma region PELL
@@ -558,6 +573,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* GAME_OBJECT_Clothes */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_Body_Default"), CPlayerBody::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_Weapon */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_Weapon"), CPlayerWeapon::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 #pragma endregion
 

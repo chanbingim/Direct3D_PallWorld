@@ -5,9 +5,8 @@
 #include "PlayerStateMachine.h"
 #include "State.h"
 
-#include "PartObject.h"
-#include "PlayerCamera.h"
 #include "PlayerPartData.h"
+#include "PlayerCamera.h"
 
 CPlayer::CPlayer(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext) :
     CContainerObject(pGraphic_Device, pDeviceContext)
@@ -49,8 +48,21 @@ HRESULT CPlayer::Initialize(void* pArg)
 void CPlayer::Priority_Update(_float fDeletaTime)
 {
     __super::Priority_Update(fDeletaTime);
-    if (GAMEMODE::GAME == m_pGameInstance->GetGameMode())
-        Key_Input(fDeletaTime);
+
+    if(m_ViewCamera)
+        m_pPlayerCamera->Late_Update(fDeletaTime);
+
+    if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_F10))
+        m_ViewCamera = !m_ViewCamera;
+
+
+
+  if (GAMEMODE::GAME == m_pGameInstance->GetGameMode())
+  {
+      
+      Key_Input(fDeletaTime);
+  }
+       
         
 }
 
@@ -66,7 +78,7 @@ void CPlayer::Update(_float fDeletaTime)
 
 void CPlayer::Late_Update(_float fDeletaTime)
 {
-    m_pPlayerCamera->Late_Update(fDeletaTime);
+ 
     __super::Late_Update(fDeletaTime);
    
 }
@@ -146,7 +158,10 @@ void CPlayer::MoveAction(_float fDeletaTime)
         }
         else
         {
-            vDir += XMVectorSet(0.f, 0.f, 1.f, 0.f);
+            _vector CameraLook = m_pGameInstance->GetCameraState(WORLDSTATE::LOOK);
+            CameraLook.m128_f32[1] = 0.f;
+
+            vDir += CameraLook;
             m_pPlayerFSM->SetDireaction(DIRECTION::FRONT);
         }
         KeyInput = true;
@@ -160,7 +175,10 @@ void CPlayer::MoveAction(_float fDeletaTime)
         }
         else
         {
-            vDir += XMVectorSet(0.f, 0.f, -1.f, 0.f);
+            _vector CameraLook = m_pGameInstance->GetCameraState(WORLDSTATE::LOOK);
+            CameraLook.m128_f32[1] = 0.f;
+
+            vDir += CameraLook * -1.f;
             m_pPlayerFSM->SetDireaction(DIRECTION::FRONT);
         }
         KeyInput = true;
@@ -174,7 +192,7 @@ void CPlayer::MoveAction(_float fDeletaTime)
         }
         else
         {
-            vDir += XMVectorSet(-1.f, 0.f, 0.f, 0.f);
+            vDir += m_pGameInstance->GetCameraState(WORLDSTATE::RIGHT) * -1.f;
             m_pPlayerFSM->SetDireaction(DIRECTION::FRONT);
         }
         KeyInput = true;
@@ -188,7 +206,7 @@ void CPlayer::MoveAction(_float fDeletaTime)
         }
         else
         {
-            vDir += XMVectorSet(1.f, 0.f, 0.f, 0.f);
+            vDir += m_pGameInstance->GetCameraState(WORLDSTATE::RIGHT);
             m_pPlayerFSM->SetDireaction(DIRECTION::FRONT);
         }
         KeyInput = true;
@@ -347,6 +365,8 @@ HRESULT CPlayer::ADD_PartObejcts()
     lstrcpy(Desc.ObjectTag, L"Player_Animator");
     if (FAILED(__super::AddPartObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_PartData_Default"), TEXT("Player_Animator"), &Desc)))
         return E_FAIL;
+
+
     
     return S_OK;
 }

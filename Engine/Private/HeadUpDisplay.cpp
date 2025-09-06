@@ -52,7 +52,7 @@ void CHeadUpDisplay::Clear_HUD()
 
 HRESULT CHeadUpDisplay::Add_UserInterface(_uInt LevelIndex, const _wstring& PrototypeUITag, const _wstring& UITag, void* pArg, CUserInterface** ppOut)
 {
-	CUserInterface* pUI = m_pGameInstance->Clone_Prototype<CUserInterface>(LevelIndex, PrototypeUITag, pArg);
+	CUserInterface* pUI = static_cast<CUserInterface*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, LevelIndex, PrototypeUITag, pArg));
 	if (nullptr == pUI)
 		return E_FAIL;
 

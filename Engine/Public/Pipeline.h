@@ -25,6 +25,8 @@ public :
 	void							SetPostBuffer(_uInt iIndex, ID3D11ShaderResourceView* pTex);
 	ID3D11ShaderResourceView*		GetPostBuffer(_uInt iIndex);
 
+	_vector							GetCameraState(WORLDSTATE eType);
+
 private :
 	CGameInstance*					m_pGameInstance = nullptr;
 	ID3D11Device*					m_pDevice = nullptr;

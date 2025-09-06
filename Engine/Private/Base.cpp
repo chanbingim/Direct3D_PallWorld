@@ -18,6 +18,7 @@ DWORD CBase::Release()
 		return m_RefCount--;
 }
 
+
 void CBase::Free()
 {
 

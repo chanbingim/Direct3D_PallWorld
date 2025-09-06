@@ -47,7 +47,7 @@ void CObject_Manager::Late_Update(_float fDeletaTime)
 
 HRESULT CObject_Manager::Add_GameObject_ToLayer(_uInt iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uInt iLayerLevelIndex, const _wstring& strLayerTag, void* pArg)
 {
-    auto pGameObject = m_pGameInstance->Clone_Prototype<CGameObject>(iPrototypeLevelIndex, strPrototypeTag, pArg);
+    auto pGameObject = static_cast<CGameObject*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, iPrototypeLevelIndex, strPrototypeTag, pArg));
     if (nullptr == pGameObject)
         return E_FAIL;
 

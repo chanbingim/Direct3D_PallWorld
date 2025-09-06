@@ -19,6 +19,24 @@ HRESULT CPrototype_Manager::Add_Prototype(_uInt iLevelNum, const _wstring& Proto
     return S_OK;
 }
 
+CBase* CPrototype_Manager::Clone_Prototype(OBJECT_ID eType, _uInt iLevelIndex, const _wstring& strPrototypeTag, void* pArg)
+{
+    CBase* BaseObject = Find_Prototype(iLevelIndex, strPrototypeTag);
+    if (nullptr == BaseObject)
+        return nullptr;
+
+    switch (eType)
+    {
+    case OBJECT_ID::GAMEOBJECT :
+        return static_cast<CGameObject*>(BaseObject)->Clone(pArg);
+
+    case OBJECT_ID::COMPONENT:
+        return static_cast<CComponent*>(BaseObject)->Clone(pArg);
+    }
+
+    return nullptr;
+}
+
 void CPrototype_Manager::Clear_Resource(_uInt iLevelIndex)
 {
     if (m_iLevelCnt <= iLevelIndex || iLevelIndex < 0)
