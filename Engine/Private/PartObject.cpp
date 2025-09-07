@@ -74,6 +74,11 @@ _uInt CPartObject::GetAnimIndex(const char* szName)
 	return	m_pVIBufferCom->GetNumAnimation(szName);
 }
 
+void CPartObject::SetSocketFlag(_char bitFlag)
+{
+	m_UseSocketMatrixFlag = bitFlag;
+}
+
 const _float4x4* CPartObject::GetBoneMatrix(const char* szBone) const
 {
 	return m_pVIBufferCom->GetCombinedTransformationMatrixPtr(szBone);;

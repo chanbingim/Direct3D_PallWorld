@@ -37,6 +37,9 @@ public:
 	void									SetAnimIndex(_uInt iIndex, _bool bIsLoop = true);
 	_uInt									GetAnimIndex(const char* szName);
 
+	// 0b00000111 : 3개의 비트로 스케일 회전 위치 적용을 결정
+	void									SetSocketFlag(_char bitFlag);
+
 	const _float4x4*						GetPartObejctWorldMat() { return &m_CombinedWorldMatrix; }
 	const _float4x4*						GetBoneMatrix(const char* szBone) const;
 

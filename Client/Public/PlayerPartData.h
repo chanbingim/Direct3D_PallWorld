@@ -29,6 +29,8 @@ public:
 	virtual		HRESULT						Render() override;
 	_bool									IsAnimFinished() { return m_bIsFinished; }
 
+	void									ChangeSocketFlag(_char bitFlag);
+
 private:
 	CPlayerBody*							m_pPlayerBody = nullptr;
 

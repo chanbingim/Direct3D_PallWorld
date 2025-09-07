@@ -9,6 +9,7 @@
 
 NS_BEGIN(Client)
 class CPlayerStateMachine;
+class CPlayerPartData;
 class CPlayerCamera;
 
 class CPlayer : public CContainerObject
@@ -36,6 +37,7 @@ public:
 private :
 	CPlayerCamera*							m_pPlayerCamera = nullptr;
 	CPlayerStateMachine*					m_pPlayerFSM = nullptr;
+	CPlayerPartData*						m_pAnimator = nullptr;
 
 	// 플레이어의 현재 방향
 	_bool									m_bIsAnimLoop = true;
@@ -57,7 +59,6 @@ private:
 	void									PlayerMoveView(_float fDeletaTime);
 	void									ChangeAction(_float fDeltaTime);
 	void									ChangeWeapon();
-
 
 	HRESULT									ADD_PlayerStateMachine();
 	HRESULT									ADD_PlayerCamera();

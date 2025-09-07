@@ -49,6 +49,11 @@ void CPlayerPartData::Priority_Update(_float fDeletaTime)
 void CPlayerPartData::Update(_float fDeletaTime)
 {
     m_bIsFinished = m_pVIBufferCom->PlayAnimation(m_iAnimIndex, fDeletaTime, 5.f, m_bIsAnimLoop);
+    // 여기서 특정 상태일때 애니메이션을 또하나 재생한다.
+    // 애니메이션을 두개 재생하고 바디에게 넘겨줄때 바디는 두개의 데이터를 받아서
+    // 상체 하체를 분할해서 애니메이션을 재생한다.
+
+
 
     for (_uInt i = 0; i < 2; ++i)
         m_pWeaponSocket[i]->Update(fDeletaTime);
@@ -89,6 +94,12 @@ HRESULT CPlayerPartData::Render()
 
     }
     return S_OK;
+}
+
+void CPlayerPartData::ChangeSocketFlag(_char bitFlag)
+{
+    //SetSocketFlag(bitFlag);
+    m_pPlayerBody->SetSocketFlag(bitFlag);
 }
 
 HRESULT CPlayerPartData::ADD_Components()

@@ -72,8 +72,8 @@ void CPlayer::Priority_Update(_float fDeletaTime)
 void CPlayer::Update(_float fDeletaTime)
 {
     m_pPlayerFSM->Update(fDeletaTime);
-    auto UpperBody = FindPartObject(TEXT("Player_Animator"));
-    UpperBody->SetAnimIndex(UpperBody->GetAnimIndex(m_pPlayerFSM->GetStateFullName().c_str()), m_bIsAnimLoop);
+    CPlayerStateMachine::PLAYER_STATE State = m_pPlayerFSM->GetState();
+    m_pAnimator->SetAnimIndex(m_pAnimator->GetAnimIndex(m_pPlayerFSM->GetStateFullName().c_str()), m_bIsAnimLoop);
 
     UpdatePlayerAction(fDeletaTime);
     __super::Update(fDeletaTime);
@@ -239,29 +239,24 @@ void CPlayer::PlayerMoveView(_float fDeletaTime)
 
     if (-10 > MoveMouseX)
     {
-        if (!State.bIsAiming)
-            m_pPlayerCamera->ADDRevolutionMatrix(-10.f);
-        else
+        if (State.bIsAiming)
             m_pTransformCom->Turn(m_pTransformCom->GetUpVector(), fDeletaTime, XMConvertToRadians(-90.f));
+        else
+            m_pPlayerCamera->ADDRevolutionRotation(-90.f, fDeletaTime);
     }
     else if (10 < MoveMouseX)
     {
-        if(!State.bIsAiming)
-            m_pPlayerCamera->ADDRevolutionMatrix(10.f);
-        else
+        if(State.bIsAiming)
             m_pTransformCom->Turn(m_pTransformCom->GetUpVector(), fDeletaTime, XMConvertToRadians(90.f));
+        else
+            m_pPlayerCamera->ADDRevolutionRotation(90.f, fDeletaTime);
     }
 
-    if (-4 > MoveMouseY)
-    {
-        //m_pTransformCom->Turn(m_pTransformCom->GetRightVector(), 3.f, fDeletaTime);
-    }
-    else if (4 < MoveMouseY)
-    {
-        //m_pTransformCom->Turn(m_pTransformCom->GetRightVector(), -3.f, fDeletaTime);
-    }
-
-   
+    if (-10 > MoveMouseY)
+        m_pPlayerCamera->ADDPitchRotation(-90.f, fDeletaTime);
+    else if (10 < MoveMouseY)
+        m_pPlayerCamera->ADDPitchRotation(90.f, fDeletaTime);
+       
 }
 
 void CPlayer::ChangeAction(_float fDeltaTime)
@@ -293,13 +288,12 @@ void CPlayer::ChangeAction(_float fDeltaTime)
 
 #pragma region AIMING_INPUT
         if (m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 1))
-            CameraDirLookAt();
-
-        if (m_pGameInstance->KeyPressed(KEY_INPUT::MOUSE, 1))
         {
-            m_pPlayerFSM->SetAiming(true);
+            CameraDirLookAt();
             m_pPlayerCamera->SetChangeCameraMode(CPlayerCamera::CAMERA_MODE::AIMING);
+            m_pPlayerFSM->SetAiming(true);
         }
+
         else if (m_pGameInstance->KeyUp(KEY_INPUT::MOUSE, 1))
         {
             m_pPlayerFSM->SetAiming(false);
@@ -418,7 +412,7 @@ HRESULT CPlayer::ADD_PartObejcts()
     if (FAILED(__super::AddPartObject(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_PartData_Default"), TEXT("Player_Animator"), &Desc)))
         return E_FAIL;
 
-
+    m_pAnimator = static_cast<CPlayerPartData*>(FindPartObject(TEXT("Player_Animator")));
     
     return S_OK;
 }

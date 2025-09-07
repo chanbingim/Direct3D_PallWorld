@@ -45,7 +45,6 @@ void CCompass::Update(_float fDeletaTime)
     WCHAR Debug_Log[MAX_PATH] = {};
 
     _vector vLook = XMVector3Normalize(m_pGameInstance->GetCameraState(WORLDSTATE::LOOK));
-    vLook.m128_f32[1] = 0.f;
     m_fRadius = atan2f(XMVectorGetX(vLook), XMVectorGetZ(vLook));
     if (m_fRadius < 0)
         m_fRadius += XM_2PI;

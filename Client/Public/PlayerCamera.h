@@ -36,7 +36,8 @@ public:
 	virtual			HRESULT			Render()override;
 	void							AttachCamera(_vector BonesTransformation);
 
-	void							ADDRevolutionMatrix(_float Angle);
+	void							ADDRevolutionRotation(_float Angle, _float DeletaTime);
+	void							ADDPitchRotation(_float Angle, _float DeletaTime);
 
 	void							SetChangeCameraMode(CAMERA_MODE eMode);
 

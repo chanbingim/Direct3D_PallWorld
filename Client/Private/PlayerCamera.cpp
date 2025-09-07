@@ -42,42 +42,28 @@ void CPlayerCamera::Update(_float fDeletaTime)
 
 void CPlayerCamera::Late_Update(_float fDeletaTime)
 {
-    if (m_SocketMatrix)
-    {
-        _matrix SocMatrix = XMLoadFloat4x4(m_SocketMatrix);
-        if (CAMERA_MODE::NONE_AIMMING == m_CameraModel)
-        {
-            SocMatrix.r[0] = XMVectorSet(1.f, 0.f, 0.f, 0.f);
-            SocMatrix.r[1] = XMVectorSet(0.f, 1.f, 0.f, 0.f);
-            SocMatrix.r[2] = XMVectorSet(0.f, 0.f, 1.f, 0.f);
-        }
-        else
-        {
-            SocMatrix.r[0] = XMVector3Normalize(SocMatrix.r[0]);
-            SocMatrix.r[1] = XMVector3Normalize(SocMatrix.r[1]);
-            SocMatrix.r[2] = XMVector3Normalize(SocMatrix.r[2]);
-        }
+    _matrix ParentMatrix = XMLoadFloat4x4(&m_pParent->GetTransform()->GetWorldMat());
+    _matrix CombinedMatrix{};
 
-        XMStoreFloat4x4(&m_CombinedMatrix,
-            XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()) * SocMatrix * XMLoadFloat4x4(&m_pParent->GetTransform()->GetWorldMat()));
+    if (CAMERA_MODE::NONE_AIMMING == m_CameraModel)
+    {
+        _vector vScale{}, vRotation{}, vPos{};
+        _matrix WorldMat = XMLoadFloat4x4(&m_pTransformCom->GetWorldMat());
+        XMMatrixDecompose(&vScale, &vRotation, &vPos, WorldMat);
+
+        float limitAngle = XM_PI / 10.0f;
+        vRotation.m128_f32[1] = Clamp(vRotation.m128_f32[1], -limitAngle, limitAngle);
+        CombinedMatrix =  XMMatrixTranslationFromVector(vPos) * XMMatrixRotationQuaternion(vRotation) * XMMatrixTranslationFromVector(ParentMatrix.r[3]);
     }
     else
     {
-        _matrix RevolutionMatrix = XMMatrixRotationY(XMConvertToRadians(m_RevolutionAngle));
-        _matrix ParentMatrix = XMLoadFloat4x4(&m_pParent->GetTransform()->GetWorldMat());
-        _matrix CombinedMatrix{};
+        ParentMatrix.r[0] = XMVector3Normalize(ParentMatrix.r[0]);
+        ParentMatrix.r[1] = XMVector3Normalize(ParentMatrix.r[1]);
+        ParentMatrix.r[2] = XMVector3Normalize(ParentMatrix.r[2]);
 
-        if (CAMERA_MODE::NONE_AIMMING == m_CameraModel)
-            CombinedMatrix = XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()) * RevolutionMatrix * XMMatrixTranslationFromVector(ParentMatrix.r[3]);
-        else
-        {
-            ParentMatrix.r[0] = XMVector3Normalize(ParentMatrix.r[0]);
-            ParentMatrix.r[1] = XMVector3Normalize(ParentMatrix.r[1]);
-            ParentMatrix.r[2] = XMVector3Normalize(ParentMatrix.r[2]);
-            CombinedMatrix = XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()) * RevolutionMatrix * ParentMatrix;
-        }
-        XMStoreFloat4x4(&m_CombinedMatrix, CombinedMatrix);
+        CombinedMatrix = XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()) * ParentMatrix;
     }
+    XMStoreFloat4x4(&m_CombinedMatrix, CombinedMatrix);
 
     XMStoreFloat4x4(&m_InvCombinedMatrix, XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_CombinedMatrix)));
     XMStoreFloat4x4(&m_ProjMat, XMMatrixPerspectiveFovLH(m_fFov, m_fAspect, m_fNear, m_fFar));
@@ -99,12 +85,14 @@ void CPlayerCamera::AttachCamera(_vector BonesTransformation)
     SetLocation(vPos);
 }
 
-void CPlayerCamera::ADDRevolutionMatrix(_float Angle)
+void CPlayerCamera::ADDRevolutionRotation(_float Angle, _float DeletaTime)
 {
-    m_RevolutionAngle += Angle;
-    m_RevolutionAngle = fmodf(m_RevolutionAngle, 360.f);
-    if (m_RevolutionAngle < 0.f)
-        m_RevolutionAngle += 360.f;
+    m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(Angle), DeletaTime);
+}
+
+void CPlayerCamera::ADDPitchRotation(_float Angle, _float DeletaTime)
+{
+    m_pTransformCom->Turn(m_pTransformCom->GetRightVector(), XMConvertToRadians(Angle), DeletaTime);
 }
 
 void CPlayerCamera::SetChangeCameraMode(CAMERA_MODE eMode)
