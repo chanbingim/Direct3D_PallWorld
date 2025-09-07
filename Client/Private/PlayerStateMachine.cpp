@@ -4,6 +4,7 @@
 
 #include "PlayerLowerLayer.h"
 #include "PlayerUpperLayer.h"
+#include "ItemStruct.h"
 
 CPlayerStateMachine::CPlayerStateMachine() :
     CFiniteStateMachine()
@@ -91,7 +92,7 @@ _string CPlayerStateMachine::GetStateFullName()
     if (m_StateData.bIsAttacking)
         FullName = "Attack";
 
-    if (MOVE_ACTION::CLIMB == m_StateData.eMove_State || m_StateData.bIsAiming)
+    if (m_StateData.bIsAiming)
     {
         if (MOVE_CHILD_ACTION::IDLE != m_StateData.eMove_Child_State)
         {
@@ -104,7 +105,10 @@ _string CPlayerStateMachine::GetStateFullName()
                 FullName += "_Right";
                 break;
             case DIRECTION::BACK:
-                FullName += "_Bwd";
+            {
+                if (MOVE_ACTION::CLIMB == m_StateData.eMove_State)
+                    FullName += "_Bwd";
+            }
                 break;
             }
 
@@ -114,12 +118,17 @@ _string CPlayerStateMachine::GetStateFullName()
     }
 
     //무기 타입에 의해 네이밍
-    switch (m_StateData.eWeaponType)
+    switch (WEAPON(m_StateData.iWeaponType))
     {
     case WEAPON::NONE :
     {
         if(!(MOVE_ACTION::CROUCH == m_StateData.eMove_State && MOVE_CHILD_ACTION::WALK == m_StateData.eMove_Child_State))
             FullName += "_None";
+    }
+    break;
+    case WEAPON::MELEE:
+    {
+        FullName += "_Melee";
     }
         break;
     }
@@ -164,7 +173,7 @@ void CPlayerStateMachine::SettingPlayerState(void* pArg)
         m_StateData.bIsAiming = false;
         m_StateData.bIsAttacking = false;
 
-        m_StateData.eWeaponType = WEAPON::NONE;
+        m_StateData.iWeaponType = ENUM_CLASS(WEAPON::NONE);
         m_StateData.eMove_State = MOVE_ACTION::DEFAULT;
         m_StateData.eMove_Child_State = MOVE_CHILD_ACTION::IDLE;
         m_StateData.eNone_Move_State = NONE_MOVE_ACTION::END;

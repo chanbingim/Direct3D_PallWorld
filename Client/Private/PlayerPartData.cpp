@@ -5,6 +5,7 @@
 
 #include "PlayerBody.h"
 #include "PlayerWeapon.h"
+#include "PlayerWeaponSlot.h"
 
 CPlayerPartData::CPlayerPartData(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CPartObject(pDevice, pContext)
@@ -48,6 +49,9 @@ void CPlayerPartData::Priority_Update(_float fDeletaTime)
 void CPlayerPartData::Update(_float fDeletaTime)
 {
     m_bIsFinished = m_pVIBufferCom->PlayAnimation(m_iAnimIndex, fDeletaTime, 5.f, m_bIsAnimLoop);
+
+    for (_uInt i = 0; i < 2; ++i)
+        m_pWeaponSocket[i]->Update(fDeletaTime);
 }
 
 void CPlayerPartData::Late_Update(_float fDeletaTime)
@@ -56,7 +60,11 @@ void CPlayerPartData::Late_Update(_float fDeletaTime)
 
     //행렬가지고 갱신
     m_pPlayerBody->Late_Update(fDeletaTime);
-    m_pPlayerWeapon->Late_Update(fDeletaTime);
+    //m_pPlayerWeapon->Late_Update(fDeletaTime);
+
+    for (_uInt i = 0; i < 2; ++i)
+        m_pWeaponSocket[i]->Late_Update(fDeletaTime);
+
     m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
 }
 
@@ -96,7 +104,6 @@ HRESULT CPlayerPartData::ADD_Components()
 
 HRESULT CPlayerPartData::ADD_ChildObject()
 {
-    m_pWeaponSocketMatrix[1] = GetBoneMatrix("upperarm_l");
     m_pWeaponSocketMatrix[2] = GetBoneMatrix("upperarm_r");
 
     if (FAILED(ADD_AnimParts()))
@@ -120,18 +127,46 @@ HRESULT CPlayerPartData::ADD_AnimParts()
     m_pPlayerBody = static_cast<CPlayerBody*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_Body_Default"), &Desc));
     __super::ADD_Child(m_pPlayerBody);
 
-    Desc.pParent = m_pParent;
-    lstrcpy(Desc.ObjectTag, L"Player_R_Weapon");
-    Desc.vScale = { 1.f, 1.f, 1.f };
-    Desc.vRotation = { XMConvertToRadians(0.f),  XMConvertToRadians(0.f),  XMConvertToRadians(-90.f) };
-    Desc.vPosition = {-10.f, 10.f, 0.f};
-    Desc.UseSocketMatrixFlag = 0b00000001;
-    m_pWeaponSocketMatrix[0] = GetBoneMatrix("weapon_r");
-    //Desc.SocketMatrix = m_pPlayerBody->GetBoneMatrix("upperarm_l");
-    Desc.SocketMatrix = m_pWeaponSocketMatrix[1];
+    //Desc.pParent = m_pParent;
+    //lstrcpy(Desc.ObjectTag, L"Player_R_Weapon");
+    //Desc.vScale = { 1.f, 1.f, 1.f };
+    //Desc.vRotation = { XMConvertToRadians(0.f),  XMConvertToRadians(0.f),  XMConvertToRadians(-90.f) };
+    //Desc.vPosition = {-10.f, 10.f, 0.f};
+    //Desc.UseSocketMatrixFlag = 0b00000001;
+    //m_pWeaponSocketMatrix[0] = GetBoneMatrix("weapon_r");
+    ////Desc.SocketMatrix = m_pPlayerBody->GetBoneMatrix("upperarm_l");
+    //Desc.SocketMatrix = m_pWeaponSocketMatrix[1];
 
-    m_pPlayerWeapon = static_cast<CPlayerWeapon*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_Weapon"), &Desc));
-    __super::ADD_Child(m_pPlayerWeapon);
+    //m_pPlayerWeapon = static_cast<CPlayerWeapon*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_Weapon"), &Desc));
+    //__super::ADD_Child(m_pPlayerWeapon);
+
+    CPlayerWeaponSlot::WEAPON_SLOT_DESC SlotDesc;
+#pragma region Slot 1
+    SlotDesc.pParent = m_pParent;
+    lstrcpy(SlotDesc.ObjectTag, L"Player_R_Weapon");
+    SlotDesc.vScale = { 1.f, 1.f, 1.f };
+    SlotDesc.vRotation = { XMConvertToRadians(90.f), 0.f,  XMConvertToRadians(180.f) };
+    SlotDesc.vPosition = { 1.f, 0.f, 0.f };
+    SlotDesc.UseSocketMatrixFlag = 0b00000001;
+    m_pWeaponSocketMatrix[0] = m_pPlayerBody->GetBoneMatrix("weapon_r");
+    SlotDesc.SocketMatrix = m_pWeaponSocketMatrix[0];
+    SlotDesc.iSlotIndex = 0;
+
+    m_pWeaponSocket[0] = static_cast<CPlayerWeaponSlot*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_WeaponSot"), &SlotDesc));
+    __super::ADD_Child(m_pWeaponSocket[0]);
+#pragma endregion
+
+#pragma region Slot 2
+    lstrcpy(SlotDesc.ObjectTag, L"Player_L_Socket");
+    SlotDesc.vRotation = { 0.f,  0.f,  XMConvertToRadians(-90.f) };
+    SlotDesc.vPosition = { -10.f, 10.f, 0.f };
+    SlotDesc.SocketMatrix = GetBoneMatrix("upperarm_l");
+    SlotDesc.iSlotIndex = 1;
+
+    m_pWeaponSocket[1] = static_cast<CPlayerWeaponSlot*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_WeaponSot"), &SlotDesc));
+    __super::ADD_Child(m_pWeaponSocket[1]);
+#pragma endregion
+
     return S_OK;
 }
 
@@ -163,4 +198,8 @@ void CPlayerPartData::Free()
 
     Safe_Release(m_pPlayerBody);
     Safe_Release(m_pPlayerWeapon);
+
+    for (_uInt i = 0; i < 2; ++i)
+        Safe_Release(m_pWeaponSocket[i]);
+
 }

@@ -5,11 +5,19 @@ namespace Client
 {
 	typedef struct Character_Desc
 	{
-		_float	MaxHealth, MaxStemina, MaxHunger, MaxWeight;
-		_float	CurHealth, CurStemina, CurHunger, CurWeight;
+		//플레이어의 기본데이터를 표시할 구조체
+		// 체력
+		float	MaxHealth, CurHealth;
+		// 스테미나
+		float	MaxStemina, CurStemina;
+		// 배고픔
+		float	MaxHunger, CurHunger;
 
-		_float	ATKPoint;
+		// 현재 쉴드가 가지고있는 방어게이지
+		unsigned int	ShieldPoint;
 
+		// 캐릭터의 공격력
+		float	ATKPoint;
 	}CHARACTER_DESC;
 
 	typedef struct Player_Desc : CHARACTER_DESC

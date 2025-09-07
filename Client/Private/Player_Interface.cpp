@@ -36,7 +36,6 @@ HRESULT CPlayer_Interface::Initialize(void* pArg)
 	if (FAILED(ADD_Childs()))
 		return E_FAIL;
 
-	m_pCharacterInfo = static_cast<CHARACTER_DESC*>(CGameData_Manager::GetInstance()->GetPlayerInfo());
 	m_eType = OBJECT_TYPE::STATIC;
 
 	return S_OK;

@@ -22,6 +22,7 @@
 #include "PlayerPartData.h"
 #include "PlayerBody.h"
 #include "PlayerWeapon.h"
+#include "PlayerWeaponSlot.h"
 #pragma endregion
 
 #pragma region PELL
@@ -577,6 +578,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* GAME_OBJECT_Weapon */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_Weapon"), CPlayerWeapon::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_Weapon Slot */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_WeaponSot"), CPlayerWeaponSlot::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 #pragma endregion
 

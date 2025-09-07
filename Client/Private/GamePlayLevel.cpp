@@ -4,6 +4,8 @@
 #include "GamePlayHUD.h"
 
 #include "Enviormnent.h"
+#include "ItemManager.h"
+#include "PlayerManager.h"
 
 CGamePlayLevel::CGamePlayLevel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, _uInt _iID) :
 	CLevel(pDevice, pContext, _iID)
@@ -29,6 +31,16 @@ HRESULT CGamePlayLevel::Initialize()
 
 	if (FAILED(ADD_PellLayer(TEXT("Layer_GamePlay_Pell"))))
 		return E_FAIL;
+
+	CItemManager::GetInstance()->Initialize();
+
+	CPlayerManager::PLAYER_MANAGER_DESC PlayerDesc;
+	PlayerDesc.iMaxInvenWeight = 1000.f;
+	PlayerDesc.iNumEquipMaxSlot = 4;
+	PlayerDesc.iNumInvenMaxSlot = 60;
+	CPlayerManager::GetInstance()->Initialize(&PlayerDesc);
+
+
 
 	return S_OK;
 }

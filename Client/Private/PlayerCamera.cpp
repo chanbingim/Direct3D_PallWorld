@@ -45,9 +45,18 @@ void CPlayerCamera::Late_Update(_float fDeletaTime)
     if (m_SocketMatrix)
     {
         _matrix SocMatrix = XMLoadFloat4x4(m_SocketMatrix);
-        SocMatrix.r[0] = XMVectorSet(1.f, 0.f, 0.f, 0.f);
-        SocMatrix.r[1] = XMVectorSet(0.f, 1.f, 0.f, 0.f);
-        SocMatrix.r[2] = XMVectorSet(0.f, 0.f, 1.f, 0.f);
+        if (CAMERA_MODE::NONE_AIMMING == m_CameraModel)
+        {
+            SocMatrix.r[0] = XMVectorSet(1.f, 0.f, 0.f, 0.f);
+            SocMatrix.r[1] = XMVectorSet(0.f, 1.f, 0.f, 0.f);
+            SocMatrix.r[2] = XMVectorSet(0.f, 0.f, 1.f, 0.f);
+        }
+        else
+        {
+            SocMatrix.r[0] = XMVector3Normalize(SocMatrix.r[0]);
+            SocMatrix.r[1] = XMVector3Normalize(SocMatrix.r[1]);
+            SocMatrix.r[2] = XMVector3Normalize(SocMatrix.r[2]);
+        }
 
         XMStoreFloat4x4(&m_CombinedMatrix,
             XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()) * SocMatrix * XMLoadFloat4x4(&m_pParent->GetTransform()->GetWorldMat()));
@@ -56,7 +65,17 @@ void CPlayerCamera::Late_Update(_float fDeletaTime)
     {
         _matrix RevolutionMatrix = XMMatrixRotationY(XMConvertToRadians(m_RevolutionAngle));
         _matrix ParentMatrix = XMLoadFloat4x4(&m_pParent->GetTransform()->GetWorldMat());
-        _matrix CombinedMatrix = XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()) * RevolutionMatrix * XMMatrixTranslationFromVector(ParentMatrix.r[3]);
+        _matrix CombinedMatrix{};
+
+        if (CAMERA_MODE::NONE_AIMMING == m_CameraModel)
+            CombinedMatrix = XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()) * RevolutionMatrix * XMMatrixTranslationFromVector(ParentMatrix.r[3]);
+        else
+        {
+            ParentMatrix.r[0] = XMVector3Normalize(ParentMatrix.r[0]);
+            ParentMatrix.r[1] = XMVector3Normalize(ParentMatrix.r[1]);
+            ParentMatrix.r[2] = XMVector3Normalize(ParentMatrix.r[2]);
+            CombinedMatrix = XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()) * RevolutionMatrix * ParentMatrix;
+        }
         XMStoreFloat4x4(&m_CombinedMatrix, CombinedMatrix);
     }
 
@@ -86,6 +105,11 @@ void CPlayerCamera::ADDRevolutionMatrix(_float Angle)
     m_RevolutionAngle = fmodf(m_RevolutionAngle, 360.f);
     if (m_RevolutionAngle < 0.f)
         m_RevolutionAngle += 360.f;
+}
+
+void CPlayerCamera::SetChangeCameraMode(CAMERA_MODE eMode)
+{
+    m_CameraModel = eMode;
 }
 
 CPlayerCamera* CPlayerCamera::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

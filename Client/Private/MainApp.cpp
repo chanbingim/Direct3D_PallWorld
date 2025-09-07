@@ -7,8 +7,8 @@
 #include "GameObject.h"
 #include "LoadingLevel.h"
 #include "HeadUpDisplay.h"
-#include "GameData_Manager.h"
-#include "Character_Manager.h"
+#include "ItemManager.h"
+#include "PlayerManager.h"
 
 CMainApp::CMainApp() : m_pGameInstance(CGameInstance::GetInstance())
 {
@@ -266,8 +266,8 @@ void CMainApp::Free()
 	Safe_Release(m_pDebugApp);
 #endif // __DEBUG
 	
-	CGameData_Manager::DestroyInstance();
-	CCharacter_Manager::DestroyInstance();
+	CPlayerManager::DestroyInstance();
+	CItemManager::DestroyInstance();
 
 	m_pGameInstance->Release_Engine();
 	Safe_Release(m_pGameInstance);

@@ -109,6 +109,7 @@ HRESULT CPartObject::Apply_ConstantShaderResources(_uInt iMeshIndex)
 
 void CPartObject::UpdateCombinedMatrix()
 {
+	//이거 회전 바꾸기
 	if (m_SocketMatrix)
 	{
 		_matrix ScoketMatrix = XMLoadFloat4x4(m_SocketMatrix);

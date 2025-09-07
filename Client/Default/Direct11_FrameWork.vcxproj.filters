@@ -80,12 +80,6 @@
     <Filter Include="04. DataManager">
       <UniqueIdentifier>{ab31e198-b415-4dda-85ba-bcb10f95d2ae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04. DataManager\CharacterData_Manager">
-      <UniqueIdentifier>{8a0a73bc-ddbf-4d0e-8dca-f1079ec7e360}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04. DataManager\GameData_Manager">
-      <UniqueIdentifier>{ba0628af-eed5-46ef-ab42-10fb48d7c313}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\HealthBar">
       <UniqueIdentifier>{6e6d8958-9654-45ca-a0c8-83ba942ce7f4}</UniqueIdentifier>
     </Filter>
@@ -242,9 +236,6 @@
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\InvenSlider\InvenSliderBut">
       <UniqueIdentifier>{cef864c3-6a7d-41ce-8182-7581e7d75e3b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Objects\Terrian">
-      <UniqueIdentifier>{782d235a-43b0-4167-bebb-1c6ac68b5985}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. Objects\MeshObject">
       <UniqueIdentifier>{37a3ab22-7f30-497a-8cdb-8f7990bccad0}</UniqueIdentifier>
     </Filter>
@@ -257,38 +248,8 @@
     <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player">
       <UniqueIdentifier>{0f96b6b9-85c0-4e44-91e3-7d82ffe2cb66}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Objects\MeshObject\NoneMesh">
-      <UniqueIdentifier>{1d362c00-95d8-4e5a-a9d9-a9cf8d8e46ca}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NoneMesh\Static_Object">
-      <UniqueIdentifier>{1f27bf68-169c-4b34-b0ba-e3ee98244a80}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NoneMesh\Static_Object\Item">
-      <UniqueIdentifier>{0baf81af-0ee3-4bde-a5a1-1e8ccc6736f0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NoneMesh\Static_Object\Item\Costum">
-      <UniqueIdentifier>{fe22e618-5524-4a31-ba70-6a8e3b937d0f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NoneMesh\Static_Object\Item\Costum\Head">
-      <UniqueIdentifier>{41b27108-4f6f-48fd-b9a1-b51eb95d4cff}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NoneMesh\Static_Object\Environment">
-      <UniqueIdentifier>{ef036d91-8c05-4584-8d98-22e0307a40b2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NoneMesh\Static_Object\Environment\Rock">
-      <UniqueIdentifier>{f5755349-c20b-4be4-b672-987f4e02cef2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NoneMesh\Static_Object\Environment\Tree">
-      <UniqueIdentifier>{1fa4a3de-545c-47c2-ab1b-3a1177afcb7c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NoneMesh\Static_Object\Environment\PellRock">
-      <UniqueIdentifier>{1eb38c84-68eb-4d9a-8f5e-de086f43a8e1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. Objects\MeshObject\AnimMesh\Pell">
       <UniqueIdentifier>{adf3979a-3a0b-45c4-9016-2b50d2782a08}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\Head">
-      <UniqueIdentifier>{fddf78ea-5e03-4ecd-92fc-f4088a2e4b39}</UniqueIdentifier>
     </Filter>
     <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\Body">
       <UniqueIdentifier>{c29d5bc8-00ab-470f-831f-03958b0dd873}</UniqueIdentifier>
@@ -359,9 +320,6 @@
     <Filter Include="FrameWork">
       <UniqueIdentifier>{5a0426c5-bfbe-4d8b-bf8d-70ec643ffd2e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Objects\PlayerCamera">
-      <UniqueIdentifier>{6826cef0-6912-4665-8e2a-e023474bf724}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\Animator">
       <UniqueIdentifier>{6ee192b4-a72c-45ef-a283-7d10ba530904}</UniqueIdentifier>
     </Filter>
@@ -404,11 +362,74 @@
     <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\Wepon">
       <UniqueIdentifier>{4b99c399-e4e4-4009-9a69-35c6f25c13ff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Manager">
-      <UniqueIdentifier>{7d19f0b4-62a3-4192-98d7-48a8d219db7f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Aim">
       <UniqueIdentifier>{bcb12343-7f9b-459c-8f34-23f2358722ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. DataManager\Character">
+      <UniqueIdentifier>{7d19f0b4-62a3-4192-98d7-48a8d219db7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. DataManager\Character\Player">
+      <UniqueIdentifier>{271376a1-acfe-4c04-8fe9-65bcc0b5572e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\NoneMesh">
+      <UniqueIdentifier>{1d362c00-95d8-4e5a-a9d9-a9cf8d8e46ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh">
+      <UniqueIdentifier>{0663d4a3-e5a5-401c-8c2c-76c9bcf5abf9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Static_Object">
+      <UniqueIdentifier>{1f27bf68-169c-4b34-b0ba-e3ee98244a80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Static_Object\Item">
+      <UniqueIdentifier>{0baf81af-0ee3-4bde-a5a1-1e8ccc6736f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Static_Object\Item\Costum">
+      <UniqueIdentifier>{fe22e618-5524-4a31-ba70-6a8e3b937d0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Static_Object\Item\Costum\Head">
+      <UniqueIdentifier>{41b27108-4f6f-48fd-b9a1-b51eb95d4cff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Static_Object\Item\Euip">
+      <UniqueIdentifier>{e8c1dba4-cb42-4c01-b547-7193eea07727}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Static_Object\Environment">
+      <UniqueIdentifier>{ef036d91-8c05-4584-8d98-22e0307a40b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Static_Object\Environment\Rock">
+      <UniqueIdentifier>{f5755349-c20b-4be4-b672-987f4e02cef2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Static_Object\Environment\Tree">
+      <UniqueIdentifier>{1fa4a3de-545c-47c2-ab1b-3a1177afcb7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Static_Object\Environment\PellRock">
+      <UniqueIdentifier>{1eb38c84-68eb-4d9a-8f5e-de086f43a8e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Terrian">
+      <UniqueIdentifier>{782d235a-43b0-4167-bebb-1c6ac68b5985}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\NoneMesh\PlayerCamera">
+      <UniqueIdentifier>{6826cef0-6912-4665-8e2a-e023474bf724}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\NoneMesh\ItemData">
+      <UniqueIdentifier>{60e74dcb-2e0e-44e5-bd10-1cd332d62ec6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\NoneMesh\ItemData\ItemEntity">
+      <UniqueIdentifier>{e4a862ef-7d58-43df-9ecf-172220216783}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. DataManager\Object">
+      <UniqueIdentifier>{58cce91b-50b7-4e96-b63d-1bb4e80f478b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. DataManager\Object\Terrian">
+      <UniqueIdentifier>{dea0d4c9-b0bd-4a99-8a97-0af2e3c74586}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. DataManager\Object\Item">
+      <UniqueIdentifier>{83597428-03a6-4cd8-ac96-6f359cead475}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. DataManager\Object\Item\Manager">
+      <UniqueIdentifier>{c1b78328-8f16-4692-ac27-9dfdce3f268c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\Wepon\WeaponSlot">
+      <UniqueIdentifier>{f25f3399-bd8a-4ef5-91fb-5c6ff05f7638}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -470,16 +491,10 @@
       <Filter>02. HUD\GamePlayHUD</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Terrian.h">
-      <Filter>03. Objects\Terrian</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Terrian</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Player_Interface.h">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Character_Manager.h">
-      <Filter>04. DataManager\CharacterData_Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\GameData_Manager.h">
-      <Filter>04. DataManager\GameData_Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Client_Struct.h">
       <Filter>Header</Filter>
@@ -584,13 +599,13 @@
       <Filter>ImGui\UI\Hierarchy</Filter>
     </ClInclude>
     <ClInclude Include="..\public\CostumeBase.h">
-      <Filter>03. Objects\MeshObject\NoneMesh\Static_Object\Item\Costum</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Item\Costum</Filter>
     </ClInclude>
     <ClInclude Include="..\public\ImgUIBase.h">
       <Filter>ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\public\ItemBase.h">
-      <Filter>03. Objects\MeshObject\NoneMesh\Static_Object\Item</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Item</Filter>
     </ClInclude>
     <ClInclude Include="..\public\IMG_Inspector.h">
       <Filter>ImGui\UI\Instpector</Filter>
@@ -629,13 +644,13 @@
       <Filter>03. Objects\MeshObject\AnimMesh\Pell\Container\Dororong</Filter>
     </ClInclude>
     <ClInclude Include="..\public\RockObject.h">
-      <Filter>03. Objects\MeshObject\NoneMesh\Static_Object\Environment\Rock</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Environment\Rock</Filter>
     </ClInclude>
     <ClInclude Include="..\public\TreeObject.h">
-      <Filter>03. Objects\MeshObject\NoneMesh\Static_Object\Environment\Tree</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Environment\Tree</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PellRock.h">
-      <Filter>03. Objects\MeshObject\NoneMesh\Static_Object\Environment\PellRock</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Environment\PellRock</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Frog.h">
       <Filter>03. Objects\MeshObject\AnimMesh\Pell\Container\Frog</Filter>
@@ -686,10 +701,7 @@
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\InvenSlider\InvenSliderBut</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Enviormnent.h">
-      <Filter>03. Objects\MeshObject\NoneMesh\Static_Object\Environment</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\NoneAnimMesh.h">
-      <Filter>03. Objects\MeshObject\NoneMesh</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Environment</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PellBody.h">
       <Filter>03. Objects\MeshObject\AnimMesh\Pell\Part\Body</Filter>
@@ -749,7 +761,7 @@
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\LowerLayer\State\Idle</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PlayerCamera.h">
-      <Filter>03. Objects\PlayerCamera</Filter>
+      <Filter>03. Objects\NoneMesh\PlayerCamera</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PlayerPartData.h">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Animator</Filter>
@@ -769,11 +781,29 @@
     <ClInclude Include="..\public\PlayerWeapon.h">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Wepon</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\PlayerManager.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Manager</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\AimInterface.h">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Aim</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\EuipItem.h">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Item\Euip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PlayerManager.h">
+      <Filter>04. DataManager\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ItemManager.h">
+      <Filter>04. DataManager\Object\Item\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\NoneAnimMesh.h">
+      <Filter>03. Objects\MeshObject\NonAnimMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ItemInstanceData.h">
+      <Filter>03. Objects\NoneMesh\ItemData\ItemEntity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ItemStruct.h">
+      <Filter>04. DataManager\Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PlayerWeaponSlot.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Wepon\WeaponSlot</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -836,16 +866,10 @@
       <Filter>02. HUD\GamePlayHUD</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Terrian.cpp">
-      <Filter>03. Objects\Terrian</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Terrian</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Player_Interface.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Character_Manager.cpp">
-      <Filter>04. DataManager\CharacterData_Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\GameData_Manager.cpp">
-      <Filter>04. DataManager\GameData_Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\private\HealthBar.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player_Interface\HealthBar</Filter>
@@ -947,13 +971,13 @@
       <Filter>ImGui\UI\Hierarchy</Filter>
     </ClCompile>
     <ClCompile Include="..\private\CostumeBase.cpp">
-      <Filter>03. Objects\MeshObject\NoneMesh\Static_Object\Item\Costum</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Item\Costum</Filter>
     </ClCompile>
     <ClCompile Include="..\private\ImgUIBase.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\private\ItemBase.cpp">
-      <Filter>03. Objects\MeshObject\NoneMesh\Static_Object\Item</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Item</Filter>
     </ClCompile>
     <ClCompile Include="..\private\IMG_Inspector.cpp">
       <Filter>ImGui\UI\Instpector</Filter>
@@ -989,13 +1013,13 @@
       <Filter>03. Objects\MeshObject\AnimMesh\Pell\Container\Dororong</Filter>
     </ClCompile>
     <ClCompile Include="..\private\RockObject.cpp">
-      <Filter>03. Objects\MeshObject\NoneMesh\Static_Object\Environment\Rock</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Environment\Rock</Filter>
     </ClCompile>
     <ClCompile Include="..\private\TreeObject.cpp">
-      <Filter>03. Objects\MeshObject\NoneMesh\Static_Object\Environment\Tree</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Environment\Tree</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PellRock.cpp">
-      <Filter>03. Objects\MeshObject\NoneMesh\Static_Object\Environment\PellRock</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Environment\PellRock</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Frog.cpp">
       <Filter>03. Objects\MeshObject\AnimMesh\Pell\Container\Frog</Filter>
@@ -1043,10 +1067,7 @@
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\InvenSlider\InvenSliderBut</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Enviormnent.cpp">
-      <Filter>03. Objects\MeshObject\NoneMesh\Static_Object\Environment</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\NoneAnimMesh.cpp">
-      <Filter>03. Objects\MeshObject\NoneMesh</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Environment</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PellBody.cpp">
       <Filter>03. Objects\MeshObject\AnimMesh\Pell\Part\Body</Filter>
@@ -1103,7 +1124,7 @@
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\LowerLayer\State\Idle</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PlayerCamera.cpp">
-      <Filter>03. Objects\PlayerCamera</Filter>
+      <Filter>03. Objects\NoneMesh\PlayerCamera</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PlayerPartData.cpp">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Animator</Filter>
@@ -1126,11 +1147,26 @@
     <ClCompile Include="..\private\PlayerWeapon.cpp">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Wepon</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\PlayerManager.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Manager</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\AimInterface.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Aim</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\EuipItem.cpp">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Item\Euip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PlayerManager.cpp">
+      <Filter>04. DataManager\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ItemManager.cpp">
+      <Filter>04. DataManager\Object\Item\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\NoneAnimMesh.cpp">
+      <Filter>03. Objects\MeshObject\NonAnimMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ItemInstanceData.cpp">
+      <Filter>03. Objects\NoneMesh\ItemData\ItemEntity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PlayerWeaponSlot.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Wepon\WeaponSlot</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

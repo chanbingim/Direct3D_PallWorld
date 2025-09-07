@@ -6,6 +6,13 @@ NS_BEGIN(Client)
 class CPlayerCamera : public CBaseCamera
 {
 public :
+	enum class CAMERA_MODE
+	{
+		NONE_AIMMING = 0b00000001,
+		AIMING = 0b00000010,
+		NONE
+	};
+
 	typedef struct PlayerCmaeraDesc : public CAMERA_DESC
 	{
 		const _float4x4*					pSocketMatrix;
@@ -31,7 +38,10 @@ public:
 
 	void							ADDRevolutionMatrix(_float Angle);
 
+	void							SetChangeCameraMode(CAMERA_MODE eMode);
+
 private:
+	CAMERA_MODE						m_CameraModel = {};
 	const _float4x4*				m_SocketMatrix = nullptr;
 	_float							m_fRotSpeed = 5.f;
 

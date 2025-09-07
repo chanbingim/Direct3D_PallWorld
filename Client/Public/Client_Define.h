@@ -13,11 +13,9 @@ namespace Client
 	const unsigned int	g_iHalfWinSizeY = UINT(g_iWinSizeY * 0.5f);
 
 	enum class LEVEL { EDITOR, STATIC, LOGO, GAMEPLAY, LOADING, END };
-	enum class ITEM_TYPE { EQUIPMENT, CONSUM, ETC, END };
-	enum class COSTUME_TYPE { HEAD, BODY, BOTTOM, WHOLE_BODY, SHOES,END};
 
+	enum class COSTUME_TYPE { HEAD, BODY, BOTTOM, WHOLE_BODY, SHOES,END};
 	enum class DIRECTION { FRONT, LEFT, RIGHT, BACK, END};
-	enum class WEAPON { MELEE, GUN, AXE, NONE, END };
 
 }
 

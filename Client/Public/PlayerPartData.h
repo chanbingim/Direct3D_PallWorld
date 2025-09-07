@@ -6,6 +6,7 @@ NS_BEGIN(Client)
 
 class CPlayerBody;
 class CPlayerWeapon;
+class CPlayerWeaponSlot;
 
 class CPlayerPartData : public CPartObject
 {
@@ -30,13 +31,13 @@ public:
 
 private:
 	CPlayerBody*							m_pPlayerBody = nullptr;
+
+	//무기 소켓 위치 및 손위치
 	CPlayerWeapon*							m_pPlayerWeapon = nullptr;
-
-	_bool									m_bIsFinished = false;
-
+	CPlayerWeaponSlot*						m_pWeaponSocket[2] = {};
 	const _float4x4*						m_pWeaponSocketMatrix[3];
 
-
+	_bool									m_bIsFinished = false;
 
 private:
 	HRESULT									ADD_Components();

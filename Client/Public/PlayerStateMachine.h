@@ -18,7 +18,7 @@ public:
 		_bool				bIsAiming;
 		_bool				bIsAttacking;
 		DIRECTION			eDireaction;
-		WEAPON				eWeaponType;
+		_uInt				iWeaponType;
 
 		// 이동 과 같이 나와야하는 상태들
 		MOVE_ACTION			eMove_State;
@@ -41,7 +41,7 @@ public:
 	_bool								ChangeState(const _wstring& LayerTag, const _wstring& StateTag);
 
 	void								SetAiming(_bool	bFlag) { m_StateData.bIsAiming = bFlag; }
-	void								SetWeapon(const WEAPON	eWeapon) { m_StateData.eWeaponType = eWeapon; }
+	void								SetWeapon(_uInt	iWeapon) { m_StateData.iWeaponType = iWeapon; }
 	void								SetAttack(_bool	bFlag) { m_StateData.bIsAttacking = bFlag; }
 	void								SetDireaction(DIRECTION eType) { m_StateData.eDireaction = eType; }
 

@@ -6,7 +6,9 @@
 #include "State.h"
 
 #include "PlayerPartData.h"
+#include "PlayerManager.h"
 #include "PlayerCamera.h"
+#include "ItemBase.h"
 
 CPlayer::CPlayer(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext) :
     CContainerObject(pGraphic_Device, pDeviceContext)
@@ -42,6 +44,7 @@ HRESULT CPlayer::Initialize(void* pArg)
     if(m_ObejctTag.c_str() == L"")
         m_ObejctTag = TEXT("Main Player");
 
+    m_pPlayerCamera->SetChangeCameraMode(CPlayerCamera::CAMERA_MODE::NONE_AIMMING);
     return S_OK;
 }
 
@@ -78,7 +81,6 @@ void CPlayer::Update(_float fDeletaTime)
 
 void CPlayer::Late_Update(_float fDeletaTime)
 {
- 
     __super::Late_Update(fDeletaTime);
    
 }
@@ -129,6 +131,7 @@ void CPlayer::Key_Input(_float fDeletaTime)
         PlayerMoveView(fDeletaTime);
         ChangeAction(fDeletaTime);
         MoveAction(fDeletaTime);
+        ChangeWeapon();
     }
     else
     {
@@ -229,18 +232,24 @@ void CPlayer::MoveAction(_float fDeletaTime)
 
 void CPlayer::PlayerMoveView(_float fDeletaTime)
 {
+    CPlayerStateMachine::PLAYER_STATE State = m_pPlayerFSM->GetState();
     // 이건 이제 조준상태가 아니라면 이런식으로 하고 
-    
     LONG MoveMouseX = m_pGameInstance->GetMouseAxis(0);
     LONG MoveMouseY = m_pGameInstance->GetMouseAxis(1);
 
     if (-10 > MoveMouseX)
     {
-        m_pPlayerCamera->ADDRevolutionMatrix(-10.f);
+        if (!State.bIsAiming)
+            m_pPlayerCamera->ADDRevolutionMatrix(-10.f);
+        else
+            m_pTransformCom->Turn(m_pTransformCom->GetUpVector(), fDeletaTime, XMConvertToRadians(-90.f));
     }
     else if (10 < MoveMouseX)
     {
-        m_pPlayerCamera->ADDRevolutionMatrix(10.f);
+        if(!State.bIsAiming)
+            m_pPlayerCamera->ADDRevolutionMatrix(10.f);
+        else
+            m_pTransformCom->Turn(m_pTransformCom->GetUpVector(), fDeletaTime, XMConvertToRadians(90.f));
     }
 
     if (-4 > MoveMouseY)
@@ -266,13 +275,9 @@ void CPlayer::ChangeAction(_float fDeltaTime)
             m_pPlayerFSM->ChangeState(TEXT("UpperLayer"), TEXT("Crouch"));
     }
 
-    if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_RIGHT))
-    {
-        m_fJumpSpeed += 1.f;
-    }
-
     if (CPlayerStateMachine::MOVE_ACTION::CROUCH >= State.eMove_State)
     {
+#pragma region JUMP_INPUT
         if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_SPACE))
         {
             if (CPlayerStateMachine::MOVE_ACTION::DEFAULT == State.eMove_State)
@@ -284,12 +289,25 @@ void CPlayer::ChangeAction(_float fDeltaTime)
                 m_bIsAnimLoop = false;
             }
         }
+#pragma endregion 
+
+#pragma region AIMING_INPUT
+        if (m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 1))
+            CameraDirLookAt();
 
         if (m_pGameInstance->KeyPressed(KEY_INPUT::MOUSE, 1))
+        {
             m_pPlayerFSM->SetAiming(true);
+            m_pPlayerCamera->SetChangeCameraMode(CPlayerCamera::CAMERA_MODE::AIMING);
+        }
         else if (m_pGameInstance->KeyUp(KEY_INPUT::MOUSE, 1))
+        {
             m_pPlayerFSM->SetAiming(false);
+            m_pPlayerCamera->SetChangeCameraMode(CPlayerCamera::CAMERA_MODE::NONE_AIMMING);
+        }
+#pragma endregion
 
+#pragma region PLAYER_ATTACK
         if (State.bIsAttacking)
         {
             if (IsFinishedAnimationAction())
@@ -307,20 +325,41 @@ void CPlayer::ChangeAction(_float fDeltaTime)
                 m_bIsAnimLoop = false;
             }
         }
+#pragma endregion
+    
     }
 }
 
 void CPlayer::ChangeWeapon()
 {
+    _bool ItemSelect = false;
+    if (0 < m_pGameInstance->GetMouseAxis(2))
+    {
+        CPlayerManager::GetInstance()->SwapEquipmentSlot(1);
+        ItemSelect = true;
+    }
+    else if (0 > m_pGameInstance->GetMouseAxis(2))
+    {
+        CPlayerManager::GetInstance()->SwapEquipmentSlot(-1);
+        ItemSelect = true;
+    }
 
-
-
-
-
-
-
-
-
+    if (ItemSelect)
+    {
+        const CItemBase* pItem = CPlayerManager::GetInstance()->GetSelectData();
+        if (pItem)
+        {
+            ITEM_DESC ItemData = pItem->GetItemData();
+            if (ITEM_TYPE::EQUIPMENT == ItemData.ItemType)
+            {
+                if (EUQIP_TYPE::WEAPON == ItemData.TypeDesc.EuqipDesc.Equip_Type)
+                    m_pPlayerFSM->SetWeapon(ENUM_CLASS(ItemData.TypeDesc.EuqipDesc.Weapon_Type));
+            }
+        }
+        else
+            m_pPlayerFSM->SetWeapon(ENUM_CLASS(WEAPON::NONE));
+      
+    }
 }
 
 HRESULT CPlayer::ADD_PlayerStateMachine()
@@ -427,6 +466,16 @@ void CPlayer::UpdateJump(_float fDeletaTime)
         m_pTransformCom->SetPosition(vPos);
         m_bIsAnimLoop = false; 
     }
+}
+
+void CPlayer::CameraDirLookAt()
+{
+    _vector vCameraLook = m_pGameInstance->GetCameraState(WORLDSTATE::LOOK);
+    _float3 PlayerPoistion = m_pTransformCom->GetPosition();
+    _vector vPos = XMLoadFloat3(&PlayerPoistion);
+    vCameraLook.m128_f32[1] = 0.f;
+
+    m_pTransformCom->LookAt(vPos + vCameraLook);
 }
 
 _bool CPlayer::IsFinishedAnimationAction()

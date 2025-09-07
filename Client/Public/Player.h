@@ -66,6 +66,7 @@ private:
 	//플레이어 상태에따른 위치 갱신 로직
 	void									UpdatePlayerAction(_float fDeletaTime);
 	void									UpdateJump(_float fDeletaTime);
+	void									CameraDirLookAt();
 
 public:
 	static			CPlayer*				Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);

@@ -1,44 +1,26 @@
 #pragma once
 
 #include "Client_Define.h"
-#include "ContainerObject.h"
+#include "ItemStruct.h"
+#include "Base.h"
 
 NS_BEGIN(Client)
-class CItemBase : public CContainerObject
+class CItemBase : public CBase
 {
-public :
-	typedef struct InitItemDesc
-	{
-		_uInt									iItemNum;
-		ITEM_TYPE								eItemType;
-
-	}INIT_ITEM_DESC;
-
-
-protected:
-	CItemBase(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);
-	CItemBase(const CItemBase& rhs);
+private :
+	CItemBase(_uInt ItemID);
+	CItemBase(ITEM_DESC& ItemData);
 	virtual ~CItemBase() = default;
 
-public:
-	//초기화
-	virtual		HRESULT						Initalize_Prototype(void* InitDesc);
-	virtual		HRESULT						Initialize(void* pArg) override;
+public :
+	const ITEM_DESC&						GetItemData()  const { return m_ItemDesc; }
 
-	//업데이트	
-	virtual		void						Priority_Update(_float fDeletaTime) override;
-	virtual		void						Update(_float fDeletaTime) override;
-	virtual		void						Late_Update(_float fDeletaTime) override;
-
-	// 랜더
-	virtual		HRESULT						Render() override;
-
-protected :
-	_uInt									m_ItemNum = {};
-	ITEM_TYPE								m_ItemType = { ITEM_TYPE::END };
+private:
+	ITEM_DESC								m_ItemDesc;
 
 public:
-	virtual			CGameObject*			Clone(void* pArg) override;
+	static			CItemBase*				Create(_uInt ItemID);
+	static			CItemBase*				Create(ITEM_DESC ItemData);
 	virtual			void					Free() override;
 };
 NS_END
