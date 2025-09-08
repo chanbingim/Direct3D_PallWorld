@@ -132,6 +132,11 @@ _string CPlayerStateMachine::GetStateFullName()
     {
         FullName += "_Melee";
     }
+    break;
+    case WEAPON::THROW:
+    {
+        FullName += "_Throw";
+    }
         break;
     }
     return FullName;
@@ -175,6 +180,11 @@ _string CPlayerStateMachine::GetLayerAimStateName()
     case WEAPON::MELEE:
     {
         FullName += "_Melee";
+    }
+    break;
+    case WEAPON::THROW:
+    {
+        FullName += "_Throw";
     }
     break;
     }

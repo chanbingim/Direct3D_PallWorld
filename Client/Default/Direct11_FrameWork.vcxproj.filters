@@ -383,15 +383,6 @@
     <Filter Include="03. Objects\MeshObject\NonAnimMesh\Static_Object\Item">
       <UniqueIdentifier>{0baf81af-0ee3-4bde-a5a1-1e8ccc6736f0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Static_Object\Item\Costum">
-      <UniqueIdentifier>{fe22e618-5524-4a31-ba70-6a8e3b937d0f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Static_Object\Item\Costum\Head">
-      <UniqueIdentifier>{41b27108-4f6f-48fd-b9a1-b51eb95d4cff}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Static_Object\Item\Euip">
-      <UniqueIdentifier>{e8c1dba4-cb42-4c01-b547-7193eea07727}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. Objects\MeshObject\NonAnimMesh\Static_Object\Environment">
       <UniqueIdentifier>{ef036d91-8c05-4584-8d98-22e0307a40b2}</UniqueIdentifier>
     </Filter>
@@ -598,9 +589,6 @@
     <ClInclude Include="..\public\IMG_Hierarchy.h">
       <Filter>ImGui\UI\Hierarchy</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\CostumeBase.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Item\Costum</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\ImgUIBase.h">
       <Filter>ImGui</Filter>
     </ClInclude>
@@ -783,9 +771,6 @@
     </ClInclude>
     <ClInclude Include="..\public\AimInterface.h">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Aim</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\EuipItem.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Item\Euip</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PlayerManager.h">
       <Filter>04. DataManager\Character\Player</Filter>
@@ -970,9 +955,6 @@
     <ClCompile Include="..\private\IMG_Hierarchy.cpp">
       <Filter>ImGui\UI\Hierarchy</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\CostumeBase.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Item\Costum</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\ImgUIBase.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
@@ -1149,9 +1131,6 @@
     </ClCompile>
     <ClCompile Include="..\private\AimInterface.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Aim</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\EuipItem.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Item\Euip</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PlayerManager.cpp">
       <Filter>04. DataManager\Character\Player</Filter>
