@@ -154,6 +154,8 @@ popd</Command>
     <ClInclude Include="..\public\Actor.h" />
     <ClInclude Include="..\public\Animation.h" />
     <ClInclude Include="..\public\AnimEntity.h" />
+    <ClInclude Include="..\public\Cell.h" />
+    <ClInclude Include="..\public\Chase.h" />
     <ClInclude Include="..\Public\ContainerObject.h" />
     <ClInclude Include="..\public\Base.h" />
     <ClInclude Include="..\public\BaseCamera.h" />
@@ -172,6 +174,7 @@ popd</Command>
     <ClInclude Include="..\public\Light.h" />
     <ClInclude Include="..\public\LightManager.h" />
     <ClInclude Include="..\public\Material.h" />
+    <ClInclude Include="..\public\Navigation.h" />
     <ClInclude Include="..\public\PartObject.h" />
     <ClInclude Include="..\Public\PaseDataHeader.h" />
     <ClInclude Include="..\Public\Picking.h" />
@@ -223,6 +226,8 @@ popd</Command>
     <ClCompile Include="..\private\Actor.cpp" />
     <ClCompile Include="..\private\Animation.cpp" />
     <ClCompile Include="..\private\AnimEntity.cpp" />
+    <ClCompile Include="..\private\Cell.cpp" />
+    <ClCompile Include="..\private\Chase.cpp" />
     <ClCompile Include="..\Private\ContainerObject.cpp" />
     <ClCompile Include="..\private\Base.cpp" />
     <ClCompile Include="..\private\BaseCamera.cpp" />
@@ -241,6 +246,7 @@ popd</Command>
     <ClCompile Include="..\private\Light.cpp" />
     <ClCompile Include="..\private\LightManager.cpp" />
     <ClCompile Include="..\private\Material.cpp" />
+    <ClCompile Include="..\private\Navigation.cpp" />
     <ClCompile Include="..\private\PartObject.cpp" />
     <ClCompile Include="..\Private\Picking.cpp" />
     <ClCompile Include="..\private\Slider.cpp" />

@@ -29,6 +29,7 @@ CModel::CModel(const CModel& rhs) :
 	m_PreAnimBones(rhs.m_PreAnimBones),
 	m_RetargetIndices(rhs.m_RetargetIndices),
 	m_CurAnimBones(rhs.m_CurAnimBones),
+	m_CurrentAnimIndexs(rhs.m_CurrentAnimIndexs),
 	m_eType(rhs.m_eType)
 {
 	for (auto& pMesh : m_Meshes)
@@ -44,7 +45,7 @@ CModel::CModel(const CModel& rhs) :
 		m_Animations.push_back(pAnimation->Clone());
 }
 
-HRESULT CModel::Initialize_Prototype(MODEL_TYPE eType, const _char* pModelFilePath, _matrix PreModelMat, const char* RetargetFile)
+HRESULT CModel::Initialize_Prototype(MODEL_TYPE eType, const _char* pModelFilePath, _matrix PreModelMat, const char* RetargetFile, _uInt iLayerCount)
 {
 	_char		szEXT[MAX_PATH] = {};
 
@@ -114,6 +115,7 @@ HRESULT CModel::Initialize_Prototype(MODEL_TYPE eType, const _char* pModelFilePa
 
 	m_PreAnimBones.resize(m_iNumBones, false);
 	m_CurAnimBones.resize(m_iNumBones, false);
+	m_CurrentAnimIndexs.resize(iLayerCount, -1);
 	return S_OK;
 }
 
@@ -202,7 +204,7 @@ const _float4x4* CModel::GetCombinedTransformationMatrixPtr(const char* szBoneNa
 	return (*iter)->GetCombinedTransformationMatrixPtr();
 }
 
-_bool CModel::PlayAnimation(_uInt iCurrentAnimIndex, _float fDeletaTime, _float fAnimSpeed, _bool bIsLoop, const char* BoneName, const char* EndBoneName)
+_bool CModel::PlayAnimation(_uInt iAnimLayerIndex, _uInt iCurrentAnimIndex, _float fDeletaTime, _float fAnimSpeed, _bool bIsLoop, const char* BoneName, const char* EndBoneName)
 {
 	_bool Finished = false;
 	if (-1 == iCurrentAnimIndex ||
@@ -224,12 +226,16 @@ _bool CModel::PlayAnimation(_uInt iCurrentAnimIndex, _float fDeletaTime, _float 
 		ChildEndIndex = (_uInt)m_Bones.size();
 	}
 
-	ChangeAnimation(iCurrentAnimIndex);
+	ChangeAnimation(iAnimLayerIndex, iCurrentAnimIndex);
+
+	if (0 > m_CurrentAnimIndexs[iAnimLayerIndex] || m_Animations.size() <= m_CurrentAnimIndexs[iAnimLayerIndex])
+		return false;
+
 	if (!m_bIsLerpAnimation)
 		/* 내가 재생하고자하는 애니메이션(공격모션)이 이용하고 있는 뼈들의 상태 변환정보(TransformationMatrix)를 갱신해준다.*/
-		Finished = m_Animations[m_iCurrentAnimIndex]->UpdateTransformationMatrices(m_Bones, fDeletaTime, { RootBoneIndex, RootBoneIndex + ChildEndIndex }, bIsLoop);
+		Finished = m_Animations[m_CurrentAnimIndexs[iAnimLayerIndex]]->UpdateTransformationMatrices(m_Bones, fDeletaTime, { RootBoneIndex, RootBoneIndex + ChildEndIndex }, bIsLoop);
 	else
-		LerpAnimation(fDeletaTime, fAnimSpeed, { RootBoneIndex, RootBoneIndex + ChildEndIndex });
+		LerpAnimation(iAnimLayerIndex, fDeletaTime, fAnimSpeed, { RootBoneIndex, RootBoneIndex + ChildEndIndex });
 
 	/* 모든 뼈를 순회하면서 CombinedTransformationMatrix를 갱신한다. */
 	for (auto& pBone : m_Bones)
@@ -237,6 +243,7 @@ _bool CModel::PlayAnimation(_uInt iCurrentAnimIndex, _float fDeletaTime, _float 
 
 	return Finished;
 }
+
 
 void CModel::BindParentAnim(CModel* DstData)
 {
@@ -888,24 +895,27 @@ HRESULT CModel::ReadAnimModelFile(void* Data, const char* FilePath)
 	return S_OK;
 }
 
-void CModel::ChangeAnimation(_uInt iAnimIndex)
+void CModel::ChangeAnimation(_uInt iAnimLayerIndex, _uInt iAnimIndex)
 {
 	// 여기서 Bone 가져올 필요가없음
 	// Vector랑 같이 넘겨서 받아오자.
+	if (0 > iAnimLayerIndex || m_CurrentAnimIndexs.size() <= iAnimLayerIndex)
+		return;
+
 	if (-1 != iAnimIndex)
 	{
-		if (m_iCurrentAnimIndex != iAnimIndex)
+		if (m_CurrentAnimIndexs[iAnimLayerIndex] != iAnimIndex)
 		{
-			if (-1 != m_iCurrentAnimIndex)
+			if (-1 != m_CurrentAnimIndexs[iAnimLayerIndex])
 			{
-				m_Animations[m_iCurrentAnimIndex]->GetUseBoneIndex(m_PreAnimBones);
-				m_PreFrameTrackPos = m_Animations[m_iCurrentAnimIndex]->GetPreFrameKey();
+				m_Animations[m_CurrentAnimIndexs[iAnimLayerIndex]]->GetUseBoneIndex(m_PreAnimBones);
+				m_PreFrameTrackPos = m_Animations[m_CurrentAnimIndexs[iAnimLayerIndex]]->GetPreFrameKey();
 				if (-1 != m_PreFrameTrackPos.x)
 					m_bIsLerpAnimation = true;
 			}
 
-			m_iCurrentAnimIndex = iAnimIndex;
-			m_Animations[m_iCurrentAnimIndex]->GetUseBoneIndex(m_CurAnimBones);
+			m_CurrentAnimIndexs[iAnimLayerIndex] = iAnimIndex;
+			m_Animations[m_CurrentAnimIndexs[iAnimLayerIndex]]->GetUseBoneIndex(m_CurAnimBones);
 			for (_uInt i = 0; i < m_iNumBones; ++i)
 			{
 				if (false == (m_PreAnimBones[i] & m_CurAnimBones[i]))
@@ -918,9 +928,9 @@ void CModel::ChangeAnimation(_uInt iAnimIndex)
 	}
 }
 
-_bool CModel::LerpAnimation(_float fDeletaTime, _float AnimSpeed, _int2 UpdateBoneIdx)
+_bool CModel::LerpAnimation(_uInt iAnimLayerIndex, _float fDeletaTime, _float AnimSpeed, _int2 UpdateBoneIdx)
 {
-	if (m_Animations[m_iCurrentAnimIndex]->UpdateTransformationMatrices(m_Bones, fDeletaTime, UpdateBoneIdx, &m_PreFrameTrackPos, 0.5f, AnimSpeed))
+	if (m_Animations[m_CurrentAnimIndexs[iAnimLayerIndex]]->UpdateTransformationMatrices(m_Bones, fDeletaTime, UpdateBoneIdx, &m_PreFrameTrackPos, 0.5f, AnimSpeed))
 	{
 		m_bIsLerpAnimation = false;
 		return true;
@@ -929,10 +939,10 @@ _bool CModel::LerpAnimation(_float fDeletaTime, _float AnimSpeed, _int2 UpdateBo
 	return false;
 }
 
-CModel* CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL_TYPE eType, const _char* pModelFilePath, _matrix PreModelMat, const char* RetargetFile)
+CModel* CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL_TYPE eType, const _char* pModelFilePath, _matrix PreModelMat, const char* RetargetFile, _uInt iLayerCount)
 {
 	CModel* pModel = new CModel(pDevice, pContext);
-	if (FAILED(pModel->Initialize_Prototype(eType, pModelFilePath, PreModelMat, RetargetFile)))
+	if (FAILED(pModel->Initialize_Prototype(eType, pModelFilePath, PreModelMat, RetargetFile, iLayerCount)))
 	{
 		Safe_Release(pModel);
 		MSG_BOX("CREATE FAIL : MODEL");
@@ -940,6 +950,7 @@ CModel* CModel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MOD
 
 	return pModel;
 }
+
 
 CComponent* CModel::Clone(void* pArg)
 {

@@ -15,7 +15,7 @@ private :
 	virtual ~CModel() = default;
 
 public :
-	virtual HRESULT				Initialize_Prototype(MODEL_TYPE eType, const _char* pModelFilePath, _matrix PreModelMat = XMMatrixIdentity(), const char* RetargetFile = "");
+	virtual HRESULT				Initialize_Prototype(MODEL_TYPE eType, const _char* pModelFilePath, _matrix PreModelMat = XMMatrixIdentity(), const char* RetargetFile = "", _uInt iLayerCount = 1);
 	virtual HRESULT				Initialize(void* pArg, const char* RetargetFile = "");
 
 	virtual HRESULT				Render(_uInt iMeshIndex);
@@ -34,7 +34,7 @@ public :
 
 	//모델 애니메이션 관련 함수
 	_uInt						GetNumAnimations() { return m_iNumAnimations; }
-	_bool						PlayAnimation(_uInt iCurrentAnimIndex, _float fDeletaTime, _float fAnimSpeed = 10.f, _bool bIsLoop = true, const char* BoneName = "Root Node", const char* EndBoneName = "");
+	_bool						PlayAnimation(_uInt iAnimLayerIndex, _uInt iCurrentAnimIndex, _float fDeletaTime, _float fAnimSpeed = 10.f, _bool bIsLoop = true, const char* BoneName = "Root Node", const char* EndBoneName = "");
 	void						BindParentAnim(CModel* DstData);
 
 	const char*					GetAnimationName(_uInt iIndex);
@@ -69,7 +69,7 @@ private :
 
 	// 애니메이션 개수 및 애니메이션 저장
 	_bool						m_bIsLerpAnimation = false;
-	_Int						m_iCurrentAnimIndex = { -1 };
+	vector<_Int>				m_CurrentAnimIndexs = { -1 };
 	_float2						m_PreFrameTrackPos;
 
 	_uInt						m_iNumAnimations = {};
@@ -106,12 +106,12 @@ private:
 	HRESULT						ReadReTargetlFile(const char* FilePath);
 	HRESULT						ReadAnimModelFile(void* Data, const char* FilePath);
 
-	void						ChangeAnimation(_uInt iAnimIndex);
-	_bool						LerpAnimation(_float fDeletaTime, _float fAnimSpeed, _int2 UpdateBoneIdx);
+	void						ChangeAnimation(_uInt iAnimLayerIndex, _uInt iAnimIndex);
+	_bool						LerpAnimation(_uInt iAnimLayerIndex, _float fDeletaTime, _float fAnimSpeed, _int2 UpdateBoneIdx);
 
 public:
-	static		CModel*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL_TYPE eType, const _char* pModelFilePath, _matrix PreModelMat = XMMatrixIdentity(), const char* RetargetFile = "");
+	static		CModel*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, MODEL_TYPE eType, const _char* pModelFilePath, _matrix PreModelMat = XMMatrixIdentity(), const char* RetargetFile = "", _uInt iLayerCount = 1);
 	virtual		CComponent*		Clone(void* pArg);
-	virtual		void			Free(); public:
+	virtual		void			Free();
 };
 NS_END

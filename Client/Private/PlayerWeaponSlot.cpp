@@ -44,13 +44,16 @@ void CPlayerWeaponSlot::Update(_float fDeletaTime)
 	if(0 < m_iSlotIndex)
 		ChangeModelBuffer(CPlayerManager::GetInstance()->GetBackSlotItem(m_iSlotIndex), false);
 	else
+	{
 		ChangeModelBuffer(CPlayerManager::GetInstance()->GetCurrentSelectItem(), false);
-
+		m_bIsAnimWeapon = CPlayerManager::GetInstance()->GetIsAnimSelect();
+	}
+		
 	if (nullptr == m_pVIBufferCom)
 		return;
 
 	if (m_bIsAnimWeapon)
-		m_pVIBufferCom->PlayAnimation(m_iAnimIndex, fDeletaTime);
+		m_pVIBufferCom->PlayAnimation(0, m_iAnimIndex, 0.f);
 }
 
 void CPlayerWeaponSlot::Late_Update(_float fDeletaTime)
@@ -99,7 +102,6 @@ HRESULT CPlayerWeaponSlot::Bind_ShaderResources()
 		m_pEMVViewMat = m_pNoneAimShader->GetVariable("g_ViewMatrix")->AsMatrix();
 		m_pEMVProjMat = m_pNoneAimShader->GetVariable("g_ProjMatrix")->AsMatrix();
 		m_pSRVEffect = m_pNoneAimShader->GetVariable("g_DiffuseTexture")->AsShaderResource();
-		m_pBoneMatrixEffect = m_pNoneAimShader->GetVariable("g_BoneMatrices")->AsMatrix();
 	}
 
 	return S_OK;

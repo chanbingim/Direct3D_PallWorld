@@ -36,7 +36,7 @@ void CHedgehogBody::Priority_Update(_float fDeletaTime)
 
 void CHedgehogBody::Update(_float fDeletaTime)
 {
-    m_pVIBufferCom->PlayAnimation(m_iAnimIndex, fDeletaTime);
+    m_pVIBufferCom->PlayAnimation(0, m_iAnimIndex, fDeletaTime);
 }
 
 void CHedgehogBody::Late_Update(_float fDeletaTime)

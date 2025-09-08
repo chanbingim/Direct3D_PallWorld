@@ -62,11 +62,8 @@ void CPlayer::Priority_Update(_float fDeletaTime)
 
   if (GAMEMODE::GAME == m_pGameInstance->GetGameMode())
   {
-      
       Key_Input(fDeletaTime);
   }
-       
-        
 }
 
 void CPlayer::Update(_float fDeletaTime)
@@ -74,6 +71,16 @@ void CPlayer::Update(_float fDeletaTime)
     m_pPlayerFSM->Update(fDeletaTime);
     CPlayerStateMachine::PLAYER_STATE State = m_pPlayerFSM->GetState();
     m_pAnimator->SetAnimIndex(m_pAnimator->GetAnimIndex(m_pPlayerFSM->GetStateFullName().c_str()), m_bIsAnimLoop);
+    
+    if (CPlayerStateMachine::MOVE_CHILD_ACTION::IDLE != State.eMove_Child_State)
+    {
+        if (State.bIsAiming)
+            m_pAnimator->SetUppderAnimation(m_pAnimator->GetAnimIndex(m_pPlayerFSM->GetLayerAimStateName().c_str()), true);
+        else 
+            m_pAnimator->SetUppderAnimation(-1, false);
+    }
+    else
+        m_pAnimator->SetUppderAnimation(-1, false);
 
     UpdatePlayerAction(fDeletaTime);
     __super::Update(fDeletaTime);
@@ -102,13 +109,19 @@ void CPlayer::Key_Input(_float fDeletaTime)
     {
         if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_LSHIFT))
         {
-            if(m_pPlayerFSM->ChangeState(TEXT("LowerLayer"), TEXT("Sprint")))
-                m_fMoveSpeed = P_RUN_SPEED;
+            if (!State.bIsAiming)
+            {
+                if (m_pPlayerFSM->ChangeState(TEXT("LowerLayer"), TEXT("Sprint")))
+                    m_fMoveSpeed = P_RUN_SPEED;
+            }
         }
         else if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_LCONTROL))
         {
-            if(m_pPlayerFSM->ChangeState(TEXT("LowerLayer"), TEXT("Walk")))
-                m_fMoveSpeed = P_WALK_SPEED;
+            if (!State.bIsAiming)
+            {
+                if (m_pPlayerFSM->ChangeState(TEXT("LowerLayer"), TEXT("Walk")))
+                    m_fMoveSpeed = P_WALK_SPEED;
+            }
         }
         else
         {
@@ -225,8 +238,15 @@ void CPlayer::MoveAction(_float fDeletaTime)
         MovePos = vDir * m_fMoveSpeed * fDeletaTime;
     }
 
-    if(!XMVector3Equal(MovePos, XMVectorZero()))
+    if (!XMVector3Equal(MovePos, XMVectorZero()))
+    {
         m_pTransformCom->ADD_Position(MovePos);
+        if (State.bIsAttacking)
+        {
+            m_pPlayerFSM->SetAttack(false);
+            m_bIsAnimLoop = true;
+        }
+    }
     XMStoreFloat3(&m_PreMovePos, MovePos);
 }
 
@@ -287,18 +307,23 @@ void CPlayer::ChangeAction(_float fDeltaTime)
 #pragma endregion 
 
 #pragma region AIMING_INPUT
-        if (m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 1))
+        if (ENUM_CLASS(WEAPON::NONE) != State.iWeaponType)
         {
-            CameraDirLookAt();
-            m_pPlayerCamera->SetChangeCameraMode(CPlayerCamera::CAMERA_MODE::AIMING);
-            m_pPlayerFSM->SetAiming(true);
-        }
+            if (m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 1))
+            {
+                CameraDirLookAt();
+                m_pPlayerCamera->SetChangeCameraMode(CPlayerCamera::CAMERA_MODE::AIMING);
+                m_pPlayerFSM->SetAiming(true);
+            }
 
-        else if (m_pGameInstance->KeyUp(KEY_INPUT::MOUSE, 1))
-        {
-            m_pPlayerFSM->SetAiming(false);
-            m_pPlayerCamera->SetChangeCameraMode(CPlayerCamera::CAMERA_MODE::NONE_AIMMING);
+            else if (m_pGameInstance->KeyUp(KEY_INPUT::MOUSE, 1))
+            {
+                m_pPlayerFSM->SetAiming(false);
+                m_pPlayerCamera->SetChangeCameraMode(CPlayerCamera::CAMERA_MODE::NONE_AIMMING);
+            }
         }
+        else
+            m_pPlayerFSM->SetAiming(false);
 #pragma endregion
 
 #pragma region PLAYER_ATTACK

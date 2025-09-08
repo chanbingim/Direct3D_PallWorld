@@ -29,6 +29,7 @@ public:
 	virtual		HRESULT						Render() override;
 	_bool									IsAnimFinished() { return m_bIsFinished; }
 
+	void									SetUppderAnimation(_uInt iIndex, _bool bIsSplite);
 	void									ChangeSocketFlag(_char bitFlag);
 
 private:
@@ -40,6 +41,8 @@ private:
 	const _float4x4*						m_pWeaponSocketMatrix[3];
 
 	_bool									m_bIsFinished = false;
+	_bool									m_SplitAnimation = false;
+	_uInt									m_UpperBodyIndex = {};
 
 private:
 	HRESULT									ADD_Components();

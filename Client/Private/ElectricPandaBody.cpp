@@ -38,7 +38,7 @@ void CElectricPandaBody::Priority_Update(_float fDeletaTime)
 
 void CElectricPandaBody::Update(_float fDeletaTime)
 {
-    m_pVIBufferCom->PlayAnimation(m_iAnimIndex, fDeletaTime);
+    m_pVIBufferCom->PlayAnimation(0, m_iAnimIndex, fDeletaTime);
 }
 
 void CElectricPandaBody::Late_Update(_float fDeletaTime)

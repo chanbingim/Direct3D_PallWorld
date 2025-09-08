@@ -25,5 +25,9 @@ namespace Engine
 	enum class MAT_STATE		{ VIEW, PROJECTION, END };
 	enum class AXIS				{ HORIZONTAL, VERTICAL, END };
 	enum class LIGHT			{ DIRECTION, POINT, SOPT, END };
+
+	enum class NAVI_POINT		{ A, B, C, END };
+	enum class NAVI_LINE		{ AB, BC, CA, END };
+
 	enum CHANNELID { BGM, EFFECT, END };
 }

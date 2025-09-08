@@ -51,8 +51,6 @@ void CPlayerCamera::Late_Update(_float fDeletaTime)
         _matrix WorldMat = XMLoadFloat4x4(&m_pTransformCom->GetWorldMat());
         XMMatrixDecompose(&vScale, &vRotation, &vPos, WorldMat);
 
-        float limitAngle = XM_PI / 10.0f;
-        vRotation.m128_f32[1] = Clamp(vRotation.m128_f32[1], -limitAngle, limitAngle);
         CombinedMatrix =  XMMatrixTranslationFromVector(vPos) * XMMatrixRotationQuaternion(vRotation) * XMMatrixTranslationFromVector(ParentMatrix.r[3]);
     }
     else
@@ -92,6 +90,20 @@ void CPlayerCamera::ADDRevolutionRotation(_float Angle, _float DeletaTime)
 
 void CPlayerCamera::ADDPitchRotation(_float Angle, _float DeletaTime)
 {
+    _float rad = XMConvertToRadians(Angle) * DeletaTime;
+    m_AccYawAngle += rad;
+
+    m_AccYawAngle = Clamp<_float>(m_AccYawAngle, -XM_PIDIV4, XM_PIDIV4);
+    if (-XM_PIDIV4 >= m_AccYawAngle)
+    {
+        m_AccYawAngle = -XM_PIDIV4;
+        Angle = 0.f;
+    }
+    else if (XM_PIDIV4 <= m_AccYawAngle)
+    {
+        m_AccYawAngle = XM_PIDIV4;
+        Angle = 0.f;
+    }
     m_pTransformCom->Turn(m_pTransformCom->GetRightVector(), XMConvertToRadians(Angle), DeletaTime);
 }
 

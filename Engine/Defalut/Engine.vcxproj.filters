@@ -193,6 +193,15 @@
     <Filter Include="Utility\Light\Manager">
       <UniqueIdentifier>{2963b69c-952e-4ad4-ae08-0b666b2cdeb3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utility\Components\Chase">
+      <UniqueIdentifier>{fce4d626-4a6e-4a54-88a8-3f35e80cfcfd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Navigation">
+      <UniqueIdentifier>{9ee1805e-4324-4f45-8008-ef5c81f77677}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Navigation\Cell">
+      <UniqueIdentifier>{b5f42fa6-0ae3-4e80-ac48-73edf1e7e3d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Graphic_Device.cpp">
@@ -365,6 +374,15 @@
     </ClCompile>
     <ClCompile Include="..\private\LightManager.cpp">
       <Filter>Utility\Light\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Chase.cpp">
+      <Filter>Utility\Components\Chase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Navigation.cpp">
+      <Filter>Utility\Components\Navigation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Cell.cpp">
+      <Filter>Utility\Components\Navigation\Cell</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -568,6 +586,15 @@
     </ClInclude>
     <ClInclude Include="..\public\LightManager.h">
       <Filter>Utility\Light\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Chase.h">
+      <Filter>Utility\Components\Chase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Navigation.h">
+      <Filter>Utility\Components\Navigation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Cell.h">
+      <Filter>Utility\Components\Navigation\Cell</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

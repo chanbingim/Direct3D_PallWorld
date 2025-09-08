@@ -10,7 +10,6 @@ public:
 	enum class MOVE_ACTION { DEFAULT, CROUCH, CLIMB, JUMP, END };
 	enum class MOVE_CHILD_ACTION { WALK, IDLE, JOG, SPRINT, END };
 	enum class NONE_MOVE_ACTION { PETTING, CARRY, SLEEP, COOK, END };
-	
 
 	typedef	struct	PLAYER_STATE
 	{
@@ -46,6 +45,8 @@ public:
 	void								SetDireaction(DIRECTION eType) { m_StateData.eDireaction = eType; }
 
 	_string								GetStateFullName();
+	_string								GetLayerAimStateName();
+
 	_uInt								NextStatePhase(const _wstring& LayerTag);
 	_uInt								GetStatePhase(const _wstring& LayerTag);
 

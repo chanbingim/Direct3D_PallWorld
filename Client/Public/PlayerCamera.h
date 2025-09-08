@@ -43,8 +43,9 @@ public:
 
 private:
 	CAMERA_MODE						m_CameraModel = {};
+
 	const _float4x4*				m_SocketMatrix = nullptr;
-	_float							m_fRotSpeed = 5.f;
+	_float							m_AccYawAngle = {};
 
 	_float4x4						m_CombinedMatrix = {};
 	_float4x4						m_InvCombinedMatrix = {};

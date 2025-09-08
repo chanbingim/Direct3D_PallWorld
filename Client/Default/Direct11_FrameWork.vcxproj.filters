@@ -410,12 +410,6 @@
     <Filter Include="03. Objects\NoneMesh\PlayerCamera">
       <UniqueIdentifier>{6826cef0-6912-4665-8e2a-e023474bf724}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Objects\NoneMesh\ItemData">
-      <UniqueIdentifier>{60e74dcb-2e0e-44e5-bd10-1cd332d62ec6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\NoneMesh\ItemData\ItemEntity">
-      <UniqueIdentifier>{e4a862ef-7d58-43df-9ecf-172220216783}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04. DataManager\Object">
       <UniqueIdentifier>{58cce91b-50b7-4e96-b63d-1bb4e80f478b}</UniqueIdentifier>
     </Filter>
@@ -430,6 +424,12 @@
     </Filter>
     <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\Wepon\WeaponSlot">
       <UniqueIdentifier>{f25f3399-bd8a-4ef5-91fb-5c6ff05f7638}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Object">
+      <UniqueIdentifier>{af29c8a7-989e-4faa-bb33-f4179a7b6ff2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Object\PalSpher">
+      <UniqueIdentifier>{d26c2173-5ae5-46ff-ba42-dbf19240cc46}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -796,14 +796,14 @@
     <ClInclude Include="..\public\NoneAnimMesh.h">
       <Filter>03. Objects\MeshObject\NonAnimMesh</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\ItemInstanceData.h">
-      <Filter>03. Objects\NoneMesh\ItemData\ItemEntity</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\ItemStruct.h">
       <Filter>04. DataManager\Object\Item</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PlayerWeaponSlot.h">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Wepon\WeaponSlot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PalSpher.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Object\PalSpher</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1162,11 +1162,11 @@
     <ClCompile Include="..\private\NoneAnimMesh.cpp">
       <Filter>03. Objects\MeshObject\NonAnimMesh</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\ItemInstanceData.cpp">
-      <Filter>03. Objects\NoneMesh\ItemData\ItemEntity</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\PlayerWeaponSlot.cpp">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Wepon\WeaponSlot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PalSpher.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Object\PalSpher</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

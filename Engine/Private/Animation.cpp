@@ -83,9 +83,13 @@ _bool CAnimation::UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTi
 	_uInt iIndex = {};
 	for (auto& pChannel : m_Channels)
 	{
+		if (m_iChannelIndex.size() <= iIndex)
+			return 0;
+
 		_Int ChannelBoneIdx = pChannel->GetBoneIndex();
 		if (UpdateBoneIdx.x <= ChannelBoneIdx && UpdateBoneIdx.y >= ChannelBoneIdx)
-			pChannel->Update_TransformationMatrix(Bones, m_fCurrentTrackPosition, &m_iChannelIndex[iIndex++]);
+			pChannel->Update_TransformationMatrix(Bones, m_fCurrentTrackPosition, &m_iChannelIndex[iIndex]);
+		iIndex++;
 	}
 	return false;
 }

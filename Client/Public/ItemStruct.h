@@ -4,7 +4,7 @@
 namespace Client
 {
 	enum class ITEM_TYPE { EQUIPMENT, CONSUM, ETC, END };
-	enum class WEAPON	 { MELEE, GUN, AXE, NONE, END };
+	enum class WEAPON	 { MELEE, GUN, AXE, THROW, NONE, END };
 	enum class EUQIP_TYPE { WEAPON, ARMOR, END };
 
 	typedef struct EuqipItemDesc
@@ -39,6 +39,7 @@ namespace Client
 		WCHAR					szItemIconPath[MAX_PATH] = {};
 		WCHAR					szItemModelPath[MAX_PATH] = {};
 		ITEM_TYPE				ItemType = {};
+		_bool					IsAnimModel = false;
 
 		ITME_TYPE_DESC			TypeDesc;
 	}ITEM_DESC;

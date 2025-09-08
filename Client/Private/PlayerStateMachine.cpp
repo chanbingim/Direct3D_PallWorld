@@ -77,8 +77,7 @@ _string CPlayerStateMachine::GetStateFullName()
 
     if (MOVE_ACTION::DEFAULT != m_StateData.eMove_State)
     {
-        if (!m_StateData.bIsAttacking)
-            FullName += TopStateName;
+          FullName += TopStateName;
 
         if(MOVE_ACTION::JUMP > m_StateData.eMove_State)
         {
@@ -89,8 +88,11 @@ _string CPlayerStateMachine::GetStateFullName()
     else
         FullName = LowStateName;
 
-    if (m_StateData.bIsAttacking)
-        FullName = "Attack";
+    if (MOVE_ACTION::DEFAULT == m_StateData.eMove_State && MOVE_CHILD_ACTION::IDLE == m_StateData.eMove_Child_State)
+    {
+        if (m_StateData.bIsAttacking)
+            FullName = "Attack";
+    }
 
     if (m_StateData.bIsAiming)
     {
@@ -131,6 +133,50 @@ _string CPlayerStateMachine::GetStateFullName()
         FullName += "_Melee";
     }
         break;
+    }
+    return FullName;
+}
+
+_string CPlayerStateMachine::GetLayerAimStateName()
+{
+    _string FullName = {};
+    auto UpperLayer = FindLayer(TEXT("UpperLayer"));
+    auto LowerLayer = FindLayer(TEXT("LowerLayer"));
+
+    const char* TopStateName = UpperLayer->GetCurStateName();
+    const char* LowStateName = "Idle";
+
+    if (MOVE_ACTION::DEFAULT != m_StateData.eMove_State)
+    {
+        if (!m_StateData.bIsAttacking)
+            FullName += TopStateName;
+
+        if (MOVE_ACTION::JUMP > m_StateData.eMove_State)
+        {
+            FullName += "_";
+            FullName += LowStateName;
+        }
+    }
+    else
+        FullName = LowStateName;
+
+    if (m_StateData.bIsAttacking)
+        FullName = "Attack";
+
+    //무기 타입에 의해 네이밍
+    switch (WEAPON(m_StateData.iWeaponType))
+    {
+    case WEAPON::NONE:
+    {
+        if (!(MOVE_ACTION::CROUCH == m_StateData.eMove_State && MOVE_CHILD_ACTION::WALK == m_StateData.eMove_Child_State))
+            FullName += "_None";
+    }
+    break;
+    case WEAPON::MELEE:
+    {
+        FullName += "_Melee";
+    }
+    break;
     }
     return FullName;
 }

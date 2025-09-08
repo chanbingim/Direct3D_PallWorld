@@ -18,6 +18,7 @@ void CPlayerManager::Initialize(void* pArg)
 	m_pBackSlotItem.resize(m_iNumEquipSlot, nullptr);
 
 	BindEquipSlot(1, 0);
+	BindEquipSlot(2, 1);
 }
 
 void CPlayerManager::SelectEquipmentSlot(_uInt SlotIndex)
@@ -77,6 +78,13 @@ CModel* CPlayerManager::GetBackSlotItem(_uInt iBackSlotNum)
 CModel* CPlayerManager::GetCurrentSelectItem()
 {
 	return m_pBackSlotItem[m_iSelectSlotIndex];
+}
+
+_bool CPlayerManager::GetIsAnimSelect()
+{
+	if (nullptr == m_EquipSlots[m_iSelectSlotIndex])
+		return false;
+	return m_EquipSlots[m_iSelectSlotIndex]->GetItemData().IsAnimModel;
 }
 
 _bool CPlayerManager::AddInventoryItem(_uInt iItemID, _uInt iCount)

@@ -42,7 +42,7 @@ void CImgViewModel::Update(_float fDeletaTime)
         return;
 
     if(m_IsAnimModel)
-        m_pVIBufferCom->PlayAnimation(m_iAnimIndex, fDeletaTime);
+        m_pVIBufferCom->PlayAnimation(0, m_iAnimIndex, fDeletaTime);
 }
 
 void CImgViewModel::Late_Update(_float fDeletaTime)

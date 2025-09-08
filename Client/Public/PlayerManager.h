@@ -41,6 +41,7 @@ public :
 	CModel*					GetCurrentSelectItem();
 
 	_uInt					GetNumEuipSlot()	{ return m_iNumEquipSlot; }
+	_bool					GetIsAnimSelect();
 
 	/* 인벤토리  관련 함수 */
 	// 인벤토리 아이템 최대 보관개수

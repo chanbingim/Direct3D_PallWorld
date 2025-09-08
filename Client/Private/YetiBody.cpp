@@ -36,7 +36,7 @@ void CYetiBody::Priority_Update(_float fDeletaTime)
 
 void CYetiBody::Update(_float fDeletaTime)
 {
-	m_pVIBufferCom->PlayAnimation(m_iAnimIndex, fDeletaTime);
+	m_pVIBufferCom->PlayAnimation(0, m_iAnimIndex, fDeletaTime);
 }
 
 void CYetiBody::Late_Update(_float fDeletaTime)
