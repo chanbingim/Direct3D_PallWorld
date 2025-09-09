@@ -56,7 +56,15 @@ public :
 	const CHARACTER_DESC&	GetPlayerData() { return m_PlayerInfo; }
 	const CItemBase*		GetSelectData();
 
+
+	void					BindPlayerCharacter(class CPlayer* pPlayer);
+	_bool					IsAimState();
+	const class CPlayer*	GetCurrentPlayer() { return m_pCurrentPlayer; }
+
+
 private :
+	const class CPlayer*				m_pCurrentPlayer = nullptr;
+
 	//나중에 여기서 플레이어으 ㅣ모델 정보도 바꿀수있게 만들거같음
 	CHARACTER_DESC						m_PlayerInfo = {};
 

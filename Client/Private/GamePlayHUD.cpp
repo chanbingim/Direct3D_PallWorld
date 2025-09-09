@@ -52,10 +52,10 @@ HRESULT CGamePlayHUD::ADD_UserInterface()
 	if (FAILED(__super::Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_InGmaeMenu_UI"), TEXT("InGame_Menu"), &Desc, (CUserInterface**)&m_pInGameMenu)))
 		return E_FAIL;
 
-	Desc.vScale = { g_iWinSizeY * 0.2f , g_iWinSizeY * 0.2f , 1.f };
+	Desc.vScale = { g_iWinSizeY * 0.1f , g_iWinSizeY * 0.1f , 1.f };
 	Desc.vPosition = { g_iHalfWinSizeX, g_iHalfWinSizeY, 0.f };
 
-	if (FAILED(__super::Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CrossHair_UI"), TEXT("InGame_Menu"), &Desc, (CUserInterface**)&m_pInGameMenu)))
+	if (FAILED(__super::Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CrossHair_UI"), TEXT("CrossHair"), &Desc, (CUserInterface**)&m_pCrossHair)))
 		return E_FAIL;
 
 	return S_OK;

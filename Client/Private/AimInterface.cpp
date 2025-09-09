@@ -2,6 +2,8 @@
 
 #include "GameInstance.h"
 
+#include "PlayerManager.h"
+
 CAimInterface::CAimInterface(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CBackGround(pDevice, pContext)
 {
@@ -33,24 +35,28 @@ HRESULT CAimInterface::Initialize(void* pArg)
 
     m_iZOrder = 0;
     m_eType = OBJECT_TYPE::STATIC;
+    m_eVisible = VISIBILITY::HIDDEN;
 
     return S_OK;
 }
 
 void CAimInterface::Update(_float fDeletaTime)
 {
+
 }
 
 void CAimInterface::Late_Update(_float fDeletaTime)
 {
-    m_pGameInstance->Add_RenderGroup(RENDER::SCREEN_UI, this);
+    if(CPlayerManager::GetInstance()->IsAimState())
+        m_pGameInstance->Add_RenderGroup(RENDER::SCREEN_UI, this);
 }
 
 HRESULT CAimInterface::Render()
 {
     Apply_ConstantShaderResources();
+    m_pShaderCom->Update_Shader(2);
     m_pTextureCom->SetTexture(0, 0);
-    m_pShaderCom->Update_Shader(0);
+
     m_pVIBufferCom->Render_VIBuffer();
 
     return S_OK;
@@ -64,7 +70,7 @@ HRESULT CAimInterface::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_CrossHair_Defualt"), TEXT("Texture_Com"), (CComponent**)&m_pTextureCom)))
         return E_FAIL;
 
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_MutiplyBlend"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
         return E_FAIL;
 
     return S_OK;

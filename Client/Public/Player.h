@@ -33,6 +33,8 @@ public:
 	virtual		HRESULT						Render() override;
 
 	_bool									IsFinishedAnimationAction();
+	_bool									IsAimingState() const;
+
 
 private :
 	CPlayerCamera*							m_pPlayerCamera = nullptr;

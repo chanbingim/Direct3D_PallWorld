@@ -2,6 +2,7 @@
 #include "GameInstance.h"
 #include "Level.h"
 
+#include "Player.h"
 #include "ItemManager.h"
 #include "ItemBase.h"
 
@@ -17,7 +18,7 @@ void CPlayerManager::Initialize(void* pArg)
 	m_EquipSlots.resize(m_iNumEquipSlot, nullptr);
 	m_pBackSlotItem.resize(m_iNumEquipSlot, nullptr);
 
-	BindEquipSlot(0, 3);
+	BindEquipSlot(3, 3);
 	BindEquipSlot(1, 1);
 	BindEquipSlot(2, 2);
 }
@@ -116,6 +117,18 @@ void CPlayerManager::RemoveInventoryItem(_uInt iSlotIndex, _uInt iCount)
 const CItemBase*  CPlayerManager::GetSelectData()
 {
 	return m_EquipSlots[m_iSelectSlotIndex];
+}
+
+void CPlayerManager::BindPlayerCharacter(CPlayer* pPlayer)
+{
+	m_pCurrentPlayer = pPlayer;
+}
+
+_bool CPlayerManager::IsAimState()
+{
+	if (nullptr == m_pCurrentPlayer)
+		return false;
+	return m_pCurrentPlayer->IsAimingState();
 }
 
 void CPlayerManager::Free()

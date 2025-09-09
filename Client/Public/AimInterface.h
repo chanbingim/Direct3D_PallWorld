@@ -21,6 +21,8 @@ public:
 
 private :
 	HRESULT									ADD_Components();
+	_bool									m_IsAiming = false;
+
 
 public:
 	static		CAimInterface*				Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);

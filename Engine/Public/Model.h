@@ -38,7 +38,7 @@ public :
 	void						BindParentAnim(CModel* DstData);
 
 	const char*					GetAnimationName(_uInt iIndex);
-	_uInt						GetNumAnimation(const char* szName);
+	_Int						GetNumAnimation(const char* szName);
 	void						Export(const char* FilePath);
 
 	void						ExportMappingData(CModel* DstData, unordered_map<_string, pair<_Int, _Int>>* pOut);

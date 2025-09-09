@@ -46,6 +46,10 @@ HRESULT CPlayer::Initialize(void* pArg)
         m_ObejctTag = TEXT("Main Player");
 
     m_pPlayerCamera->SetChangeCameraMode(CPlayerCamera::CAMERA_MODE::NONE_AIMMING);
+    auto PlayerManager = CPlayerManager::GetInstance();
+    if (PlayerManager)
+        PlayerManager->BindPlayerCharacter(this);
+
     return S_OK;
 }
 
@@ -411,7 +415,12 @@ void CPlayer::ChangeWeapon()
             }
         }
         else
+        {
             m_pPlayerFSM->SetWeapon(ENUM_CLASS(WEAPON::NONE));
+            m_pPlayerFSM->SetAiming(false);
+            m_pPlayerCamera->SetChangeCameraMode(CPlayerCamera::CAMERA_MODE::NONE_AIMMING);
+        }
+         
       
     }
 }
@@ -553,6 +562,14 @@ _bool CPlayer::IsFinishedAnimationAction()
         return  Animator->IsAnimFinished();
 
     return false;
+}
+
+_bool CPlayer::IsAimingState() const
+{
+    if (nullptr == m_pPlayerFSM)
+        return false;
+
+    return m_pPlayerFSM->GetState().bIsAiming;
 }
 
 CPlayer* CPlayer::Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext)

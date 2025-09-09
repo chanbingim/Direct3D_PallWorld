@@ -43,7 +43,7 @@ public:
 	virtual		HRESULT					Initialize(void* pArg = nullptr) override;
 	virtual		void					Update(_float DeltaTime) override;
 
-	const PLAYER_STATE&					GetState() { return m_StateData; }
+	const PLAYER_STATE&					GetState() const { return m_StateData; }
 	_bool								ChangeState(const _wstring& LayerTag, const _wstring& StateTag);
 
 	void								SetAiming(_bool	bFlag) { m_StateData.bIsAiming = bFlag; }

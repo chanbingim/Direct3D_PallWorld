@@ -4,6 +4,7 @@
 #include "HeadUpDisplay.h"
 
 NS_BEGIN(Client)
+class CAimInterface;
 class CInGameMenu;
 
 class CGamePlayHUD final : public CHeadUpDisplay
@@ -18,6 +19,7 @@ public:
 
 private :
 	CInGameMenu*				m_pInGameMenu = nullptr;
+	CAimInterface*				m_pCrossHair = nullptr;
 
 private:
 	HRESULT						ADD_UserInterface();

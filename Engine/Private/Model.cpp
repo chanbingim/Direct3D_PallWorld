@@ -268,7 +268,7 @@ const char* CModel::GetAnimationName(_uInt iIndex)
 	return m_Animations[iIndex]->GetAnimationName();
 }
 
-_uInt CModel::GetNumAnimation(const char* szName)
+_Int CModel::GetNumAnimation(const char* szName)
 {
 	_uInt iIndex = 0;
 	for (auto iter : m_Animations)
