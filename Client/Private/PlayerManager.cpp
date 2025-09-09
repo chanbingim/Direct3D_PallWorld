@@ -17,8 +17,9 @@ void CPlayerManager::Initialize(void* pArg)
 	m_EquipSlots.resize(m_iNumEquipSlot, nullptr);
 	m_pBackSlotItem.resize(m_iNumEquipSlot, nullptr);
 
-	BindEquipSlot(1, 0);
-	BindEquipSlot(2, 1);
+	BindEquipSlot(0, 3);
+	BindEquipSlot(1, 1);
+	BindEquipSlot(2, 2);
 }
 
 void CPlayerManager::SelectEquipmentSlot(_uInt SlotIndex)
@@ -85,6 +86,15 @@ _bool CPlayerManager::GetIsAnimSelect()
 	if (nullptr == m_EquipSlots[m_iSelectSlotIndex])
 		return false;
 	return m_EquipSlots[m_iSelectSlotIndex]->GetItemData().IsAnimModel;
+}
+
+_bool CPlayerManager::GetIsAttachLeft()
+{
+	if (nullptr == m_EquipSlots[m_iSelectSlotIndex] ||
+		ITEM_TYPE::EQUIPMENT != m_EquipSlots[m_iSelectSlotIndex]->GetItemData().ItemType)
+		return false;
+
+	return m_EquipSlots[m_iSelectSlotIndex]->GetItemData().TypeDesc.EuqipDesc.bIsLeftSocket;
 }
 
 _bool CPlayerManager::AddInventoryItem(_uInt iItemID, _uInt iCount)

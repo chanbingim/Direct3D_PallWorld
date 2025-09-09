@@ -55,6 +55,15 @@ _Int CFiniteStateMachine::GetNumLayer(const _wstring& LayerTag)
 	return iter->second;
 }
 
+void CFiniteStateMachine::ResetLayer(const _wstring& LayerTag)
+{
+	auto iter = m_LayerHashMap.find(LayerTag);
+	if (iter == m_LayerHashMap.end())
+		return;
+
+	m_StateLayers[iter->second]->ResetLayer();
+}
+
 CStateLayer* CFiniteStateMachine::FindLayer(const _wstring& LayerTag)
 {
 	auto iter = m_LayerHashMap.find(LayerTag);

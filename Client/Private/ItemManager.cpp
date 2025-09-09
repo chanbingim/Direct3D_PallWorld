@@ -17,13 +17,15 @@ HRESULT CItemManager::Initialize(const char* FilePath)
         lstrcpy(Desc.szItemIconPath, TEXT(""));
         lstrcpy(Desc.szItemModelPath, TEXT("Prototype_Component_VIBuffer_CatBlade"));
         Desc.IsAnimModel = false;
+
         Desc.TypeDesc.EuqipDesc.iAtkPoint = 10;
         Desc.TypeDesc.EuqipDesc.iGuardPoint = 0;
         Desc.TypeDesc.EuqipDesc.iHealthPoint = 0;
-
+        Desc.TypeDesc.EuqipDesc.bIsLeftSocket = false;
+        Desc.TypeDesc.EuqipDesc.bIsChargeAble = false;
         Desc.TypeDesc.EuqipDesc.Equip_Type = EUQIP_TYPE::WEAPON;
         Desc.TypeDesc.EuqipDesc.Weapon_Type = WEAPON::MELEE;
-        m_Items.emplace(0, Desc);
+        m_Items.emplace(1, Desc);
 
         Desc.iItemNum = 2;
         Desc.ItemType = ITEM_TYPE::EQUIPMENT;
@@ -34,13 +36,34 @@ HRESULT CItemManager::Initialize(const char* FilePath)
         lstrcpy(Desc.szItemIconPath, TEXT(""));
         lstrcpy(Desc.szItemModelPath, TEXT("Prototype_Component_VIBuffer_PalSpher"));
         Desc.IsAnimModel = true;
+       
         Desc.TypeDesc.EuqipDesc.iAtkPoint = 10;
         Desc.TypeDesc.EuqipDesc.iGuardPoint = 0;
         Desc.TypeDesc.EuqipDesc.iHealthPoint = 0;
-
+        Desc.TypeDesc.EuqipDesc.bIsLeftSocket = false;
+        Desc.TypeDesc.EuqipDesc.bIsChargeAble = false;
         Desc.TypeDesc.EuqipDesc.Equip_Type = EUQIP_TYPE::WEAPON;
         Desc.TypeDesc.EuqipDesc.Weapon_Type = WEAPON::THROW;
-        m_Items.emplace(1, Desc);
+        m_Items.emplace(2, Desc);
+
+        Desc.iItemNum = 3;
+        Desc.ItemType = ITEM_TYPE::EQUIPMENT;
+        lstrcpy(Desc.szItemName, TEXT("Bow"));
+
+        // 이거 고민이네
+        // 프로토타입 이름을 넘길지 실제파일의 경로를 넘길지
+        lstrcpy(Desc.szItemIconPath, TEXT(""));
+        lstrcpy(Desc.szItemModelPath, TEXT("Prototype_Component_VIBuffer_Bow"));
+        Desc.IsAnimModel = true;
+
+        Desc.TypeDesc.EuqipDesc.iAtkPoint = 10;
+        Desc.TypeDesc.EuqipDesc.iGuardPoint = 0;
+        Desc.TypeDesc.EuqipDesc.iHealthPoint = 0;
+        Desc.TypeDesc.EuqipDesc.bIsLeftSocket = true;
+        Desc.TypeDesc.EuqipDesc.bIsChargeAble = true;
+        Desc.TypeDesc.EuqipDesc.Equip_Type = EUQIP_TYPE::WEAPON;
+        Desc.TypeDesc.EuqipDesc.Weapon_Type = WEAPON::BOW;
+        m_Items.emplace(3, Desc);
     }
     else
     {

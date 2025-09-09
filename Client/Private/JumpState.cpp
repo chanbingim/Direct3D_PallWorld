@@ -8,6 +8,7 @@ CJumpState::CJumpState(const char* szStateName) :
 void CJumpState::OnStateEnter(void* pArg)
 {
 	m_szStateName = "JumpStart";
+	m_iPhaseIndex = 0;
 }
 
 void CJumpState::OnStateExcution(void* pArg)

@@ -52,6 +52,9 @@ _Int CStateLayer::GetCurrentStateNum()
 
 const char* CStateLayer::GetCurStateName()
 {
+    if (nullptr == m_pCurState)
+        return nullptr;
+
     return m_pCurState->GetStateName();
 }
 
@@ -84,6 +87,15 @@ _uInt CStateLayer::GetCurStatePhase()
     if (m_pCurState)
         return m_pCurState->GetPhaseIndex();
     return -1;
+}
+
+void CStateLayer::ResetLayer()
+{
+    if (m_pCurState)
+    {
+        m_pCurState->OnStateExit();
+        m_pCurState = nullptr;
+    }
 }
 
 pair<CState*, _Int> CStateLayer::FindState(const _wstring& StateTag)

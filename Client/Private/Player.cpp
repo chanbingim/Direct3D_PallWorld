@@ -6,8 +6,9 @@
 #include "State.h"
 
 #include "PlayerPartData.h"
-#include "PlayerManager.h"
 #include "PlayerCamera.h"
+
+#include "PlayerManager.h"
 #include "ItemBase.h"
 
 CPlayer::CPlayer(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext) :
@@ -139,7 +140,7 @@ void CPlayer::Key_Input(_float fDeletaTime)
     }
    
 
-    if (CPlayerStateMachine::NONE_MOVE_ACTION::END == State.eNone_Move_State)
+    if (CPlayerStateMachine::NONE_COBAT_ACTION::END == State.eNone_Combat_State)
     {
         PlayerMoveView(fDeletaTime);
         ChangeAction(fDeletaTime);
@@ -241,7 +242,7 @@ void CPlayer::MoveAction(_float fDeletaTime)
     if (!XMVector3Equal(MovePos, XMVectorZero()))
     {
         m_pTransformCom->ADD_Position(MovePos);
-        if (State.bIsAttacking)
+        if (State.bIsAttacking && !State.bIsAiming)
         {
             m_pPlayerFSM->SetAttack(false);
             m_bIsAnimLoop = true;
@@ -293,17 +294,21 @@ void CPlayer::ChangeAction(_float fDeltaTime)
     if (CPlayerStateMachine::MOVE_ACTION::CROUCH >= State.eMove_State)
     {
 #pragma region JUMP_INPUT
-        if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_SPACE))
+        if (!State.bIsAttacking)
         {
-            if (CPlayerStateMachine::MOVE_ACTION::DEFAULT == State.eMove_State)
+            if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_SPACE))
             {
-                m_pPlayerFSM->ChangeState(TEXT("UpperLayer"), TEXT("Jump"));
-                auto vPos = m_pTransformCom->GetPosition();
-                m_fLandingPointY = vPos.y;
-                m_fAccTime = 0.f;
-                m_bIsAnimLoop = false;
+                if (CPlayerStateMachine::MOVE_ACTION::DEFAULT == State.eMove_State)
+                {
+                    m_pPlayerFSM->ChangeState(TEXT("UpperLayer"), TEXT("Jump"));
+                    auto vPos = m_pTransformCom->GetPosition();
+                    m_fLandingPointY = vPos.y;
+                    m_fAccTime = 0.f;
+                    m_bIsAnimLoop = false;
+                }
             }
         }
+        
 #pragma endregion 
 
 #pragma region AIMING_INPUT
@@ -327,25 +332,55 @@ void CPlayer::ChangeAction(_float fDeltaTime)
 #pragma endregion
 
 #pragma region PLAYER_ATTACK
-        if (State.bIsAttacking)
+        if (IsFinishedAnimationAction())
         {
-            if (IsFinishedAnimationAction())
+            if (State.bIsAttacking)
             {
                 m_pPlayerFSM->SetAttack(false);
                 m_bIsAnimLoop = true;
             }
+            else
+            {
+                if (m_pGameInstance->KeyPressed(KEY_INPUT::MOUSE, 0) && !m_bIsAnimLoop)
+                {
+                    m_pPlayerFSM->NextStatePhase(TEXT("CombatLayer"));
+                    m_bIsAnimLoop = true;
+                }
+            }
         }
 
-        if (m_pGameInstance->KeyPressed(KEY_INPUT::MOUSE, 0))
+        if (GetWeaponAttackType())
         {
-            if (!State.bIsAttacking)
+            if (m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 0))
             {
-                m_pPlayerFSM->SetAttack(true);
-                m_bIsAnimLoop = false;
+                if (!State.bIsAttacking)
+                {
+                    m_pPlayerFSM->ChangeState(TEXT("CombatLayer"), TEXT("Attack"));
+                    m_bIsAnimLoop = false;
+                }
+            }
+            else if(m_pGameInstance->KeyUp(KEY_INPUT::MOUSE, 0))
+            {
+                if (!State.bIsAttacking)
+                {
+                    m_pPlayerFSM->PlayerStateReset(TEXT("CombatLayer"));
+                    m_pPlayerFSM->SetAttack(true);
+                    m_bIsAnimLoop = false;
+                }
+            }
+        }
+        else
+        {
+            if (m_pGameInstance->KeyPressed(KEY_INPUT::MOUSE, 0))
+            {
+                if (!State.bIsAttacking)
+                {
+                    m_pPlayerFSM->SetAttack(true);
+                    m_bIsAnimLoop = false;
+                }
             }
         }
 #pragma endregion
-    
     }
 }
 
@@ -448,6 +483,7 @@ void CPlayer::UpdatePlayerAction(_float fDeletaTime)
     if (CPlayerStateMachine::MOVE_ACTION::JUMP == State.eMove_State)
     {
         _uInt i = m_pPlayerFSM->GetStatePhase(TEXT("UpperLayer"));
+       
         if (i < ENUM_CLASS(CState::ACTION_PHASE::END))
             UpdateJump(fDeletaTime);
 
@@ -478,7 +514,7 @@ void CPlayer::UpdateJump(_float fDeletaTime)
 
     ADDPosition(XMVectorSet(0.f, Velocity, 0.f, 0.f));
     auto vPos = m_pTransformCom->GetPosition();
-    if (vPos.y <= m_fLandingPointY)
+    if (vPos.y < m_fLandingPointY)
     {
         m_pPlayerFSM->NextStatePhase(TEXT("UpperLayer"));
         vPos.y = m_fLandingPointY;
@@ -495,6 +531,19 @@ void CPlayer::CameraDirLookAt()
     vCameraLook.m128_f32[1] = 0.f;
 
     m_pTransformCom->LookAt(vPos + vCameraLook);
+}
+
+_bool CPlayer::GetWeaponAttackType()
+{
+    const CItemBase* pItemData = CPlayerManager::GetInstance()->GetSelectData();
+    if (nullptr == pItemData)
+        return false;
+    const ITEM_DESC ItemDesc = pItemData->GetItemData();
+
+    if (ITEM_TYPE::EQUIPMENT == ItemDesc.ItemType)
+        return ItemDesc.TypeDesc.EuqipDesc.bIsChargeAble;
+
+    return false;
 }
 
 _bool CPlayer::IsFinishedAnimationAction()

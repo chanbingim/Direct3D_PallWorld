@@ -15,7 +15,7 @@ public:
 	virtual		void							Update(_float DeltaTime) override;
 
 private:
-	HRESULT										ADD_LowerState();
+	HRESULT										ADD_UpperState();
 
 
 public:

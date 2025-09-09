@@ -1,28 +1,44 @@
 #include "PlayerAttackState.h"
 
-CPlayerAttackState::CPlayerAttackState() :
-    CState()
+CPlayerAttackState::CPlayerAttackState(const char* szStateName) :
+	CState(szStateName)
 {
 }
 
-void CPlayerAttackState::OnEnterState(void* pArg)
+void CPlayerAttackState::OnStateEnter(void* pArg)
+{
+	m_iPhaseIndex = 0;
+	m_szStateName = "AttackCharge";
+}
+
+void CPlayerAttackState::OnStateExcution(void* pArg)
+{
+	ChangeStateName();
+}
+
+void CPlayerAttackState::OnStateExit(void* pArg)
 {
 }
 
-void CPlayerAttackState::PlayState(void* pArg)
+void CPlayerAttackState::ChangeStateName()
 {
+	switch (m_iPhaseIndex)
+	{
+	case 0:
+		m_szStateName = "AttackCharge";
+		break;
+	case 1:
+		m_szStateName = "AttackChargeLoop";
+		break;
+	}
 }
 
-void CPlayerAttackState::OnEndState(void* pArg)
+CPlayerAttackState* CPlayerAttackState::Create(const char* szStateName)
 {
-}
-
-CPlayerAttackState* CPlayerAttackState::Create()
-{
-    return new CPlayerAttackState();
+	return new CPlayerAttackState(szStateName);
 }
 
 void CPlayerAttackState::Free()
 {
-    __super::Free();
+	__super::Free();
 }

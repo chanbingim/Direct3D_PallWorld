@@ -1,0 +1,21 @@
+#pragma once
+#include "Client_Define.h"
+#include "State.h"
+
+NS_BEGIN(Client)
+class CPellWorkState : public CState
+{
+private:
+	CPellWorkState(const char* szStateName);
+	virtual ~CPellWorkState() = default;
+
+public:
+	virtual void OnStateEnter(void* pArg = nullptr) override;
+	virtual void OnStateExcution(void* pArg = nullptr) override;
+	virtual void OnStateExit(void* pArg = nullptr) override;
+
+public:
+	static CPellWorkState*		Create(const char* szStateName);
+	virtual void				Free() override;
+};
+NS_END

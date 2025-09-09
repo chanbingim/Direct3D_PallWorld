@@ -25,6 +25,8 @@ public:
 	_uInt										StateNextPhase();
 	_uInt										GetCurStatePhase();
 
+	void										ResetLayer();
+
 protected:
 	unordered_map<_wstring, _uInt>				m_StatesHasMap;
 	vector<CState*>								m_States;

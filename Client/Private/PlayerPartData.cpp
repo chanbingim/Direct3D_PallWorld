@@ -4,8 +4,10 @@
 #include "PlayerCamera.h"
 
 #include "PlayerBody.h"
-#include "PlayerWeapon.h"
 #include "PlayerWeaponSlot.h"
+
+#include "PlayerManager.h"
+#include "ItemBase.h"
 
 CPlayerPartData::CPlayerPartData(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CPartObject(pDevice, pContext)
@@ -57,9 +59,6 @@ void CPlayerPartData::Update(_float fDeletaTime)
         // 상체 하체를 분할해서 애니메이션을 재생한다.
         m_pVIBufferCom->PlayAnimation(0, m_iAnimIndex, fDeletaTime, 5.f, true);
         m_bIsFinished = m_pVIBufferCom->PlayAnimation(1, m_UpperBodyIndex, fDeletaTime, 5.f, m_bIsAnimLoop, "spine_01");
-
-        if (m_bIsFinished)
-            int a = 10;
     }
 
     for (_uInt i = 0; i < 2; ++i)
@@ -112,7 +111,7 @@ void CPlayerPartData::ChangeSocketFlag(_char bitFlag)
 {
     //SetSocketFlag(bitFlag);
     m_pPlayerBody->SetSocketFlag(bitFlag);
-}
+} 
 
 HRESULT CPlayerPartData::ADD_Components()
 {
@@ -150,19 +149,6 @@ HRESULT CPlayerPartData::ADD_AnimParts()
     m_pPlayerBody = static_cast<CPlayerBody*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_Body_Default"), &Desc));
     __super::ADD_Child(m_pPlayerBody);
 
-    //Desc.pParent = m_pParent;
-    //lstrcpy(Desc.ObjectTag, L"Player_R_Weapon");
-    //Desc.vScale = { 1.f, 1.f, 1.f };
-    //Desc.vRotation = { XMConvertToRadians(0.f),  XMConvertToRadians(0.f),  XMConvertToRadians(-90.f) };
-    //Desc.vPosition = {-10.f, 10.f, 0.f};
-    //Desc.UseSocketMatrixFlag = 0b00000001;
-    //m_pWeaponSocketMatrix[0] = GetBoneMatrix("weapon_r");
-    ////Desc.SocketMatrix = m_pPlayerBody->GetBoneMatrix("upperarm_l");
-    //Desc.SocketMatrix = m_pWeaponSocketMatrix[1];
-
-    //m_pPlayerWeapon = static_cast<CPlayerWeapon*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_Weapon"), &Desc));
-    //__super::ADD_Child(m_pPlayerWeapon);
-
     CPlayerWeaponSlot::WEAPON_SLOT_DESC SlotDesc;
 #pragma region Slot 1
     SlotDesc.pParent = m_pParent;
@@ -173,6 +159,7 @@ HRESULT CPlayerPartData::ADD_AnimParts()
     SlotDesc.UseSocketMatrixFlag = 0b00000001;
     m_pWeaponSocketMatrix[0] = m_pPlayerBody->GetBoneMatrix("weapon_r");
     SlotDesc.SocketMatrix = m_pWeaponSocketMatrix[0];
+    SlotDesc.pLeftSocketMatrix = m_pPlayerBody->GetBoneMatrix("weapon_l");
     SlotDesc.iSlotIndex = 0;
 
     m_pWeaponSocket[0] = static_cast<CPlayerWeaponSlot*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_WeaponSot"), &SlotDesc));
@@ -220,7 +207,6 @@ void CPlayerPartData::Free()
     __super::Free();
 
     Safe_Release(m_pPlayerBody);
-    Safe_Release(m_pPlayerWeapon);
 
     for (_uInt i = 0; i < 2; ++i)
         Safe_Release(m_pWeaponSocket[i]);

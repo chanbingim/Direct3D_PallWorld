@@ -24,7 +24,10 @@ CAnimation::CAnimation(const CAnimation& rhs) :
 
 HRESULT CAnimation::Initialize(const CModel* pModel, const aiAnimation* pAIAnimation, _bool bIsLoop)
 {
-	strcpy_s(m_szAnimName, MAX_PATH, strchr(pAIAnimation->mName.data, '|') + 1);
+	if(nullptr != strchr(pAIAnimation->mName.data, '|'))
+		strcpy_s(m_szAnimName, MAX_PATH, strchr(pAIAnimation->mName.data, '|') + 1);
+	//else
+	//	strcpy_s(m_szAnimName, MAX_PATH, pAIAnimation->mName.data);
 
 	m_fLength = (_float)pAIAnimation->mDuration;
 	m_fTickPerSecond = (_float)pAIAnimation->mTicksPerSecond;

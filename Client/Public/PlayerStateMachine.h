@@ -7,9 +7,13 @@ NS_BEGIN(Client)
 class CPlayerStateMachine final : public CFiniteStateMachine
 {
 public:
-	enum class MOVE_ACTION { DEFAULT, CROUCH, CLIMB, JUMP, END };
+	// 상체 및 하체 이동에 대한 상태 구현
+	enum class MOVE_ACTION { DEFAULT,  CROUCH, CLIMB, JUMP, END };
 	enum class MOVE_CHILD_ACTION { WALK, IDLE, JOG, SPRINT, END };
-	enum class NONE_MOVE_ACTION { PETTING, CARRY, SLEEP, COOK, END };
+
+	//전투 상태 및 비 전투 상태에 대한 Layer 구조
+	enum class COMBAT_ACTION { ATTACK, HIT, END };
+	enum class NONE_COBAT_ACTION { PETTING, CARRY, SLEEP, COOK, END };
 
 	typedef	struct	PLAYER_STATE
 	{
@@ -23,8 +27,11 @@ public:
 		MOVE_ACTION			eMove_State;
 		MOVE_CHILD_ACTION	eMove_Child_State;
 
-		// 움직임을 가져가지 못하는 녀석들을 모아놓은 state
-		NONE_MOVE_ACTION	eNone_Move_State;
+		// 전투에서 가져갈 행동 상태
+		COMBAT_ACTION		eCombat_State;
+
+		// 비전투에서 움직임을 못 가져가는 녀석들
+		NONE_COBAT_ACTION	eNone_Combat_State;
 	}PLAYER_STATE;
 
 protected:
@@ -50,6 +57,7 @@ public:
 	_uInt								NextStatePhase(const _wstring& LayerTag);
 	_uInt								GetStatePhase(const _wstring& LayerTag);
 
+	void								PlayerStateReset(const _wstring& LayerTag);
 
 private : 
 	PLAYER_STATE						m_StateData = {};
@@ -59,6 +67,7 @@ private :
 	void								SettingPlayerState(void* pArg = nullptr);
 
 	_bool								StateChildChangeAble(CStateLayer* pLayer, const _wstring& StateTag);
+	const char*							GetWeaponName(_uInt eWeaponType);
 
 public:
 	static		CPlayerStateMachine*		Create();

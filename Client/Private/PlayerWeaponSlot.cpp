@@ -31,6 +31,7 @@ HRESULT CPlayerWeaponSlot::Initialize(void* pArg)
 
 	WEAPON_SLOT_DESC* SlotDesc = static_cast<WEAPON_SLOT_DESC*>(pArg);
 	m_iSlotIndex = SlotDesc->iSlotIndex;
+	m_pLeftSocket = SlotDesc->pLeftSocketMatrix;
 
 	return S_OK;
 }
@@ -47,6 +48,7 @@ void CPlayerWeaponSlot::Update(_float fDeletaTime)
 	{
 		ChangeModelBuffer(CPlayerManager::GetInstance()->GetCurrentSelectItem(), false);
 		m_bIsAnimWeapon = CPlayerManager::GetInstance()->GetIsAnimSelect();
+		m_LeftRightFlag = CPlayerManager::GetInstance()->GetIsAttachLeft();
 	}
 		
 	if (nullptr == m_pVIBufferCom)
@@ -58,7 +60,11 @@ void CPlayerWeaponSlot::Update(_float fDeletaTime)
 
 void CPlayerWeaponSlot::Late_Update(_float fDeletaTime)
 {
-	UpdateCombinedMatrix();
+	if (m_LeftRightFlag)
+		UpdateCombinedMatrix(m_pLeftSocket);
+	else
+		UpdateCombinedMatrix();
+
 	m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
 }
 
@@ -137,6 +143,7 @@ HRESULT CPlayerWeaponSlot::ADD_Components()
 
 	return S_OK;
 }
+
 
 CPlayerWeaponSlot* CPlayerWeaponSlot::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {

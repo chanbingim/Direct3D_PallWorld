@@ -6,9 +6,11 @@ NS_BEGIN(Client)
 class CPlayerWeaponSlot : public CPartObject
 {
 public :
+	enum class WEAPON_STATE { IDLE, CHARGE, CHARGE_LOOP, ATTACK, END };
 	typedef struct WeaponSlotDesc : public PARTOBJECT_DESC
 	{
-		_uInt			iSlotIndex;
+		_uInt				iSlotIndex;
+		const _float4x4*	pLeftSocketMatrix;
 	}WEAPON_SLOT_DESC;
 
 protected :
@@ -30,6 +32,7 @@ public :
 	virtual		HRESULT						Render() override;
 	
 	void									ChangeModelBuffer(CModel* pModel, _bool bIsAnim = false);
+	const WEAPON_STATE&						GetWeaponState() { return m_eState; }
 
 protected :
 	virtual     HRESULT						Bind_ShaderResources();
@@ -37,8 +40,12 @@ protected :
 
 private :
 	_bool									m_bIsAnimWeapon = false;
+	_bool									m_LeftRightFlag = false;
+	const _float4x4*						m_pLeftSocket = nullptr;
+
 	CShader*								m_pNoneAimShader = nullptr;
 	_uInt									m_iSlotIndex = {};
+	WEAPON_STATE							m_eState;
 
 private :
 	HRESULT									ADD_Components();

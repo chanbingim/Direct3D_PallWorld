@@ -66,8 +66,7 @@ protected :
 	virtual     HRESULT						Bind_ShaderResources();
 	virtual     HRESULT						Apply_ConstantShaderResources(_uInt iMeshIndex);
 
-	void									UpdateCombinedMatrix();
-
+	void									UpdateCombinedMatrix(const _float4x4* SocketMat = nullptr);
 public:
 	virtual			CGameObject*			Clone(void* pArg) override;
 	virtual			void					Free() override;

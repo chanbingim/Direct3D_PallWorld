@@ -112,12 +112,15 @@ HRESULT CPartObject::Apply_ConstantShaderResources(_uInt iMeshIndex)
 	return S_OK;
 }
 
-void CPartObject::UpdateCombinedMatrix()
+void CPartObject::UpdateCombinedMatrix(const _float4x4* SocketMat)
 {
+	if (nullptr == SocketMat)
+		SocketMat = m_SocketMatrix;
+
 	//이거 회전 바꾸기
-	if (m_SocketMatrix)
+	if (SocketMat)
 	{
-		_matrix ScoketMatrix = XMLoadFloat4x4(m_SocketMatrix);
+		_matrix ScoketMatrix = XMLoadFloat4x4(SocketMat);
 
 		if (m_UseSocketMatrixFlag & 0b00000001)
 		{

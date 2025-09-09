@@ -27,7 +27,8 @@ public :
 
 	HRESULT										AddLayer(const _wstring& LayerTag, CStateLayer* pStateLayer);
 	_Int										GetNumLayer(const _wstring& LayerTag);
-
+	void										ResetLayer(const _wstring& LayerTag);
+	
 protected :
 	CActor*										m_pOwner = nullptr;
 	unordered_map<_wstring, _uInt>				m_LayerHashMap;

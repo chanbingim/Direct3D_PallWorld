@@ -28,6 +28,11 @@ HRESULT CPlayerCamera::Initialize(void* pArg)
     PLAYER_CAMERA_DESC* Desc = static_cast<PLAYER_CAMERA_DESC*>(pArg);
     m_SocketMatrix = Desc->pSocketMatrix;
 
+    m_LerpFov = {60, 90};
+    m_fStartLerpAngle = m_LerpFov.y;
+    m_fFov = XMConvertToRadians(m_LerpFov.y);
+
+    m_CameraModel = CAMERA_MODE::NONE_AIMMING;
     return S_OK;
 }
 
@@ -38,10 +43,27 @@ void CPlayerCamera::Priority_Update(_float fDeletaTime)
 
 void CPlayerCamera::Update(_float fDeletaTime)
 {
+   
 }
 
 void CPlayerCamera::Late_Update(_float fDeletaTime)
 {
+    if (m_bIsLerp)
+    {
+        _float fToAngle = {};
+        m_fAccLerpTime += fDeletaTime;
+
+        if (CAMERA_MODE::NONE_AIMMING == m_CameraModel)
+            fToAngle = m_LerpFov.y;
+        else  if (CAMERA_MODE::AIMING == m_CameraModel)
+            fToAngle = m_LerpFov.x;
+          
+        m_fFov = XMConvertToRadians(Lerp<_float>(m_fStartLerpAngle, fToAngle, m_fAccLerpTime));
+       
+        if (m_fAccLerpTime >= 1.0f)
+            m_bIsLerp = false;
+    }
+
     _matrix ParentMatrix = XMLoadFloat4x4(&m_pParent->GetTransform()->GetWorldMat());
     _matrix CombinedMatrix{};
 
@@ -110,6 +132,16 @@ void CPlayerCamera::ADDPitchRotation(_float Angle, _float DeletaTime)
 void CPlayerCamera::SetChangeCameraMode(CAMERA_MODE eMode)
 {
     m_CameraModel = eMode;
+
+    if (CAMERA_MODE::AIMING == m_CameraModel)
+    {
+        m_AccYawAngle = 0.f;
+        SetRotation({ 0.f, 0.f, 0.f });
+    }
+
+    m_bIsLerp = true;
+    m_fAccLerpTime = 0.f;
+    m_fStartLerpAngle = XMConvertToDegrees(m_fFov);
 }
 
 CPlayerCamera* CPlayerCamera::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

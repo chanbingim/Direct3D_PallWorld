@@ -5,6 +5,7 @@
 #include "ClimbState.h"
 #include "JumpState.h"
 #include "PlayerIdleState.h"
+
 #pragma endregion
 
 CPlayerUpperLayer::CPlayerUpperLayer()
@@ -18,7 +19,7 @@ CPlayerUpperLayer::CPlayerUpperLayer(const CPlayerUpperLayer& rhs)
 HRESULT CPlayerUpperLayer::Initialize(_uInt iStateSize)
 {
     __super::Initialize(iStateSize);
-    if (FAILED(ADD_LowerState()))
+    if (FAILED(ADD_UpperState()))
         return E_FAIL;
     return S_OK;
 }
@@ -28,7 +29,7 @@ void CPlayerUpperLayer::Update(_float DeltaTime)
     __super::Update(DeltaTime);
 }
 
-HRESULT CPlayerUpperLayer::ADD_LowerState()
+HRESULT CPlayerUpperLayer::ADD_UpperState()
 {
     if (FAILED(AddState(TEXT("Default"), CPlayerIdleState::Create(""))))
         return E_FAIL;

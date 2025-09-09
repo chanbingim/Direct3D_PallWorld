@@ -45,12 +45,17 @@ private:
 	CAMERA_MODE						m_CameraModel = {};
 
 	const _float4x4*				m_SocketMatrix = nullptr;
+	_float2							m_LerpFov = {};
+	_float							m_fStartLerpAngle = {};
+
 	_float							m_AccYawAngle = {};
 
 	_float4x4						m_CombinedMatrix = {};
 	_float4x4						m_InvCombinedMatrix = {};
 
 	_float							m_RevolutionAngle = {};
+	_float							m_fAccLerpTime = {};
+	_bool							m_bIsLerp = false;
 
 public:
 	static	CPlayerCamera*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

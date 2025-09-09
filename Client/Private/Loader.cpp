@@ -21,7 +21,6 @@
 #pragma region PLAYER
 #include "PlayerPartData.h"
 #include "PlayerBody.h"
-#include "PlayerWeapon.h"
 #include "PlayerWeaponSlot.h"
 #pragma endregion
 
@@ -57,6 +56,7 @@
 
 #pragma region UI
 #include "Player_Interface.h"
+#include "AimInterface.h"
 
 #include "HealthBar.h"
 #include "GuardBar.h"
@@ -282,12 +282,13 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
-#pragma region ModelTexture
-	/* GamePlay_Model_Fiona_Texture */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Fiona"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Models/Fiona/fiona_D.png"), 1))))
+#pragma region CrossHair
+	/* GamePlay_CrossHair_DefualtType_Texture */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_CrossHair_Defualt"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/Aim/T_aim_0.png"), 2))))
 		return E_FAIL;
 #pragma endregion
+
 
 	m_strMessage = TEXT("모델를(을) 로딩 중 입니다.");
 
@@ -308,10 +309,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma endregion
 
 #pragma region Usable Item
-	/* VIBuffer  PellSpher MESH  Component */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_PalSpher"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Weapon/PalSphere/PalSpher.dat", PreModelMat))))
-		return E_FAIL;
+
 #pragma endregion
 
 
@@ -324,6 +322,16 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* VIBuffer  Prop MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_CatBladeProp"),
 		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Weapon/CatBlade/CatBladeProp.fbx", PreModelMat))))
+		return E_FAIL;
+
+	/* VIBuffer  PellSpher MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_PalSpher"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Weapon/AnimationWeapon/PalSphere/PalSpher.dat", PreModelMat))))
+		return E_FAIL;
+
+	/* VIBuffer  Bow MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Bow"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Weapon/AnimationWeapon/Bow/Bow.fbx", PreModelMat))))
 		return E_FAIL;
 
 #pragma endregion
@@ -584,10 +592,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_Body_Default"), CPlayerBody::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	/* GAME_OBJECT_Weapon */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_Weapon"), CPlayerWeapon::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
 	/* GAME_OBJECT_Weapon Slot */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_WeaponSot"), CPlayerWeaponSlot::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -643,6 +647,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* GAME_OBJECT_InGameMenu_UI */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_InGmaeMenu_UI"), CInGameMenu::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
+	/* GAME_OBJECT_CrossHair_UI */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CrossHair_UI"), CAimInterface::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 
 #pragma endregion
 	m_strMessage = TEXT("로딩이 완료되었습니다..");

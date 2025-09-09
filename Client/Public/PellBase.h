@@ -4,6 +4,8 @@
 #include "ContainerObject.h"
 
 NS_BEGIN(Client)
+class CPellStateMachine;
+
 class CPellBase : public CContainerObject
 {
 protected:
@@ -23,6 +25,10 @@ public:
 
 	// ·£´õ
 	virtual		HRESULT						Render() override;
+
+protected :
+	CPellStateMachine*						m_pPellFsm = nullptr;
+
 
 public:
 	virtual			CGameObject*			Clone(void* pArg) override;

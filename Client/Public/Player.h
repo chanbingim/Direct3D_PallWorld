@@ -69,6 +69,9 @@ private:
 	void									UpdateJump(_float fDeletaTime);
 	void									CameraDirLookAt();
 
+	// 어택의 종류를 체크 하는 함수
+	_bool									GetWeaponAttackType();
+
 public:
 	static			CPlayer*				Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);
 	virtual			CGameObject*			Clone(void* pArg) override;
