@@ -36,7 +36,7 @@ HRESULT CItemManager::Initialize(const char* FilePath)
         lstrcpy(Desc.szItemIconPath, TEXT(""));
         lstrcpy(Desc.szItemModelPath, TEXT("Prototype_Component_VIBuffer_PalSpher"));
         Desc.IsAnimModel = true;
-       
+
         Desc.TypeDesc.EuqipDesc.iAtkPoint = 10;
         Desc.TypeDesc.EuqipDesc.iGuardPoint = 0;
         Desc.TypeDesc.EuqipDesc.iHealthPoint = 0;
@@ -55,6 +55,7 @@ HRESULT CItemManager::Initialize(const char* FilePath)
         lstrcpy(Desc.szItemIconPath, TEXT(""));
         lstrcpy(Desc.szItemModelPath, TEXT("Prototype_Component_VIBuffer_Bow"));
         Desc.IsAnimModel = true;
+        Desc.IsPlayAnimation = true;
 
         Desc.TypeDesc.EuqipDesc.iAtkPoint = 10;
         Desc.TypeDesc.EuqipDesc.iGuardPoint = 0;

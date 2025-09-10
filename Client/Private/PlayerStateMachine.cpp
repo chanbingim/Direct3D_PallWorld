@@ -236,13 +236,13 @@ void CPlayerStateMachine::PlayerStateReset(const _wstring& LayerTag)
 
 HRESULT CPlayerStateMachine::ADD_PlayerLayer()
 {
-    if (FAILED(__super::AddLayer(TEXT("UpperLayer"), CPlayerUpperLayer::Create(ENUM_CLASS(MOVE_ACTION::END)))))
+    if (FAILED(__super::AddLayer(TEXT("UpperLayer"), CPlayerUpperLayer::Create(nullptr, ENUM_CLASS(MOVE_ACTION::END)))))
         return E_FAIL;
 
-    if (FAILED(__super::AddLayer(TEXT("LowerLayer"), CPlayerLowerLayer::Create(ENUM_CLASS(MOVE_CHILD_ACTION::END)))))
+    if (FAILED(__super::AddLayer(TEXT("LowerLayer"), CPlayerLowerLayer::Create(nullptr, ENUM_CLASS(MOVE_CHILD_ACTION::END)))))
         return E_FAIL;
 
-    if (FAILED(__super::AddLayer(TEXT("CombatLayer"), CPlayerCombatLayer::Create(ENUM_CLASS(COMBAT_ACTION::END)))))
+    if (FAILED(__super::AddLayer(TEXT("CombatLayer"), CPlayerCombatLayer::Create(nullptr, ENUM_CLASS(COMBAT_ACTION::END)))))
         return E_FAIL;
 
     return S_OK;

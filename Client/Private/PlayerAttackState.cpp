@@ -1,5 +1,9 @@
 #include "PlayerAttackState.h"
 
+#include "PlayerManager.h"
+#include "Player.h"
+#include "PlayerWeaponSlot.h"
+
 CPlayerAttackState::CPlayerAttackState(const char* szStateName) :
 	CState(szStateName)
 {

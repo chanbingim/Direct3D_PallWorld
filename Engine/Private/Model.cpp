@@ -353,7 +353,7 @@ HRESULT CModel::Ready_Animations(void* AnimationDesc)
 	{
 		CAnimation* pAnimation = CAnimation::Create(&AnimationDesc);
 		if (nullptr == pAnimation)
-			return E_FAIL;
+			continue;
 
 		m_Animations.push_back(pAnimation);
 	}
@@ -418,10 +418,11 @@ HRESULT CModel::Ready_Animations()
 	{
 		CAnimation* pAnim = CAnimation::Create(this, m_pAIScene->mAnimations[i], true);
 		if (nullptr == pAnim)
-			return E_FAIL;
+			continue;
 
 		m_Animations.push_back(pAnim);
 	}
+	m_iNumAnimations = (_uInt)m_Animations.size();
 	return S_OK;
 }
 

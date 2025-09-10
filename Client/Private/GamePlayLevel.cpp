@@ -35,7 +35,7 @@ HRESULT CGamePlayLevel::Initialize()
 	CItemManager::GetInstance()->Initialize();
 
 	CPlayerManager::PLAYER_MANAGER_DESC PlayerDesc;
-	PlayerDesc.iMaxInvenWeight = 1000.f;
+	PlayerDesc.iMaxInvenWeight = 1000;
 	PlayerDesc.iNumEquipMaxSlot = 4;
 	PlayerDesc.iNumInvenMaxSlot = 60;
 	CPlayerManager::GetInstance()->Initialize(&PlayerDesc);
@@ -121,20 +121,20 @@ HRESULT CGamePlayLevel::ADD_PellLayer(const _wstring& LayerName)
 	ZeroMemory(&Desc, sizeof(CGameObject::GAMEOBJECT_DESC));
 	Desc.vScale = { 0.2f, 0.2f, 0.2f };
 
-	wsprintf(Desc.ObjectTag, TEXT("Bed Cat"));
+	/*wsprintf(Desc.ObjectTag, TEXT("Bed Cat"));
 	Desc.vPosition = { 7.f, 1.f, 7.f };
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_BedCat"),
 		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
-		return E_FAIL;
+		return E_FAIL;*/
 
-	/*wsprintf(Desc.ObjectTag, TEXT("Drorong"));
+	wsprintf(Desc.ObjectTag, TEXT("Drorong"));
 	Desc.vScale = { 0.1f, 0.1f, 0.1f };
 	Desc.vPosition = { 10.f, 1.f, 10.f };
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Drorong"),
 		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
 		return E_FAIL;
 
-	wsprintf(Desc.ObjectTag, TEXT("ElectricPanda"));
+	/*wsprintf(Desc.ObjectTag, TEXT("ElectricPanda"));
 	Desc.vScale = { 0.05f, 0.05f, 0.05f };
 	Desc.vPosition = { 20.f, 1.f, 20.f };
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ElectricPanda"),

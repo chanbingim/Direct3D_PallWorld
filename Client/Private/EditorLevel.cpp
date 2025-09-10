@@ -2,7 +2,7 @@
 #include "GameInstance.h"
 
 #include "EditorCamera.h"
-#include "Terrian.h"
+#include "Terrain.h"
 
 CEditorLevel::CEditorLevel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, _uInt _iID) :
     CLevel(pDevice, pContext, ENUM_CLASS(LEVEL::EDITOR))

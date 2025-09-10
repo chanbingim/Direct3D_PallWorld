@@ -16,7 +16,7 @@
 
 #pragma region GamePlay Header
 #include "Camera.h"
-#include "Terrian.h"
+#include "Terrain.h"
 
 #pragma region PLAYER
 #include "PlayerPartData.h"
@@ -52,6 +52,10 @@
 
 #pragma region ENVIORNMENT
 #include "RockObject.h"
+#pragma endregion
+
+#pragma region Components
+#include "Recovery.h"
 #pragma endregion
 
 #pragma region UI
@@ -289,7 +293,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
-
 	m_strMessage = TEXT("모델를(을) 로딩 중 입니다.");
 
 #pragma region Models
@@ -352,10 +355,12 @@ HRESULT CLoader::Loading_For_GamePlay()
 	//	CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM,"../Bin/Resources/Models/BedCat/BedCat.fbx", PreModelMat))))
 	//	return E_FAIL;
 
-	///* VIBuffer  Dororong MESH  Component */
-	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Drorong_Mesh"),
-	//	CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Dororong/SheepBall.fbx", PreModelMat))))
-	//	return E_FAIL;
+#pragma region SheepBall
+	/* VIBuffer  Dororong MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Drorong_Mesh"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Monster/SheepBall/SheepBall.fbx", PreModelMat))))
+		return E_FAIL;
+#pragma endregion
 
 	///* VIBuffer  Electric Panda MESH  Component */
 	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_ElectricPanda_Mesh"),
@@ -436,38 +441,38 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 #pragma region Terrian_Com
 	/* 2 x 2  Terrian */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian2x2"), CVIBuffer_Terrian::Create(m_pDevice, m_pContext, 2))))
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian2x2"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 2))))
 		return E_FAIL;
 
 	/* 4 x 4  Terrian */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian4x4"), CVIBuffer_Terrian::Create(m_pDevice, m_pContext, 4))))
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian4x4"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 4))))
 		return E_FAIL;
 
 	/* 8 x 8  Terrian */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian8x8"), CVIBuffer_Terrian::Create(m_pDevice, m_pContext, 8))))
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian8x8"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 8))))
 		return E_FAIL;
 
 	/* 16 x 16  Terrian */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian16x16"), CVIBuffer_Terrian::Create(m_pDevice, m_pContext, 16))))
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian16x16"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 16))))
 		return E_FAIL;
 
 	/* 32 x 32  Terrian */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian32x32"), CVIBuffer_Terrian::Create(m_pDevice, m_pContext, 32))))
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian32x32"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 32))))
 		return E_FAIL;
 
 	/* 64 x 64  Terrian */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian64x64"), CVIBuffer_Terrian::Create(m_pDevice, m_pContext, 64))))
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian64x64"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 64))))
 		return E_FAIL;
 
 	/* 128 x 128  Terrian */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian128x128"), CVIBuffer_Terrian::Create(m_pDevice, m_pContext, 128))))
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian128x128"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 128))))
 		return E_FAIL;
 
 	/* 256 x 256  Terrian */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian256x256"), CVIBuffer_Terrian::Create(m_pDevice, m_pContext, 256))))
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian256x256"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 256))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian"), CVIBuffer_Terrian::Create(m_pDevice, m_pContext,
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext,
 		TEXT("../Bin/Resources/Textures/Map/HeightMap/Height.bmp")))))
 		return E_FAIL;
 #pragma endregion
@@ -478,7 +483,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 
 	/* GAME_OBJECT_Terrian */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Terrian"), CTerrian::Create(m_pDevice, m_pContext))))
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Terrian"), CTerrain::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 
@@ -651,9 +656,14 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* GAME_OBJECT_CrossHair_UI */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CrossHair_UI"), CAimInterface::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
-
 #pragma endregion
+
+#pragma region CComponents
+	/* GAME_OBJECT_InGameMenu_UI */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("GamePlay_Component_Recovery"), CRecovery::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
 	m_strMessage = TEXT("로딩이 완료되었습니다..");
 
 	m_isFinished = true;

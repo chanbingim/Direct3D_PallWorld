@@ -147,7 +147,17 @@ void CIMG_ModelConvert::UpdateSelect()
 			{
 				for (_uInt i = 0; i < iNumAnimation; ++i)
 				{
-					if (ImGui::Selectable(m_pSelectObjectModelCom->GetAnimationName(i), false))
+					const char* p = strchr(m_SelectObejctName, '#');
+					char SelectObject[MAX_PATH] = {};
+					if (p)
+					{
+						size_t len = p - m_SelectObejctName;
+						strncpy_s(SelectObject, sizeof(SelectObject), m_SelectObejctName, len);
+						SelectObject[len] = '\0';
+						sprintf_s(m_AnimationMae, "%s##%s%d", m_pSelectObjectModelCom->GetAnimationName(i), SelectObject, i);
+					}
+					
+					if (ImGui::Selectable(m_AnimationMae, false))
 					{
 						m_pViewModel->SetAnimationIndex(i);
 						strcpy_s(m_SelectObjAnimName, m_pSelectObjectModelCom->GetAnimationName(i));

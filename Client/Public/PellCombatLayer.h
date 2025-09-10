@@ -11,14 +11,14 @@ private:
 	virtual ~CPellCombatLayer() = default;
 
 public:
-	virtual		HRESULT							Initialize(_uInt iStateSize) override;
+	virtual		HRESULT							Initialize(void* pArg, _uInt iStateSize) override;
 	virtual		void							Update(_float DeltaTime) override;
 
 private:
 	HRESULT										ADD_CombatState();
 
 public:
-	static	CPellCombatLayer*					Create(_uInt iStateSize);
+	static	CPellCombatLayer*					Create(void* pArg, _uInt iStateSize);
 	virtual	void								Free() override;
 };
 NS_END

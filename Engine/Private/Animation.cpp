@@ -24,10 +24,16 @@ CAnimation::CAnimation(const CAnimation& rhs) :
 
 HRESULT CAnimation::Initialize(const CModel* pModel, const aiAnimation* pAIAnimation, _bool bIsLoop)
 {
-	if(nullptr != strchr(pAIAnimation->mName.data, '|'))
-		strcpy_s(m_szAnimName, MAX_PATH, strchr(pAIAnimation->mName.data, '|') + 1);
-	//else
-	//	strcpy_s(m_szAnimName, MAX_PATH, pAIAnimation->mName.data);
+	const char* szAnimName = strchr(pAIAnimation->mName.data, '|');
+	if (nullptr != szAnimName)
+	{
+		if (strcmp(szAnimName, ""))
+			strcpy_s(m_szAnimName, MAX_PATH, strchr(pAIAnimation->mName.data, '|') + 1);
+		else
+			return E_FAIL;
+	}
+	else
+		return E_FAIL;
 
 	m_fLength = (_float)pAIAnimation->mDuration;
 	m_fTickPerSecond = (_float)pAIAnimation->mTicksPerSecond;
@@ -100,7 +106,7 @@ _bool CAnimation::UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTi
 _bool CAnimation::UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTimeDelta, _int2 UpdateBoneIdx, _float2* LastAnimTrackPos, _float fLength, _float LerpSpeed)
 {
 	LastAnimTrackPos->x += LerpSpeed * fTimeDelta;
-	_float fRatio = LastAnimTrackPos->x / 0.2f; //(LastAnimTrackPos->x - LastAnimTrackPos->y) / 0.2f;
+	_float fRatio = (LastAnimTrackPos->x - LastAnimTrackPos->y) / 2.0f;
 	fRatio = Clamp<_float>(fRatio, 0.f, 1.f);
 	for (auto& pChannel : m_Channels)
 	{
@@ -123,10 +129,11 @@ _bool CAnimation::CompareAnimName(const char* szName)
 _float2 CAnimation::GetPreFrameKey()
 {
 	_uInt iIndex = 0;
+	_uInt channelIndex = 0;
 	for (auto& iter : m_iChannelIndex)
 		iIndex = max(iter, iIndex);
 
-	_float2 ReturnData = { 0 , m_Channels[iIndex]->GetPreKeyFrameTrackPos(m_iChannelIndex[iIndex]) };
+	_float2 ReturnData = { m_fCurrentTrackPosition , (_float)iIndex };
 	m_fCurrentTrackPosition = 0;
 	fill(m_iChannelIndex.begin(), m_iChannelIndex.end(), 0);
 	return ReturnData;
@@ -163,7 +170,7 @@ CAnimation* CAnimation::Create(const CModel* pModel, const aiAnimation* pAIAnima
 	if (FAILED(pAnim->Initialize(pModel, pAIAnimation, bIsLoop)))
 	{
 		Safe_Release(pAnim);
-		MSG_BOX("CREATE FAIL : MODEL ANIMATION ");
+		//MSG_BOX("CREATE FAIL : MODEL ANIMATION ");
 	}
 	return pAnim;
 }

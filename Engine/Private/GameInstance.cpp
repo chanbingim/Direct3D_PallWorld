@@ -355,36 +355,8 @@ void CGameInstance::ResetMouseData()
 }
 #pragma endregion
 
-#pragma region PipeLine
-void CGameInstance::SetMatrix(MAT_STATE eState, _float4x4 Matrix)
-{
-    m_pPipeline->SetMatrix(eState, Matrix);
-}
-const _float4x4& CGameInstance::GetMatrix(MAT_STATE eState)
-{
-    return m_pPipeline->GetMatrix(eState);
-}
-const _float4x4& CGameInstance::GetInvMatrix(MAT_STATE eState)
-{
-    return m_pPipeline->GetInvMatrix(eState);
-}
-const _float4x4& CGameInstance::GetIndentityMatrix()
-{
-    return m_pPipeline->GetIndentityMatrix();
-}
-void CGameInstance::SetPostBuffer(_uInt iIndex, ID3D11ShaderResourceView* pTex)
-{
-    m_pPipeline->SetPostBuffer(iIndex, pTex);
-}
+#pragma region PICKING
 
-ID3D11ShaderResourceView* CGameInstance::GetPostBuffer(_uInt iIndex)
-{
-    return m_pPipeline->GetPostBuffer(iIndex);
-}
-_vector CGameInstance::GetCameraState(WORLDSTATE eType)
-{
-    return m_pPipeline->GetCameraState(eType);
-}
 void CGameInstance::SetEditor_MousePos(_float3 vPos)
 {
     m_pPicking->SetEditor_MousePos(vPos);
@@ -431,10 +403,62 @@ _bool CGameInstance::Picking_InLocal(const _float3& vPointA, const _float3& vPoi
 {
     return m_pPicking->Picking_InLocal(vPointA, vPointB, vPointC, pOut);
 }
+#pragma endregion
+
+#pragma region PipeLine
+void CGameInstance::SetMatrix(MAT_STATE eState, _float4x4 Matrix)
+{
+    m_pPipeline->SetMatrix(eState, Matrix);
+}
+const _float4x4& CGameInstance::GetMatrix(MAT_STATE eState)
+{
+    return m_pPipeline->GetMatrix(eState);
+}
+const _float4x4& CGameInstance::GetInvMatrix(MAT_STATE eState)
+{
+    return m_pPipeline->GetInvMatrix(eState);
+}
+const _float4x4& CGameInstance::GetIndentityMatrix()
+{
+    return m_pPipeline->GetIndentityMatrix();
+}
+void CGameInstance::SetPostBuffer(_uInt iIndex, ID3D11ShaderResourceView* pTex)
+{
+    m_pPipeline->SetPostBuffer(iIndex, pTex);
+}
+
+ID3D11ShaderResourceView* CGameInstance::GetPostBuffer(_uInt iIndex)
+{
+    return m_pPipeline->GetPostBuffer(iIndex);
+}
+_vector CGameInstance::GetCameraState(WORLDSTATE eType)
+{
+    return m_pPipeline->GetCameraState(eType);
+}
+#pragma endregion
+
+#pragma region GAME_INSTANCE
 const _float2& CGameInstance::GetScreenSize()
 {
     return m_ScreenSize;
 }
+_float CGameInstance::Random_Normal()
+{
+    return static_cast<_float>(rand()) / RAND_MAX;
+}
+_float CGameInstance::Random(_float fMin, _float fMax)
+{
+    return fMin + Random_Normal() * (fMax - fMin);
+}
+
+_float CGameInstance::GetPipeLineLoopTime(const TCHAR* Str)
+{
+    return m_pTimer_Manager->Get_TimeDelta(Str);
+}
+#pragma endregion
+
+#pragma region LIGHT_MANAGER
+
 void CGameInstance::ADDLight(CLight* pLight)
 {
     m_pLightManager->ADDLight(pLight);
@@ -443,12 +467,8 @@ const CLight* CGameInstance::GetLight(_uInt iIndex)
 {
     return m_pLightManager->GetLight(iIndex);
 }
-_float CGameInstance::GetPipeLineLoopTime(const TCHAR* Str)
-{
-    return m_pTimer_Manager->Get_TimeDelta(Str);
-}
-#pragma endregion
 
+#pragma endregion
 void CGameInstance::Release_Engine()
 {
     DestroyInstance();

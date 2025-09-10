@@ -40,6 +40,7 @@ private :
 	char									m_SelectMappingObejctName[MAX_PATH] = {};
 	char									m_ShowMappingObjName[MAX_PATH] = {};
 	char									m_SaveMappingFilePath[MAX_PATH] = {};
+	char									m_AnimationMae[1024];
 
 private :
 	HRESULT									ADD_ModelViewCameraLayer();

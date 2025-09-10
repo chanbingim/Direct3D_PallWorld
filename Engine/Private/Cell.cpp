@@ -1,4 +1,13 @@
 #include "Cell.h"
+#include "VIBuffer_Cell.h"
+
+CCell::CCell(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
+    m_pDevice(pDevice),
+    m_pContext(pContext)
+{
+    Safe_AddRef(m_pDevice);
+    Safe_AddRef(m_pContext);
+}
 
 HRESULT CCell::Initialize(_uInt iCellIndex, _uInt iCellProperity, const _float3* vPoints)
 {
@@ -20,9 +29,76 @@ HRESULT CCell::Initialize(_uInt iCellIndex, _uInt iCellProperity, const _float3*
     return S_OK;
 }
 
-CCell* CCell::Create(_uInt iCellIndex, _uInt iCellProperity, const _float3* vPoints)
+_bool CCell::IsCellIn(_vector vPos, _Int* pNeighborIndex)
 {
-    CCell* pCell = new CCell();
+    for (_uInt i = 0; i < ENUM_CLASS(NAVI_LINE::END); ++i)
+    {
+        _vector vDir =  XMVector3Normalize(vPos - XMLoadFloat3(&m_vTirPoints[i]));
+        _vector vNormal = XMLoadFloat3(&m_vTirNormals[i]);
+
+        if (0.f < XMVectorGetX(XMVector3Dot(vDir, vNormal)))
+        {
+            *pNeighborIndex = m_NeighborIndices[i];
+            return false;
+        }
+    }
+    return true;
+}
+
+_bool CCell::Compare(_vector vSourPoint, _vector vDestPoint)
+{
+    if (true == XMVector3Equal(XMLoadFloat3(&m_vTirPoints[ENUM_CLASS(NAVI_POINT::A)]), vSourPoint))
+    {
+        if (true == XMVector3Equal(XMLoadFloat3(&m_vTirPoints[ENUM_CLASS(NAVI_POINT::B)]), vDestPoint))
+            return true;
+
+        if (true == XMVector3Equal(XMLoadFloat3(&m_vTirPoints[ENUM_CLASS(NAVI_POINT::C)]), vDestPoint))
+            return true;
+    }
+    if (true == XMVector3Equal(XMLoadFloat3(&m_vTirPoints[ENUM_CLASS(NAVI_POINT::B)]), vSourPoint))
+    {
+        if (true == XMVector3Equal(XMLoadFloat3(&m_vTirPoints[ENUM_CLASS(NAVI_POINT::C)]), vDestPoint))
+            return true;
+
+        if (true == XMVector3Equal(XMLoadFloat3(&m_vTirPoints[ENUM_CLASS(NAVI_POINT::A)]), vDestPoint))
+            return true;
+    }
+
+    if (true == XMVector3Equal(XMLoadFloat3(&m_vTirPoints[ENUM_CLASS(NAVI_POINT::C)]), vSourPoint))
+    {
+        if (true == XMVector3Equal(XMLoadFloat3(&m_vTirPoints[ENUM_CLASS(NAVI_POINT::A)]), vDestPoint))
+            return true;
+
+        if (true == XMVector3Equal(XMLoadFloat3(&m_vTirPoints[ENUM_CLASS(NAVI_POINT::B)]), vDestPoint))
+            return true;
+    }
+    return false;
+}
+
+void CCell::SetNeighbor(NAVI_LINE eLine, _Int iIndex)
+{
+    m_NeighborIndices[ENUM_CLASS(eLine)] = iIndex;
+}
+
+_bool CCell::IsMoveAble()
+{
+    switch (m_eType)
+    {
+    case CELL_TYPE::BUILD:
+        return false;
+    }
+
+    return true;
+}
+
+void CCell::Render()
+{
+    m_pVIBuffer->Render_VIBuffer();
+}
+
+CCell* CCell::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, _uInt iCellIndex, _uInt iCellProperity, const _float3* vPoints)
+{
+    CCell* pCell = new CCell(pDevice, pContext);
     if (FAILED(pCell->Initialize(iCellIndex, iCellProperity, vPoints)))
     {
         Safe_Release(pCell);

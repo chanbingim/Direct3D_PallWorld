@@ -2,14 +2,23 @@
 #include "Client_Define.h"
 #include "FiniteStateMachine.h"
 
+NS_BEGIN(Engine)
+class CContainerObject;
+NS_END
+
 NS_BEGIN(Client)
+
 class CPellStateMachine : public CFiniteStateMachine
 {
 public:
 	enum class MOVE_ACTION { DEFAULT, PATROL, RESET, WOKR, END };
-	
 	//전투 상태 및 비 전투 상태에 대한 Layer 구조
 	enum class COMBAT_ACTION { ATTACK, HIT, END };
+
+	typedef		struct	PellFSM_Desc : public FSM_DESC
+	{
+		CContainerObject*		pOwner;
+	}PELLFSM_DESC;
 
 	typedef		struct  Pell_State 
 	{
@@ -42,8 +51,10 @@ public:
 	void								SetDireaction(DIRECTION eType) { m_StateData.eDireaction = eType; }
 
 	const PELL_STATE&					GetState() { return m_StateData; }
+	_string								GetAnimationName();
 
 private:
+	CContainerObject*					m_pOwner = nullptr;
 	PELL_STATE							m_StateData = {};
 
 private :

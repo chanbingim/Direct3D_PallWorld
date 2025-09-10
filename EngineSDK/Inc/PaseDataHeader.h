@@ -3,12 +3,13 @@
 
 namespace Engine
 {
-	enum class SAVE_OBJECT_TYPE { CAMERA, TERRAIN, OBEJCT, ENVIORNMENT, END };
+	enum class SAVE_OBJECT_TYPE { CAMERA = 0, TERRAIN, OBEJCT, ENVIORNMENT, END };
 	typedef struct SaveTerrianDesc
 	{
 		_uInt			TerrainType;
 		_float2			TileCnt;
 		_char			HeightMapCom[MAX_PATH];
+		_char			NaviMeshPath[MAX_PATH];
 	}SAVE_TERRIAN_DESC;
 
 	typedef struct SaveCameraDesc
@@ -33,7 +34,7 @@ namespace Engine
 	// 또한 Type을 통해 내가 원하는 녀석들만 파싱이 될수있다.
 	typedef struct SaveLevelDesc
 	{
-		SAVE_OBJECT_TYPE	eType;
+		_uInt				eType;
 		_uInt				iPrototypeLevelID;
 		_uInt				iSaveLevelID;
 		_char				PrototypeName[MAX_PATH];

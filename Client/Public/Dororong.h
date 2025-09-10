@@ -3,6 +3,8 @@
 #include "PellBase.h"
 
 NS_BEGIN(Client)
+
+
 class CDororong : public CPellBase
 {
 protected:
@@ -23,8 +25,15 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
+private :
+	
+
+
 private:
+	HRESULT									ADD_Components();
 	HRESULT									ADD_PartObjects();
+	HRESULT									Setup_PellFsm();
+
 
 public:
 	static			CDororong*				Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);

@@ -12,14 +12,14 @@ private:
 	virtual ~CPlayerNoneCombatLayer() = default;
 
 public:
-	virtual		HRESULT							Initialize(_uInt iStateSize) override;
+	virtual		HRESULT							Initialize(void* pArg, _uInt iStateSize) override;
 	virtual		void							Update(_float DeltaTime) override;
 
 private:
 	HRESULT										ADD_CombatState();
 
 public:
-	static	CPlayerNoneCombatLayer*					Create(_uInt iStateSize);
+	static	CPlayerNoneCombatLayer*				Create(void* pArg, _uInt iStateSize);
 	virtual	void								Free() override;
 };
 NS_END

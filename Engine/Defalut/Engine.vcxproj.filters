@@ -82,9 +82,6 @@
     <Filter Include="Utility\Components\VIBuffer\VIRect">
       <UniqueIdentifier>{f0cae173-9deb-4b0f-95f0-ef70ad282413}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utility\Components\VIBuffer\VITerrian">
-      <UniqueIdentifier>{0565ecb3-4d1b-42e0-b919-e6e64f7296fe}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utility\Components\Collision">
       <UniqueIdentifier>{3879b983-fdcd-4913-9dda-01d6dfc35514}</UniqueIdentifier>
     </Filter>
@@ -202,6 +199,12 @@
     <Filter Include="Utility\Components\Navigation\Cell">
       <UniqueIdentifier>{b5f42fa6-0ae3-4e80-ac48-73edf1e7e3d5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utility\Components\VIBuffer\Cell">
+      <UniqueIdentifier>{6cc7d6d9-20f6-4ab6-952a-cf760c0d382d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\VIBuffer\VITerrain">
+      <UniqueIdentifier>{0565ecb3-4d1b-42e0-b919-e6e64f7296fe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Graphic_Device.cpp">
@@ -279,8 +282,8 @@
     <ClCompile Include="..\private\Pipeline.cpp">
       <Filter>Utility\Pipeline</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\VIBuffer_Terrian.cpp">
-      <Filter>Utility\Components\VIBuffer\VITerrian</Filter>
+    <ClCompile Include="..\private\VIBuffer_Terrain.cpp">
+      <Filter>Utility\Components\VIBuffer\VITerrain</Filter>
     </ClCompile>
     <ClCompile Include="..\private\ProgressBar.cpp">
       <Filter>Utility\HeadUpDisplay\UserInterface\Progressbar</Filter>
@@ -384,6 +387,9 @@
     <ClCompile Include="..\private\Cell.cpp">
       <Filter>Utility\Components\Navigation\Cell</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\VIBuffer_Cell.cpp">
+      <Filter>Utility\Components\VIBuffer\Cell</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\Graphic_Device.h">
@@ -461,8 +467,8 @@
     <ClInclude Include="..\public\Pipeline.h">
       <Filter>Utility\Pipeline</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\VIBuffer_Terrian.h">
-      <Filter>Utility\Components\VIBuffer\VITerrian</Filter>
+    <ClInclude Include="..\public\VIBuffer_Terrain.h">
+      <Filter>Utility\Components\VIBuffer\VITerrain</Filter>
     </ClInclude>
     <ClInclude Include="..\public\ProgressBar.h">
       <Filter>Utility\HeadUpDisplay\UserInterface\Progressbar</Filter>
@@ -595,6 +601,9 @@
     </ClInclude>
     <ClInclude Include="..\public\Cell.h">
       <Filter>Utility\Components\Navigation\Cell</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\VIBuffer_Cell.h">
+      <Filter>Utility\Components\VIBuffer\Cell</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

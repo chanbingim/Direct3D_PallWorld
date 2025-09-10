@@ -3,10 +3,12 @@
 #include "PartObject.h"
 
 NS_BEGIN(Client)
+class CItemBase;
+
 class CPlayerWeaponSlot : public CPartObject
 {
 public :
-	enum class WEAPON_STATE { IDLE, CHARGE, CHARGE_LOOP, ATTACK, END };
+	enum class WEAPON_STATE { CHARGE, CHARGE_LOOP, ATTACK, IDLE, END };
 	typedef struct WeaponSlotDesc : public PARTOBJECT_DESC
 	{
 		_uInt				iSlotIndex;
@@ -32,6 +34,8 @@ public :
 	virtual		HRESULT						Render() override;
 	
 	void									ChangeModelBuffer(CModel* pModel, _bool bIsAnim = false);
+	
+	void									ChangeWeaponState(WEAPON_STATE eWeaponState);
 	const WEAPON_STATE&						GetWeaponState() { return m_eState; }
 
 protected :
@@ -39,16 +43,19 @@ protected :
 	virtual     HRESULT						Apply_ConstantShaderResources(_uInt iMeshIndex);
 
 private :
+	const	CItemBase*						m_CurrentEuipItemInfo = {};
 	_bool									m_bIsAnimWeapon = false;
 	_bool									m_LeftRightFlag = false;
 	const _float4x4*						m_pLeftSocket = nullptr;
 
 	CShader*								m_pNoneAimShader = nullptr;
 	_uInt									m_iSlotIndex = {};
+
 	WEAPON_STATE							m_eState;
 
 private :
 	HRESULT									ADD_Components();
+	void									ChangeAnimWaponAnimationIndex();
 
 public :
 	static			CPlayerWeaponSlot*		Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

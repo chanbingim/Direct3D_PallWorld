@@ -218,8 +218,9 @@ popd</Command>
     <ClInclude Include="..\public\Transform.h" />
     <ClInclude Include="..\public\UserInterface.h" />
     <ClInclude Include="..\public\VIBuffer.h" />
+    <ClInclude Include="..\public\VIBuffer_Cell.h" />
     <ClInclude Include="..\public\VIBuffer_Rect.h" />
-    <ClInclude Include="..\public\VIBuffer_Terrian.h" />
+    <ClInclude Include="..\public\VIBuffer_Terrain.h" />
     <ClInclude Include="..\public\Viewer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -280,8 +281,9 @@ popd</Command>
     <ClCompile Include="..\private\Transform.cpp" />
     <ClCompile Include="..\private\UserInterface.cpp" />
     <ClCompile Include="..\private\VIBuffer.cpp" />
+    <ClCompile Include="..\private\VIBuffer_Cell.cpp" />
     <ClCompile Include="..\private\VIBuffer_Rect.cpp" />
-    <ClCompile Include="..\private\VIBuffer_Terrian.cpp" />
+    <ClCompile Include="..\private\VIBuffer_Terrain.cpp" />
     <ClCompile Include="..\private\Viewer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

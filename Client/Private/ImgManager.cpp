@@ -7,7 +7,7 @@
 #include "Level.h"
 #include "GameObject.h"
 
-#include "Terrian.h"
+#include "Terrain.h"
 #include "Enviormnent.h"
 #include "Camera.h"
 
@@ -282,7 +282,7 @@ HRESULT CImgManager::SaveLevel()
         {
             SAVE_LEVEL_DESC PaserData;
             ZeroMemory(&PaserData, sizeof(SAVE_LEVEL_DESC));
-            PaserData.eType = type;
+            PaserData.eType = ENUM_CLASS(type);
             PaserData.iSaveLevelID = iCurLevel;
             strcpy_s(PaserData.LayerName, LayerName);
             Object->ExportData(&PaserData);
@@ -316,7 +316,31 @@ void CImgManager::SaveFile(const char* FilePath, list<SAVE_LEVEL_DESC>& SaveData
         file.write(reinterpret_cast<_char*>(&iSaveObjectCnt), sizeof(_uInt));
         for (SAVE_LEVEL_DESC& iter : SaveData)
         {
-            file.write(reinterpret_cast<_char*>(&iter), sizeof(SAVE_LEVEL_DESC));
+            file << iter.eType << iter.iPrototypeLevelID << iter.iSaveLevelID;
+            file << iter.PrototypeName << iter.LayerName << iter.PrototypeIndex;
+            file << iter.vScale.x << iter.vScale.y << iter.vScale.z;
+            file << iter.vRotation.x << iter.vRotation.y << iter.vRotation.z;
+            file << iter.vPosition.x << iter.vPosition.y << iter.vPosition.z;
+
+            switch (SAVE_OBJECT_TYPE(iter.eType))
+            {
+            case SAVE_OBJECT_TYPE::CAMERA:
+                file << iter.ObjectDesc.CameraDesc.CameraType;
+                file << iter.ObjectDesc.CameraDesc.fNear;
+                file << iter.ObjectDesc.CameraDesc.fFar;
+                file << iter.ObjectDesc.CameraDesc.fFov;
+                break;
+            case SAVE_OBJECT_TYPE::TERRAIN:
+                file << iter.ObjectDesc.TerrianDesc.TerrainType;
+                file << iter.ObjectDesc.TerrianDesc.TileCnt.x << iter.ObjectDesc.TerrianDesc.TileCnt.y;
+                file << iter.ObjectDesc.TerrianDesc.HeightMapCom;
+                file << iter.ObjectDesc.TerrianDesc.NaviMeshPath;
+                break;
+            case SAVE_OBJECT_TYPE::OBEJCT:
+                break;
+            case SAVE_OBJECT_TYPE::ENVIORNMENT:
+                break;
+            }
         }
     }
 
@@ -389,10 +413,10 @@ void CImgManager::LoadFile(_uInt iType)
         break;
         case SAVE_OBJECT_TYPE::TERRAIN:
         {
-            Desc = new CTerrian::TERRIAN_DESC;
-            ZeroMemory(Desc, sizeof(CTerrian::TERRIAN_DESC));
+            Desc = new CTerrain::TERRIAN_DESC;
+            ZeroMemory(Desc, sizeof(CTerrain::TERRIAN_DESC));
 
-            CTerrian::TERRIAN_DESC* TerrianDesc = static_cast<CTerrian::TERRIAN_DESC*>(Desc);
+            CTerrain::TERRIAN_DESC* TerrianDesc = static_cast<CTerrain::TERRIAN_DESC*>(Desc);
             TerrianDesc->TerrianType = iter.ObjectDesc.TerrianDesc.TerrainType;
             TerrianDesc->iGridCnt = (_uInt)iter.ObjectDesc.TerrianDesc.TileCnt.x;
             //TerrianDesc-> = iter.ObjectDesc.TerrianDesc.TileCnt.x;

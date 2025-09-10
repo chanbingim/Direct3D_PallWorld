@@ -21,6 +21,9 @@ public:
 
 	// ·£´õ
 	virtual		HRESULT						Render() override;
+	
+
+
 
 private:
 	HRESULT									ADD_Components();

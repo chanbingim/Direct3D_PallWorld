@@ -54,7 +54,8 @@ public :
 	void					RemoveInventoryItem(_uInt iSlotIndex, _uInt iCount);
 
 	const CHARACTER_DESC&	GetPlayerData() { return m_PlayerInfo; }
-	const CItemBase*		GetSelectData();
+	const CItemBase*		GetSlotItemData(_uInt iIndex);
+	const CItemBase*		GetSelectItemData();
 
 
 	void					BindPlayerCharacter(class CPlayer* pPlayer);

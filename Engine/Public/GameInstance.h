@@ -169,6 +169,9 @@ public :
 #pragma region Game_Instance
 	_float						GetPipeLineLoopTime(const TCHAR* Str);
 	const _float2&				GetScreenSize();
+
+	_float						Random_Normal();
+	_float						Random(_float fMin, _float fMax);
 #pragma endregion
 
 #pragma region LIGHT_MANAGER

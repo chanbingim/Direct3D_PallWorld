@@ -14,6 +14,9 @@ public:
 	virtual void OnStateExcution(void* pArg = nullptr) override;
 	virtual void OnStateExit(void* pArg = nullptr) override;
 
+private :
+	_uInt						m_iRandomRestMotion = {};
+
 public:
 	static CPellResetState*		Create(const char* szStateName);
 	virtual void				Free() override;

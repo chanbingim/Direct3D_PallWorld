@@ -31,6 +31,8 @@ public:
 	void									SetUppderAnimation(_uInt iIndex, _bool bIsSplite);
 	void									ChangeSocketFlag(_char bitFlag);
 
+	void									ChangeWeaponState(_uInt iWeaponState);
+
 private:
 	CPlayerBody*							m_pPlayerBody = nullptr;
 

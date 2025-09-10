@@ -6,6 +6,7 @@
 #include "State.h"
 
 #include "PlayerPartData.h"
+#include "PlayerWeaponSlot.h"
 #include "PlayerCamera.h"
 
 #include "PlayerManager.h"
@@ -336,10 +337,12 @@ void CPlayer::ChangeAction(_float fDeltaTime)
 #pragma endregion
 
 #pragma region PLAYER_ATTACK
+        _bool IsAttack = false;
         if (IsFinishedAnimationAction())
         {
             if (State.bIsAttacking)
             {
+                m_pAnimator->ChangeWeaponState(ENUM_CLASS(CPlayerWeaponSlot::WEAPON_STATE::IDLE));
                 m_pPlayerFSM->SetAttack(false);
                 m_bIsAnimLoop = true;
             }
@@ -360,17 +363,14 @@ void CPlayer::ChangeAction(_float fDeltaTime)
                 if (!State.bIsAttacking)
                 {
                     m_pPlayerFSM->ChangeState(TEXT("CombatLayer"), TEXT("Attack"));
+                    m_pAnimator->ChangeWeaponState(ENUM_CLASS(CPlayerWeaponSlot::WEAPON_STATE::CHARGE));
                     m_bIsAnimLoop = false;
                 }
             }
             else if(m_pGameInstance->KeyUp(KEY_INPUT::MOUSE, 0))
             {
                 if (!State.bIsAttacking)
-                {
-                    m_pPlayerFSM->PlayerStateReset(TEXT("CombatLayer"));
-                    m_pPlayerFSM->SetAttack(true);
-                    m_bIsAnimLoop = false;
-                }
+                    IsAttack = true;
             }
         }
         else
@@ -378,11 +378,16 @@ void CPlayer::ChangeAction(_float fDeltaTime)
             if (m_pGameInstance->KeyPressed(KEY_INPUT::MOUSE, 0))
             {
                 if (!State.bIsAttacking)
-                {
-                    m_pPlayerFSM->SetAttack(true);
-                    m_bIsAnimLoop = false;
-                }
+                    IsAttack = true;
             }
+        }
+
+        if (IsAttack)
+        {
+            m_pPlayerFSM->PlayerStateReset(TEXT("CombatLayer"));
+            m_pPlayerFSM->SetAttack(true);
+            m_pAnimator->ChangeWeaponState(ENUM_CLASS(CPlayerWeaponSlot::WEAPON_STATE::ATTACK));
+            m_bIsAnimLoop = false;
         }
 #pragma endregion
     }
@@ -404,7 +409,7 @@ void CPlayer::ChangeWeapon()
 
     if (ItemSelect)
     {
-        const CItemBase* pItem = CPlayerManager::GetInstance()->GetSelectData();
+        const CItemBase* pItem = CPlayerManager::GetInstance()->GetSelectItemData();
         if (pItem)
         {
             ITEM_DESC ItemData = pItem->GetItemData();
@@ -544,7 +549,7 @@ void CPlayer::CameraDirLookAt()
 
 _bool CPlayer::GetWeaponAttackType()
 {
-    const CItemBase* pItemData = CPlayerManager::GetInstance()->GetSelectData();
+    const CItemBase* pItemData = CPlayerManager::GetInstance()->GetSelectItemData();
     if (nullptr == pItemData)
         return false;
     const ITEM_DESC ItemDesc = pItemData->GetItemData();

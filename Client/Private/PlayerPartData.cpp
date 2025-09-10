@@ -111,7 +111,12 @@ void CPlayerPartData::ChangeSocketFlag(_char bitFlag)
 {
     //SetSocketFlag(bitFlag);
     m_pPlayerBody->SetSocketFlag(bitFlag);
-} 
+}
+
+void CPlayerPartData::ChangeWeaponState(_uInt iWeaponState)
+{
+    m_pWeaponSocket[0]->ChangeWeaponState(CPlayerWeaponSlot::WEAPON_STATE(iWeaponState));
+}
 
 HRESULT CPlayerPartData::ADD_Components()
 {

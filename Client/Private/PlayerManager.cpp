@@ -114,7 +114,12 @@ void CPlayerManager::RemoveInventoryItem(_uInt iSlotIndex, _uInt iCount)
 	
 }
 
-const CItemBase*  CPlayerManager::GetSelectData()
+const CItemBase* CPlayerManager::GetSlotItemData(_uInt iIndex)
+{
+	return m_EquipSlots[iIndex];
+}
+
+const CItemBase*  CPlayerManager::GetSelectItemData()
 {
 	return m_EquipSlots[m_iSelectSlotIndex];
 }

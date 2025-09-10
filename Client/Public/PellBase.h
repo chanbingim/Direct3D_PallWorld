@@ -1,13 +1,19 @@
 #pragma once
 
 #include "Client_Define.h"
+#include "PellStructData.h"
 #include "ContainerObject.h"
 
 NS_BEGIN(Client)
 class CPellStateMachine;
+class CRecovery;
+class CPellBody;
 
 class CPellBase : public CContainerObject
 {
+public :
+	enum class PELL_TEAM	{ FRENDLY, NEUTRAL, ENEMY , END };
+
 protected:
 	CPellBase(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);
 	CPellBase(const CPellBase& rhs);
@@ -27,8 +33,28 @@ public:
 	virtual		HRESULT						Render() override;
 
 protected :
-	CPellStateMachine*						m_pPellFsm = nullptr;
+	PELL_TEAM								m_eTeam;
 
+	_bool									m_bIsAction = false;
+	_bool									m_bIsLoop = true;
+	_float									m_fAccActionTime = 0;
+	_float									m_fActionTime = 0;
+
+	_float									m_RecoverTime = 0.7f;
+	_float									m_RecoverSetemina = 10.f;
+
+	CPellStateMachine*						m_pPellFsm = nullptr;
+	CRecovery*								m_pRecovery = nullptr;
+	CPellBody*								m_pPellBody = nullptr;
+
+	PELL_INFO								m_PellInfo = {};
+
+protected :
+	void									PellAction(_float fDeletaTime);
+
+	void									ActionFrendly();
+	void									ActionNeutral();
+	void									ActionEnemy();
 
 public:
 	virtual			CGameObject*			Clone(void* pArg) override;

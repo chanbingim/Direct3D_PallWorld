@@ -2,6 +2,7 @@
 
 #include "GameInstance.h"
 #include "PlayerManager.h"
+#include "ItemBase.h"
 
 CPlayerWeaponSlot::CPlayerWeaponSlot(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 	CPartObject(pDevice, pContext)
@@ -33,6 +34,7 @@ HRESULT CPlayerWeaponSlot::Initialize(void* pArg)
 	m_iSlotIndex = SlotDesc->iSlotIndex;
 	m_pLeftSocket = SlotDesc->pLeftSocketMatrix;
 
+	m_eState = WEAPON_STATE::IDLE;
 	return S_OK;
 }
 
@@ -42,26 +44,50 @@ void CPlayerWeaponSlot::Priority_Update(_float fDeletaTime)
 
 void CPlayerWeaponSlot::Update(_float fDeletaTime)
 {
-	if(0 < m_iSlotIndex)
+	if (0 < m_iSlotIndex)
+	{
 		ChangeModelBuffer(CPlayerManager::GetInstance()->GetBackSlotItem(m_iSlotIndex), false);
+		m_CurrentEuipItemInfo = CPlayerManager::GetInstance()->GetSlotItemData(m_iSlotIndex);
+	}
 	else
 	{
+		m_CurrentEuipItemInfo = CPlayerManager::GetInstance()->GetSelectItemData();
 		ChangeModelBuffer(CPlayerManager::GetInstance()->GetCurrentSelectItem(), false);
-		m_bIsAnimWeapon = CPlayerManager::GetInstance()->GetIsAnimSelect();
-		m_LeftRightFlag = CPlayerManager::GetInstance()->GetIsAttachLeft();
 	}
-		
-	if (nullptr == m_pVIBufferCom)
+	
+	if (nullptr == m_pVIBufferCom || nullptr == m_CurrentEuipItemInfo)
 		return;
 
+	const ITEM_DESC& ItemData = m_CurrentEuipItemInfo->GetItemData();
+	m_bIsAnimWeapon = ItemData.IsAnimModel;
 	if (m_bIsAnimWeapon)
-		m_pVIBufferCom->PlayAnimation(0, m_iAnimIndex, 0.f);
+	{
+		if (ITEM_TYPE::EQUIPMENT == ItemData.ItemType)
+		{
+			if (ItemData.TypeDesc.EuqipDesc.bIsChargeAble)
+				ChangeAnimWaponAnimationIndex();
+		}
+
+		if(ItemData.IsPlayAnimation)
+			m_pVIBufferCom->PlayAnimation(0, m_iAnimIndex, fDeletaTime);
+		else
+			m_pVIBufferCom->PlayAnimation(0, 0, 0);
+	}
 }
 
 void CPlayerWeaponSlot::Late_Update(_float fDeletaTime)
 {
-	if (m_LeftRightFlag)
-		UpdateCombinedMatrix(m_pLeftSocket);
+	if (nullptr == m_pVIBufferCom || nullptr == m_CurrentEuipItemInfo)
+		return;
+
+	const ITEM_DESC& ItemData = m_CurrentEuipItemInfo->GetItemData();
+	if (ITEM_TYPE::EQUIPMENT == ItemData.ItemType)
+	{
+		if (ItemData.TypeDesc.EuqipDesc.bIsLeftSocket)
+			UpdateCombinedMatrix(m_pLeftSocket);
+		else
+			UpdateCombinedMatrix();
+	}
 	else
 		UpdateCombinedMatrix();
 
@@ -89,7 +115,11 @@ HRESULT CPlayerWeaponSlot::Render()
 void CPlayerWeaponSlot::ChangeModelBuffer(CModel* pModel, _bool bIsAnim)
 {
 	m_pVIBufferCom = pModel;
-	m_bIsAnimWeapon = bIsAnim;
+}
+
+void CPlayerWeaponSlot::ChangeWeaponState(WEAPON_STATE eWeaponState)
+{
+	m_eState = eWeaponState;
 }
 
 HRESULT CPlayerWeaponSlot::Bind_ShaderResources()
@@ -142,6 +172,26 @@ HRESULT CPlayerWeaponSlot::ADD_Components()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CPlayerWeaponSlot::ChangeAnimWaponAnimationIndex()
+{
+	switch (m_eState)
+	{
+	case Client::CPlayerWeaponSlot::WEAPON_STATE::CHARGE:
+		m_iAnimIndex = 1;
+		break;
+	case Client::CPlayerWeaponSlot::WEAPON_STATE::CHARGE_LOOP:
+		m_iAnimIndex = 2;
+		break;
+	case Client::CPlayerWeaponSlot::WEAPON_STATE::ATTACK:
+		m_iAnimIndex = 0;
+		break;
+	case Client::CPlayerWeaponSlot::WEAPON_STATE::IDLE:
+		m_iAnimIndex = 3;
+		break;
+	}
+
 }
 
 

@@ -5,6 +5,7 @@ namespace Client
 {
 	typedef struct Character_Desc
 	{
+		_uInt	iLevel;
 		//플레이어의 기본데이터를 표시할 구조체
 		// 체력
 		float	MaxHealth, CurHealth;
@@ -20,17 +21,20 @@ namespace Client
 		float	ATKPoint;
 	}CHARACTER_DESC;
 
-	typedef struct Player_Desc : CHARACTER_DESC
+	typedef struct Character_Save_Defualt
 	{
-		_uInt					Stats[5];
-		_uInt					EquipSlot[5];
-		vector<_uInt>			ItemInven;
-		list<_uInt>				ST_Effects;
+		// 체력
+		float	MaxHealth;
+		// 스테미나
+		float	MaxStemina;
+		// 배고픔
+		float	MaxHunger;
 
-	}PLAYER_DESC;
+		// 현재 쉴드가 가지고있는 방어게이지
+		unsigned int	ShieldPoint;
 
-	typedef struct Pell_Desc : public CHARACTER_DESC
-	{
-		
-	}PELL_DESC;
+		// 캐릭터의 공격력
+		float	ATKPoint;
+	}CHARACTER_SAVE_DESC;
+
 }

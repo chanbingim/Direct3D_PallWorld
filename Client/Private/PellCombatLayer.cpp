@@ -13,9 +13,9 @@ CPellCombatLayer::CPellCombatLayer(const CPellCombatLayer& rhs)
 {
 }
 
-HRESULT CPellCombatLayer::Initialize(_uInt iStateSize)
+HRESULT CPellCombatLayer::Initialize(void* pArg, _uInt iStateSize)
 {
-    __super::Initialize(iStateSize);
+    __super::Initialize(pArg, iStateSize);
 
     if (FAILED(ADD_CombatState()))
         return E_FAIL;
@@ -33,15 +33,22 @@ HRESULT CPellCombatLayer::ADD_CombatState()
     if (FAILED(AddState(TEXT("Attack"), CPellAttackState::Create("Attack"))))
         return E_FAIL;
 
-    if (FAILED(AddState(TEXT("Hit"), CPellAttackState::Create("Hit"))))
-        return E_FAIL;
+    /*if (FAILED(AddState(TEXT("Hit"), CPellAttackState::Create("Hit"))))
+        return E_FAIL;*/
 
     return S_OK;
 }
 
-CPellCombatLayer* CPellCombatLayer::Create(_uInt iStateSize)
+CPellCombatLayer* CPellCombatLayer::Create(void* pArg, _uInt iStateSize)
 {
-    return new CPellCombatLayer();
+    CPellCombatLayer* pPellCombatLayer = new CPellCombatLayer();
+    if (FAILED(pPellCombatLayer->Initialize(pArg, iStateSize)))
+    {
+        Safe_Release(pPellCombatLayer);
+        MSG_BOX("CREATE FAIL : PELL COMBAT LAYER");
+    }
+
+    return pPellCombatLayer;
 }
 
 void CPellCombatLayer::Free()

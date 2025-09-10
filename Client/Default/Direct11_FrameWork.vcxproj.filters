@@ -299,9 +299,6 @@
     <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\LowerLayer\State\Walk">
       <UniqueIdentifier>{1459d242-8a34-442a-9a4a-a6ffbb93e975}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\Wepon">
-      <UniqueIdentifier>{4b99c399-e4e4-4009-9a69-35c6f25c13ff}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Aim">
       <UniqueIdentifier>{bcb12343-7f9b-459c-8f34-23f2358722ea}</UniqueIdentifier>
     </Filter>
@@ -352,9 +349,6 @@
     </Filter>
     <Filter Include="04. DataManager\Object\Item\Manager">
       <UniqueIdentifier>{c1b78328-8f16-4692-ac27-9dfdce3f268c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\Wepon\WeaponSlot">
-      <UniqueIdentifier>{f25f3399-bd8a-4ef5-91fb-5c6ff05f7638}</UniqueIdentifier>
     </Filter>
     <Filter Include="03. Objects\MeshObject\AnimMesh\Object">
       <UniqueIdentifier>{af29c8a7-989e-4faa-bb33-f4179a7b6ff2}</UniqueIdentifier>
@@ -467,6 +461,21 @@
     <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\CombatLayer\State\Hit">
       <UniqueIdentifier>{1a2283b4-b73c-4f66-bfbe-a7ee0411c286}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\WeaponSlot">
+      <UniqueIdentifier>{4b99c399-e4e4-4009-9a69-35c6f25c13ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. DataManager\Character\Pell">
+      <UniqueIdentifier>{a9963b4e-b60f-4fbc-a8f8-48584fa81896}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. DataManager\Character\Pell\Struct">
+      <UniqueIdentifier>{fef3a820-5981-45da-add8-09ca6971e71d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. Component">
+      <UniqueIdentifier>{5ae3355d-3640-40b9-ba69-2d91475b8662}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. Component\Recovery">
+      <UniqueIdentifier>{5dd2e391-d443-497e-b18b-77a7869d8a97}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -526,7 +535,7 @@
     <ClInclude Include="..\public\GamePlayHUD.h">
       <Filter>02. HUD\GamePlayHUD</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Terrian.h">
+    <ClInclude Include="..\public\Terrain.h">
       <Filter>03. Objects\MeshObject\NonAnimMesh\Terrian</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Player_Interface.h">
@@ -826,9 +835,6 @@
     <ClInclude Include="..\Public\ItemStruct.h">
       <Filter>04. DataManager\Object\Item</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\PlayerWeaponSlot.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Wepon\WeaponSlot</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\PalSpher.h">
       <Filter>03. Objects\MeshObject\AnimMesh\Object\PalSpher</Filter>
     </ClInclude>
@@ -867,6 +873,22 @@
     </ClInclude>
     <ClInclude Include="..\public\PellHitState.h">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\CombatLayer\State\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PlayerWeaponSlot.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\WeaponSlot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PellManager.h">
+      <Filter>04. DataManager\Character\Pell</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PellStructData.h">
+      <Filter>04. DataManager\Character\Pell\Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PellController.h" />
+    <ClInclude Include="..\public\Recovery.h">
+      <Filter>06. Component\Recovery</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TerrainManager.h">
+      <Filter>04. DataManager\Object\Terrian</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -928,7 +950,7 @@
     <ClCompile Include="..\private\GamePlayHUD.cpp">
       <Filter>02. HUD\GamePlayHUD</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Terrian.cpp">
+    <ClCompile Include="..\private\Terrain.cpp">
       <Filter>03. Objects\MeshObject\NonAnimMesh\Terrian</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Player_Interface.cpp">
@@ -1216,9 +1238,6 @@
     <ClCompile Include="..\private\NoneAnimMesh.cpp">
       <Filter>03. Objects\MeshObject\NonAnimMesh</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\PlayerWeaponSlot.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Wepon\WeaponSlot</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\PalSpher.cpp">
       <Filter>03. Objects\MeshObject\AnimMesh\Object\PalSpher</Filter>
     </ClCompile>
@@ -1257,6 +1276,19 @@
     </ClCompile>
     <ClCompile Include="..\private\PellHitState.cpp">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\CombatLayer\State\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PlayerWeaponSlot.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\WeaponSlot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PellManager.cpp">
+      <Filter>04. DataManager\Character\Pell</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PellController.cpp" />
+    <ClCompile Include="..\private\Recovery.cpp">
+      <Filter>06. Component\Recovery</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TerrainManager.cpp">
+      <Filter>04. DataManager\Object\Terrian</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

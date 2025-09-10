@@ -16,9 +16,9 @@ CPlayerUpperLayer::CPlayerUpperLayer(const CPlayerUpperLayer& rhs)
 {
 }
 
-HRESULT CPlayerUpperLayer::Initialize(_uInt iStateSize)
+HRESULT CPlayerUpperLayer::Initialize(void* pArg, _uInt iStateSize)
 {
-    __super::Initialize(iStateSize);
+    __super::Initialize(pArg, iStateSize);
     if (FAILED(ADD_UpperState()))
         return E_FAIL;
     return S_OK;
@@ -46,10 +46,10 @@ HRESULT CPlayerUpperLayer::ADD_UpperState()
     return S_OK;
 }
 
-CPlayerUpperLayer* CPlayerUpperLayer::Create(_uInt iStateSize)
+CPlayerUpperLayer* CPlayerUpperLayer::Create(void* pArg, _uInt iStateSize)
 {
     CPlayerUpperLayer* pUpperLayer = new CPlayerUpperLayer();
-    if (FAILED(pUpperLayer->Initialize(iStateSize)))
+    if (FAILED(pUpperLayer->Initialize(pArg, iStateSize)))
     {
         Safe_Release(pUpperLayer);
         MSG_BOX("CREATE FAIL : PLAYER UPPER LAYER");

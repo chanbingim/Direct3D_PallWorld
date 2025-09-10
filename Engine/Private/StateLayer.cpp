@@ -9,7 +9,7 @@ CStateLayer::CStateLayer(const CStateLayer& rhs)
 {
 }
 
-HRESULT CStateLayer::Initialize(_uInt iStateSize)
+HRESULT CStateLayer::Initialize(void* pArg, _uInt iStateSize)
 {
     m_States.reserve(iStateSize);
     return S_OK;

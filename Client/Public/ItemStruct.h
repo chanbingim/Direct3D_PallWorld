@@ -40,7 +40,9 @@ namespace Client
 		WCHAR					szItemIconPath[MAX_PATH] = {};
 		WCHAR					szItemModelPath[MAX_PATH] = {};
 		ITEM_TYPE				ItemType = {};
+
 		_bool					IsAnimModel = false;
+		_bool					IsPlayAnimation = false;
 
 		ITME_TYPE_DESC			TypeDesc;
 	}ITEM_DESC;

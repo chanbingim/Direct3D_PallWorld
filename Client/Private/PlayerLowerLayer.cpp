@@ -15,9 +15,9 @@ CPlayerLowerLayer::CPlayerLowerLayer(const CPlayerLowerLayer& rhs)
 {
 }
 
-HRESULT CPlayerLowerLayer::Initialize(_uInt iStateSize)
+HRESULT CPlayerLowerLayer::Initialize(void* pArg, _uInt iStateSize)
 {
-    __super::Initialize(iStateSize);
+    __super::Initialize(pArg, iStateSize);
     if (FAILED(ADD_LowerState()))
         return E_FAIL;
 
@@ -45,10 +45,10 @@ HRESULT CPlayerLowerLayer::ADD_LowerState()
     return S_OK;
 }
 
-CPlayerLowerLayer* CPlayerLowerLayer::Create(_uInt iStateSize)
+CPlayerLowerLayer* CPlayerLowerLayer::Create(void* pArg, _uInt iStateSize)
 {
     CPlayerLowerLayer* pLowerLayer =  new CPlayerLowerLayer();
-    if (FAILED(pLowerLayer->Initialize(iStateSize)))
+    if (FAILED(pLowerLayer->Initialize(pArg, iStateSize)))
     {
         Safe_Release(pLowerLayer);
         MSG_BOX("CREATE FAIL : PLAYER LOWER LAYER");

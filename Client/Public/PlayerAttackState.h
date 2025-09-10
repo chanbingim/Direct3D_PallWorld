@@ -3,6 +3,8 @@
 #include "State.h"
 
 NS_BEGIN(Client)
+class CPlayer;
+
 class CPlayerAttackState : public CState
 {
 protected:
@@ -16,6 +18,7 @@ public:
 
 private:
 	_uInt						m_iAttackIndex = 0;
+
 
 private:
 	void						ChangeStateName();

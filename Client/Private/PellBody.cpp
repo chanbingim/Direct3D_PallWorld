@@ -30,22 +30,29 @@ HRESULT CPellBody::Initialize(void* pArg)
 
 void CPellBody::Priority_Update(_float fDeletaTime)
 {
-    __super::Priority_Update(fDeletaTime);
 }
 
 void CPellBody::Update(_float fDeletaTime)
 {
-    __super::Update(fDeletaTime);
 }
 
 void CPellBody::Late_Update(_float fDeletaTime)
 {
-    __super::Late_Update(fDeletaTime);
+    
 }
 
 HRESULT CPellBody::Render()
 {
     return S_OK;
+}
+
+void CPellBody::PellPlayAnimation(const char* szAnimName, _bool bIsLoop)
+{
+    if (szAnimName)
+    {
+        m_iAnimIndex = m_pVIBufferCom->GetNumAnimation(szAnimName);
+        m_bIsAnimLoop = bIsLoop;
+    }
 }
 
 CGameObject* CPellBody::Clone(void* pArg)

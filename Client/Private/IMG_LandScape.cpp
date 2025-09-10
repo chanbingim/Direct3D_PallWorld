@@ -1,7 +1,7 @@
 #include "IMG_LandScape.h"
 
 #include "GameInstance.h"
-#include "Terrian.h"
+#include "Terrain.h"
 #include "Level.h"
 
 CIMG_LandScape::CIMG_LandScape(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
@@ -96,8 +96,8 @@ void CIMG_LandScape::GenerateTerrian()
             float OffsetX = (j == 0 ? 0.f : 1.f);
 
             //구조체 세팅해서 넘긴다음 Clone
-            CTerrian::TERRIAN_DESC Desc;
-            ZeroMemory(&Desc, sizeof(CTerrian::TERRIAN_DESC));
+            CTerrain::TERRIAN_DESC Desc;
+            ZeroMemory(&Desc, sizeof(CTerrain::TERRIAN_DESC));
             wsprintf(Desc.ObjectTag, TEXT("LandScape%d"), i * m_tileCount[1] + j);
 
             Desc.vPosition = { (_float)(GridX  * j - OffsetX), 0.f, (_float)(GridX * i - OffsetY) };
@@ -139,7 +139,7 @@ void CIMG_LandScape::CreateHeightMapToPng()
     {
         wsprintf(FilePath, TEXT("../Bin/Save/HeightMap/%s.png"), Object->GetObjectTag().c_str());
 
-        auto VITerrian = static_cast<CVIBuffer_Terrian *>(Object->Find_Component(TEXT("VIBuffer_Com")));
+        auto VITerrian = static_cast<CVIBuffer_Terrain *>(Object->Find_Component(TEXT("VIBuffer_Com")));
         VITerrian->ExportHeightMap(FilePath);
     }
 }

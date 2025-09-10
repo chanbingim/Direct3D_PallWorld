@@ -5,6 +5,7 @@
 #pragma region LAYER
 #include "PellCombatLayer.h"
 #include "PellMoveLayer.h"
+#include "ContainerObject.h"
 #pragma endregion
 
 CPellStateMachine::CPellStateMachine()
@@ -19,10 +20,16 @@ HRESULT CPellStateMachine::Initialize(void* pArg)
 {
     __super::Initialize(pArg);
 
+    PELLFSM_DESC* pDesc = static_cast<PELLFSM_DESC*>(pArg);
+    m_pOwner = pDesc->pOwner;
+
     if (FAILED(ADD_StateLayer()))
         return E_FAIL;
 
-    ChangeState(TEXT("MoveLayer"), TEXT("IDLE"));
+    if (FAILED(SetUp_PellInitState()))
+        return E_FAIL;
+
+    ChangeState(TEXT("BodyLayer"), TEXT("Idle"));
 
     return S_OK;
 }
@@ -34,7 +41,29 @@ void CPellStateMachine::Update(_float DeltaTime)
 
 _bool CPellStateMachine::ChangeState(const _wstring& LayerTag, const _wstring& StateTag)
 {
-    return _bool();
+    auto pLayer = FindLayer(LayerTag);
+    if (nullptr == pLayer)
+        return false;
+
+    _uInt iLayerIndex = GetNumLayer(LayerTag);
+
+    if (FAILED(pLayer->ChangeState(StateTag)))
+        return false;
+
+    _uInt iStateIndex = pLayer->GetCurrentStateNum();
+    //레이어 번호 가져와서 데이터 세팅
+    switch (iLayerIndex)
+    {
+    case 0:
+        m_StateData.eMove_State = MOVE_ACTION(iStateIndex);
+        break;
+    case 1:
+        m_StateData.eCombat_State = COMBAT_ACTION(iStateIndex);
+        break;
+    }
+
+    return true;
+
 }
 
 void CPellStateMachine::PellStateReset(const _wstring& LayerTag)
@@ -59,12 +88,33 @@ void CPellStateMachine::PellStateReset(const _wstring& LayerTag)
     ResetLayer(LayerTag);
 }
 
+_string CPellStateMachine::GetAnimationName()
+{
+    _string FullName = {};
+    auto BodyLayer = FindLayer(TEXT("BodyLayer"));
+    auto CombatLayer = FindLayer(TEXT("CombatLayer"));
+
+    if (nullptr == BodyLayer || nullptr == CombatLayer)
+        return "";
+
+    const char* BodyAnimName = BodyLayer->GetCurStateName();
+    const char* CombatAnimName = CombatLayer->GetCurStateName();
+
+    if (nullptr == BodyAnimName)
+        return "";
+
+    FullName = BodyAnimName;
+    return FullName;
+}
+
 HRESULT CPellStateMachine::ADD_StateLayer()
 {
-    if (FAILED(__super::AddLayer(TEXT("MoveLayer"), CPellMoveLayer::Create(ENUM_CLASS(MOVE_ACTION::END)))))
+    CPellMoveLayer::PELL_LAYER_DESC MoveDesc;
+    MoveDesc.pOwner = m_pOwner;
+    if (FAILED(__super::AddLayer(TEXT("BodyLayer"), CPellMoveLayer::Create(&MoveDesc, ENUM_CLASS(MOVE_ACTION::END)))))
         return E_FAIL;
 
-    if (FAILED(__super::AddLayer(TEXT("CombatLayer"), CPellCombatLayer::Create(ENUM_CLASS(COMBAT_ACTION::END)))))
+    if (FAILED(__super::AddLayer(TEXT("CombatLayer"), CPellCombatLayer::Create(nullptr, ENUM_CLASS(COMBAT_ACTION::END)))))
         return E_FAIL;
 
     return S_OK;
@@ -101,4 +151,5 @@ CPellStateMachine* CPellStateMachine::Create()
 void CPellStateMachine::Free()
 {
     __super::Free();
+
 }

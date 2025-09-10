@@ -22,6 +22,8 @@ public:
 
 	// ·£´õ
 	virtual		HRESULT						Render() override;
+	void									PellPlayAnimation(const char* szAnimName, _bool bIsLoop = true);
+
 
 public:
 	virtual			CGameObject*			Clone(void* pArg) override;

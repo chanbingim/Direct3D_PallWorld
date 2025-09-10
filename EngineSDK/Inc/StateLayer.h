@@ -12,7 +12,7 @@ protected:
 	virtual ~CStateLayer() = default;
 
 public:
-	virtual		HRESULT							Initialize(_uInt iStateSize);
+	virtual		HRESULT							Initialize(void* pArg, _uInt iStateSize);
 	virtual		void							Update(_float DeltaTime);
 
 	HRESULT										AddState(const _wstring& StateTag, CState* pNewState);

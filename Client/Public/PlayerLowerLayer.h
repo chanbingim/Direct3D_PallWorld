@@ -11,14 +11,14 @@ private :
 	virtual ~CPlayerLowerLayer() = default;
 
 public:
-	virtual		HRESULT							Initialize(_uInt iStateSize) override;
+	virtual		HRESULT							Initialize(void* pArg, _uInt iStateSize) override;
 	virtual		void							Update(_float DeltaTime) override;
 
 private :
 	HRESULT										ADD_LowerState();
 
 public:
-	static	CPlayerLowerLayer*					Create(_uInt iStateSize);
+	static	CPlayerLowerLayer*					Create(void* pArg, _uInt iStateSize);
 	virtual	void								Free() override;
 };
 NS_END

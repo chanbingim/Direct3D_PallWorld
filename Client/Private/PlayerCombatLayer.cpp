@@ -1,6 +1,8 @@
 #include "PlayerCombatLayer.h"
 #include "PlayerAttackState.h"
 
+
+
 CPlayerCombatLayer::CPlayerCombatLayer()
 {
 }
@@ -9,9 +11,9 @@ CPlayerCombatLayer::CPlayerCombatLayer(const CPlayerCombatLayer& rhs)
 {
 }
 
-HRESULT CPlayerCombatLayer::Initialize(_uInt iStateSize)
+HRESULT CPlayerCombatLayer::Initialize(void* pArg, _uInt iStateSize)
 {
-    __super::Initialize(iStateSize);
+    __super::Initialize(pArg, iStateSize);
     if (FAILED(ADD_CombatState()))
         return E_FAIL;
     return S_OK;
@@ -30,10 +32,10 @@ HRESULT CPlayerCombatLayer::ADD_CombatState()
     return S_OK;
 }
 
-CPlayerCombatLayer* CPlayerCombatLayer::Create(_uInt iStateSize)
+CPlayerCombatLayer* CPlayerCombatLayer::Create(void* pArg, _uInt iStateSize)
 {
     CPlayerCombatLayer* pCombatLayer = new CPlayerCombatLayer();
-    if (FAILED(pCombatLayer->Initialize(iStateSize)))
+    if (FAILED(pCombatLayer->Initialize(pArg, iStateSize)))
     {
         Safe_Release(pCombatLayer);
         MSG_BOX("CREATE FAIL : PLAYER COMBAT LAYER");
