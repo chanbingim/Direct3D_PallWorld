@@ -171,6 +171,33 @@ void CTransform::LookAt(_vector vAt)
     XMStoreFloat4(reinterpret_cast<_float4*>(&m_WorldMat.m[2]), XMVector3Normalize(vLook) * vScale.z);
 }
 
+void CTransform::LerpTurn(_vector vAxis, _vector vAt, _float fSpeed, _float fTimeDelta)
+{
+    _vector vCurScale{}, vCurRotQuat{}, vCurPos{};
+    _matrix WorldMat = XMLoadFloat4x4(&m_WorldMat);
+    XMMatrixDecompose(&vCurScale, &vCurRotQuat, &vCurPos, WorldMat);
+
+    _vector     vCurLook = GetLookVector();
+    _vector		vLook = XMVector3Normalize(vAt - vCurPos);
+    
+    _float fAngle = acosf(XMVectorGetX(XMVector3Dot(vCurLook, vLook)));
+
+    if(0 > XMVectorGetY(XMVector3Cross(vCurLook, vLook)))
+        fAngle = -fAngle;
+
+    _vector vEndQuaternion = XMQuaternionRotationAxis(vAxis, fAngle);
+    vEndQuaternion = XMQuaternionMultiply(vCurRotQuat, vEndQuaternion);
+
+    _float fQuatDot = abs(XMVectorGetX(XMQuaternionDot(vCurRotQuat, vEndQuaternion)));
+    if (fQuatDot > 0.996f)  // 약 2.5도 이하
+        return;
+
+    _vector vLerpQuat = XMQuaternionSlerp(vCurRotQuat, vEndQuaternion, fTimeDelta * fSpeed);
+    XMStoreFloat4x4(&m_WorldMat, XMMatrixScalingFromVector(vCurScale) *
+                                 XMMatrixRotationQuaternion(vLerpQuat) * 
+                                 XMMatrixTranslationFromVector(vCurPos));
+}
+
 CTransform* CTransform::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
     CTransform* pInstance = new CTransform(pDevice, pContext);

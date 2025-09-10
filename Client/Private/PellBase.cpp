@@ -2,6 +2,7 @@
 
 #include "GameInstance.h"
 #include "PellStateMachine.h"
+#include "PellBody.h"
 #include "Recovery.h"
 
 CPellBase::CPellBase(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext) :
@@ -153,4 +154,7 @@ CGameObject* CPellBase::Clone(void* pArg)
 void CPellBase::Free()
 {
     __super::Free();
+
+    Safe_Release(m_pPellFsm);
+    Safe_Release(m_pRecovery);
 }

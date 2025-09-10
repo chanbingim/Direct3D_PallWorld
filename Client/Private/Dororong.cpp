@@ -136,5 +136,4 @@ void CDororong::Free()
 {
     __super::Free();
 
-    Safe_Release(m_pRecovery);
 }

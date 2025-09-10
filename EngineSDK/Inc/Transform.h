@@ -30,9 +30,13 @@ public :
 
 	void						ADD_Position(_vector vAddPos);
 	void						Turn(_vector vAxis, _float fTurnSpeed, _float fTimeDeleta);
+	void						LerpTurn(_vector vAxis, _vector vAt, _float fSpeed, _float fTimeDelta);
 
 	void						LookAt(_vector vAt);
+	
+
 private :
+	_bool						m_bIsRotationLerp = false;
 	_bool						m_bHasParent = false;
 	_float4x4					m_ParentWorldMat;
 	_float4x4					m_WorldMat;

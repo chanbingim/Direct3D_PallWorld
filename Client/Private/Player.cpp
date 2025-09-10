@@ -238,7 +238,9 @@ void CPlayer::MoveAction(_float fDeletaTime)
         if (!State.bIsAiming)
         {
             if (!XMVector4Equal(vDir, XMVectorZero()))
-                m_pTransformCom->LookAt(vPos + vDir);
+            {
+                m_pTransformCom->LerpTurn(XMVectorSet(0.f, 1.f, 0.f, 0.f), vPos + vDir, 5.f, fDeletaTime);
+            }
         }
 
         MovePos = vDir * m_fMoveSpeed * fDeletaTime;
