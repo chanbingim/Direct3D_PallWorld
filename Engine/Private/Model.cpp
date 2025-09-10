@@ -929,9 +929,9 @@ void CModel::ChangeAnimation(_uInt iAnimLayerIndex, _uInt iAnimIndex)
 	}
 }
 
-_bool CModel::LerpAnimation(_uInt iAnimLayerIndex, _float fDeletaTime, _float AnimSpeed, _int2 UpdateBoneIdx)
+_bool CModel::LerpAnimation(_uInt iAnimLayerIndex, _float fDeletaTime, _float fAnimSpeed, _int2 UpdateBoneIdx)
 {
-	if (m_Animations[m_CurrentAnimIndexs[iAnimLayerIndex]]->UpdateTransformationMatrices(m_Bones, fDeletaTime, UpdateBoneIdx, &m_PreFrameTrackPos, 0.5f, AnimSpeed))
+	if (m_Animations[m_CurrentAnimIndexs[iAnimLayerIndex]]->UpdateTransformationMatrices(m_Bones, fDeletaTime, UpdateBoneIdx, &m_PreFrameTrackPos, 0.5f, fAnimSpeed))
 	{
 		m_bIsLerpAnimation = false;
 		return true;

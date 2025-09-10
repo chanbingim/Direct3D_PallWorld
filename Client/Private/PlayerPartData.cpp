@@ -51,14 +51,14 @@ void CPlayerPartData::Priority_Update(_float fDeletaTime)
 void CPlayerPartData::Update(_float fDeletaTime)
 {
     if(!m_SplitAnimation)
-        m_bIsFinished = m_pVIBufferCom->PlayAnimation(0, m_iAnimIndex, fDeletaTime, 5.f, m_bIsAnimLoop);
+        m_bIsFinished = m_pVIBufferCom->PlayAnimation(0, m_iAnimIndex, fDeletaTime, 10.f, m_bIsAnimLoop);
     else
     {
         // 여기서 특정 상태일때 애니메이션을 또하나 재생한다.
         // 애니메이션을 두개 재생하고 바디에게 넘겨줄때 바디는 두개의 데이터를 받아서
         // 상체 하체를 분할해서 애니메이션을 재생한다.
-        m_pVIBufferCom->PlayAnimation(0, m_iAnimIndex, fDeletaTime, 5.f, true);
-        m_bIsFinished = m_pVIBufferCom->PlayAnimation(1, m_UpperBodyIndex, fDeletaTime, 5.f, m_bIsAnimLoop, "spine_01");
+        m_pVIBufferCom->PlayAnimation(0, m_iAnimIndex, fDeletaTime, 10.f, true);
+        m_bIsFinished = m_pVIBufferCom->PlayAnimation(1, m_UpperBodyIndex, fDeletaTime, 10.f, m_bIsAnimLoop, "spine_01");
     }
 
     for (_uInt i = 0; i < 2; ++i)
