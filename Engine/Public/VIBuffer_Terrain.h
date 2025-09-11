@@ -18,12 +18,14 @@ public:
 	virtual void			Render_VIBuffer() override;
 
 	HRESULT					ExportHeightMap(const WCHAR* ExportFilePath);
-	
+	const _float3*			GetVerticesPoint() const { return m_pVertices; }
+
+
 	virtual _bool			IsPicking(CTransform* pTransform, _float3* pOut) override;
 	virtual _bool			IsPicking(_vector vRayOrizin, _vector vRayDir, class CTransform* pTransform, _float3* pOut);
 	
 	HRESULT					UpdateHegiht(CTransform* pTransform, _float Apply, _float Offset);
-	_float2					GetTerrianSize() { return m_iNumVertex; }
+	_float2					GetTerrianSize() const { return m_iNumVertex; }
 
 private :
 	_float2					m_iNumVertex = {};

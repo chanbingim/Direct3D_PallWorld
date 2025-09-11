@@ -205,6 +205,21 @@
     <Filter Include="Utility\Components\VIBuffer\VITerrain">
       <UniqueIdentifier>{0565ecb3-4d1b-42e0-b919-e6e64f7296fe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utility\Helpers\StructHeader">
+      <UniqueIdentifier>{fa9fac0a-ea44-4d22-8bdf-045b24b05fd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Helpers\StructHeader\Mesh">
+      <UniqueIdentifier>{4f5a5f64-5350-434e-a4c6-a0c6d57bba36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Helpers\StructHeader\Level">
+      <UniqueIdentifier>{225a4326-edbb-4703-9cb0-f04e6d989be4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Helpers\StructHeader\NaviMesh">
+      <UniqueIdentifier>{f5750f27-d6b1-4ff3-a9bc-d4d8132e6db5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShaderFiles">
+      <UniqueIdentifier>{43bb02b0-344b-4faf-ac98-ca751fd9f705}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Graphic_Device.cpp">
@@ -530,9 +545,6 @@
     <ClInclude Include="..\public\JsonHelper.h">
       <Filter>Utility\Helpers\Paser\Json</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\PaseDataHeader.h">
-      <Filter>Utility\Helpers</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\BaseCamera.h">
       <Filter>Utility\Object\Camera</Filter>
     </ClInclude>
@@ -605,5 +617,22 @@
     <ClInclude Include="..\public\VIBuffer_Cell.h">
       <Filter>Utility\Components\VIBuffer\Cell</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\PaseDataHeader.h">
+      <Filter>Utility\Helpers\StructHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LevelPaserStruct.h">
+      <Filter>Utility\Helpers\StructHeader\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NaviMeshPaserStruct.h">
+      <Filter>Utility\Helpers\StructHeader\NaviMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ModelPaserStruct.h">
+      <Filter>Utility\Helpers\StructHeader\Mesh</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Cell.hlsl">
+      <Filter>ShaderFiles</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

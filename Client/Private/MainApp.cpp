@@ -7,8 +7,14 @@
 #include "GameObject.h"
 #include "LoadingLevel.h"
 #include "HeadUpDisplay.h"
+
+#pragma region Manager
 #include "ItemManager.h"
 #include "PlayerManager.h"
+#include "TerrainManager.h"
+#pragma endregion
+
+
 
 CMainApp::CMainApp() : m_pGameInstance(CGameInstance::GetInstance())
 {
@@ -268,6 +274,7 @@ void CMainApp::Free()
 	
 	CPlayerManager::DestroyInstance();
 	CItemManager::DestroyInstance();
+	CTerrainManager::DestroyInstance();
 
 	m_pGameInstance->Release_Engine();
 	Safe_Release(m_pGameInstance);

@@ -1,5 +1,6 @@
 #include "Cell.h"
 #include "VIBuffer_Cell.h"
+#include "NaviMeshPaserStruct.h"
 
 CCell::CCell(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     m_pDevice(pDevice),
@@ -23,9 +24,18 @@ HRESULT CCell::Initialize(_uInt iCellIndex, _uInt iCellProperity, const _float3*
         if (ENUM_CLASS(NAVI_POINT::END) <= LeftIndex)
             LeftIndex = 0;
 
-        XMStoreFloat3(&vLines[i], XMLoadFloat3(&m_vTirPoints[i + 1]) - XMLoadFloat3(&m_vTirPoints[i]));
+        XMStoreFloat3(&vLines[i], XMLoadFloat3(&m_vTirPoints[LeftIndex]) - XMLoadFloat3(&m_vTirPoints[i]));
         m_vTirNormals[i] = _float3(vLines[i].z * -1.f, 0.f, vLines[i].x);
     }
+
+#ifdef _DEBUG
+    m_pVIBuffer = CVIBuffer_Cell::Create(m_pDevice, m_pContext, vPoints);
+    if (nullptr == m_pVIBuffer)
+        return E_FAIL;
+#endif // _DEBUG
+    XMStoreFloat4(&m_vPlane,
+        XMPlaneFromPoints(XMLoadFloat3(&m_vTirPoints[0]), XMLoadFloat3(&m_vTirPoints[1]), XMLoadFloat3(&m_vTirPoints[2])));
+
     return S_OK;
 }
 
@@ -91,9 +101,25 @@ _bool CCell::IsMoveAble()
     return true;
 }
 
+_float CCell::ComputeHeight(_vector vPos)
+{
+    return (-m_vPlane.x * XMVectorGetX(vPos) - m_vPlane.z * XMVectorGetZ(vPos) - m_vPlane.w) / m_vPlane.y;
+}
+
+#ifdef _DEBUG
 void CCell::Render()
 {
     m_pVIBuffer->Render_VIBuffer();
+}
+#endif
+
+void CCell::Export(void* pArg)
+{
+    CELL_SAVE_STRCUT* CellSaveData = static_cast<CELL_SAVE_STRCUT*>(pArg);
+    CellSaveData->iProperity = m_iCellProperity;
+    CellSaveData->vPointA = m_vTirPoints[ENUM_CLASS(NAVI_POINT::A)];
+    CellSaveData->vPointB = m_vTirPoints[ENUM_CLASS(NAVI_POINT::B)];
+    CellSaveData->vPointC = m_vTirPoints[ENUM_CLASS(NAVI_POINT::C)];
 }
 
 CCell* CCell::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, _uInt iCellIndex, _uInt iCellProperity, const _float3* vPoints)
@@ -110,4 +136,8 @@ CCell* CCell::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, _uInt
 void CCell::Free()
 {
     __super::Free();
+
+    Safe_Release(m_pDevice);
+    Safe_Release(m_pContext);
+    Safe_Release(m_pVIBuffer);
 }

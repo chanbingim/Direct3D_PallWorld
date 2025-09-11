@@ -61,6 +61,7 @@ void CPlayerPartData::Update(_float fDeletaTime)
         m_bIsFinished = m_pVIBufferCom->PlayAnimation(1, m_UpperBodyIndex, fDeletaTime, 10.f, m_bIsAnimLoop, "spine_01");
     }
 
+    m_pPlayerBody->Update(fDeletaTime);
     for (_uInt i = 0; i < 2; ++i)
         m_pWeaponSocket[i]->Update(fDeletaTime);
 }
@@ -145,7 +146,7 @@ HRESULT CPlayerPartData::ADD_AnimParts()
     ZeroMemory(&Desc, sizeof(CPartObject::PARTOBJECT_DESC));
 
     Desc.pParent = this;
-    Desc.vScale = { 0.05f, 0.05f, 0.05f };
+    Desc.vScale = { 1.f, 1.f, 1.f };
     Desc.SocketMatrix = &m_CombinedWorldMatrix;
     Desc.UseSocketMatrixFlag = 0b00000001;
     Desc.vRotation = { 0.f, 0.f, 0.f };
@@ -160,7 +161,7 @@ HRESULT CPlayerPartData::ADD_AnimParts()
     lstrcpy(SlotDesc.ObjectTag, L"Player_R_Weapon");
     SlotDesc.vScale = { 1.f, 1.f, 1.f };
     SlotDesc.vRotation = { XMConvertToRadians(90.f), 0.f,  XMConvertToRadians(180.f) };
-    SlotDesc.vPosition = { 1.f, 0.f, 0.f };
+    SlotDesc.vPosition = { 0.01f, 0.f, 0.f };
     SlotDesc.UseSocketMatrixFlag = 0b00000001;
     m_pWeaponSocketMatrix[0] = m_pPlayerBody->GetBoneMatrix("weapon_r");
     SlotDesc.SocketMatrix = m_pWeaponSocketMatrix[0];
@@ -174,7 +175,7 @@ HRESULT CPlayerPartData::ADD_AnimParts()
 #pragma region Slot 2
     lstrcpy(SlotDesc.ObjectTag, L"Player_L_Socket");
     SlotDesc.vRotation = { 0.f,  0.f,  XMConvertToRadians(-90.f) };
-    SlotDesc.vPosition = { -10.f, 10.f, 0.f };
+    SlotDesc.vPosition = { -0.1f, 0.1f, 0.f };
     SlotDesc.SocketMatrix = GetBoneMatrix("upperarm_l");
     SlotDesc.iSlotIndex = 1;
 

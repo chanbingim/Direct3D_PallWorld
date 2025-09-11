@@ -22,8 +22,12 @@ public :
 
 	void					SetNeighbor(NAVI_LINE eLine, _Int iIndex);
 	_bool					IsMoveAble();
+	_float					ComputeHeight(_vector vPos);
 
+#ifdef _DEBUG
 	void					Render();
+	void					Export(void* pArg);
+#endif // _DEBUG
 
 private :
 	ID3D11Device*			m_pDevice = nullptr;
@@ -39,6 +43,7 @@ private :
 	_float3					m_vTirPoints[ENUM_CLASS(NAVI_POINT::END)] = {};
 	_float3					m_vTirNormals[ENUM_CLASS(NAVI_LINE::END)] = {};
 	_Int					m_NeighborIndices[ENUM_CLASS(NAVI_LINE::END)] = { -1, -1, -1 };
+	_float4					m_vPlane = {};
 
 	CELL_TYPE				m_eType;
 

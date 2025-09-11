@@ -1,7 +1,6 @@
 #include "Terrain.h"
 
 #include "GameInstance.h"
-#include "Navigation.h"
 #include "PaseDataHeader.h"
 #include "StringHelper.h"
 
@@ -35,12 +34,11 @@ HRESULT CTerrain::Initialize(void* pArg)
 	{
 		TileCnt = Desc->iGridCnt;
 		m_bIsPicking = Desc->IsPicking;
+		if (FAILED(ADD_Components(*Desc)))
+			return E_FAIL;
 	}
 	else
 		m_ObejctTag = TEXT("Terrian");
-
-	if (FAILED(ADD_Components(TileCnt)))
-		return E_FAIL;
 
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
@@ -57,7 +55,7 @@ void CTerrain::Priority_Update(_float fDeletaTime)
 void CTerrain::Update(_float fDeletaTime)
 {
 	__super::Update(fDeletaTime);
-	//m_pNavigationCom->Update(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
+	m_pNavigationCom->Update(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
 
 	_float3 vOut = {};
 #ifdef _DEBUG
@@ -86,13 +84,15 @@ void CTerrain::Late_Update(_float fDeletaTime)
 
 HRESULT CTerrain::Render()
 {
-	Apply_ConstantShaderResources();
+	//Apply_ConstantShaderResources();
 
-	m_pShaderCom->Update_Shader(0);
-	m_pTextureCom->SetTexture(0, 0);
+	//m_pShaderCom->Update_Shader(0);
+	//m_pTextureCom->SetTexture(0, 0);
 
-	m_pVIBufferCom->Render_VIBuffer();
+	//m_pVIBufferCom->Render_VIBuffer();
 
+	_float4 vColor = { 0.f, 1.f, 0.f, 1.f };
+	m_pNavigationCom->Render(vColor);
 	return S_OK;
 }
 
@@ -109,6 +109,12 @@ void CTerrain::ExportData(void* pArg)
 	Desc->ObjectDesc.TerrianDesc.TerrainType = 0;
 	Desc->ObjectDesc.TerrianDesc.TileCnt = m_pVIBufferCom->GetTerrianSize();
 	CStringHelper::ConvertWideToUTF(szVIBuffer, Desc->ObjectDesc.TerrianDesc.HeightMapCom);
+	CStringHelper::ConvertWideToUTF(L"", Desc->ObjectDesc.TerrianDesc.NaviMeshPath);
+}
+
+void CTerrain::ExportNaivMeshData(void* pArg)
+{
+
 }
 #endif // _DEBUG
 
@@ -121,27 +127,35 @@ HRESULT CTerrain::Apply_ConstantShaderResources()
 	return S_OK;
 }
 
-HRESULT CTerrain::ADD_Components(_uInt iGridCnt)
+HRESULT CTerrain::ADD_Components(const TERRIAN_DESC& Desc)
 {
-	if (iGridCnt > 0)
+	if (Desc.iGridCnt > 0)
 	{
-		wsprintf(szVIBuffer, TEXT("Prototype_Component_VIBuffer_Terrian%dx%d"), iGridCnt, iGridCnt);
+		wsprintf(szVIBuffer, TEXT("Prototype_Component_VIBuffer_Terrian%dx%d"), Desc.iGridCnt, Desc.iGridCnt);
 
 		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), szVIBuffer, TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
 			return E_FAIL;
 	}
 	else
 	{
-		wsprintf(szVIBuffer, TEXT("Prototype_Component_VIBuffer_Terrian"));
-		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
+		wsprintf(szVIBuffer, Desc.HeightMap);
+		if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), Desc.HeightMap, TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
 			return E_FAIL;
 	}
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Terrian"), TEXT("Texture_Com"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Navigation"), TEXT("Navigation_Com"), (CComponent**)&m_pNavigationCom)))
-		return E_FAIL;
+	if (!lstrcmp(Desc.NavigationData, L""))
+	{
+		CVIBuffer_Terrain* pVIBuffer_Terrian = dynamic_cast<CVIBuffer_Terrain*>(m_pVIBufferCom);
+		if(pVIBuffer_Terrian)
+			m_pNavigationCom = CNavigation::Create(m_pGraphic_Device, m_pDeviceContext, pVIBuffer_Terrian);
+	}
+	else
+		m_pNavigationCom = CNavigation::Create(m_pGraphic_Device, m_pDeviceContext, Desc.NavigationData);
+	m_pComponentMap.emplace(TEXT("NaviMesh_Com"), m_pNavigationCom);
+	
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VTXNorTex"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
 		return E_FAIL;

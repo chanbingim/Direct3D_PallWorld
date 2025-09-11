@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "GamePlayHUD.h"
 
+#include "TerrainManager.h"
 #include "Enviormnent.h"
 #include "ItemManager.h"
 #include "PlayerManager.h"
@@ -20,8 +21,7 @@ HRESULT CGamePlayLevel::Initialize()
 	if (FAILED(ADD_CameraLayer(TEXT("Layer_GamePlay_Camera"))))
 		return E_FAIL;
 
-	if (FAILED(ADD_TerrianLayer(TEXT("Layer_GamePlay_Terrian"))))
-		return E_FAIL;
+	CTerrainManager::GetInstance()->Initialize(nullptr);
 
 	if (FAILED(ADD_PlayerLayer(TEXT("Layer_GamePlay_Player"))))
 		return E_FAIL;
@@ -39,7 +39,7 @@ HRESULT CGamePlayLevel::Initialize()
 	PlayerDesc.iNumEquipMaxSlot = 4;
 	PlayerDesc.iNumInvenMaxSlot = 60;
 	CPlayerManager::GetInstance()->Initialize(&PlayerDesc);
-
+	
 
 
 	return S_OK;
@@ -106,7 +106,7 @@ HRESULT CGamePlayLevel::ADD_PlayerLayer(const _wstring& LayerName)
 {
 	CGameObject::GAMEOBJECT_DESC Desc;
 	ZeroMemory(&Desc, sizeof(CGameObject::GAMEOBJECT_DESC));
-	Desc.vScale = { 0.05f, 0.05f, 0.05f };
+	Desc.vScale = { 1.f, 1.f, 1.f };
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player"),
 		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
@@ -128,7 +128,7 @@ HRESULT CGamePlayLevel::ADD_PellLayer(const _wstring& LayerName)
 		return E_FAIL;*/
 
 	wsprintf(Desc.ObjectTag, TEXT("Drorong"));
-	Desc.vScale = { 0.1f, 0.1f, 0.1f };
+	Desc.vScale = { 1.f, 1.f, 1.f };
 	Desc.vPosition = { 10.f, 1.f, 10.f };
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Drorong"),
 		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))

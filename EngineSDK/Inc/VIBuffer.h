@@ -18,6 +18,9 @@ public :
 	virtual _bool			IsPicking(class CTransform* pTransform, _float3* pOut);
 	virtual _bool			IsPicking(_vector vRayOrizin, _vector vRayDir, class CTransform* pTransform, _float3* pOut);
 
+	_uInt					GetNumVertices() const { return m_iNumIndices; }
+	_uInt					GetNumIndices() const { return m_iNumIndices; }
+
 protected :
 	//¿Ã¡¶ D11Buffer∑Œ ≈Î«’µ  ¿Œµ¶Ω∫∂˚ πˆ≈√Ω∫∂˚
 	_uInt						m_iNumVertices = {};

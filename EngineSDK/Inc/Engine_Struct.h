@@ -77,7 +77,6 @@ namespace Engine
 	typedef struct tagVertexColor
 	{
 		_float3		vPosition;
-		_float4		vColor;
 
 		static constexpr unsigned int					iNumElements = { 1 };
 		static constexpr D3D11_INPUT_ELEMENT_DESC		Elements[] = {

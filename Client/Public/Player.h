@@ -3,14 +3,19 @@
 #include "Client_Define.h"
 #include "ContainerObject.h"
 
-#define P_WALK_SPEED 25.f
-#define P_JOG_SPEED 50.f
-#define P_RUN_SPEED 100.f
+#define P_WALK_SPEED 2.5f
+#define P_JOG_SPEED 5.f
+#define P_RUN_SPEED 10.f
+
+NS_BEGIN(Engine)
+class CNavigation;
+NS_END
 
 NS_BEGIN(Client)
 class CPlayerStateMachine;
 class CPlayerPartData;
 class CPlayerCamera;
+class CTerrainManager;
 
 class CPlayer : public CContainerObject
 {
@@ -40,6 +45,8 @@ private :
 	CPlayerCamera*							m_pPlayerCamera = nullptr;
 	CPlayerStateMachine*					m_pPlayerFSM = nullptr;
 	CPlayerPartData*						m_pAnimator = nullptr;
+	CTerrainManager*						m_pTerrianManager = nullptr;
+	CNavigation*							m_pNevigation = nullptr;
 
 	// 플레이어의 현재 방향
 	_bool									m_bIsAnimLoop = true;
@@ -48,7 +55,7 @@ private :
 	_float									m_fMoveSpeed = P_WALK_SPEED;
 
 	// Jump Variable
-	_float									m_fJumpSpeed = 1.f;
+	_float									m_fJumpSpeed = 0.35f;
 	_float									m_fLandingPointY = 0;
 
 	_float3									m_PreMovePos;
@@ -65,7 +72,7 @@ private:
 	HRESULT									ADD_PlayerStateMachine();
 	HRESULT									ADD_PlayerCamera();
 	HRESULT									ADD_PartObejcts();
-
+	HRESULT									ADD_Components();
 	//플레이어 상태에따른 위치 갱신 로직
 	void									UpdatePlayerAction(_float fDeletaTime);
 	void									UpdateJump(_float fDeletaTime);

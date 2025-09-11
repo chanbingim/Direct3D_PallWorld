@@ -8,6 +8,7 @@
 #include "PlayerPartData.h"
 #include "PlayerWeaponSlot.h"
 #include "PlayerCamera.h"
+#include "TerrainManager.h"
 
 #include "PlayerManager.h"
 #include "ItemBase.h"
@@ -18,8 +19,10 @@ CPlayer::CPlayer(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceCont
 }
 
 CPlayer::CPlayer(const CPlayer& rhs) :
-    CContainerObject(rhs)
+    CContainerObject(rhs),
+    m_pTerrianManager(CTerrainManager::GetInstance())
 {
+    Safe_AddRef(m_pTerrianManager);
 }
 
 HRESULT CPlayer::Initalize_Prototype()
@@ -32,6 +35,9 @@ HRESULT CPlayer::Initalize_Prototype()
 HRESULT CPlayer::Initialize(void* pArg)
 {
     if (FAILED(__super::Initialize(pArg)))
+        return E_FAIL;
+
+    if (FAILED(ADD_Components()))
         return E_FAIL;
 
     if (FAILED(ADD_PartObejcts()))
@@ -151,6 +157,9 @@ void CPlayer::Key_Input(_float fDeletaTime)
         ChangeAction(fDeletaTime);
         MoveAction(fDeletaTime);
         ChangeWeapon();
+
+        if(CPlayerStateMachine::MOVE_ACTION::JUMP != State.eMove_State)
+            m_pNevigation->ComputeHeight(m_pTransformCom);
     }
     else
     {
@@ -239,7 +248,7 @@ void CPlayer::MoveAction(_float fDeletaTime)
         {
             if (!XMVector4Equal(vDir, XMVectorZero()))
             {
-                m_pTransformCom->LerpTurn(XMVectorSet(0.f, 1.f, 0.f, 0.f), vPos + vDir, 5.f, fDeletaTime);
+                m_pTransformCom->LerpTurn(XMVectorSet(0.f, 1.f, 0.f, 0.f), vPos + vDir, 4.f, fDeletaTime);
             }
         }
 
@@ -248,7 +257,9 @@ void CPlayer::MoveAction(_float fDeletaTime)
 
     if (!XMVector3Equal(MovePos, XMVectorZero()))
     {
-        m_pTransformCom->ADD_Position(MovePos);
+        if(m_pNevigation->IsMove(vPos + MovePos))
+            m_pTransformCom->ADD_Position(MovePos);
+
         if (State.bIsAttacking && !State.bIsAiming)
         {
             m_pPlayerFSM->SetAttack(false);
@@ -465,8 +476,8 @@ HRESULT CPlayer::ADD_PlayerCamera()
     Desc.fNear = 0.1f;
     Desc.fFov = XMConvertToRadians(90.f);
 
-    Desc.vEye = { 1.f, 8.f, -6.f };
-    Desc.vAt = { 1.f, 8.f, 1.f };
+    Desc.vEye = { 0.5f, 1.5f, -2.f };
+    Desc.vAt = { 0.5f, 1.5f, 1.f };
 
     m_pPlayerCamera = CPlayerCamera::Create(m_pGraphic_Device, m_pDeviceContext);
     if (FAILED(m_pPlayerCamera->Initialize(&Desc)))
@@ -490,6 +501,16 @@ HRESULT CPlayer::ADD_PartObejcts()
 
     m_pAnimator = static_cast<CPlayerPartData*>(FindPartObject(TEXT("Player_Animator")));
     
+    return S_OK;
+}
+
+HRESULT CPlayer::ADD_Components()
+{
+    if (FAILED(m_pTerrianManager->GetCurrentTerrainNaviMesh(m_pTransformCom->GetPosition(), 0, (CComponent**)&m_pNevigation)))
+        return E_FAIL;
+
+    m_pComponentMap.emplace(TEXT("NaviMesh_Com"), m_pNevigation);
+
     return S_OK;
 }
 
@@ -607,4 +628,6 @@ void CPlayer::Free()
 
     Safe_Release(m_pPlayerFSM);
     Safe_Release(m_pPlayerCamera);
+    Safe_Release(m_pTerrianManager);
+    Safe_Release(m_pNevigation);
 }

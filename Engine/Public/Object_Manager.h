@@ -22,6 +22,7 @@ public :
 
 	/* 원형을 찾고 복제하여 레이어에 추가한다. */
 	HRESULT											Add_GameObject_ToLayer(_uInt iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uInt iLayerLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
+	HRESULT											Add_GameObject_ToLayer(_uInt iLayerLevelIndex, const _wstring& strLayerTag, CGameObject* pObject);
 	const list<CGameObject*>*						GetAllObejctToLayer(_uInt iLayerIndex, const _wstring& LayerTag);
 	void											Clear_Resource(_uInt iLevelIndex);
 	void											Clear_DeadObject();

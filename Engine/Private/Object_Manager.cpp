@@ -66,6 +66,23 @@ HRESULT CObject_Manager::Add_GameObject_ToLayer(_uInt iPrototypeLevelIndex, cons
     return S_OK;
 }
 
+HRESULT CObject_Manager::Add_GameObject_ToLayer(_uInt iLayerLevelIndex, const _wstring& strLayerTag, CGameObject* pObject)
+{
+    CLayer* pLayer = Find_Layer(iLayerLevelIndex, strLayerTag);
+    if (nullptr == pLayer)
+    {
+        pLayer = CLayer::Create();
+
+        pLayer->ADD_GameObject(pObject);
+
+        m_pLayers[iLayerLevelIndex].emplace(strLayerTag, pLayer);
+    }
+    else
+        pLayer->ADD_GameObject(pObject);
+
+    return S_OK;
+}
+
 const list<CGameObject*>* CObject_Manager::GetAllObejctToLayer(_uInt iLayerIndex, const _wstring& LayerTag)
 {
     auto Layer = Find_Layer(iLayerIndex, LayerTag);

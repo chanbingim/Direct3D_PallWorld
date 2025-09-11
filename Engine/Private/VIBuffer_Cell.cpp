@@ -59,7 +59,7 @@ HRESULT CVIBuffer_Cell::Initialize_Prototype(const _float3* pPoints)
 
 #pragma region INDEX BUFFER
     //인덱스 셑팅
-    _ushort* pIndices = new _ushort[m_iNumIndices] { 0, 1, 2,0 };
+    _ushort* pIndices = new _ushort[m_iNumIndices] { 0, 1, 2, 0 };
 
     //인덱스 버퍼 세팅
     D3D11_BUFFER_DESC			IndexDesc = {};

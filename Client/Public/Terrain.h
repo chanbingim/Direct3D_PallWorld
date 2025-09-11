@@ -19,6 +19,9 @@ public :
 		_uInt			TerrianType;
 		_uInt			iGridCnt;
 		_bool			IsPicking;
+
+		WCHAR			HeightMap[MAX_PATH];
+		WCHAR			NavigationData[MAX_PATH];
 	}TERRIAN_DESC;
 
 protected:
@@ -43,6 +46,7 @@ public:
 
 #ifdef _DEBUG
 	virtual void							ExportData(void* pArg);
+	virtual void							ExportNaivMeshData(void* pArg);
 #endif // _DEBUG
 
 protected :
@@ -59,7 +63,7 @@ private :
 	CShader*								m_pShaderCom = nullptr;
 
 private :
-	HRESULT									ADD_Components(_uInt iGridCnt = 0);
+	HRESULT									ADD_Components(const TERRIAN_DESC& Desc);
 
 public:
 	static			CTerrain*				Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);

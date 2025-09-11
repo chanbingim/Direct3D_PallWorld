@@ -268,11 +268,11 @@ HRESULT CImgManager::SaveLevel()
         CStringHelper::ConvertWideToUTF(LayerPair.first.c_str(), LayerName);
 
         SAVE_OBJECT_TYPE type;
-        if (0 != LayerPair.first.find(L"Camera"))
+        if (_wstring::npos != LayerPair.first.find(L"Camera"))
             type = SAVE_OBJECT_TYPE::CAMERA;
-        else if(0 != LayerPair.first.find(L"Terrian"))
+        else if (_wstring::npos != LayerPair.first.find(L"Terrian"))
             type = SAVE_OBJECT_TYPE::TERRAIN;
-        else if (0 != LayerPair.first.find(L"Enviorment"))
+        else if (_wstring::npos != LayerPair.first.find(L"Enviorment"))
             type = SAVE_OBJECT_TYPE::ENVIORNMENT;
         else
             type = SAVE_OBJECT_TYPE::OBEJCT;
@@ -313,27 +313,27 @@ void CImgManager::SaveFile(const char* FilePath, list<SAVE_LEVEL_DESC>& SaveData
     if (file.is_open())
     {
         _uInt iSaveObjectCnt = (_uInt)SaveData.size();
-        file.write(reinterpret_cast<_char*>(&iSaveObjectCnt), sizeof(_uInt));
+        file<< iSaveObjectCnt << endl;
         for (SAVE_LEVEL_DESC& iter : SaveData)
         {
-            file << iter.eType << iter.iPrototypeLevelID << iter.iSaveLevelID;
-            file << iter.PrototypeName << iter.LayerName << iter.PrototypeIndex;
-            file << iter.vScale.x << iter.vScale.y << iter.vScale.z;
-            file << iter.vRotation.x << iter.vRotation.y << iter.vRotation.z;
-            file << iter.vPosition.x << iter.vPosition.y << iter.vPosition.z;
+            file << iter.eType << " " << iter.iPrototypeLevelID << " " << iter.iSaveLevelID << " ";
+            file << iter.PrototypeName << " " << iter.LayerName << " " << iter.PrototypeIndex << " ";
+            file << iter.vScale.x << " " << iter.vScale.y << " " << iter.vScale.z << " ";
+            file << iter.vRotation.x << " " << iter.vRotation.y << " " << iter.vRotation.z << " ";
+            file << iter.vPosition.x << " " << iter.vPosition.y << " " << iter.vPosition.z << " ";
 
             switch (SAVE_OBJECT_TYPE(iter.eType))
             {
             case SAVE_OBJECT_TYPE::CAMERA:
-                file << iter.ObjectDesc.CameraDesc.CameraType;
-                file << iter.ObjectDesc.CameraDesc.fNear;
-                file << iter.ObjectDesc.CameraDesc.fFar;
-                file << iter.ObjectDesc.CameraDesc.fFov;
+                file << iter.ObjectDesc.CameraDesc.CameraType << " ";
+                file << iter.ObjectDesc.CameraDesc.fNear << " ";
+                file << iter.ObjectDesc.CameraDesc.fFar << " ";
+                file << iter.ObjectDesc.CameraDesc.fFov << " ";
                 break;
             case SAVE_OBJECT_TYPE::TERRAIN:
-                file << iter.ObjectDesc.TerrianDesc.TerrainType;
-                file << iter.ObjectDesc.TerrianDesc.TileCnt.x << iter.ObjectDesc.TerrianDesc.TileCnt.y;
-                file << iter.ObjectDesc.TerrianDesc.HeightMapCom;
+                file << iter.ObjectDesc.TerrianDesc.TerrainType << " ";
+                file << iter.ObjectDesc.TerrianDesc.TileCnt.x << " " << iter.ObjectDesc.TerrianDesc.TileCnt.y << " ";
+                file << iter.ObjectDesc.TerrianDesc.HeightMapCom << " ";
                 file << iter.ObjectDesc.TerrianDesc.NaviMeshPath;
                 break;
             case SAVE_OBJECT_TYPE::OBEJCT:
@@ -341,6 +341,7 @@ void CImgManager::SaveFile(const char* FilePath, list<SAVE_LEVEL_DESC>& SaveData
             case SAVE_OBJECT_TYPE::ENVIORNMENT:
                 break;
             }
+            file << endl;
         }
     }
 

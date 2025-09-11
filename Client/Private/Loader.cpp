@@ -298,7 +298,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma region Models
 
 #pragma region Clothes
-	_matrix PreModelMat = XMMatrixRotationY(XMConvertToRadians(180.f));
+	_matrix PreModelMat = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.f));
 	/* VIBuffer  Old_Clothes MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_OldClothes"),
 		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Clothes/OldClothes/OldClothes.dat"))))
@@ -334,14 +334,14 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* VIBuffer  Bow MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Bow"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Weapon/AnimationWeapon/Bow/Bow.fbx", PreModelMat))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Weapon/AnimationWeapon/Bow/Bow.dat", PreModelMat))))
 		return E_FAIL;
 
 #pragma endregion
 
 #pragma region Player
 	/* VIBuffer  MESH  Component */
-	PreModelMat = XMMatrixRotationY(XMConvertToRadians(180.f));
+	PreModelMat = XMMatrixScaling(0.01f,0.01f,0.01f) * XMMatrixRotationY(XMConvertToRadians(180.f));
 
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Player_Mesh"),
 		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Player/Player.fbx", PreModelMat, "", 2))))

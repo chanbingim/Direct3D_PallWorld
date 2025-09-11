@@ -193,6 +193,10 @@ HRESULT CGameInstance::Add_GameObject_ToLayer(_uInt iPrototypeLevelIndex, const 
 {
     return m_pObject_Manager->Add_GameObject_ToLayer(iPrototypeLevelIndex, strPrototypeTag, iLayerLevelIndex, strLayerTag, pArg);
 }
+HRESULT CGameInstance::Add_GameObject_ToLayer(_uInt iLayerLevelIndex, const _wstring& strLayerTag, CGameObject* pObject)
+{
+    return m_pObject_Manager->Add_GameObject_ToLayer(iLayerLevelIndex, strLayerTag, pObject);
+}
 const list<CGameObject*>* CGameInstance::GetAllObejctToLayer(_uInt iLayerIndex, const _wstring& LayerTag)
 {
     return m_pObject_Manager->GetAllObejctToLayer(iLayerIndex, LayerTag);

@@ -40,14 +40,14 @@ void CPlayerBody::Priority_Update(_float fDeletaTime)
 
 void CPlayerBody::Update(_float fDeletaTime)
 {
-
+    auto parentModel = static_cast<CModel*>(m_pParent->Find_Component(TEXT("VIBuffer_Com")));
+    m_pVIBufferCom->BindParentAnim(parentModel);
    
 }
 
 void CPlayerBody::Late_Update(_float fDeletaTime)
 {
-    auto parentModel = static_cast<CModel*>(m_pParent->Find_Component(TEXT("VIBuffer_Com")));
-    m_pVIBufferCom->BindParentAnim(parentModel);
+   
 
     UpdateCombinedMatrix();
 }

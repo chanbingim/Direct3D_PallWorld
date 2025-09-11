@@ -124,6 +124,12 @@
 call UpdateSDK.bat
 popd</Command>
     </PostBuildEvent>
+    <FxCompile>
+      <ShaderType>Effect</ShaderType>
+    </FxCompile>
+    <FxCompile>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -149,6 +155,12 @@ popd</Command>
 call UpdateSDK.bat
 popd</Command>
     </PostBuildEvent>
+    <FxCompile>
+      <ShaderType>Effect</ShaderType>
+    </FxCompile>
+    <FxCompile>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\public\Actor.h" />
@@ -171,10 +183,13 @@ popd</Command>
     <ClInclude Include="..\Public\FiniteStateMachine.h" />
     <ClInclude Include="..\public\Font.h" />
     <ClInclude Include="..\public\JsonHelper.h" />
+    <ClInclude Include="..\Public\LevelPaserStruct.h" />
     <ClInclude Include="..\public\Light.h" />
     <ClInclude Include="..\public\LightManager.h" />
     <ClInclude Include="..\public\Material.h" />
+    <ClInclude Include="..\Public\ModelPaserStruct.h" />
     <ClInclude Include="..\public\Navigation.h" />
+    <ClInclude Include="..\Public\NaviMeshPaserStruct.h" />
     <ClInclude Include="..\public\PartObject.h" />
     <ClInclude Include="..\Public\PaseDataHeader.h" />
     <ClInclude Include="..\Public\Picking.h" />
@@ -285,6 +300,9 @@ popd</Command>
     <ClCompile Include="..\private\VIBuffer_Rect.cpp" />
     <ClCompile Include="..\private\VIBuffer_Terrain.cpp" />
     <ClCompile Include="..\private\Viewer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Cell.hlsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

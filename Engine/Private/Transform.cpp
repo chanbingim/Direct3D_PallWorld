@@ -173,29 +173,28 @@ void CTransform::LookAt(_vector vAt)
 
 void CTransform::LerpTurn(_vector vAxis, _vector vAt, _float fSpeed, _float fTimeDelta)
 {
-    _vector vCurScale{}, vCurRotQuat{}, vCurPos{};
-    _matrix WorldMat = XMLoadFloat4x4(&m_WorldMat);
-    XMMatrixDecompose(&vCurScale, &vCurRotQuat, &vCurPos, WorldMat);
-
-    _vector     vCurLook = GetLookVector();
+    _float3     vPos = GetPosition();
+    _vector     vCurPos = XMLoadFloat3(&vPos);
+    _vector     vCurLook = XMVector3Normalize(GetLookVector());
     _vector		vLook = XMVector3Normalize(vAt - vCurPos);
     
-    _float fAngle = acosf(XMVectorGetX(XMVector3Dot(vCurLook, vLook)));
-
-    if(0 > XMVectorGetY(XMVector3Cross(vCurLook, vLook)))
-        fAngle = -fAngle;
-
-    _vector vEndQuaternion = XMQuaternionRotationAxis(vAxis, fAngle);
-    vEndQuaternion = XMQuaternionMultiply(vCurRotQuat, vEndQuaternion);
-
-    _float fQuatDot = abs(XMVectorGetX(XMQuaternionDot(vCurRotQuat, vEndQuaternion)));
-    if (fQuatDot > 0.996f)  // 약 2.5도 이하
+    _float  fScalar = XMVectorGetX(XMVector3Dot(vCurLook, vLook));
+    if (0.998f <= fScalar)
+    {
+        LookAt(vAt);
         return;
+    }
+    else
+    {
+        _float RotationSpeed = fSpeed;
+        if (0 > fScalar)
+            RotationSpeed *= 2; 
 
-    _vector vLerpQuat = XMQuaternionSlerp(vCurRotQuat, vEndQuaternion, fTimeDelta * fSpeed);
-    XMStoreFloat4x4(&m_WorldMat, XMMatrixScalingFromVector(vCurScale) *
-                                 XMMatrixRotationQuaternion(vLerpQuat) * 
-                                 XMMatrixTranslationFromVector(vCurPos));
+        if (0 > XMVectorGetY(XMVector3Cross(vCurLook, vLook)))
+            Turn(vAxis, -RotationSpeed, fTimeDelta);
+        else
+            Turn(vAxis, RotationSpeed, fTimeDelta);
+    }
 }
 
 CTransform* CTransform::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
