@@ -16,6 +16,7 @@ WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
 HWND                g_hWnd;
 HINSTANCE			g_hInstance;
+bool				g_GameWindowFocus;
 
 #ifdef _DEBUG
 HWND                g_hWnd_Debug;
@@ -217,8 +218,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_ACTIVATE:
     {
         DWORD state = LOWORD(wParam);
-        if (state == WA_CLICKACTIVE)
-            while (ShowCursor(false) > 0) {}
+        if (state == WA_ACTIVE || state == WA_CLICKACTIVE)
+        {
+            while (ShowCursor(false) >= 0) {}
+            g_GameWindowFocus = true;
+        }
+        else if (state == WA_INACTIVE)
+            g_GameWindowFocus = false;
     }
     break;
     case WM_PAINT:
@@ -339,8 +345,11 @@ LRESULT CALLBACK WndProc_Debug(HWND hWnd, UINT message, WPARAM wParam, LPARAM lP
     case WM_ACTIVATE:
     {
         DWORD state = LOWORD(wParam);
-        if (state == WA_CLICKACTIVE)
-            while (ShowCursor(true) < 0) { }
+        if (state == WA_ACTIVE || state == WA_CLICKACTIVE)
+        {
+            while (ShowCursor(true) <= 0) {}
+            g_GameWindowFocus = false;
+        }
     }
     break;
 

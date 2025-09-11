@@ -82,7 +82,7 @@ HRESULT CInGameMenu::Render()
 void CInGameMenu::SetActive(_bool flag)
 {
     m_bIsActive = flag;
-
+  
     //버튼 애니메이션 초기화후 버튼 애니메이션 재생
     /*for (auto& iter : m_CategoryButton)
         iter->SetActive(flag);*/

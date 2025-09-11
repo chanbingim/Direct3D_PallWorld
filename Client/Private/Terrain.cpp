@@ -50,12 +50,13 @@ HRESULT CTerrain::Initialize(void* pArg)
 void CTerrain::Priority_Update(_float fDeletaTime)
 {
 	__super::Priority_Update(fDeletaTime);
+	m_pNavigationCom->Update(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
 }
 
 void CTerrain::Update(_float fDeletaTime)
 {
 	__super::Update(fDeletaTime);
-	m_pNavigationCom->Update(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
+
 
 	_float3 vOut = {};
 #ifdef _DEBUG
@@ -84,12 +85,12 @@ void CTerrain::Late_Update(_float fDeletaTime)
 
 HRESULT CTerrain::Render()
 {
-	//Apply_ConstantShaderResources();
+	Apply_ConstantShaderResources();
 
-	//m_pShaderCom->Update_Shader(0);
-	//m_pTextureCom->SetTexture(0, 0);
+	m_pShaderCom->Update_Shader(0);
+	m_pTextureCom->SetTexture(0, 0);
 
-	//m_pVIBufferCom->Render_VIBuffer();
+	m_pVIBufferCom->Render_VIBuffer();
 
 	_float4 vColor = { 0.f, 1.f, 0.f, 1.f };
 	m_pNavigationCom->Render(vColor);

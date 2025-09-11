@@ -68,7 +68,7 @@ HRESULT CMouse::Render()
 {
 	//셰이더를 세팅하고 그린다 라는 함수 호출 한다.
 	//이건 마우스 포인터에 그림이 있을때 동작하게 만들자.
-	if (nullptr == m_pTextureCom)
+	if (nullptr == m_pTextureCom || VISIBILITY::HIDDEN == m_eVisible)
 		return E_FAIL;
 
 	Apply_ConstantShaderResources();

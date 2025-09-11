@@ -13,10 +13,12 @@ CNavigation::CNavigation(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 
 CNavigation::CNavigation(const CNavigation& rhs) : 
 	CComponent(rhs),
-	m_Cells(rhs.m_Cells)
+	m_Cells(rhs.m_Cells),
+	m_pShaderCom(rhs.m_pShaderCom)
 {
 	for (auto& iter : m_Cells)
 		Safe_AddRef(iter);
+	Safe_AddRef(m_pShaderCom);
 }
 
 HRESULT CNavigation::Initialize_Prototype(const _tchar* pNavigationDataFiles)
@@ -58,7 +60,7 @@ HRESULT CNavigation::Initialize_Prototype(const CVIBuffer_Terrain* pTerrianBuffe
 			vPoints[ENUM_CLASS(NAVI_POINT::A)] = pVertices[iIndices[0]];
 			vPoints[ENUM_CLASS(NAVI_POINT::B)] = pVertices[iIndices[1]];
 			vPoints[ENUM_CLASS(NAVI_POINT::C)] = pVertices[iIndices[2]];
-			pCell = CCell::Create(m_pDevice, m_pContext, m_Cells.size(), 0, vPoints);
+			pCell = CCell::Create(m_pDevice, m_pContext, (_uInt)m_Cells.size(), 0, vPoints);
 			if (nullptr == pCell)
 				return E_FAIL;
 			m_Cells.push_back(pCell);
@@ -69,7 +71,6 @@ HRESULT CNavigation::Initialize_Prototype(const CVIBuffer_Terrain* pTerrianBuffe
 	m_pShaderCom = CShader::Create(m_pDevice, m_pContext, VTX_COL::Elements, VTX_COL::iNumElements, TEXT("../Bin/ShaderFiles/Shader_Cell.hlsl"));
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
-	BindSahderResource();
 #endif
 
 	SetUpNeighbors();
@@ -150,7 +151,15 @@ HRESULT CNavigation::Export(const char* FilePath)
 HRESULT CNavigation::Render(_float4 vColor, _bool DarwCurCell)
 {
 #ifdef _DEBUG
+	_float4x4	ComputeMat = m_WorldMatrix;
+	BindSahderResource();
 	ApplyShaderReSource(vColor);
+	if (DarwCurCell)
+		ComputeMat._42 += 0.2f;
+	else
+		ComputeMat._42 += 0.1f;
+
+	m_pEMVWorldMat->SetMatrix(reinterpret_cast<const float*>(&ComputeMat));
 	m_pShaderCom->Update_Shader(0);
 	if (DarwCurCell)
 	{
@@ -158,11 +167,14 @@ HRESULT CNavigation::Render(_float4 vColor, _bool DarwCurCell)
 	}
 	else
 	{
-		for (_uInt i = 0; i < 100; ++i)
+		_Int iStart	= Clamp<_Int>(m_iCurrentCellIndex - 25, 0, (_Int)m_Cells.size());
+		_Int iEnd		= Clamp<_Int>(m_iCurrentCellIndex + 25, 0, (_Int)m_Cells.size());
+
+		for (_Int i = iStart; i < iEnd; ++i)
 		{
-			for (_uInt j = 0; j < 100; ++j)
+			for (_Int j = iStart; j < iEnd; ++j)
 			{
-				_uInt iIndex = i * m_iNumNaviSize.x + j;
+				_Int iIndex = i * m_iNumNaviSize.x + j;
 				m_Cells[iIndex]->Render();
 			}
 		}
@@ -182,7 +194,7 @@ void CNavigation::BindSahderResource()
 
 void CNavigation::ApplyShaderReSource(_float4 vColor)
 {
-	m_pEMVWorldMat->SetMatrix(reinterpret_cast<const float*>(&m_WorldMatrix));
+
 	m_pEMVViewMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::VIEW)));
 	m_pEMVProjMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION)));
 	m_pEVvColor->SetRawValue(&vColor, 0, sizeof(_float4));

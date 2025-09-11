@@ -90,10 +90,14 @@ HRESULT CGameInstance::Initialize_Engine(void* pArg)
 
 void CGameInstance::Update_Engine(_float fTimeDelta)
 {
+    _float Time = fTimeDelta;
     m_pInput_Manager->UpdateKeyFrame();
 
     m_pMouse->Update(fTimeDelta);
     m_pPicking->Update();
+
+    if (m_bIsPause)
+        fTimeDelta = 0.f;
 
 #ifdef _DEBUG
     m_pTimer_Manager->Get_TimeDelta(TEXT("PriorityUpdate_Loop"));
@@ -113,7 +117,7 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 
     m_pObject_Manager->Clear_DeadObject();
 
-    m_pLevel_Manager->Update(fTimeDelta);
+    m_pLevel_Manager->Update(Time);
 
 }
 
@@ -312,9 +316,19 @@ void CGameInstance::Manager_SetChannelVolume(CHANNELID eID, float fVolume)
 #pragma endregion
 
 #pragma region Mouse
+void CGameInstance::ShowInGameMouse(VISIBILITY eVisible)
+{
+    m_pMouse->SetVisibility(eVisible);
+}
+
 HRESULT CGameInstance::SetMouseTexture(_uInt iLevelIndex, const WCHAR* Proto_TexTag, const WCHAR* ComTex_Tag, void* pTexArg, const WCHAR* Proto_ShaderTag, const WCHAR* ComShader_Tag, void* pShaderArg, const WCHAR* Proto_BufferTag, const WCHAR* ComBuffer_Tag, void* pBufferArg)
 {
     return m_pMouse->SetTexture(iLevelIndex, Proto_TexTag, ComTex_Tag, pTexArg, Proto_ShaderTag, ComShader_Tag, pShaderArg, Proto_BufferTag, ComBuffer_Tag, pBufferArg);
+}
+
+void CGameInstance::SetMousePosition(_float3 vPos)
+{
+    m_pMouse->SetLocation(vPos);
 }
 
 POINT& CGameInstance::GetMousePoint()
@@ -445,6 +459,10 @@ _vector CGameInstance::GetCameraState(WORLDSTATE eType)
 const _float2& CGameInstance::GetScreenSize()
 {
     return m_ScreenSize;
+}
+void CGameInstance::GetGamePause(_bool bFlag)
+{
+    m_bIsPause = bFlag;
 }
 _float CGameInstance::Random_Normal()
 {

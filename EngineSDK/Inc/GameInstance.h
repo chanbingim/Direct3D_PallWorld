@@ -121,10 +121,12 @@ public :
 #pragma endregion
 
 #pragma region Mouse
+	void						ShowInGameMouse(VISIBILITY eVisible);
 	HRESULT						SetMouseTexture(_uInt iLevelIndex, const WCHAR* Proto_TexTag, const WCHAR* ComTex_Tag, void* pTexArg,
 												const WCHAR* Proto_ShaderTag, const WCHAR* ComShader_Tag, void* pShaderArg,
 												const WCHAR* Proto_BufferTag, const WCHAR* ComBuffer_Tag, void* pBufferArg);
 
+	void						SetMousePosition(_float3 vPos);
 	POINT&						GetMousePoint();
 
 	void						SetDrag(_bool flag);
@@ -171,6 +173,7 @@ public :
 	_float						GetPipeLineLoopTime(const TCHAR* Str);
 	const _float2&				GetScreenSize();
 
+	void						GetGamePause(_bool bFlag);
 	_float						Random_Normal();
 	_float						Random(_float fMin, _float fMax);
 #pragma endregion
@@ -195,6 +198,7 @@ private :
 	CPicking*					m_pPicking = nullptr;
 	CLightManager*				m_pLightManager = nullptr;
 
+	_bool						m_bIsPause = false;
 	_float2						m_ScreenSize = {};
 
 public :

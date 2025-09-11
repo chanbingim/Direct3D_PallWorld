@@ -102,11 +102,12 @@ void CPlayer::Late_Update(_float fDeletaTime)
 {
     __super::Late_Update(fDeletaTime);
    
+    m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
 }
 
 HRESULT CPlayer::Render()
 {
-
+    m_pNevigation->Render({1.f,0.f,0.f,1.f}, true);
     return S_OK;
 }
 

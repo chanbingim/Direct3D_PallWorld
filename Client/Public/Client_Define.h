@@ -21,6 +21,7 @@ namespace Client
 
 extern HWND					g_hWnd;
 extern HINSTANCE			g_hInstance;
+extern	bool				g_GameWindowFocus;
 
 #ifdef _DEBUG
 extern	bool				g_ShowDebugWindow;

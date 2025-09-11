@@ -21,10 +21,22 @@ HRESULT CGamePlayHUD::Initialize()
 void CGamePlayHUD::Update(_float fDeletaTime)
 {
 	__super::Update(fDeletaTime);
-
+	if (!m_pInGameMenu->IsActive())
+	{
+		m_pGameInstance->SetMousePosition({ g_iHalfWinSizeX, g_iHalfWinSizeY, 0.f });
+		if(g_GameWindowFocus)
+			SetCursorPos(g_iHalfWinSizeX, g_iHalfWinSizeY);
+	}
+		
 	if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_I))
 	{
-		m_pInGameMenu->SetActive(!m_pInGameMenu->IsActive());
+		_bool bIsFlag = !m_pInGameMenu->IsActive();
+		if(bIsFlag)
+			m_pGameInstance->ShowInGameMouse(VISIBILITY::VISIBLE);
+		else
+			m_pGameInstance->ShowInGameMouse(VISIBILITY::HIDDEN);
+
+		m_pInGameMenu->SetActive(bIsFlag);
 	}
 }
 

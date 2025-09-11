@@ -39,8 +39,7 @@ HRESULT CGamePlayLevel::Initialize()
 	PlayerDesc.iNumEquipMaxSlot = 4;
 	PlayerDesc.iNumInvenMaxSlot = 60;
 	CPlayerManager::GetInstance()->Initialize(&PlayerDesc);
-	
-
+	m_pGameInstance->ShowInGameMouse(VISIBILITY::HIDDEN);
 
 	return S_OK;
 }
@@ -48,6 +47,9 @@ HRESULT CGamePlayLevel::Initialize()
 void CGamePlayLevel::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
+
+
+	
 }
 
 HRESULT CGamePlayLevel::Render()
