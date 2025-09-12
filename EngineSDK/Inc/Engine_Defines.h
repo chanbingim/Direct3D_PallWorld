@@ -12,6 +12,7 @@
 #include <fstream>
 
 //STL
+#include <set>
 #include <stack>
 #include <vector>
 #include <list>

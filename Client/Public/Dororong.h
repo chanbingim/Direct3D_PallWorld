@@ -25,8 +25,7 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
-private :
-	
+
 
 
 private:

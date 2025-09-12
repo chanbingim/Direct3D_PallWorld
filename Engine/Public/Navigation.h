@@ -4,6 +4,28 @@
 NS_BEGIN(Engine)
 class CVIBuffer_Terrain;
 class CTransform;
+class CCell;
+
+struct A_StarNode
+{
+	// 현재 내가 이동하는 거리의 코스트
+	_float					fHeuristicCost;
+	// 목표지점까지 이동했을때 나올 거리 코스트
+	_float					fManhaattanDistance;
+	// 위 두개의 값을 더해 나타낼 최종 거리 코스트
+	_float					fTotalCost;
+
+	_Int					iCellIndex;
+	//부모 노드의 인덱스
+	_Int					ParentIndex;
+};
+
+struct CompareNode {
+	bool operator()(const A_StarNode& a, const A_StarNode& b) const {
+		return a.fTotalCost > b.fTotalCost; // fCost가 작을수록 우선
+	}
+};
+
 
 class ENGINE_DLL CNavigation : public CComponent
 {
@@ -29,6 +51,10 @@ public:
 	_bool							IsMove(_vector vPosition);
 
 	void							ComputeHeight(CTransform* pTransform);
+	_Int							Find_Cell(_vector vPos);
+
+	void							ComputePathfindingAStar(_float3 vStartPoint, _float3 vTargetPoint, list<_float3>* PathList);
+
 #ifdef _DEBUG
 public:
 	HRESULT							Export(const char* FilePath);
@@ -40,7 +66,9 @@ private:
 	_float2							m_iNumNaviSize = {};
 
 	static _float4x4				m_WorldMatrix;
-	vector<class CCell*>			m_Cells;
+	vector<CCell*>					m_Cells;
+			
+	list<CCell*>					m_Pathlist;
 
 #ifdef _DEBUG
 private:

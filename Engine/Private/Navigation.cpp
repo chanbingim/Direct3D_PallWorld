@@ -133,6 +133,118 @@ void CNavigation::ComputeHeight(CTransform* pTransform)
 	pTransform->SetPosition(vPos);
 }
 
+_Int CNavigation::Find_Cell(_vector vPos)
+{
+	_vector		vLocalPos = XMVector3TransformCoord(vPos, XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_WorldMatrix)));
+
+	_Int		iNeighborIndex = { -1 };
+	for (auto& pCell : m_Cells)
+	{
+		pCell->IsCellIn(vPos, &iNeighborIndex);
+
+		if (m_Cells[iNeighborIndex]->IsCellIn(vLocalPos, &iNeighborIndex))
+			return pCell->GetCellIndex();
+	}
+
+	return -1;
+}
+
+void CNavigation::ComputePathfindingAStar(_float3 vStartPoint, _float3 vTargetPoint, list<_float3>* PathList)
+{
+	priority_queue<A_StarNode, vector<A_StarNode>, CompareNode> OpenList;
+	unordered_map<_uInt, A_StarNode> HashList;
+
+	unordered_map<_uInt, A_StarNode> CloseList;
+	_Int  iNeighbor[3];
+	//현재 셀과 vTargtetPoint
+	vTargetPoint.y = vStartPoint.y = 0;
+
+	_vector vStart = XMLoadFloat3(&vStartPoint);
+	_vector vEnd = XMLoadFloat3(&vTargetPoint);
+	vStart = XMVector3TransformCoord(vStart, XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_WorldMatrix)));
+	vEnd = XMVector3TransformCoord(vEnd, XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_WorldMatrix)));
+	_Int EndIndex = Find_Cell(vEnd);
+
+	_vector TriCenterPoint = m_Cells[m_iCurrentCellIndex]->GetCellCenterPoint();
+	TriCenterPoint.m128_f32[1] = 0.f;
+	_float fLength = XMVectorGetX(XMVector3Length(vEnd - TriCenterPoint));
+	if (fLength < 1)
+		return;
+	else
+	{
+		//처음 시작점을 세팅한다.
+		A_StarNode StartNode = {};
+		StartNode.fManhaattanDistance = fLength;
+		StartNode.fTotalCost = StartNode.fManhaattanDistance + StartNode.fHeuristicCost;
+		StartNode.iCellIndex = m_iCurrentCellIndex;
+		StartNode.ParentIndex = -1;
+		OpenList.push(StartNode);
+		HashList.emplace(m_iCurrentCellIndex, StartNode);
+
+		while (!OpenList.empty())
+		{
+			A_StarNode ParentNode = OpenList.top();
+			OpenList.pop();
+			
+			if (EndIndex == ParentNode.iCellIndex)
+			{
+				CloseList.emplace(ParentNode.iCellIndex, ParentNode);
+				break;
+			}
+
+			auto Closeiter = CloseList.find(ParentNode.iCellIndex);
+			if (Closeiter != CloseList.end())
+				continue;
+
+			m_Cells[ParentNode.iCellIndex]->GetNeighborIndex(iNeighbor);
+			for (_uInt i = 0; i < 3; ++i)
+			{
+				Closeiter = CloseList.find(iNeighbor[i]);
+				if (-1 == iNeighbor[i] || !m_Cells[iNeighbor[i]]->IsMoveAble() || Closeiter != CloseList.end() )
+					continue;
+
+				A_StarNode NeighNode = {};
+				NeighNode.fHeuristicCost = ParentNode.fHeuristicCost + 1.f;
+
+				TriCenterPoint = m_Cells[iNeighbor[i]]->GetCellCenterPoint();
+				TriCenterPoint.m128_f32[1] = 0.f;
+
+				NeighNode.fManhaattanDistance = XMVectorGetX(XMVector3Length(vEnd - TriCenterPoint));
+				NeighNode.fTotalCost = NeighNode.fManhaattanDistance + NeighNode.fHeuristicCost;
+				NeighNode.iCellIndex = iNeighbor[i];
+				NeighNode.ParentIndex = ParentNode.iCellIndex;
+
+				auto Openiter = HashList.find(iNeighbor[i]);
+				if (Openiter != HashList.end())
+				{
+					if (Openiter->second.fTotalCost > NeighNode.fTotalCost)
+					{
+						Openiter->second = NeighNode;
+						OpenList.push(NeighNode);
+					}
+				}
+				else
+				{
+					OpenList.push(NeighNode);
+					HashList.emplace(iNeighbor[i], NeighNode);
+				}
+			}
+			CloseList.emplace(ParentNode.iCellIndex, ParentNode);
+		}
+	}
+
+	_float3 vPos;
+	auto EndNode = CloseList.find(EndIndex);
+	while (-1 != EndNode->second.ParentIndex)
+	{
+		XMStoreFloat3(& vPos, m_Cells[EndNode->second.iCellIndex]->GetCellCenterPoint());
+		(*PathList).push_back(vPos);
+
+		EndNode = CloseList.find(EndNode->second.ParentIndex);
+	}
+	(*PathList).reverse();
+}
+
 HRESULT CNavigation::Export(const char* FilePath)
 {
 	vector<CELL_SAVE_STRCUT> pSaveCells;
@@ -174,7 +286,7 @@ HRESULT CNavigation::Render(_float4 vColor, _bool DarwCurCell)
 		{
 			for (_Int j = iStart; j < iEnd; ++j)
 			{
-				_Int iIndex = i * m_iNumNaviSize.x + j;
+				_Int iIndex = i * (_uInt)m_iNumNaviSize.x + j;
 				m_Cells[iIndex]->Render();
 			}
 		}

@@ -123,6 +123,20 @@ HRESULT CTerrainManager::GetCurrentTerrainNaviMesh(_float3 vObejctPos, _uInt iCe
     return S_OK;
 }
 
+_uInt CTerrainManager::GetCrrentSapwnCell(_float3 vPos)
+{
+    _Int iCellX = (_Int)(vPos.x / m_TerrianSize.x);
+    _Int iCellY = (_Int)(vPos.z / m_TerrianSize.y);
+    if (m_Terrians.size() <= iCellY * m_TerrianSize.x + iCellX)
+        return E_FAIL;
+
+    auto pTerrain = m_Terrians[iCellY * m_TerrianSize.x + iCellX];
+    if (nullptr == pTerrain)
+        return E_FAIL;
+
+    return pTerrain->FindCell(XMLoadFloat3(&vPos));
+}
+
 HRESULT CTerrainManager::ADD_Terrian(CTerrain* pTerrian)
 {
     if (nullptr == pTerrian)

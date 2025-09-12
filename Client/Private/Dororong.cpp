@@ -2,6 +2,7 @@
 
 #include "GameInstance.h"
 
+#include "TerrainManager.h"
 #include "PellStateMachine.h"
 #include "Recovery.h"
 #include "PellBody.h"
@@ -40,6 +41,14 @@ HRESULT CDororong::Initialize(void* pArg)
     m_eTeam = PELL_TEAM::NEUTRAL;
     m_PellInfo.CurStemina = m_PellInfo.MaxStemina = 100.f;
     m_fActionTime = 1.f;
+
+    _float3 vEndPoint = m_pTransformCom->GetPosition();
+
+    vEndPoint.x += 1.f;
+    vEndPoint.z += 1.f;
+
+    
+    m_pNevigation->ComputePathfindingAStar(m_pTransformCom->GetPosition(), vEndPoint, &m_PathFinding);
     return S_OK;
 }
 
@@ -48,10 +57,25 @@ void CDororong::Priority_Update(_float fDeletaTime)
     __super::Priority_Update(fDeletaTime);
     PellAction(fDeletaTime);
 
-    if (m_pRecovery->GetRecovering())
+   /* if (m_pRecovery->GetRecovering())
         m_PellInfo.CurStemina += m_pRecovery->Update(fDeletaTime);
     else
-        m_PellInfo.CurStemina -= 0.1f;
+        m_PellInfo.CurStemina -= 0.1f;*/
+
+    const CPellStateMachine::PELL_STATE& State = m_pPellFsm->GetState();
+   /* if (CPellStateMachine::MOVE_ACTION::PATROL == State.eMove_State)
+    {
+        _vector vTarget = XMLoadFloat3(&m_vTargetPoint);
+        if (!XMVector3Equal(vTarget, XMVectorZero()))
+        {
+            _float3 vCurPos = m_pTransformCom->GetPosition();
+            _vector vPos = XMLoadFloat3(&vCurPos);
+            _vector vDir = XMVector3Normalize(vTarget - vPos);
+            ADDPosition(vDir);
+        }
+    }*/
+
+    m_pNevigation->ComputeHeight(m_pTransformCom);
 }
 
 void CDororong::Update(_float fDeletaTime)
@@ -81,6 +105,13 @@ HRESULT CDororong::ADD_Components()
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("GamePlay_Component_Recovery"), TEXT("Recovery_Com"), (CComponent**)&m_pRecovery, &RecoverDesc)))
         return E_FAIL;
+
+    _float3 vPos = m_pTransformCom->GetPosition();
+    _Int iSapwnCell = m_pTerrainManager->GetCrrentSapwnCell(vPos);
+
+    if (FAILED(m_pTerrainManager->GetCurrentTerrainNaviMesh(vPos, iSapwnCell, (CComponent**)&m_pNevigation)))
+        return E_FAIL;
+    m_pComponentMap.emplace(TEXT("NaviMesh_Com"), m_pNevigation);
 
     return S_OK;
 }

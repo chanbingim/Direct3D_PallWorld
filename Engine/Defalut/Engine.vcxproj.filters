@@ -22,9 +22,6 @@
     <Filter Include="Utility\Prototype">
       <UniqueIdentifier>{69d8f536-02d2-431a-964d-d6cebdbb48d8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utility\Object\Layer">
-      <UniqueIdentifier>{949710dc-196d-4ae1-a02d-863d8e050b7c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utility\Object\Actor">
       <UniqueIdentifier>{c412d2f4-29ae-4c3e-809c-5743aa6dc63c}</UniqueIdentifier>
     </Filter>
@@ -219,6 +216,9 @@
     </Filter>
     <Filter Include="ShaderFiles">
       <UniqueIdentifier>{43bb02b0-344b-4faf-ac98-ca751fd9f705}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Object\Layer">
+      <UniqueIdentifier>{949710dc-196d-4ae1-a02d-863d8e050b7c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

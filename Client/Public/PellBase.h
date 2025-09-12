@@ -4,7 +4,13 @@
 #include "PellStructData.h"
 #include "ContainerObject.h"
 
+
+NS_BEGIN(Engine)
+class CNavigation;
+NS_END
+
 NS_BEGIN(Client)
+class CTerrainManager;
 class CPellStateMachine;
 class CRecovery;
 class CPellBody;
@@ -43,12 +49,15 @@ protected :
 	_float									m_RecoverTime = 0.7f;
 	_float									m_RecoverSetemina = 10.f;
 
+	CTerrainManager*						m_pTerrainManager = nullptr;
 	CPellStateMachine*						m_pPellFsm = nullptr;
+	CNavigation*							m_pNevigation = nullptr;
 	CRecovery*								m_pRecovery = nullptr;
 	CPellBody*								m_pPellBody = nullptr;
 
 	PELL_INFO								m_PellInfo = {};
-
+	list<_float3>							m_PathFinding;
+	_float3									m_vTargetPoint = {};
 protected :
 	void									PellAction(_float fDeletaTime);
 

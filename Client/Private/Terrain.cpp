@@ -43,7 +43,7 @@ HRESULT CTerrain::Initialize(void* pArg)
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
-	
+	m_pNavigationCom->Update(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
 	return S_OK;
 }
 
@@ -100,6 +100,11 @@ HRESULT CTerrain::Render()
 _bool CTerrain::IsMoveTerrian(_vector vPosition)
 {
 	return m_pNavigationCom->IsMove(vPosition);
+}
+
+_Int CTerrain::FindCell(_vector vPosition)
+{
+	return m_pNavigationCom->Find_Cell(vPosition);
 }
 
 #ifdef _DEBUG

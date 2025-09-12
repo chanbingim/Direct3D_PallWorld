@@ -43,6 +43,7 @@ public:
 	virtual		HRESULT						Render();
 
 	_bool									IsMoveTerrian(_vector vPosition);
+	_Int									FindCell(_vector vPosition);
 
 #ifdef _DEBUG
 	virtual void							ExportData(void* pArg);

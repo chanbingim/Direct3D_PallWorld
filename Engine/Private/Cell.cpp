@@ -18,6 +18,7 @@ HRESULT CCell::Initialize(_uInt iCellIndex, _uInt iCellProperity, const _float3*
     memcpy(m_vTirPoints, vPoints, sizeof(_float3) * ENUM_CLASS(NAVI_POINT::END));
 
     _float3			vLines[ENUM_CLASS(NAVI_LINE::END)] = {};
+    _vector         total = {};
     for (_uInt i = 0; i < ENUM_CLASS(NAVI_POINT::END); ++i)
     {
         _uInt LeftIndex = i + 1;
@@ -26,7 +27,11 @@ HRESULT CCell::Initialize(_uInt iCellIndex, _uInt iCellProperity, const _float3*
 
         XMStoreFloat3(&vLines[i], XMLoadFloat3(&m_vTirPoints[LeftIndex]) - XMLoadFloat3(&m_vTirPoints[i]));
         m_vTirNormals[i] = _float3(vLines[i].z * -1.f, 0.f, vLines[i].x);
+
+        total += XMLoadFloat3(&m_vTirPoints[i]);
     }
+
+    XMStoreFloat3(&m_fCenter, XMVectorScale(total, 1.0f / 3.0f));
 
 #ifdef _DEBUG
     m_pVIBuffer = CVIBuffer_Cell::Create(m_pDevice, m_pContext, vPoints);
@@ -104,6 +109,23 @@ _bool CCell::IsMoveAble()
 _float CCell::ComputeHeight(_vector vPos)
 {
     return (-m_vPlane.x * XMVectorGetX(vPos) - m_vPlane.z * XMVectorGetZ(vPos) - m_vPlane.w) / m_vPlane.y;
+}
+
+_vector CCell::GetCellPoint(NAVI_POINT eType)
+{
+    return XMLoadFloat3(&m_vTirPoints[ENUM_CLASS(eType)]);
+}
+
+_vector CCell::GetCellCenterPoint()
+{
+    return XMLoadFloat3(&m_fCenter);
+}
+
+void CCell::GetNeighborIndex(_Int* pNeighborIndex)
+{
+    pNeighborIndex[0] = m_NeighborIndices[ENUM_CLASS(NAVI_LINE::AB)];
+    pNeighborIndex[1] = m_NeighborIndices[ENUM_CLASS(NAVI_LINE::BC)];
+    pNeighborIndex[2] = m_NeighborIndices[ENUM_CLASS(NAVI_LINE::CA)];
 }
 
 #ifdef _DEBUG
