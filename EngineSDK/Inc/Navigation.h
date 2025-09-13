@@ -20,6 +20,7 @@ struct A_StarNode
 	_Int					ParentIndex;
 };
 
+
 struct CompareNode {
 	bool operator()(const A_StarNode& a, const A_StarNode& b) const {
 		return a.fTotalCost > b.fTotalCost; // fCost가 작을수록 우선
@@ -67,8 +68,9 @@ private:
 
 	static _float4x4				m_WorldMatrix;
 	vector<CCell*>					m_Cells;
-			
-	list<CCell*>					m_Pathlist;
+
+
+	list<pair<_Int, _Int>>			m_PathCells;
 
 #ifdef _DEBUG
 private:
@@ -85,6 +87,9 @@ private :
 
 private:
 	void							SetUpNeighbors();
+
+	_float							Triarea2DCross(const _float3 a, const _float3 b, const _float3 c);
+	void							SimpleFunnelAlgorithm(_vector vStartPoint, list<_float3>* PathList);
 
 public:
 	static CNavigation*				Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pNavigationDataFiles);

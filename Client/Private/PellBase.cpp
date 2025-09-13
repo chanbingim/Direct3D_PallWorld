@@ -38,7 +38,7 @@ HRESULT CPellBase::Initialize(void* pArg)
 void CPellBase::Priority_Update(_float fDeletaTime)
 {
     __super::Priority_Update(fDeletaTime);
-    m_pPellFsm->Update(fDeletaTime);
+   
 }
 
 void CPellBase::Update(_float fDeletaTime)
@@ -56,26 +56,71 @@ HRESULT CPellBase::Render()
     return E_NOTIMPL;
 }
 
-void CPellBase::PellAction(_float fDeletaTime)
+void CPellBase::PellPlayFSM(_float fDeletaTime)
 {
     m_fAccActionTime += fDeletaTime;
-
+    
     if (m_fAccActionTime >= m_fActionTime)
     {
-        switch (m_eTeam)
-        {
-        case PELL_TEAM::FRENDLY:
-            ActionFrendly();
-            break;
-        case PELL_TEAM::NEUTRAL:
-            ActionNeutral();
-            break;
-        case PELL_TEAM::ENEMY:
-            ActionEnemy();
-            break;
-        }
-
+        PellChiceAction();
         m_fAccActionTime = 0.f;
+    }
+    else
+        PellTackingAction();
+        
+    m_pPellFsm->Update(fDeletaTime);
+}
+
+void CPellBase::PellChiceAction()
+{
+    switch (m_eTeam)
+    {
+    case PELL_TEAM::FRENDLY:
+        ActionFrendly();
+        break;
+    case PELL_TEAM::NEUTRAL:
+        ActionNeutral();
+        break;
+    case PELL_TEAM::ENEMY:
+        ActionEnemy();
+        break;
+    }
+}
+
+void CPellBase::PellTackingAction()
+{
+    const CPellStateMachine::PELL_STATE& State = m_pPellFsm->GetState();
+    if (CPellStateMachine::COMBAT_ACTION::END == State.eCombat_State)
+    {
+        if (m_bIsAction)
+        {
+            switch (State.eMove_State)
+            {
+            case CPellStateMachine::MOVE_ACTION::PATROL:
+            {
+                // 이거는 여기에서 목표지점에 가까이가거나하면 모드 전환
+                // 이거도 추적이라는 컴포넌트로 관리할거임
+                _vector vTargetPos = XMLoadFloat3(&m_vTargetPoint);
+                _float3 vCurPos = m_pTransformCom->GetPosition();
+                _vector vPos = XMLoadFloat3(&vCurPos);
+                if (1 > XMVectorGetX(XMVector3Length(vTargetPos - vPos)))
+                {
+                    if (m_PathFinding.empty())
+                    {
+                        m_vTargetPoint = { -1.f, -1.f, -1.f };
+                        m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Idle"));
+                        m_bIsAction = false;
+                    }
+                    else
+                    {
+                        auto iter = m_PathFinding.begin();
+                        m_vTargetPoint = *iter;
+                        m_PathFinding.erase(iter);
+                    }
+                }
+            }
+            }
+        }
     }
 }
 
@@ -95,26 +140,8 @@ void CPellBase::ActionNeutral()
             {
             case CPellStateMachine::MOVE_ACTION::PATROL :
             {
-                // 이거는 여기에서 목표지점에 가까이가거나하면 모드 전환
-                // 이거도 추적이라는 컴포넌트로 관리할거임
-                _vector vTargetPos = XMLoadFloat3(&m_vTargetPoint);
-                _float3 vCurPos = m_pTransformCom->GetPosition();
-                _vector vPos = XMLoadFloat3(&vCurPos);
-                if (1 > XMVectorGetX(XMVector3Length(vTargetPos - vPos)))
-                {
-                    if (1 >= m_PathFinding.size())
-                    {
-                        m_vTargetPoint = {};
-                        m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Idle"));
-                    }
-                    else
-                    {
-                        auto iter = m_PathFinding.begin();
-                        m_PathFinding.erase(iter);
-
-                        m_vTargetPoint = *m_PathFinding.begin();
-                    }
-                }
+               
+              
             }
             break;
             case CPellStateMachine::MOVE_ACTION::RESET :
@@ -141,11 +168,19 @@ void CPellBase::ActionNeutral()
             }
             else
             {
-                //여기서 이제 이동 로직에의해서 동작
-                m_vTargetPoint = *m_PathFinding.begin();
+                _float3 vEndPoint = m_pTransformCom->GetPosition();
+                vEndPoint.x += m_pGameInstance->Random(-5.f, 5.f);
+                vEndPoint.z += m_pGameInstance->Random(-5.f, 5.f);
 
-                 m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Patrol"));
-                 m_bIsAction = true;
+                 m_pNevigation->ComputePathfindingAStar(m_pTransformCom->GetPosition(), vEndPoint, &m_PathFinding);
+                 if (!m_PathFinding.empty())
+                 {
+                     auto iter = m_PathFinding.begin();
+                     m_vTargetPoint = *iter;
+                     m_PathFinding.erase(iter);
+                     m_bIsAction = true;
+                     m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Patrol"));
+                 }
             }
         }
     }

@@ -57,9 +57,14 @@ protected :
 
 	PELL_INFO								m_PellInfo = {};
 	list<_float3>							m_PathFinding;
-	_float3									m_vTargetPoint = {};
+
+	_float3									m_vTargetPoint = { -1.f, -1.f, -1.f};
+	_float									m_LerpTime = {};
+
 protected :
-	void									PellAction(_float fDeletaTime);
+	void									PellPlayFSM(_float fDeletaTime);
+	void									PellChiceAction();
+	void									PellTackingAction();
 
 	void									ActionFrendly();
 	void									ActionNeutral();

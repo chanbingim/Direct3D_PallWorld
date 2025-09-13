@@ -3,6 +3,17 @@
 
 NS_BEGIN(Engine)
 
+class CVIBuffer_Cell;
+
+
+typedef struct PortalDesc
+{
+	_float3		vLeftPoint,	vRightPoint;
+
+	_Int		iCellAIndex;
+	_Int		iCellBIndex;
+}PORTAL_DESC;
+
 class CCell : public CBase
 {
 public :
@@ -29,19 +40,18 @@ public :
 	_vector					GetCellCenterPoint();
 	void					GetNeighborIndex(_Int* ppNeighborIndex);
 
+	const PORTAL_DESC*		GetPortal(_Int iNeighborIndex);
 #ifdef _DEBUG
 	void					Render();
 	void					Export(void* pArg);
 #endif // _DEBUG
 
 private :
+#ifdef _DEBUG	
 	ID3D11Device*			m_pDevice = nullptr;
 	ID3D11DeviceContext*	m_pContext = nullptr;
 
-
-
-#ifdef _DEBUG	
-	class CVIBuffer_Cell*	m_pVIBuffer = { nullptr };
+	CVIBuffer_Cell*			m_pVIBuffer = { nullptr };
 #endif
 
 	_uInt					m_iCellIndex = {};
@@ -50,6 +60,8 @@ private :
 	_float3					m_fCenter = {};
 	_float3					m_vTirPoints[ENUM_CLASS(NAVI_POINT::END)] = {};
 	_float3					m_vTirNormals[ENUM_CLASS(NAVI_LINE::END)] = {};
+
+	PORTAL_DESC				m_Portals[ENUM_CLASS(NAVI_LINE::END)] = {};
 	_Int					m_NeighborIndices[ENUM_CLASS(NAVI_LINE::END)] = { -1, -1, -1 };
 	_float4					m_vPlane = {};
 

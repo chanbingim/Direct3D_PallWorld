@@ -914,6 +914,7 @@
     <ClInclude Include="..\public\WeaponQuickSlot.h">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\WeaponSlot</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\NeturalPellInfo.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -1323,6 +1324,7 @@
     <ClCompile Include="..\private\WeaponQuickSlot.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\WeaponSlot</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\NeturalPellInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\TestShader.hlsl">

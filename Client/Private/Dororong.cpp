@@ -41,21 +41,15 @@ HRESULT CDororong::Initialize(void* pArg)
     m_eTeam = PELL_TEAM::NEUTRAL;
     m_PellInfo.CurStemina = m_PellInfo.MaxStemina = 100.f;
     m_fActionTime = 1.f;
-
-    _float3 vEndPoint = m_pTransformCom->GetPosition();
-
-    vEndPoint.x += 1.f;
-    vEndPoint.z += 1.f;
-
     
-    m_pNevigation->ComputePathfindingAStar(m_pTransformCom->GetPosition(), vEndPoint, &m_PathFinding);
     return S_OK;
 }
 
 void CDororong::Priority_Update(_float fDeletaTime)
 {
     __super::Priority_Update(fDeletaTime);
-    PellAction(fDeletaTime);
+    PellPlayFSM(fDeletaTime);
+
 
    /* if (m_pRecovery->GetRecovering())
         m_PellInfo.CurStemina += m_pRecovery->Update(fDeletaTime);
@@ -63,7 +57,7 @@ void CDororong::Priority_Update(_float fDeletaTime)
         m_PellInfo.CurStemina -= 0.1f;*/
 
     const CPellStateMachine::PELL_STATE& State = m_pPellFsm->GetState();
-   /* if (CPellStateMachine::MOVE_ACTION::PATROL == State.eMove_State)
+    if (CPellStateMachine::MOVE_ACTION::PATROL == State.eMove_State)
     {
         _vector vTarget = XMLoadFloat3(&m_vTargetPoint);
         if (!XMVector3Equal(vTarget, XMVectorZero()))
@@ -71,9 +65,13 @@ void CDororong::Priority_Update(_float fDeletaTime)
             _float3 vCurPos = m_pTransformCom->GetPosition();
             _vector vPos = XMLoadFloat3(&vCurPos);
             _vector vDir = XMVector3Normalize(vTarget - vPos);
-            ADDPosition(vDir);
+
+            _vector vMovePos = vDir * 5.f * 0.01f;
+            m_pTransformCom->LerpTurn(m_pTransformCom->GetUpVector(), vPos + vMovePos, 5.f, fDeletaTime);
+            if (m_pNevigation->IsMove(vPos + vMovePos))
+                m_pTransformCom->ADD_Position(vMovePos);
         }
-    }*/
+    }
 
     m_pNevigation->ComputeHeight(m_pTransformCom);
 }

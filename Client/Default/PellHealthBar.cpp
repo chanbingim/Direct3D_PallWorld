@@ -60,6 +60,20 @@ HRESULT CPellHealthBar::Render()
 	return S_OK;
 }
 
+HRESULT CPellHealthBar::ADD_Components()
+{
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
+		return E_FAIL;
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_HeatlhBar_Tex"), TEXT("Texture_Com"), (CComponent**)&m_pTextureCom)))
+		return E_FAIL;
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_ProgressBar"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 CPellHealthBar* CPellHealthBar::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CPellHealthBar* pHealthBar = new CPellHealthBar(pDevice, pContext);

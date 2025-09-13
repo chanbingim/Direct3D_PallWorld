@@ -142,6 +142,9 @@ _Int CNavigation::Find_Cell(_vector vPos)
 	{
 		pCell->IsCellIn(vPos, &iNeighborIndex);
 
+		if (-1 == iNeighborIndex)
+			continue;
+
 		if (m_Cells[iNeighborIndex]->IsCellIn(vLocalPos, &iNeighborIndex))
 			return pCell->GetCellIndex();
 	}
@@ -151,10 +154,11 @@ _Int CNavigation::Find_Cell(_vector vPos)
 
 void CNavigation::ComputePathfindingAStar(_float3 vStartPoint, _float3 vTargetPoint, list<_float3>* PathList)
 {
+	m_PathCells.clear();
 	priority_queue<A_StarNode, vector<A_StarNode>, CompareNode> OpenList;
 	unordered_map<_uInt, A_StarNode> HashList;
-
 	unordered_map<_uInt, A_StarNode> CloseList;
+
 	_Int  iNeighbor[3];
 	//현재 셀과 vTargtetPoint
 	vTargetPoint.y = vStartPoint.y = 0;
@@ -164,6 +168,9 @@ void CNavigation::ComputePathfindingAStar(_float3 vStartPoint, _float3 vTargetPo
 	vStart = XMVector3TransformCoord(vStart, XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_WorldMatrix)));
 	vEnd = XMVector3TransformCoord(vEnd, XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_WorldMatrix)));
 	_Int EndIndex = Find_Cell(vEnd);
+
+	if (-1 == m_iCurrentCellIndex || -1 == EndIndex)
+		return;
 
 	_vector TriCenterPoint = m_Cells[m_iCurrentCellIndex]->GetCellCenterPoint();
 	TriCenterPoint.m128_f32[1] = 0.f;
@@ -200,7 +207,10 @@ void CNavigation::ComputePathfindingAStar(_float3 vStartPoint, _float3 vTargetPo
 			for (_uInt i = 0; i < 3; ++i)
 			{
 				Closeiter = CloseList.find(iNeighbor[i]);
-				if (-1 == iNeighbor[i] || !m_Cells[iNeighbor[i]]->IsMoveAble() || Closeiter != CloseList.end() )
+				if (-1 == iNeighbor[i])
+					continue;
+
+				if (!m_Cells[iNeighbor[i]]->IsMoveAble() || Closeiter != CloseList.end())
 					continue;
 
 				A_StarNode NeighNode = {};
@@ -232,17 +242,24 @@ void CNavigation::ComputePathfindingAStar(_float3 vStartPoint, _float3 vTargetPo
 			CloseList.emplace(ParentNode.iCellIndex, ParentNode);
 		}
 	}
+	if (OpenList.empty() || CloseList.empty())
+		return;
 
-	_float3 vPos;
 	auto EndNode = CloseList.find(EndIndex);
+	if (EndNode == CloseList.end())
+		return;
+
 	while (-1 != EndNode->second.ParentIndex)
 	{
-		XMStoreFloat3(& vPos, m_Cells[EndNode->second.iCellIndex]->GetCellCenterPoint());
-		(*PathList).push_back(vPos);
-
+		m_PathCells.push_back(make_pair(EndNode->second.ParentIndex, EndNode->second.iCellIndex));
 		EndNode = CloseList.find(EndNode->second.ParentIndex);
+		if (EndNode == CloseList.end())
+			break;
 	}
-	(*PathList).reverse();
+
+	m_PathCells.reverse();
+	SimpleFunnelAlgorithm(vStart, PathList);
+	PathList->push_back(vTargetPoint);
 }
 
 HRESULT CNavigation::Export(const char* FilePath)
@@ -280,7 +297,7 @@ HRESULT CNavigation::Render(_float4 vColor, _bool DarwCurCell)
 	else
 	{
 		_Int iStart	= Clamp<_Int>(m_iCurrentCellIndex - 25, 0, (_Int)m_Cells.size());
-		_Int iEnd		= Clamp<_Int>(m_iCurrentCellIndex + 25, 0, (_Int)m_Cells.size());
+		_Int iEnd	= Clamp<_Int>(m_iCurrentCellIndex + 25, 0, (_Int)m_Cells.size());
 
 		for (_Int i = iStart; i < iEnd; ++i)
 		{
@@ -335,6 +352,98 @@ void CNavigation::SetUpNeighbors()
 			{
 				pSourCell->SetNeighbor(NAVI_LINE::CA, pDestCell->GetCellIndex());
 			}
+		}
+	}
+}
+
+_float CNavigation::Triarea2DCross(const _float3 a, const _float3 b, const _float3 c)
+{
+	const float ax = b.x - a.x;
+	const float ay = b.z - a.z;
+
+	const float bx = c.x - a.x;
+	const float by = c.z - a.z;
+	return bx * ay - ax * by;
+}
+
+void CNavigation::SimpleFunnelAlgorithm(_vector vStartPoint, list<_float3>* PathList)
+{
+	//맨 처음에 Cell을 탐색해서 변을 집어넣는거 하면될듯
+	vector<PORTAL_DESC> Portals = {};
+	Portals.reserve(m_PathCells.size());
+
+	for (auto FromToCell : m_PathCells)
+	{
+		const PORTAL_DESC* Desc = m_Cells[FromToCell.first]->GetPortal(FromToCell.second);
+		if(Desc)
+			Portals.push_back(*Desc);
+	}
+
+	_float3 Apex{}, Left{}, Right{};
+	XMStoreFloat3(&Apex, vStartPoint);
+	if (Portals.empty())
+		return;
+
+	if (0 > Triarea2DCross(Apex, Portals[0].vLeftPoint, Portals[0].vRightPoint))
+	{
+		Left = Portals[0].vLeftPoint;
+		Right = Portals[0].vRightPoint;
+	}
+	else
+	{
+		Left = Portals[0].vRightPoint;
+		Right = Portals[0].vLeftPoint;
+	}
+
+	for (_uInt j = 1; j < Portals.size(); ++j)
+	{
+		_float3 Left2{}, Right2{};
+
+		// 상세조건
+		// 이전 right 와 새로운 left가 보다 큰지 확인 실패하면 right도 새로운걸로 바꿔서 연산
+		// 위 조건 실패시 경로 집어넣기
+		// 
+		// j가 실패조건이 나왔을때 j - 1은 다시탐색해야할 i 증가량
+		// j가 실패조건이 나왔을때 Right Left의 중점을 기준으로 경로를 넣자
+		if (0 >= Triarea2DCross(Apex, Portals[j].vLeftPoint, Portals[j].vRightPoint))
+		{
+			Left2 = Portals[j].vLeftPoint;
+			Right2 = Portals[j].vRightPoint;
+		}
+		else
+		{
+			Right2 = Portals[j].vLeftPoint;
+			Left2 = Portals[j].vRightPoint;
+		}
+
+		if (0 <= Triarea2DCross(Apex, Left, Left2))
+		{
+			if (0 > Triarea2DCross(Apex, Right, Left2))
+			{
+				_float3 WorldPos = {};
+				_vector EdgeCenter = XMVectorLerp(XMLoadFloat3(&Left), XMLoadFloat3(&Right), 0.5f);
+				XMStoreFloat3(&Apex, EdgeCenter);
+				XMStoreFloat3(&WorldPos, XMVector3TransformCoord(EdgeCenter, XMLoadFloat4x4(&m_WorldMatrix)));
+				PathList->push_back(WorldPos);
+				j--;
+			}
+			else
+				Left = Left2;
+		}
+
+		if (0 >= Triarea2DCross(Apex, Right, Right2))
+		{
+			if (0 < Triarea2DCross(Apex, Left, Right2))
+			{
+				_float3 WorldPos = {};
+				_vector EdgeCenter = XMVectorLerp(XMLoadFloat3(&Left), XMLoadFloat3(&Right), 0.5f);
+				XMStoreFloat3(&Apex, EdgeCenter);
+				XMStoreFloat3(&WorldPos, XMVector3TransformCoord(EdgeCenter, XMLoadFloat4x4(&m_WorldMatrix)));
+				PathList->push_back(WorldPos);
+				j--;
+			}
+			else
+				Right = Right2;
 		}
 	}
 }
