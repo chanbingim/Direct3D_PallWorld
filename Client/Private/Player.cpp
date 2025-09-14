@@ -174,11 +174,8 @@ void CPlayer::MoveAction(_float fDeletaTime)
     _bool   KeyInput = false;
     _vector MovePos{}, vDir{}, vPos{}, vPlayerLook{};
 
-    if (!State.bIsAiming)
-    {
-        _float3 PlayerPos = m_pTransformCom->GetPosition();
-        vPos = XMLoadFloat3(&PlayerPos);
-    }
+    _float3 PlayerPos = m_pTransformCom->GetPosition();
+    vPos = XMLoadFloat3(&PlayerPos);
 
     if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_W))
     {
@@ -252,7 +249,7 @@ void CPlayer::MoveAction(_float fDeletaTime)
             }
         }
 
-        MovePos = vDir * m_fMoveSpeed * fDeletaTime;
+        MovePos = XMVector3Normalize(vDir) * m_fMoveSpeed * fDeletaTime;
     }
 
     if (!XMVector3Equal(MovePos, XMVectorZero()))
