@@ -49,25 +49,18 @@ HRESULT CTypeIcon::Render()
 {
     Apply_ConstantShaderResources();
     m_pShaderCom->Update_Shader(2);
-    m_pTextureCom->SetTexture(0, m_iTypeID);
+
+    m_pBackGroundTex->SetTexture(0, 0);
     m_pVIBufferCom->Render_VIBuffer();
 
-    if (m_pFrontTex)
-    {
-        m_pTextureCom->SetTexture(0, m_iTypeID);
-        m_pVIBufferCom->Render_VIBuffer();
-    }
+    m_pTextureCom->SetTexture(0, m_iTypeID);
+    m_pVIBufferCom->Render_VIBuffer();
 
     return S_OK;
 }
 
-void CTypeIcon::SetData(CTexture* FrontImage, _uInt iID)
+void CTypeIcon::SetData(_uInt iID)
 {
-    if (m_pFrontTex)
-        Safe_Release(m_pFrontTex);
-
-    m_pFrontTex = FrontImage;
-    Safe_AddRef(m_pFrontTex);
     m_iTypeID = iID;
 }
 
@@ -77,6 +70,9 @@ HRESULT CTypeIcon::ADD_Components()
         return E_FAIL;
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Battle_Pell_TypeUI"), TEXT("Texture_Com"), (CComponent**)&m_pTextureCom)))
+        return E_FAIL;
+
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Battle_Pell_BackGroundTypeUI"), TEXT("BackGroundTex_Com"), (CComponent**)&m_pBackGroundTex)))
         return E_FAIL;
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
@@ -113,5 +109,5 @@ void CTypeIcon::Free()
 {
     __super::Free();
 
-    Safe_Release(m_pFrontTex);
+    Safe_Release(m_pBackGroundTex);
 }

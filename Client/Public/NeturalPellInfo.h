@@ -2,11 +2,18 @@
 #include "BackGround.h"
 
 NS_BEGIN(Client)
+class CPellBase;
 class CPellHealthBar;
-class CTypeIcon;
+class CNeturalTypeIcon;
 
 class CNeturalPellInfo : public CBackGround
 {
+public :
+	typedef struct	NeturalPellDesc : public GAMEOBJECT_DESC
+	{
+		CPellBase*			pOwner;
+	}NETURAL_PELL_DESC;
+
 protected:
 	CNeturalPellInfo(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CNeturalPellInfo(const CNeturalPellInfo& rhs);
@@ -22,13 +29,23 @@ public:
 	// 랜더
 	virtual		HRESULT						Render() override;
 
+	const		_float4x4&					GetCombinedMatrix() { return m_CombinedMatrix; }
+
 private :
+	CPellBase*								m_pOwner = nullptr;
+	_float4x4								m_CombinedMatrix = {};
 	//폰트는 나중에 구해서 적용
 	CPellHealthBar*							m_pHealthBar = nullptr;
-	CTypeIcon*								m_pTypeIcon = nullptr;
+	CNeturalTypeIcon*						 m_pTypeIcon = nullptr;
+
+protected :
+	virtual     HRESULT						Apply_ConstantShaderResources() override;
 
 private :
 	HRESULT									ADD_Components();
+	HRESULT									ADD_Childs();
+
+	void									SetUpPellInfoData();
 
 public:
 	static			CNeturalPellInfo*		Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

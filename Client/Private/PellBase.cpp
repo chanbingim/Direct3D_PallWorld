@@ -2,7 +2,9 @@
 
 #include "GameInstance.h"
 #include "TerrainManager.h"
+
 #include "PellStateMachine.h"
+#include "NeturalPellInfo.h"
 #include "PellBody.h"
 #include "Recovery.h"
 
@@ -38,22 +40,44 @@ HRESULT CPellBase::Initialize(void* pArg)
 void CPellBase::Priority_Update(_float fDeletaTime)
 {
     __super::Priority_Update(fDeletaTime);
+
+    if (VISIBILITY::VISIBLE == m_pNeturalPellUI->GetVisibility())
+        m_pNeturalPellUI->Priority_Update(fDeletaTime);
    
 }
 
 void CPellBase::Update(_float fDeletaTime)
 {
     __super::Update(fDeletaTime);
+
+    if (VISIBILITY::VISIBLE == m_pNeturalPellUI->GetVisibility())
+        m_pNeturalPellUI->Update(fDeletaTime);
 }
 
 void CPellBase::Late_Update(_float fDeletaTime)
 {
     __super::Late_Update(fDeletaTime);
+
+    if (VISIBILITY::VISIBLE == m_pNeturalPellUI->GetVisibility())
+        m_pNeturalPellUI->Late_Update(fDeletaTime);
 }
 
 HRESULT CPellBase::Render()
 {
     return E_NOTIMPL;
+}
+
+HRESULT CPellBase::ADD_PellInfoUI()
+{
+    CNeturalPellInfo::NETURAL_PELL_DESC PellInfoDesc = {};
+    PellInfoDesc.pOwner = this;
+    PellInfoDesc.vScale = { 3.f, 1.f, 0.f };
+
+    //Pell Health Bar
+    PellInfoDesc.vPosition = { 2.f, 0.f, 0.f };
+    m_pNeturalPellUI = static_cast<CNeturalPellInfo*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_PellInfo_UI"), &PellInfoDesc));
+
+    return S_OK;
 }
 
 void CPellBase::PellPlayFSM(_float fDeletaTime)
@@ -66,7 +90,12 @@ void CPellBase::PellPlayFSM(_float fDeletaTime)
         m_fAccActionTime = 0.f;
     }
     else
+    {
+        if(PELL_TEAM::NEUTRAL == m_eTeam)
+            ShowPellInfo();
         PellTackingAction();
+    }
+       
         
     m_pPellFsm->Update(fDeletaTime);
 }
@@ -201,6 +230,18 @@ void CPellBase::ActionEnemy()
 
 }
 
+void CPellBase::ShowPellInfo()
+{
+    _float3 vCurPos = m_pTransformCom->GetPosition();
+    _vector vPlayerPos = m_pGameInstance->GetPlayerState(WORLDSTATE::POSITION);
+    _vector vPos = XMLoadFloat3(&vCurPos);
+    if (m_fInfoVisibleDistance >= XMVectorGetX(XMVector3Length(vPlayerPos - vPos)))
+        m_pNeturalPellUI->SetVisibility(VISIBILITY::VISIBLE);
+    else
+        m_pNeturalPellUI->SetVisibility(VISIBILITY::HIDDEN);
+
+}
+
 CGameObject* CPellBase::Clone(void* pArg)
 {
     return nullptr;
@@ -212,6 +253,7 @@ void CPellBase::Free()
 
     Safe_Release(m_pPellFsm);
     Safe_Release(m_pRecovery);
+    Safe_Release(m_pNeturalPellUI);
     Safe_Release(m_pTerrainManager);
     Safe_Release(m_pNevigation);
 }

@@ -4,12 +4,12 @@
 #include "PellStructData.h"
 #include "ContainerObject.h"
 
-
 NS_BEGIN(Engine)
 class CNavigation;
 NS_END
 
 NS_BEGIN(Client)
+class CNeturalPellInfo;
 class CTerrainManager;
 class CPellStateMachine;
 class CRecovery;
@@ -38,6 +38,8 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
+	const PELL_INFO&						GetPellInfo() const { return m_PellInfo; }
+
 protected :
 	PELL_TEAM								m_eTeam;
 
@@ -46,13 +48,16 @@ protected :
 	_float									m_fAccActionTime = 0;
 	_float									m_fActionTime = 0;
 
+	_float									m_fInfoVisibleDistance = 5.f;
 	_float									m_RecoverTime = 0.7f;
 	_float									m_RecoverSetemina = 10.f;
 
 	CTerrainManager*						m_pTerrainManager = nullptr;
 	CPellStateMachine*						m_pPellFsm = nullptr;
+
 	CNavigation*							m_pNevigation = nullptr;
 	CRecovery*								m_pRecovery = nullptr;
+	CNeturalPellInfo*						m_pNeturalPellUI = nullptr;
 	CPellBody*								m_pPellBody = nullptr;
 
 	PELL_INFO								m_PellInfo = {};
@@ -62,6 +67,8 @@ protected :
 	_float									m_LerpTime = {};
 
 protected :
+	HRESULT									ADD_PellInfoUI();
+
 	void									PellPlayFSM(_float fDeletaTime);
 	void									PellChiceAction();
 	void									PellTackingAction();
@@ -69,6 +76,9 @@ protected :
 	void									ActionFrendly();
 	void									ActionNeutral();
 	void									ActionEnemy();
+
+	void									ShowPellInfo();
+
 
 public:
 	virtual			CGameObject*			Clone(void* pArg) override;

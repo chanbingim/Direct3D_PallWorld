@@ -358,12 +358,10 @@ void CNavigation::SetUpNeighbors()
 
 _float CNavigation::Triarea2DCross(const _float3 a, const _float3 b, const _float3 c)
 {
-	const float ax = b.x - a.x;
-	const float ay = b.z - a.z;
+	_vector LineA = { b.x - a.x, 0.f, b.z - a.z , 0.f};
+	_vector LineB = { c.x - a.x, 0.f, c.z - a.z , 0.f };
 
-	const float bx = c.x - a.x;
-	const float by = c.z - a.z;
-	return bx * ay - ax * by;
+	return XMVectorGetY(XMVector2Cross(LineA, LineB));
 }
 
 void CNavigation::SimpleFunnelAlgorithm(_vector vStartPoint, list<_float3>* PathList)
@@ -405,7 +403,10 @@ void CNavigation::SimpleFunnelAlgorithm(_vector vStartPoint, list<_float3>* Path
 		// 
 		// j가 실패조건이 나왔을때 j - 1은 다시탐색해야할 i 증가량
 		// j가 실패조건이 나왔을때 Right Left의 중점을 기준으로 경로를 넣자
-		if (0 >= Triarea2DCross(Apex, Portals[j].vLeftPoint, Portals[j].vRightPoint))
+		// 이거 2D 평면으로 바꿧을때 Cross연산은 오른손좌표 기준으로 연산을 한다고 한다.
+		// 때문에 왼손 좌표계에서는 Cross연산의 부호를 바꿔줘야 정삭적으로 동작함
+
+		if (0 <= Triarea2DCross(Apex, Portals[j].vLeftPoint, Portals[j].vRightPoint))
 		{
 			Left2 = Portals[j].vLeftPoint;
 			Right2 = Portals[j].vRightPoint;
@@ -416,7 +417,7 @@ void CNavigation::SimpleFunnelAlgorithm(_vector vStartPoint, list<_float3>* Path
 			Left2 = Portals[j].vRightPoint;
 		}
 
-		if (0 <= Triarea2DCross(Apex, Left, Left2))
+		if (0 >= Triarea2DCross(Apex, Left, Left2))
 		{
 			if (0 > Triarea2DCross(Apex, Right, Left2))
 			{
@@ -431,9 +432,9 @@ void CNavigation::SimpleFunnelAlgorithm(_vector vStartPoint, list<_float3>* Path
 				Left = Left2;
 		}
 
-		if (0 >= Triarea2DCross(Apex, Right, Right2))
+		if (0 <= Triarea2DCross(Apex, Right, Right2))
 		{
-			if (0 < Triarea2DCross(Apex, Left, Right2))
+			if (0 > Triarea2DCross(Apex, Left, Right2))
 			{
 				_float3 WorldPos = {};
 				_vector EdgeCenter = XMVectorLerp(XMLoadFloat3(&Left), XMLoadFloat3(&Right), 0.5f);

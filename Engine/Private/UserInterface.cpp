@@ -27,26 +27,34 @@ HRESULT CUserInterface::Initalize_Prototype()
 
 HRESULT CUserInterface::Initialize(void* pArg)
 {
-	if(FAILED(__super::Initialize(nullptr)))
-		return E_FAIL;
-
-	if (pArg)
+	if(!m_bIsWorld)
 	{
-		GAMEOBJECT_DESC* pObjectDesc = static_cast<GAMEOBJECT_DESC*>(pArg);
-		SetRotation(pObjectDesc->vRotation);
-		SetScale(pObjectDesc->vScale);
+		if (FAILED(__super::Initialize(nullptr)))
+			return E_FAIL;
 
-		m_fPos.x = pObjectDesc->vPosition.x;
-		m_fPos.y = pObjectDesc->vPosition.y;
-
-		SetLocation(pObjectDesc->vPosition);
-		if (pObjectDesc->pParent)
+		if (pArg)
 		{
-			m_pTransformCom->SetPosition(pObjectDesc->vPosition);
-			SetParent(pObjectDesc->pParent);
-		
+			GAMEOBJECT_DESC* pObjectDesc = static_cast<GAMEOBJECT_DESC*>(pArg);
+			SetRotation(pObjectDesc->vRotation);
+			SetScale(pObjectDesc->vScale);
+
+			m_fPos.x = pObjectDesc->vPosition.x;
+			m_fPos.y = pObjectDesc->vPosition.y;
+
+			SetLocation(pObjectDesc->vPosition);
+			if (pObjectDesc->pParent)
+			{
+				m_pTransformCom->SetPosition(pObjectDesc->vPosition);
+				SetParent(pObjectDesc->pParent);
+			}
+
+			UpdateRectSize();
 		}
-		UpdateRectSize();
+	}
+	else
+	{
+		if (FAILED(__super::Initialize(pArg)))
+			return E_FAIL;
 	}
 
 	return S_OK;

@@ -24,10 +24,10 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
-	void									SetData(CTexture* FrontImage, _uInt iID);
+	void									SetData(_uInt iID);
 
-private :
-	CTexture*								m_pFrontTex = nullptr;
+protected :
+	CTexture*								m_pBackGroundTex = nullptr;
 	_uInt									m_iTypeID = {};
 
 private:

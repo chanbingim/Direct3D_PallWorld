@@ -440,6 +440,10 @@ const _float4x4& CGameInstance::GetIndentityMatrix()
 {
     return m_pPipeline->GetIndentityMatrix();
 }
+void CGameInstance::SetPlayerWorldMatrix(_float4x4 Matrix)
+{
+    return m_pPipeline->SetPlayerWorldMatrix(Matrix);
+}
 void CGameInstance::SetPostBuffer(_uInt iIndex, ID3D11ShaderResourceView* pTex)
 {
     m_pPipeline->SetPostBuffer(iIndex, pTex);
@@ -452,6 +456,10 @@ ID3D11ShaderResourceView* CGameInstance::GetPostBuffer(_uInt iIndex)
 _vector CGameInstance::GetCameraState(WORLDSTATE eType)
 {
     return m_pPipeline->GetCameraState(eType);
+}
+_vector CGameInstance::GetPlayerState(WORLDSTATE eType)
+{
+    return m_pPipeline->GetPlayerState(eType);
 }
 #pragma endregion
 

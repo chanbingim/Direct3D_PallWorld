@@ -44,6 +44,7 @@ protected :
 	_bool									m_bIsMouseEvent = false;
 
 	_uInt									m_iZOrder = {};
+	_bool									m_bIsWorld = false;
 
 protected :
 	virtual			void					MouseHoverEnter();

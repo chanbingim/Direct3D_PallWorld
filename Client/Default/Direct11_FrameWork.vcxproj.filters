@@ -491,6 +491,12 @@
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\ItemQuickSlot">
       <UniqueIdentifier>{a86b77f1-80dc-419c-9392-479f39212d43}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Objects\SkyBox">
+      <UniqueIdentifier>{724e9d96-1791-4156-aa36-545a47723c74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Pell\NaturalPellInfo\PellIcon">
+      <UniqueIdentifier>{afe32fa3-f418-44bd-b465-e6506c764afa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -914,7 +920,12 @@
     <ClInclude Include="..\public\WeaponQuickSlot.h">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\WeaponSlot</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\NeturalPellInfo.h" />
+    <ClInclude Include="..\public\NeturalPellInfo.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Pell\NaturalPellInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\NeturalTypeIcon.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Pell\NaturalPellInfo\PellIcon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -1324,7 +1335,12 @@
     <ClCompile Include="..\private\WeaponQuickSlot.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\WeaponSlot</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\NeturalPellInfo.cpp" />
+    <ClCompile Include="..\private\NeturalPellInfo.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Pell\NaturalPellInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\NeturalTypeIcon.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Pell\NaturalPellInfo\PellIcon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\TestShader.hlsl">

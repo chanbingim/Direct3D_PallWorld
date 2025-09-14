@@ -72,8 +72,16 @@
 
 #include "BattlePell.h"
 #include "PellInfo.h"
+#include "NeturalPellInfo.h"
+
 #include "PellInfoFrame.h"
 #include "TypeIcon.h"
+
+#pragma region PELL INFO
+#include "PellHealthBar.h"
+#include "NeturalTypeIcon.h"
+#pragma endregion
+
 
 #include "InGameMenu.h"
 #include "Player.h"
@@ -251,8 +259,12 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Battle_Pell_UI"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/SelectPell/T_gauge_pal_skill.png"), 1))))
 		return E_FAIL;
+	/* GamePlay_PlayerInfo_Battle_PellTypes_UI_BackGroundTexture */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Battle_Pell_BackGroundTypeUI"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/PellType/PellIconBackGround.png"), 1))))
+		return E_FAIL;
 
-	/* GamePlay_PlayerInfo_Battle_PellInfoFrame_UI_Texture */
+	/* GamePlay_PlayerInfo_Battle_PellTypes_UI_Texture */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Battle_Pell_TypeUI"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/PellType/T_Icon_element_s_%d.png"), 9))))
 		return E_FAIL;
@@ -285,6 +297,14 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/GameMenu/Option/OptionButBase%d.png"), 2))))
 		return E_FAIL;
 #pragma endregion
+
+#pragma region PELL_INFO_TEXTURE
+	/* GamePlay_Pell_Health_BackGround_Texture */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Pell_HeatlhBar_Tex"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/Progressbar/T_gauge_HP0.png"), 1))))
+		return E_FAIL;
+#pragma endregion
+
 
 #pragma region CrossHair
 	/* GamePlay_CrossHair_DefualtType_Texture */
@@ -648,6 +668,16 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region PELL_INFO_UI
+	/* GAME_OBJECT_PlayerInfoUI */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Netrual_Pell_Health_Bar"), CPellHealthBar::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_Pell_TypeUI */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Netrual_Pell_Type_UI"), CNeturalTypeIcon::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
 #pragma region IN GAME MENU UI
 	/* GAME_OBJECT_InGameMenu_UI */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_InGmaeMenu_UI"), CInGameMenu::Create(m_pDevice, m_pContext))))
@@ -655,6 +685,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* GAME_OBJECT_CrossHair_UI */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CrossHair_UI"), CAimInterface::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_Pell_Info_UI */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_PellInfo_UI"), CNeturalPellInfo::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 #pragma endregion
 

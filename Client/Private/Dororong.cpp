@@ -38,6 +38,9 @@ HRESULT CDororong::Initialize(void* pArg)
     if (FAILED(ADD_PartObjects()))
         return E_FAIL;
 
+    if (FAILED(ADD_PellInfoUI()))
+        return E_FAIL;
+
     m_eTeam = PELL_TEAM::NEUTRAL;
     m_PellInfo.CurStemina = m_PellInfo.MaxStemina = 100.f;
     m_fActionTime = 1.f;

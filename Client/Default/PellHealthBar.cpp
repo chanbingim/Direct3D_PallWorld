@@ -1,6 +1,7 @@
 #include "PellHealthBar.h"
 
 #include "GameInstance.h"
+#include "NeturalPellInfo.h"
 
 CPellHealthBar::CPellHealthBar(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 	CProgressBar(pDevice, pContext)
@@ -22,6 +23,8 @@ HRESULT CPellHealthBar::Initalize_Prototype()
 
 HRESULT CPellHealthBar::Initialize(void* pArg)
 {
+	m_bIsWorld = true;
+
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
@@ -38,11 +41,22 @@ HRESULT CPellHealthBar::Initialize(void* pArg)
 
 void CPellHealthBar::Update(_float fDeletaTime)
 {
+	CNeturalPellInfo* pNeturalPell = dynamic_cast<CNeturalPellInfo*>(m_pParent);
+	if (pNeturalPell)
+	{
+		_matrix ParentMat = XMLoadFloat4x4(&pNeturalPell->GetCombinedMatrix());
+		for (_uInt i = 0; i < 3; ++i)
+			ParentMat.r[i] = XMVector3Normalize(ParentMat.r[i]);
+
+		_matrix WorldMat = XMLoadFloat4x4(&m_pTransformCom->GetWorldMat());
+
+		XMStoreFloat4x4(&m_CombinedMat, WorldMat * ParentMat);
+	}
 }
 
 void CPellHealthBar::Late_Update(_float fDeletaTime)
 {
-	m_pGameInstance->Add_RenderGroup(RENDER::SCREEN_UI, this);
+	m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
 }
 
 HRESULT CPellHealthBar::Render()
@@ -50,12 +64,23 @@ HRESULT CPellHealthBar::Render()
 	Apply_ConstantShaderResources();
 	m_pShaderCom->Update_Shader(0);
 
-	m_pTextureCom->SetTexture(0, 0);
-	m_pVIBufferCom->Render_VIBuffer();
-
 	m_pShaderCom->Update_Shader(1);
 	m_pTextureCom->SetTexture(0, 1);
 	m_pVIBufferCom->Render_VIBuffer();
+
+	m_pTextureCom->SetTexture(0, 0);
+	m_pVIBufferCom->Render_VIBuffer();
+
+
+
+	return S_OK;
+}
+
+HRESULT CPellHealthBar::Apply_ConstantShaderResources()
+{
+	m_pEMVWorldMat->SetMatrix(reinterpret_cast<const float*>(&m_CombinedMat));
+	m_pEMVViewMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::VIEW)));
+	m_pEMVProjMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION)));
 
 	return S_OK;
 }

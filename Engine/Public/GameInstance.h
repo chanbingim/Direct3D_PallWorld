@@ -148,10 +148,12 @@ public :
 	const _float4x4&			GetInvMatrix(MAT_STATE eState);
 	const _float4x4&			GetIndentityMatrix();
 
+	void						SetPlayerWorldMatrix(_float4x4 Matrix);
 	void						SetPostBuffer(_uInt iIndex, ID3D11ShaderResourceView* pTex);
 	ID3D11ShaderResourceView*	GetPostBuffer(_uInt iIndex);
 
 	_vector						GetCameraState(WORLDSTATE eType);
+	_vector						GetPlayerState(WORLDSTATE eType);
 #pragma endregion
 
 #pragma region Editor_Picking

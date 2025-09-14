@@ -23,9 +23,11 @@ public :
 	const _float4x4&				GetIndentityMatrix();
 
 	void							SetPostBuffer(_uInt iIndex, ID3D11ShaderResourceView* pTex);
+	void							SetPlayerWorldMatrix(_float4x4 Matrix);
 	ID3D11ShaderResourceView*		GetPostBuffer(_uInt iIndex);
 
 	_vector							GetCameraState(WORLDSTATE eType);
+	_vector							GetPlayerState(WORLDSTATE eType);
 
 private :
 	CGameInstance*					m_pGameInstance = nullptr;
@@ -35,6 +37,7 @@ private :
 	//행렬 모음
 	_float4x4						m_PipeLineMat[ENUM_CLASS(MAT_STATE::END)];
 	_float4x4						m_PipeLineInvMat[ENUM_CLASS(MAT_STATE::END)];
+	_float4x4						m_PlayerWorldMat = {};
 
 	_float4x4						m_IdentityMat = {};
 

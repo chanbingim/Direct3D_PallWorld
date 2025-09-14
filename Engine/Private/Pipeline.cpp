@@ -62,6 +62,11 @@ void CPipeline::SetPostBuffer(_uInt iIndex, ID3D11ShaderResourceView* pTex)
 	m_PipeTextures[iIndex] = pTex;
 }
 
+void CPipeline::SetPlayerWorldMatrix(_float4x4 Matrix)
+{
+	m_PlayerWorldMat = Matrix;
+}
+
 ID3D11ShaderResourceView* CPipeline::GetPostBuffer(_uInt iIndex)
 {
 	if (0 > iIndex || m_PipeTextures.size() <= iIndex)
@@ -73,6 +78,12 @@ _vector CPipeline::GetCameraState(WORLDSTATE eType)
 {
 	_matrix CameraWolrdMat = XMLoadFloat4x4(&m_PipeLineInvMat[ENUM_CLASS(MAT_STATE::VIEW)]);
 	return CameraWolrdMat.r[ENUM_CLASS(eType)];
+}
+
+_vector CPipeline::GetPlayerState(WORLDSTATE eType)
+{
+	_matrix PlayerWolrdMat = XMLoadFloat4x4(&m_PlayerWorldMat);
+	return PlayerWolrdMat.r[ENUM_CLASS(eType)];
 }
 
 HRESULT CPipeline::SettingPipeTextures()

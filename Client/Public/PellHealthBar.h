@@ -20,9 +20,14 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
+protected:
+	virtual     HRESULT						Apply_ConstantShaderResources() override;
+
+private :
+	_float4x4								m_CombinedMat = {};
+
 private:
 	HRESULT									ADD_Components();
-
 
 public:
 	static			CPellHealthBar*			Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);

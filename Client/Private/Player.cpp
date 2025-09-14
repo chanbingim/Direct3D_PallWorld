@@ -70,11 +70,10 @@ void CPlayer::Priority_Update(_float fDeletaTime)
     if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_F10))
         m_ViewCamera = !m_ViewCamera;
 
-
-
   if (GAMEMODE::GAME == m_pGameInstance->GetGameMode())
   {
       Key_Input(fDeletaTime);
+      m_pGameInstance->SetPlayerWorldMatrix(m_pTransformCom->GetWorldMat());
   }
 }
 
