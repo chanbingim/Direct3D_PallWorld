@@ -5,6 +5,37 @@ NS_BEGIN(Engine)
 class CModel; 
 class CBone;
 
+typedef struct Navi_Edge
+{
+	_float3 A;
+	_float3 B;
+
+	_bool operator== (const NAVI_EDGE& rhs)
+	{
+		if (XMVector3Equal(XMLoadFloat3(&A), XMLoadFloat3(&rhs.A)) &&
+			XMVector3Equal(XMLoadFloat3(&B), XMLoadFloat3(&rhs.B)))
+			return true;
+	}
+
+}NAVI_EDGE;
+
+typedef struct Navi_Triangle
+{
+	_float3 A;
+	_float3 B;
+	_float3 C;
+
+	list<NAVI_EDGE> TriEdge;
+
+	_bool operator== (const NAVI_TRIANGLE& rhs)
+	{
+		if (XMVector3Equal(XMLoadFloat3(&A), XMLoadFloat3(&rhs.A)) &&
+			XMVector3Equal(XMLoadFloat3(&B), XMLoadFloat3(&rhs.B)) &&
+			XMVector3Equal(XMLoadFloat3(&C), XMLoadFloat3(&rhs.C)))
+			return true;
+	}
+}NAVI_TRIANGLE;
+
 class ENGINE_DLL CMesh : public CVIBuffer
 {
 private:
@@ -25,6 +56,7 @@ public:
 	HRESULT					AnimExport(void* pOut);
 
 	const _float3*			GetVerticesPoint() const { return m_pVertices; }
+	_uInt					GetNumVertices() const { return m_iNumVertices; }
 	void					GetIndices(vector<_uInt>& Indices);
 
 private :

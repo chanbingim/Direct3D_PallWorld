@@ -296,6 +296,75 @@ HRESULT CNavigation::Render(_float4 vColor, _bool DarwCurCell)
 	return S_OK;
 }
 
+void CNavigation::Bowyer_WatsonAlgorithm(const _float3* vTriAngle, const CModel* pMapModel, _uInt iMeshNum)
+{
+	//Step 1
+	//슈퍼 트라이앵글 생성
+
+
+	//Step 2
+	//점 추가 및 삼각형 갱신
+	_uInt iNumVertices = pMapModel->GetNumVertices(iMeshNum);
+	const _float3* Vertices = pMapModel->GetVerticesPoint(iMeshNum);
+
+	list<NAVI_TRIANGLE> Triangles = {};
+	list<NAVI_TRIANGLE> BadTriangles = {};
+	for (_uInt i = 0; i < iNumVertices; ++i)
+	{
+		//점 추가되면 현재 삼각형 과 비교
+		for (auto& PossibleTri : Triangles)
+		{
+			//여기서 확인하고 BadTriangle 추가
+		}
+
+		for (auto& BadTrianlge : BadTriangles)
+		{
+			// 삭제해야 하는 삼각형의 변과
+			// 현재 들어온 점으로 폴리곤을 만들어낸다.
+			for (auto& Edge : BadTrianlge.TriEdge)
+			{
+				_bool IsUnique = true;
+
+				for (auto& OtherBadTrianlge : BadTriangles)
+				{
+					if (OtherBadTrianlge == BadTrianlge)
+						continue;
+
+					for (auto& OtherEdge : OtherBadTrianlge.TriEdge)
+					{
+						if (Edge == OtherEdge)
+						{
+							IsUnique = false;
+							break;
+						}
+					}
+
+					if (false == IsUnique)
+						break;
+				}
+
+				if (IsUnique)
+				{
+					//여기서 unique 삼각형이라면 폴리곤 리스트에 추가
+				}
+			}
+		}
+
+		for (auto& BadTrianlge : BadTriangles)
+			Triangles.remove(BadTrianlge);
+	
+		//여기서 실질적인 삼각형 생성
+
+		
+	}
+
+	//여기서 생성된 삼각형들을 Cell정보로 이용해서 생성한다.
+
+
+
+
+}
+
 void CNavigation::BindSahderResource()
 {
 	m_pEMVWorldMat = m_pShaderCom->GetVariable("g_WorldMatrix")->AsMatrix();

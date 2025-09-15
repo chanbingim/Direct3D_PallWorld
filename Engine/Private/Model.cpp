@@ -136,6 +136,11 @@ const _float3* CModel::GetVerticesPoint(_uInt iMeshIndex) const
 	return m_Meshes[iMeshIndex]->GetVerticesPoint();
 }
 
+_uInt CModel::GetNumVertices(_uInt iMeshIndex) const
+{
+	return m_Meshes[iMeshIndex]->GetNumVertices();
+}
+
 void CModel::GetIndices(_uInt iMeshIndex, vector<_uInt>& Indices) const
 {
 	m_Meshes[iMeshIndex]->GetIndices(Indices);
