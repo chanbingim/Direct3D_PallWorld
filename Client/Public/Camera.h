@@ -24,7 +24,7 @@ public :
 	virtual			HRESULT			Render()override;
 
 private :
-	_float							m_fSpeed = 10.f;
+	_float							m_fSpeed = 50.f;
 	_float							m_fRotSpeed = 5.f;
 private :
 	void							Input_KeyBoard(_float fDeletaTime);

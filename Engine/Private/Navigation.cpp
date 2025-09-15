@@ -34,37 +34,20 @@ HRESULT CNavigation::Initialize_Prototype(const _tchar* pNavigationDataFiles)
 	return S_OK;
 }
 
-HRESULT CNavigation::Initialize_Prototype(const CVIBuffer_Terrain* pTerrianBuffer)
+HRESULT CNavigation::Initialize_Prototype(const CModel* pMapModel, _uInt iMeshNum)
 {
-	m_iNumNaviSize = pTerrianBuffer->GetTerrianSize();
-	auto pVertices = pTerrianBuffer->GetVerticesPoint();
+	auto pVertices = pMapModel->GetVerticesPoint(iMeshNum);
+	vector<_uInt> Indices;
+	pMapModel->GetIndices(iMeshNum, Indices);
 
-	for (_uInt i = 0; i < (_uInt)m_iNumNaviSize.y - 1; ++i)
+	for (_uInt i = 0; i < Indices.size();)
 	{
-		for (_uInt j = 0; j < (_uInt)m_iNumNaviSize.x - 1; ++j)
-		{
-			_uInt iIndex = i * (_uInt)m_iNumNaviSize.x + j;
-			_uInt		iIndices[4] = {
-				iIndex + (_uInt)m_iNumNaviSize.x,
-				iIndex + (_uInt)m_iNumNaviSize.x + 1,
-				iIndex + 1,
-				iIndex
-			};
+		_float3 vPoints[ENUM_CLASS(NAVI_POINT::END)] = { pVertices[Indices[i++]], pVertices[Indices[i++]], pVertices[Indices[i++]] };
 
-			_float3 vPoints[ENUM_CLASS(NAVI_POINT::END)] = {pVertices[iIndices[0]], pVertices[iIndices[2]], pVertices[iIndices[3]] };
-			CCell* pCell = CCell::Create(m_pDevice, m_pContext, (_uInt)m_Cells.size(), 0, vPoints);
-			if (nullptr == pCell)
-				return E_FAIL;
-			m_Cells.push_back(pCell);
-
-			vPoints[ENUM_CLASS(NAVI_POINT::A)] = pVertices[iIndices[0]];
-			vPoints[ENUM_CLASS(NAVI_POINT::B)] = pVertices[iIndices[1]];
-			vPoints[ENUM_CLASS(NAVI_POINT::C)] = pVertices[iIndices[2]];
-			pCell = CCell::Create(m_pDevice, m_pContext, (_uInt)m_Cells.size(), 0, vPoints);
-			if (nullptr == pCell)
-				return E_FAIL;
-			m_Cells.push_back(pCell);
-		}
+		CCell* pCell = CCell::Create(m_pDevice, m_pContext, (_uInt)m_Cells.size(), 0, vPoints);
+		if (nullptr == pCell)
+			return E_FAIL;
+		m_Cells.push_back(pCell);
 	}
 
 #ifdef _DEBUG
@@ -460,10 +443,10 @@ CNavigation* CNavigation::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 	return pNavigation;
 }
 
-CNavigation* CNavigation::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const CVIBuffer_Terrain* pTerrianBuffer)
+CNavigation* CNavigation::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const CModel* pModel, _uInt iNumMesh)
 {
 	CNavigation* pNavigation = new CNavigation(pDevice, pContext);
-	if (FAILED(pNavigation->Initialize_Prototype(pTerrianBuffer)))
+	if (FAILED(pNavigation->Initialize_Prototype(pModel, iNumMesh)))
 	{
 		Safe_Release(pNavigation);
 		MSG_BOX("CREATE FAIL : NAVIGATION");

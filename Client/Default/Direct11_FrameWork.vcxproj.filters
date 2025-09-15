@@ -497,6 +497,9 @@
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Pell\NaturalPellInfo\PellIcon">
       <UniqueIdentifier>{afe32fa3-f418-44bd-b465-e6506c764afa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Map">
+      <UniqueIdentifier>{09cfa062-b3e5-4176-9c00-4f88e063b32d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -926,6 +929,12 @@
     <ClInclude Include="..\public\NeturalTypeIcon.h">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Pell\NaturalPellInfo\PellIcon</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\SkyBox.h">
+      <Filter>03. Objects\SkyBox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\DefaultMap.h">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -1340,6 +1349,12 @@
     </ClCompile>
     <ClCompile Include="..\private\NeturalTypeIcon.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Pell\NaturalPellInfo\PellIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\SkyBox.cpp">
+      <Filter>03. Objects\SkyBox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\DefaultMap.cpp">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

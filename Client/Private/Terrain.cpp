@@ -152,15 +152,15 @@ HRESULT CTerrain::ADD_Components(const TERRIAN_DESC& Desc)
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Terrian"), TEXT("Texture_Com"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
-	if (!lstrcmp(Desc.NavigationData, L""))
-	{
-		CVIBuffer_Terrain* pVIBuffer_Terrian = dynamic_cast<CVIBuffer_Terrain*>(m_pVIBufferCom);
-		if(pVIBuffer_Terrian)
-			m_pNavigationCom = CNavigation::Create(m_pGraphic_Device, m_pDeviceContext, pVIBuffer_Terrian);
-	}
-	else
-		m_pNavigationCom = CNavigation::Create(m_pGraphic_Device, m_pDeviceContext, Desc.NavigationData);
-	m_pComponentMap.emplace(TEXT("NaviMesh_Com"), m_pNavigationCom);
+	//if (!lstrcmp(Desc.NavigationData, L""))
+	//{
+	//	CVIBuffer_Terrain* pVIBuffer_Terrian = dynamic_cast<CVIBuffer_Terrain*>(m_pVIBufferCom);
+	//	if(pVIBuffer_Terrian)
+	//		m_pNavigationCom = CNavigation::Create(m_pGraphic_Device, m_pDeviceContext, pVIBuffer_Terrian);
+	//}
+	//else
+	//	m_pNavigationCom = CNavigation::Create(m_pGraphic_Device, m_pDeviceContext, Desc.NavigationData);
+	//m_pComponentMap.emplace(TEXT("NaviMesh_Com"), m_pNavigationCom);
 	
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VTXNorTex"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))

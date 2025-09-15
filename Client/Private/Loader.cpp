@@ -17,6 +17,7 @@
 #pragma region GamePlay Header
 #include "Camera.h"
 #include "Terrain.h"
+#include "DefaultMap.h"
 
 #pragma region PLAYER
 #include "PlayerPartData.h"
@@ -317,8 +318,16 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 #pragma region Models
 
+#pragma region MAP_MODEL
+	_matrix PreModelMat = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.f)) * XMMatrixTranslation(-100.f, -100.f, 0.f);
+	/* VIBuffer  Old_Clothes MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_DefaultMap"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Map/Map.dat"))))
+		return E_FAIL;
+#pragma endregion
+
 #pragma region Clothes
-	_matrix PreModelMat = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+	PreModelMat = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.f));
 	/* VIBuffer  Old_Clothes MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_OldClothes"),
 		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Clothes/OldClothes/OldClothes.dat"))))
@@ -459,6 +468,9 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	m_strMessage = TEXT("객체원형를(을) 로딩 중 입니다.");
 
+
+
+
 #pragma region Terrian_Com
 	/* 2 x 2  Terrian */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian2x2"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 2))))
@@ -506,6 +518,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Terrian"), CTerrain::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+#pragma region MAP_OBJECT
+	/* Map Defualt */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_DefualtMap"), CDefaultMap::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
 
 
 #pragma region PELL

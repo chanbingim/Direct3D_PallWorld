@@ -23,6 +23,10 @@ public:
 
 	HRESULT					Export(void* pOut);
 	HRESULT					AnimExport(void* pOut);
+
+	const _float3*			GetVerticesPoint() const { return m_pVertices; }
+	void					GetIndices(vector<_uInt>& Indices);
+
 private :
 	// 메시의 이름을 보관해둔다.
 	_char					m_szMeshName[MAX_PATH] = {};

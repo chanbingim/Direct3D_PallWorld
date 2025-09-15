@@ -259,6 +259,36 @@ HRESULT CMesh::AnimExport(void* pOut)
 	return S_OK;
 }
 
+void CMesh::GetIndices(vector<_uInt>& Indices)
+{
+	ID3D11Buffer* StagingBuffer = nullptr;
+	//버퍼 세팅
+	D3D11_BUFFER_DESC			IndexDesc = {};
+	IndexDesc.ByteWidth = m_iIndexStride * m_iNumIndices;
+	IndexDesc.Usage = D3D11_USAGE_STAGING;
+	IndexDesc.BindFlags = 0;
+	IndexDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+	IndexDesc.MiscFlags = 0;
+	IndexDesc.StructureByteStride = m_iIndexStride;
+	m_pDevice->CreateBuffer(&IndexDesc, nullptr, &StagingBuffer);
+
+	if (StagingBuffer)
+	{
+		m_pContext->CopyResource(StagingBuffer, m_pIndexBuffer);
+
+		D3D11_MAPPED_SUBRESOURCE IndicesMap;
+		if (S_OK == m_pContext->Map(StagingBuffer, 0, D3D11_MAP_READ, 0, &IndicesMap))
+		{
+			_uInt* pIndices = reinterpret_cast<_uInt*>(IndicesMap.pData);
+			for (_uInt i = 0; i < m_iNumIndices; ++i)
+				Indices.push_back(pIndices[i]);
+
+			m_pContext->Unmap(StagingBuffer, 0);
+		}
+	}
+	Safe_Release(StagingBuffer);
+}
+
 HRESULT CMesh::Ready_VertexBuffer_For_NonAnim(const aiMesh* pAIMesh, _matrix PreTransformMatrix)
 {
 	m_iVertexStride = sizeof(VTX_MESH);
@@ -437,6 +467,7 @@ HRESULT CMesh::Ready_VertexBuffer_For_NonAnim(void* MeshDesc, _matrix PreTransfo
 	{
 		memcpy(&pVtxMeshs[iIndex].vPosition, &vertex.vPosition, sizeof(_float3));
 		XMStoreFloat3(&pVtxMeshs[iIndex].vPosition, XMVector3TransformCoord(XMLoadFloat3(&pVtxMeshs[iIndex].vPosition), PreTransformMatrix));
+		m_pVertices[iIndex] = pVtxMeshs[iIndex].vPosition;
 
 		memcpy(&pVtxMeshs[iIndex].vNormal, &vertex.vNormal, sizeof(_float3));
 		XMStoreFloat3(&pVtxMeshs[iIndex].vNormal, XMVector3TransformCoord(XMLoadFloat3(&pVtxMeshs[iIndex].vNormal), PreTransformMatrix));

@@ -19,6 +19,8 @@ public :
 	virtual HRESULT				Initialize(void* pArg, const char* RetargetFile = "");
 
 	virtual HRESULT				Render(_uInt iMeshIndex);
+	const _float3*				GetVerticesPoint(_uInt iMeshIndex) const;
+	void						GetIndices(_uInt iMeshIndex, vector<_uInt>& Indices) const;
 
 	HRESULT						GetMeshResource(_uInt iMeshIndex, aiTextureType eType, _uInt iTextureIndex, ID3D11ShaderResourceView** ppOut);
 	_uInt						GetMeshNumBones(_uInt iMeshIndex) const;

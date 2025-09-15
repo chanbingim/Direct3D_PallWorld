@@ -2,7 +2,7 @@
 #include "Component.h"
 
 NS_BEGIN(Engine)
-class CVIBuffer_Terrain;
+class CModel;
 class CTransform;
 class CCell;
 
@@ -45,7 +45,7 @@ private:
 
 public:
 	virtual HRESULT					Initialize_Prototype(const _tchar* pNavigationDataFiles);
-	virtual HRESULT					Initialize_Prototype(const CVIBuffer_Terrain* pTerrianBuffer);
+	virtual HRESULT					Initialize_Prototype(const CModel* pMapModel, _uInt iMeshNum);
 	virtual HRESULT					Initialize(void* pArg);
 
 	void							Update(_matrix WorldMatrix);
@@ -93,7 +93,7 @@ private:
 
 public:
 	static CNavigation*				Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pNavigationDataFiles);
-	static CNavigation*				Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const CVIBuffer_Terrain* pTerrianBuffer);
+	static CNavigation*				Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const CModel* pModel, _uInt iNumMesh);
 
 	virtual CComponent*				Clone(void* pArg) override;
 	virtual void					Free() override;

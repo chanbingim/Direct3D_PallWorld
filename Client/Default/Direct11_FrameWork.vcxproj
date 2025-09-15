@@ -171,6 +171,7 @@
     <ClInclude Include="..\public\BedCat.h" />
     <ClInclude Include="..\public\BedCatBody.h" />
     <ClInclude Include="..\public\ClimbState.h" />
+    <ClInclude Include="..\public\DefaultMap.h" />
     <ClInclude Include="..\public\ItemQuickSlot.h" />
     <ClInclude Include="..\public\NeturalPellInfo.h" />
     <ClInclude Include="..\public\NeturalTypeIcon.h" />
@@ -297,6 +298,7 @@
     <ClInclude Include="..\public\Player_Interface.h" />
     <ClInclude Include="..\public\Recovery.h" />
     <ClInclude Include="..\public\RockObject.h" />
+    <ClInclude Include="..\public\SkyBox.h" />
     <ClInclude Include="..\public\SlotBase.h" />
     <ClInclude Include="..\public\SlotImage.h" />
     <ClInclude Include="..\public\Terrain.h" />
@@ -318,6 +320,7 @@
     <ClCompile Include="..\private\BedCat.cpp" />
     <ClCompile Include="..\private\BedCatBody.cpp" />
     <ClCompile Include="..\private\ClimbState.cpp" />
+    <ClCompile Include="..\private\DefaultMap.cpp" />
     <ClCompile Include="..\private\ItemQuickSlot.cpp" />
     <ClCompile Include="..\private\NeturalPellInfo.cpp" />
     <ClCompile Include="..\private\NeturalTypeIcon.cpp" />
@@ -384,6 +387,7 @@
     <ClCompile Include="..\private\PlayerWalkState.cpp" />
     <ClCompile Include="..\private\PlayerWeaponSlot.cpp" />
     <ClCompile Include="..\private\Recovery.cpp" />
+    <ClCompile Include="..\private\SkyBox.cpp" />
     <ClCompile Include="..\private\SlotImage.cpp" />
     <ClCompile Include="..\private\TerrainManager.cpp" />
     <ClCompile Include="..\private\TreeObject.cpp" />
