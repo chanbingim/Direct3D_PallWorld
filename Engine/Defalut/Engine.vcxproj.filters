@@ -220,6 +220,15 @@
     <Filter Include="Utility\Object\Layer">
       <UniqueIdentifier>{949710dc-196d-4ae1-a02d-863d8e050b7c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utility\Components\VIBuffer\Cube">
+      <UniqueIdentifier>{65c9fbc7-3eb4-47e3-8f27-8fbaa2df15c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Collision\OBB">
+      <UniqueIdentifier>{31c73780-fdba-4772-9b30-14c76e82ae04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Collision\Debug">
+      <UniqueIdentifier>{ded9c150-c9e9-49e4-94dc-97cd453339d1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Graphic_Device.cpp">
@@ -404,6 +413,13 @@
     </ClCompile>
     <ClCompile Include="..\private\VIBuffer_Cell.cpp">
       <Filter>Utility\Components\VIBuffer\Cell</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ViBuffer_Cube.cpp" />
+    <ClCompile Include="..\Private\DebugDraw.cpp">
+      <Filter>Utility\Components\Collision\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\OBBCollision.cpp">
+      <Filter>Utility\Components\Collision\OBB</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -628,6 +644,16 @@
     </ClInclude>
     <ClInclude Include="..\Public\ModelPaserStruct.h">
       <Filter>Utility\Helpers\StructHeader\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ViBuffer_Cube.h" />
+    <ClInclude Include="..\Public\NavigationStruct.h">
+      <Filter>Utility\Components\Navigation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\DebugDraw.h">
+      <Filter>Utility\Components\Collision\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\OBBCollision.h">
+      <Filter>Utility\Components\Collision\OBB</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

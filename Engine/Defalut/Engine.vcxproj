@@ -179,6 +179,7 @@ popd</Command>
     <ClInclude Include="..\public\Collision.h" />
     <ClInclude Include="..\public\Component.h" />
     <ClInclude Include="..\public\CsvHelper.h" />
+    <ClInclude Include="..\Public\DebugDraw.h" />
     <ClInclude Include="..\Public\EditorCamera.h" />
     <ClInclude Include="..\Public\FiniteStateMachine.h" />
     <ClInclude Include="..\public\Font.h" />
@@ -189,7 +190,9 @@ popd</Command>
     <ClInclude Include="..\public\Material.h" />
     <ClInclude Include="..\Public\ModelPaserStruct.h" />
     <ClInclude Include="..\public\Navigation.h" />
+    <ClInclude Include="..\Public\NavigationStruct.h" />
     <ClInclude Include="..\Public\NaviMeshPaserStruct.h" />
+    <ClInclude Include="..\public\OBBCollision.h" />
     <ClInclude Include="..\public\PartObject.h" />
     <ClInclude Include="..\Public\PaseDataHeader.h" />
     <ClInclude Include="..\Public\Picking.h" />
@@ -234,6 +237,7 @@ popd</Command>
     <ClInclude Include="..\public\UserInterface.h" />
     <ClInclude Include="..\public\VIBuffer.h" />
     <ClInclude Include="..\public\VIBuffer_Cell.h" />
+    <ClInclude Include="..\public\ViBuffer_Cube.h" />
     <ClInclude Include="..\public\VIBuffer_Rect.h" />
     <ClInclude Include="..\public\VIBuffer_Terrain.h" />
     <ClInclude Include="..\public\Viewer.h" />
@@ -255,6 +259,7 @@ popd</Command>
     <ClCompile Include="..\private\Collision.cpp" />
     <ClCompile Include="..\private\Component.cpp" />
     <ClCompile Include="..\private\CsvHelper.cpp" />
+    <ClCompile Include="..\Private\DebugDraw.cpp" />
     <ClCompile Include="..\Private\EditorCamera.cpp" />
     <ClCompile Include="..\Private\FiniteStateMachine.cpp" />
     <ClCompile Include="..\private\Font.cpp" />
@@ -263,6 +268,7 @@ popd</Command>
     <ClCompile Include="..\private\LightManager.cpp" />
     <ClCompile Include="..\private\Material.cpp" />
     <ClCompile Include="..\private\Navigation.cpp" />
+    <ClCompile Include="..\private\OBBCollision.cpp" />
     <ClCompile Include="..\private\PartObject.cpp" />
     <ClCompile Include="..\Private\Picking.cpp" />
     <ClCompile Include="..\private\Slider.cpp" />
@@ -297,6 +303,7 @@ popd</Command>
     <ClCompile Include="..\private\UserInterface.cpp" />
     <ClCompile Include="..\private\VIBuffer.cpp" />
     <ClCompile Include="..\private\VIBuffer_Cell.cpp" />
+    <ClCompile Include="..\private\ViBuffer_Cube.cpp" />
     <ClCompile Include="..\private\VIBuffer_Rect.cpp" />
     <ClCompile Include="..\private\VIBuffer_Terrain.cpp" />
     <ClCompile Include="..\private\Viewer.cpp" />

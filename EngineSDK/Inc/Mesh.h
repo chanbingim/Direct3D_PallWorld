@@ -25,6 +25,7 @@ public:
 	HRESULT					AnimExport(void* pOut);
 
 	const _float3*			GetVerticesPoint() const { return m_pVertices; }
+	_uInt					GetNumVertices() const { return m_iNumVertices; }
 	void					GetIndices(vector<_uInt>& Indices);
 
 private :

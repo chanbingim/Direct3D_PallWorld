@@ -7,7 +7,6 @@ class ENGINE_DLL CCapsuleCollision : public CCollision
 public:
 	typedef struct CapsuleColiisionDesc : public COLLISION_DESC
 	{
-
 	}CAPSULE_COLLISION_DESC;
 
 private:

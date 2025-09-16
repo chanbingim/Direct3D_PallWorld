@@ -177,7 +177,6 @@
     <ClInclude Include="..\public\NeturalTypeIcon.h" />
     <ClInclude Include="..\public\PellAttackState.h" />
     <ClInclude Include="..\public\PellCombatLayer.h" />
-    <ClInclude Include="..\public\PellController.h" />
     <ClInclude Include="..\public\PellHealthBar.h" />
     <ClInclude Include="..\public\PellHitState.h" />
     <ClInclude Include="..\public\PellIdleState.h" />
@@ -324,7 +323,6 @@
     <ClCompile Include="..\private\ItemQuickSlot.cpp" />
     <ClCompile Include="..\private\NeturalPellInfo.cpp" />
     <ClCompile Include="..\private\NeturalTypeIcon.cpp" />
-    <ClCompile Include="..\private\PellController.cpp" />
     <ClCompile Include="..\private\PellManager.cpp" />
     <ClCompile Include="..\private\PellAttackState.cpp" />
     <ClCompile Include="..\private\PellCombatLayer.cpp" />

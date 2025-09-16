@@ -45,6 +45,15 @@ using namespace std;
 //Dx11 Shader
 #include "FX11/d3dx11effect.h"
 
+//Dx11 Collision Debug
+#include "DirectXTK/VertexTypes.h"
+#include "DirectXTK/PrimitiveBatch.h"
+#include "DirectXTK/Effects.h"
+
+//Dx11 Font
+#include "DirectXTK/SpriteBatch.h"
+#include "DirectXTK/SpriteFont.h"
+
 //Assimp
 #include "assimp/scene.h"
 #include "assimp/postprocess.h"

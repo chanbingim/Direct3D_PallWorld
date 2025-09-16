@@ -16,13 +16,20 @@ private:
 	virtual ~CBoxCollision() = default;
 
 public:
-	virtual HRESULT					Initialize_Prototype();
-	virtual HRESULT					Initialize(void* pArg);
+	virtual HRESULT					Initialize_Prototype() override;
+	virtual HRESULT					Initialize(void* pArg) override;
+	virtual void					UpdateColiision(_matrix WorldMatrix) override;
+	virtual _bool					Intersect(COLLISION_TYPE eType, CCollision* pTarget) override;
 
-	const 	BoundingBox&			GetBounding() { return m_Bounding; }
+#ifdef _DEBUG
+	virtual void					Render(_vector vColor) override;
+#endif // _DBUG
+
+	const 	BoundingBox&			GetBounding() { return *m_Bounding; }
 
 private:
-	BoundingBox						m_Bounding;
+	BoundingBox*					m_OriginBounding;
+	BoundingBox*					m_Bounding;
 
 public:
 	virtual		CBoxCollision*		Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

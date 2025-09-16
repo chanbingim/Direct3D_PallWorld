@@ -8,21 +8,53 @@ CCollision::CCollision(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 }
 
 CCollision::CCollision(const CCollision& rhs) :
-    CComponent(rhs)
+    CComponent(rhs),
+    m_CollisionType(rhs.m_CollisionType)
+#ifdef _DEBUG
+    , m_pBatch{ rhs.m_pBatch }
+    , m_pEffect{ rhs.m_pEffect }
+    , m_pInputLayout{ rhs.m_pInputLayout }
+#endif
 {
+#ifdef _DEBUG
+    Safe_AddRef(m_pInputLayout);
+#endif
 }
 
 HRESULT CCollision::Initialize_Prototype()
 {
+#ifdef _DEBUG
+    m_pBatch = new PrimitiveBatch<VertexPositionColor>(m_pContext);
+    m_pEffect = new BasicEffect(m_pDevice);
+    m_pEffect->SetVertexColorEnabled(true);
+
+    const void* pShaderByteCode = { nullptr };
+    size_t		iShaderByteCodeLength = {};
+
+    m_pEffect->GetVertexShaderBytecode(&pShaderByteCode, &iShaderByteCodeLength);
+
+    if (m_pDevice->CreateInputLayout(VertexPositionColor::InputElements, VertexPositionColor::InputElementCount,
+        pShaderByteCode, iShaderByteCodeLength, &m_pInputLayout))
+        return E_FAIL;
+#endif
+
     return S_OK;
 }
 
 HRESULT CCollision::Initialize(void* pArg)
 {
-    COLLISION_DESC* CollisionDesc = static_cast<COLLISION_DESC*>(pArg);
-    m_pOwner = CollisionDesc->pOwner;
 
     return S_OK;
+}
+
+void CCollision::UpdateColiision(_matrix WorldMatrix)
+{
+    
+}
+
+void CCollision::Render(_vector vColor)
+{
+
 }
 
 void CCollision::BindBeginOverlapEvent(function<void(_float3 vDir, CGameObject* pHitActor)> BeginEvent)
@@ -50,7 +82,7 @@ void CCollision::ADD_HitObejct(CGameObject* pObject)
     }
 }
 
-void CCollision::UpdateColiision()
+void CCollision::CallFunction()
 {
     list<CGameObject*> ExitObject;
     for (auto& HitObject : m_HitList)
@@ -61,7 +93,7 @@ void CCollision::UpdateColiision()
             if (m_BeginHitFunc)
                 m_BeginHitFunc({}, *iter);
         }
-        else 
+        else
         {
             if (m_OverlapHitFunc)
                 m_OverlapHitFunc({}, *iter);
@@ -93,6 +125,16 @@ void CCollision::Free()
 {
     __super::Free();
 
+    if (false == m_isCloned)
+    {
+        Safe_Delete(m_pBatch);
+        Safe_Delete(m_pEffect);
+    }
+
+#ifdef _DEBUG
+    Safe_Release(m_pInputLayout);
+#endif // _DEBUG
+   
     for (auto& pObject : m_OldHitList)
         Safe_Release(pObject);
 

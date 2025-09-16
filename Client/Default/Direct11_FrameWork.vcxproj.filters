@@ -907,7 +907,6 @@
     <ClInclude Include="..\Public\PellStructData.h">
       <Filter>04. DataManager\Character\Pell\Struct</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\PellController.h" />
     <ClInclude Include="..\public\Recovery.h">
       <Filter>06. Component\Recovery</Filter>
     </ClInclude>
@@ -1328,7 +1327,6 @@
     <ClCompile Include="..\private\PellManager.cpp">
       <Filter>04. DataManager\Character\Pell</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\PellController.cpp" />
     <ClCompile Include="..\private\Recovery.cpp">
       <Filter>06. Component\Recovery</Filter>
     </ClCompile>

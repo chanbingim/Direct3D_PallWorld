@@ -7,7 +7,7 @@ class ENGINE_DLL CSphereCollision : public CCollision
 public :
 	typedef struct SphereColiisionDesc : public COLLISION_DESC
 	{
-		float			Radius;
+		_float			Radius;
 	}SPEHRE_COLLISION_DESC;
 
 private :
@@ -18,11 +18,18 @@ private :
 public:
 	virtual HRESULT					Initialize_Prototype();
 	virtual HRESULT					Initialize(void* pArg);
+	virtual void					UpdateColiision(_matrix WorldMatrix) override;
+	virtual _bool					Intersect(COLLISION_TYPE eType, CCollision* pTarget) override;
 
-	const 	BoundingSphere&			GetBounding() { return m_Bounding; }
+#ifdef _DEBUG
+	virtual void					Render(_vector vColor) override;
+#endif // _DBUG
+
+	const 	BoundingSphere&			GetBounding() { return *m_Bounding; }
 
 private :
-	BoundingSphere					m_Bounding;
+	BoundingSphere*					m_OriginBounding;
+	BoundingSphere*					m_Bounding;
 
 public:
 	virtual		CSphereCollision*	Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

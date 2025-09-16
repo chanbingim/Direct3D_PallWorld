@@ -37,7 +37,7 @@ HRESULT CNavigation::Initialize_Prototype(const _tchar* pNavigationDataFiles)
 HRESULT CNavigation::Initialize_Prototype(const CModel* pMapModel, _uInt iMeshNum)
 {
 	auto pVertices = pMapModel->GetVerticesPoint(iMeshNum);
-	vector<_uInt> Indices;
+	/*vector<_uInt> Indices;
 	pMapModel->GetIndices(iMeshNum, Indices);
 
 	for (_uInt i = 0; i < Indices.size();)
@@ -48,7 +48,8 @@ HRESULT CNavigation::Initialize_Prototype(const CModel* pMapModel, _uInt iMeshNu
 		if (nullptr == pCell)
 			return E_FAIL;
 		m_Cells.push_back(pCell);
-	}
+	}*/
+	Bowyer_WatsonAlgorithm(pMapModel, iMeshNum);
 
 #ifdef _DEBUG
 	m_pShaderCom = CShader::Create(m_pDevice, m_pContext, VTX_COL::Elements, VTX_COL::iNumElements, TEXT("../Bin/ShaderFiles/Shader_Cell.hlsl"));
@@ -279,42 +280,70 @@ HRESULT CNavigation::Render(_float4 vColor, _bool DarwCurCell)
 	}
 	else
 	{
-		_Int iStart	= Clamp<_Int>(m_iCurrentCellIndex - 25, 0, (_Int)m_Cells.size());
-		_Int iEnd	= Clamp<_Int>(m_iCurrentCellIndex + 25, 0, (_Int)m_Cells.size());
-
-		for (_Int i = iStart; i < iEnd; ++i)
-		{
-			for (_Int j = iStart; j < iEnd; ++j)
-			{
-				_Int iIndex = i * (_uInt)m_iNumNaviSize.x + j;
-				m_Cells[iIndex]->Render();
-			}
-		}
+		for (auto Cell : m_Cells)
+			Cell->Render();
 	}
 #endif // _DEBUG
 
 	return S_OK;
 }
 
-void CNavigation::Bowyer_WatsonAlgorithm(const _float3* vTriAngle, const CModel* pMapModel, _uInt iMeshNum)
+void CNavigation::Bowyer_WatsonAlgorithm(const CModel* pMapModel, _uInt iMeshNum)
 {
-	//Step 1
-	//슈퍼 트라이앵글 생성
-
-
-	//Step 2
-	//점 추가 및 삼각형 갱신
 	_uInt iNumVertices = pMapModel->GetNumVertices(iMeshNum);
 	const _float3* Vertices = pMapModel->GetVerticesPoint(iMeshNum);
 
 	list<NAVI_TRIANGLE> Triangles = {};
-	list<NAVI_TRIANGLE> BadTriangles = {};
+	vector<_float3>		vPoints = {};
+	vPoints.reserve(iNumVertices);
+	_float3 Min{9999, 0, 9999}, Max{-9999.f, 0.f, -9999.f };
+
+	vPoints.push_back(Vertices[0]);
 	for (_uInt i = 0; i < iNumVertices; ++i)
 	{
+		Min.x = min(Min.x, Vertices[i].x);
+		Min.z = min(Min.z, Vertices[i].z);
+
+		Max.x = max(Max.x, Vertices[i].x);
+		Max.z = max(Max.z, Vertices[i].z);
+
+		_bool bFlag = false;
+		for (auto& Point : vPoints)
+		{
+			_float3 vPos = Vertices[i];
+			vPos.y = Point.y = 0;
+			_float dis = XMVectorGetX(XMVector3Length(XMLoadFloat3(&Point) - XMLoadFloat3(&vPos)));
+			if (dis > 10)
+				bFlag = true;
+		}
+
+		if (bFlag)
+			vPoints.push_back(Vertices[i]);
+	}
+
+	//Step 1
+	// 슈퍼 트라이앵글 생성
+	// 이때 슈퍼 트라이앵글은 내가 만들고자 하는 지형의 크기보다 커야한다.
+	// 변이 겹치면 직선이 되서 정확한 결과가 안나옴
+	auto SuperTriangle = CreateSuperTriangle(Min, Max);
+	Triangles.push_back(SuperTriangle);
+
+	//Step 2
+	// 점 추가 및 삼각형 갱신
+	// 여기서 외접원과 점이 겹치는지 확인해서 새로운 삼각형 쭉쭉 생성해보자
+	for (_uInt i = 0; i < (_uInt)vPoints.size(); i ++)
+	{
+		list<NAVI_TRIANGLE> BadTriangles = {};
+		list<NAVI_EDGE> Polygon = {};
+
+		_float3 vPoint = vPoints[i];
+		vPoint.y = 0.f;
 		//점 추가되면 현재 삼각형 과 비교
 		for (auto& PossibleTri : Triangles)
 		{
 			//여기서 확인하고 BadTriangle 추가
+			if (PossibleTri.PointInCircumeCircle(XMLoadFloat3(&vPoint)))
+				BadTriangles.push_back(PossibleTri);
 		}
 
 		for (auto& BadTrianlge : BadTriangles)
@@ -346,6 +375,7 @@ void CNavigation::Bowyer_WatsonAlgorithm(const _float3* vTriAngle, const CModel*
 				if (IsUnique)
 				{
 					//여기서 unique 삼각형이라면 폴리곤 리스트에 추가
+					Polygon.push_back(Edge);
 				}
 			}
 		}
@@ -354,15 +384,62 @@ void CNavigation::Bowyer_WatsonAlgorithm(const _float3* vTriAngle, const CModel*
 			Triangles.remove(BadTrianlge);
 	
 		//여기서 실질적인 삼각형 생성
+		for (auto& Edge : Polygon)
+		{
+			_vector PointA = XMLoadFloat3(&Edge.A);
+			_vector PointB = XMLoadFloat3(&Edge.B);
+			_vector PointC = XMLoadFloat3(&vPoint);
+			_vector vCross = XMVector3Cross(PointB - PointA, PointC - PointA);
 
-		
+			if (0 < XMVectorGetY(vCross))
+				Triangles.emplace_back(Edge.A, vPoint, Edge.B);
+			else
+				Triangles.emplace_back(Edge.A, Edge.B, vPoint);
+	
+		}
+	}
+
+	//초기 삼각형 제거
+	for (auto Triangle = Triangles.begin(); Triangle != Triangles.end();)
+	{
+		if (XMVector3Equal(XMLoadFloat3(&(*Triangle).A), XMLoadFloat3(&SuperTriangle.A)) ||
+			XMVector3Equal(XMLoadFloat3(&(*Triangle).A), XMLoadFloat3(&SuperTriangle.B)) ||
+			XMVector3Equal(XMLoadFloat3(&(*Triangle).A), XMLoadFloat3(&SuperTriangle.C)) ||
+			XMVector3Equal(XMLoadFloat3(&(*Triangle).B), XMLoadFloat3(&SuperTriangle.A)) ||
+			XMVector3Equal(XMLoadFloat3(&(*Triangle).B), XMLoadFloat3(&SuperTriangle.B)) ||
+			XMVector3Equal(XMLoadFloat3(&(*Triangle).B), XMLoadFloat3(&SuperTriangle.C)) ||
+			XMVector3Equal(XMLoadFloat3(&(*Triangle).C), XMLoadFloat3(&SuperTriangle.A)) ||
+			XMVector3Equal(XMLoadFloat3(&(*Triangle).C), XMLoadFloat3(&SuperTriangle.B)) ||
+			XMVector3Equal(XMLoadFloat3(&(*Triangle).C), XMLoadFloat3(&SuperTriangle.C)))
+			Triangle = Triangles.erase(Triangle);
+		else
+			Triangle++;
 	}
 
 	//여기서 생성된 삼각형들을 Cell정보로 이용해서 생성한다.
+	for (auto Triangle : Triangles)
+	{
+		_float3 vPoints[ENUM_CLASS(NAVI_POINT::END)] = { Triangle.A , Triangle.B, Triangle.C };
+	
+		CCell* pCell = CCell::Create(m_pDevice, m_pContext, (_uInt)m_Cells.size(), 0, vPoints);
+		if (nullptr == pCell)
+			return;
+		m_Cells.push_back(pCell);
+	}
+}
 
+NAVI_TRIANGLE CNavigation::CreateSuperTriangle(_float3 vMin, _float3 vMax)
+{
+	vMax.y = vMin.y = 0.f;
 
+	_float dx = vMax.x - vMin.x;
+	_float dz = vMax.z - vMin.z;
 
+	_float3 vPointA = { vMin.x - dx, 0.f, vMax.z + dz * 10 };
+	_float3 vPointB = { vMax.x + dx * 10, 0.f, vMin.z - dz };
+	_float3 vPointC = { vMin.x - dx, 0.f, vMin.z - dz };
 
+	return NAVI_TRIANGLE(vPointA, vPointB, vPointC);
 }
 
 void CNavigation::BindSahderResource()

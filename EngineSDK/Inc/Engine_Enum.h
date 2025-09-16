@@ -19,7 +19,7 @@ namespace Engine
 
 	enum class TEXTURE			{ PLANE, CUBE, END };
 	enum class RAY				{ LOCAL, WORLD, END };
-	enum class COLLISION_TYPE	{ BOX, SPHERE, END };
+	enum class COLLISION_TYPE	{ BOX, SPHERE, OBB, END };
 	enum class LIGHT_TYPE		{ POINT = 1, SPOT, DIRECATION, END };
 
 	enum class MAT_STATE		{ VIEW, PROJECTION, END };

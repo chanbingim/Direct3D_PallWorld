@@ -1,4 +1,5 @@
 #pragma once
+#include "NavigationStruct.h"
 #include "Component.h"
 
 NS_BEGIN(Engine)
@@ -55,6 +56,12 @@ public:
 	_Int							Find_Cell(_vector vPos);
 
 	void							ComputePathfindingAStar(_float3 vStartPoint, _float3 vTargetPoint, list<_float3>* PathList);
+	
+	//보이어 왓슨 알고리즘 구현부
+	void							Bowyer_WatsonAlgorithm(const CModel* pMapModel, _uInt iMeshNum);
+	
+
+
 
 #ifdef _DEBUG
 public:
@@ -90,6 +97,8 @@ private:
 
 	_float							Triarea2DCross(const _float3 a, const _float3 b, const _float3 c);
 	void							SimpleFunnelAlgorithm(_vector vStartPoint, list<_float3>* PathList);
+
+	NAVI_TRIANGLE					CreateSuperTriangle(_float3 vMin, _float3 vMax);
 
 public:
 	static CNavigation*				Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pNavigationDataFiles);

@@ -28,13 +28,17 @@ HRESULT CDefaultMap::Initialize(void* pArg)
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
-    //m_pNavigationCom->Update(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
+    _uInt iNumMeshes = m_pVIBufferCom->GetNumMeshes();
+    for (_uInt i = 0; i < 7; ++i)
+        m_pNavigationCom[i]->Update(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
     return S_OK;
 }
 
 void CDefaultMap::Priority_Update(_float fDeletaTime)
 {
-   // m_pNavigationCom->Update(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
+    _uInt iNumMeshes = m_pVIBufferCom->GetNumMeshes();
+    for(_uInt i = 0; i < 7; ++i)
+        m_pNavigationCom[i]->Update(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
 }
 
 void CDefaultMap::Update(_float fDeletaTime)
@@ -66,13 +70,12 @@ void CDefaultMap::Late_Update(_float fDeletaTime)
 HRESULT CDefaultMap::Render()
 {
     _uInt iNumMeshes = m_pVIBufferCom->GetNumMeshes();
-    for (_uInt i = 0; i < iNumMeshes; ++i)
+    for (_uInt i = 0; i < 7; ++i)
     {
         Apply_ConstantShaderResources(i);
 
         m_pShaderCom->Update_Shader(0);
         m_pVIBufferCom->Render(i);
-
         m_pNavigationCom[i]->Render({ 1.f, 0.f,0.f,1.f });
     }
 
@@ -133,7 +136,7 @@ HRESULT CDefaultMap::ADD_Components()
     m_pNavigationCom = new CNavigation*[iNumMeshes];
 
     WCHAR NaviComPath[MAX_PATH] = {};
-    for (_uInt i = 0; i < iNumMeshes; ++i)
+    for (_uInt i = 0; i < 7; ++i)
     {
         wsprintf(NaviComPath, TEXT("NaviMesh%d_Com"), i);
         m_pNavigationCom[i] = CNavigation::Create(m_pGraphic_Device, m_pDeviceContext, m_pVIBufferCom, i);
