@@ -36,19 +36,6 @@ HRESULT CNavigation::Initialize_Prototype(const _tchar* pNavigationDataFiles)
 
 HRESULT CNavigation::Initialize_Prototype(const CModel* pMapModel, _uInt iMeshNum)
 {
-	auto pVertices = pMapModel->GetVerticesPoint(iMeshNum);
-	/*vector<_uInt> Indices;
-	pMapModel->GetIndices(iMeshNum, Indices);
-
-	for (_uInt i = 0; i < Indices.size();)
-	{
-		_float3 vPoints[ENUM_CLASS(NAVI_POINT::END)] = { pVertices[Indices[i++]], pVertices[Indices[i++]], pVertices[Indices[i++]] };
-
-		CCell* pCell = CCell::Create(m_pDevice, m_pContext, (_uInt)m_Cells.size(), 0, vPoints);
-		if (nullptr == pCell)
-			return E_FAIL;
-		m_Cells.push_back(pCell);
-	}*/
 	Bowyer_WatsonAlgorithm(pMapModel, iMeshNum);
 
 #ifdef _DEBUG
@@ -294,11 +281,8 @@ void CNavigation::Bowyer_WatsonAlgorithm(const CModel* pMapModel, _uInt iMeshNum
 	const _float3* Vertices = pMapModel->GetVerticesPoint(iMeshNum);
 
 	list<NAVI_TRIANGLE> Triangles = {};
-	vector<_float3>		vPoints = {};
-	vPoints.reserve(iNumVertices);
 	_float3 Min{9999, 0, 9999}, Max{-9999.f, 0.f, -9999.f };
 
-	vPoints.push_back(Vertices[0]);
 	for (_uInt i = 0; i < iNumVertices; ++i)
 	{
 		Min.x = min(Min.x, Vertices[i].x);
@@ -308,17 +292,6 @@ void CNavigation::Bowyer_WatsonAlgorithm(const CModel* pMapModel, _uInt iMeshNum
 		Max.z = max(Max.z, Vertices[i].z);
 
 		_bool bFlag = false;
-		for (auto& Point : vPoints)
-		{
-			_float3 vPos = Vertices[i];
-			vPos.y = Point.y = 0;
-			_float dis = XMVectorGetX(XMVector3Length(XMLoadFloat3(&Point) - XMLoadFloat3(&vPos)));
-			if (dis > 10)
-				bFlag = true;
-		}
-
-		if (bFlag)
-			vPoints.push_back(Vertices[i]);
 	}
 
 	//Step 1
@@ -331,12 +304,12 @@ void CNavigation::Bowyer_WatsonAlgorithm(const CModel* pMapModel, _uInt iMeshNum
 	//Step 2
 	// 점 추가 및 삼각형 갱신
 	// 여기서 외접원과 점이 겹치는지 확인해서 새로운 삼각형 쭉쭉 생성해보자
-	for (_uInt i = 0; i < (_uInt)vPoints.size(); i ++)
+	for (_uInt i = 0; i < iNumVertices;)
 	{
 		list<NAVI_TRIANGLE> BadTriangles = {};
 		list<NAVI_EDGE> Polygon = {};
 
-		_float3 vPoint = vPoints[i];
+		_float3 vPoint = Vertices[i];
 		vPoint.y = 0.f;
 		//점 추가되면 현재 삼각형 과 비교
 		for (auto& PossibleTri : Triangles)
@@ -391,12 +364,22 @@ void CNavigation::Bowyer_WatsonAlgorithm(const CModel* pMapModel, _uInt iMeshNum
 			_vector PointC = XMLoadFloat3(&vPoint);
 			_vector vCross = XMVector3Cross(PointB - PointA, PointC - PointA);
 
+			if (XMVector3Equal(PointA, PointB) || XMVector3Equal(PointA, PointC) || XMVector3Equal(PointB, PointC))
+				continue;
+
 			if (0 < XMVectorGetY(vCross))
-				Triangles.emplace_back(Edge.A, vPoint, Edge.B);
-			else
 				Triangles.emplace_back(Edge.A, Edge.B, vPoint);
-	
+			else
+				Triangles.emplace_back(Edge.B, Edge.A, vPoint);
+			
+			if (-1 == Triangles.back().Radius)
+				Triangles.pop_back();
 		}
+
+		if (500 < iNumVertices)
+			i += 30.f;
+		else
+			i++;
 	}
 
 	//초기 삼각형 제거

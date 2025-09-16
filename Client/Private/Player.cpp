@@ -8,7 +8,6 @@
 #include "PlayerPartData.h"
 #include "PlayerWeaponSlot.h"
 #include "PlayerCamera.h"
-#include "TerrainManager.h"
 
 #include "PlayerManager.h"
 #include "ItemBase.h"
@@ -19,10 +18,9 @@ CPlayer::CPlayer(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceCont
 }
 
 CPlayer::CPlayer(const CPlayer& rhs) :
-    CContainerObject(rhs),
-    m_pTerrianManager(CTerrainManager::GetInstance())
+    CContainerObject(rhs)
 {
-    Safe_AddRef(m_pTerrianManager);
+
 }
 
 HRESULT CPlayer::Initalize_Prototype()
@@ -503,9 +501,14 @@ HRESULT CPlayer::ADD_PartObejcts()
 
 HRESULT CPlayer::ADD_Components()
 {
-    if (FAILED(m_pTerrianManager->GetCurrentTerrainNaviMesh(m_pTransformCom->GetPosition(), 0, (CComponent**)&m_pNevigation)))
-        return E_FAIL;
+    auto Object = m_pGameInstance->GetAllObejctToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_GamePlay_Terrian"))->begin();
+    auto OriginNav = static_cast<CNavigation*>((*Object)->Find_Component(TEXT("NaviMesh0_Com")));
 
+    CNavigation::NAVIGATION_DESC Desc = {};
+    _float3 vPos = m_pTransformCom->GetPosition();
+    Desc.iCurrentCellIndex = OriginNav->Find_Cell(XMLoadFloat3(&vPos));
+
+    m_pNevigation = static_cast<CNavigation*>(OriginNav->Clone(&Desc));
     m_pComponentMap.emplace(TEXT("NaviMesh_Com"), m_pNevigation);
 
     return S_OK;
@@ -625,6 +628,5 @@ void CPlayer::Free()
 
     Safe_Release(m_pPlayerFSM);
     Safe_Release(m_pPlayerCamera);
-    Safe_Release(m_pTerrianManager);
     Safe_Release(m_pNevigation);
 }

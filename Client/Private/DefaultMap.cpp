@@ -29,7 +29,7 @@ HRESULT CDefaultMap::Initialize(void* pArg)
         return E_FAIL;
 
     _uInt iNumMeshes = m_pVIBufferCom->GetNumMeshes();
-    for (_uInt i = 0; i < 7; ++i)
+    for (_uInt i = 0; i < iNumMeshes; ++i)
         m_pNavigationCom[i]->Update(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
     return S_OK;
 }
@@ -37,7 +37,7 @@ HRESULT CDefaultMap::Initialize(void* pArg)
 void CDefaultMap::Priority_Update(_float fDeletaTime)
 {
     _uInt iNumMeshes = m_pVIBufferCom->GetNumMeshes();
-    for(_uInt i = 0; i < 7; ++i)
+    for(_uInt i = 0; i < iNumMeshes; ++i)
         m_pNavigationCom[i]->Update(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
 }
 
@@ -70,7 +70,7 @@ void CDefaultMap::Late_Update(_float fDeletaTime)
 HRESULT CDefaultMap::Render()
 {
     _uInt iNumMeshes = m_pVIBufferCom->GetNumMeshes();
-    for (_uInt i = 0; i < 7; ++i)
+    for (_uInt i = 0; i < iNumMeshes; ++i)
     {
         Apply_ConstantShaderResources(i);
 
@@ -78,9 +78,6 @@ HRESULT CDefaultMap::Render()
         m_pVIBufferCom->Render(i);
         m_pNavigationCom[i]->Render({ 1.f, 0.f,0.f,1.f });
     }
-
-    //_float4 vColor = { 0.f, 1.f, 0.f, 1.f };
-    //m_pNavigationCom->Render(vColor);
 
     return S_OK;
 }
@@ -136,7 +133,7 @@ HRESULT CDefaultMap::ADD_Components()
     m_pNavigationCom = new CNavigation*[iNumMeshes];
 
     WCHAR NaviComPath[MAX_PATH] = {};
-    for (_uInt i = 0; i < 7; ++i)
+    for (_uInt i = 0; i < iNumMeshes; ++i)
     {
         wsprintf(NaviComPath, TEXT("NaviMesh%d_Com"), i);
         m_pNavigationCom[i] = CNavigation::Create(m_pGraphic_Device, m_pDeviceContext, m_pVIBufferCom, i);
@@ -170,11 +167,11 @@ CGameObject* CDefaultMap::Clone(void* pArg)
 
 void CDefaultMap::Free()
 {
-    __super::Free();
-
     _uInt iNumMeshes = m_pVIBufferCom->GetNumMeshes();
     for (_uInt i = 0; i < iNumMeshes; ++i)
         Safe_Release(m_pNavigationCom[i]);
 
     Safe_Delete_Array(m_pNavigationCom);
+
+    __super::Free();
 }

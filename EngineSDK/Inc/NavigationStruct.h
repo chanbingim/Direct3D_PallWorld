@@ -31,7 +31,7 @@ typedef struct Navi_Triangle
 
 	//외심
 	_float3 Circumcenter = {};
-	_float	Radius = { -1};
+	_float	Radius = { -1 };
 
 	//삼각형의 변
 	list<NAVI_EDGE> TriEdge;
@@ -52,81 +52,14 @@ typedef struct Navi_Triangle
 		TriEdge.emplace_back(B, C);
 		TriEdge.emplace_back(C, A);
 
-		if (0 == POINT_G)
+		if (FLT_EPSILON > fabsf(POINT_G))
 			return;
+		else
+			Circumcenter = { (POINT_D * POINT_E - POINT_B * POINT_F) / POINT_G, 0.f, (POINT_A * POINT_F - POINT_C * POINT_E) / POINT_G };
 
 		PointA.y = 0;
-		Circumcenter = {(POINT_D  * POINT_E - POINT_B * POINT_F) / POINT_G, 0.f, (POINT_A * POINT_F - POINT_C * POINT_E) / POINT_G };
 		Radius = XMVectorGetX(XMVector3Length(XMLoadFloat3(&PointA) - XMLoadFloat3(&Circumcenter)));
 	}
-	//	if (XMVector3Equal(XMLoadFloat3(&A), XMLoadFloat3(&B)) ||
-	//		XMVector3Equal(XMLoadFloat3(&B), XMLoadFloat3(&C)) ||
-	//		XMVector3Equal(XMLoadFloat3(&C), XMLoadFloat3(&A))) // 같은 점이 있음. 삼각형 아님. 외접원 구할 수 없음.
-	//	{
-	//		Radius = -1;
-	//		return;
-	//	}
-
-	//	//직선 AB의 기울기
-	//	_float fABGradient = (B.x - A.x) / (B.z - A.z) * -1.0f;
-
-	//	// 수직인 직선과 밑변의 교점
-	//	_float3 CrossPointA = { (B.x + A.x) / 2.f, 0.f, (B.z + A.z) /2.f };
-
-	//	//직선 BC의 기울기
-	//	_float fBCGradient = (B.x - C.x) / (B.z - C.z) * -1.0f;
-
-	//	// 수직인 직선과 밑변의 교점
-	//	_float3 CrossPointB = { (B.x + C.x) / 2.f, 0.f, (B.z + C.z) / 2.f };
-
-	//	A.y = B.y = C.y = 0;
-
-	//	TriEdge.emplace_back(A, B);
-	//	TriEdge.emplace_back(B, C);
-	//	TriEdge.emplace_back(C, A);
-
-	//	//외심의 중점과 반지름 구하는 공식
-	//	if (fABGradient == fBCGradient)
-	//	{
-	//		Radius = -1;
-	//		return;
-	//	}
-
-	//	Circumcenter.x = (fABGradient * CrossPointA.x - fBCGradient * CrossPointB.x + CrossPointB.z - CrossPointA.z) / (fABGradient - fBCGradient);
-	//	Circumcenter.z = fABGradient * (Circumcenter.x - CrossPointA.x) + CrossPointA.z;
-
-	//	if (PointB.x == PointA.x)     // 수직이등분선의 기울기가 0인 경우(수평선)
-	//	{
-	//		Circumcenter.x = (CrossPointB.x + CrossPointA.z - CrossPointB.z) / fBCGradient;
-	//		Circumcenter.z = CrossPointA.z;
-	//	}
-
-	//	if (PointB.z == PointA.z)     // 수직이등분선의 기울기가 무한인 경우(수직선)
-	//	{
-	//		Circumcenter.x = CrossPointA.x;
-	//		if (0.0f == fBCGradient)
-	//			Circumcenter.z = CrossPointB.z;
-	//		else
-	//			Circumcenter.z = fBCGradient * (CrossPointA.x - CrossPointB.x) + CrossPointB.z;
-	//	}
-
-	//	if (PointB.x == PointC.x)     // 수직이등분선의 기울기가 0인 경우(수평선)
-	//	{
-	//		Circumcenter.x = (CrossPointB.x + CrossPointA.z - CrossPointB.z) / fABGradient;
-	//		Circumcenter.z = CrossPointA.z;
-	//	}
-
-	//	if (PointB.z == PointC.z)     // 수직이등분선의 기울기가 무한인 경우(수직선)
-	//	{
-	//		Circumcenter.x = CrossPointB.x;
-	//		if (0.0f == fABGradient)
-	//			Circumcenter.z = CrossPointA.z;
-	//		else
-	//			Circumcenter.z = fABGradient * (CrossPointA.x - CrossPointB.x) + CrossPointB.z;
-	//	}
-	//
-	//	Radius = XMVectorGetX(XMVector3Length(XMLoadFloat3(&A) - XMLoadFloat3(&Circumcenter)));
-	//}
 
 	Navi_Triangle(const Navi_Triangle& rhs) :
 		A(rhs.A), B(rhs.B), C(rhs.C), Circumcenter(rhs.Circumcenter), Radius(rhs.Radius),
@@ -134,10 +67,28 @@ typedef struct Navi_Triangle
 
 	_bool operator== (const Navi_Triangle& rhs) const 
 	{
-		if (XMVector3Equal(XMLoadFloat3(&A), XMLoadFloat3(&rhs.A)) &&
-			XMVector3Equal(XMLoadFloat3(&B), XMLoadFloat3(&rhs.B)) &&
-			XMVector3Equal(XMLoadFloat3(&C), XMLoadFloat3(&rhs.C)))
+		// A, B, C를 비교
+		bool match1 = XMVector3Equal(XMLoadFloat3(&A), XMLoadFloat3(&rhs.A));
+		bool match2 = XMVector3Equal(XMLoadFloat3(&A), XMLoadFloat3(&rhs.B));
+		bool match3 = XMVector3Equal(XMLoadFloat3(&A), XMLoadFloat3(&rhs.C));
+
+		bool Bmatch1 = XMVector3Equal(XMLoadFloat3(&B), XMLoadFloat3(&rhs.A));
+		bool Bmatch2 = XMVector3Equal(XMLoadFloat3(&B), XMLoadFloat3(&rhs.B));
+		bool Bmatch3 = XMVector3Equal(XMLoadFloat3(&B), XMLoadFloat3(&rhs.C));
+
+		bool Cmatch1 = XMVector3Equal(XMLoadFloat3(&C), XMLoadFloat3(&rhs.A));
+		bool Cmatch2 = XMVector3Equal(XMLoadFloat3(&C), XMLoadFloat3(&rhs.B));
+		bool Cmatch3 = XMVector3Equal(XMLoadFloat3(&C), XMLoadFloat3(&rhs.C));
+
+		// 모든 점이 서로 다른 점에 대응되는지 확인
+		if ((match1 && Bmatch2 && Cmatch3) ||
+			(match1 && Bmatch3 && Cmatch2) ||
+			(match2 && Bmatch1 && Cmatch3) ||
+			(match2 && Bmatch3 && Cmatch1) ||
+			(match3 && Bmatch1 && Cmatch2) ||
+			(match3 && Bmatch2 && Cmatch1))
 			return true;
+			
 		
 		return false;
 	}

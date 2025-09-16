@@ -1,23 +1,107 @@
-﻿FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\MouseShader.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ShaderFiles\MutipleBlend.hlsl(78,5-41): warning X3206: implicit truncation of vector type
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\MutipleBlend.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ProgressBar.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\TestShader.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_AnimMesh.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_Mesh.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_NorTex.cso
-  Direct11_FrameWork.vcxproj -> C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe
+﻿  EditorLevel.cpp
+  HealthIcon.cpp
+  HungerIcon.cpp
+  IMG_ModelConvert.cpp
+  ImgManager.cpp
+  Logo_GameEdit_But.cpp
+  Logo_GameQuit_But.cpp
+  AimInterface.cpp
+  BackGround.cpp
+  BattlePell.cpp
+  BedCat.cpp
+  BedCatBody.cpp
+  Button.cpp
+  ButtonFrame.cpp
+  Camera.cpp
+  Category.cpp
+  CharacterView.cpp
+  Compass.cpp
+  CompassPoint.cpp
+  DebugApp.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  DefaultEntity.cpp
+  Dororong.cpp
+  DororongBody.cpp
+  ElectPanda.cpp
+  ElectricPandaBody.cpp
+  Enviormnent.cpp
+  EquipSlot.cpp
+  Equipment.cpp
+  FlowerLabbitBody.cpp
+  FlowerRabbit.cpp
+  Frog.cpp
+  FrogBody.cpp
+  GameOption.cpp
+  GamePlayHUD.cpp
+  GamePlayLevel.cpp
+  GuardBar.cpp
+  HealthBar.cpp
+  Hedgehog.cpp
+  HedgehogBody.cpp
+  Herorong.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  HerorongBody.cpp
+  IMG_Create.cpp
+  IMG_Hierarchy.cpp
+  IMG_Inspector.cpp
+  IMG_LandScape.cpp
+  IMG_Profiler.cpp
+  IMG_Transform.cpp
+  IMG_Viewport.cpp
+  ImgUIBase.cpp
+  ImgViewModel.cpp
+  InGameMenu.cpp
+  InvenSlider.cpp
+  InvenSliderButton.cpp
+  Inventory.cpp
+  ItemSlot.cpp
+  Loader.cpp
+  LoadingHUD.cpp
+  LoadingIcon.cpp
+  LoadingLevel.cpp
+  LoadingUI.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  LogoLevel.cpp
+  Logo_GameStart_But.cpp
+  Logo_HUD.cpp
+  Logo_Menu.cpp
+  MainApp.cpp
+  NeturalPellInfo.cpp
+  NeturalTypeIcon.cpp
+  NoneAnimMesh.cpp
+  OptionButton.cpp
+  PalSpher.cpp
+  PellBase.cpp
+  PellBody.cpp
+  PellInfo.cpp
+  PellInfoFrame.cpp
+  PellLogo.cpp
+  PellResetState.cpp
+  PellRock.cpp
+  Player.cpp
+  PlayerBody.cpp
+  PlayerCamera.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  PlayerManager.cpp
+  PlayerPartData.cpp
+  PlayerView.cpp
+  PlayerWeaponSlot.cpp
+  Player_Interface.cpp
+  RockObject.cpp
+  SlotBase.cpp
+  SlotImage.cpp
+  Terrain.cpp
+  TerrainManager.cpp
+C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\TerrainManager.cpp(90,63): warning C4244: '=': 'float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  TreeObject.cpp
+  TypeIcon.cpp
+  Yeti.cpp
+  YetiBody.cpp
+  Direct11_FrameWork.cpp
+  PellHealthBar.cpp
+  코드를 생성하고 있습니다...
+  Direct11_FrameWork.vcxproj -> C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe
