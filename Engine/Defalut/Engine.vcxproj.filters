@@ -67,59 +67,11 @@
     <Filter Include="Utility\Base">
       <UniqueIdentifier>{b03dfe8c-d8dc-42d1-8564-bc14acb88645}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utility\Components">
-      <UniqueIdentifier>{62dda0d7-cb1f-4bd3-b3ec-4e18adae7dc8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\Transform">
-      <UniqueIdentifier>{f53002f5-aaff-40af-9a5e-caab5382bb67}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\VIBuffer">
-      <UniqueIdentifier>{cfaa3e6d-cbdd-45c8-8ad5-0c11714863cf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\VIBuffer\VIRect">
-      <UniqueIdentifier>{f0cae173-9deb-4b0f-95f0-ef70ad282413}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\Collision">
-      <UniqueIdentifier>{3879b983-fdcd-4913-9dda-01d6dfc35514}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\Collision\Capsule">
-      <UniqueIdentifier>{e411b1eb-0b42-41bf-9284-ab907a5fa24e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\Collision\Sphere">
-      <UniqueIdentifier>{f13aebdc-3a61-4103-bfd7-ebce499fa4fd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\Collision\Box">
-      <UniqueIdentifier>{b4832dd7-a0f2-46c2-9847-450d21605a58}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\Collision\Manager">
-      <UniqueIdentifier>{546fb700-38cc-4d69-ba93-5b005a3302cb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\Texture">
-      <UniqueIdentifier>{3dd88695-8403-45b2-b0a1-d2c9f48b7499}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\Shader">
-      <UniqueIdentifier>{ff32bb3e-62d8-4e8e-837e-1bc649cfa632}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\SpriteAnimation">
-      <UniqueIdentifier>{a9441f31-2906-432d-985d-bf35b465a794}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\SpriteAnimation\AnimEntity">
-      <UniqueIdentifier>{8050926c-621a-4f0a-8cbc-6a420a7a7669}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\Model">
-      <UniqueIdentifier>{ceb4a0ff-ab99-4088-b784-c2eeac24f2ac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\Model\Mesh">
-      <UniqueIdentifier>{8360aece-6f08-464b-8a51-3c6a97af1a69}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utility\Helpers">
       <UniqueIdentifier>{02886d4f-bde8-482e-b82b-3c8f3602073b}</UniqueIdentifier>
     </Filter>
     <Filter Include="System\Picking">
       <UniqueIdentifier>{bf4b98e3-587d-498a-bfed-552e745176e8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\Model\Material">
-      <UniqueIdentifier>{725d0e77-52b4-478a-a14f-30aa4a263782}</UniqueIdentifier>
     </Filter>
     <Filter Include="Utility\Helpers\Paser">
       <UniqueIdentifier>{8136d0ea-0a23-4808-953a-c781c68fe14d}</UniqueIdentifier>
@@ -132,9 +84,6 @@
     </Filter>
     <Filter Include="Utility\Helpers\Paser\Json">
       <UniqueIdentifier>{1fc34410-bb5b-4375-9476-296957324e2c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\Font">
-      <UniqueIdentifier>{c60d7ee0-3594-4f00-8bc4-15b7610ba731}</UniqueIdentifier>
     </Filter>
     <Filter Include="Utility\Object\Camera">
       <UniqueIdentifier>{726d2632-59eb-434d-9d37-94bb513075f7}</UniqueIdentifier>
@@ -151,17 +100,8 @@
     <Filter Include="Utility\HeadUpDisplay\UserInterface\Slider">
       <UniqueIdentifier>{6a65cec2-5834-4bb7-acc2-2a831b78905d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utility\Components\Model\Bone">
-      <UniqueIdentifier>{420f7817-c430-4178-aa2a-7a2e14d15388}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utility\HeadUpDisplay\UserInterface\Slider\SilderButton">
       <UniqueIdentifier>{4ea96dca-a660-447d-b70f-ee4909d7dcb9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\Model\Animation">
-      <UniqueIdentifier>{54b414e3-5d68-4cb7-b464-e4fe36c0bf9c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\Model\Animation\Channel">
-      <UniqueIdentifier>{7e5fc024-8484-41f1-90bf-76137095b8d8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Utility\Object\Container">
       <UniqueIdentifier>{65762a26-949d-4551-99de-bc014cc94326}</UniqueIdentifier>
@@ -187,21 +127,6 @@
     <Filter Include="Utility\Light\Manager">
       <UniqueIdentifier>{2963b69c-952e-4ad4-ae08-0b666b2cdeb3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utility\Components\Chase">
-      <UniqueIdentifier>{fce4d626-4a6e-4a54-88a8-3f35e80cfcfd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\Navigation">
-      <UniqueIdentifier>{9ee1805e-4324-4f45-8008-ef5c81f77677}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\Navigation\Cell">
-      <UniqueIdentifier>{b5f42fa6-0ae3-4e80-ac48-73edf1e7e3d5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\VIBuffer\Cell">
-      <UniqueIdentifier>{6cc7d6d9-20f6-4ab6-952a-cf760c0d382d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\VIBuffer\VITerrain">
-      <UniqueIdentifier>{0565ecb3-4d1b-42e0-b919-e6e64f7296fe}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utility\Helpers\StructHeader">
       <UniqueIdentifier>{fa9fac0a-ea44-4d22-8bdf-045b24b05fd0}</UniqueIdentifier>
     </Filter>
@@ -220,14 +145,92 @@
     <Filter Include="Utility\Object\Layer">
       <UniqueIdentifier>{949710dc-196d-4ae1-a02d-863d8e050b7c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utility\Font">
+      <UniqueIdentifier>{c60d7ee0-3594-4f00-8bc4-15b7610ba731}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Font\Manager">
+      <UniqueIdentifier>{aec8849a-076c-4765-9a08-7b1272bb8d6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components">
+      <UniqueIdentifier>{62dda0d7-cb1f-4bd3-b3ec-4e18adae7dc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Transform">
+      <UniqueIdentifier>{f53002f5-aaff-40af-9a5e-caab5382bb67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\VIBuffer">
+      <UniqueIdentifier>{cfaa3e6d-cbdd-45c8-8ad5-0c11714863cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\VIBuffer\VIRect">
+      <UniqueIdentifier>{f0cae173-9deb-4b0f-95f0-ef70ad282413}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\VIBuffer\Cell">
+      <UniqueIdentifier>{6cc7d6d9-20f6-4ab6-952a-cf760c0d382d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\VIBuffer\VITerrain">
+      <UniqueIdentifier>{0565ecb3-4d1b-42e0-b919-e6e64f7296fe}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Utility\Components\VIBuffer\Cube">
       <UniqueIdentifier>{65c9fbc7-3eb4-47e3-8f27-8fbaa2df15c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Collision">
+      <UniqueIdentifier>{3879b983-fdcd-4913-9dda-01d6dfc35514}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Collision\Capsule">
+      <UniqueIdentifier>{e411b1eb-0b42-41bf-9284-ab907a5fa24e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Collision\Sphere">
+      <UniqueIdentifier>{f13aebdc-3a61-4103-bfd7-ebce499fa4fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Collision\Box">
+      <UniqueIdentifier>{b4832dd7-a0f2-46c2-9847-450d21605a58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Collision\Manager">
+      <UniqueIdentifier>{546fb700-38cc-4d69-ba93-5b005a3302cb}</UniqueIdentifier>
     </Filter>
     <Filter Include="Utility\Components\Collision\OBB">
       <UniqueIdentifier>{31c73780-fdba-4772-9b30-14c76e82ae04}</UniqueIdentifier>
     </Filter>
     <Filter Include="Utility\Components\Collision\Debug">
       <UniqueIdentifier>{ded9c150-c9e9-49e4-94dc-97cd453339d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Texture">
+      <UniqueIdentifier>{3dd88695-8403-45b2-b0a1-d2c9f48b7499}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Shader">
+      <UniqueIdentifier>{ff32bb3e-62d8-4e8e-837e-1bc649cfa632}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\SpriteAnimation">
+      <UniqueIdentifier>{a9441f31-2906-432d-985d-bf35b465a794}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\SpriteAnimation\AnimEntity">
+      <UniqueIdentifier>{8050926c-621a-4f0a-8cbc-6a420a7a7669}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Model">
+      <UniqueIdentifier>{ceb4a0ff-ab99-4088-b784-c2eeac24f2ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Model\Mesh">
+      <UniqueIdentifier>{8360aece-6f08-464b-8a51-3c6a97af1a69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Model\Material">
+      <UniqueIdentifier>{725d0e77-52b4-478a-a14f-30aa4a263782}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Model\Bone">
+      <UniqueIdentifier>{420f7817-c430-4178-aa2a-7a2e14d15388}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Model\Animation">
+      <UniqueIdentifier>{54b414e3-5d68-4cb7-b464-e4fe36c0bf9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Model\Animation\Channel">
+      <UniqueIdentifier>{7e5fc024-8484-41f1-90bf-76137095b8d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Chase">
+      <UniqueIdentifier>{fce4d626-4a6e-4a54-88a8-3f35e80cfcfd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Navigation">
+      <UniqueIdentifier>{9ee1805e-4324-4f45-8008-ef5c81f77677}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Navigation\Cell">
+      <UniqueIdentifier>{b5f42fa6-0ae3-4e80-ac48-73edf1e7e3d5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -345,8 +348,8 @@
     <ClCompile Include="..\private\Viewer.cpp">
       <Filter>Utility\HeadUpDisplay\UserInterface\Viewer</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Font.cpp">
-      <Filter>Utility\Components\Font</Filter>
+    <ClCompile Include="..\private\CustomFont.cpp">
+      <Filter>Utility\Font</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\EditorCamera.cpp">
       <Filter>Utility\Object\EditorObject\EditorCamera</Filter>
@@ -414,12 +417,20 @@
     <ClCompile Include="..\private\VIBuffer_Cell.cpp">
       <Filter>Utility\Components\VIBuffer\Cell</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\ViBuffer_Cube.cpp" />
     <ClCompile Include="..\Private\DebugDraw.cpp">
       <Filter>Utility\Components\Collision\Debug</Filter>
     </ClCompile>
     <ClCompile Include="..\private\OBBCollision.cpp">
       <Filter>Utility\Components\Collision\OBB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\VIBuffer_Cube.cpp">
+      <Filter>Utility\Components\VIBuffer\Cube</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CollisionManager.cpp">
+      <Filter>Utility\Components\Collision\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\FontManager.cpp">
+      <Filter>Utility\Font\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -567,8 +578,8 @@
     <ClInclude Include="..\public\Viewer.h">
       <Filter>Utility\HeadUpDisplay\UserInterface\Viewer</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Font.h">
-      <Filter>Utility\Components\Font</Filter>
+    <ClInclude Include="..\public\CustomFont.h">
+      <Filter>Utility\Font</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\EditorCamera.h">
       <Filter>Utility\Object\EditorObject\EditorCamera</Filter>
@@ -645,7 +656,6 @@
     <ClInclude Include="..\Public\ModelPaserStruct.h">
       <Filter>Utility\Helpers\StructHeader\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\ViBuffer_Cube.h" />
     <ClInclude Include="..\Public\NavigationStruct.h">
       <Filter>Utility\Components\Navigation</Filter>
     </ClInclude>
@@ -655,10 +665,27 @@
     <ClInclude Include="..\public\OBBCollision.h">
       <Filter>Utility\Components\Collision\OBB</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\VIBuffer_Cube.h">
+      <Filter>Utility\Components\VIBuffer\Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CollisionManager.h">
+      <Filter>Utility\Components\Collision\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\FontManager.h">
+      <Filter>Utility\Font\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Cell.hlsl">
       <Filter>ShaderFiles</Filter>
     </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\SkyMeshDefault.hlsl">
+      <Filter>ShaderFiles</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Bin\ShaderFiles\DefualtStates.hlsli">
+      <Filter>ShaderFiles</Filter>
+    </None>
   </ItemGroup>
 </Project>

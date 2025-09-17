@@ -29,11 +29,11 @@ public:
 	const 	BoundingOrientedBox&	GetBounding() { return *m_OrienteBox; }
 
 private:
-	BoundingOrientedBox*					m_OriginOrientBox;
-	BoundingOrientedBox*					m_OrienteBox;
+	BoundingOrientedBox*					m_OriginOrientBox = nullptr;
+	BoundingOrientedBox*					m_OrienteBox = nullptr;
 
 public:
-	virtual		COBBCollision*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static		COBBCollision*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual		CComponent*				Clone(void* pArg) override;
 	virtual		void					Free()  override;
 

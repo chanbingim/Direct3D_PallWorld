@@ -45,7 +45,8 @@ HRESULT CPlayerPartData::Initialize(void* pArg)
 
 void CPlayerPartData::Priority_Update(_float fDeletaTime)
 {
-
+    for (_uInt i = 0; i < 3; ++i)
+        m_pWeaponSocket[i]->Priority_Update(fDeletaTime);
 }
 
 void CPlayerPartData::Update(_float fDeletaTime)
@@ -62,7 +63,7 @@ void CPlayerPartData::Update(_float fDeletaTime)
     }
 
     m_pPlayerBody->Update(fDeletaTime);
-    for (_uInt i = 0; i < 2; ++i)
+    for (_uInt i = 0; i < 3; ++i)
         m_pWeaponSocket[i]->Update(fDeletaTime);
 }
 
@@ -73,7 +74,7 @@ void CPlayerPartData::Late_Update(_float fDeletaTime)
     //행렬가지고 갱신
     m_pPlayerBody->Late_Update(fDeletaTime);
 
-    for (_uInt i = 0; i < 2; ++i)
+    for (_uInt i = 0; i < 3; ++i)
         m_pWeaponSocket[i]->Late_Update(fDeletaTime);
 
     m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
@@ -165,7 +166,7 @@ HRESULT CPlayerPartData::ADD_AnimParts()
     SlotDesc.UseSocketMatrixFlag = 0b00000001;
     m_pWeaponSocketMatrix[0] = m_pPlayerBody->GetBoneMatrix("weapon_r");
     SlotDesc.SocketMatrix = m_pWeaponSocketMatrix[0];
-    SlotDesc.pLeftSocketMatrix = m_pPlayerBody->GetBoneMatrix("weapon_l");
+    SlotDesc.pLeftSocket = m_pPlayerBody->GetBoneMatrix("weapon_l");
     SlotDesc.iSlotIndex = 0;
 
     m_pWeaponSocket[0] = static_cast<CPlayerWeaponSlot*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_WeaponSot"), &SlotDesc));
@@ -173,14 +174,29 @@ HRESULT CPlayerPartData::ADD_AnimParts()
 #pragma endregion
 
 #pragma region Slot 2
-    lstrcpy(SlotDesc.ObjectTag, L"Player_L_Socket");
-    SlotDesc.vRotation = { 0.f,  0.f,  XMConvertToRadians(-90.f) };
-    SlotDesc.vPosition = { -0.1f, 0.1f, 0.f };
-    SlotDesc.SocketMatrix = GetBoneMatrix("upperarm_l");
-    SlotDesc.iSlotIndex = 1;
+    CPlayerItemSlot::ITEM_SLOT_DESC ItemSlotDesc = {};
+    ItemSlotDesc.pParent = m_pParent;
+    lstrcpy(ItemSlotDesc.ObjectTag, L"Player_L_Socket");
+    ItemSlotDesc.vScale = { 1.f, 1.f, 1.f };
+    ItemSlotDesc.vRotation = { 0.f,  0.f,  XMConvertToRadians(-90.f) };
+    ItemSlotDesc.UseSocketMatrixFlag = 0b00000001;
+    ItemSlotDesc.vPosition = { -0.1f, 0.1f, 0.f };
+    ItemSlotDesc.SocketMatrix = GetBoneMatrix("upperarm_l");
+    ItemSlotDesc.iSlotIndex = 1;
 
-    m_pWeaponSocket[1] = static_cast<CPlayerWeaponSlot*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_WeaponSot"), &SlotDesc));
+    m_pWeaponSocket[1] = static_cast<CPlayerItemSlot*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_BackItemSlot"), &ItemSlotDesc));
     __super::ADD_Child(m_pWeaponSocket[1]);
+#pragma endregion
+
+#pragma region Slot 3
+    lstrcpy(ItemSlotDesc.ObjectTag, L"Player_R_Socket");
+    ItemSlotDesc.vRotation = { 0.f,  0.f,  XMConvertToRadians(-90.f) };
+    ItemSlotDesc.vPosition = { -0.1f, 0.1f, -0.2f };
+    ItemSlotDesc.SocketMatrix = GetBoneMatrix("upperarm_R");
+    ItemSlotDesc.iSlotIndex = 2;
+
+    m_pWeaponSocket[2] = static_cast<CPlayerItemSlot*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_BackItemSlot"), &ItemSlotDesc));
+    __super::ADD_Child(m_pWeaponSocket[2]);
 #pragma endregion
 
     return S_OK;

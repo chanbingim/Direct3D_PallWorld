@@ -1,13 +1,4 @@
-//float2, float3, float4 == vector
-
-    //float3 vTmp = float3(0.f, 0.f, 0.f);
-    //float3 vTmp = 1.f;
-    //vTmp.x = 0.f;
-    //vTmp.xy = 0.f;
-
-    //float2 vTmp1 = vTmp.xy;
-
-
+#include "DefualtStates.hlsli"
 
 matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 Texture2D g_Texture : register(t0);
@@ -87,6 +78,10 @@ technique11 Tech
 {
     pass Alpha_Blend
     {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
         VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_MAIN();
     }

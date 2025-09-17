@@ -13,8 +13,6 @@ NS_BEGIN(Client)
 class CDebugApp;
 #endif // _DEBUG
 
-class CHeadUpDisplay;
-
 class CMainApp final : public CBase
 {
 private :
@@ -31,7 +29,6 @@ private :
 	ID3D11DeviceContext*		m_pDevice_Context = nullptr;
 	_float						m_fDefalutColor[4] = { 0.f, 0.f, 1.f, 1.f };
 
-	CHeadUpDisplay*				m_pHeadUpDisPlay = nullptr;
 	ID3D11RasterizerState*		m_pRasterState = nullptr;
 
 #ifdef _DEBUG

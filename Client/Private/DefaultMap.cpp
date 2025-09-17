@@ -8,7 +8,8 @@ CDefaultMap::CDefaultMap(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 }
 
 CDefaultMap::CDefaultMap(const CDefaultMap& rhs) :
-    CNoneAnimMesh(rhs)
+    CNoneAnimMesh(rhs), 
+    m_iTerrainCnt(rhs.m_iTerrainCnt)
 {
 }
 
@@ -28,17 +29,14 @@ HRESULT CDefaultMap::Initialize(void* pArg)
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
-    _uInt iNumMeshes = m_pVIBufferCom->GetNumMeshes();
-    for (_uInt i = 0; i < iNumMeshes; ++i)
+    for (_uInt i = 0; i < m_iTerrainCnt; ++i)
         m_pNavigationCom[i]->Update(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
     return S_OK;
 }
 
 void CDefaultMap::Priority_Update(_float fDeletaTime)
 {
-    _uInt iNumMeshes = m_pVIBufferCom->GetNumMeshes();
-    for(_uInt i = 0; i < iNumMeshes; ++i)
-        m_pNavigationCom[i]->Update(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
+  
 }
 
 void CDefaultMap::Update(_float fDeletaTime)
@@ -70,7 +68,7 @@ void CDefaultMap::Late_Update(_float fDeletaTime)
 HRESULT CDefaultMap::Render()
 {
     _uInt iNumMeshes = m_pVIBufferCom->GetNumMeshes();
-    for (_uInt i = 0; i < iNumMeshes; ++i)
+    for (_uInt i = 0; i < m_iTerrainCnt; ++i)
     {
         Apply_ConstantShaderResources(i);
 
@@ -129,14 +127,15 @@ HRESULT CDefaultMap::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Mesh"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
         return E_FAIL;
 
-    _uInt iNumMeshes = m_pVIBufferCom->GetNumMeshes();
-    m_pNavigationCom = new CNavigation*[iNumMeshes];
+    m_iTerrainCnt = 7;//m_pVIBufferCom->GetNumMeshes();
+    m_pNavigationCom = new CNavigation*[m_iTerrainCnt];
 
     WCHAR NaviComPath[MAX_PATH] = {};
-    for (_uInt i = 0; i < iNumMeshes; ++i)
+    for (_uInt i = 0; i < m_iTerrainCnt; ++i)
     {
         wsprintf(NaviComPath, TEXT("NaviMesh%d_Com"), i);
         m_pNavigationCom[i] = CNavigation::Create(m_pGraphic_Device, m_pDeviceContext, m_pVIBufferCom, i);
+
         m_pComponentMap.emplace(NaviComPath, m_pNavigationCom[i]);
     }
 
@@ -167,11 +166,9 @@ CGameObject* CDefaultMap::Clone(void* pArg)
 
 void CDefaultMap::Free()
 {
-    _uInt iNumMeshes = m_pVIBufferCom->GetNumMeshes();
-    for (_uInt i = 0; i < iNumMeshes; ++i)
+    __super::Free();
+    for (_uInt i = 0; i < m_iTerrainCnt; ++i)
         Safe_Release(m_pNavigationCom[i]);
 
     Safe_Delete_Array(m_pNavigationCom);
-
-    __super::Free();
 }

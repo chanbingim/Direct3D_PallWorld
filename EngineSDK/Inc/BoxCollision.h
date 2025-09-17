@@ -19,6 +19,8 @@ public:
 	virtual HRESULT					Initialize_Prototype() override;
 	virtual HRESULT					Initialize(void* pArg) override;
 	virtual void					UpdateColiision(_matrix WorldMatrix) override;
+	void							SetCollision(_float3 vCenter, _float3 vExtents);
+
 	virtual _bool					Intersect(COLLISION_TYPE eType, CCollision* pTarget) override;
 
 #ifdef _DEBUG
@@ -28,11 +30,11 @@ public:
 	const 	BoundingBox&			GetBounding() { return *m_Bounding; }
 
 private:
-	BoundingBox*					m_OriginBounding;
-	BoundingBox*					m_Bounding;
+	BoundingBox*					m_OriginBounding = nullptr;
+	BoundingBox*					m_Bounding = nullptr;
 
 public:
-	virtual		CBoxCollision*		Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static		CBoxCollision*		Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual		CComponent*			Clone(void* pArg) override;
 	virtual		void				Free()  override;
 };

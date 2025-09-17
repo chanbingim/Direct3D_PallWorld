@@ -114,16 +114,17 @@ HRESULT CNeturalPellInfo::ADD_Childs()
 {
 	CBackGround::GAMEOBJECT_DESC Desc = {};
 	Desc.pParent = this;
-	Desc.vScale = { 2.8f, 0.5f, 0.f };
+	_float3 vParentScale = m_pTransformCom->GetScale();
+	Desc.vScale = { vParentScale.x - 0.16f , 0.5f, 0.f };
 
 	//Pell Health Bar
-	Desc.vPosition = { 0.f, 0.f, -0.01f };
+	Desc.vPosition = { 0, -(vParentScale.y * 0.25f), -0.01f };
 	m_pHealthBar = static_cast<CPellHealthBar *>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Netrual_Pell_Health_Bar"), &Desc));
 	ADD_Child(m_pHealthBar);
 
 	//Pell Type
 	Desc.vScale = { 0.5f, 0.5f, 0.f };
-	Desc.vPosition = { -1.5f, 0.5f, -0.02f };
+	Desc.vPosition = { -vParentScale.x * 0.5f, vParentScale.y * 0.5f, -0.02f };
 	m_pTypeIcon = static_cast<CNeturalTypeIcon*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Netrual_Pell_Type_UI"), &Desc));
 	ADD_Child(m_pTypeIcon);
 

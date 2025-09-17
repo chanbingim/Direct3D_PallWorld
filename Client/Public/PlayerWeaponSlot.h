@@ -1,18 +1,18 @@
 #pragma once
-#include "Client_Define.h"
-#include "PartObject.h"
+#include "PlayerItemSlot.h"
+
+NS_BEGIN(Engine)
+class CBoxCollision;
+NS_END
 
 NS_BEGIN(Client)
-class CItemBase;
 
-class CPlayerWeaponSlot : public CPartObject
+class CPlayerWeaponSlot : public CPlayerItemSlot
 {
 public :
-	enum class WEAPON_STATE { CHARGE, CHARGE_LOOP, ATTACK, IDLE, END };
-	typedef struct WeaponSlotDesc : public PARTOBJECT_DESC
+	typedef struct WeaponSlotDesc : public ITEM_SLOT_DESC
 	{
-		_uInt				iSlotIndex;
-		const _float4x4*	pLeftSocketMatrix;
+		const _float4x4*				pLeftSocket = nullptr;
 	}WEAPON_SLOT_DESC;
 
 protected :
@@ -32,30 +32,14 @@ public :
 
 	// ·£´õ
 	virtual		HRESULT						Render() override;
-	
-	void									ChangeModelBuffer(CModel* pModel, _bool bIsAnim = false);
-	
-	void									ChangeWeaponState(WEAPON_STATE eWeaponState);
-	const WEAPON_STATE&						GetWeaponState() { return m_eState; }
-
-protected :
-	virtual     HRESULT						Bind_ShaderResources();
-	virtual     HRESULT						Apply_ConstantShaderResources(_uInt iMeshIndex);
 
 private :
-	const	CItemBase*						m_CurrentEuipItemInfo = {};
-	_bool									m_bIsAnimWeapon = false;
-	_bool									m_LeftRightFlag = false;
+	_bool									m_LeftFlag = false;
 	const _float4x4*						m_pLeftSocket = nullptr;
-
-	CShader*								m_pNoneAimShader = nullptr;
-	_uInt									m_iSlotIndex = {};
-
-	WEAPON_STATE							m_eState;
+	CBoxCollision*							m_pCollision[2] = { nullptr, nullptr };
 
 private :
 	HRESULT									ADD_Components();
-	void									ChangeAnimWaponAnimationIndex();
 
 public :
 	static			CPlayerWeaponSlot*		Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

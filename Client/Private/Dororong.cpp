@@ -77,6 +77,7 @@ void CDororong::Priority_Update(_float fDeletaTime)
     }
 
     m_pNevigation->ComputeHeight(m_pTransformCom);
+    m_pCollision->UpdateColiision(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
 }
 
 void CDororong::Update(_float fDeletaTime)
@@ -89,11 +90,14 @@ void CDororong::Update(_float fDeletaTime)
 void CDororong::Late_Update(_float fDeletaTime)
 {
     __super::Late_Update(fDeletaTime);
+
+    m_pGameInstance->ADD_CollisionList(m_pCollision);
+    m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
 }
 
 HRESULT CDororong::Render()
 {
-
+    m_pCollision->Render();
     return S_OK;
 }
 
@@ -107,11 +111,22 @@ HRESULT CDororong::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("GamePlay_Component_Recovery"), TEXT("Recovery_Com"), (CComponent**)&m_pRecovery, &RecoverDesc)))
         return E_FAIL;
 
-    _float3 vPos = m_pTransformCom->GetPosition();
-    _Int iSapwnCell = m_pTerrainManager->GetCrrentSapwnCell(vPos);
-
-    if (FAILED(m_pTerrainManager->GetCurrentTerrainNaviMesh(vPos, iSapwnCell, (CComponent**)&m_pNevigation)))
+    COBBCollision::OBB_COLLISION_DESC OBBDesc = {};
+    ZeroMemory(&OBBDesc, sizeof(COBBCollision::OBB_COLLISION_DESC));
+    OBBDesc.pOwner = this;
+    OBBDesc.vExtents = _float3(0.5f, 0.7f, 0.5f);
+    OBBDesc.vCneter = _float3(0.f, OBBDesc.vExtents.y * 0.5f, 0.f);
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_CoolisionOBB"), TEXT("Collision_Com"), (CComponent**)&m_pCollision, &OBBDesc)))
         return E_FAIL;
+
+    auto Object = m_pGameInstance->GetAllObejctToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_GamePlay_Terrian"))->begin();
+    auto OriginNav = static_cast<CNavigation*>((*Object)->Find_Component(TEXT("NaviMesh0_Com")));
+
+    CNavigation::NAVIGATION_DESC Desc = {};
+    _float3 vPos = m_pTransformCom->GetPosition();
+    Desc.iCurrentCellIndex = OriginNav->Find_Cell(XMLoadFloat3(&vPos));
+
+    m_pNevigation = static_cast<CNavigation*>(OriginNav->Clone(&Desc));
     m_pComponentMap.emplace(TEXT("NaviMesh_Com"), m_pNevigation);
 
     return S_OK;
@@ -167,5 +182,4 @@ CGameObject* CDororong::Clone(void* pArg)
 void CDororong::Free()
 {
     __super::Free();
-
 }

@@ -23,6 +23,8 @@ HRESULT CItemManager::Initialize(const char* FilePath)
         Desc.TypeDesc.EuqipDesc.iHealthPoint = 0;
         Desc.TypeDesc.EuqipDesc.bIsLeftSocket = false;
         Desc.TypeDesc.EuqipDesc.bIsChargeAble = false;
+        Desc.TypeDesc.EuqipDesc.vCenter = {0.f, 0.5f, 0.f};
+        Desc.TypeDesc.EuqipDesc.vExtents = {0.2f, 0.5f, 0.2f};
         Desc.TypeDesc.EuqipDesc.Equip_Type = EUQIP_TYPE::WEAPON;
         Desc.TypeDesc.EuqipDesc.Weapon_Type = WEAPON::MELEE;
         m_Items.emplace(1, Desc);
@@ -42,6 +44,8 @@ HRESULT CItemManager::Initialize(const char* FilePath)
         Desc.TypeDesc.EuqipDesc.iHealthPoint = 0;
         Desc.TypeDesc.EuqipDesc.bIsLeftSocket = false;
         Desc.TypeDesc.EuqipDesc.bIsChargeAble = false;
+        Desc.TypeDesc.EuqipDesc.vCenter = {  };
+        Desc.TypeDesc.EuqipDesc.vExtents = { };
         Desc.TypeDesc.EuqipDesc.Equip_Type = EUQIP_TYPE::WEAPON;
         Desc.TypeDesc.EuqipDesc.Weapon_Type = WEAPON::THROW;
         m_Items.emplace(2, Desc);
@@ -62,6 +66,8 @@ HRESULT CItemManager::Initialize(const char* FilePath)
         Desc.TypeDesc.EuqipDesc.iHealthPoint = 0;
         Desc.TypeDesc.EuqipDesc.bIsLeftSocket = true;
         Desc.TypeDesc.EuqipDesc.bIsChargeAble = true;
+        Desc.TypeDesc.EuqipDesc.vCenter = {  };
+        Desc.TypeDesc.EuqipDesc.vExtents = {  };
         Desc.TypeDesc.EuqipDesc.Equip_Type = EUQIP_TYPE::WEAPON;
         Desc.TypeDesc.EuqipDesc.Weapon_Type = WEAPON::BOW;
         m_Items.emplace(3, Desc);

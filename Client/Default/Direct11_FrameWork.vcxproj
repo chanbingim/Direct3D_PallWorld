@@ -199,6 +199,7 @@
     <ClInclude Include="..\public\ItemManager.h" />
     <ClInclude Include="..\Public\ItemStruct.h" />
     <ClInclude Include="..\public\JumpState.h" />
+    <ClInclude Include="..\Public\PlayerItemSlot.h" />
     <ClInclude Include="..\public\PlayerNoneCombatLayer.h" />
     <ClInclude Include="..\public\PalSpher.h" />
     <ClInclude Include="..\Public\Player.h" />
@@ -345,6 +346,7 @@
     <ClCompile Include="..\Private\IMG_ModelConvert.cpp" />
     <ClCompile Include="..\private\ItemManager.cpp" />
     <ClCompile Include="..\private\JumpState.cpp" />
+    <ClCompile Include="..\Private\PlayerItemSlot.cpp" />
     <ClCompile Include="..\private\PlayerNoneCombatLayer.cpp" />
     <ClCompile Include="..\private\PalSpher.cpp" />
     <ClCompile Include="..\private\PlayerAttackState.cpp" />

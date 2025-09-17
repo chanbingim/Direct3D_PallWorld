@@ -377,7 +377,7 @@ void CNavigation::Bowyer_WatsonAlgorithm(const CModel* pMapModel, _uInt iMeshNum
 		}
 
 		if (500 < iNumVertices)
-			i += 30.f;
+			i += 30;
 		else
 			i++;
 	}

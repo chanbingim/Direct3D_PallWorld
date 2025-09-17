@@ -28,11 +28,11 @@ public:
 	const 	BoundingSphere&			GetBounding() { return *m_Bounding; }
 
 private :
-	BoundingSphere*					m_OriginBounding;
-	BoundingSphere*					m_Bounding;
+	BoundingSphere*					m_OriginBounding = nullptr;
+	BoundingSphere*					m_Bounding = nullptr;
 
 public:
-	virtual		CSphereCollision*	Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static		CSphereCollision*	Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual		CComponent*			Clone(void* pArg) override;
 	virtual		void				Free()  override;
 

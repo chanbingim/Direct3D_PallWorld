@@ -17,11 +17,6 @@ CRenderer::CRenderer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 
 HRESULT CRenderer::Initialize()
 {
-    if (FAILED(Create_BlendState()))
-        return E_FAIL;
-
-    if (FAILED(Create_DepthStencilState()))
-        return E_FAIL;
 
     return S_OK;
 }
@@ -49,8 +44,6 @@ void CRenderer::Render()
     FLOAT   OldblendFactor[4] = {};
     UINT    OldMask = {};
 
-    m_pContext->OMGetBlendState(&OldBlend, OldblendFactor, &OldMask);
-    m_pContext->OMSetBlendState(m_pAlphaBlendState, blendFactor, 0xffffffff);
     Render_Blend();
     DrawPosTex();
 
@@ -58,41 +51,6 @@ void CRenderer::Render()
     m_pContext->OMSetBlendState(OldBlend, OldblendFactor, OldMask);
 }
 
-HRESULT CRenderer::Create_BlendState()
-{
-    D3D11_BLEND_DESC desc = { 0 };
-    desc.AlphaToCoverageEnable = FALSE;
-    desc.IndependentBlendEnable = FALSE;
-
-    D3D11_RENDER_TARGET_BLEND_DESC& RenderTarget = desc.RenderTarget[0];
-    RenderTarget.BlendEnable = TRUE;
-    RenderTarget.SrcBlend = D3D11_BLEND_SRC_ALPHA;
-    RenderTarget.DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
-    RenderTarget.BlendOp = D3D11_BLEND_OP_ADD;
-    RenderTarget.SrcBlendAlpha = D3D11_BLEND_ONE;
-    RenderTarget.DestBlendAlpha = D3D11_BLEND_ZERO;
-    RenderTarget.BlendOpAlpha = D3D11_BLEND_OP_ADD;
-    RenderTarget.RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
-
-    if (FAILED(m_pDevice->CreateBlendState(&desc, &m_pAlphaBlendState)))
-    {
-        MSG_BOX("CREATE FAIL : BLEND STATE");
-        return E_FAIL;
-    }
-
-    return S_OK;
-}
-
-HRESULT CRenderer::Create_DepthStencilState()
-{
-    D3D11_DEPTH_STENCIL_DESC Desc;
-    ZeroMemory(&Desc, sizeof(D3D11_DEPTH_STENCIL_DESC));
-
-   if (FAILED(m_pDevice->CreateDepthStencilState(&Desc, &m_pUIDepthStencilState)))
-       return E_FAIL;
-
-    return S_OK;
-}
 
 void CRenderer::Render_Priority()
 {
@@ -159,10 +117,6 @@ void CRenderer::Render_ScreenUI()
             return SrcUI->GetZOrder() < DestUI->GetZOrder();
         });
 
-    ID3D11DepthStencilState* OldState = nullptr;
-    m_pContext->OMGetDepthStencilState(&OldState, 0);
-    m_pContext->OMSetDepthStencilState(m_pUIDepthStencilState, 0);
-
     for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::SCREEN_UI)])
     {
         if (nullptr != pRenderObject)
@@ -172,7 +126,6 @@ void CRenderer::Render_ScreenUI()
     }
 
     m_RenderObjects[ENUM_CLASS(RENDER::SCREEN_UI)].clear();
-    m_pContext->OMSetDepthStencilState(OldState, 0);
 }
 
 #pragma region PostTex
@@ -222,8 +175,6 @@ void CRenderer::Free()
         RenderObjects.clear();
     }
 
-    Safe_Release(m_pAlphaBlendState);
-    Safe_Release(m_pUIDepthStencilState);
     Safe_Release(m_pGameInstance);
     Safe_Release(m_pDevice);
     Safe_Release(m_pContext);

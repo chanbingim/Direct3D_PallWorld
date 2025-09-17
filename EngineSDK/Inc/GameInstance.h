@@ -21,6 +21,8 @@ class CInputManager;
 class CSound_Manager;
 class CLightManager;
 class CLight;
+class CFontManager;
+class CCollisionManager;
 
 class ENGINE_DLL CGameInstance : public CBase
 {
@@ -185,6 +187,15 @@ public :
 	const CLight*				GetLight(_uInt iIndex);
 #pragma endregion
 
+#pragma region COLLISION_MANAGER
+	void						ADD_CollisionList(class CCollision* pObject);
+#pragma endregion
+
+#pragma region FONT MANAGER
+	HRESULT						Add_Font(const _wstring& FontTag, const _tchar* pFontFilePath);
+	HRESULT						Render_Font(const _wstring& FontTag, const _tchar* pText, const _float2& vPosition, _vector vColor);
+#pragma endregion
+
 
 private :
 	CGraphic_Device*			m_pGraphic_Device = nullptr;
@@ -199,6 +210,8 @@ private :
 	CPipeline*					m_pPipeline = nullptr;
 	CPicking*					m_pPicking = nullptr;
 	CLightManager*				m_pLightManager = nullptr;
+	CFontManager*				m_pFontManager = nullptr;
+	CCollisionManager*			m_pCollisionManager = nullptr;
 
 	_bool						m_bIsPause = false;
 	_float2						m_ScreenSize = {};

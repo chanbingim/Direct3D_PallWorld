@@ -35,6 +35,7 @@ protected:
 
 private:
 	_bool									m_bIsPicking = false;
+	_uInt									m_iTerrainCnt = {};
 	CNavigation**							m_pNavigationCom = nullptr;
 
 private:

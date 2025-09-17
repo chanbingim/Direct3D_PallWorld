@@ -68,7 +68,9 @@ HRESULT CDebugApp::SetUp_ImgManager()
 
 void CDebugApp::Update(_float fDeletaTime)
 {
+#ifdef _DEBUG
     m_pImgManager->Update(fDeletaTime);
+#endif // _DEBUG
 }
 
 void CDebugApp::Render()
@@ -76,10 +78,14 @@ void CDebugApp::Render()
     _float Color[] = {0.f, 0.f, 1.f, 1.f};
     m_pGameInstance->Render_Begin(Color);
 
+#ifdef _DEBUG
     m_pImgManager->Render_Begin();
+#endif
     m_pGameInstance->DrawRender();
-    m_pImgManager->Render_End();
 
+#ifdef _DEBUG
+    m_pImgManager->Render_End();
+#endif
     m_pGameInstance->Render_End();
 }
 

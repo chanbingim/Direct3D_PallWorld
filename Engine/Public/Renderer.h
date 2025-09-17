@@ -20,16 +20,9 @@ private:
 	ID3D11DeviceContext*				m_pContext = { nullptr };
 	CGameInstance*						m_pGameInstance = nullptr;
 	
-	//랜더 스테이트
-	ID3D11BlendState*					m_pAlphaBlendState = { nullptr };
-	ID3D11DepthStencilState*			m_pUIDepthStencilState = { nullptr };
-
 	list<class CGameObject*>			m_RenderObjects[ENUM_CLASS(RENDER::END)];
 
 private:
-	HRESULT								Create_BlendState();
-	HRESULT								Create_DepthStencilState();
-
 	void								Render_Priority();
 	void								Render_NonBlend();
 	void								Render_WorldUI();

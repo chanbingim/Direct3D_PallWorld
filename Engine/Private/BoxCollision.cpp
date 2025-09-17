@@ -3,6 +3,7 @@
 #include "OBBCollision.h"
 
 #include "DebugDraw.h"
+#include "GameObject.h"
 
 CBoxCollision::CBoxCollision(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CCollision(pDevice, pContext)
@@ -35,6 +36,7 @@ HRESULT CBoxCollision::Initialize(void* pArg)
 
 void CBoxCollision::UpdateColiision(_matrix WorldMatrix)
 {
+    m_bIsHit = false;
     WorldMatrix.r[0] = XMVectorSet(1.f, 0.f, 0.f, 0.f) * XMVector3Length(WorldMatrix.r[0]);
     WorldMatrix.r[1] = XMVectorSet(0.f, 1.f, 0.f, 0.f) * XMVector3Length(WorldMatrix.r[1]);
     WorldMatrix.r[2] = XMVectorSet(0.f, 0.f, 1.f, 0.f) * XMVector3Length(WorldMatrix.r[2]);
@@ -42,30 +44,41 @@ void CBoxCollision::UpdateColiision(_matrix WorldMatrix)
     m_OriginBounding->Transform(*m_Bounding, WorldMatrix);
 }
 
+void CBoxCollision::SetCollision(_float3 vCenter, _float3 vExtents)
+{
+    m_OriginBounding->Center = vCenter;
+    m_OriginBounding->Extents = vExtents;
+}
+
 _bool CBoxCollision::Intersect(COLLISION_TYPE eType, CCollision* pTarget)
 {
-    m_bIsHit = false;
+    _bool bIsHit = false;
+
+    if (!IntersectAble(typeid((*pTarget->GetOwner())).hash_code()))
+        return false;
+
     switch (eType)
     {
-    case Engine::COLLISION_TYPE::BOX:
-        m_bIsHit = m_Bounding->Intersects(static_cast<CBoxCollision*>(pTarget)->GetBounding());
+    case COLLISION_TYPE::BOX:
+        bIsHit = m_Bounding->Intersects(static_cast<CBoxCollision*>(pTarget)->GetBounding());
         break;
-    case Engine::COLLISION_TYPE::SPHERE:
-        m_bIsHit = m_Bounding->Intersects(static_cast<CSphereCollision*>(pTarget)->GetBounding());
+    case COLLISION_TYPE::SPHERE:
+        bIsHit = m_Bounding->Intersects(static_cast<CSphereCollision*>(pTarget)->GetBounding());
         break;
-    case Engine::COLLISION_TYPE::OBB:
-        m_bIsHit = m_Bounding->Intersects(static_cast<COBBCollision*>(pTarget)->GetBounding());
+    case COLLISION_TYPE::OBB:
+        bIsHit = m_Bounding->Intersects(static_cast<COBBCollision*>(pTarget)->GetBounding());
         break;
     }
 
-    return m_bIsHit;
+    return bIsHit;
 }
 
 void CBoxCollision::Render(_vector vColor)
 {
+    __super::Render(vColor);
     m_pBatch->Begin();
 
-    DX::Draw(m_pBatch, *m_Bounding, vColor);
+    DX::Draw(m_pBatch, *m_Bounding, false == m_bIsHit ? XMVectorSet(0.f, 1.f, 0.f, 1.f) : XMVectorSet(1.f, 0.f, 0.f, 1.f));
 
     m_pBatch->End();
 }

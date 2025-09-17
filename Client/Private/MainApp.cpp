@@ -180,6 +180,10 @@ HRESULT CMainApp::SetUp_StaticComponents()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_AnimMesh"),
 		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_ANIM_MESH::Elements, VTX_ANIM_MESH::iNumElements, TEXT("../Bin/ShaderFiles/VTX_AnimMesh.hlsl")))))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_SkyMesh"),
+		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_MESH::Elements, VTX_MESH::iNumElements, TEXT("../Bin/ShaderFiles/SkyMeshDefault.hlsl")))))
+		return E_FAIL;
 #pragma endregion
 
 #pragma region VIBuffer
@@ -188,6 +192,7 @@ HRESULT CMainApp::SetUp_StaticComponents()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region  Component
 	/* Transform Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Transform"), CTransform::Create(m_pGraphic_Device, m_pDevice_Context))))
 		return E_FAIL;
@@ -195,6 +200,22 @@ HRESULT CMainApp::SetUp_StaticComponents()
 	/* Animator Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Animation"), CSpriteAnimation::Create(m_pGraphic_Device, m_pDevice_Context))))
 		return E_FAIL;
+
+	/* BoxCollision Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_CoolisionBox"), CBoxCollision::Create(m_pGraphic_Device, m_pDevice_Context))))
+		return E_FAIL;
+
+	/* SphereCollision Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_CoolisionSphere"), CSphereCollision::Create(m_pGraphic_Device, m_pDevice_Context))))
+		return E_FAIL;
+
+	/* OBBCollision Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_CoolisionOBB"), COBBCollision::Create(m_pGraphic_Device, m_pDevice_Context))))
+		return E_FAIL;
+
+#pragma endregion
+
+	
 
 	return S_OK;
 }
@@ -274,7 +295,6 @@ void CMainApp::Free()
 	
 	CPlayerManager::DestroyInstance();
 	CItemManager::DestroyInstance();
-	CTerrainManager::DestroyInstance();
 
 	m_pGameInstance->Release_Engine();
 	Safe_Release(m_pGameInstance);

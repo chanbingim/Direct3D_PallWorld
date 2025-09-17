@@ -422,9 +422,6 @@
     <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\CombatLayer\State\Hit">
       <UniqueIdentifier>{1a2283b4-b73c-4f66-bfbe-a7ee0411c286}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\WeaponSlot">
-      <UniqueIdentifier>{4b99c399-e4e4-4009-9a69-35c6f25c13ff}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04. DataManager\Character\Pell">
       <UniqueIdentifier>{a9963b4e-b60f-4fbc-a8f8-48584fa81896}</UniqueIdentifier>
     </Filter>
@@ -491,14 +488,20 @@
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\ItemQuickSlot">
       <UniqueIdentifier>{a86b77f1-80dc-419c-9392-479f39212d43}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Objects\SkyBox">
-      <UniqueIdentifier>{724e9d96-1791-4156-aa36-545a47723c74}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Pell\NaturalPellInfo\PellIcon">
       <UniqueIdentifier>{afe32fa3-f418-44bd-b465-e6506c764afa}</UniqueIdentifier>
     </Filter>
     <Filter Include="03. Objects\MeshObject\NonAnimMesh\Map">
       <UniqueIdentifier>{09cfa062-b3e5-4176-9c00-4f88e063b32d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\SkyBox">
+      <UniqueIdentifier>{724e9d96-1791-4156-aa36-545a47723c74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerItemSlot">
+      <UniqueIdentifier>{f3ce9574-90bf-42b8-b0c8-9a93a05b7b71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerItemSlot\WeaponSlot">
+      <UniqueIdentifier>{4b99c399-e4e4-4009-9a69-35c6f25c13ff}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -899,7 +902,7 @@
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\CombatLayer\State\Hit</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PlayerWeaponSlot.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\WeaponSlot</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerItemSlot\WeaponSlot</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PellManager.h">
       <Filter>04. DataManager\Character\Pell</Filter>
@@ -929,10 +932,13 @@
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Pell\NaturalPellInfo\PellIcon</Filter>
     </ClInclude>
     <ClInclude Include="..\public\SkyBox.h">
-      <Filter>03. Objects\SkyBox</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\SkyBox</Filter>
     </ClInclude>
     <ClInclude Include="..\public\DefaultMap.h">
       <Filter>03. Objects\MeshObject\NonAnimMesh\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PlayerItemSlot.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerItemSlot</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1322,7 +1328,7 @@
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\CombatLayer\State\Hit</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PlayerWeaponSlot.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\WeaponSlot</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerItemSlot\WeaponSlot</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PellManager.cpp">
       <Filter>04. DataManager\Character\Pell</Filter>
@@ -1349,10 +1355,13 @@
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Pell\NaturalPellInfo\PellIcon</Filter>
     </ClCompile>
     <ClCompile Include="..\private\SkyBox.cpp">
-      <Filter>03. Objects\SkyBox</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\SkyBox</Filter>
     </ClCompile>
     <ClCompile Include="..\private\DefaultMap.cpp">
       <Filter>03. Objects\MeshObject\NonAnimMesh\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PlayerItemSlot.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerItemSlot</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

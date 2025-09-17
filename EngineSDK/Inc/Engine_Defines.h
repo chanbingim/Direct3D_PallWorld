@@ -13,6 +13,8 @@
 
 //STL
 #include <set>
+#include <unordered_set>
+
 #include <stack>
 #include <vector>
 #include <list>

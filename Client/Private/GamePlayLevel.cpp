@@ -24,16 +24,19 @@ HRESULT CGamePlayLevel::Initialize()
 	if (FAILED(ADD_TerrianLayer(TEXT("Layer_GamePlay_Terrian"))))
 		return E_FAIL;
 
-	//CTerrainManager::GetInstance()->Initialize(nullptr);
+	if (FAILED(ADD_SkyLayer(TEXT("Layer_GamePlay_SKY"))))
+		return E_FAIL;
 
 	if (FAILED(ADD_PlayerLayer(TEXT("Layer_GamePlay_Player"))))
 		return E_FAIL;
 
+	//CTerrainManager::GetInstance()->Initialize(nullptr);
+
 	/*if (FAILED(ADD_EnviornmentLayer(TEXT("Layer_GamePlay_Enviorment"))))
-		return E_FAIL;
+		return E_FAIL;*/
 
 	if (FAILED(ADD_PellLayer(TEXT("Layer_GamePlay_Pell"))))
-		return E_FAIL;*/
+		return E_FAIL;
 
 	CItemManager::GetInstance()->Initialize();
 
@@ -87,6 +90,19 @@ HRESULT CGamePlayLevel::ADD_TerrianLayer(const _wstring& LayerName)
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_DefualtMap"),
 				ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CGamePlayLevel::ADD_SkyLayer(const _wstring& LayerName)
+{
+	CGameObject::GAMEOBJECT_DESC Desc;
+	ZeroMemory(&Desc, sizeof(CGameObject::GAMEOBJECT_DESC));
+	Desc.vScale = { 1.f, 1.f, 1.f };
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SkyBox"),
+		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
 		return E_FAIL;
 
 	return S_OK;

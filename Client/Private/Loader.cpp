@@ -25,6 +25,10 @@
 #include "PlayerWeaponSlot.h"
 #pragma endregion
 
+#pragma region SKY_BOX
+#include "SkyBox.h"
+#pragma endregion
+
 #pragma region PELL
 #include "BedCat.h"
 #include "BedCatBody.h"
@@ -340,10 +344,16 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region SKY_Model
+	/* VIBuffer  Clothes2 MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Sky"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Sky/SM_Raid_Sky_01.fbx"))))
+		return E_FAIL;
+#pragma endregion
+
 #pragma region Usable Item
 
 #pragma endregion
-
 
 #pragma region WEAPON
 	/* VIBuffer  CatBlade MESH  Component */
@@ -468,45 +478,42 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	m_strMessage = TEXT("객체원형를(을) 로딩 중 입니다.");
 
-
-
-
 #pragma region Terrian_Com
-	/* 2 x 2  Terrian */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian2x2"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 2))))
-		return E_FAIL;
+	///* 2 x 2  Terrian */
+	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian2x2"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 2))))
+	//	return E_FAIL;
 
-	/* 4 x 4  Terrian */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian4x4"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 4))))
-		return E_FAIL;
+	///* 4 x 4  Terrian */
+	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian4x4"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 4))))
+	//	return E_FAIL;
 
-	/* 8 x 8  Terrian */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian8x8"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 8))))
-		return E_FAIL;
+	///* 8 x 8  Terrian */
+	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian8x8"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 8))))
+	//	return E_FAIL;
 
-	/* 16 x 16  Terrian */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian16x16"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 16))))
-		return E_FAIL;
+	///* 16 x 16  Terrian */
+	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian16x16"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 16))))
+	//	return E_FAIL;
 
-	/* 32 x 32  Terrian */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian32x32"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 32))))
-		return E_FAIL;
+	///* 32 x 32  Terrian */
+	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian32x32"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 32))))
+	//	return E_FAIL;
 
-	/* 64 x 64  Terrian */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian64x64"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 64))))
-		return E_FAIL;
+	///* 64 x 64  Terrian */
+	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian64x64"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 64))))
+	//	return E_FAIL;
 
-	/* 128 x 128  Terrian */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian128x128"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 128))))
-		return E_FAIL;
+	///* 128 x 128  Terrian */
+	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian128x128"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 128))))
+	//	return E_FAIL;
 
-	/* 256 x 256  Terrian */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian256x256"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 256))))
-		return E_FAIL;
+	///* 256 x 256  Terrian */
+	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian256x256"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 256))))
+	//	return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext,
-		TEXT("../Bin/Resources/Textures/Map/HeightMap/Height.bmp")))))
-		return E_FAIL;
+	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext,
+	//	TEXT("../Bin/Resources/Textures/Map/HeightMap/Height.bmp")))))
+	//	return E_FAIL;
 #pragma endregion
 
 #pragma region OBJECT
@@ -524,6 +531,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region SKY
+	/* GAME_OBJECT_SKY_BOX */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SkyBox"), CSkyBox::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
 
 #pragma region PELL
 
@@ -636,6 +648,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* GAME_OBJECT_Weapon Slot */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_WeaponSot"), CPlayerWeaponSlot::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_Item Slot */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_BackItemSlot"), CPlayerItemSlot::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 #pragma endregion
 

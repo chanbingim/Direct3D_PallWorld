@@ -99,12 +99,15 @@ void CPlayer::Late_Update(_float fDeletaTime)
 {
     __super::Late_Update(fDeletaTime);
    
+    m_pGameInstance->ADD_CollisionList(m_pCollision);
     m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
 }
 
 HRESULT CPlayer::Render()
 {
-    m_pNevigation->Render({1.f,0.f,0.f,1.f}, true);
+    m_pCollision->Render();
+    m_pNevigation->Render({0.f,0.f,1.f,1.f}, true);
+    
     return S_OK;
 }
 
@@ -156,13 +159,17 @@ void CPlayer::Key_Input(_float fDeletaTime)
         MoveAction(fDeletaTime);
         ChangeWeapon();
 
-        if(CPlayerStateMachine::MOVE_ACTION::JUMP != State.eMove_State)
-            m_pNevigation->ComputeHeight(m_pTransformCom);
+        
     }
     else
     {
 
     }
+
+    if (CPlayerStateMachine::MOVE_ACTION::JUMP != State.eMove_State)
+        m_pNevigation->ComputeHeight(m_pTransformCom);
+
+    m_pCollision->UpdateColiision(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
 }
 
 void CPlayer::MoveAction(_float fDeletaTime)
@@ -501,6 +508,17 @@ HRESULT CPlayer::ADD_PartObejcts()
 
 HRESULT CPlayer::ADD_Components()
 {
+#pragma region COLLISION
+    COBBCollision::OBB_COLLISION_DESC OBBDesc = {};
+    ZeroMemory(&OBBDesc, sizeof(COBBCollision::OBB_COLLISION_DESC));
+    OBBDesc.pOwner = this;
+    OBBDesc.vExtents = _float3(0.5f, 1.2f, 0.5f);
+    OBBDesc.vCneter = _float3(0.f, OBBDesc.vExtents.y * 0.5f, 0.f);
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_CoolisionOBB"), TEXT("Collision_Com"), (CComponent**)&m_pCollision, &OBBDesc)))
+        return E_FAIL;
+#pragma endregion
+
+#pragma region NAVI_MESH
     auto Object = m_pGameInstance->GetAllObejctToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_GamePlay_Terrian"))->begin();
     auto OriginNav = static_cast<CNavigation*>((*Object)->Find_Component(TEXT("NaviMesh0_Com")));
 
@@ -509,7 +527,9 @@ HRESULT CPlayer::ADD_Components()
     Desc.iCurrentCellIndex = OriginNav->Find_Cell(XMLoadFloat3(&vPos));
 
     m_pNevigation = static_cast<CNavigation*>(OriginNav->Clone(&Desc));
+    Safe_AddRef(m_pNevigation);
     m_pComponentMap.emplace(TEXT("NaviMesh_Com"), m_pNevigation);
+#pragma endregion
 
     return S_OK;
 }

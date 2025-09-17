@@ -1,7 +1,6 @@
 #include "PellBase.h"
 
 #include "GameInstance.h"
-#include "TerrainManager.h"
 
 #include "PellStateMachine.h"
 #include "NeturalPellInfo.h"
@@ -15,10 +14,8 @@ CPellBase::CPellBase(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDevice
 }
 
 CPellBase::CPellBase(const CPellBase& rhs) :
-    CContainerObject(rhs),
-    m_pTerrainManager(CTerrainManager::GetInstance())
+    CContainerObject(rhs)
 {
-    Safe_AddRef(m_pTerrainManager);
 }
 
 HRESULT CPellBase::Initalize_Prototype()
@@ -71,10 +68,9 @@ HRESULT CPellBase::ADD_PellInfoUI()
 {
     CNeturalPellInfo::NETURAL_PELL_DESC PellInfoDesc = {};
     PellInfoDesc.pOwner = this;
-    PellInfoDesc.vScale = { 3.f, 1.f, 0.f };
+    PellInfoDesc.vScale = { 2.5f, 0.5f, 0.f };
 
-    //Pell Health Bar
-    PellInfoDesc.vPosition = { 2.f, 0.f, 0.f };
+    PellInfoDesc.vPosition = { 3.f, 3.f, 0.f };
     m_pNeturalPellUI = static_cast<CNeturalPellInfo*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_PellInfo_UI"), &PellInfoDesc));
 
     return S_OK;
@@ -254,6 +250,5 @@ void CPellBase::Free()
     Safe_Release(m_pPellFsm);
     Safe_Release(m_pRecovery);
     Safe_Release(m_pNeturalPellUI);
-    Safe_Release(m_pTerrainManager);
     Safe_Release(m_pNevigation);
 }

@@ -3,14 +3,15 @@
 #include "GameInstance.h"
 #include "PlayerManager.h"
 #include "ItemBase.h"
+#include "Player.h"
 
 CPlayerWeaponSlot::CPlayerWeaponSlot(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
-	CPartObject(pDevice, pContext)
+	CPlayerItemSlot(pDevice, pContext)
 {
 }
 
 CPlayerWeaponSlot::CPlayerWeaponSlot(const CPlayerWeaponSlot& rhs) :
-	CPartObject(rhs)
+	CPlayerItemSlot(rhs)
 {
 }
 
@@ -27,173 +28,115 @@ HRESULT CPlayerWeaponSlot::Initialize(void* pArg)
 	if (FAILED(ADD_Components()))
 		return E_FAIL;
 
-	if (FAILED(__super::Bind_ShaderResources()))
-		return E_FAIL;
-
 	WEAPON_SLOT_DESC* SlotDesc = static_cast<WEAPON_SLOT_DESC*>(pArg);
-	m_iSlotIndex = SlotDesc->iSlotIndex;
-	m_pLeftSocket = SlotDesc->pLeftSocketMatrix;
+	m_pLeftSocket = SlotDesc->pLeftSocket;
 
-	m_eState = WEAPON_STATE::IDLE;
 	return S_OK;
 }
 
 void CPlayerWeaponSlot::Priority_Update(_float fDeletaTime)
 {
+	
 }
 
 void CPlayerWeaponSlot::Update(_float fDeletaTime)
 {
-	if (0 < m_iSlotIndex)
+	m_CurrentEuipItemInfo = CPlayerManager::GetInstance()->GetSelectItemData();
+	ChangeModelBuffer(CPlayerManager::GetInstance()->GetCurrentSelectItem(), false);
+
+	if (m_CurrentEuipItemInfo)
 	{
-		ChangeModelBuffer(CPlayerManager::GetInstance()->GetBackSlotItem(m_iSlotIndex), false);
-		m_CurrentEuipItemInfo = CPlayerManager::GetInstance()->GetSlotItemData(m_iSlotIndex);
+		const ITEM_DESC& ItemData = m_CurrentEuipItemInfo->GetItemData();
+		if (ITEM_TYPE::EQUIPMENT == ItemData.ItemType)
+			m_LeftFlag = ItemData.TypeDesc.EuqipDesc.bIsLeftSocket;
+		m_pCollision[0]->SetCollision(m_CurrentEuipItemInfo->GetItemData().TypeDesc.EuqipDesc.vCenter, m_CurrentEuipItemInfo->GetItemData().TypeDesc.EuqipDesc.vExtents);
+
+		m_bIsAnimWeapon = ItemData.IsAnimModel;
+		if (m_bIsAnimWeapon)
+		{
+			if (ITEM_TYPE::EQUIPMENT == ItemData.ItemType)
+			{
+				if (ItemData.TypeDesc.EuqipDesc.bIsChargeAble)
+					ChangeAnimWaponAnimationIndex();
+			}
+
+			if (ItemData.IsPlayAnimation)
+				m_pVIBufferCom->PlayAnimation(0, m_iAnimIndex, fDeletaTime);
+			else
+				m_pVIBufferCom->PlayAnimation(0, 0, 0);
+		}
 	}
 	else
 	{
-		m_CurrentEuipItemInfo = CPlayerManager::GetInstance()->GetSelectItemData();
-		ChangeModelBuffer(CPlayerManager::GetInstance()->GetCurrentSelectItem(), false);
-	}
-	
-	if (nullptr == m_pVIBufferCom || nullptr == m_CurrentEuipItemInfo)
-		return;
-
-	const ITEM_DESC& ItemData = m_CurrentEuipItemInfo->GetItemData();
-	m_bIsAnimWeapon = ItemData.IsAnimModel;
-	if (m_bIsAnimWeapon)
-	{
-		if (ITEM_TYPE::EQUIPMENT == ItemData.ItemType)
-		{
-			if (ItemData.TypeDesc.EuqipDesc.bIsChargeAble)
-				ChangeAnimWaponAnimationIndex();
-		}
-
-		if(ItemData.IsPlayAnimation)
-			m_pVIBufferCom->PlayAnimation(0, m_iAnimIndex, fDeletaTime);
-		else
-			m_pVIBufferCom->PlayAnimation(0, 0, 0);
+		m_pCollision[0]->SetCollision({ 0, 0, 0 }, { 0.1f, 0.1f, 0.1f });
+		m_pCollision[1]->SetCollision({ 0, 0, 0 }, { 0.1f, 0.1f, 0.1f });
 	}
 }
 
 void CPlayerWeaponSlot::Late_Update(_float fDeletaTime)
 {
-	if (nullptr == m_pVIBufferCom || nullptr == m_CurrentEuipItemInfo)
-		return;
-
-	const ITEM_DESC& ItemData = m_CurrentEuipItemInfo->GetItemData();
-	if (ITEM_TYPE::EQUIPMENT == ItemData.ItemType)
+	if (nullptr == m_pVIBufferCom)
 	{
-		if (ItemData.TypeDesc.EuqipDesc.bIsLeftSocket)
+		UpdateCombinedMatrix(m_pLeftSocket);
+		m_pCollision[1]->UpdateColiision(XMLoadFloat4x4(&m_CombinedWorldMatrix));
+
+		UpdateCombinedMatrix();
+		m_pCollision[0]->UpdateColiision(XMLoadFloat4x4(&m_CombinedWorldMatrix));
+
+		for (auto i = 0; i < 2; ++i)
+			m_pGameInstance->ADD_CollisionList(m_pCollision[i]);
+	}
+	else
+	{
+		if (m_LeftFlag)
 			UpdateCombinedMatrix(m_pLeftSocket);
 		else
 			UpdateCombinedMatrix();
+
+		m_pCollision[0]->UpdateColiision(XMLoadFloat4x4(&m_CombinedWorldMatrix));
+		m_pGameInstance->ADD_CollisionList(m_pCollision[0]);
 	}
-	else
-		UpdateCombinedMatrix();
 
 	m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
 }
 
 HRESULT CPlayerWeaponSlot::Render()
 {
-	if (nullptr == m_pVIBufferCom)
-		return E_FAIL;
+	__super::Render();
 
-	Bind_ShaderResources();
-
-	_uInt iNumMeshes = m_pVIBufferCom->GetNumMeshes();
-	for (_uInt i = 0; i < iNumMeshes; ++i)
+	if (m_pVIBufferCom)
 	{
-		Apply_ConstantShaderResources(i);
-
-		true == m_bIsAnimWeapon ? m_pShaderCom->Update_Shader(0) : m_pNoneAimShader->Update_Shader(0);
-		m_pVIBufferCom->Render(i);
-	}
-	return S_OK;
-}
-
-void CPlayerWeaponSlot::ChangeModelBuffer(CModel* pModel, _bool bIsAnim)
-{
-	m_pVIBufferCom = pModel;
-}
-
-void CPlayerWeaponSlot::ChangeWeaponState(WEAPON_STATE eWeaponState)
-{
-	m_eState = eWeaponState;
-}
-
-HRESULT CPlayerWeaponSlot::Bind_ShaderResources()
-{
-	if (m_bIsAnimWeapon)
-	{
-		m_pEMVWorldMat = m_pShaderCom->GetVariable("g_WorldMatrix")->AsMatrix();
-		m_pEMVViewMat = m_pShaderCom->GetVariable("g_ViewMatrix")->AsMatrix();
-		m_pEMVProjMat = m_pShaderCom->GetVariable("g_ProjMatrix")->AsMatrix();
-		m_pSRVEffect = m_pShaderCom->GetVariable("g_DiffuseTexture")->AsShaderResource();
-		m_pBoneMatrixEffect = m_pShaderCom->GetVariable("g_BoneMatrices")->AsMatrix();
+		for(auto  i =0; i < 2; ++i)
+			m_pCollision[i]->Render({});
 	}
 	else
-	{
-		m_pEMVWorldMat = m_pNoneAimShader->GetVariable("g_WorldMatrix")->AsMatrix();
-		m_pEMVViewMat = m_pNoneAimShader->GetVariable("g_ViewMatrix")->AsMatrix();
-		m_pEMVProjMat = m_pNoneAimShader->GetVariable("g_ProjMatrix")->AsMatrix();
-		m_pSRVEffect = m_pNoneAimShader->GetVariable("g_DiffuseTexture")->AsShaderResource();
-	}
+		m_pCollision[0]->Render({});
 
-	return S_OK;
-}
-
-HRESULT CPlayerWeaponSlot::Apply_ConstantShaderResources(_uInt iMeshIndex)
-{
-	m_pEMVWorldMat->SetMatrix(reinterpret_cast<const float*>(&m_CombinedWorldMatrix));
-	m_pEMVViewMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::VIEW)));
-	m_pEMVProjMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION)));
-
-	ID3D11ShaderResourceView* pResourceVeiw = {};
-	m_pVIBufferCom->GetMeshResource(iMeshIndex, aiTextureType_DIFFUSE, 0, &pResourceVeiw);
-	if (pResourceVeiw)
-		m_pSRVEffect->SetResource(pResourceVeiw);
-
-	if (m_bIsAnimWeapon)
-		m_pBoneMatrixEffect->SetMatrixArray(reinterpret_cast<const float*>(m_pVIBufferCom->GetBoneMatrices(iMeshIndex)), 0, m_pVIBufferCom->GetMeshNumBones(iMeshIndex));
 
 	return S_OK;
 }
 
 HRESULT CPlayerWeaponSlot::ADD_Components()
 {
-	// 매번 CModel이 바뀔때마다 shader를 생성하는건 비효율적인거같은데 이거 그냥하나 만들어두자
-	// 애니메이션 셰이더
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_AnimMesh"), TEXT("AnimShader_Com"), (CComponent**)&m_pShaderCom)))
+	CBoxCollision::BOX_COLLISION_DESC BoxColDesc = {};
+	BoxColDesc.pOwner = this;
+	BoxColDesc.Extents = { 0.1f, 0.1f, 0.1f };
+	BoxColDesc.vCneter = {};
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_CoolisionBox"), TEXT("CollisionR_Com"), (CComponent**)&m_pCollision[0], &BoxColDesc)))
 		return E_FAIL;
 
-	// 애니메이션 아닐경우 사용할 셰이더
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Mesh"), TEXT("Shader_Com"), (CComponent**)&m_pNoneAimShader)))
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_CoolisionBox"), TEXT("CollisionL_Com"), (CComponent**)&m_pCollision[1], &BoxColDesc)))
 		return E_FAIL;
+
+	for (auto i = 0; i < 2; ++i)
+	{
+		m_pCollision[i]->ADD_IgnoreObejct(typeid(CPlayerWeaponSlot).hash_code());
+		m_pCollision[i]->ADD_IgnoreObejct(typeid(CPlayer).hash_code());
+	}
 
 	return S_OK;
 }
-
-void CPlayerWeaponSlot::ChangeAnimWaponAnimationIndex()
-{
-	switch (m_eState)
-	{
-	case Client::CPlayerWeaponSlot::WEAPON_STATE::CHARGE:
-		m_iAnimIndex = 1;
-		break;
-	case Client::CPlayerWeaponSlot::WEAPON_STATE::CHARGE_LOOP:
-		m_iAnimIndex = 2;
-		break;
-	case Client::CPlayerWeaponSlot::WEAPON_STATE::ATTACK:
-		m_iAnimIndex = 0;
-		break;
-	case Client::CPlayerWeaponSlot::WEAPON_STATE::IDLE:
-		m_iAnimIndex = 3;
-		break;
-	}
-
-}
-
 
 CPlayerWeaponSlot* CPlayerWeaponSlot::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
@@ -219,8 +162,9 @@ CGameObject* CPlayerWeaponSlot::Clone(void* pArg)
 
 void CPlayerWeaponSlot::Free()
 {
-	CGameObject::Free();
+	__super::Free();
 
-	Safe_Release(m_pShaderCom);
-	Safe_Release(m_pNoneAimShader);
+	for (auto i = 0; i < 2; ++i)
+		Safe_Release(m_pCollision[i]);
+
 }

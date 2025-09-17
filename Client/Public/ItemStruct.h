@@ -14,6 +14,11 @@ namespace Client
 		_uInt				iHealthPoint;
 		_bool				bIsLeftSocket;
 		_bool				bIsChargeAble;
+
+		//충돌체 정보
+		_float3				vCenter;
+		_float3				vExtents;
+
 		EUQIP_TYPE			Equip_Type;
 		WEAPON				Weapon_Type;
 	}EUQIP_ITEM_DESC;
@@ -37,8 +42,13 @@ namespace Client
 		unsigned int			iItemNum = {};
 
 		WCHAR					szItemName[MAX_PATH] = {};
+
+		// 무기의 UI Icon 정보를 가진녀석
 		WCHAR					szItemIconPath[MAX_PATH] = {};
+
+		//무기의 모델정보를 가진 녀석
 		WCHAR					szItemModelPath[MAX_PATH] = {};
+
 		ITEM_TYPE				ItemType = {};
 
 		_bool					IsAnimModel = false;

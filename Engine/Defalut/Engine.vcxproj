@@ -168,6 +168,7 @@ popd</Command>
     <ClInclude Include="..\public\AnimEntity.h" />
     <ClInclude Include="..\public\Cell.h" />
     <ClInclude Include="..\public\Chase.h" />
+    <ClInclude Include="..\public\CollisionManager.h" />
     <ClInclude Include="..\Public\ContainerObject.h" />
     <ClInclude Include="..\public\Base.h" />
     <ClInclude Include="..\public\BaseCamera.h" />
@@ -182,7 +183,8 @@ popd</Command>
     <ClInclude Include="..\Public\DebugDraw.h" />
     <ClInclude Include="..\Public\EditorCamera.h" />
     <ClInclude Include="..\Public\FiniteStateMachine.h" />
-    <ClInclude Include="..\public\Font.h" />
+    <ClInclude Include="..\public\CustomFont.h" />
+    <ClInclude Include="..\public\FontManager.h" />
     <ClInclude Include="..\public\JsonHelper.h" />
     <ClInclude Include="..\Public\LevelPaserStruct.h" />
     <ClInclude Include="..\public\Light.h" />
@@ -237,7 +239,7 @@ popd</Command>
     <ClInclude Include="..\public\UserInterface.h" />
     <ClInclude Include="..\public\VIBuffer.h" />
     <ClInclude Include="..\public\VIBuffer_Cell.h" />
-    <ClInclude Include="..\public\ViBuffer_Cube.h" />
+    <ClInclude Include="..\public\VIBuffer_Cube.h" />
     <ClInclude Include="..\public\VIBuffer_Rect.h" />
     <ClInclude Include="..\public\VIBuffer_Terrain.h" />
     <ClInclude Include="..\public\Viewer.h" />
@@ -248,6 +250,7 @@ popd</Command>
     <ClCompile Include="..\private\AnimEntity.cpp" />
     <ClCompile Include="..\private\Cell.cpp" />
     <ClCompile Include="..\private\Chase.cpp" />
+    <ClCompile Include="..\private\CollisionManager.cpp" />
     <ClCompile Include="..\Private\ContainerObject.cpp" />
     <ClCompile Include="..\private\Base.cpp" />
     <ClCompile Include="..\private\BaseCamera.cpp" />
@@ -262,7 +265,8 @@ popd</Command>
     <ClCompile Include="..\Private\DebugDraw.cpp" />
     <ClCompile Include="..\Private\EditorCamera.cpp" />
     <ClCompile Include="..\Private\FiniteStateMachine.cpp" />
-    <ClCompile Include="..\private\Font.cpp" />
+    <ClCompile Include="..\private\CustomFont.cpp" />
+    <ClCompile Include="..\private\FontManager.cpp" />
     <ClCompile Include="..\private\JsonHelper.cpp" />
     <ClCompile Include="..\private\Light.cpp" />
     <ClCompile Include="..\private\LightManager.cpp" />
@@ -303,13 +307,17 @@ popd</Command>
     <ClCompile Include="..\private\UserInterface.cpp" />
     <ClCompile Include="..\private\VIBuffer.cpp" />
     <ClCompile Include="..\private\VIBuffer_Cell.cpp" />
-    <ClCompile Include="..\private\ViBuffer_Cube.cpp" />
+    <ClCompile Include="..\private\VIBuffer_Cube.cpp" />
     <ClCompile Include="..\private\VIBuffer_Rect.cpp" />
     <ClCompile Include="..\private\VIBuffer_Terrain.cpp" />
     <ClCompile Include="..\private\Viewer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Cell.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\SkyMeshDefault.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Bin\ShaderFiles\DefualtStates.hlsli" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

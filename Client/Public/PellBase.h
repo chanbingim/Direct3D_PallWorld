@@ -6,11 +6,11 @@
 
 NS_BEGIN(Engine)
 class CNavigation;
+class CCollision;
 NS_END
 
 NS_BEGIN(Client)
 class CNeturalPellInfo;
-class CTerrainManager;
 class CPellStateMachine;
 class CRecovery;
 class CPellBody;
@@ -45,20 +45,38 @@ protected :
 
 	_bool									m_bIsAction = false;
 	_bool									m_bIsLoop = true;
+
 	_float									m_fAccActionTime = 0;
 	_float									m_fActionTime = 0;
-
-	_float									m_fInfoVisibleDistance = 5.f;
-	_float									m_RecoverTime = 0.7f;
-	_float									m_RecoverSetemina = 10.f;
-
-	CTerrainManager*						m_pTerrainManager = nullptr;
 	CPellStateMachine*						m_pPellFsm = nullptr;
 
-	CNavigation*							m_pNevigation = nullptr;
+#pragma region Component
+
+#pragma region Collision
+	CCollision*								m_pCollision = nullptr;
+#pragma endregion
+
+#pragma region Recovery
+	_float									m_RecoverTime = 0.7f;
+	_float									m_RecoverSetemina = 10.f;
 	CRecovery*								m_pRecovery = nullptr;
-	CNeturalPellInfo*						m_pNeturalPellUI = nullptr;
+#pragma endregion
+
+#pragma region Navigation
+	CNavigation*							m_pNevigation = nullptr;
+#pragma endregion
+
+#pragma endregion
+
+#pragma region Part Object
 	CPellBody*								m_pPellBody = nullptr;
+
+#pragma region HEALTBAR
+	_float									m_fInfoVisibleDistance = 5.f;
+	CNeturalPellInfo*						m_pNeturalPellUI = nullptr;
+#pragma endregion
+
+#pragma endregion
 
 	PELL_INFO								m_PellInfo = {};
 	list<_float3>							m_PathFinding;

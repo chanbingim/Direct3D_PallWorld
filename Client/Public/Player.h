@@ -9,6 +9,7 @@
 
 NS_BEGIN(Engine)
 class CNavigation;
+class CCollision;
 NS_END
 
 NS_BEGIN(Client)
@@ -45,8 +46,9 @@ private :
 	CPlayerCamera*							m_pPlayerCamera = nullptr;
 	CPlayerStateMachine*					m_pPlayerFSM = nullptr;
 	CPlayerPartData*						m_pAnimator = nullptr;
-	CTerrainManager*						m_pTerrianManager = nullptr;
+
 	CNavigation*							m_pNevigation = nullptr;
+	CCollision*								m_pCollision = nullptr;
 
 	// 플레이어의 현재 방향
 	_bool									m_bIsAnimLoop = true;

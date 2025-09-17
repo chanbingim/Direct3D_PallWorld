@@ -14,6 +14,8 @@
 #include "Picking.h"
 #include "Pipeline.h"
 #include "LightManager.h"
+#include "FontManager.h"
+#include "CollisionManager.h"
 #pragma endregion
 
 #include "Level.h"
@@ -77,12 +79,21 @@ HRESULT CGameInstance::Initialize_Engine(void* pArg)
     if (nullptr == m_pLightManager)
         return E_FAIL;
 
+    m_pFontManager = CFontManager::Create(*GameSetting->ppDevice, *GameSetting->ppContext);
+    if (nullptr == m_pFontManager)
+        return E_FAIL;
+
+    m_pCollisionManager = CCollisionManager::Create();
+    if (nullptr == m_pCollisionManager)
+        return E_FAIL;
+
 #ifdef _DEBUG
     m_pTimer_Manager->Add_Timer(TEXT("PriorityUpdate_Loop"));
     m_pTimer_Manager->Add_Timer(TEXT("Update_Loop"));
     m_pTimer_Manager->Add_Timer(TEXT("LateUpdate_Loop"));
-    m_pTimer_Manager->Add_Timer(TEXT("Physics_Loop"));
+    m_pTimer_Manager->Add_Timer(TEXT("Collision_Loop"));
     m_pTimer_Manager->Add_Timer(TEXT("Render_Loop"));
+
 #endif // _DEBUG
 
     return S_OK;
@@ -114,6 +125,12 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
     m_pTimer_Manager->Get_TimeDelta(TEXT("LateUpdate_Loop"));
 #endif // _DEBUG
     m_pObject_Manager->Late_Update(fTimeDelta);
+
+#ifdef _DEBUG
+    m_pTimer_Manager->Get_TimeDelta(TEXT("Collision_Loop"));
+#endif // _DEBUG
+
+    m_pCollisionManager->Compute_Collision();
 
     m_pObject_Manager->Clear_DeadObject();
 
@@ -499,11 +516,35 @@ const CLight* CGameInstance::GetLight(_uInt iIndex)
 }
 
 #pragma endregion
+
+#pragma region COLLISION_MANAGER
+void CGameInstance::ADD_CollisionList(CCollision* pObject)
+{
+    m_pCollisionManager->ADD_CollisionList(pObject);
+}
+
+#pragma endregion
+
+#pragma region FONT MANAGER
+HRESULT CGameInstance::Add_Font(const _wstring& FontTag, const _tchar* pFontFilePath)
+{
+    return E_NOTIMPL;
+}
+
+HRESULT CGameInstance::Render_Font(const _wstring& FontTag, const _tchar* pText, const _float2& vPosition, _vector vColor)
+{
+    return E_NOTIMPL;
+}
+
+#pragma endregion
+
 void CGameInstance::Release_Engine()
 {
     DestroyInstance();
    
     Safe_Release(m_pTimer_Manager);
+    Safe_Release(m_pCollisionManager);
+    Safe_Release(m_pFontManager);
     Safe_Release(m_pRenderer);
     Safe_Release(m_pPicking);
     Safe_Release(m_pPrototype_Manager);

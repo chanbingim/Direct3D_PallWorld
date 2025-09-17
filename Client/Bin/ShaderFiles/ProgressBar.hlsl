@@ -1,3 +1,4 @@
+#include "DefualtStates.hlsli"
 matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
 Texture2D   g_Texture : register(t0);
@@ -102,12 +103,20 @@ technique11 Tech
 {
     pass Pass0
     {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
         VertexShader = compile vs_5_0 VS_MAIN();
         PixelShader = compile ps_5_0 PS_MAIN();
     }
 
     pass Pass1
     {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
         VertexShader = compile vs_5_0 VS_MAIN1();
         PixelShader = compile ps_5_0 PS_MAIN1();
     }

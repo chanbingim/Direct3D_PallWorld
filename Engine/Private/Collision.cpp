@@ -1,6 +1,7 @@
 #include "Collision.h"
 
-#include  "GameObject.h"
+#include "GameInstance.h"
+#include "GameObject.h"
 
 CCollision::CCollision(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CComponent(pDevice, pContext)
@@ -43,18 +44,28 @@ HRESULT CCollision::Initialize_Prototype()
 
 HRESULT CCollision::Initialize(void* pArg)
 {
+    COLLISION_DESC* Desc = static_cast<COLLISION_DESC*>(pArg);
+    if (Desc)
+    {
+        m_pOwner = Desc->pOwner;
+    }
 
     return S_OK;
 }
 
 void CCollision::UpdateColiision(_matrix WorldMatrix)
 {
-    
+  
 }
 
 void CCollision::Render(_vector vColor)
 {
+    m_pEffect->SetWorld(XMMatrixIdentity());
+    m_pEffect->SetView(XMLoadFloat4x4(&m_pGameInstance->GetMatrix(MAT_STATE::VIEW)));
+    m_pEffect->SetProjection(XMLoadFloat4x4(&m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION)));
 
+    m_pContext->IASetInputLayout(m_pInputLayout);
+    m_pEffect->Apply(m_pContext);
 }
 
 void CCollision::BindBeginOverlapEvent(function<void(_float3 vDir, CGameObject* pHitActor)> BeginEvent)
@@ -78,8 +89,13 @@ void CCollision::ADD_HitObejct(CGameObject* pObject)
     if (iter == m_HitList.end())
     {
         m_HitList.push_back(pObject);
-        Safe_AddRef(pObject);
+        m_bIsHit = true;
     }
+}
+
+void CCollision::ADD_IgnoreObejct(size_t typeID)
+{
+    m_IgnoreObject.insert(typeID);
 }
 
 void CCollision::CallFunction()
@@ -103,17 +119,24 @@ void CCollision::CallFunction()
     for (auto& OldHitObject : m_OldHitList)
     {
         auto iter = find(m_HitList.begin(), m_HitList.end(), OldHitObject);
-        if (iter == m_OldHitList.end())
+        if (iter == m_HitList.end())
         {
             if (m_EndHitFunc)
                 m_EndHitFunc({}, *iter);
-
-            Safe_Release(OldHitObject);
         }
     }
 
     m_OldHitList = m_HitList;
     m_HitList.clear();
+}
+
+_bool CCollision::IntersectAble(size_t TagetTypeHashCode)
+{
+    auto iter = m_IgnoreObject.find(TagetTypeHashCode);
+    if (iter == m_IgnoreObject.end())
+        return true;
+
+    return false;
 }
 
 CComponent* CCollision::Clone(void* pArg)
@@ -134,12 +157,6 @@ void CCollision::Free()
 #ifdef _DEBUG
     Safe_Release(m_pInputLayout);
 #endif // _DEBUG
-   
-    for (auto& pObject : m_OldHitList)
-        Safe_Release(pObject);
-
-    for (auto& pObject : m_HitList)
-        Safe_Release(pObject);
 
     m_OldHitList.clear();
     m_HitList.clear();
