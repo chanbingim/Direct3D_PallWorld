@@ -293,6 +293,8 @@ void CNavigation::Bowyer_WatsonAlgorithm(const CModel* pMapModel, _uInt iMeshNum
 
 		_bool bFlag = false;
 	}
+	m_MinPoint = Min;
+	m_MaxPoint = Max;
 
 	//Step 1
 	// 슈퍼 트라이앵글 생성
@@ -368,18 +370,19 @@ void CNavigation::Bowyer_WatsonAlgorithm(const CModel* pMapModel, _uInt iMeshNum
 				continue;
 
 			if (0 < XMVectorGetY(vCross))
-				Triangles.emplace_back(Edge.A, Edge.B, vPoint);
+				Triangles.emplace_back(Edge.A, Edge.B, Vertices[i]);
 			else
-				Triangles.emplace_back(Edge.B, Edge.A, vPoint);
+				Triangles.emplace_back(Edge.B, Edge.A, Vertices[i]);
 			
 			if (-1 == Triangles.back().Radius)
 				Triangles.pop_back();
 		}
 
-		if (500 < iNumVertices)
-			i += 30;
-		else
-			i++;
+		_uInt Apply = _uInt(iNumVertices * 0.02f);
+		if (Apply < 1)
+			Apply = 1; // 최소 1점은 이동
+
+		i += Apply;
 	}
 
 	//초기 삼각형 제거
@@ -403,10 +406,20 @@ void CNavigation::Bowyer_WatsonAlgorithm(const CModel* pMapModel, _uInt iMeshNum
 	for (auto Triangle : Triangles)
 	{
 		_float3 vPoints[ENUM_CLASS(NAVI_POINT::END)] = { Triangle.A , Triangle.B, Triangle.C };
-	
 		CCell* pCell = CCell::Create(m_pDevice, m_pContext, (_uInt)m_Cells.size(), 0, vPoints);
 		if (nullptr == pCell)
 			return;
+
+		for (auto i = 0; i < 3; ++i)
+		{
+			if (Min.x + 50 > vPoints[i].x || Max.x - 50 < vPoints[i].x ||
+				Min.z + 50 > vPoints[i].z || Max.z - 50 < vPoints[i].z)
+			{
+				m_EdgeCellIndex.push_back(pCell->GetCellIndex());
+				break;
+			}
+		}
+
 		m_Cells.push_back(pCell);
 	}
 }

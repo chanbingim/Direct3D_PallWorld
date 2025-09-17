@@ -172,6 +172,7 @@
     <ClInclude Include="..\public\BedCatBody.h" />
     <ClInclude Include="..\public\ClimbState.h" />
     <ClInclude Include="..\public\DefaultMap.h" />
+    <ClInclude Include="..\public\DropComponent.h" />
     <ClInclude Include="..\public\ItemQuickSlot.h" />
     <ClInclude Include="..\public\NeturalPellInfo.h" />
     <ClInclude Include="..\public\NeturalTypeIcon.h" />
@@ -321,6 +322,7 @@
     <ClCompile Include="..\private\BedCatBody.cpp" />
     <ClCompile Include="..\private\ClimbState.cpp" />
     <ClCompile Include="..\private\DefaultMap.cpp" />
+    <ClCompile Include="..\private\DropComponent.cpp" />
     <ClCompile Include="..\private\ItemQuickSlot.cpp" />
     <ClCompile Include="..\private\NeturalPellInfo.cpp" />
     <ClCompile Include="..\private\NeturalTypeIcon.cpp" />

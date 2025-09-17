@@ -6,6 +6,8 @@ typedef struct Navi_Edge
 	_float3 A;
 	_float3 B;
 
+	Navi_Edge() {}
+
 	Navi_Edge(_float3 PointA, _float3 PointB) :
 		A(PointA), B(PointB) {}
 

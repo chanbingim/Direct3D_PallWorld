@@ -503,6 +503,9 @@
     <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerItemSlot\WeaponSlot">
       <UniqueIdentifier>{4b99c399-e4e4-4009-9a69-35c6f25c13ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06. Component\DropComponent">
+      <UniqueIdentifier>{0ddefa74-e7f7-4c76-a7de-94cdf11ba563}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -940,6 +943,7 @@
     <ClInclude Include="..\Public\PlayerItemSlot.h">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerItemSlot</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\DropComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -1363,6 +1367,7 @@
     <ClCompile Include="..\Private\PlayerItemSlot.cpp">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerItemSlot</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\DropComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\TestShader.hlsl">

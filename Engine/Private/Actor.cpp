@@ -41,6 +41,10 @@ HRESULT CActor::Render()
 	return S_OK;
 }
 
+void CActor::Damage(void* pArg, CActor* pDamagedActor)
+{
+}
+
 CGameObject* CActor::Clone(void* pArg)
 {
 	return nullptr;

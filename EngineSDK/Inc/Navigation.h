@@ -59,9 +59,6 @@ public:
 	
 	//보이어 왓슨 알고리즘 구현부
 	void							Bowyer_WatsonAlgorithm(const CModel* pMapModel, _uInt iMeshNum);
-	
-
-
 
 #ifdef _DEBUG
 public:
@@ -71,11 +68,13 @@ public:
 
 private:
 	_Int							m_iCurrentCellIndex = { -1 };
-	_float2							m_iNumNaviSize = {};
+	_float3							m_MinPoint = {};
+	_float3							m_MaxPoint = {};
 
 	static _float4x4				m_WorldMatrix;
-	vector<CCell*>					m_Cells;
 
+	vector<CCell*>					m_Cells;
+	vector<_uInt>					m_EdgeCellIndex = {};
 
 	list<pair<_Int, _Int>>			m_PathCells;
 

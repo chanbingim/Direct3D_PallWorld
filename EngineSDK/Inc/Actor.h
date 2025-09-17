@@ -21,6 +21,7 @@ public:
 
 	// ·£´õ
 	virtual		HRESULT						Render();
+	virtual		void						Damage(void* pArg, CActor* pDamagedActor);
 
 public:
 	virtual			CGameObject*			Clone(void* pArg);
