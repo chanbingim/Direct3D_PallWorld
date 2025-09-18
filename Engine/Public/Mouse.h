@@ -28,7 +28,14 @@ public :
 
 	POINT&						GetMousePoint();
 	_float3						GetMouseWorldPoint();
-	_float3&					GetRayPos();
+	_float3&					GetRayPos(RAY eType);
+	_float3&					GetRayDireaction(RAY eType);
+
+	_bool						RayPicking(_vector vRayOrizin, _vector vRayDir, const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut);
+
+	_bool						Picking_InWorld(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut);
+	_bool						Picking_InLocal(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut);
+	void						Compute_LocalRay(const _matrix* InvWorldMatrix);
 
 	void						SetMouseFocus(CUserInterface* Widget);
 	BOOL						IsFocus(CUserInterface* Widget);
@@ -50,13 +57,11 @@ private :
 	CVIBuffer_Rect*				m_pVIBufferCom = nullptr;
 
 	POINT						m_MouseViewPortPos = {};
-	_float3						m_RayPos = {};
+	_float3						m_RayPos[ENUM_CLASS(RAY::END)] = {};
+	_float3						m_RayDir[ENUM_CLASS(RAY::END)] = {};
 
 	_float4x4					m_InvViewMat = {};
 	_float4x4					m_InvProjMat = {};
-
-private :
-	void						UpdateMousePos();
 
 public :
 	static			CMouse*		Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, HWND hWnd);

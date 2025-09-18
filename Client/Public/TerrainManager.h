@@ -2,12 +2,17 @@
 #include "Client_Define.h"
 #include "Base.h"
 
+#ifdef _DEBUG
+#include "NavigationStruct.h"
+#endif // _DEBUG
+
 NS_BEGIN(Engine)
 class CComponent;
+class CNavigation;
 NS_END
 
 NS_BEGIN(Client)
-class CTerrain;
+class CDefaultMap;
 
 class CTerrainManager : public CBase
 {
@@ -26,13 +31,14 @@ private :
 
 public :
 	void							Initialize(void* pArg);
-	
-	HRESULT							ADD_Terrian(CTerrain* pTerrian);
-	_bool							IsMove(_float3 vPosition);
 
 	HRESULT							CreateTerrian(void* pArg);
-	HRESULT							GetCurrentTerrainNaviMesh(_float3 vObejctPos, _uInt iCellIndex, CComponent** ppComponent);
-	_uInt							GetCrrentSapwnCell(_float3 vPos);
+	CNavigation*					FindOnTerrian(_float3 vPosition);
+
+#ifdef _DEBUG
+	void							GetAllNaviMeshTriangle(list<NAVI_TRIANGLE>* pOut);
+#endif // _DEBUG
+
 	// 여기다가 이제 쿼드 트리형태로 셀 가져오는거
 	// 건설 가능한 지형인지 탐색 등 구현할 예정
 	// 나중에 레벨 내에서 테레인 이동을 넣을지도 모름
@@ -40,7 +46,7 @@ public :
 private :
 	_int2							m_TerrianSize = {};
 	_Int							m_TerrianSelectIndex = {};
-	vector<CTerrain*>				m_Terrians;
+	CDefaultMap*					m_DefaultMap;
 
 private :
 	HRESULT							LoadTerrianData(const char* pFileData);

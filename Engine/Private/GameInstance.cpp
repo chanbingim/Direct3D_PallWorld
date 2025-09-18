@@ -11,7 +11,6 @@
 #include "Sound_Manager.h"
 #include "InputManager.h"
 #include "Mouse.h"
-#include "Picking.h"
 #include "Pipeline.h"
 #include "LightManager.h"
 #include "FontManager.h"
@@ -71,10 +70,6 @@ HRESULT CGameInstance::Initialize_Engine(void* pArg)
     if (nullptr == m_pPipeline)
         return E_FAIL;
 
-    m_pPicking = CPicking::Create(*GameSetting->ppDevice, *GameSetting->ppContext);
-    if (nullptr == m_pPicking)
-        return E_FAIL;
-    
     m_pLightManager = CLightManager::Create();
     if (nullptr == m_pLightManager)
         return E_FAIL;
@@ -105,7 +100,6 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
     m_pInput_Manager->UpdateKeyFrame();
 
     m_pMouse->Update(fTimeDelta);
-    m_pPicking->Update();
 
     if (m_bIsPause)
         fTimeDelta = 0.f;
@@ -373,9 +367,33 @@ BOOL CGameInstance::IsMouseFocus(CUserInterface* Widget)
     return m_pMouse->IsFocus(Widget);
 }
 
-_float3& CGameInstance::GetRayPos()
+_float3& CGameInstance::GetRayPos(RAY eType)
 {
-    return m_pMouse->GetRayPos();
+    return m_pMouse->GetRayPos(eType);
+}
+
+_float3& CGameInstance::GetRayDireaction(RAY eType)
+{
+    return m_pMouse->GetRayDireaction(eType);
+}
+
+void CGameInstance::Compute_LocalRay(const _matrix* InvWorldMatrix)
+{
+    m_pMouse->Compute_LocalRay(InvWorldMatrix);
+}
+
+_bool CGameInstance::RayPicking(_vector vRayOrizin, _vector vRayDir, const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut)
+{
+    return m_pMouse->RayPicking(vRayOrizin, vRayDir, vPointA, vPointB, vPointC, pOut);
+}
+
+_bool CGameInstance::Picking_InWorld(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut)
+{
+    return m_pMouse->Picking_InWorld(vPointA, vPointB, vPointC, pOut);
+}
+_bool CGameInstance::Picking_InLocal(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut)
+{
+    return m_pMouse->Picking_InLocal(vPointA, vPointB, vPointC, pOut);
 }
 
 _float3 CGameInstance::GetMouseWorldPos()
@@ -392,52 +410,7 @@ void CGameInstance::ResetMouseData()
 
 #pragma region PICKING
 
-void CGameInstance::SetEditor_MousePos(_float3 vPos)
-{
-    m_pPicking->SetEditor_MousePos(vPos);
-}
-void CGameInstance::SetEditor_Frame(const _float2& vSize)
-{
-    m_pPicking->SetEditor_Frame(vSize);
-}
-void CGameInstance::Change_Mode(GAMEMODE eType)
-{
-    m_pPicking->Change_Mode(eType);
-}
 
-const GAMEMODE& CGameInstance::GetGameMode()
-{
-    return m_pPicking->GetGameMode();
-}
-
-const _float3& CGameInstance::GetPickingRayPos(RAY eType)
-{
-    return m_pPicking->GetRayPos(eType);
-}
-
-const _float3& CGameInstance::GetPickingRayDir(RAY eType)
-{
-    return m_pPicking->GetRayDir(eType);
-}
-
-void CGameInstance::Compute_LocalRay(const _matrix* InvWorldMatrix)
-{
-    m_pPicking->Compute_LocalRay(InvWorldMatrix);
-}
-
-_bool CGameInstance::RayPicking(_vector vRayOrizin, _vector vRayDir, const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut)
-{
-    return m_pPicking->RayPicking(vRayOrizin, vRayDir, vPointA, vPointB, vPointC, pOut);
-}
-
-_bool CGameInstance::Picking_InWorld(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut)
-{
-    return m_pPicking->Picking_InWorld(vPointA, vPointB, vPointC, pOut);
-}
-_bool CGameInstance::Picking_InLocal(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut)
-{
-    return m_pPicking->Picking_InLocal(vPointA, vPointB, vPointC, pOut);
-}
 #pragma endregion
 
 #pragma region PipeLine
@@ -484,6 +457,10 @@ _vector CGameInstance::GetPlayerState(WORLDSTATE eType)
 const _float2& CGameInstance::GetScreenSize()
 {
     return m_ScreenSize;
+}
+void CGameInstance::SetGameMode(GAMEMODE eMode)
+{
+    m_eGameMode = eMode;
 }
 void CGameInstance::GetGamePause(_bool bFlag)
 {
@@ -546,7 +523,6 @@ void CGameInstance::Release_Engine()
     Safe_Release(m_pCollisionManager);
     Safe_Release(m_pFontManager);
     Safe_Release(m_pRenderer);
-    Safe_Release(m_pPicking);
     Safe_Release(m_pPrototype_Manager);
     Safe_Release(m_pObject_Manager);
     Safe_Release(m_pLevel_Manager);

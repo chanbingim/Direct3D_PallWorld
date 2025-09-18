@@ -230,7 +230,7 @@ void CPlayerPartData::Free()
 
     Safe_Release(m_pPlayerBody);
 
-    for (_uInt i = 0; i < 2; ++i)
+    for (_uInt i = 0; i < 3; ++i)
         Safe_Release(m_pWeaponSocket[i]);
 
 }

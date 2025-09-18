@@ -69,8 +69,8 @@ void CDororong::Priority_Update(_float fDeletaTime)
             _vector vPos = XMLoadFloat3(&vCurPos);
             _vector vDir = XMVector3Normalize(vTarget - vPos);
 
-            _vector vMovePos = vDir * 5.f * 0.01f;
-            m_pTransformCom->LerpTurn(m_pTransformCom->GetUpVector(), vPos + vMovePos, 5.f, fDeletaTime);
+            _vector vMovePos = vDir * 5.f * fDeletaTime;
+            m_pTransformCom->LerpTurn(m_pTransformCom->GetUpVector(), vPos + vMovePos, 2.f, fDeletaTime);
             if (m_pNevigation->IsMove(vPos + vMovePos))
                 m_pTransformCom->ADD_Position(vMovePos);
         }

@@ -66,13 +66,13 @@ void CIMG_Viewport::DrawViewPortMenuBar()
 
                 if (EDIT_MODE::SELECT == m_eEditMode)
                 {
-                    m_pGameInstance->Change_Mode(GAMEMODE::GAME);
+                    m_pGameInstance->SetGameMode(GAMEMODE::GAME);
                     if (pLandscape)
                         pLandscape->SetVisibility(VISIBILITY::HIDDEN);
                 }
                 else
                 {
-                    m_pGameInstance->Change_Mode(GAMEMODE::EDITOR);
+                    m_pGameInstance->SetGameMode(GAMEMODE::EDITOR);
                     if (pLandscape)
                         pLandscape->SetVisibility(VISIBILITY::VISIBLE);
                 }
@@ -93,7 +93,6 @@ void CIMG_Viewport::DrawGameView()
     ImVec2 CursorPos = ImGui::GetCursorScreenPos();
     m_CneterPos = { CursorPos.x, CursorPos.y };
 
-    m_pGameInstance->SetEditor_Frame(m_ViewFrameSize);
     //랜더링된 화면을 UI표시하기위해서 영역, 이미지를 지정해준다.
     ImGui::Image(m_pGameInstance->GetPostBuffer(0), ImGui::GetContentRegionAvail());
 }
@@ -106,8 +105,6 @@ void CIMG_Viewport::IsViewportClicked()
         //마우스 위치 갱신
         ImVec2 MousePos = ImGui::GetMousePos();
         ImVec2 ViewportPos = { MousePos.x - m_CneterPos.x,  MousePos.y - m_CneterPos.y };
-
-        m_pGameInstance->SetEditor_MousePos({ ViewportPos.x, ViewportPos.y, 0.f});
     }
 }
 

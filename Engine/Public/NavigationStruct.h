@@ -37,7 +37,7 @@ typedef struct Navi_Triangle
 
 	//»ï°¢ÇüÀÇ º¯
 	list<NAVI_EDGE> TriEdge;
-
+	Navi_Triangle() {}
 	Navi_Triangle(_float3 PointA, _float3 PointB, _float3 PointC) :
 		A(PointA), B(PointB), C(PointC)
 	{
@@ -100,6 +100,7 @@ typedef struct Navi_Triangle
 		if (-1 == Radius)
 			return false;
 
+		vPoint.m128_f32[1] = 0;
 		_float fLength = XMVectorGetX(XMVector3Length(vPoint - XMLoadFloat3(&Circumcenter)));
 		return fLength <= Radius;
 	};

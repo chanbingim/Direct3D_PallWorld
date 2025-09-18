@@ -47,6 +47,7 @@ private :
 	CPlayerStateMachine*					m_pPlayerFSM = nullptr;
 	CPlayerPartData*						m_pAnimator = nullptr;
 
+	CTerrainManager*						m_pTerrainManager = nullptr;
 	CNavigation*							m_pNevigation = nullptr;
 	CCollision*								m_pCollision = nullptr;
 

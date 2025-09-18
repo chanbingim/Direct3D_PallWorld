@@ -54,26 +54,44 @@ public:
 
 	void							ComputeHeight(CTransform* pTransform);
 	_Int							Find_Cell(_vector vPos);
+	_Int							Find_CellEdge(_vector vPos);
+	_float3							CellCenterPos(_uInt iCellIndex);
+
 
 	void							ComputePathfindingAStar(_float3 vStartPoint, _float3 vTargetPoint, list<_float3>* PathList);
 	
 	//보이어 왓슨 알고리즘 구현부
 	void							Bowyer_WatsonAlgorithm(const CModel* pMapModel, _uInt iMeshNum);
 
+	_bool							IsInNaviMesh(_float3 vPos, _float fOffset, _float* pOut);
+
 #ifdef _DEBUG
 public:
 	HRESULT							Export(const char* FilePath);
 	HRESULT							Render(_float4 vColor, _bool DarwCurCell = false);
+
+	list<NAVI_TRIANGLE>&			GetNaviMeshTriangleList() { return m_Triangles; }
+
+
+	_float3							DrawTriangle(_vector vPos, _float Radius);
+	HRESULT							InsertTriangle(NAVI_TRIANGLE& TriAngleDesc);
+	void							RemoveCell(_vector vPos, _float Radius);
 #endif
 
 private:
 	_Int							m_iCurrentCellIndex = { -1 };
 	_float3							m_MinPoint = {};
 	_float3							m_MaxPoint = {};
+	_float3							m_vCenterPoint = {};
 
 	static _float4x4				m_WorldMatrix;
 
 	vector<CCell*>					m_Cells;
+
+#ifdef _DEBUG
+	list<NAVI_TRIANGLE>				m_Triangles = {};
+#endif // _DEBUG
+
 	vector<_uInt>					m_EdgeCellIndex = {};
 
 	list<pair<_Int, _Int>>			m_PathCells;

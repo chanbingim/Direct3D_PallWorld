@@ -56,10 +56,12 @@ void CMouse::Update(_float fDeletaTime)
 	_vector ViewPoint = XMVector3TransformCoord(NDCSpacePoint, InvProjMat);
 
 	//여기서 월드 곱해서 월드로 내린다음 transform을 세팅하고 사용이지않을까
-	_vector WorldPoint = XMVector3TransformNormal(ViewPoint, InvViewMat);
-	WorldPoint = XMVector3Normalize(WorldPoint);
+	_vector WorldPoint = XMVector3TransformCoord(ViewPoint, InvViewMat);
+	_vector WorldRay = XMVector3Normalize(XMVector3TransformNormal(ViewPoint, InvViewMat));
 
-	XMStoreFloat3(&m_RayPos, WorldPoint);
+	XMStoreFloat3(&m_RayPos[ENUM_CLASS(RAY::WORLD)], WorldPoint);
+	XMStoreFloat3(&m_RayDir[ENUM_CLASS(RAY::WORLD)], WorldRay);
+
 	m_pTransformCom->SetPosition({  (_float)m_MouseViewPortPos.x - (ViewportDesc.Width * 0.5f),
 									(_float)-m_MouseViewPortPos.y + (ViewportDesc.Height * 0.5f), 0.f });
 }
@@ -98,9 +100,79 @@ HRESULT CMouse::SetTexture(_uInt iLevelIndex, const WCHAR* Proto_TexTag, const W
 	return S_OK;
 }
 
-_float3& CMouse::GetRayPos()
+_float3& CMouse::GetRayPos(RAY eType)
 {
-	return m_RayPos;
+	return m_RayPos[ENUM_CLASS(eType)];
+}
+
+_float3& CMouse::GetRayDireaction(RAY eType)
+{
+	return m_RayDir[ENUM_CLASS(eType)];
+}
+
+_bool CMouse::RayPicking(_vector vRayOrizin, _vector vRayDir, const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut)
+{
+	_float      fDist{};
+	_bool       IsCall = false;
+
+	IsCall = TriangleTests::Intersects(vRayOrizin, vRayDir, XMLoadFloat3(&vPointA), XMLoadFloat3(&vPointB), XMLoadFloat3(&vPointC), fDist);
+
+	if (IsCall)
+	{
+		XMStoreFloat3(pOut, (vRayOrizin + vRayDir * fDist));
+	}
+
+	return IsCall;
+}
+
+_bool CMouse::Picking_InWorld(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut)
+{
+	_float      fDist{};
+	_bool       IsCall = false;
+
+	_vector WorldPos = XMLoadFloat3(&m_RayPos[ENUM_CLASS(RAY::WORLD)]);
+	_vector WorldDir = XMLoadFloat3(&m_RayDir[ENUM_CLASS(RAY::WORLD)]);
+	IsCall = TriangleTests::Intersects(WorldPos, WorldDir, XMLoadFloat3(&vPointA), XMLoadFloat3(&vPointB), XMLoadFloat3(&vPointC), fDist);
+
+	if (IsCall)
+	{
+		XMStoreFloat3(pOut, (WorldPos + WorldDir * fDist));
+	}
+
+	return IsCall;
+}
+
+_bool CMouse::Picking_InLocal(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut)
+{
+	_float      fDist{};
+	_bool       IsCall = false;
+
+	_vector WorldPos = XMLoadFloat3(&m_RayPos[ENUM_CLASS(RAY::LOCAL)]);
+	_vector WorldDir = XMLoadFloat3(&m_RayDir[ENUM_CLASS(RAY::LOCAL)]);
+	IsCall = TriangleTests::Intersects(WorldPos, WorldDir, XMLoadFloat3(&vPointA), XMLoadFloat3(&vPointB), XMLoadFloat3(&vPointC), fDist);
+
+	if (IsCall)
+	{
+		XMStoreFloat3(pOut, (WorldPos + WorldDir * fDist));
+	}
+
+	return IsCall;
+}
+
+void CMouse::Compute_LocalRay(const _matrix* InvWorldMatrix)
+{
+	 _vector WorldPos = XMLoadFloat3(&m_RayPos[ENUM_CLASS(RAY::WORLD)]);
+    _vector WorldDir = XMLoadFloat3(&m_RayDir[ENUM_CLASS(RAY::WORLD)]);
+
+    WorldPos = XMVector3TransformCoord(WorldPos, *InvWorldMatrix);
+    
+    WorldDir = XMVector3TransformNormal(WorldDir, *InvWorldMatrix);
+    WorldDir = XMVector3Normalize(WorldDir);
+
+    XMStoreFloat3(&m_RayPos[ENUM_CLASS(RAY::LOCAL)], WorldPos);
+    XMStoreFloat3(&m_RayDir[ENUM_CLASS(RAY::LOCAL)], WorldDir);
+
+
 }
 
 void CMouse::SetMouseFocus(CUserInterface* Widget)

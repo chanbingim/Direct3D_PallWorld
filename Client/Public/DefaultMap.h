@@ -1,6 +1,11 @@
 #pragma once
 #include "NoneAnimMesh.h"
 
+#ifdef _DEBUG
+#include "NavigationStruct.h"
+#endif // _DEBUG
+
+
 NS_BEGIN(Engine)
 class CNavigation;
 NS_END
@@ -25,9 +30,14 @@ public:
 
 	// ·£´õ
 	virtual		HRESULT						Render();
+	CNavigation*							FindOnTerrian(_float3 vPosition);
 
-	_bool									IsMoveTerrian(_vector vPosition);
-	_Int									FindCell(_vector vPosition);
+#ifdef _DEBUG
+	void									GetAllNaviMeshTriangle(list<NAVI_TRIANGLE>* pOut);
+	_bool									m_bViewMesh = true;
+	_uInt									m_iDrawTriCount = 0;
+	_float3									m_CrateTriangle[3] = {};
+#endif // _DEBUG
 
 protected:
 	virtual		HRESULT						Bind_ShaderResources() override;
@@ -36,10 +46,18 @@ protected:
 private:
 	_bool									m_bIsPicking = false;
 	_uInt									m_iTerrainCnt = {};
-	CNavigation**							m_pNavigationCom = nullptr;
+
+	list<_uInt>								m_MapRenderIndex = {};
+	vector<CNavigation*>					m_pNavigationCom = { };
 
 private:
 	HRESULT									ADD_Components();
+
+	void									UpdateCullList();
+
+#ifdef _DEBUG
+	void									SelectRenderPlane(_uInt i);
+#endif // _DEBUG
 
 public:
 	static			CDefaultMap*			Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);

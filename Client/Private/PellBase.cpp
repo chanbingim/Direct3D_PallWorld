@@ -127,6 +127,7 @@ void CPellBase::PellTackingAction()
                 // 이거도 추적이라는 컴포넌트로 관리할거임
                 _vector vTargetPos = XMLoadFloat3(&m_vTargetPoint);
                 _float3 vCurPos = m_pTransformCom->GetPosition();
+                vCurPos.y = 0;
                 _vector vPos = XMLoadFloat3(&vCurPos);
                 if (1 > XMVectorGetX(XMVector3Length(vTargetPos - vPos)))
                 {

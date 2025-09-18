@@ -11,10 +11,13 @@ CNavigation::CNavigation(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 {
 }
 
-CNavigation::CNavigation(const CNavigation& rhs) : 
+CNavigation::CNavigation(const CNavigation& rhs) :
 	CComponent(rhs),
 	m_Cells(rhs.m_Cells),
-	m_pShaderCom(rhs.m_pShaderCom)
+	m_pShaderCom(rhs.m_pShaderCom),
+	m_MinPoint(rhs.m_MinPoint),
+	m_MaxPoint(rhs.m_MaxPoint),
+	m_vCenterPoint(rhs.m_vCenterPoint)
 {
 	for (auto& iter : m_Cells)
 		Safe_AddRef(iter);
@@ -123,6 +126,28 @@ _Int CNavigation::Find_Cell(_vector vPos)
 	return -1;
 }
 
+_Int CNavigation::Find_CellEdge(_vector vPos)
+{
+	_vector		vLocalPos = XMVector3TransformCoord(vPos, XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_WorldMatrix)));
+	_Int		iNeighborIndex = { -1 };
+
+	for (auto iIndex : m_EdgeCellIndex)
+	{
+		if (m_Cells[iIndex]->IsCellIn(vPos, &iNeighborIndex))
+			return iIndex;
+	}
+
+	return -1;
+}
+
+_float3 CNavigation::CellCenterPos(_uInt iCellIndex)
+{
+	_vector		vLocalPos = XMVector3TransformCoord(m_Cells[iCellIndex]->GetCellCenterPoint(), XMLoadFloat4x4(&m_WorldMatrix));
+	_float3 vPos;
+	XMStoreFloat3(&vPos, vLocalPos);
+	return vPos;
+}
+
 void CNavigation::ComputePathfindingAStar(_float3 vStartPoint, _float3 vTargetPoint, list<_float3>* PathList)
 {
 	m_PathCells.clear();
@@ -144,7 +169,6 @@ void CNavigation::ComputePathfindingAStar(_float3 vStartPoint, _float3 vTargetPo
 		return;
 
 	_vector TriCenterPoint = m_Cells[m_iCurrentCellIndex]->GetCellCenterPoint();
-	TriCenterPoint.m128_f32[1] = 0.f;
 	_float fLength = XMVectorGetX(XMVector3Length(vEnd - TriCenterPoint));
 	if (fLength < 1)
 		return;
@@ -275,46 +299,127 @@ HRESULT CNavigation::Render(_float4 vColor, _bool DarwCurCell)
 	return S_OK;
 }
 
+_float3 CNavigation::DrawTriangle(_vector vPos, _float Radius)
+{
+	_float3 vPoint = { -1, -1, -1};
+	for (auto Celliter = m_Cells.begin(); Celliter != m_Cells.end(); ++Celliter)
+	{
+		for (_uInt i = 0; i < ENUM_CLASS(NAVI_POINT::END); ++i)
+		{
+			_float fLength = XMVectorGetX(XMVector3Length((*Celliter)->GetCellPoint(NAVI_POINT(i)) - vPos));
+			if (Radius >= fLength)
+			{
+				Radius = fLength;
+				XMStoreFloat3(&vPoint, (*Celliter)->GetCellPoint(NAVI_POINT(i)));
+			}
+		}
+	}
+	return vPoint;
+}
+
+HRESULT CNavigation::InsertTriangle(NAVI_TRIANGLE& TriAngleDesc)
+{
+	_float3 vPoints[ENUM_CLASS(NAVI_POINT::END)] = {};
+
+	_vector PointA = XMLoadFloat3(&TriAngleDesc.A);
+	_vector PointB = XMLoadFloat3(&TriAngleDesc.B);
+	_vector PointC = XMLoadFloat3(&TriAngleDesc.C);
+	_vector vCross = XMVector3Cross(PointB - PointA, PointC - PointA);
+
+	if (XMVector3Equal(PointA, PointB) || XMVector3Equal(PointA, PointC) || XMVector3Equal(PointB, PointC))
+		return E_FAIL;
+
+	if (0 < XMVectorGetY(vCross))
+	{
+		vPoints[0] = TriAngleDesc.A;
+		vPoints[1] = TriAngleDesc.B;
+		vPoints[2] = TriAngleDesc.C;
+	}
+	else
+	{
+		vPoints[0] = TriAngleDesc.A;
+		vPoints[1] = TriAngleDesc.C;
+		vPoints[2] = TriAngleDesc.B;
+	}
+	
+	CCell* pCell = CCell::Create(m_pDevice, m_pContext, (_uInt)m_Cells.size(), 0, vPoints);
+	if (nullptr == pCell)
+		return E_FAIL;
+
+	m_Cells.push_back(pCell);
+	m_Triangles.push_back(TriAngleDesc);
+	return S_OK;
+}
+
+void CNavigation::RemoveCell(_vector vPos, _float Radius)
+{
+	_vector		vLocalPos = XMVector3TransformCoord(vPos, XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_WorldMatrix)));
+	_Int		iNeighborIndex = { -1 };
+	_uInt		iIndex = {};
+
+	auto Triangleiter = m_Triangles.begin();
+	for (auto Celliter = m_Cells.begin(); Celliter != m_Cells.end();)
+	{
+		if (Radius >= XMVectorGetX(XMVector3Length((*Celliter)->GetCellCenterPoint() - vPos)))
+		{
+			Safe_Release(*Celliter);
+			Celliter = m_Cells.erase(Celliter);
+			Triangleiter = m_Triangles.erase(Triangleiter);
+		}
+		else
+		{
+			Celliter++;
+			Triangleiter++;
+		}
+	}
+}
+
 void CNavigation::Bowyer_WatsonAlgorithm(const CModel* pMapModel, _uInt iMeshNum)
 {
 	_uInt iNumVertices = pMapModel->GetNumVertices(iMeshNum);
 	const _float3* Vertices = pMapModel->GetVerticesPoint(iMeshNum);
 
-	list<NAVI_TRIANGLE> Triangles = {};
-	_float3 Min{9999, 0, 9999}, Max{-9999.f, 0.f, -9999.f };
+	_float3 Min{9999, 9999, 9999}, Max{-9999.f, -9999.f, -9999.f };
 
 	for (_uInt i = 0; i < iNumVertices; ++i)
 	{
 		Min.x = min(Min.x, Vertices[i].x);
+		Min.x = min(Min.y, Vertices[i].y);
 		Min.z = min(Min.z, Vertices[i].z);
 
 		Max.x = max(Max.x, Vertices[i].x);
+		Max.y = max(Max.y, Vertices[i].y);
 		Max.z = max(Max.z, Vertices[i].z);
 
 		_bool bFlag = false;
 	}
+
 	m_MinPoint = Min;
 	m_MaxPoint = Max;
+	m_vCenterPoint = { Max.x - Min.x * 0.5f, Max.y - Min.y * 0.5f, Max.z - Min.z * 0.5f };
 
 	//Step 1
 	// 슈퍼 트라이앵글 생성
 	// 이때 슈퍼 트라이앵글은 내가 만들고자 하는 지형의 크기보다 커야한다.
 	// 변이 겹치면 직선이 되서 정확한 결과가 안나옴
 	auto SuperTriangle = CreateSuperTriangle(Min, Max);
-	Triangles.push_back(SuperTriangle);
+	m_Triangles.push_back(SuperTriangle);
+
 
 	//Step 2
 	// 점 추가 및 삼각형 갱신
 	// 여기서 외접원과 점이 겹치는지 확인해서 새로운 삼각형 쭉쭉 생성해보자
-	for (_uInt i = 0; i < iNumVertices;)
+	_uInt Apply = _uInt(iNumVertices * 0.001f);
+	Apply = Clamp<_uInt>(Apply, 1, 100);
+
+	for (_uInt i = 0; i < iNumVertices; i += Apply)
 	{
 		list<NAVI_TRIANGLE> BadTriangles = {};
 		list<NAVI_EDGE> Polygon = {};
 
 		_float3 vPoint = Vertices[i];
-		vPoint.y = 0.f;
 		//점 추가되면 현재 삼각형 과 비교
-		for (auto& PossibleTri : Triangles)
+		for (auto& PossibleTri : m_Triangles)
 		{
 			//여기서 확인하고 BadTriangle 추가
 			if (PossibleTri.PointInCircumeCircle(XMLoadFloat3(&vPoint)))
@@ -356,7 +461,7 @@ void CNavigation::Bowyer_WatsonAlgorithm(const CModel* pMapModel, _uInt iMeshNum
 		}
 
 		for (auto& BadTrianlge : BadTriangles)
-			Triangles.remove(BadTrianlge);
+			m_Triangles.remove(BadTrianlge);
 	
 		//여기서 실질적인 삼각형 생성
 		for (auto& Edge : Polygon)
@@ -370,23 +475,17 @@ void CNavigation::Bowyer_WatsonAlgorithm(const CModel* pMapModel, _uInt iMeshNum
 				continue;
 
 			if (0 < XMVectorGetY(vCross))
-				Triangles.emplace_back(Edge.A, Edge.B, Vertices[i]);
+				m_Triangles.emplace_back(Edge.A, Edge.B, Vertices[i]);
 			else
-				Triangles.emplace_back(Edge.B, Edge.A, Vertices[i]);
+				m_Triangles.emplace_back(Edge.B, Edge.A, Vertices[i]);
 			
-			if (-1 == Triangles.back().Radius)
-				Triangles.pop_back();
+			if (-1 == m_Triangles.back().Radius)
+				m_Triangles.pop_back();
 		}
-
-		_uInt Apply = _uInt(iNumVertices * 0.02f);
-		if (Apply < 1)
-			Apply = 1; // 최소 1점은 이동
-
-		i += Apply;
 	}
 
 	//초기 삼각형 제거
-	for (auto Triangle = Triangles.begin(); Triangle != Triangles.end();)
+	for (auto Triangle = m_Triangles.begin(); Triangle != m_Triangles.end();)
 	{
 		if (XMVector3Equal(XMLoadFloat3(&(*Triangle).A), XMLoadFloat3(&SuperTriangle.A)) ||
 			XMVector3Equal(XMLoadFloat3(&(*Triangle).A), XMLoadFloat3(&SuperTriangle.B)) ||
@@ -397,13 +496,13 @@ void CNavigation::Bowyer_WatsonAlgorithm(const CModel* pMapModel, _uInt iMeshNum
 			XMVector3Equal(XMLoadFloat3(&(*Triangle).C), XMLoadFloat3(&SuperTriangle.A)) ||
 			XMVector3Equal(XMLoadFloat3(&(*Triangle).C), XMLoadFloat3(&SuperTriangle.B)) ||
 			XMVector3Equal(XMLoadFloat3(&(*Triangle).C), XMLoadFloat3(&SuperTriangle.C)))
-			Triangle = Triangles.erase(Triangle);
+			Triangle = m_Triangles.erase(Triangle);
 		else
 			Triangle++;
 	}
 
 	//여기서 생성된 삼각형들을 Cell정보로 이용해서 생성한다.
-	for (auto Triangle : Triangles)
+	for (auto Triangle : m_Triangles)
 	{
 		_float3 vPoints[ENUM_CLASS(NAVI_POINT::END)] = { Triangle.A , Triangle.B, Triangle.C };
 		CCell* pCell = CCell::Create(m_pDevice, m_pContext, (_uInt)m_Cells.size(), 0, vPoints);
@@ -424,15 +523,25 @@ void CNavigation::Bowyer_WatsonAlgorithm(const CModel* pMapModel, _uInt iMeshNum
 	}
 }
 
+_bool CNavigation::IsInNaviMesh(_float3 vPos, _float fOffset, _float* pOut)
+{
+	_vector vCenter = XMLoadFloat3(&m_vCenterPoint);
+	_float Range =	XMVectorGetX(XMVector3Length(vCenter - XMLoadFloat3(&m_MinPoint))) + 30.f;
+
+	*pOut = XMVectorGetX(XMVector3Length(vCenter - XMLoadFloat3(&vPos)));
+	if (Range + fOffset >= *pOut)
+		return true;
+	
+	return false;
+}
+
 NAVI_TRIANGLE CNavigation::CreateSuperTriangle(_float3 vMin, _float3 vMax)
 {
-	vMax.y = vMin.y = 0.f;
-
 	_float dx = vMax.x - vMin.x;
 	_float dz = vMax.z - vMin.z;
 
-	_float3 vPointA = { vMin.x - dx, 0.f, vMax.z + dz * 10 };
-	_float3 vPointB = { vMax.x + dx * 10, 0.f, vMin.z - dz };
+	_float3 vPointA = { vMin.x - dx, 0.f, vMax.z + dz * 3 };
+	_float3 vPointB = { vMax.x + dx * 3, 0.f, vMin.z - dz };
 	_float3 vPointC = { vMin.x - dx, 0.f, vMin.z - dz };
 
 	return NAVI_TRIANGLE(vPointA, vPointB, vPointC);

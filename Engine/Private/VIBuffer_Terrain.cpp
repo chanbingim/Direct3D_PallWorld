@@ -662,8 +662,8 @@ _bool CVIBuffer_Terrain::ComputeBoundingBox(CTransform* pTransform)
 	LocalBoundBox.Transform(WorldBoundBox, XMLoadFloat4x4(&pTransform->GetWorldMat()));
 
 	_float dist = {};
-	_vector WorldRayPos = XMLoadFloat3(&m_pGameInstance->GetPickingRayPos(RAY::WORLD));
-	_vector WorldRayDir = XMLoadFloat3(&m_pGameInstance->GetPickingRayDir(RAY::WORLD));
+	_vector WorldRayPos = XMLoadFloat3(&m_pGameInstance->GetRayPos(RAY::WORLD));
+	_vector WorldRayDir = XMLoadFloat3(&m_pGameInstance->GetRayDireaction(RAY::WORLD));
 
 	return WorldBoundBox.Intersects(WorldRayPos, WorldRayDir, dist);
 }

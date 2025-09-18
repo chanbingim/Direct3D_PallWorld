@@ -5,6 +5,7 @@
 #include "PlayerStateMachine.h"
 #include "State.h"
 
+#include "TerrainManager.h"
 #include "PlayerPartData.h"
 #include "PlayerWeaponSlot.h"
 #include "PlayerCamera.h"
@@ -106,7 +107,7 @@ void CPlayer::Late_Update(_float fDeletaTime)
 HRESULT CPlayer::Render()
 {
     m_pCollision->Render();
-    m_pNevigation->Render({0.f,0.f,1.f,1.f}, true);
+    //m_pNevigation->Render({0.f,0.f,1.f,1.f}, true);
     
     return S_OK;
 }
@@ -519,18 +520,22 @@ HRESULT CPlayer::ADD_Components()
 #pragma endregion
 
 #pragma region NAVI_MESH
-    auto Object = m_pGameInstance->GetAllObejctToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_GamePlay_Terrian"))->begin();
-    auto OriginNav = static_cast<CNavigation*>((*Object)->Find_Component(TEXT("NaviMesh0_Com")));
+    m_pTerrainManager = CTerrainManager::GetInstance();
+    auto FindNaviMesh = m_pTerrainManager->FindOnTerrian(m_pTransformCom->GetPosition());
+    if (FindNaviMesh)
+    {
+        CNavigation::NAVIGATION_DESC Desc = {};
+        _float3 vPos = m_pTransformCom->GetPosition();
+        Desc.iCurrentCellIndex = 0;
 
-    CNavigation::NAVIGATION_DESC Desc = {};
-    _float3 vPos = m_pTransformCom->GetPosition();
-    Desc.iCurrentCellIndex = OriginNav->Find_Cell(XMLoadFloat3(&vPos));
+        m_pTransformCom->SetPosition(FindNaviMesh->CellCenterPos(Desc.iCurrentCellIndex));
+        m_pNevigation = static_cast<CNavigation*>(FindNaviMesh->Clone(&Desc));
 
-    m_pNevigation = static_cast<CNavigation*>(OriginNav->Clone(&Desc));
-    Safe_AddRef(m_pNevigation);
-    m_pComponentMap.emplace(TEXT("NaviMesh_Com"), m_pNevigation);
+        Safe_AddRef(m_pNevigation);
+        m_pComponentMap.emplace(TEXT("NaviMesh_Com"), m_pNevigation);
+    }
 #pragma endregion
-
+ 
     return S_OK;
 }
 

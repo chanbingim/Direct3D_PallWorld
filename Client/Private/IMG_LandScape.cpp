@@ -1,8 +1,13 @@
 #include "IMG_LandScape.h"
 
+#include "TerrainManager.h"
 #include "GameInstance.h"
 #include "Terrain.h"
 #include "Level.h"
+
+const char* CIMG_LandScape::szBrushMode[ENUM_CLASS(BRUSH_MODE::END)] = {
+       "SELECT_TERRIAN", "EDIT_ENVIORNMENT", "ADD_HEGIHT", "EDIT_NAVIMESH" };
+
 
 CIMG_LandScape::CIMG_LandScape(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CImgUIBase(pDevice, pContext)
@@ -119,11 +124,31 @@ void CIMG_LandScape::DrawPrefabBrush()
         ImGui::SetNextItemWidth(150.f);
         ImGui::InputInt("BrushSize", &m_iBrushSize, 0);
 
+        if (ImGui::BeginCombo("BRUSH_MODE", (char *)m_szBushModeName))
+        {
+            for (auto i = 0; i < ENUM_CLASS(BRUSH_MODE::END); ++i)
+            {
+                if (ImGui::Selectable(szBrushMode[i], false))
+                {
+                    m_eBrushMode = BRUSH_MODE(i);
+                    strcpy_s(m_szBushModeName, szBrushMode[i]);
+                }
+            }
+
+            ImGui::EndCombo();
+        }
+
         ImGui::SetNextItemWidth(50.f);
         ImGui::InputInt("PreFab_Index", &m_iPrefabIndex, 0);
 
         ImGui::InputText("CreatePreFabPrototypeName", m_szPrafeName, MAX_PATH);
         ImGui::InputText("CreatePreFabLayerName", m_szLayerName, MAX_PATH);
+
+        if (ImGui::Button("SAVE_NAVI_MESH_FILE"))
+        {
+            Save_NaviMesh();
+        }
+
     }
     ImGui::End();
 }
@@ -142,6 +167,39 @@ void CIMG_LandScape::CreateHeightMapToPng()
         auto VITerrian = static_cast<CVIBuffer_Terrain *>(Object->Find_Component(TEXT("VIBuffer_Com")));
         VITerrian->ExportHeightMap(FilePath);
     }
+}
+
+void CIMG_LandScape::Save_NaviMesh()
+{
+    list<NAVI_TRIANGLE> SaveTriangleList = {};
+    CTerrainManager::GetInstance()->GetAllNaviMeshTriangle(&SaveTriangleList);
+
+    ExportNaviMeshData("../Bin/Save/Map/Navimesh/NaviMesh.dat", SaveTriangleList);
+}
+
+HRESULT CIMG_LandScape::ExportNaviMeshData(const char* pFilePath, list<NAVI_TRIANGLE>& SaveList)
+{
+    //파일 입출력 열어서 저장
+    ios_base::openmode flag;
+    flag = ios::out | ios::trunc;
+    ofstream file(pFilePath, flag);
+
+    if (file.is_open())
+    {
+        _uInt iSaveObjectCnt = (_uInt)SaveList.size();
+        file << iSaveObjectCnt << endl;
+        for (NAVI_TRIANGLE& iter : SaveList)
+        {
+            file << iter.A.x << " " << iter.A.y << " " << iter.A.z << endl;
+            file << iter.B.x << " " << iter.B.y << " " << iter.B.z << endl; 
+            file << iter.C.x << " " << iter.C.y << " " << iter.C.z << endl; 
+        }
+    }
+    else
+        return E_FAIL;
+
+    file.close();
+    return S_OK;
 }
 
 CIMG_LandScape* CIMG_LandScape::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

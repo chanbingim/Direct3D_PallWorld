@@ -28,6 +28,9 @@ public:
 	_uInt					GetNumVertices() const { return m_iNumVertices; }
 	void					GetIndices(vector<_uInt>& Indices);
 
+	virtual _bool			IsPicking(CTransform* pTransform, _float3* pOut);
+	virtual _bool			IsPicking(_vector vRayOrizin, _vector vRayDir, CTransform* pTransform, _float3* pOut);
+
 private :
 	// 메시의 이름을 보관해둔다.
 	_char					m_szMeshName[MAX_PATH] = {};

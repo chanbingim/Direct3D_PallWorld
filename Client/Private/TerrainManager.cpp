@@ -4,6 +4,7 @@
 #include "StringHelper.h"
 #include "GameInstance.h"
 
+#include "DefaultMap.h"
 #include "Terrain.h"
 
 IMPLEMENT_SINGLETON(CTerrainManager);
@@ -14,9 +15,14 @@ CTerrainManager::CTerrainManager()
 
 void CTerrainManager::Initialize(void* pArg)
 {
-    m_TerrianSize = { 256, 256 };
-    m_Terrians.reserve(10);
-    LoadTerrianData("../Bin/Save/Map/Layer_GamePlay_Terrian.txt");
+    CGameInstance* pGameInstance = CGameInstance::GetInstance();
+    //m_TerrianSize = { 256, 256 };
+    //m_Terrians.reserve(10);
+    //LoadTerrianData("../Bin/Save/Map/Layer_GamePlay_Terrian.txt");
+
+    auto Object = pGameInstance->GetAllObejctToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_GamePlay_Terrian"))->begin();
+    m_DefaultMap = static_cast<CDefaultMap*>(*Object);
+    Safe_AddRef(m_DefaultMap);
 }
 
 HRESULT CTerrainManager::LoadTerrianData(const char* pFileData)
@@ -56,22 +62,6 @@ HRESULT CTerrainManager::LoadTerrianData(const char* pFileData)
     return S_OK;
 }
 
-_bool CTerrainManager::IsMove(_float3 vPosition)
-{
-     _Int iCellX = (_Int)(vPosition.x / m_TerrianSize.x);
-     _Int iCellY = (_Int)(vPosition.z / m_TerrianSize.y);
-
-     if (m_Terrians.size() <= iCellY * m_TerrianSize.x + iCellX)
-         return false;
-
-     auto pTerrain = m_Terrians[iCellY * m_TerrianSize.x + iCellX];
-     if (nullptr == pTerrain)
-         return false;
-
-     _vector vPos = XMLoadFloat3(&vPosition);
-    return pTerrain->IsMoveTerrian(vPos);
-}
-
 HRESULT CTerrainManager::CreateTerrian(void* pArg)
 {
     SAVE_LEVEL_DESC* Desc = static_cast<SAVE_LEVEL_DESC*>(pArg);
@@ -98,56 +88,20 @@ HRESULT CTerrainManager::CreateTerrian(void* pArg)
     pGameInstance->Add_GameObject_ToLayer(Desc->iSaveLevelID, LayerName, pTerrain);
     Safe_AddRef(pTerrain);
 
-    m_Terrians.push_back(pTerrain);
     return S_OK;
 }
 
-HRESULT CTerrainManager::GetCurrentTerrainNaviMesh(_float3 vObejctPos, _uInt iCellIndex, CComponent** ppComponent)
+CNavigation* CTerrainManager::FindOnTerrian(_float3 vPosition)
 {
-    _Int iCellX = (_Int)(vObejctPos.x / m_TerrianSize.x);
-    _Int iCellY = (_Int)(vObejctPos.z / m_TerrianSize.y);
-    if (m_Terrians.size() <= iCellY * m_TerrianSize.x + iCellX)
-        return E_FAIL;
-
-    auto pTerrain = m_Terrians[iCellY * m_TerrianSize.x + iCellX];
-    if (nullptr == pTerrain)
-        return E_FAIL;
-
-    auto pNaviMesh = pTerrain->Find_Component(TEXT("NaviMesh_Com"));
-    if (nullptr == pNaviMesh)
-        return E_FAIL;
-    
-    CNavigation::NAVIGATION_DESC NaviDesc = {};
-    NaviDesc.iCurrentCellIndex = iCellIndex;
-    *ppComponent = pNaviMesh->Clone(&NaviDesc);
-    return S_OK;
+    return m_DefaultMap->FindOnTerrian(vPosition);
 }
 
-_uInt CTerrainManager::GetCrrentSapwnCell(_float3 vPos)
+void CTerrainManager::GetAllNaviMeshTriangle(list<NAVI_TRIANGLE>* pOut)
 {
-    _Int iCellX = (_Int)(vPos.x / m_TerrianSize.x);
-    _Int iCellY = (_Int)(vPos.z / m_TerrianSize.y);
-    if (m_Terrians.size() <= iCellY * m_TerrianSize.x + iCellX)
-        return E_FAIL;
-
-    auto pTerrain = m_Terrians[iCellY * m_TerrianSize.x + iCellX];
-    if (nullptr == pTerrain)
-        return E_FAIL;
-
-    return pTerrain->FindCell(XMLoadFloat3(&vPos));
-}
-
-HRESULT CTerrainManager::ADD_Terrian(CTerrain* pTerrian)
-{
-    if (nullptr == pTerrian)
-        return E_FAIL;
-
-    m_Terrians.push_back(pTerrian);
-    return S_OK;
+    m_DefaultMap->GetAllNaviMeshTriangle(pOut);
 }
 
 void CTerrainManager::Free()
 {
-    for (auto& iter : m_Terrians)
-        Safe_Release(iter);
+    Safe_Release(m_DefaultMap);
 }

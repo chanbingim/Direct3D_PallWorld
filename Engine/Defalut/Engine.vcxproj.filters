@@ -70,9 +70,6 @@
     <Filter Include="Utility\Helpers">
       <UniqueIdentifier>{02886d4f-bde8-482e-b82b-3c8f3602073b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\Picking">
-      <UniqueIdentifier>{bf4b98e3-587d-498a-bfed-552e745176e8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utility\Helpers\Paser">
       <UniqueIdentifier>{8136d0ea-0a23-4808-953a-c781c68fe14d}</UniqueIdentifier>
     </Filter>
@@ -232,6 +229,9 @@
     <Filter Include="Utility\Components\Navigation\Cell">
       <UniqueIdentifier>{b5f42fa6-0ae3-4e80-ac48-73edf1e7e3d5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utility\Components\VIBuffer\Instancing">
+      <UniqueIdentifier>{47450dd1-06ab-413a-8c0d-3a1445d785c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Graphic_Device.cpp">
@@ -326,9 +326,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\StringHelper.cpp">
       <Filter>Utility\Helpers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Picking.cpp">
-      <Filter>System\Picking</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Material.cpp">
       <Filter>Utility\Components\Model\Material</Filter>
@@ -556,9 +553,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\StringHelper.h">
       <Filter>Utility\Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Picking.h">
-      <Filter>System\Picking</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Material.h">
       <Filter>Utility\Components\Model\Material</Filter>

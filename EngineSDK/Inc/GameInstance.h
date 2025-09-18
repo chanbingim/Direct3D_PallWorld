@@ -97,6 +97,7 @@ public :
 #pragma endregion
 
 #pragma region Renderer
+
 	HRESULT						Add_RenderGroup(RENDER eRenderGroup, class CGameObject* pRenderObject);
 #pragma endregion
 
@@ -136,8 +137,14 @@ public :
 
 	void						SetMouseFocus(CUserInterface* Widget);
 	BOOL						IsMouseFocus(CUserInterface* Widget);
+	void						Compute_LocalRay(const _matrix* InvWorldMatrix);
 
-	_float3&					GetRayPos();
+	_bool						RayPicking(_vector vRayOrizin, _vector vRayDir, const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut);
+	_bool						Picking_InWorld(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut);
+	_bool						Picking_InLocal(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut);
+
+	_float3&					GetRayPos(RAY eType);
+	_float3&					GetRayDireaction(RAY eType);
 	_float3						GetMouseWorldPos();
 
 	void						ResetMouseData();
@@ -158,24 +165,11 @@ public :
 	_vector						GetPlayerState(WORLDSTATE eType);
 #pragma endregion
 
-#pragma region Editor_Picking
-	void						SetEditor_MousePos(_float3 vPos);
-	void						SetEditor_Frame(const _float2& vSize);
-	void						Change_Mode(GAMEMODE eType);
-	const	GAMEMODE&			GetGameMode();
-
-	const _float3&				GetPickingRayPos(RAY eType);
-	const _float3&				GetPickingRayDir(RAY eType);
-	void						Compute_LocalRay(const _matrix* InvWorldMatrix);
-
-	_bool						RayPicking(_vector vRayOrizin, _vector vRayDir, const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut);
-	_bool						Picking_InWorld(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut);
-	_bool						Picking_InLocal(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut);
-#pragma endregion
-
 #pragma region Game_Instance
 	_float						GetPipeLineLoopTime(const TCHAR* Str);
 	const _float2&				GetScreenSize();
+	void						SetGameMode(GAMEMODE eMode);
+	GAMEMODE					GetGameMode() { return m_eGameMode; }
 
 	void						GetGamePause(_bool bFlag);
 	_float						Random_Normal();
@@ -208,12 +202,12 @@ private :
 	CSound_Manager*				m_pSound_Manager = nullptr;
 	CMouse*						m_pMouse = nullptr;
 	CPipeline*					m_pPipeline = nullptr;
-	CPicking*					m_pPicking = nullptr;
 	CLightManager*				m_pLightManager = nullptr;
 	CFontManager*				m_pFontManager = nullptr;
 	CCollisionManager*			m_pCollisionManager = nullptr;
 
 	_bool						m_bIsPause = false;
+	GAMEMODE					m_eGameMode = GAMEMODE::GAME;
 	_float2						m_ScreenSize = {};
 
 public :

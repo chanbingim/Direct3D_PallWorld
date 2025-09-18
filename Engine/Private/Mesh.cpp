@@ -1,5 +1,6 @@
 #include "Mesh.h"
 
+#include "GameInstance.h"
 #include "PaseDataHeader.h"
 #include "Model.h"
 #include "Bone.h"
@@ -289,6 +290,98 @@ void CMesh::GetIndices(vector<_uInt>& Indices)
 	Safe_Release(StagingBuffer);
 }
 
+_bool CMesh::IsPicking(CTransform* pTransform, _float3* pOut)
+{
+	_matrix InvWorld = XMLoadFloat4x4(&pTransform->GetInvWorldMat());
+	m_pGameInstance->Compute_LocalRay(&InvWorld);
+
+	ID3D11Buffer* StagingBuffer = nullptr;
+	//버퍼 세팅
+	D3D11_BUFFER_DESC			IndexDesc = {};
+	IndexDesc.ByteWidth = m_iIndexStride * m_iNumIndices;
+	IndexDesc.Usage = D3D11_USAGE_STAGING;
+	IndexDesc.BindFlags = 0;
+	IndexDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+	IndexDesc.MiscFlags = 0;
+	IndexDesc.StructureByteStride = m_iIndexStride;
+	m_pDevice->CreateBuffer(&IndexDesc, nullptr, &StagingBuffer);
+
+	_bool bIsPicking = false;
+	if (StagingBuffer)
+	{
+		m_pContext->CopyResource(StagingBuffer, m_pIndexBuffer);
+
+		D3D11_MAPPED_SUBRESOURCE IndicesMap;
+		if (S_OK == m_pContext->Map(StagingBuffer, 0, D3D11_MAP_READ, 0, &IndicesMap))
+		{
+			_uInt* pIndices = reinterpret_cast<_uInt*>(IndicesMap.pData);
+			for (_uInt i = 0; i < m_iNumIndices; i += 3)
+			{
+				//하단 삼각형
+				if (true == m_pGameInstance->Picking_InLocal(m_pVertices[pIndices[i]], m_pVertices[pIndices[i+ 1]], m_pVertices[pIndices[i+ 2]], pOut))
+				{
+					bIsPicking = true;
+					XMStoreFloat3(pOut, XMVector3TransformCoord(XMLoadFloat3(pOut), XMLoadFloat4x4(&pTransform->GetWorldMat())));
+					break;
+				}
+			}
+
+			m_pContext->Unmap(StagingBuffer, 0);
+		}
+	}
+	Safe_Release(StagingBuffer);
+
+	return bIsPicking;
+}
+
+_bool CMesh::IsPicking(_vector vRayOrizin, _vector vRayDir, CTransform* pTransform, _float3* pOut)
+{
+	_matrix InvWorld = XMLoadFloat4x4(&pTransform->GetInvWorldMat());
+
+	vRayOrizin = XMVector3TransformCoord(vRayOrizin, InvWorld);
+
+	vRayDir = XMVector3TransformNormal(vRayDir, InvWorld);
+	vRayDir = XMVector3Normalize(vRayDir);
+
+	ID3D11Buffer* StagingBuffer = nullptr;
+	//버퍼 세팅
+	D3D11_BUFFER_DESC			IndexDesc = {};
+	IndexDesc.ByteWidth = m_iIndexStride * m_iNumIndices;
+	IndexDesc.Usage = D3D11_USAGE_STAGING;
+	IndexDesc.BindFlags = 0;
+	IndexDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+	IndexDesc.MiscFlags = 0;
+	IndexDesc.StructureByteStride = m_iIndexStride;
+	m_pDevice->CreateBuffer(&IndexDesc, nullptr, &StagingBuffer);
+
+	_bool bIsPicking = false;
+	if (StagingBuffer)
+	{
+		m_pContext->CopyResource(StagingBuffer, m_pIndexBuffer);
+
+		D3D11_MAPPED_SUBRESOURCE IndicesMap;
+		if (S_OK == m_pContext->Map(StagingBuffer, 0, D3D11_MAP_READ, 0, &IndicesMap))
+		{
+			_uInt* pIndices = reinterpret_cast<_uInt*>(IndicesMap.pData);
+			for (_uInt i = 0; i < m_iNumIndices;)
+			{
+				//하단 삼각형
+				if (true == m_pGameInstance->RayPicking(vRayOrizin, vRayDir, m_pVertices[pIndices[i++]], m_pVertices[pIndices[i++]], m_pVertices[pIndices[i++]], pOut))
+				{
+					bIsPicking = true;
+					XMStoreFloat3(pOut, XMVector3TransformCoord(XMLoadFloat3(pOut), XMLoadFloat4x4(&pTransform->GetWorldMat())));
+					break;
+				}
+			}
+			
+			m_pContext->Unmap(StagingBuffer, 0);
+		}
+	}
+	Safe_Release(StagingBuffer);
+
+	return bIsPicking;
+}
+
 HRESULT CMesh::Ready_VertexBuffer_For_NonAnim(const aiMesh* pAIMesh, _matrix PreTransformMatrix)
 {
 	m_iVertexStride = sizeof(VTX_MESH);
@@ -312,6 +405,7 @@ HRESULT CMesh::Ready_VertexBuffer_For_NonAnim(const aiMesh* pAIMesh, _matrix Pre
 	{
 		memcpy(&pVtxMeshs[i].vPosition, &pAIMesh->mVertices[i], sizeof(_float3));
 		XMStoreFloat3(&pVtxMeshs[i].vPosition, XMVector3TransformCoord(XMLoadFloat3(&pVtxMeshs[i].vPosition), PreTransformMatrix));
+		m_pVertices[i] = pVtxMeshs[i].vPosition;
 
 		memcpy(&pVtxMeshs[i].vNormal, &pAIMesh->mNormals[i], sizeof(_float3));
 		XMStoreFloat3(&pVtxMeshs[i].vNormal, XMVector3TransformCoord(XMLoadFloat3(&pVtxMeshs[i].vNormal), PreTransformMatrix));

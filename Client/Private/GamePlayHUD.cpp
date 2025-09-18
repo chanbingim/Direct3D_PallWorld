@@ -15,6 +15,7 @@ HRESULT CGamePlayHUD::Initialize()
 	if (FAILED(ADD_UserInterface()))
 		return E_FAIL;
 
+	m_pGameInstance->ShowInGameMouse(VISIBILITY::VISIBLE);
 	return S_OK;
 }
 
@@ -23,9 +24,9 @@ void CGamePlayHUD::Update(_float fDeletaTime)
 	__super::Update(fDeletaTime);
 	if (!m_pInGameMenu->IsActive())
 	{
-		m_pGameInstance->SetMousePosition({ g_iHalfWinSizeX, g_iHalfWinSizeY, 0.f });
-		if(g_GameWindowFocus)
-			SetCursorPos(g_iHalfWinSizeX, g_iHalfWinSizeY);
+		//m_pGameInstance->SetMousePosition({ g_iHalfWinSizeX, g_iHalfWinSizeY, 0.f });
+	/*	if(g_GameWindowFocus)
+			SetCursorPos(g_iHalfWinSizeX, g_iHalfWinSizeY);*/
 	}
 		
 	if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_I))

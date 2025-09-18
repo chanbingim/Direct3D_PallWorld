@@ -28,6 +28,7 @@ HRESULT CSkyBox::Initialize(void* pArg)
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
+	m_pTransformCom->SetScale({ 2.f, 2.f, 2.f });
 	return S_OK;
 }
 
