@@ -24,8 +24,9 @@ CNavigation::CNavigation(const CNavigation& rhs) :
 	Safe_AddRef(m_pShaderCom);
 }
 
-HRESULT CNavigation::Initialize_Prototype(const _tchar* pNavigationDataFiles)
+HRESULT CNavigation::Initialize_Prototype(const char* pNavigationDataFilePath)
 {
+	ReadNaviMeshDataFile(pNavigationDataFilePath);
 
 #ifdef _DEBUG
 	m_pShaderCom = CShader::Create(m_pDevice, m_pContext, VTX_COL::Elements, VTX_COL::iNumElements, TEXT("../Bin/ShaderFiles/Shader_Cell.hlsl"));
@@ -33,7 +34,7 @@ HRESULT CNavigation::Initialize_Prototype(const _tchar* pNavigationDataFiles)
 		return E_FAIL;
 	BindSahderResource();
 #endif
-
+	SetUpNeighbors();
 	return S_OK;
 }
 
@@ -547,6 +548,47 @@ NAVI_TRIANGLE CNavigation::CreateSuperTriangle(_float3 vMin, _float3 vMax)
 	return NAVI_TRIANGLE(vPointA, vPointB, vPointC);
 }
 
+HRESULT CNavigation::ReadNaviMeshDataFile(const char* szFilePath)
+{
+	_uInt NaviMeshTriCount = {};
+	list<NAVI_TRIANGLE> ReadFileData = {};
+
+	//파일 입출력 열어서 저장
+	ios_base::openmode flag;
+	flag = ios::in;
+	ifstream file(szFilePath, flag);
+
+	if (file.is_open())
+	{
+		file >> NaviMeshTriCount;
+		_float3 Point[ENUM_CLASS(NAVI_POINT::END)] = {};
+		for (_uInt i = 0; i < NaviMeshTriCount; ++i)
+		{
+			file >> Point[ENUM_CLASS(NAVI_POINT::A)].x >> Point[ENUM_CLASS(NAVI_POINT::A)].y >> Point[ENUM_CLASS(NAVI_POINT::A)].z;
+			file >> Point[ENUM_CLASS(NAVI_POINT::B)].x >> Point[ENUM_CLASS(NAVI_POINT::B)].y >> Point[ENUM_CLASS(NAVI_POINT::B)].z;
+			file >> Point[ENUM_CLASS(NAVI_POINT::C)].x >> Point[ENUM_CLASS(NAVI_POINT::C)].y >> Point[ENUM_CLASS(NAVI_POINT::C)].z;
+
+			ReadFileData.emplace_back(Point[ENUM_CLASS(NAVI_POINT::A)], Point[ENUM_CLASS(NAVI_POINT::B)], Point[ENUM_CLASS(NAVI_POINT::C)]);
+		}
+	}
+	else
+		return E_FAIL;
+	file.close();
+
+
+	for (auto& iter : ReadFileData)
+	{
+		_float3 vPoints[ENUM_CLASS(NAVI_POINT::END)] = { iter.A , iter.B, iter.C };
+		CCell* pCell = CCell::Create(m_pDevice, m_pContext, (_uInt)m_Cells.size(), 0, vPoints);
+		if (nullptr == pCell)
+			return E_FAIL;
+
+		m_Cells.push_back(pCell);
+	}
+
+	return S_OK;
+}
+
 void CNavigation::BindSahderResource()
 {
 	m_pEMVWorldMat = m_pShaderCom->GetVariable("g_WorldMatrix")->AsMatrix();
@@ -683,10 +725,10 @@ void CNavigation::SimpleFunnelAlgorithm(_vector vStartPoint, list<_float3>* Path
 	}
 }
 
-CNavigation* CNavigation::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pNavigationDataFiles)
+CNavigation* CNavigation::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _char* pNavigationDataFilePath)
 {
 	CNavigation* pNavigation = new CNavigation(pDevice, pContext);
-	if (FAILED(pNavigation->Initialize_Prototype(pNavigationDataFiles)))
+	if (FAILED(pNavigation->Initialize_Prototype(pNavigationDataFilePath)))
 	{
 		Safe_Release(pNavigation);
 		MSG_BOX("CREATE FAIL : NAVIGATION");

@@ -521,12 +521,12 @@ HRESULT CPlayer::ADD_Components()
 
 #pragma region NAVI_MESH
     m_pTerrainManager = CTerrainManager::GetInstance();
-    auto FindNaviMesh = m_pTerrainManager->FindOnTerrian(m_pTransformCom->GetPosition());
+    auto FindNaviMesh = m_pTerrainManager->GetNavimesh();
     if (FindNaviMesh)
     {
         CNavigation::NAVIGATION_DESC Desc = {};
         _float3 vPos = m_pTransformCom->GetPosition();
-        Desc.iCurrentCellIndex = 0;
+        Desc.iCurrentCellIndex = 5000;
 
         m_pTransformCom->SetPosition(FindNaviMesh->CellCenterPos(Desc.iCurrentCellIndex));
         m_pNevigation = static_cast<CNavigation*>(FindNaviMesh->Clone(&Desc));
@@ -654,4 +654,5 @@ void CPlayer::Free()
     Safe_Release(m_pPlayerFSM);
     Safe_Release(m_pPlayerCamera);
     Safe_Release(m_pNevigation);
+    Safe_Release(m_pCollision);
 }

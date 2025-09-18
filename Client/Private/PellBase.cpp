@@ -252,4 +252,5 @@ void CPellBase::Free()
     Safe_Release(m_pRecovery);
     Safe_Release(m_pNeturalPellUI);
     Safe_Release(m_pNevigation);
+    Safe_Release(m_pCollision);
 }

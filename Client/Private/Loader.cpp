@@ -329,113 +329,113 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/SmallMap/Map.dat"))))
 		return E_FAIL;
 #pragma endregion
-//
-//#pragma region Clothes
-//	PreModelMat = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.f));
-//	/* VIBuffer  Old_Clothes MESH  Component */
-//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_OldClothes"),
-//		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Clothes/OldClothes/OldClothes.dat"))))
-//		return E_FAIL;
-//
-//	/* VIBuffer  Clothes2 MESH  Component */
-//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Clothes02"),
-//		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Clothes/Clothes02/Clothes02.dat", PreModelMat, 
-//			"../Bin/Resources/Models/Clothes/Clothes02/Clothes02_Mapping.txt"))))
-//		return E_FAIL;
-//#pragma endregion
-//
-//#pragma region SKY_Model
-//	/* VIBuffer  Clothes2 MESH  Component */
-//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Sky"),
-//		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Sky/SM_Raid_Sky_01.fbx"))))
-//		return E_FAIL;
-//#pragma endregion
-//
-//#pragma region Usable Item
-//
-//#pragma endregion
-//
-//#pragma region WEAPON
-//	/* VIBuffer  CatBlade MESH  Component */
-//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_CatBlade"),
-//		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Weapon/CatBlade/CatBlade.dat", PreModelMat))))
-//		return E_FAIL;
-//
-//	/* VIBuffer  Prop MESH  Component */
-//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_CatBladeProp"),
-//		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Weapon/CatBlade/CatBladeProp.fbx", PreModelMat))))
-//		return E_FAIL;
-//
-//	/* VIBuffer  PellSpher MESH  Component */
-//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_PalSpher"),
-//		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Weapon/AnimationWeapon/PalSphere/PalSpher.dat", PreModelMat))))
-//		return E_FAIL;
-//
-//	/* VIBuffer  Bow MESH  Component */
-//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Bow"),
-//		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Weapon/AnimationWeapon/Bow/Bow.dat", PreModelMat))))
-//		return E_FAIL;
-//
-//#pragma endregion
-//
-//#pragma region Player
-//	/* VIBuffer  MESH  Component */
-//	PreModelMat = XMMatrixScaling(0.01f,0.01f,0.01f) * XMMatrixRotationY(XMConvertToRadians(180.f));
-//
-//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Player_Mesh"),
-//		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Player/Player.fbx", PreModelMat, "", 2))))
-//		return E_FAIL;
-//
-//#pragma endregion
-//
-//#pragma region PELL
-//	///* VIBuffer  BedCat MESH  Component */
-//	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_BedCat_Mesh"),
-//	//	CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM,"../Bin/Resources/Models/BedCat/BedCat.fbx", PreModelMat))))
-//	//	return E_FAIL;
-//
-//#pragma region SheepBall
-//	/* VIBuffer  Dororong MESH  Component */
-//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Drorong_Mesh"),
-//		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Monster/SheepBall/SheepBall.fbx", PreModelMat))))
-//		return E_FAIL;
-//#pragma endregion
-//
-//	///* VIBuffer  Electric Panda MESH  Component */
-//	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_ElectricPanda_Mesh"),
-//	//	CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/ElectricPanda/Panda.fbx", PreModelMat))))
-//	//	return E_FAIL;
-//
-//	///* VIBuffer  Herorong MESH  Component */
-//	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Herorong_Mesh"),
-//	//	CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Herorong/Herorong.fbx", PreModelMat))))
-//	//	return E_FAIL;
-//
-//	///* VIBuffer  Electric Herorong MESH  Component */
-//	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Electric_Herorong_Mesh"),
-//	//	CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Herorong/EletricHerorong.fbx", PreModelMat))))
-//	//	return E_FAIL;
-// //
-//	///* VIBuffer  FlowerRabbit MESH  Component */
-//	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_FlowerRabbit_Mesh"),
-//	//	CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/FlowerRabbit/FlowerRabbit.fbx", PreModelMat))))
-//	//	return E_FAIL;
-//
-//	///* VIBuffer  Hedgehog MESH  Component */
-//	////if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Hedgehog_Mesh"),
-//	////	CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Hedgehog/Panda.fbx"))))
-//	////	return E_FAIL;
-//
-//	///* VIBuffer  Frog MESH  Component */
-//	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Frog_Mesh"),
-//	//	CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Frog/Frog.fbx", PreModelMat))))
-//	//	return E_FAIL;
-//
-//	///* VIBuffer  Yeti MESH  Component */
-//	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Yeti_Mesh"),
-//	//	CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Yeti/GrassYeti.fbx", PreModelMat))))
-//	//	return E_FAIL;
-//#pragma endregion
+
+#pragma region Clothes
+	PreModelMat = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+	/* VIBuffer  Old_Clothes MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_OldClothes"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Clothes/OldClothes/OldClothes.dat"))))
+		return E_FAIL;
+
+	/* VIBuffer  Clothes2 MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Clothes02"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Clothes/Clothes02/Clothes02.dat", PreModelMat, 
+			"../Bin/Resources/Models/Clothes/Clothes02/Clothes02_Mapping.txt"))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region SKY_Model
+	/* VIBuffer  Clothes2 MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Sky"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Sky/SM_Raid_Sky_01.fbx"))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region Usable Item
+
+#pragma endregion
+
+#pragma region WEAPON
+	/* VIBuffer  CatBlade MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_CatBlade"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Weapon/CatBlade/CatBlade.dat", PreModelMat))))
+		return E_FAIL;
+
+	/* VIBuffer  Prop MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_CatBladeProp"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Weapon/CatBlade/CatBladeProp.fbx", PreModelMat))))
+		return E_FAIL;
+
+	/* VIBuffer  PellSpher MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_PalSpher"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Weapon/AnimationWeapon/PalSphere/PalSpher.dat", PreModelMat))))
+		return E_FAIL;
+
+	/* VIBuffer  Bow MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Bow"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Weapon/AnimationWeapon/Bow/Bow.dat", PreModelMat))))
+		return E_FAIL;
+
+#pragma endregion
+
+#pragma region Player
+	/* VIBuffer  MESH  Component */
+	PreModelMat = XMMatrixScaling(0.01f,0.01f,0.01f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Player_Mesh"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Player/Player.fbx", PreModelMat, "", 2))))
+		return E_FAIL;
+
+#pragma endregion
+
+#pragma region PELL
+	///* VIBuffer  BedCat MESH  Component */
+	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_BedCat_Mesh"),
+	//	CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM,"../Bin/Resources/Models/BedCat/BedCat.fbx", PreModelMat))))
+	//	return E_FAIL;
+
+#pragma region SheepBall
+	/* VIBuffer  Dororong MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Drorong_Mesh"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Monster/SheepBall/SheepBall.fbx", PreModelMat))))
+		return E_FAIL;
+#pragma endregion
+
+	///* VIBuffer  Electric Panda MESH  Component */
+	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_ElectricPanda_Mesh"),
+	//	CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/ElectricPanda/Panda.fbx", PreModelMat))))
+	//	return E_FAIL;
+
+	///* VIBuffer  Herorong MESH  Component */
+	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Herorong_Mesh"),
+	//	CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Herorong/Herorong.fbx", PreModelMat))))
+	//	return E_FAIL;
+
+	///* VIBuffer  Electric Herorong MESH  Component */
+	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Electric_Herorong_Mesh"),
+	//	CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Herorong/EletricHerorong.fbx", PreModelMat))))
+	//	return E_FAIL;
+ //
+	///* VIBuffer  FlowerRabbit MESH  Component */
+	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_FlowerRabbit_Mesh"),
+	//	CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/FlowerRabbit/FlowerRabbit.fbx", PreModelMat))))
+	//	return E_FAIL;
+
+	///* VIBuffer  Hedgehog MESH  Component */
+	////if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Hedgehog_Mesh"),
+	////	CModel::Create(m_pDevice, m_pContext, "../Bin/Resources/Models/Hedgehog/Panda.fbx"))))
+	////	return E_FAIL;
+
+	///* VIBuffer  Frog MESH  Component */
+	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Frog_Mesh"),
+	//	CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Frog/Frog.fbx", PreModelMat))))
+	//	return E_FAIL;
+
+	///* VIBuffer  Yeti MESH  Component */
+	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Yeti_Mesh"),
+	//	CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Yeti/GrassYeti.fbx", PreModelMat))))
+	//	return E_FAIL;
+#pragma endregion
 
 #pragma region EnviornMent
 	WCHAR szModelName[MAX_PATH] = {};
@@ -478,44 +478,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	m_strMessage = TEXT("객체원형를(을) 로딩 중 입니다.");
 
-#pragma region Terrian_Com
-	///* 2 x 2  Terrian */
-	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian2x2"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 2))))
-	//	return E_FAIL;
-
-	///* 4 x 4  Terrian */
-	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian4x4"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 4))))
-	//	return E_FAIL;
-
-	///* 8 x 8  Terrian */
-	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian8x8"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 8))))
-	//	return E_FAIL;
-
-	///* 16 x 16  Terrian */
-	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian16x16"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 16))))
-	//	return E_FAIL;
-
-	///* 32 x 32  Terrian */
-	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian32x32"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 32))))
-	//	return E_FAIL;
-
-	///* 64 x 64  Terrian */
-	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian64x64"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 64))))
-	//	return E_FAIL;
-
-	///* 128 x 128  Terrian */
-	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian128x128"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 128))))
-	//	return E_FAIL;
-
-	///* 256 x 256  Terrian */
-	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian256x256"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext, 256))))
-	//	return E_FAIL;
-
-	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrian"), CVIBuffer_Terrain::Create(m_pDevice, m_pContext,
-	//	TEXT("../Bin/Resources/Textures/Map/HeightMap/Height.bmp")))))
-	//	return E_FAIL;
-#pragma endregion
-
 #pragma region OBJECT
 	/* GAME_OBJECT_Camera */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Camera"), CCamera::Create(m_pDevice, m_pContext))))
@@ -537,88 +499,88 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
-//#pragma region PELL
-//
-//#pragma region BedCat
-//	/* GAME_OBJECT_BedCat */
-//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_BedCat"), CBedCat::Create(m_pDevice, m_pContext))))
-//		return E_FAIL;
-//
-//	/* GAME_OBJECT_BedCatBody */
-//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_BedCat_Body_Default"), CBedCatBody::Create(m_pDevice, m_pContext))))
-//		return E_FAIL;
-//#pragma endregion
-//
-//#pragma region Drorong
-//	/* GAME_OBJECT_Dororong */
-//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Drorong"), CDororong::Create(m_pDevice, m_pContext))))
-//		return E_FAIL;
-//
-//	/* GAME_OBJECT_DrorongBody */
-//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Drorong_Body_Default"), CDororongBody::Create(m_pDevice, m_pContext))))
-//		return E_FAIL;
-//#pragma endregion
-//
-//#pragma region ElectricPanda
-//	/* GAME_OBJECT_ElectricPanda */
-//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ElectricPanda"), CElectPanda::Create(m_pDevice, m_pContext))))
-//		return E_FAIL;
-//
-//	/* GAME_OBJECT_ElectricPanda */
-//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ElectricPanda_Body_Default"), CElectricPandaBody::Create(m_pDevice, m_pContext))))
-//		return E_FAIL;
-//#pragma endregion
-//
-//#pragma region Herorong
-//	/* GAME_OBJECT_Herorong */
-//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Herorong"), CHerorong::Create(m_pDevice, m_pContext))))
-//		return E_FAIL;
-//
-//	/* GAME_OBJECT_Herorong */
-//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Herorong_Body_Default"), CHerorongBody::Create(m_pDevice, m_pContext))))
-//		return E_FAIL;
-//#pragma endregion
-//
-//#pragma region FlowerRabbit
-//	/* GAME_OBJECT_FlowerRabbit */
-//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_FlowerRabbit"), CFlowerRabbit::Create(m_pDevice, m_pContext))))
-//		return E_FAIL;
-//
-//	/* GAME_OBJECT_FlowerRabbitBody */
-//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_FlowerRabbit_Body_Default"), CFlowerLabbitBody::Create(m_pDevice, m_pContext))))
-//		return E_FAIL;
-//#pragma endregion
-//
-//#pragma region Hedgehog
-//	/* GAME_OBJECT_Hedgehog */
-//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Hedgehog"), CHedgehog::Create(m_pDevice, m_pContext))))
-//		return E_FAIL;
-//
-//	/* GAME_OBJECT_HedgehogBody */
-//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Hedgehog_Body_Default"), CHedgehogBody::Create(m_pDevice, m_pContext))))
-//		return E_FAIL;
-//#pragma endregion
-//
-//#pragma region Frog
-//	/* GAME_OBJECT_Frog */
-//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Frog"), CFrog::Create(m_pDevice, m_pContext))))
-//		return E_FAIL;
-//
-//	/* GAME_OBJECT_FrogBody */
-//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Frog_Body_Default"), CFrogBody::Create(m_pDevice, m_pContext))))
-//		return E_FAIL;
-//#pragma endregion
-//
-//#pragma region Yeti
-//	/* GAME_OBJECT_Yeti */
-//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Yeti"), CYeti::Create(m_pDevice, m_pContext))))
-//		return E_FAIL;
-//
-//	/* GAME_OBJECT_YetiBody */
-//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Yeti_Body_Default"), CYetiBody::Create(m_pDevice, m_pContext))))
-//		return E_FAIL;
-//#pragma endregion
-//#pragma endregion
+#pragma region PELL
+
+#pragma region BedCat
+	/* GAME_OBJECT_BedCat */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_BedCat"), CBedCat::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_BedCatBody */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_BedCat_Body_Default"), CBedCatBody::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region Drorong
+	/* GAME_OBJECT_Dororong */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Drorong"), CDororong::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_DrorongBody */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Drorong_Body_Default"), CDororongBody::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region ElectricPanda
+	/* GAME_OBJECT_ElectricPanda */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ElectricPanda"), CElectPanda::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_ElectricPanda */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ElectricPanda_Body_Default"), CElectricPandaBody::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region Herorong
+	/* GAME_OBJECT_Herorong */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Herorong"), CHerorong::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_Herorong */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Herorong_Body_Default"), CHerorongBody::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region FlowerRabbit
+	/* GAME_OBJECT_FlowerRabbit */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_FlowerRabbit"), CFlowerRabbit::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_FlowerRabbitBody */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_FlowerRabbit_Body_Default"), CFlowerLabbitBody::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region Hedgehog
+	/* GAME_OBJECT_Hedgehog */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Hedgehog"), CHedgehog::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_HedgehogBody */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Hedgehog_Body_Default"), CHedgehogBody::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region Frog
+	/* GAME_OBJECT_Frog */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Frog"), CFrog::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_FrogBody */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Frog_Body_Default"), CFrogBody::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region Yeti
+	/* GAME_OBJECT_Yeti */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Yeti"), CYeti::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_YetiBody */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Yeti_Body_Default"), CYetiBody::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+#pragma endregion
 
 #pragma region ENVIORNMENT
 
@@ -632,28 +594,28 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	
 #pragma endregion
-//
-//#pragma region PLAYER
-//	/* GAME_OBJECT_Player */
-//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player"), CPlayer::Create(m_pDevice, m_pContext))))
-//		return E_FAIL;
-//
-//	/* GAME_OBJECT_Animatior */
-//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_PartData_Default"), CPlayerPartData::Create(m_pDevice, m_pContext))))
-//		return E_FAIL;
-//
-//	/* GAME_OBJECT_Clothes */
-//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_Body_Default"), CPlayerBody::Create(m_pDevice, m_pContext))))
-//		return E_FAIL;
-//
-//	/* GAME_OBJECT_Weapon Slot */
-//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_WeaponSot"), CPlayerWeaponSlot::Create(m_pDevice, m_pContext))))
-//		return E_FAIL;
-//
-//	/* GAME_OBJECT_Item Slot */
-//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_BackItemSlot"), CPlayerItemSlot::Create(m_pDevice, m_pContext))))
-//		return E_FAIL;
-//#pragma endregion
+
+#pragma region PLAYER
+	/* GAME_OBJECT_Player */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player"), CPlayer::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_Animatior */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_PartData_Default"), CPlayerPartData::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_Clothes */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_Body_Default"), CPlayerBody::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_Weapon Slot */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_WeaponSot"), CPlayerWeaponSlot::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_Item Slot */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_BackItemSlot"), CPlayerItemSlot::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
 
 #pragma region PLAYER_INFO
 	/* GAME_OBJECT_PlayerInfoUI */

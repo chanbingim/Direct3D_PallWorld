@@ -120,13 +120,16 @@ HRESULT CDororong::ADD_Components()
         return E_FAIL;
 
     auto Object = m_pGameInstance->GetAllObejctToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_GamePlay_Terrian"))->begin();
-    auto OriginNav = static_cast<CNavigation*>((*Object)->Find_Component(TEXT("NaviMesh0_Com")));
+    auto OriginNav = static_cast<CNavigation*>((*Object)->Find_Component(TEXT("NaviMesh_Com")));
 
     CNavigation::NAVIGATION_DESC Desc = {};
     _float3 vPos = m_pTransformCom->GetPosition();
-    Desc.iCurrentCellIndex = OriginNav->Find_Cell(XMLoadFloat3(&vPos));
+    Desc.iCurrentCellIndex = m_pGameInstance->Random(5000.f, 5100.f);
 
+    m_pTransformCom->SetPosition(OriginNav->CellCenterPos(Desc.iCurrentCellIndex));
     m_pNevigation = static_cast<CNavigation*>(OriginNav->Clone(&Desc));
+
+    Safe_AddRef(m_pNevigation);
     m_pComponentMap.emplace(TEXT("NaviMesh_Com"), m_pNevigation);
 
     return S_OK;

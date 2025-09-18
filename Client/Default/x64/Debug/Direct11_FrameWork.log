@@ -20,11 +20,6 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
 FXC : warning X4717: Effects deprecated for D3DCompiler_47
   
   compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_NorTex.cso
-  DefaultMap.cpp
-C:\Git\GitHub\Direct3D_PallWorld\Client\private\DefaultMap.cpp(106,132): warning C4244: '인수': 'Engine::_uInt'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Git\GitHub\Direct3D_PallWorld\Client\private\DefaultMap.cpp(109,132): warning C4244: '인수': 'Engine::_uInt'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Git\GitHub\Direct3D_PallWorld\Client\private\DefaultMap.cpp(112,132): warning C4244: '인수': 'Engine::_uInt'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Git\GitHub\Direct3D_PallWorld\Client\private\DefaultMap.cpp(152,114): warning C4244: '인수': 'Engine::_uInt'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Git\GitHub\Direct3D_PallWorld\Client\private\DefaultMap.cpp(266,34): warning C4244: '=': 'Engine::_uInt'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Git\GitHub\Direct3D_PallWorld\Client\private\DefaultMap.cpp(275,29): warning C4244: '인수': 'Engine::_float'에서 'const unsigned __int64'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Dororong.cpp
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\Dororong.cpp(127,53): warning C4244: '=': 'Engine::_float'에서 'Engine::_Int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   Direct11_FrameWork.vcxproj -> C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe

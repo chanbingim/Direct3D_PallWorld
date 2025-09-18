@@ -45,7 +45,7 @@ private:
 	virtual ~CNavigation() = default;
 
 public:
-	virtual HRESULT					Initialize_Prototype(const _tchar* pNavigationDataFiles);
+	virtual HRESULT					Initialize_Prototype(const char* pNavigationDataFilePath);
 	virtual HRESULT					Initialize_Prototype(const CModel* pMapModel, _uInt iMeshNum);
 	virtual HRESULT					Initialize(void* pArg);
 
@@ -116,9 +116,10 @@ private:
 	void							SimpleFunnelAlgorithm(_vector vStartPoint, list<_float3>* PathList);
 
 	NAVI_TRIANGLE					CreateSuperTriangle(_float3 vMin, _float3 vMax);
+	HRESULT							ReadNaviMeshDataFile(const char* szFilePath);
 
 public:
-	static CNavigation*				Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pNavigationDataFiles);
+	static CNavigation*				Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const char* pNavigationDataFilePath);
 	static CNavigation*				Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const CModel* pModel, _uInt iNumMesh);
 
 	virtual CComponent*				Clone(void* pArg) override;

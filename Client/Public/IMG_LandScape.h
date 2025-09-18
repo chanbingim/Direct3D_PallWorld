@@ -48,9 +48,6 @@ private :
 	void							DrawPrefabBrush();
 	void							CreateHeightMapToPng();
 
-	void							Save_NaviMesh();
-	HRESULT							ExportNaviMeshData(const char* pFilePath, list<NAVI_TRIANGLE>& SaveList);
-
 public:
 	static	CIMG_LandScape*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CImgUIBase*				Clone(void* pArg);
