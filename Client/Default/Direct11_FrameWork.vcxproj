@@ -171,6 +171,7 @@
     <ClInclude Include="..\public\BedCat.h" />
     <ClInclude Include="..\public\BedCatBody.h" />
     <ClInclude Include="..\public\ClimbState.h" />
+    <ClInclude Include="..\public\CombatComponent.h" />
     <ClInclude Include="..\public\DefaultMap.h" />
     <ClInclude Include="..\public\DropComponent.h" />
     <ClInclude Include="..\public\ItemQuickSlot.h" />
@@ -178,6 +179,7 @@
     <ClInclude Include="..\public\NeturalTypeIcon.h" />
     <ClInclude Include="..\public\PellAttackState.h" />
     <ClInclude Include="..\public\PellCombatLayer.h" />
+    <ClInclude Include="..\public\PellDeadState.h" />
     <ClInclude Include="..\public\PellHealthBar.h" />
     <ClInclude Include="..\public\PellHitState.h" />
     <ClInclude Include="..\public\PellIdleState.h" />
@@ -321,11 +323,13 @@
     <ClCompile Include="..\private\BedCat.cpp" />
     <ClCompile Include="..\private\BedCatBody.cpp" />
     <ClCompile Include="..\private\ClimbState.cpp" />
+    <ClCompile Include="..\private\CombatComponent.cpp" />
     <ClCompile Include="..\private\DefaultMap.cpp" />
     <ClCompile Include="..\private\DropComponent.cpp" />
     <ClCompile Include="..\private\ItemQuickSlot.cpp" />
     <ClCompile Include="..\private\NeturalPellInfo.cpp" />
     <ClCompile Include="..\private\NeturalTypeIcon.cpp" />
+    <ClCompile Include="..\private\PellDeadState.cpp" />
     <ClCompile Include="..\private\PellManager.cpp" />
     <ClCompile Include="..\private\PellAttackState.cpp" />
     <ClCompile Include="..\private\PellCombatLayer.cpp" />

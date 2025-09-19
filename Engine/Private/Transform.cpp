@@ -175,25 +175,25 @@ void CTransform::LerpTurn(_vector vAxis, _vector vAt, _float fSpeed, _float fTim
 {
     _float3     vPos = GetPosition();
     _vector     vCurPos = XMLoadFloat3(&vPos);
-    _vector     vCurLook = XMVector3Normalize(GetLookVector());
-    _vector		vLook = XMVector3Normalize(vAt - vCurPos);
-    
-    _float  fScalar = XMVectorGetX(XMVector3Dot(vCurLook, vLook));
-    if (0.998f <= fScalar)
-    {
-        LookAt(vAt);
-        return;
-    }
+
+    _vector     vLook = GetLookVector();
+    vAt.m128_f32[1] = vLook.m128_f32[1] = vCurPos.m128_f32[1] = 0.f;
+    _vector     vCurNormalLook = XMVector3Normalize(vLook);
+
+    _vector		vNormalLook = XMVector3Normalize(vAt - vCurPos);
+    _float      fScalar = XMVectorGetX(XMVector3Dot(vNormalLook, vCurNormalLook));
+
+    if (0.9f < fScalar)
+        LookAt(XMLoadFloat3(&vPos) + vNormalLook);
     else
     {
-        _float RotationSpeed = fSpeed;
-        if (0 > fScalar)
-            RotationSpeed *= 2; 
+        if (-0.9 > fScalar)
+            fSpeed *= 2.f;
 
-        if (0 > XMVectorGetY(XMVector3Cross(vCurLook, vLook)))
-            Turn(vAxis, -RotationSpeed, fTimeDelta);
+        if (0 > XMVectorGetY(XMVector3Cross(vCurNormalLook, vNormalLook)))
+            Turn(GetUpVector(), -fSpeed, fTimeDelta);
         else
-            Turn(vAxis, RotationSpeed, fTimeDelta);
+            Turn(GetUpVector(), fSpeed, fTimeDelta);
     }
 }
 

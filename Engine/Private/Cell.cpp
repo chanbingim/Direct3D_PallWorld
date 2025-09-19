@@ -31,7 +31,7 @@ HRESULT CCell::Initialize(_uInt iCellIndex, _uInt iCellProperity, const _float3*
         total += XMLoadFloat3(&m_vTirPoints[i]);
     }
 
-    XMStoreFloat3(&m_fCenter, XMVectorScale(total, 1.0f / 3.0f));
+    XMStoreFloat3(&m_fCenter, total / 3.0f);
 
 #ifdef _DEBUG
     m_pVIBuffer = CVIBuffer_Cell::Create(m_pDevice, m_pContext, vPoints);

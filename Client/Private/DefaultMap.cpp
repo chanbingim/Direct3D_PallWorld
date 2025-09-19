@@ -69,7 +69,7 @@ HRESULT CDefaultMap::Render()
 
 
 #ifdef _DEBUG
-    m_pNavigationCom->Render({ 1.f, 0.f,0.f,1.f });
+   // m_pNavigationCom->Render({ 1.f, 0.f,0.f,1.f });
    /* for (auto i : m_MapRenderIndex)
     {
         Apply_ConstantShaderResources(i);

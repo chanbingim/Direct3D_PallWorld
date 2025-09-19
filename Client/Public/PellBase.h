@@ -10,6 +10,7 @@ class CCollision;
 NS_END
 
 NS_BEGIN(Client)
+class CCombatComponent;
 class CNeturalPellInfo;
 class CPellStateMachine;
 class CRecovery;
@@ -40,11 +41,13 @@ public:
 
 	const PELL_INFO&						GetPellInfo() const { return m_PellInfo; }
 
+	virtual		void						Damage(void* pArg, CActor* pDamagedActor);
+	
 protected :
 	PELL_TEAM								m_eTeam;
 
-	_bool									m_bIsAction = false;
 	_bool									m_bIsLoop = true;
+	_bool									m_bIsAction = false;
 
 	_float									m_fAccActionTime = 0;
 	_float									m_fActionTime = 0;
@@ -54,6 +57,9 @@ protected :
 
 #pragma region Collision
 	CCollision*								m_pCollision = nullptr;
+	CNavigation*							m_pNevigation = nullptr;
+	CPellBody*								m_pPellBody = nullptr;
+	CCombatComponent*						m_pCombatCom = nullptr;
 #pragma endregion
 
 #pragma region Recovery
@@ -62,16 +68,6 @@ protected :
 	CRecovery*								m_pRecovery = nullptr;
 #pragma endregion
 
-#pragma region Navigation
-	CNavigation*							m_pNevigation = nullptr;
-#pragma endregion
-
-#pragma endregion
-
-#pragma region Part Object
-	CPellBody*								m_pPellBody = nullptr;
-
-#pragma region HEALTBAR
 	_float									m_fInfoVisibleDistance = 5.f;
 	CNeturalPellInfo*						m_pNeturalPellUI = nullptr;
 #pragma endregion
@@ -85,16 +81,21 @@ protected :
 	_float									m_LerpTime = {};
 
 protected :
-	HRESULT									ADD_PellInfoUI();
+	// 전투를 위한 전투 기능
+	virtual		void						CombatAction();
 
+	HRESULT									ADD_PellInfoUI();
 	void									PellPlayFSM(_float fDeletaTime);
 	void									PellChiceAction();
 	void									PellTackingAction();
 
+	// 아군일떄
 	void									ActionFrendly();
+	// 야생 몬스터 일떄
 	void									ActionNeutral();
+	// NPC가 가지고있는 몬스터일때 
 	void									ActionEnemy();
-
+	// HP Bar를 보여준다.
 	void									ShowPellInfo();
 
 

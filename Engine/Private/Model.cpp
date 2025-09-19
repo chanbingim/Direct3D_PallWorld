@@ -259,6 +259,12 @@ _bool CModel::PlayAnimation(_uInt iAnimLayerIndex, _uInt iCurrentAnimIndex, _flo
 	return Finished;
 }
 
+_bool CModel::ResetAnimation(_uInt iAnimLayerIndex)
+{
+	m_Animations[m_CurrentAnimIndexs[iAnimLayerIndex]]->ResetAnimation();
+	return true;
+}
+
 
 void CModel::BindParentAnim(CModel* DstData)
 {

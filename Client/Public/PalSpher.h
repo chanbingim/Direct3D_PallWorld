@@ -4,6 +4,9 @@
 #include "PartObject.h"
 
 NS_BEGIN(Client)
+
+class CPellBase;
+
 class CPalSpher : public CPartObject
 {
 private :

@@ -26,6 +26,7 @@ public :
 
 	void			Export(void* pAnimationDesc);
 	void			GetUseBoneIndex(vector<_bool>& BoneList);
+	void			ResetAnimation();
 
 private :
 	/*  애니 메이션에 대한 정보를 저장한다. */

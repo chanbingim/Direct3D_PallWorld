@@ -164,6 +164,12 @@ void CAnimation::GetUseBoneIndex(vector<_bool>& BoneList)
 		BoneList[pChannel->GetBoneIndex()] = true;
 }
 
+void CAnimation::ResetAnimation()
+{
+	m_fCurrentTrackPosition = 0;
+	fill(m_iChannelIndex.begin(), m_iChannelIndex.end(), 0);
+}
+
 CAnimation* CAnimation::Create(const CModel* pModel, const aiAnimation* pAIAnimation, _bool bIsLoop)
 {
 	CAnimation* pAnim = new CAnimation();

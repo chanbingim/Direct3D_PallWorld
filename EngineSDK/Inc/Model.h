@@ -39,6 +39,7 @@ public :
 	//모델 애니메이션 관련 함수
 	_uInt						GetNumAnimations() { return m_iNumAnimations; }
 	_bool						PlayAnimation(_uInt iAnimLayerIndex, _uInt iCurrentAnimIndex, _float fDeletaTime, _float fAnimSpeed = 10.f, _bool bIsLoop = true, const char* BoneName = "Root Node", const char* EndBoneName = "");
+	_bool						ResetAnimation(_uInt iAnimLayerIndex);
 	void						BindParentAnim(CModel* DstData);
 
 	const char*					GetAnimationName(_uInt iIndex);

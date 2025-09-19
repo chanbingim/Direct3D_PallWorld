@@ -22,8 +22,9 @@ public:
 	// 랜더
 	virtual		HRESULT						Render() override;
 	
-
-
+protected :
+	// 전투를 위한 전투 기능
+	virtual		void						CombatAction();
 
 private:
 	HRESULT									ADD_Components();

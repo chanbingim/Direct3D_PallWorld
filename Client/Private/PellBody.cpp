@@ -55,6 +55,11 @@ void CPellBody::PellPlayAnimation(const char* szAnimName, _bool bIsLoop)
     }
 }
 
+void CPellBody::ResetPellCurrentAnimation()
+{
+    m_pVIBufferCom->ResetAnimation(0);
+}
+
 CGameObject* CPellBody::Clone(void* pArg)
 {
     return nullptr;

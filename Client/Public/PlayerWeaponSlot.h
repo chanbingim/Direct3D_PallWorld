@@ -41,6 +41,9 @@ private :
 private :
 	HRESULT									ADD_Components();
 
+private :
+	void									HitBegin(_float3 vDir, CGameObject* pHitActor);
+
 public :
 	static			CPlayerWeaponSlot*		Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual			CGameObject*			Clone(void* pArg) override;

@@ -100,10 +100,21 @@ _string CPellStateMachine::GetAnimationName()
     const char* BodyAnimName = BodyLayer->GetCurStateName();
     const char* CombatAnimName = CombatLayer->GetCurStateName();
 
-    if (nullptr == BodyAnimName)
-        return "";
+    if (COMBAT_ACTION::END == m_StateData.eCombat_State )
+    {
+        if(nullptr == BodyAnimName)
+            return "";
 
-    FullName = BodyAnimName;
+        FullName = BodyAnimName;
+    }
+    else
+    {
+        if (nullptr == CombatAnimName)
+            return "";
+
+        FullName = CombatAnimName;
+    }
+   
     return FullName;
 }
 

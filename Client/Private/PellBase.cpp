@@ -1,11 +1,15 @@
 #include "PellBase.h"
-
 #include "GameInstance.h"
 
+#pragma region PARTS HEADER
 #include "PellStateMachine.h"
 #include "NeturalPellInfo.h"
 #include "PellBody.h"
 #include "Recovery.h"
+#pragma endregion
+
+#include "PalSpher.h"
+#include "CombatComponent.h"
 
 CPellBase::CPellBase(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext) :
     CContainerObject(pGraphic_Device, pDeviceContext)
@@ -64,6 +68,29 @@ HRESULT CPellBase::Render()
     return E_NOTIMPL;
 }
 
+void CPellBase::Damage(void* pArg, CActor* pDamagedActor)
+{
+    DEFAULT_DAMAGE_DESC* DamageDesc = static_cast<DEFAULT_DAMAGE_DESC*>(pArg);
+    if (DamageDesc)
+    {
+        m_PellInfo.CurHealth -= DamageDesc->fDmaged;
+
+        if (0 >= m_PellInfo.CurHealth)
+        {
+            m_pPellFsm->ChangeState(TEXT("CombatLayer"), TEXT("Dead"));
+        }
+        else
+        {
+            if(m_pPellBody)
+                m_pPellBody->ResetPellCurrentAnimation();
+            if (m_pCombatCom)
+                m_pCombatCom->ADD_TargetObject(pDamagedActor);
+
+            m_pPellFsm->ChangeState(TEXT("CombatLayer"), TEXT("Hit"));
+        }
+    }
+}
+
 HRESULT CPellBase::ADD_PellInfoUI()
 {
     CNeturalPellInfo::NETURAL_PELL_DESC PellInfoDesc = {};
@@ -78,6 +105,7 @@ HRESULT CPellBase::ADD_PellInfoUI()
 
 void CPellBase::PellPlayFSM(_float fDeletaTime)
 {
+    const CPellStateMachine::PELL_STATE& State = m_pPellFsm->GetState();
     m_fAccActionTime += fDeletaTime;
     
     if (m_fAccActionTime >= m_fActionTime)
@@ -91,8 +119,10 @@ void CPellBase::PellPlayFSM(_float fDeletaTime)
             ShowPellInfo();
         PellTackingAction();
     }
-       
-        
+
+    if (CPellStateMachine::COMBAT_ACTION::END != State.eCombat_State)
+        m_pCombatCom->Update(fDeletaTime);
+
     m_pPellFsm->Update(fDeletaTime);
 }
 
@@ -213,17 +243,20 @@ void CPellBase::ActionNeutral()
     else
     {
         //전투 중이라면 여기서 상태 진행
-
-
-
-
-
+        CombatAction();
     }
    
 }
 
 void CPellBase::ActionEnemy()
 {
+
+}
+
+void CPellBase::CombatAction()
+{
+    //이건 생각해보니까 펠별로 다를거 같음
+
 
 }
 

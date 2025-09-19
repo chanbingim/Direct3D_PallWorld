@@ -37,4 +37,14 @@ namespace Client
 		float	ATKPoint;
 	}CHARACTER_SAVE_DESC;
 
+	typedef struct Default_Damage_Desc
+	{
+		//Damaged
+		_float					fDmaged;
+
+
+
+
+
+	}DEFAULT_DAMAGE_DESC;
 }

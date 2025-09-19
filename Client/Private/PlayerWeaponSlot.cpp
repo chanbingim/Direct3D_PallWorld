@@ -104,7 +104,7 @@ HRESULT CPlayerWeaponSlot::Render()
 {
 	__super::Render();
 
-	if (m_pVIBufferCom)
+	if (nullptr == m_pVIBufferCom)
 	{
 		for(auto  i =0; i < 2; ++i)
 			m_pCollision[i]->Render({});
@@ -133,9 +133,20 @@ HRESULT CPlayerWeaponSlot::ADD_Components()
 	{
 		m_pCollision[i]->ADD_IgnoreObejct(typeid(CPlayerWeaponSlot).hash_code());
 		m_pCollision[i]->ADD_IgnoreObejct(typeid(CPlayer).hash_code());
+
+		m_pCollision[i]->BindBeginOverlapEvent([&](_float3 vDir, CGameObject* pHitActor) { this->HitBegin(vDir, pHitActor); });
 	}
 
 	return S_OK;
+}
+
+void CPlayerWeaponSlot::HitBegin(_float3 vDir, CGameObject* pHitActor)
+{
+	auto HitObejct = dynamic_cast<CContainerObject*>(pHitActor);
+	if (HitObejct)
+	{
+		HitObejct->Damage(nullptr, CPlayerManager::GetInstance()->GetCurrentPlayer());
+	}
 }
 
 CPlayerWeaponSlot* CPlayerWeaponSlot::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

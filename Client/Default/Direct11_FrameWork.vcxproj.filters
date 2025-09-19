@@ -506,6 +506,12 @@
     <Filter Include="06. Component\DropComponent">
       <UniqueIdentifier>{0ddefa74-e7f7-4c76-a7de-94cdf11ba563}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\CombatLayer\State\Dead">
+      <UniqueIdentifier>{5b558892-ea63-41e9-9cd0-dd90b54631e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. Component\CombatComponent">
+      <UniqueIdentifier>{b51db162-6d09-49dc-b67c-2fffa04e85ef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -943,7 +949,15 @@
     <ClInclude Include="..\Public\PlayerItemSlot.h">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerItemSlot</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\DropComponent.h" />
+    <ClInclude Include="..\public\PellDeadState.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\CombatLayer\State\Dead</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\DropComponent.h">
+      <Filter>06. Component\DropComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CombatComponent.h">
+      <Filter>06. Component\CombatComponent</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -1367,7 +1381,15 @@
     <ClCompile Include="..\Private\PlayerItemSlot.cpp">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerItemSlot</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\DropComponent.cpp" />
+    <ClCompile Include="..\private\PellDeadState.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\CombatLayer\State\Dead</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\DropComponent.cpp">
+      <Filter>06. Component\DropComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CombatComponent.cpp">
+      <Filter>06. Component\CombatComponent</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\TestShader.hlsl">

@@ -63,17 +63,17 @@ void CPlayer::Priority_Update(_float fDeletaTime)
 {
     __super::Priority_Update(fDeletaTime);
 
-    if(m_ViewCamera)
-        m_pPlayerCamera->Late_Update(fDeletaTime);
-
     if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_F10))
         m_ViewCamera = !m_ViewCamera;
 
-  if (GAMEMODE::GAME == m_pGameInstance->GetGameMode())
-  {
-      Key_Input(fDeletaTime);
-      m_pGameInstance->SetPlayerWorldMatrix(m_pTransformCom->GetWorldMat());
-  }
+    if(m_ViewCamera)
+        m_pPlayerCamera->Late_Update(fDeletaTime);
+
+    if (GAMEMODE::GAME == m_pGameInstance->GetGameMode())
+    {
+        Key_Input(fDeletaTime);
+        m_pGameInstance->SetPlayerWorldMatrix(m_pTransformCom->GetWorldMat());
+    }
 }
 
 void CPlayer::Update(_float fDeletaTime)
@@ -251,7 +251,7 @@ void CPlayer::MoveAction(_float fDeletaTime)
         {
             if (!XMVector4Equal(vDir, XMVectorZero()))
             {
-                m_pTransformCom->LerpTurn(XMVectorSet(0.f, 1.f, 0.f, 0.f), vPos + vDir, 4.f, fDeletaTime);
+                m_pTransformCom->LerpTurn(XMVectorSet(0.f, 1.f, 0.f, 0.f), vPos + vDir, XMConvertToRadians(180.f), fDeletaTime);
             }
         }
 

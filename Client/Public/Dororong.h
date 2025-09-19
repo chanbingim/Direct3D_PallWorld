@@ -25,7 +25,7 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
-
+	virtual		void						Damage(void* pArg, CActor* pDamagedActor);
 
 
 private:

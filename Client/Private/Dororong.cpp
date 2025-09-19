@@ -70,9 +70,13 @@ void CDororong::Priority_Update(_float fDeletaTime)
             _vector vDir = XMVector3Normalize(vTarget - vPos);
 
             _vector vMovePos = vDir * 5.f * fDeletaTime;
-            m_pTransformCom->LerpTurn(m_pTransformCom->GetUpVector(), vPos + vMovePos, 2.f, fDeletaTime);
+            
             if (m_pNevigation->IsMove(vPos + vMovePos))
+            {
+                m_pTransformCom->LerpTurn(XMVectorSet(0.f, 1.f, 0.f, 0.f), vTarget, XMConvertToRadians(180.f), fDeletaTime);
                 m_pTransformCom->ADD_Position(vMovePos);
+            }
+               
         }
     }
 
@@ -99,6 +103,12 @@ HRESULT CDororong::Render()
 {
     m_pCollision->Render();
     return S_OK;
+}
+
+void CDororong::Damage(void* pArg, CActor* pDamagedActor)
+{
+    __super::Damage(pArg, pDamagedActor);
+
 }
 
 HRESULT CDororong::ADD_Components()
