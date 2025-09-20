@@ -102,16 +102,16 @@ void CPlayerWeaponSlot::Late_Update(_float fDeletaTime)
 
 HRESULT CPlayerWeaponSlot::Render()
 {
-	__super::Render();
-
 	if (nullptr == m_pVIBufferCom)
 	{
 		for(auto  i =0; i < 2; ++i)
 			m_pCollision[i]->Render({});
 	}
 	else
+	{
+		__super::Render();
 		m_pCollision[0]->Render({});
-
+	}
 
 	return S_OK;
 }
@@ -134,7 +134,7 @@ HRESULT CPlayerWeaponSlot::ADD_Components()
 		m_pCollision[i]->ADD_IgnoreObejct(typeid(CPlayerWeaponSlot).hash_code());
 		m_pCollision[i]->ADD_IgnoreObejct(typeid(CPlayer).hash_code());
 
-		m_pCollision[i]->BindBeginOverlapEvent([&](_float3 vDir, CGameObject* pHitActor) { this->HitBegin(vDir, pHitActor); });
+		m_pCollision[i]->BindBeginOverlapEvent([this](_float3 vDir, CGameObject* pHitActor) { this->HitBegin(vDir, pHitActor); });
 	}
 
 	return S_OK;

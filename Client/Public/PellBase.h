@@ -41,11 +41,13 @@ public:
 
 	const PELL_INFO&						GetPellInfo() const { return m_PellInfo; }
 	const _bool								GetFinisehdAnimation() const;
+
 	virtual		void						Damage(void* pArg, CActor* pDamagedActor);
 
 protected :
 	_uInt									m_PellID;
 	PELL_TEAM								m_eTeam;
+	_float									m_fPellMoveSpeed = {};
 
 	_bool									m_bIsLoop = true;
 	_bool									m_bIsAction = false;
@@ -72,8 +74,6 @@ protected :
 	CNeturalPellInfo*						m_pNeturalPellUI = nullptr;
 #pragma endregion
 
-#pragma endregion
-
 	PELL_INFO								m_PellInfo = {};
 	list<_float3>							m_PathFinding;
 
@@ -95,6 +95,7 @@ private :
 	void									PellTackingAction();
 	// 아군일떄
 	void									ActionFrendly();
+
 #pragma region Netural
 	// 야생 몬스터 일떄
 	void									ActionNeutral();

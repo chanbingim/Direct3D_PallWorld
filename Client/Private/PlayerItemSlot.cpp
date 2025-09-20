@@ -65,15 +65,18 @@ void CPlayerItemSlot::Update(_float fDeletaTime)
 void CPlayerItemSlot::Late_Update(_float fDeletaTime)
 {
 	UpdateCombinedMatrix();
-	m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
+
+	if (nullptr != m_pVIBufferCom)
+		m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
 }
 
 HRESULT CPlayerItemSlot::Render()
 {
-	if (nullptr == m_pVIBufferCom)
-		return E_FAIL;
-
 	Bind_ShaderResources();
+
+	if (nullptr == m_pVIBufferCom)
+		int a = 10;
+
 	_uInt iNumMeshes = m_pVIBufferCom->GetNumMeshes();
 	for (_uInt i = 0; i < iNumMeshes; ++i)
 	{
@@ -124,6 +127,10 @@ HRESULT CPlayerItemSlot::Apply_ConstantShaderResources(_uInt iMeshIndex)
 	m_pEMVProjMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION)));
 
 	ID3D11ShaderResourceView* pResourceVeiw = {};
+
+	if (nullptr == m_pVIBufferCom)
+		int a = 10;
+
 	m_pVIBufferCom->GetMeshResource(iMeshIndex, aiTextureType_DIFFUSE, 0, &pResourceVeiw);
 	if (pResourceVeiw)
 		m_pSRVEffect->SetResource(pResourceVeiw);

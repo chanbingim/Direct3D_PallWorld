@@ -4,6 +4,7 @@
 CPellAttackState::CPellAttackState(const char* szStateName) :
     CState(szStateName)
 {
+    m_iLastPhase = 4;
 }
 
 void CPellAttackState::OnStateEnter(void* pArg)
@@ -13,8 +14,11 @@ void CPellAttackState::OnStateEnter(void* pArg)
     m_IsSpaceOut = Desc->IsSpaceOut;
     m_pActPell = Desc->ActPell;
     m_AttackData = *Desc->AttackData;
-    m_bStateAnimLoop = false;
 
+    if(nullptr != Desc->fSkillMoveSpeed)
+        *Desc->fSkillMoveSpeed = m_AttackData.fSkillMoveSpeed;
+
+    m_bStateAnimLoop = false;
     m_iPhaseIndex = 0;
 }
 
@@ -58,7 +62,7 @@ void CPellAttackState::OnStateExcution(_float fDeletaTime, void* pArg)
 
 void CPellAttackState::OnStateExit(void* pArg)
 {
-
+    m_pActPell = nullptr;
 }
 
 void CPellAttackState::SkillMotionChange(_float fTimeDeleta)

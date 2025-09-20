@@ -30,6 +30,8 @@ void CPellManager::Initialize(const char* szFilePath)
         PellDesc.fPellAttackRange = 100.f;
         PellDesc.fPellActTime = 5.f;
         PellDesc.DefaultSkill = *CPellSkillManager::GetInstance()->FindPellData(0);
+        PellDesc.fPellWalkSpeed = 5.f;
+        PellDesc.fPellRunSpeed = 10.f;
 
         PellDesc.MaxStemina = 100.f;
         PellDesc.ShieldPoint = 100;

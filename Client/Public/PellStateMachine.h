@@ -53,6 +53,8 @@ public:
 	void								SetCombatAction(_bool bFlag) { m_StateData.bIsCombat = bFlag; }
 
 	const PELL_STATE&					GetState() { return m_StateData; }
+	_bool								GetLayerLastPhase(const _wstring& LayerTag);
+
 	_string								GetAnimationName();
 
 	void								CombatStateReset();
@@ -60,6 +62,7 @@ public:
 private:
 	CContainerObject*					m_pOwner = nullptr;
 	PELL_STATE							m_StateData = {};
+
 	_bool								m_AnimationLoop = true;
 
 private :

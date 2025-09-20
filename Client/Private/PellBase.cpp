@@ -9,6 +9,10 @@
 #include "Recovery.h"
 #pragma endregion
 
+#pragma region STATE
+#include "PellPatrolState.h"
+#pragma endregion
+
 #include "PalSpher.h"
 #include "CombatComponent.h"
 
@@ -197,7 +201,7 @@ void CPellBase::PellTackingAction()
     const CPellStateMachine::PELL_STATE& State = m_pPellFsm->GetState();
     if (CPellStateMachine::COMBAT_ACTION::HIT >= State.eCombat_State)
     {
-        if (m_pPellBody->FinishedAnimation())
+        if (m_pPellFsm->GetLayerLastPhase(TEXT("CombatLayer")) && m_pPellBody->FinishedAnimation())
         {
             m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Idle"));
             m_pPellFsm->CombatStateReset();
@@ -250,7 +254,11 @@ void CPellBase::StartMoveAction(const _float3 vEndPos)
         m_vTargetPoint = *iter;
         m_PathFinding.erase(iter);
         m_bIsAction = true;
-        m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Patrol"));
+
+        CPellPatrolState::PELL_PATROL_STATE_DESC PatrolDesc = {};
+        PatrolDesc.pActPell = this;
+        PatrolDesc.fPellMoveSpeed = &m_fPellMoveSpeed;
+        m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Patrol"), &PatrolDesc);
     }
 }
 

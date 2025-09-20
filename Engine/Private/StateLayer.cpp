@@ -103,6 +103,11 @@ const _bool CStateLayer::GetCurrentStateAnimLoop()
     return m_pCurState->GetStateAnimLoop();
 }
 
+const _bool CStateLayer::GetCurrentStateLastPhase()
+{
+    return m_pCurState->GetLastPahse();
+}
+
 pair<CState*, _Int> CStateLayer::FindState(const _wstring& StateTag)
 {
     auto iter = m_StatesHasMap.find(StateTag);

@@ -490,7 +490,7 @@ void CModel::ExportMappingData(CModel* DstData, unordered_map<_string, pair<_Int
 
 _bool CModel::IsPicking(CTransform* pTransform, _float3* pOut, _uInt* OutiNumIndex)
 {
-	for (auto i = 0; i < m_iNumMeshes; ++i)
+	for (_uInt i = 0; i < m_iNumMeshes; ++i)
 	{
 		if (m_Meshes[i]->IsPicking(pTransform, pOut))
 		{
@@ -504,7 +504,7 @@ _bool CModel::IsPicking(CTransform* pTransform, _float3* pOut, _uInt* OutiNumInd
 
 _bool CModel::IsPicking(_vector vRayOrizin, _vector vRayDir, CTransform* pTransform, _float3* pOut)
 {
-	for (auto i = 0; i < m_iNumMeshes; ++i)
+	for (_uInt i = 0; i < m_iNumMeshes; ++i)
 		return m_Meshes[i]->IsPicking(vRayOrizin, vRayDir, pTransform, pOut);
 
 	return false;

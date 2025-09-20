@@ -169,8 +169,8 @@ HRESULT CVIBuffer_Terrain::ExportHeightMap(const WCHAR* ExportFilePath)
 {
 	ID3D11Texture2D* pSaveTex = nullptr;
 	D3D11_TEXTURE2D_DESC TexDesc = {};
-	TexDesc.Width = m_iNumVertex.x;
-	TexDesc.Height = m_iNumVertex.y;
+	TexDesc.Width =		(UINT)m_iNumVertex.x;
+	TexDesc.Height =	(UINT)m_iNumVertex.y;
 	TexDesc.MipLevels = 1;
 	TexDesc.ArraySize = 1;
 	TexDesc.SampleDesc.Count = 1;
@@ -187,19 +187,19 @@ HRESULT CVIBuffer_Terrain::ExportHeightMap(const WCHAR* ExportFilePath)
 	{
 		for (_uInt j = 0; j < m_iNumVertex.x; ++j)
 		{
-			_uInt iIndex = i * m_iNumVertex.x + j;
+			_uInt iIndex = i * (_uInt)m_iNumVertex.x + j;
 			_uInt iPixelIndex = iIndex * 4;
 
-			pPixel[iPixelIndex] = m_pVertices[iIndex].y;
-			pPixel[iPixelIndex + 1] = m_pVertices[iIndex].y;
-			pPixel[iPixelIndex + 2] = m_pVertices[iIndex].y;
-			pPixel[iPixelIndex + 3] = 255;
+			pPixel[iPixelIndex]		=	(unsigned char)m_pVertices[iIndex].y;
+			pPixel[iPixelIndex + 1] =	(unsigned char)m_pVertices[iIndex].y;
+			pPixel[iPixelIndex + 2] =	(unsigned char)m_pVertices[iIndex].y;
+			pPixel[iPixelIndex + 3] =	(unsigned char)255;
 		}
 	}
 	D3D11_SUBRESOURCE_DATA SubData;
 	
 	SubData.pSysMem = pPixel;
-	SubData.SysMemPitch = sizeof(_uInt) * m_iNumVertex.x;
+	SubData.SysMemPitch = sizeof(_uInt) * (_uInt)m_iNumVertex.x;
 	SubData.SysMemSlicePitch = 0;
 	if (FAILED(m_pDevice->CreateTexture2D(&TexDesc, &SubData, &pSaveTex)))
 		return E_FAIL;
@@ -420,7 +420,7 @@ HRESULT CVIBuffer_Terrain::CreateWICTerrian(const WCHAR* pHegithFilePath)
 			{
 				_uInt		iIndex = _uInt(i * m_iNumVertex.x + j);
 
-				m_pVertices[iIndex] = pVertices[iIndex].vPosition = _float3(j, (pPixels[iIndex] & 0x000000ff), i);
+				m_pVertices[iIndex] = pVertices[iIndex].vPosition = _float3(j, (_float)(pPixels[iIndex] & 0x000000ff), i);
 				pVertices[iIndex].vNormal = _float3(0.f, 0.f, 0.f);
 				pVertices[iIndex].vTexcoord = _float2(j / (m_iNumVertex.x - 1.f), i / (m_iNumVertex.y - 1.f));
 			}
@@ -518,9 +518,9 @@ HRESULT CVIBuffer_Terrain::CreateBMPTerrian(const WCHAR* pHegithFilePath)
 	ReadFile(hFile, &fh, sizeof fh, &dwByte, nullptr);
 	ReadFile(hFile, &ih, sizeof ih, &dwByte, nullptr);
 
-	m_iNumVertex.x = ih.biWidth;
-	m_iNumVertex.y = ih.biHeight;
-	m_iNumVertices = m_iNumVertex.x * m_iNumVertex.y;
+	m_iNumVertex.x = (_float)ih.biWidth;
+	m_iNumVertex.y = (_float)ih.biHeight;
+	m_iNumVertices = (_uInt)m_iNumVertex.x * (_uInt)m_iNumVertex.y;
 
 	_uInt* pPixels = new _uInt[m_iNumVertices];
 	ZeroMemory(pPixels, sizeof(_uInt) * m_iNumVertices);
@@ -531,7 +531,7 @@ HRESULT CVIBuffer_Terrain::CreateBMPTerrian(const WCHAR* pHegithFilePath)
 
 	m_iVertexStride = sizeof(VTX_NORTEX);
 
-	m_iNumIndices = (m_iNumVertex.x - 1) * (m_iNumVertex.y - 1) * 2 * 3;
+	m_iNumIndices = (_uInt)(m_iNumVertex.x - 1) * (_uInt)(m_iNumVertex.y - 1) * 2 * 3;
 	m_iIndexStride = 4;
 
 	m_eIndexFormat = DXGI_FORMAT_R32_UINT;
@@ -556,9 +556,9 @@ HRESULT CVIBuffer_Terrain::CreateBMPTerrian(const WCHAR* pHegithFilePath)
 	{
 		for (size_t j = 0; j < m_iNumVertex.x; j++)
 		{
-			_uInt		iIndex = i * m_iNumVertex.x + j;
+			_uInt		iIndex = (_uInt)i * (_uInt)m_iNumVertex.x + (_uInt)j;
 
-			m_pVertices[iIndex] = pVertices[iIndex].vPosition = _float3(j, (pPixels[iIndex] & 0x000000ff) / 10.f, i);
+			m_pVertices[iIndex] = pVertices[iIndex].vPosition = _float3((_float)j, (_float)(pPixels[iIndex] & 0x000000ff) / 10.f, (_float)i);
 			pVertices[iIndex].vNormal = _float3(0.f, 0.f, 0.f);
 			pVertices[iIndex].vTexcoord = _float2(j / (m_iNumVertex.x - 1.f), i / (m_iNumVertex.y - 1.f));
 		}
@@ -587,11 +587,11 @@ HRESULT CVIBuffer_Terrain::CreateBMPTerrian(const WCHAR* pHegithFilePath)
 	{
 		for (size_t j = 0; j < m_iNumVertex.x - 1; j++)
 		{
-			_uInt		iIndex = i * m_iNumVertex.x + j;
+			_uInt		iIndex = (_uInt)i * (_uInt)m_iNumVertex.x + (_uInt)j;
 
 			_uInt		iIndices[4] = {
-				iIndex + m_iNumVertex.x,
-				iIndex + m_iNumVertex.x + 1,
+				iIndex + (_uInt)m_iNumVertex.x,
+				iIndex + (_uInt)m_iNumVertex.x + 1,
 				iIndex + 1,
 				iIndex
 			};

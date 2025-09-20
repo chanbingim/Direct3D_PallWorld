@@ -15,6 +15,9 @@ typedef struct PellInfo : public CHARACTER_DESC
 	_float						fPellAttackRange;
 	_float						fPellActTime;
 
+	_float						fPellWalkSpeed;
+	_float						fPellRunSpeed;
+
 	PELL_SKILL_DATA				DefaultSkill;
 	vector<PELL_SKILL_DATA>		PartnerSkillList;
 

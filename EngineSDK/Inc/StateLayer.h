@@ -26,7 +26,9 @@ public:
 	_uInt										GetCurStatePhase();
 
 	void										ResetLayer();
+
 	const _bool									GetCurrentStateAnimLoop();
+	const _bool									GetCurrentStateLastPhase();
 
 protected:
 	unordered_map<_wstring, _uInt>				m_StatesHasMap;

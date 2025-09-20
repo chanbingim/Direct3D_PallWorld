@@ -12,6 +12,7 @@ typedef struct Pell_Skill_Data
 
 	_uInt				iSkillDamage;
 	_float				fAfterStateDelay;
+	_float				fSkillMoveSpeed;
 
 	_float				fStartDurationTime;
 	_float				fSkillDurationTime;

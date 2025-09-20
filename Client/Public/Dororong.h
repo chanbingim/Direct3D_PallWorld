@@ -4,7 +4,6 @@
 
 NS_BEGIN(Client)
 
-
 class CDororong : public CPellBase
 {
 protected:
@@ -36,7 +35,9 @@ private:
 	HRESULT									ADD_PartObjects();
 	HRESULT									Setup_PellFsm();
 
-	HRESULT									SelectSkillAction();
+	void									OverlapEvent(_float3 vDir, CGameObject* pHitObject);
+
+
 public:
 	static			CDororong*				Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);
 	virtual			CGameObject*			Clone(void* pArg) override;

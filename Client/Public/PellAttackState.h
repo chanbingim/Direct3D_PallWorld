@@ -11,9 +11,11 @@ class CPellAttackState : public CState
 public :
 	typedef struct PellAttacStatekDesc
 	{
-		_bool						IsSpaceOut;
 		const CPellBase*			ActPell;
 		PELL_SKILL_DATA*			AttackData;
+
+		_float*						fSkillMoveSpeed;
+		_bool						IsSpaceOut;
 	}PELL_ATTACK_STATE_DESC;
 
 private:
@@ -33,9 +35,6 @@ private :
 
 	_float							m_fAccTime = 0.0f;
 	_float							m_DurationTime = {};
-
-	_uInt							m_iMaxPahse = {};
-	
 
 private :
 	void							SkillMotionChange(_float fTimeDeleta);

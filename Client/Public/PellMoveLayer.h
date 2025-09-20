@@ -25,7 +25,7 @@ public:
 	virtual		void							Update(_float DeltaTime, void* pArg) override;
 
 private :
-	CContainerObject*						m_pOwner = nullptr;
+	CContainerObject*							m_pOwner = nullptr;
 
 private:
 	HRESULT										ADD_MoveState();

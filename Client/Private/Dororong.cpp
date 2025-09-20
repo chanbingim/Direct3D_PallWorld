@@ -73,8 +73,7 @@ void CDororong::Priority_Update(_float fDeletaTime)
             _vector vPos = XMLoadFloat3(&vCurPos);
             _vector vDir = XMVector3Normalize(vTarget - vPos);
 
-            _vector vMovePos = vDir * 5.f * fDeletaTime;
-            
+            _vector vMovePos = vDir * m_fPellMoveSpeed * fDeletaTime;
             if (m_pNevigation->IsMove(vPos + vMovePos))
             {
                 m_pTransformCom->LerpTurn(XMVectorSet(0.f, 1.f, 0.f, 0.f), vTarget, XMConvertToRadians(180.f), fDeletaTime);
@@ -121,7 +120,7 @@ void CDororong::CombatAction(CGameObject* pTarget)
     // 타겟과의 거리를 통해서 스킬 사거리에 들어와있는지를 확인
     // 스킬 데이터를 어딘가에서 들고있고 prototpye 했을때
     // 어차피 스킬데이터를 다 찾아서 들고있다면 될거같음
-
+    m_PathFinding.clear();
     _float3 vTargetPos = pTarget->GetTransform()->GetPosition();
     _float3 vPos = m_pTransformCom->GetPosition();
 
@@ -133,15 +132,18 @@ void CDororong::CombatAction(CGameObject* pTarget)
     CPellAttackState::PELL_ATTACK_STATE_DESC AttackDesc = {};
     AttackDesc.ActPell = this;
     AttackDesc.AttackData = &m_PellInfo.DefaultSkill;
+    AttackDesc.fSkillMoveSpeed = &m_fPellMoveSpeed;
     AttackDesc.IsSpaceOut = false;
-
-    //여기서 기본공격 가져와서 공격
     m_bIsAction = true;
+
+    m_pNevigation->ComputePathfindingAStar(m_pTransformCom->GetPosition(), vTargetPos, &m_PathFinding);
     m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Patrol"));
+
     m_pPellFsm->ChangeState(TEXT("CombatLayer"), TEXT("Attack"), &AttackDesc);
     m_pPellFsm->SetAttack(true);
 
-    StartMoveAction(vTargetPos);
+    m_pTransformCom->LerpTurn(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMLoadFloat3(&vTargetPos), XMConvertToRadians(180.f), 0.01f);
+
 }
 
 HRESULT CDororong::ADD_Components()
@@ -161,13 +163,14 @@ HRESULT CDororong::ADD_Components()
     OBBDesc.vCneter = _float3(0.f, OBBDesc.vExtents.y * 0.5f, 0.f);
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_CoolisionOBB"), TEXT("Collision_Com"), (CComponent**)&m_pCollision, &OBBDesc)))
         return E_FAIL;
+    m_pCollision->BindBeginOverlapEvent([this](_float3 vDir, CGameObject* pHitActor) { OverlapEvent(vDir, pHitActor); });
 
 
     CCombatComponent::COMBAT_COMPONENT_DESC CombatDesc = {};
     CombatDesc.pOwner = this;
     CombatDesc.fChangeTargetDistance = 200.f;
     CombatDesc.fLostTargetTime = 5.0f;
-    CombatDesc.CallBackFunction = [&](CGameObject* pTarget) { this->CombatAction(pTarget); };
+    CombatDesc.CallBackFunction = [this](CGameObject* pTarget) { CombatAction(pTarget); };
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Combat"), TEXT("Combat_Com"), (CComponent**)&m_pCombatCom, &CombatDesc)))
         return E_FAIL;
 
@@ -211,11 +214,19 @@ HRESULT CDororong::Setup_PellFsm()
     return S_OK;
 }
 
-HRESULT CDororong::SelectSkillAction()
+void CDororong::OverlapEvent(_float3 vDir, CGameObject* pHitObject)
 {
- 
+    auto State = m_pPellFsm->GetState();
 
-    return S_OK;
+    if (State.bIsAttacking)
+    {
+        DEFAULT_DAMAGE_DESC DamageDesc = {};
+        DamageDesc.fDmaged = m_PellInfo.DefaultSkill.iSkillDamage;
+
+       auto Hit =  dynamic_cast<CActor*>(pHitObject);
+       if(Hit)
+           Hit->Damage(&DamageDesc, this);
+    }
 }
 
 CDororong* CDororong::Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext)

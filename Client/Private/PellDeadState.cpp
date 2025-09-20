@@ -2,7 +2,9 @@
 
 CPellDeadState::CPellDeadState(const char* szStateName) :
     CState(szStateName)
-{ }
+{
+    m_iLastPhase = 1;
+}
 
 void CPellDeadState::OnStateEnter(void* pArg)
 {

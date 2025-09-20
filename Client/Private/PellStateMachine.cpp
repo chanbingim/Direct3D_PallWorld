@@ -88,6 +88,15 @@ void CPellStateMachine::PellStateReset(const _wstring& LayerTag)
     ResetLayer(LayerTag);
 }
 
+_bool CPellStateMachine::GetLayerLastPhase(const _wstring& LayerTag)
+{
+    auto pLayer = FindLayer(LayerTag);
+    if (nullptr == pLayer)
+        return false;
+
+    return pLayer->GetCurrentStateLastPhase();
+}
+
 _string CPellStateMachine::GetAnimationName()
 {
     _string FullName = {};
