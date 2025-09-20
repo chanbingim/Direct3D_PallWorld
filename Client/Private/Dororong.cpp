@@ -4,7 +4,13 @@
 
 #include "TerrainManager.h"
 #include "PellStateMachine.h"
+
+#pragma region Client Compoent
 #include "Recovery.h"
+#include "CombatComponent.h"
+#pragma endregion
+
+#include "PellAttackState.h"
 #include "PellBody.h"
 
 CDororong::CDororong(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext) :
@@ -15,6 +21,7 @@ CDororong::CDororong(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDevice
 CDororong::CDororong(const CDororong& rhs) :
     CPellBase(rhs)
 {
+    m_PellID = 0;
 }
 
 HRESULT CDororong::Initalize_Prototype()
@@ -42,9 +49,6 @@ HRESULT CDororong::Initialize(void* pArg)
         return E_FAIL;
 
     m_eTeam = PELL_TEAM::NEUTRAL;
-    m_PellInfo.CurStemina = m_PellInfo.MaxStemina = 100.f;
-    m_fActionTime = 1.f;
-    
     return S_OK;
 }
 
@@ -95,13 +99,12 @@ void CDororong::Late_Update(_float fDeletaTime)
 {
     __super::Late_Update(fDeletaTime);
 
-    m_pGameInstance->ADD_CollisionList(m_pCollision);
     m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
 }
 
 HRESULT CDororong::Render()
 {
-    m_pCollision->Render();
+    __super::Render();
     return S_OK;
 }
 
@@ -109,6 +112,36 @@ void CDororong::Damage(void* pArg, CActor* pDamagedActor)
 {
     __super::Damage(pArg, pDamagedActor);
 
+}
+
+void CDororong::CombatAction(CGameObject* pTarget)
+{
+    // 일반 공격 및 스킬 공격
+    // 둘다 안되면 그냥 이동
+    // 타겟과의 거리를 통해서 스킬 사거리에 들어와있는지를 확인
+    // 스킬 데이터를 어딘가에서 들고있고 prototpye 했을때
+    // 어차피 스킬데이터를 다 찾아서 들고있다면 될거같음
+
+    _float3 vTargetPos = pTarget->GetTransform()->GetPosition();
+    _float3 vPos = m_pTransformCom->GetPosition();
+
+    _float fDistance = XMVectorGetX(XMVector3Length(XMLoadFloat3(&vTargetPos) - XMLoadFloat3(&vPos)));
+    if (m_PellInfo.fPellAttackRange > fDistance)
+    {
+        //점프나 이동으로 거리를 벌린뒤에 행동 추가로 함
+    }
+    CPellAttackState::PELL_ATTACK_STATE_DESC AttackDesc = {};
+    AttackDesc.ActPell = this;
+    AttackDesc.AttackData = &m_PellInfo.DefaultSkill;
+    AttackDesc.IsSpaceOut = false;
+
+    //여기서 기본공격 가져와서 공격
+    m_bIsAction = true;
+    m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Patrol"));
+    m_pPellFsm->ChangeState(TEXT("CombatLayer"), TEXT("Attack"), &AttackDesc);
+    m_pPellFsm->SetAttack(true);
+
+    StartMoveAction(vTargetPos);
 }
 
 HRESULT CDororong::ADD_Components()
@@ -129,12 +162,20 @@ HRESULT CDororong::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_CoolisionOBB"), TEXT("Collision_Com"), (CComponent**)&m_pCollision, &OBBDesc)))
         return E_FAIL;
 
+
+    CCombatComponent::COMBAT_COMPONENT_DESC CombatDesc = {};
+    CombatDesc.pOwner = this;
+    CombatDesc.fChangeTargetDistance = 200.f;
+    CombatDesc.fLostTargetTime = 5.0f;
+    CombatDesc.CallBackFunction = [&](CGameObject* pTarget) { this->CombatAction(pTarget); };
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Combat"), TEXT("Combat_Com"), (CComponent**)&m_pCombatCom, &CombatDesc)))
+        return E_FAIL;
+
     auto Object = m_pGameInstance->GetAllObejctToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_GamePlay_Terrian"))->begin();
     auto OriginNav = static_cast<CNavigation*>((*Object)->Find_Component(TEXT("NaviMesh_Com")));
-
     CNavigation::NAVIGATION_DESC Desc = {};
     _float3 vPos = m_pTransformCom->GetPosition();
-    Desc.iCurrentCellIndex = m_pGameInstance->Random(5000.f, 5100.f);
+    Desc.iCurrentCellIndex = (int)m_pGameInstance->Random(5000.f, 5100.f);
 
     m_pTransformCom->SetPosition(OriginNav->CellCenterPos(Desc.iCurrentCellIndex));
     m_pNevigation = static_cast<CNavigation*>(OriginNav->Clone(&Desc));
@@ -167,6 +208,13 @@ HRESULT CDororong::Setup_PellFsm()
     m_pPellFsm = CPellStateMachine::Create();
     if (FAILED(m_pPellFsm->Initialize(&FSMDesc)))
         return E_FAIL;
+    return S_OK;
+}
+
+HRESULT CDororong::SelectSkillAction()
+{
+ 
+
     return S_OK;
 }
 

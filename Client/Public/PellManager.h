@@ -14,10 +14,14 @@ private :
 
 public :
 	void									Initialize(const char* szFilePath = "");
-	const PELL_SAVE_DATA*					FindPellData(_uInt iID);
+	const PELL_INFO*						FindPellData(_uInt iID);
 
 private :
-	unordered_map<_uInt, PELL_SAVE_DATA>	m_PellDatas;
+	unordered_map<_uInt, PELL_INFO>			m_PellDatas;
+
+private :
+	HRESULT									LoadCSVPellData();
+
 
 public :
 	virtual void				Free() override;

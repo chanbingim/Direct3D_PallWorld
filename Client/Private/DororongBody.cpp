@@ -39,7 +39,7 @@ void CDororongBody::Priority_Update(_float fDeletaTime)
 
 void CDororongBody::Update(_float fDeletaTime)
 {
-	m_pVIBufferCom->PlayAnimation(0, m_iAnimIndex, fDeletaTime);
+	m_bIsAnimFinished = m_pVIBufferCom->PlayAnimation(0, m_iAnimIndex, fDeletaTime, 10.f , m_bIsAnimLoop);
 }
 
 void CDororongBody::Late_Update(_float fDeletaTime)

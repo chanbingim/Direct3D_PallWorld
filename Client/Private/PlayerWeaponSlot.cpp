@@ -145,7 +145,10 @@ void CPlayerWeaponSlot::HitBegin(_float3 vDir, CGameObject* pHitActor)
 	auto HitObejct = dynamic_cast<CContainerObject*>(pHitActor);
 	if (HitObejct)
 	{
-		HitObejct->Damage(nullptr, CPlayerManager::GetInstance()->GetCurrentPlayer());
+		DEFAULT_DAMAGE_DESC DamageDes = {};
+		DamageDes.fDmaged = 10.f;
+
+		HitObejct->Damage(&DamageDes, CPlayerManager::GetInstance()->GetCurrentPlayer());
 	}
 }
 

@@ -22,7 +22,7 @@ private:
 
 public:
 	virtual		HRESULT							Initialize(void* pArg, _uInt iStateSize) override;
-	virtual		void							Update(_float DeltaTime) override;
+	virtual		void							Update(_float DeltaTime, void* pArg) override;
 
 private :
 	CContainerObject*						m_pOwner = nullptr;

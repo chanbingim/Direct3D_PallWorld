@@ -60,6 +60,11 @@ void CPellBody::ResetPellCurrentAnimation()
     m_pVIBufferCom->ResetAnimation(0);
 }
 
+_bool CPellBody::FinishedAnimation()
+{
+    return m_bIsAnimFinished;
+}
+
 CGameObject* CPellBody::Clone(void* pArg)
 {
     return nullptr;

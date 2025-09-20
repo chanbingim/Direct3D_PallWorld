@@ -21,11 +21,12 @@ public :
 
 private :
 	CCombatComponent(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CCombatComponent(const CCombatComponent& rhs);
 	virtual ~CCombatComponent() = default;
 
 public :
-	HRESULT										Initialzie(void* pArg);
-	void										Update(_float fDeletaTime);
+	virtual HRESULT								Initialize(void* pArg) override;
+	void										Update();
 
 	void										UpdateTarget();
 	void										ADD_TargetObject(CGameObject* pTarget);

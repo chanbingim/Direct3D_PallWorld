@@ -24,9 +24,9 @@ HRESULT CPlayerUpperLayer::Initialize(void* pArg, _uInt iStateSize)
     return S_OK;
 }
 
-void CPlayerUpperLayer::Update(_float DeltaTime)
+void CPlayerUpperLayer::Update(_float DeltaTime, void* pArg)
 {
-    __super::Update(DeltaTime);
+    __super::Update(DeltaTime, pArg);
 }
 
 HRESULT CPlayerUpperLayer::ADD_UpperState()

@@ -5,6 +5,7 @@
 CBedCat::CBedCat(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext) :
     CPellBase(pGraphic_Device, pDeviceContext)
 {
+    m_PellID = 1;
 }
 
 CBedCat::CBedCat(const CBedCat& rhs) :

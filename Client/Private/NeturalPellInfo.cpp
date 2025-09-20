@@ -135,7 +135,7 @@ void CNeturalPellInfo::SetUpPellInfoData()
 {
 	const PELL_INFO& PellData = m_pOwner->GetPellInfo();
 
-	m_pHealthBar->SetPercent(1);
+	m_pHealthBar->SetPercent(PellData.CurHealth / PellData.MaxHealth);
 	m_pTypeIcon->SetData(ENUM_CLASS(PellData.ePellType));
 }
 

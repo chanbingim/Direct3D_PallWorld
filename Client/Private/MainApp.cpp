@@ -12,6 +12,7 @@
 #include "ItemManager.h"
 #include "PlayerManager.h"
 #include "TerrainManager.h"
+#include "PellManager.h"
 #pragma endregion
 
 
@@ -295,6 +296,7 @@ void CMainApp::Free()
 	
 	CPlayerManager::DestroyInstance();
 	CItemManager::DestroyInstance();
+	CPellManager::DestroyInstance();
 	CTerrainManager::DestroyInstance();
 
 	m_pGameInstance->Release_Engine();

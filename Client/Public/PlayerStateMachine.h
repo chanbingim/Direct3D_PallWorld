@@ -41,10 +41,10 @@ protected:
 
 public:
 	virtual		HRESULT					Initialize(void* pArg = nullptr) override;
-	virtual		void					Update(_float DeltaTime) override;
+	virtual		void					Update(_float DeltaTime, void* pArg = nullptr) override;
 
 	const PLAYER_STATE&					GetState() const { return m_StateData; }
-	_bool								ChangeState(const _wstring& LayerTag, const _wstring& StateTag);
+	_bool								ChangeState(const _wstring& LayerTag, const _wstring& StateTag, void* pArg = nullptr);
 
 	void								SetAiming(_bool	bFlag) { m_StateData.bIsAiming = bFlag; }
 	void								SetWeapon(_uInt	iWeapon) { m_StateData.iWeaponType = iWeapon; }
@@ -54,8 +54,7 @@ public:
 	_string								GetStateFullName();
 	_string								GetLayerAimStateName();
 
-	_uInt								NextStatePhase(const _wstring& LayerTag);
-	_uInt								GetStatePhase(const _wstring& LayerTag);
+
 
 	void								PlayerStateReset(const _wstring& LayerTag);
 

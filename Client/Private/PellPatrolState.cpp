@@ -13,10 +13,8 @@ void CPellPatrolState::OnStateEnter(void* pArg)
 
 }
 
-void CPellPatrolState::OnStateExcution(void* pArg)
+void CPellPatrolState::OnStateExcution(_float fDeletaTime, void* pArg)
 {
-	auto pOwner = static_cast<CContainerObject*>(pArg);
-	//여기서 대충 속도에 의해 비교
 	m_szStateName = "Walk";
 }
 

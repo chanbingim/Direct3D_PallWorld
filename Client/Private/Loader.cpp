@@ -94,6 +94,9 @@
 
 #pragma endregion
 
+#pragma region ClientComponents
+#include "CombatComponent.h"
+#pragma endregion
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 	m_pDevice(pDevice),
@@ -318,8 +321,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
-	m_strMessage = TEXT("모델를(을) 로딩 중 입니다.");
-
 #pragma region Models
 
 #pragma region MAP_MODEL
@@ -474,9 +475,17 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma endregion
 
 
-	m_strMessage = TEXT("셰이더를(을) 로딩 중 입니다.");
+#pragma region Client Component
+	/* GamePlay_Component_CombatComponent */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Combat"),
+		CCombatComponent::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
-	m_strMessage = TEXT("객체원형를(을) 로딩 중 입니다.");
+
+
+#pragma endregion
+
+
 
 #pragma region OBJECT
 	/* GAME_OBJECT_Camera */

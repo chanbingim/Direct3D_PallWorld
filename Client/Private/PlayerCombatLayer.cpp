@@ -19,9 +19,9 @@ HRESULT CPlayerCombatLayer::Initialize(void* pArg, _uInt iStateSize)
     return S_OK;
 }
 
-void CPlayerCombatLayer::Update(_float DeltaTime)
+void CPlayerCombatLayer::Update(_float DeltaTime, void* pArg)
 {
-    __super::Update(DeltaTime);
+    __super::Update(DeltaTime, pArg);
 }
 
 HRESULT CPlayerCombatLayer::ADD_CombatState()

@@ -40,17 +40,17 @@ public:
 	virtual		HRESULT						Render() override;
 
 	const PELL_INFO&						GetPellInfo() const { return m_PellInfo; }
-
+	const _bool								GetFinisehdAnimation() const;
 	virtual		void						Damage(void* pArg, CActor* pDamagedActor);
-	
+
 protected :
+	_uInt									m_PellID;
 	PELL_TEAM								m_eTeam;
 
 	_bool									m_bIsLoop = true;
 	_bool									m_bIsAction = false;
 
 	_float									m_fAccActionTime = 0;
-	_float									m_fActionTime = 0;
 	CPellStateMachine*						m_pPellFsm = nullptr;
 
 #pragma region Component
@@ -78,26 +78,35 @@ protected :
 	list<_float3>							m_PathFinding;
 
 	_float3									m_vTargetPoint = { -1.f, -1.f, -1.f};
-	_float									m_LerpTime = {};
+	void*									m_pFsmArgContainer = nullptr;
 
 protected :
-	// 전투를 위한 전투 기능
-	virtual		void						CombatAction();
-
+	HRESULT									SetUpDefaultPellData();
 	HRESULT									ADD_PellInfoUI();
+	// 전투를 위한 전투 기능
+	virtual		void						CombatAction(CGameObject* pTarget);
 	void									PellPlayFSM(_float fDeletaTime);
+	void									StartMoveAction(const _float3 vEndPos);
+
+private :
+	// 이거 펠 파츠오브젝트 세팅부터 하고 불러야함 매번 코드짜서 넣어주기 귀찮아서
+	// 공통으로 묶어둔거라 파츠오브젝트 세팅을 안하고 부를경우 파츠오브젝트 크기를 못받아서 터짐
 	void									PellChiceAction();
 	void									PellTackingAction();
-
 	// 아군일떄
 	void									ActionFrendly();
+#pragma region Netural
 	// 야생 몬스터 일떄
 	void									ActionNeutral();
+
+	// 야생펠 죽음	
+	void									DeadNeutalPell();
+#pragma endregion
+
 	// NPC가 가지고있는 몬스터일때 
 	void									ActionEnemy();
 	// HP Bar를 보여준다.
 	void									ShowPellInfo();
-
 
 public:
 	virtual			CGameObject*			Clone(void* pArg) override;

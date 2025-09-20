@@ -512,6 +512,21 @@
     <Filter Include="06. Component\CombatComponent">
       <UniqueIdentifier>{b51db162-6d09-49dc-b67c-2fffa04e85ef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. DataManager\Character\Pell\Struct\Skill">
+      <UniqueIdentifier>{d7d05c45-0928-4047-a5fe-0ec8e30eccfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. DataManager\Character\Pell\Struct\PellInfo">
+      <UniqueIdentifier>{6b0da5d1-bef2-4ed5-8276-4319ffd1ad8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. DataManager\Character\Pell\Manager">
+      <UniqueIdentifier>{5d45d88f-ef69-46ca-8fa4-3b683869eb62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. DataManager\Character\Pell\Manager\Info">
+      <UniqueIdentifier>{a8f6db8d-fe70-4f09-8200-4f73d2a8e2b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. DataManager\Character\Pell\Manager\Skill">
+      <UniqueIdentifier>{bac06f91-e2e0-438c-8552-1eb13538fc51}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -913,12 +928,6 @@
     <ClInclude Include="..\public\PlayerWeaponSlot.h">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerItemSlot\WeaponSlot</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\PellManager.h">
-      <Filter>04. DataManager\Character\Pell</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\PellStructData.h">
-      <Filter>04. DataManager\Character\Pell\Struct</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Recovery.h">
       <Filter>06. Component\Recovery</Filter>
     </ClInclude>
@@ -957,6 +966,18 @@
     </ClInclude>
     <ClInclude Include="..\public\CombatComponent.h">
       <Filter>06. Component\CombatComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PellSkillStruct.h">
+      <Filter>04. DataManager\Character\Pell\Struct\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PellStructData.h">
+      <Filter>04. DataManager\Character\Pell\Struct\PellInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PellManager.h">
+      <Filter>04. DataManager\Character\Pell\Manager\Info</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PellSkillManager.h">
+      <Filter>04. DataManager\Character\Pell\Manager\Skill</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1348,17 +1369,11 @@
     <ClCompile Include="..\private\PlayerWeaponSlot.cpp">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerItemSlot\WeaponSlot</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\PellManager.cpp">
-      <Filter>04. DataManager\Character\Pell</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Recovery.cpp">
       <Filter>06. Component\Recovery</Filter>
     </ClCompile>
     <ClCompile Include="..\private\TerrainManager.cpp">
       <Filter>04. DataManager\Object\Terrian</Filter>
-    </ClCompile>
-    <ClCompile Include="PellHealthBar.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Pell\NaturalPellInfo\HealthBar</Filter>
     </ClCompile>
     <ClCompile Include="..\private\ItemQuickSlot.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\ItemQuickSlot</Filter>
@@ -1389,6 +1404,15 @@
     </ClCompile>
     <ClCompile Include="..\private\CombatComponent.cpp">
       <Filter>06. Component\CombatComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PellManager.cpp">
+      <Filter>04. DataManager\Character\Pell\Manager\Info</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PellHealthBar.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Pell\NaturalPellInfo\HealthBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PellSkillManager.cpp">
+      <Filter>04. DataManager\Character\Pell\Manager\Skill</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

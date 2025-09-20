@@ -9,7 +9,7 @@ void CPellWorkState::OnStateEnter(void* pArg)
 {
 }
 
-void CPellWorkState::OnStateExcution(void* pArg)
+void CPellWorkState::OnStateExcution(_float fDeletaTime, void* pArg)
 {
 }
 

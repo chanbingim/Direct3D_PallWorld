@@ -31,12 +31,12 @@ HRESULT CPlayerStateMachine::Initialize(void* pArg)
     return S_OK;
 }
 
-void CPlayerStateMachine::Update(_float DeltaTime)
+void CPlayerStateMachine::Update(_float DeltaTime, void* pArg)
 {
-    __super::Update(DeltaTime);
+    __super::Update(DeltaTime, pArg);
 }
 
-_bool CPlayerStateMachine::ChangeState(const _wstring& LayerTag, const _wstring& StateTag)
+_bool CPlayerStateMachine::ChangeState(const _wstring& LayerTag, const _wstring& StateTag, void* pArg)
 {
     auto pLayer = FindLayer(LayerTag);
     if (nullptr == pLayer)
@@ -51,7 +51,7 @@ _bool CPlayerStateMachine::ChangeState(const _wstring& LayerTag, const _wstring&
         break;
     }
 
-    if(FAILED(pLayer->ChangeState(StateTag)))
+    if(FAILED(pLayer->ChangeState(StateTag, pArg)))
         return false;
 
     _uInt iStateIndex = pLayer->GetCurrentStateNum();
@@ -189,23 +189,7 @@ _string CPlayerStateMachine::GetLayerAimStateName()
     return FullName;
 }
 
-_uInt CPlayerStateMachine::NextStatePhase(const _wstring& LayerTag)
-{
-    auto pLayer = FindLayer(LayerTag);
-    if (nullptr == pLayer)
-        return -1;
 
-    return pLayer->StateNextPhase();
-}
-
-_uInt CPlayerStateMachine::GetStatePhase(const _wstring& LayerTag)
-{
-    auto pLayer = FindLayer(LayerTag);
-    if (nullptr == pLayer)
-        return -1;
-
-    return pLayer->GetCurStatePhase();
-}
 
 void CPlayerStateMachine::PlayerStateReset(const _wstring& LayerTag)
 {

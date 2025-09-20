@@ -24,9 +24,9 @@ HRESULT CPellCombatLayer::Initialize(void* pArg, _uInt iStateSize)
     return S_OK;
 }
 
-void CPellCombatLayer::Update(_float DeltaTime)
+void CPellCombatLayer::Update(_float DeltaTime, void* pArg)
 {
-    __super::Update(DeltaTime);
+    __super::Update(DeltaTime, pArg);
 }
 
 HRESULT CPellCombatLayer::ADD_CombatState()

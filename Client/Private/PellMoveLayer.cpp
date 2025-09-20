@@ -28,10 +28,10 @@ HRESULT CPellMoveLayer::Initialize(void* pArg, _uInt iStateSize)
     return S_OK;
 }
 
-void CPellMoveLayer::Update(_float DeltaTime)
+void CPellMoveLayer::Update(_float DeltaTime, void* pArg)
 {
     if (m_pCurState)
-        m_pCurState->OnStateExcution((void*)m_pOwner);
+        m_pCurState->OnStateExcution(DeltaTime, pArg);
 }
 
 HRESULT CPellMoveLayer::ADD_MoveState()

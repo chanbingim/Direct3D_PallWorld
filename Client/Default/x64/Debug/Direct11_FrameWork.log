@@ -20,20 +20,5 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
 FXC : warning X4717: Effects deprecated for D3DCompiler_47
   
   compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_NorTex.cso
-  AimInterface.cpp
-  CombatComponent.cpp
-C:\Git\GitHub\Direct3D_PallWorld\Client\private\CombatComponent.cpp(26,29): error C2059: 구문 오류: ')'
-C:\Git\GitHub\Direct3D_PallWorld\Client\private\CombatComponent.cpp(40,6): warning C4311: '형식 캐스트': 'Engine::CComponent *'에서 'HRESULT'(으)로 포인터가 잘립니다.
-C:\Git\GitHub\Direct3D_PallWorld\Client\private\CombatComponent.cpp(40,6): warning C4302: '형식 캐스트': 'Engine::CComponent *'에서 'HRESULT'(으)로 잘립니다.
-  DefaultMap.cpp
-  IMG_ModelConvert.cpp
-  PlayerItemSlot.cpp
-  Frog.cpp
-  Hedgehog.cpp
-  GameOption.cpp
-  GamePlayHUD.cpp
-  LoadingIcon.cpp
-  LoadingLevel.cpp
-  TypeIcon.cpp
-  Direct11_FrameWork.cpp
-  코드를 생성하고 있습니다...
+  PellAttackState.cpp
+  Direct11_FrameWork.vcxproj -> C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe

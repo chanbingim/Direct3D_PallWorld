@@ -44,7 +44,6 @@ private :
 
 	_float3						m_vRotation = {};
 
-
 public :
 	static		CTransform*		Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual		CComponent*		Clone(void* pArg) override;

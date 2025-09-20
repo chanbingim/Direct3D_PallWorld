@@ -8,7 +8,12 @@ CCombatComponent::CCombatComponent(ID3D11Device* pDevice, ID3D11DeviceContext* p
 {
 }
 
-HRESULT CCombatComponent::Initialzie(void* pArg)
+CCombatComponent::CCombatComponent(const CCombatComponent& rhs) :
+	CComponent(rhs)
+{
+}
+
+HRESULT CCombatComponent::Initialize(void* pArg)
 {
 	COMBAT_COMPONENT_DESC* pDesc = static_cast<COMBAT_COMPONENT_DESC*>(pArg);
 	if (pDesc)
@@ -22,7 +27,7 @@ HRESULT CCombatComponent::Initialzie(void* pArg)
 	return S_OK;
 }
 
-void CCombatComponent::Update(_float fDeletaTime)
+void CCombatComponent::Update()
 {
 	if (nullptr != m_BindCombatFunc)
 		m_BindCombatFunc(m_pTargetObject);
@@ -40,22 +45,31 @@ void CCombatComponent::UpdateTarget()
 	if (m_pTargetList.empty())
 		m_pTargetObject = nullptr;
 
-	_vector OwnerPos = XMLoadFloat3(&m_pOwner->GetTransform()->GetPosition());
+	_float3 vOwnerPos = m_pOwner->GetTransform()->GetPosition();
+	_vector vCalculationOwnerPos = XMLoadFloat3(&vOwnerPos);
 	for(auto pTargetIter = m_pTargetList.begin(); pTargetIter != m_pTargetList.end();)
 	{
+		if (nullptr == m_pTargetObject)
+		{
+			m_pTargetObject = *pTargetIter;
+			break;
+		}
+
 		if ((*pTargetIter)->IsDead())
 		{
 			pTargetIter = m_pTargetList.erase(pTargetIter);
 		}
 		else
 		{
-			_vector newTargetPos = XMLoadFloat3(&(*pTargetIter)->GetTransform()->GetPosition());
-			_float fDistance = XMVectorGetX(XMVector3Length(newTargetPos - OwnerPos));
+			_float3 newTargetPos = (*pTargetIter)->GetTransform()->GetPosition();
+			_vector newCalculationTargetPos = XMLoadFloat3(&newTargetPos);
+			_float fDistance = XMVectorGetX(XMVector3Length(newCalculationTargetPos - vCalculationOwnerPos));
 
 			if (fDistance <= m_fChangeTargetDistance)
 			{
-				_vector OldTargetPos = XMLoadFloat3(&m_pTargetObject->GetTransform()->GetPosition());
-				_float fOldDistance = XMVectorGetX(XMVector3Length(OldTargetPos - OwnerPos));
+				_float3 OldTargetPos = m_pTargetObject->GetTransform()->GetPosition();
+				_vector OldCalculationTargetPos = XMLoadFloat3(&OldTargetPos);
+				_float fOldDistance = XMVectorGetX(XMVector3Length(OldCalculationTargetPos - vCalculationOwnerPos));
 
 				if (fDistance < fOldDistance)
 					m_pTargetObject = (*pTargetIter);
@@ -73,7 +87,7 @@ CCombatComponent* CCombatComponent::Create(ID3D11Device* pDevice, ID3D11DeviceCo
 CComponent* CCombatComponent::Clone(void* pArg)
 {
 	CComponent*	pCombatComponent = new  CCombatComponent(*this);
-	if (FAILED(pCombatComponent->Clone(pArg)))
+	if (FAILED(pCombatComponent->Initialize(pArg)))
 	{
 		Safe_Release(pCombatComponent);
 		MSG_BOX("CREATE FAIL : Combat Component");

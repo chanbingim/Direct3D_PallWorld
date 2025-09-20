@@ -107,12 +107,12 @@ void CCollision::CallFunction()
         if (iter == m_OldHitList.end())
         {
             if (m_BeginHitFunc)
-                m_BeginHitFunc({}, *iter);
+                m_BeginHitFunc({}, HitObject);
         }
         else
         {
             if (m_OverlapHitFunc)
-                m_OverlapHitFunc({}, *iter);
+                m_OverlapHitFunc({}, HitObject);
         }
     }
 
@@ -122,7 +122,7 @@ void CCollision::CallFunction()
         if (iter == m_HitList.end())
         {
             if (m_EndHitFunc)
-                m_EndHitFunc({}, *iter);
+                m_EndHitFunc({}, OldHitObject);
         }
     }
 

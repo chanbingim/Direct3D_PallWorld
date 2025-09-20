@@ -15,15 +15,18 @@ protected :
 
 public :
 	virtual void OnStateEnter(void* pArg = nullptr) = 0;
-	virtual void OnStateExcution(void* pArg = nullptr) = 0;
+	virtual void OnStateExcution(_float fDeletaTime, void* pArg = nullptr) = 0;
 	virtual void OnStateExit(void* pArg = nullptr) = 0;
 
 	_uInt					NexPhase();
 	_uInt					GetPhaseIndex()		{ return m_iPhaseIndex; }
 	const char*				GetStateName()		{ return m_szStateName.c_str(); }
+	const _bool				GetStateAnimLoop()	{ return m_bStateAnimLoop; }
 
 protected :
 	_string					m_szStateName;
+
+	_bool					m_bStateAnimLoop = true;
 	_uInt					m_iPhaseIndex = {};
 
 public :

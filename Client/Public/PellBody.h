@@ -25,6 +25,11 @@ public:
 
 	void									PellPlayAnimation(const char* szAnimName, _bool bIsLoop = true);
 	void									ResetPellCurrentAnimation();
+	_bool									FinishedAnimation();
+
+protected :
+	_bool									m_bIsAnimFinished = false;
+
 
 public:
 	virtual			CGameObject*			Clone(void* pArg) override;

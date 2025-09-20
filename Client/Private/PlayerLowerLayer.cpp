@@ -24,9 +24,9 @@ HRESULT CPlayerLowerLayer::Initialize(void* pArg, _uInt iStateSize)
     return S_OK;
 }
 
-void CPlayerLowerLayer::Update(_float DeltaTime)
+void CPlayerLowerLayer::Update(_float DeltaTime, void* pArg)
 {
-    __super::Update(DeltaTime);
+    __super::Update(DeltaTime, pArg);
 }
 
 HRESULT CPlayerLowerLayer::ADD_LowerState()
