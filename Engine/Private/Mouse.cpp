@@ -219,7 +219,8 @@ POINT& CMouse::GetMousePoint()
 
 _float3 CMouse::GetMouseWorldPoint()
 {
-	return m_pTransformCom->GetPosition();
+	_float3 vPos = m_pTransformCom->GetPosition();
+	return vPos;
 }
 
 CMouse* CMouse::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, HWND hWnd)

@@ -67,6 +67,11 @@ void CPipeline::SetPlayerWorldMatrix(_float4x4 Matrix)
 	m_PlayerWorldMat = Matrix;
 }
 
+void CPipeline::SetCameraInfo(const _float4& pCmaeraInfo)
+{
+	m_CameraInfo = pCmaeraInfo;
+}
+
 ID3D11ShaderResourceView* CPipeline::GetPostBuffer(_uInt iIndex)
 {
 	if (0 > iIndex || m_PipeTextures.size() <= iIndex)

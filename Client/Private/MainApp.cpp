@@ -203,15 +203,15 @@ HRESULT CMainApp::SetUp_StaticComponents()
 		return E_FAIL;
 
 	/* BoxCollision Component */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_CoolisionBox"), CBoxCollision::Create(m_pGraphic_Device, m_pDevice_Context))))
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionBox"), CBoxCollision::Create(m_pGraphic_Device, m_pDevice_Context))))
 		return E_FAIL;
 
 	/* SphereCollision Component */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_CoolisionSphere"), CSphereCollision::Create(m_pGraphic_Device, m_pDevice_Context))))
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionSphere"), CSphereCollision::Create(m_pGraphic_Device, m_pDevice_Context))))
 		return E_FAIL;
 
 	/* OBBCollision Component */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_CoolisionOBB"), COBBCollision::Create(m_pGraphic_Device, m_pDevice_Context))))
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionOBB"), COBBCollision::Create(m_pGraphic_Device, m_pDevice_Context))))
 		return E_FAIL;
 
 #pragma endregion

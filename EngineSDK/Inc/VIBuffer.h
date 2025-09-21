@@ -16,6 +16,7 @@ public :
 
 	virtual void			Render_VIBuffer();
 	virtual _bool			IsPicking(class CTransform* pTransform, _float3* pOut);
+	virtual _bool			IsPicking(CTransform* pTransform, _float3& vOut, _float3& vNormal);
 	virtual _bool			IsPicking(_vector vRayOrizin, _vector vRayDir, class CTransform* pTransform, _float3* pOut);
 
 	_uInt					GetNumVertices() const { return m_iNumIndices; }

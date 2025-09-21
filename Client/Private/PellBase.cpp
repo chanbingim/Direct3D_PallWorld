@@ -231,7 +231,8 @@ void CPellBase::PellTackingAction()
             if (m_PathFinding.empty())
             {
                 m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Idle"));
-                m_bIsAction = false;
+                if(CPellStateMachine::COMBAT_ACTION::END == State.eCombat_State)
+                    m_bIsAction = false;
             }
             else
             {

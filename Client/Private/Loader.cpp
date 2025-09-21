@@ -92,6 +92,11 @@
 #include "Player.h"
 #pragma endregion
 
+#pragma region PROJECTILE
+#include "PalSpher.h"
+#include "ArrowProjectile.h"
+#pragma endregion
+
 #pragma endregion
 
 #pragma region ClientComponents
@@ -475,14 +480,20 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma endregion
 
 
-#pragma region Client Component
+#pragma region Component
 	/* GamePlay_Component_CombatComponent */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Combat"),
 		CCombatComponent::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	/* GamePlay_Component_ChaseComponent*/
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Chase"),
+		CChaseComponent::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
-
+	/* GamePlay_Component_RecoveryComponent */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("GamePlay_Component_Recovery"), CRecovery::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 #pragma endregion
 
 
@@ -696,10 +707,21 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
-#pragma region CComponents
-	/* GAME_OBJECT_InGameMenu_UI */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("GamePlay_Component_Recovery"), CRecovery::Create(m_pDevice, m_pContext))))
+#pragma region Projectile
+
+	/* GAME_OBJECT_PalSpher */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_PalSpher"), CPalSpher::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
+	/* GAME_OBJECT_ArrowProjecttile */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ArrowProjectile"), CArrowProjectile::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+#pragma endregion
+
+
+#pragma region CComponents
+
 #pragma endregion
 
 	m_strMessage = TEXT("로딩이 완료되었습니다..");

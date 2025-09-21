@@ -98,6 +98,12 @@ void CCollision::ADD_IgnoreObejct(size_t typeID)
     m_IgnoreObject.insert(typeID);
 }
 
+void CCollision::ADD_OnlyHitObject(size_t typeID)
+{
+    m_bIsOnlyHitCollision = true;
+    m_bIsOnlyHitActorHashCode = typeID;
+}
+
 void CCollision::CallFunction()
 {
     list<CGameObject*> ExitObject;

@@ -2,6 +2,8 @@
 #include "OBBCollision.h"
 #include "BoxCollision.h"
 
+#include "Transform.h"
+
 #include "DebugDraw.h"
 #include "GameObject.h"
 
@@ -61,6 +63,37 @@ _bool CSphereCollision::Intersect(COLLISION_TYPE eType, CCollision* pTarget)
 		break;
 	}
 
+	return bIsHit;
+}
+
+_bool CSphereCollision::RayIntersect(COLLISION_TYPE eType, CCollision* pTarget, DEFAULT_HIT_DESC& OutDesc)
+{
+	_bool bIsHit = false;
+
+	_float3 OwnerPosition = m_pOwner->GetTransform()->GetPosition();
+	_float3 TargetPosition = pTarget->GetOwner()->GetTransform()->GetPosition();
+
+	_vector CalCulationOwnerPosition = XMLoadFloat3(&OwnerPosition);
+	_vector CalCulationTargetPosition = XMLoadFloat3(&TargetPosition);
+	_vector vDireaction = XMVector3Normalize(CalCulationTargetPosition - CalCulationOwnerPosition);
+
+	_float fDistance = {};
+	switch (eType)
+	{
+	case COLLISION_TYPE::BOX:
+		bIsHit = m_Bounding->Intersects(CalCulationOwnerPosition, vDireaction, fDistance);
+		break;
+	case COLLISION_TYPE::SPHERE:
+		bIsHit = m_Bounding->Intersects(CalCulationOwnerPosition, vDireaction, fDistance);
+		break;
+	case COLLISION_TYPE::OBB:
+		bIsHit = m_Bounding->Intersects(CalCulationOwnerPosition, vDireaction, fDistance);
+		break;
+	}
+
+	XMStoreFloat3(&OutDesc.vHitPoint, CalCulationOwnerPosition * fDistance);
+	XMStoreFloat3(&OutDesc.vDireaction, vDireaction);
+	XMStoreFloat3(&OutDesc.vNormal, XMVector3Normalize(XMLoadFloat3(&OutDesc.vHitPoint) - CalCulationTargetPosition));
 	return bIsHit;
 }
 

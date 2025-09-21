@@ -2,7 +2,10 @@
 
 #include "GameInstance.h"
 #include "PlayerManager.h"
+
 #include "ItemBase.h"
+#include "ProjectileObject.h"
+
 #include "Player.h"
 
 CPlayerWeaponSlot::CPlayerWeaponSlot(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
@@ -116,6 +119,23 @@ HRESULT CPlayerWeaponSlot::Render()
 	return S_OK;
 }
 
+HRESULT CPlayerWeaponSlot::ShootProjecttileObject()
+{
+	//이함수를 통해서 프로젝타일 위치에 생성해서 날린다.
+	CProjectileObject::PROJECTILE_DESC ProjectileDesc = {};
+	ProjectileDesc.vPosition = *reinterpret_cast<_float3 *>(m_CombinedWorldMatrix.m[3]);
+	ProjectileDesc.vScale = { 1.f, 1.f, 1.f };
+
+	m_pGameInstance->GetCameraState(WORLDSTATE::LOOK) * m_pGameInstance->m_pPipeline;
+
+
+
+	ProjectileDesc.vDireaction = 
+	ProjectileDesc.vThrowSpeed = 
+
+	return S_OK;
+}
+
 HRESULT CPlayerWeaponSlot::ADD_Components()
 {
 	CBoxCollision::BOX_COLLISION_DESC BoxColDesc = {};
@@ -123,10 +143,10 @@ HRESULT CPlayerWeaponSlot::ADD_Components()
 	BoxColDesc.Extents = { 0.1f, 0.1f, 0.1f };
 	BoxColDesc.vCneter = {};
 
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_CoolisionBox"), TEXT("CollisionR_Com"), (CComponent**)&m_pCollision[0], &BoxColDesc)))
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionBox"), TEXT("CollisionR_Com"), (CComponent**)&m_pCollision[0], &BoxColDesc)))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_CoolisionBox"), TEXT("CollisionL_Com"), (CComponent**)&m_pCollision[1], &BoxColDesc)))
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionBox"), TEXT("CollisionL_Com"), (CComponent**)&m_pCollision[1], &BoxColDesc)))
 		return E_FAIL;
 
 	for (auto i = 0; i < 2; ++i)

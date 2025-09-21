@@ -29,6 +29,7 @@ public:
 
 private :
 	const CPellBase*				m_pActPell = nullptr;
+	_float*							m_fSkillMovePtr = nullptr;
 
 	_bool							m_IsSpaceOut;
 	PELL_SKILL_DATA					m_AttackData = {};

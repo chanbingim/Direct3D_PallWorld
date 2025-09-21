@@ -15,8 +15,11 @@ void CPellAttackState::OnStateEnter(void* pArg)
     m_pActPell = Desc->ActPell;
     m_AttackData = *Desc->AttackData;
 
-    if(nullptr != Desc->fSkillMoveSpeed)
-        *Desc->fSkillMoveSpeed = m_AttackData.fSkillMoveSpeed;
+    if (nullptr != Desc->fSkillMoveSpeed)
+    {
+        m_fSkillMovePtr = Desc->fSkillMoveSpeed;
+        *m_fSkillMovePtr = 0.f;
+    }
 
     m_bStateAnimLoop = false;
     m_iPhaseIndex = 0;
@@ -46,12 +49,18 @@ void CPellAttackState::OnStateExcution(_float fDeletaTime, void* pArg)
             break;
         case 2:
             if (PELL_SKILL_TYPE::NORAML == m_AttackData.eSkillType)
+            {
                 m_szStateName += "_Loop";
+                *m_fSkillMovePtr = m_AttackData.fSkillMoveSpeed;
+            }
             else
                 m_szStateName += "_Action";
             break;
         case 3:
+        {
             m_szStateName += "_ActionLoop";
+            *m_fSkillMovePtr = m_AttackData.fSkillMoveSpeed;
+        }
             break;
         case 4:
             m_szStateName += "_End";
@@ -63,6 +72,7 @@ void CPellAttackState::OnStateExcution(_float fDeletaTime, void* pArg)
 void CPellAttackState::OnStateExit(void* pArg)
 {
     m_pActPell = nullptr;
+    m_fSkillMovePtr = nullptr;
 }
 
 void CPellAttackState::SkillMotionChange(_float fTimeDeleta)

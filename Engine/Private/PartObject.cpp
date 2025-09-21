@@ -3,14 +3,14 @@
 #include "GameInstance.h"
 
 CPartObject::CPartObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
-	CGameObject(pDevice, pContext)
+	CActor(pDevice, pContext)
 
 {
 
 }
 
 CPartObject::CPartObject(const CPartObject& rhs) :
-	CGameObject(rhs)
+	CActor(rhs)
 {
 }
 

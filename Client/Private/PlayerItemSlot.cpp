@@ -74,9 +74,6 @@ HRESULT CPlayerItemSlot::Render()
 {
 	Bind_ShaderResources();
 
-	if (nullptr == m_pVIBufferCom)
-		int a = 10;
-
 	_uInt iNumMeshes = m_pVIBufferCom->GetNumMeshes();
 	for (_uInt i = 0; i < iNumMeshes; ++i)
 	{

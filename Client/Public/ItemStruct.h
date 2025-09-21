@@ -9,6 +9,8 @@ namespace Client
 
 	typedef struct EuqipItemDesc
 	{
+		// 무기의 UI Icon 정보를 가진녀석
+		WCHAR				ProjectilePrototpyeName[MAX_PATH];
 		_uInt				iAtkPoint;
 		_uInt				iGuardPoint;
 		_uInt				iHealthPoint;
@@ -47,7 +49,7 @@ namespace Client
 		WCHAR					szItemIconPath[MAX_PATH] = {};
 
 		//무기의 모델정보를 가진 녀석
-		WCHAR					szItemModelPath[MAX_PATH] = {};
+		WCHAR					szItemModelPath[MAX_PATH] = {}; 
 
 		ITEM_TYPE				ItemType = {};
 

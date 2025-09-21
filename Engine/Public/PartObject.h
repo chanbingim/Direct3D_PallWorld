@@ -1,12 +1,12 @@
 #pragma once
-#include "GameObject.h"
+#include "Actor.h"
 
 NS_BEGIN(Engine)
 
 class CModel;
 class CShader;
 
-class ENGINE_DLL CPartObject : public CGameObject
+class ENGINE_DLL CPartObject : public CActor
 {
 public :
 	typedef struct PartObject_Desc : public GAMEOBJECT_DESC

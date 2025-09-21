@@ -18,6 +18,7 @@ HRESULT CItemManager::Initialize(const char* FilePath)
         lstrcpy(Desc.szItemModelPath, TEXT("Prototype_Component_VIBuffer_CatBlade"));
         Desc.IsAnimModel = false;
 
+        lstrcpy(Desc.TypeDesc.EuqipDesc.ProjectilePrototpyeName, TEXT(""));
         Desc.TypeDesc.EuqipDesc.iAtkPoint = 10;
         Desc.TypeDesc.EuqipDesc.iGuardPoint = 0;
         Desc.TypeDesc.EuqipDesc.iHealthPoint = 0;
@@ -39,6 +40,7 @@ HRESULT CItemManager::Initialize(const char* FilePath)
         lstrcpy(Desc.szItemModelPath, TEXT("Prototype_Component_VIBuffer_PalSpher"));
         Desc.IsAnimModel = true;
 
+        lstrcpy(Desc.TypeDesc.EuqipDesc.ProjectilePrototpyeName, TEXT("Prototype_GameObject_PalSpher"));
         Desc.TypeDesc.EuqipDesc.iAtkPoint = 10;
         Desc.TypeDesc.EuqipDesc.iGuardPoint = 0;
         Desc.TypeDesc.EuqipDesc.iHealthPoint = 0;
@@ -61,6 +63,7 @@ HRESULT CItemManager::Initialize(const char* FilePath)
         Desc.IsAnimModel = true;
         Desc.IsPlayAnimation = true;
 
+        lstrcpy(Desc.TypeDesc.EuqipDesc.ProjectilePrototpyeName, TEXT("Prototype_GameObject_ArrowProjectile"));
         Desc.TypeDesc.EuqipDesc.iAtkPoint = 10;
         Desc.TypeDesc.EuqipDesc.iGuardPoint = 0;
         Desc.TypeDesc.EuqipDesc.iHealthPoint = 0;

@@ -166,6 +166,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\public\AimInterface.h" />
+    <ClInclude Include="..\public\ArrowProjectile.h" />
     <ClInclude Include="..\public\BackGround.h" />
     <ClInclude Include="..\public\BattlePell.h" />
     <ClInclude Include="..\public\BedCat.h" />
@@ -301,6 +302,7 @@
     <ClInclude Include="..\public\PlayerWalkState.h" />
     <ClInclude Include="..\public\PlayerWeaponSlot.h" />
     <ClInclude Include="..\public\Player_Interface.h" />
+    <ClInclude Include="..\public\ProjectileObject.h" />
     <ClInclude Include="..\public\Recovery.h" />
     <ClInclude Include="..\public\RockObject.h" />
     <ClInclude Include="..\public\SkyBox.h" />
@@ -320,6 +322,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\AimInterface.cpp" />
+    <ClCompile Include="..\private\ArrowProjectile.cpp" />
     <ClCompile Include="..\private\BackGround.cpp" />
     <ClCompile Include="..\private\BattlePell.cpp" />
     <ClCompile Include="..\private\BedCat.cpp" />
@@ -396,6 +399,7 @@
     <ClCompile Include="..\private\PlayerView.cpp" />
     <ClCompile Include="..\private\PlayerWalkState.cpp" />
     <ClCompile Include="..\private\PlayerWeaponSlot.cpp" />
+    <ClCompile Include="..\private\ProjectileObject.cpp" />
     <ClCompile Include="..\private\Recovery.cpp" />
     <ClCompile Include="..\private\SkyBox.cpp" />
     <ClCompile Include="..\private\SlotImage.cpp" />

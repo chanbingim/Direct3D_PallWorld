@@ -17,27 +17,27 @@ CTransform::CTransform(const CTransform& rhs) :
 {
 }
 
-_vector CTransform::GetRightVector()
+_vector CTransform::GetRightVector() const
 {
-    return XMLoadFloat4(reinterpret_cast<_float4*>(&m_WorldMat.m[0]));
+    return XMLoadFloat4(reinterpret_cast<const _float4*>(&m_WorldMat.m[0]));
 }
 
-_vector CTransform::GetUpVector()
+_vector CTransform::GetUpVector()  const
 {
-    return XMLoadFloat4(reinterpret_cast<_float4*>(&m_WorldMat.m[1]));
+    return XMLoadFloat4(reinterpret_cast<const _float4*>(&m_WorldMat.m[1]));
 }
 
-_vector CTransform::GetLookVector()
+_vector CTransform::GetLookVector() const
 {
-    return XMLoadFloat4(reinterpret_cast<_float4*>(&m_WorldMat.m[2]));
+    return XMLoadFloat4(reinterpret_cast<const _float4*>(&m_WorldMat.m[2]));
 }
 
-_float3 CTransform::GetPosition()
+_float3 CTransform::GetPosition() const
 {
-    return *reinterpret_cast<_float3*>(&m_WorldMat.m[3]);
+    return *reinterpret_cast<const _float3*>(&m_WorldMat.m[3]);
 }
 
-_float3 CTransform::GetScale()
+_float3 CTransform::GetScale() const
 {
     return _float3( 
         XMVectorGetX(XMVector3Length(GetRightVector())),

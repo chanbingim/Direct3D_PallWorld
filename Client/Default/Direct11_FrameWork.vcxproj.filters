@@ -314,9 +314,6 @@
     <Filter Include="03. Objects\MeshObject\AnimMesh\Object">
       <UniqueIdentifier>{af29c8a7-989e-4faa-bb33-f4179a7b6ff2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Object\PalSpher">
-      <UniqueIdentifier>{d26c2173-5ae5-46ff-ba42-dbf19240cc46}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\CombatLayer">
       <UniqueIdentifier>{56644265-6cc8-4a53-8fc3-5b610b247ef5}</UniqueIdentifier>
     </Filter>
@@ -526,6 +523,15 @@
     </Filter>
     <Filter Include="04. DataManager\Character\Pell\Manager\Skill">
       <UniqueIdentifier>{bac06f91-e2e0-438c-8552-1eb13538fc51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Object\ProjecttileObject">
+      <UniqueIdentifier>{b164e9b4-abed-400a-8d80-61184e06c3ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Object\ProjecttileObject\PalSpher">
+      <UniqueIdentifier>{d26c2173-5ae5-46ff-ba42-dbf19240cc46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Object\ProjecttileObject\Arrow">
+      <UniqueIdentifier>{6b60ccbf-3f22-43fe-a655-6576a4e62cf7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -887,7 +893,7 @@
       <Filter>04. DataManager\Object\Item</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PalSpher.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Object\PalSpher</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Object\ProjecttileObject\PalSpher</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PlayerAttackState.h">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\CombatLayer\State\Attack</Filter>
@@ -978,6 +984,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\PellSkillManager.h">
       <Filter>04. DataManager\Character\Pell\Manager\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ProjectileObject.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Object\ProjecttileObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ArrowProjectile.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Object\ProjecttileObject\Arrow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1328,7 +1340,7 @@
       <Filter>03. Objects\MeshObject\NonAnimMesh</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PalSpher.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Object\PalSpher</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Object\ProjecttileObject\PalSpher</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PlayerAttackState.cpp">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\CombatLayer\State\Attack</Filter>
@@ -1413,6 +1425,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\PellSkillManager.cpp">
       <Filter>04. DataManager\Character\Pell\Manager\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ProjectileObject.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Object\ProjecttileObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ArrowProjectile.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Object\ProjecttileObject\Arrow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

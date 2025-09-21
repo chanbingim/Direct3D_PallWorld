@@ -10,12 +10,12 @@ private :
 	virtual ~CTransform() = default;
 
 public :
-	_vector						GetRightVector();
-	_vector						GetUpVector();
-	_vector						GetLookVector();
+	_vector						GetRightVector() const;
+	_vector						GetUpVector() const;
+	_vector						GetLookVector() const;
 
-	_float3						GetPosition();
-	_float3						GetScale();
+	_float3						GetPosition() const;
+	_float3						GetScale() const;
 	_float3						GetRotation();
 
 	void						RotationAxis(_float3 vAxis, _float fAngle);

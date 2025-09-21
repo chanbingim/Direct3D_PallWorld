@@ -20,6 +20,7 @@ public:
 	virtual HRESULT					Initialize(void* pArg);
 	virtual void					UpdateColiision(_matrix WorldMatrix) override;
 	virtual _bool					Intersect(COLLISION_TYPE eType, CCollision* pTarget) override;
+	virtual _bool					RayIntersect(COLLISION_TYPE eType, CCollision* pTarget, DEFAULT_HIT_DESC& OutDesc) override;
 
 #ifdef _DEBUG
 	virtual void					Render(_vector vColor) override;

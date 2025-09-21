@@ -502,6 +502,16 @@ _bool CModel::IsPicking(CTransform* pTransform, _float3* pOut, _uInt* OutiNumInd
 	return false;
 }
 
+_bool CModel::IsPicking(CTransform* pTransform, _float3& vOut, _float3& vOutNormal)
+{
+	for (_uInt i = 0; i < m_iNumMeshes; ++i)
+	{
+		if (m_Meshes[i]->IsPicking(pTransform, vOut, vOutNormal))
+			return true;
+	}
+	return false;
+}
+
 _bool CModel::IsPicking(_vector vRayOrizin, _vector vRayDir, CTransform* pTransform, _float3* pOut)
 {
 	for (_uInt i = 0; i < m_iNumMeshes; ++i)

@@ -418,6 +418,14 @@ void CGameInstance::SetMatrix(MAT_STATE eState, _float4x4 Matrix)
 {
     m_pPipeline->SetMatrix(eState, Matrix);
 }
+void CGameInstance::SetCameraInfo(const _float4& pCmaeraInfo)
+{
+    m_pPipeline->SetCameraInfo(pCmaeraInfo);
+}
+const _float4& CGameInstance::GetCameraINFO()
+{
+    return m_pPipeline->GetCameraINFO();
+}
 const _float4x4& CGameInstance::GetMatrix(MAT_STATE eState)
 {
     return m_pPipeline->GetMatrix(eState);

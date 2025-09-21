@@ -49,6 +49,8 @@ public :
 	void						ExportMappingData(CModel* DstData, unordered_map<_string, pair<_Int, _Int>>* pOut);
 
 	_bool						IsPicking(CTransform* pTransform, _float3* pOut, _uInt* OutiNumIndex);
+	_bool						IsPicking(CTransform* pTransform, _float3& vOut, _float3& vOutNormal);
+
 	_bool						IsPicking(_vector vRayOrizin, _vector vRayDir, CTransform* pTransform, _float3* pOut);
 
 private :

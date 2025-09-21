@@ -167,7 +167,7 @@ popd</Command>
     <ClInclude Include="..\public\Animation.h" />
     <ClInclude Include="..\public\AnimEntity.h" />
     <ClInclude Include="..\public\Cell.h" />
-    <ClInclude Include="..\public\Chase.h" />
+    <ClInclude Include="..\public\ChaseComponent.h" />
     <ClInclude Include="..\public\CollisionManager.h" />
     <ClInclude Include="..\Public\ContainerObject.h" />
     <ClInclude Include="..\public\Base.h" />
@@ -248,7 +248,7 @@ popd</Command>
     <ClCompile Include="..\private\Animation.cpp" />
     <ClCompile Include="..\private\AnimEntity.cpp" />
     <ClCompile Include="..\private\Cell.cpp" />
-    <ClCompile Include="..\private\Chase.cpp" />
+    <ClCompile Include="..\private\ChaseComponent.cpp" />
     <ClCompile Include="..\private\CollisionManager.cpp" />
     <ClCompile Include="..\Private\ContainerObject.cpp" />
     <ClCompile Include="..\private\Base.cpp" />

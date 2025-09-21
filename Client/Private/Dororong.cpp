@@ -64,22 +64,33 @@ void CDororong::Priority_Update(_float fDeletaTime)
         m_PellInfo.CurStemina -= 0.1f;*/
 
     const CPellStateMachine::PELL_STATE& State = m_pPellFsm->GetState();
+    _vector vPos{}, vDir{}, vMovePoint;
     if (CPellStateMachine::MOVE_ACTION::PATROL == State.eMove_State)
     {
         _vector vTarget = XMLoadFloat3(&m_vTargetPoint);
         if (!XMVector3Equal(vTarget, XMVectorZero()))
         {
             _float3 vCurPos = m_pTransformCom->GetPosition();
-            _vector vPos = XMLoadFloat3(&vCurPos);
-            _vector vDir = XMVector3Normalize(vTarget - vPos);
+            vCurPos.y = 0.f;
+            vPos = XMLoadFloat3(&vCurPos);
+            vDir = XMVector3Normalize(vTarget - vPos);
 
-            _vector vMovePos = vDir * m_fPellMoveSpeed * fDeletaTime;
-            if (m_pNevigation->IsMove(vPos + vMovePos))
+            vMovePoint = vDir * m_fPellMoveSpeed * fDeletaTime;
+            if (m_pNevigation->IsMove(vPos + vMovePoint))
             {
                 m_pTransformCom->LerpTurn(XMVectorSet(0.f, 1.f, 0.f, 0.f), vTarget, XMConvertToRadians(180.f), fDeletaTime);
-                m_pTransformCom->ADD_Position(vMovePos);
+                m_pTransformCom->ADD_Position(vMovePoint);
             }
-               
+        }
+    }
+    else
+    {
+        if (CPellStateMachine::COMBAT_ACTION::ATTACK == State.eCombat_State)
+        {
+            _float3 ChaseDir, ChaseMovePoint;
+            m_pChase->ComputeLerpPoint(fDeletaTime, ChaseDir, ChaseMovePoint);
+            if (m_pNevigation->IsMove(XMLoadFloat3(&ChaseMovePoint)))
+                m_pTransformCom->ADD_Position(XMLoadFloat3(&ChaseDir));
         }
     }
 
@@ -129,21 +140,23 @@ void CDororong::CombatAction(CGameObject* pTarget)
     {
         //점프나 이동으로 거리를 벌린뒤에 행동 추가로 함
     }
-    CPellAttackState::PELL_ATTACK_STATE_DESC AttackDesc = {};
+   CPellAttackState::PELL_ATTACK_STATE_DESC AttackDesc = {};
     AttackDesc.ActPell = this;
     AttackDesc.AttackData = &m_PellInfo.DefaultSkill;
     AttackDesc.fSkillMoveSpeed = &m_fPellMoveSpeed;
     AttackDesc.IsSpaceOut = false;
     m_bIsAction = true;
 
-    m_pNevigation->ComputePathfindingAStar(m_pTransformCom->GetPosition(), vTargetPos, &m_PathFinding);
-    m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Patrol"));
+    /*  m_pNevigation->ComputePathfindingAStar(m_pTransformCom->GetPosition(), vTargetPos, &m_PathFinding);
+    m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Patrol"));*/
+
+    CChaseComponent::CHASE_DESC ChaseDesc = {};
+    ChaseDesc.pTargetTransform = pTarget->GetTransform();
+    ChaseDesc.fChaseSpeed = &m_fPellMoveSpeed;
+    m_pChase->SetChase(ChaseDesc);
 
     m_pPellFsm->ChangeState(TEXT("CombatLayer"), TEXT("Attack"), &AttackDesc);
     m_pPellFsm->SetAttack(true);
-
-    m_pTransformCom->LerpTurn(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMLoadFloat3(&vTargetPos), XMConvertToRadians(180.f), 0.01f);
-
 }
 
 HRESULT CDororong::ADD_Components()
@@ -156,15 +169,19 @@ HRESULT CDororong::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("GamePlay_Component_Recovery"), TEXT("Recovery_Com"), (CComponent**)&m_pRecovery, &RecoverDesc)))
         return E_FAIL;
 
-    COBBCollision::OBB_COLLISION_DESC OBBDesc = {};
-    ZeroMemory(&OBBDesc, sizeof(COBBCollision::OBB_COLLISION_DESC));
-    OBBDesc.pOwner = this;
-    OBBDesc.vExtents = _float3(0.5f, 0.7f, 0.5f);
-    OBBDesc.vCneter = _float3(0.f, OBBDesc.vExtents.y * 0.5f, 0.f);
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_CoolisionOBB"), TEXT("Collision_Com"), (CComponent**)&m_pCollision, &OBBDesc)))
+    CSphereCollision::SPEHRE_COLLISION_DESC SphereDesc = {};
+    ZeroMemory(&SphereDesc, sizeof(CSphereCollision::SPEHRE_COLLISION_DESC));
+    SphereDesc.pOwner = this;
+    SphereDesc.Radius = 0.5f;
+    SphereDesc.vCneter = _float3(0.f, SphereDesc.Radius, 0.f);
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionSphere"), TEXT("Collision_Com"), (CComponent**)&m_pCollision, &SphereDesc)))
         return E_FAIL;
     m_pCollision->BindBeginOverlapEvent([this](_float3 vDir, CGameObject* pHitActor) { OverlapEvent(vDir, pHitActor); });
 
+    CChaseComponent::CHASE_INITIALIZE_DESC ChaseInitDesc = {};
+    ChaseInitDesc.pOwnerTransform = m_pTransformCom;
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Chase"), TEXT("Chase_Com"), (CComponent**)&m_pChase, &ChaseInitDesc)))
+        return E_FAIL;
 
     CCombatComponent::COMBAT_COMPONENT_DESC CombatDesc = {};
     CombatDesc.pOwner = this;
@@ -221,9 +238,9 @@ void CDororong::OverlapEvent(_float3 vDir, CGameObject* pHitObject)
     if (State.bIsAttacking)
     {
         DEFAULT_DAMAGE_DESC DamageDesc = {};
-        DamageDesc.fDmaged = m_PellInfo.DefaultSkill.iSkillDamage;
+        DamageDesc.fDmaged = (_float)m_PellInfo.DefaultSkill.iSkillDamage;
 
-       auto Hit =  dynamic_cast<CActor*>(pHitObject);
+       auto Hit =  static_cast<CActor*>(pHitObject);
        if(Hit)
            Hit->Damage(&DamageDesc, this);
     }

@@ -32,6 +32,7 @@ public :
 
 	// ·£´õ
 	virtual		HRESULT						Render() override;
+	HRESULT									ShootProjecttileObject();
 
 private :
 	_bool									m_LeftFlag = false;
