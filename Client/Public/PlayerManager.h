@@ -9,6 +9,7 @@ NS_END
 
 NS_BEGIN(Client)
 class CItemBase;
+class CPellBase;
 
 class CPlayerManager : public CBase
 {
@@ -57,11 +58,12 @@ public :
 	const CItemBase*		GetSlotItemData(_uInt iIndex);
 	const CItemBase*		GetSelectItemData();
 
-
 	void					BindPlayerCharacter(class CPlayer* pPlayer);
 	_bool					IsAimState();
 	class CPlayer*			GetCurrentPlayer() { return m_pCurrentPlayer; }
 
+	//펠을 추가하기위한 클래스
+	HRESULT					ADDOwnerPellList(CPellBase* pPellBase);
 
 private :
 	class CPlayer*						m_pCurrentPlayer = nullptr;
@@ -78,7 +80,6 @@ private :
 	vector<CModel *>					m_pBackSlotItem = {};
 	// 등뒤에 보관되어 보여줄 녀석의 VIBuffer
 	// 이건 매시 아이템 실 객체 클래스여야할거같음
-	
 	_Int								m_iSelectSlotIndex = {};
 
 	// 최대 인벤토리의 슬롯 개수
@@ -90,6 +91,9 @@ private :
 
 	// 인벤토리의 정보를 보관할 녀석
 	vector<pair<_uInt, _uInt>>			m_InvenSlots = {};
+
+	//소유 중인 펠의 포인터 정보를 그냥 통으로 넘겨서 관리할 예정
+	vector<CPellBase*>					m_pOwnerPells = {};
 
 public :
 	virtual		void					Free()	override;

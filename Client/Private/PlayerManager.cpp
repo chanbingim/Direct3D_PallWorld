@@ -3,6 +3,8 @@
 #include "Level.h"
 
 #include "Player.h"
+#include "PellBase.h"
+
 #include "ItemManager.h"
 #include "ItemBase.h"
 
@@ -17,6 +19,7 @@ void CPlayerManager::Initialize(void* pArg)
 
 	m_EquipSlots.resize(m_iNumEquipSlot, nullptr);
 	m_pBackSlotItem.resize(m_iNumEquipSlot, nullptr);
+	m_pOwnerPells.resize(6, nullptr);
 
 	BindEquipSlot(3, 3);
 	BindEquipSlot(1, 1);
@@ -134,6 +137,29 @@ _bool CPlayerManager::IsAimState()
 	if (nullptr == m_pCurrentPlayer)
 		return false;
 	return m_pCurrentPlayer->IsAimingState();
+}
+
+HRESULT CPlayerManager::ADDOwnerPellList(CPellBase* pPellBase)
+{
+	auto iter = find_if(m_pOwnerPells.begin(), m_pOwnerPells.end(), [&](CPellBase* pPell)
+		{
+			if (nullptr == pPell)
+				return true;
+			return false;
+		});
+
+	if (iter == m_pOwnerPells.end())
+		return E_FAIL;
+
+	if (CPellBase::PELL_TEAM::NEUTRAL == pPellBase->GetPellTeam())
+	{
+		pPellBase->ChangePellTeam(CPellBase::PELL_TEAM::FRENDLY);
+		*iter = pPellBase;
+	}
+	else
+		return E_FAIL;
+
+	return S_OK;
 }
 
 void CPlayerManager::Free()

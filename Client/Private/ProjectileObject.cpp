@@ -1,4 +1,5 @@
 #include "ProjectileObject.h"
+#include "GameInstance.h"
 
 CProjectileObject::CProjectileObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 	CPartObject(pDevice, pContext)

@@ -44,6 +44,9 @@ public:
 
 	virtual		void						Damage(void* pArg, CActor* pDamagedActor);
 
+	void									ChangePellTeam(PELL_TEAM eTeam);
+	PELL_TEAM								GetPellTeam() { return m_eTeam; }
+
 protected :
 	_uInt									m_PellID;
 	PELL_TEAM								m_eTeam;
@@ -51,6 +54,7 @@ protected :
 
 	_bool									m_bIsLoop = true;
 	_bool									m_bIsAction = false;
+	_bool									m_bIsConfined = false;
 
 	_float									m_fAccActionTime = 0;
 	CPellStateMachine*						m_pPellFsm = nullptr;
@@ -85,14 +89,14 @@ protected :
 	HRESULT									ADD_PellInfoUI();
 	// 전투를 위한 전투 기능
 	virtual		void						CombatAction(CGameObject* pTarget);
-	void									PellPlayFSM(_float fDeletaTime);
+	_bool									PellPlayFSM(_float fDeletaTime);
 	void									StartMoveAction(const _float3 vEndPos);
 
 private :
 	// 이거 펠 파츠오브젝트 세팅부터 하고 불러야함 매번 코드짜서 넣어주기 귀찮아서
 	// 공통으로 묶어둔거라 파츠오브젝트 세팅을 안하고 부를경우 파츠오브젝트 크기를 못받아서 터짐
 	void									PellChiceAction();
-	void									PellTackingAction();
+	void									PellTackingAction(_float fDeletaTime);
 	// 아군일떄
 	void									ActionFrendly();
 

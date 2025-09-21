@@ -64,6 +64,7 @@ void CPellAttackState::OnStateExcution(_float fDeletaTime, void* pArg)
             break;
         case 4:
             m_szStateName += "_End";
+            *m_fSkillMovePtr = 0;
             break;
         }
     }

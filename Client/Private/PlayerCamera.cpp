@@ -88,6 +88,7 @@ void CPlayerCamera::Late_Update(_float fDeletaTime)
     XMStoreFloat4x4(&m_InvCombinedMatrix, XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_CombinedMatrix)));
     XMStoreFloat4x4(&m_ProjMat, XMMatrixPerspectiveFovLH(m_fFov, m_fAspect, m_fNear, m_fFar));
 
+    m_pGameInstance->SetCameraInfo({ m_fFov , m_fFar, m_fNear, 0.f });
     m_pGameInstance->SetMatrix(MAT_STATE::VIEW, m_InvCombinedMatrix);
     m_pGameInstance->SetMatrix(MAT_STATE::PROJECTION, m_ProjMat);
     Compute_FustomPlane();

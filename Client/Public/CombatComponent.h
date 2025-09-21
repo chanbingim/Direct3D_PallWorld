@@ -30,6 +30,7 @@ public :
 
 	void										UpdateTarget();
 	void										ADD_TargetObject(CGameObject* pTarget);
+	CGameObject*								GetCurrentTarget() { return m_pTargetObject; }
 
 private :
 	CGameObject*								m_pOwner = nullptr;

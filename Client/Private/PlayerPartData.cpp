@@ -120,6 +120,11 @@ void CPlayerPartData::ChangeWeaponState(_uInt iWeaponState)
     m_pWeaponSocket[0]->ChangeWeaponState(CPlayerWeaponSlot::WEAPON_STATE(iWeaponState));
 }
 
+HRESULT CPlayerPartData::ShootProjecttileObject()
+{
+    return static_cast<CPlayerWeaponSlot *>(m_pWeaponSocket[0])->ShootProjecttileObject();
+}
+
 HRESULT CPlayerPartData::ADD_Components()
 {
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Player_Mesh"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))

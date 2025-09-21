@@ -403,6 +403,7 @@ void CPlayer::ChangeAction(_float fDeltaTime)
             m_pPlayerFSM->PlayerStateReset(TEXT("CombatLayer"));
             m_pPlayerFSM->SetAttack(true);
             m_pAnimator->ChangeWeaponState(ENUM_CLASS(CPlayerWeaponSlot::WEAPON_STATE::ATTACK));
+            m_pAnimator->ShootProjecttileObject();
             m_bIsAnimLoop = false;
         }
 #pragma endregion

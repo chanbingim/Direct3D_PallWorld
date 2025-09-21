@@ -85,9 +85,6 @@ void CPlayerWeaponSlot::Late_Update(_float fDeletaTime)
 
 		UpdateCombinedMatrix();
 		m_pCollision[0]->UpdateColiision(XMLoadFloat4x4(&m_CombinedWorldMatrix));
-
-		for (auto i = 0; i < 2; ++i)
-			m_pGameInstance->ADD_CollisionList(m_pCollision[i]);
 	}
 	else
 	{
@@ -97,7 +94,6 @@ void CPlayerWeaponSlot::Late_Update(_float fDeletaTime)
 			UpdateCombinedMatrix();
 
 		m_pCollision[0]->UpdateColiision(XMLoadFloat4x4(&m_CombinedWorldMatrix));
-		m_pGameInstance->ADD_CollisionList(m_pCollision[0]);
 	}
 
 	m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
@@ -121,17 +117,34 @@ HRESULT CPlayerWeaponSlot::Render()
 
 HRESULT CPlayerWeaponSlot::ShootProjecttileObject()
 {
+	if (nullptr == m_pVIBufferCom)
+	{
+		for (auto i = 0; i < 2; ++i)
+			m_pGameInstance->ADD_CollisionList(m_pCollision[i]);
+	}
+	else
+		m_pGameInstance->ADD_CollisionList(m_pCollision[0]);
+
+	if (nullptr == m_CurrentEuipItemInfo)
+		return E_FAIL;
+
+	auto EuipInfo = m_CurrentEuipItemInfo->GetItemData();
+	if (!lstrcmp(EuipInfo.TypeDesc.EuqipDesc.ProjectilePrototpyeName, TEXT("")))
+		return E_FAIL;
+
 	//이함수를 통해서 프로젝타일 위치에 생성해서 날린다.
 	CProjectileObject::PROJECTILE_DESC ProjectileDesc = {};
 	ProjectileDesc.vPosition = *reinterpret_cast<_float3 *>(m_CombinedWorldMatrix.m[3]);
 	ProjectileDesc.vScale = { 1.f, 1.f, 1.f };
 
-	m_pGameInstance->GetCameraState(WORLDSTATE::LOOK) * m_pGameInstance->m_pPipeline;
+	_vector FarPoint = m_pGameInstance->GetCameraState(WORLDSTATE::LOOK) * m_pGameInstance->GetCameraINFO().y;
 
-
-
-	ProjectileDesc.vDireaction = 
-	ProjectileDesc.vThrowSpeed = 
+	XMStoreFloat3(&ProjectileDesc.vDireaction, XMVector3Normalize(FarPoint - XMLoadFloat3(&ProjectileDesc.vPosition)));
+	ProjectileDesc.vThrowSpeed = 10.f;
+	
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), EuipInfo.TypeDesc.EuqipDesc.ProjectilePrototpyeName,
+		ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_GamePlay_Projectile"), &ProjectileDesc)))
+		return E_FAIL;
 
 	return S_OK;
 }

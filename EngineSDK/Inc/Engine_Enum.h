@@ -8,7 +8,7 @@ namespace Engine
 	enum class MODEL_TYPE	{ ANIM, NONANIM, END };
 	enum class VISIBILITY	{ VISIBLE, HIDDEN, END };
 	enum class WORLDSTATE	{ RIGHT, UP, LOOK, POSITION, END };
-	enum class CAMERA_INFO	{ CAMERA_FFOV, CAMERA_FAR, CAMERA_NEAR, END};
+	enum class CAMERA_INFO	{ CAMERA_FOV, CAMERA_FAR, CAMERA_NEAR, END};
 	enum class OBJECT_ID	{ GAMEOBJECT, COMPONENT, END };
 
 	enum class RENDER {

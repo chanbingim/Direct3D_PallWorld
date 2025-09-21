@@ -32,6 +32,7 @@ public:
 	void									ChangeSocketFlag(_char bitFlag);
 
 	void									ChangeWeaponState(_uInt iWeaponState);
+	HRESULT									ShootProjecttileObject();
 
 private:
 	CPlayerBody*							m_pPlayerBody = nullptr;

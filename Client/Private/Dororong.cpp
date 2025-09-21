@@ -57,7 +57,6 @@ void CDororong::Priority_Update(_float fDeletaTime)
     __super::Priority_Update(fDeletaTime);
     PellPlayFSM(fDeletaTime);
 
-
    /* if (m_pRecovery->GetRecovering())
         m_PellInfo.CurStemina += m_pRecovery->Update(fDeletaTime);
     else
@@ -65,21 +64,24 @@ void CDororong::Priority_Update(_float fDeletaTime)
 
     const CPellStateMachine::PELL_STATE& State = m_pPellFsm->GetState();
     _vector vPos{}, vDir{}, vMovePoint;
-    if (CPellStateMachine::MOVE_ACTION::PATROL == State.eMove_State)
+    if (CPellStateMachine::COMBAT_ACTION::END == State.eCombat_State)
     {
-        _vector vTarget = XMLoadFloat3(&m_vTargetPoint);
-        if (!XMVector3Equal(vTarget, XMVectorZero()))
+        if (CPellStateMachine::MOVE_ACTION::PATROL == State.eMove_State)
         {
-            _float3 vCurPos = m_pTransformCom->GetPosition();
-            vCurPos.y = 0.f;
-            vPos = XMLoadFloat3(&vCurPos);
-            vDir = XMVector3Normalize(vTarget - vPos);
-
-            vMovePoint = vDir * m_fPellMoveSpeed * fDeletaTime;
-            if (m_pNevigation->IsMove(vPos + vMovePoint))
+            _vector vTarget = XMLoadFloat3(&m_vTargetPoint);
+            if (!XMVector3Equal(vTarget, XMVectorZero()))
             {
-                m_pTransformCom->LerpTurn(XMVectorSet(0.f, 1.f, 0.f, 0.f), vTarget, XMConvertToRadians(180.f), fDeletaTime);
-                m_pTransformCom->ADD_Position(vMovePoint);
+                _float3 vCurPos = m_pTransformCom->GetPosition();
+                vCurPos.y = 0.f;
+                vPos = XMLoadFloat3(&vCurPos);
+                vDir = XMVector3Normalize(vTarget - vPos);
+
+                vMovePoint = vDir * m_fPellMoveSpeed * fDeletaTime;
+                if (m_pNevigation->IsMove(vPos + vMovePoint))
+                {
+                    m_pTransformCom->LerpTurn(XMVectorSet(0.f, 1.f, 0.f, 0.f), vTarget, XMConvertToRadians(180.f), fDeletaTime);
+                    m_pTransformCom->ADD_Position(vMovePoint);
+                }
             }
         }
     }
@@ -87,10 +89,13 @@ void CDororong::Priority_Update(_float fDeletaTime)
     {
         if (CPellStateMachine::COMBAT_ACTION::ATTACK == State.eCombat_State)
         {
+            _float3 vCurPos = m_pTransformCom->GetPosition();
+            vPos = XMLoadFloat3(&vCurPos);
+
             _float3 ChaseDir, ChaseMovePoint;
             m_pChase->ComputeLerpPoint(fDeletaTime, ChaseDir, ChaseMovePoint);
-            if (m_pNevigation->IsMove(XMLoadFloat3(&ChaseMovePoint)))
-                m_pTransformCom->ADD_Position(XMLoadFloat3(&ChaseDir));
+            if (m_pNevigation->IsMove(vPos + XMLoadFloat3(&ChaseMovePoint)))
+                m_pTransformCom->ADD_Position(XMLoadFloat3(&ChaseMovePoint));
         }
     }
 
@@ -100,6 +105,9 @@ void CDororong::Priority_Update(_float fDeletaTime)
 
 void CDororong::Update(_float fDeletaTime)
 {
+    if (true == m_bIsConfined)
+        return;
+
     m_pPellBody->PellPlayAnimation(m_pPellFsm->GetAnimationName().c_str(), m_bIsLoop);
     __super::Update(fDeletaTime);
  
@@ -107,8 +115,10 @@ void CDororong::Update(_float fDeletaTime)
 
 void CDororong::Late_Update(_float fDeletaTime)
 {
-    __super::Late_Update(fDeletaTime);
+    if (true == m_bIsConfined)
+        return;
 
+    __super::Late_Update(fDeletaTime);
     m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
 }
 
@@ -154,6 +164,9 @@ void CDororong::CombatAction(CGameObject* pTarget)
     ChaseDesc.pTargetTransform = pTarget->GetTransform();
     ChaseDesc.fChaseSpeed = &m_fPellMoveSpeed;
     m_pChase->SetChase(ChaseDesc);
+    
+    m_PathFinding.clear();
+    m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Idle"));
 
     m_pPellFsm->ChangeState(TEXT("CombatLayer"), TEXT("Attack"), &AttackDesc);
     m_pPellFsm->SetAttack(true);

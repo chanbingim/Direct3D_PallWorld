@@ -1,7 +1,10 @@
 #include "PalSpher.h"
 
 #include "GameInstance.h"
+#include "PlayerManager.h"
 #include "PellBase.h"
+
+_float		CPalSpher::m_fComputeCompeleteTime = 2.f;
 
 CPalSpher::CPalSpher(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 	CProjectileObject(pDevice, pContext)
@@ -25,6 +28,9 @@ HRESULT CPalSpher::Initialize(void* pArg)
 
     if (FAILED(ADD_Components()))
         return E_FAIL;
+
+	if (FAILED(Bind_ShaderResources()))
+		return E_FAIL;
 
     if (m_ObejctTag.c_str() == L"")
         m_ObejctTag = TEXT("Pal Spher");
@@ -51,7 +57,11 @@ void CPalSpher::Priority_Update(_float fDeletaTime)
 		}
 	}
 	else
+	{
 		m_pTransformCom->ADD_Position(XMLoadFloat3(&m_fThorwDireaction) * m_fThorowSpeed * fDeletaTime);
+		m_pCollision->UpdateColiision(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
+	}
+	
 }
 
 void CPalSpher::Update(_float fDeletaTime)
@@ -66,12 +76,13 @@ void CPalSpher::Update(_float fDeletaTime)
 			{
 				m_pVIBufferCom->PlayAnimation(0, 0, 0);
 				m_pTransformCom->Turn(m_pTransformCom->GetUpVector(), XMConvertToRadians(-180.f), fDeletaTime);
+				ComputeCatchPellSuccess(fDeletaTime);
 			}
 			else
 			{
 				_bool bIsFinished = m_pVIBufferCom->PlayAnimation(0, 0, fDeletaTime, 10.f, m_bIsPlayAnim);
 				if (bIsFinished)
-					m_bIsAnimLoop = true;
+					m_bIsPlayAnim = true;
 			}
 
 			m_pTransformCom->SetPosition(m_ReflectPoint);
@@ -88,6 +99,8 @@ void CPalSpher::Update(_float fDeletaTime)
 		m_pVIBufferCom->PlayAnimation(0, 0, 0);
 		m_pTransformCom->ADD_Position(XMLoadFloat3(&m_fThorwDireaction) * m_fThorowSpeed * fDeletaTime);
 	}
+
+	m_CombinedWorldMatrix = m_pTransformCom->GetWorldMat();
 }
 
 void CPalSpher::Late_Update(_float fDeletaTime)
@@ -116,7 +129,7 @@ HRESULT CPalSpher::Render()
 
 HRESULT CPalSpher::ADD_Components()
 {
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Yeti_Mesh"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_PalSpher"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
 		return E_FAIL;
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_AnimMesh"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
@@ -130,7 +143,6 @@ HRESULT CPalSpher::ADD_Components()
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionSphere"), TEXT("Collison_Com"), (CComponent**)&m_pCollision, &SphereDesc)))
 		return E_FAIL;
 	m_pCollision->BindBeginOverlapEvent([this](_float3 vDir, CGameObject* pTarget) { BeginOverlapEvent(vDir, pTarget); });
-	m_pCollision->ADD_OnlyHitObject(typeid(CPellBase).hash_code());
 
 	return S_OK;
 }
@@ -168,9 +180,60 @@ void CPalSpher::BeginOverlapEvent(_float3 vDir, CGameObject* pTarget)
 
 		XMStoreFloat3(&m_ReflectPoint, XMLoadFloat3(&DefaultHitDesc.vHitPoint) + vReflectVector * RandomOffset);
 		m_fAccTime = 0.f;
-		m_pHitPell = pHitPell;
 		m_bIsPlayAnim = false;
+
+		m_pHitPell = pHitPell;
+		m_pHitPell->Damage(nullptr, this);
 	}
+}
+
+void CPalSpher::ComputeCatchPellSuccess(_float fDeletaTime)
+{
+	ViewPellCatchUI();
+	m_fCurComputeTime += fDeletaTime;
+
+	//플레이어와 펠의 레벨차이를 통한 일정 시간 및 확률을 통해 캐치
+	auto PlayerData = CPlayerManager::GetInstance()->GetPlayerData();
+	auto PellData = m_pHitPell->GetPellInfo();
+
+	if (0.f == fmod(m_fCurComputeTime, 0.5f))
+	{
+		if (PlayerData.iLevel >= PellData.iLevel)
+		{
+			//낮으면 잡게 하자
+			m_fAccPercent += m_pGameInstance->Random(20.f, 25.f);
+		}
+		else
+		{
+			//높으면 못잡고
+			_uInt iPellOver = PellData.iLevel - PlayerData.iLevel;
+			_float fRandomValue = m_pGameInstance->Random(20.f, 25.f);
+			_float fApplyPercent = fRandomValue - iPellOver;
+
+			fApplyPercent = Clamp<_float>(fApplyPercent, 0.f, 25.f);
+			m_fAccPercent += fApplyPercent;
+		}
+	}
+
+	// 누적 연산이 끝나면 잡았는지 안잡았는지 확인
+	if (m_fComputeCompeleteTime <=  m_fCurComputeTime)
+	{
+		if (80 <= m_fAccPercent)
+		{
+			// 성공
+			// 따로 플레그를 주지않은이상 움직이지 않는걸로
+			CPlayerManager::GetInstance()->ADDOwnerPellList(m_pHitPell);
+		}
+
+		m_pHitPell->Damage(nullptr, this);
+		m_pHitPell = nullptr;
+		m_IsDead = true;
+	}
+}
+
+void CPalSpher::ViewPellCatchUI()
+{
+	//여기서 펠을 잡았는지 안잡았는지 UI로 표현할 예정
 }
 
 CPalSpher* CPalSpher::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

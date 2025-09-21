@@ -125,9 +125,6 @@ HRESULT CPlayerItemSlot::Apply_ConstantShaderResources(_uInt iMeshIndex)
 
 	ID3D11ShaderResourceView* pResourceVeiw = {};
 
-	if (nullptr == m_pVIBufferCom)
-		int a = 10;
-
 	m_pVIBufferCom->GetMeshResource(iMeshIndex, aiTextureType_DIFFUSE, 0, &pResourceVeiw);
 	if (pResourceVeiw)
 		m_pSRVEffect->SetResource(pResourceVeiw);

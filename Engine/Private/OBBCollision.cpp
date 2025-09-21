@@ -50,8 +50,16 @@ _bool COBBCollision::Intersect(COLLISION_TYPE eType, CCollision* pTarget)
 {
     _bool bIsHit = false;
     
-    if (!IntersectAble(typeid((*pTarget->GetOwner())).hash_code()))
-        return false;
+    if (m_bIsOnlyHitCollision)
+    {
+        if (!(m_bIsOnlyHitActorHashCode == typeid((*pTarget->GetOwner())).hash_code()))
+            return false;
+    }
+    else
+    {
+        if (!IntersectAble(typeid((*pTarget->GetOwner())).hash_code()))
+            return false;
+    }
 
     switch (eType)
     {
@@ -94,7 +102,7 @@ _bool COBBCollision::RayIntersect(COLLISION_TYPE eType, CCollision* pTarget, DEF
         break;
     }
 
-    XMStoreFloat3(&OutDesc.vHitPoint, CalCulationOwnerPosition * fDistance);
+    XMStoreFloat3(&OutDesc.vHitPoint, CalCulationOwnerPosition + vDireaction * fDistance);
     XMStoreFloat3(&OutDesc.vDireaction, vDireaction);
     XMStoreFloat3(&OutDesc.vNormal, XMVector3Normalize(XMLoadFloat3(&OutDesc.vHitPoint) - CalCulationTargetPosition));
     return bIsHit;

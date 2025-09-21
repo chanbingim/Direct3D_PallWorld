@@ -108,7 +108,7 @@ _bool CBoxCollision::RayIntersect(COLLISION_TYPE eType, CCollision* pTarget, DEF
         break;
     }
 
-    XMStoreFloat3(&OutDesc.vHitPoint, CalCulationOwnerPosition * fDistance);
+    XMStoreFloat3(&OutDesc.vHitPoint, CalCulationOwnerPosition + vDireaction * fDistance);
     XMStoreFloat3(&OutDesc.vDireaction, vDireaction);
     XMStoreFloat3(&OutDesc.vNormal, XMVector3Normalize(XMLoadFloat3(&OutDesc.vHitPoint) - CalCulationTargetPosition));
     return bIsHit;

@@ -96,29 +96,42 @@ const _bool CPellBase::GetFinisehdAnimation() const
 
 void CPellBase::Damage(void* pArg, CActor* pDamagedActor)
 {
-    DEFAULT_DAMAGE_DESC* DamageDesc = static_cast<DEFAULT_DAMAGE_DESC*>(pArg);
-    if (DamageDesc)
+    if (nullptr == pArg)
     {
-        m_PellInfo.CurHealth -= DamageDesc->fDmaged;
-
-        if (0 >= m_PellInfo.CurHealth)
+        auto HitPalSpher = dynamic_cast<CPalSpher*>(pDamagedActor);
+        if (nullptr != HitPalSpher)
+            m_bIsConfined = !m_bIsConfined;
+    }
+    else
+    {
+        DEFAULT_DAMAGE_DESC* DamageDesc = static_cast<DEFAULT_DAMAGE_DESC*>(pArg);
+        if (DamageDesc)
         {
-            m_bIsLoop = false;
-            m_pPellFsm->ChangeState(TEXT("CombatLayer"), TEXT("Dead"));
-        }
-        else
-        {
-            if(m_pPellBody)
-                m_pPellBody->ResetPellCurrentAnimation();
-            if (m_pCombatCom)
-                m_pCombatCom->ADD_TargetObject(pDamagedActor);
+            m_PellInfo.CurHealth -= DamageDesc->fDmaged;
+            if (0 >= m_PellInfo.CurHealth)
+            {
+                m_bIsLoop = false;
+                m_pPellFsm->ChangeState(TEXT("CombatLayer"), TEXT("Dead"));
+            }
+            else
+            {
+                if (m_pPellBody)
+                    m_pPellBody->ResetPellCurrentAnimation();
+                if (m_pCombatCom)
+                    m_pCombatCom->ADD_TargetObject(pDamagedActor);
 
-            m_bIsAction = true;
-            m_bIsLoop = false;
-            m_pPellFsm->SetCombatAction(true);
-            m_pPellFsm->ChangeState(TEXT("CombatLayer"), TEXT("Hit"));
+                m_bIsAction = true;
+                m_bIsLoop = false;
+                m_pPellFsm->SetCombatAction(true);
+                m_pPellFsm->ChangeState(TEXT("CombatLayer"), TEXT("Hit"));
+            }
         }
     }
+}
+
+void CPellBase::ChangePellTeam(PELL_TEAM eTeam)
+{
+    m_eTeam = eTeam;
 }
 
 HRESULT CPellBase::SetUpDefaultPellData()
@@ -153,9 +166,11 @@ HRESULT CPellBase::ADD_PellInfoUI()
     return S_OK;
 }
 
-void CPellBase::PellPlayFSM(_float fDeletaTime)
+_bool CPellBase::PellPlayFSM(_float fDeletaTime)
 {
     const CPellStateMachine::PELL_STATE& State = m_pPellFsm->GetState();
+    if (m_bIsConfined)
+        return false;
 
     m_fAccActionTime += fDeletaTime;
 
@@ -170,7 +185,7 @@ void CPellBase::PellPlayFSM(_float fDeletaTime)
             ShowPellInfo();
 
         if(m_bIsAction)
-            PellTackingAction();
+            PellTackingAction(fDeletaTime);
     }
 
     m_pPellFsm->Update(fDeletaTime, m_pFsmArgContainer);
@@ -178,6 +193,8 @@ void CPellBase::PellPlayFSM(_float fDeletaTime)
         m_bIsLoop = m_pPellFsm->GetLayerAnimLoop(TEXT("BodyLayer"));
     else
         m_bIsLoop = m_pPellFsm->GetLayerAnimLoop(TEXT("CombatLayer"));
+
+    return true;
 }
 
 void CPellBase::PellChiceAction()
@@ -196,7 +213,7 @@ void CPellBase::PellChiceAction()
     }
 }
 
-void CPellBase::PellTackingAction()
+void CPellBase::PellTackingAction(_float fDeletaTime)
 {
     const CPellStateMachine::PELL_STATE& State = m_pPellFsm->GetState();
     if (CPellStateMachine::COMBAT_ACTION::HIT >= State.eCombat_State)
@@ -213,6 +230,16 @@ void CPellBase::PellTackingAction()
             }
 
             m_bIsAction = false;
+        }
+    }
+
+    if (State.bIsCombat)
+    {
+        CGameObject* vTargetObject = m_pCombatCom->GetCurrentTarget();
+        if (nullptr != vTargetObject)
+        {
+            _float3 vTargetPos = vTargetObject->GetTransform()->GetPosition();
+            m_pTransformCom->LerpTurn(m_pTransformCom->GetUpVector(), XMLoadFloat3(&vTargetPos), XMConvertToRadians(180.f), fDeletaTime);
         }
     }
 

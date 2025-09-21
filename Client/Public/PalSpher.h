@@ -30,13 +30,21 @@ private :
 	/* 펠과 충돌 됐을때 사용할 변수 목록 */
 	CPellBase*								m_pHitPell = nullptr;
 	_float									m_fAccTime = {};
+	_float									m_fCurComputeTime = {};
+	_float									m_fAccPercent = {};
+
 	_float3									m_HitStartPoint = {};
 	_float3									m_ReflectPoint = {};
 	_float3									m_ReflectDir = {};
 
+	static		_float						m_fComputeCompeleteTime;
+
 private :
 	HRESULT									ADD_Components();
 	void									BeginOverlapEvent(_float3 vDir, CGameObject* pTarget);
+
+	void									ComputeCatchPellSuccess(_float fDeletaTime);
+	void									ViewPellCatchUI();
 
 public :
 	static		CPalSpher*					Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

@@ -1,27 +1,2 @@
-﻿FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\MouseShader.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ShaderFiles\MutipleBlend.hlsl(79,5-41): warning X3206: implicit truncation of vector type
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\MutipleBlend.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ProgressBar.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\TestShader.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_AnimMesh.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_Mesh.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_NorTex.cso
-  Dororong.cpp
-Dororong.obj : error LNK2019: "public: void __cdecl Engine::CChaseComponent::ComputeLerpPoint(float,struct DirectX::XMFLOAT3 &,struct DirectX::XMFLOAT3 &)" (?ComputeLerpPoint@CChaseComponent@Engine@@QEAAXMAEAUXMFLOAT3@DirectX@@0@Z)"public: virtual void __cdecl Client::CDororong::Priority_Update(float)" (?Priority_Update@CDororong@Client@@UEAAXM@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
-Dororong.obj : error LNK2019: "public: void __cdecl Engine::CChaseComponent::SetChase(struct Engine::CChaseComponent::ChaseDesc const &)" (?SetChase@CChaseComponent@Engine@@QEAAXAEBUChaseDesc@12@@Z)"protected: virtual void __cdecl Client::CDororong::CombatAction(class Engine::CGameObject *)" (?CombatAction@CDororong@Client@@MEAAXPEAVCGameObject@Engine@@@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
-Loader.obj : error LNK2019: "public: static class Engine::CChaseComponent * __cdecl Engine::CChaseComponent::Create(struct ID3D11Device *,struct ID3D11DeviceContext *)" (?Create@CChaseComponent@Engine@@SAPEAV12@PEAUID3D11Device@@PEAUID3D11DeviceContext@@@Z)"private: long __cdecl Client::CLoader::Loading_For_GamePlay(void)" (?Loading_For_GamePlay@CLoader@Client@@AEAAJXZ) 함수에서 참조되는 확인할 수 없는 외부 기호
-..\Bin\\Direct11_FrameWork.exe : fatal error LNK1120: 3개의 확인할 수 없는 외부 참조입니다.
+﻿  Dororong.cpp
+  Direct11_FrameWork.vcxproj -> C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe
