@@ -152,6 +152,8 @@ public :
 
 #pragma region PipeLine
 	void						SetMatrix(MAT_STATE eState, _float4x4 Matrix);
+	void						SetCameraInfo(const _float4& pCmaeraInfo);
+	const _float4&				GetCameraINFO();
 
 	const _float4x4&			GetMatrix(MAT_STATE eState);
 	const _float4x4&			GetInvMatrix(MAT_STATE eState);
