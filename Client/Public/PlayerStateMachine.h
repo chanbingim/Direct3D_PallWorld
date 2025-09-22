@@ -12,7 +12,7 @@ public:
 	enum class MOVE_CHILD_ACTION { WALK, IDLE, JOG, SPRINT, END };
 
 	//전투 상태 및 비 전투 상태에 대한 Layer 구조
-	enum class COMBAT_ACTION { ATTACK, HIT, END };
+	enum class COMBAT_ACTION { ATTACK, HIT, DEAD, END };
 	enum class NONE_COBAT_ACTION { PETTING, CARRY, SLEEP, COOK, END };
 
 	typedef	struct	PLAYER_STATE
@@ -53,8 +53,6 @@ public:
 
 	_string								GetStateFullName();
 	_string								GetLayerAimStateName();
-
-
 
 	void								PlayerStateReset(const _wstring& LayerTag);
 

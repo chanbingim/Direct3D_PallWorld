@@ -7,6 +7,7 @@
 NS_BEGIN(Engine)
 class CNavigation;
 class CCollision;
+class CChaseComponent;
 NS_END
 
 NS_BEGIN(Client)
@@ -50,15 +51,18 @@ public:
 protected :
 	_uInt									m_PellID;
 	PELL_TEAM								m_eTeam;
+
 	_float									m_fPellMoveSpeed = {};
 
+	_bool									m_bIsPartnerPell = false;
 	_bool									m_bIsLoop = true;
 	_bool									m_bIsAction = false;
 	_bool									m_bIsConfined = false;
 
 	_float									m_fAccActionTime = 0;
-	CPellStateMachine*						m_pPellFsm = nullptr;
 
+	CPellStateMachine*						m_pPellFsm = nullptr;
+	CChaseComponent*						m_pChase = nullptr;
 #pragma region Component
 
 #pragma region Collision

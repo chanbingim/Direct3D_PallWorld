@@ -32,7 +32,9 @@ public:
 	void									ChangeSocketFlag(_char bitFlag);
 
 	void									ChangeWeaponState(_uInt iWeaponState);
-	HRESULT									ShootProjecttileObject();
+	void									NearAttackOnCollision();
+	void									RoatationPitchSpine(_float fPitchAngle);
+
 
 private:
 	CPlayerBody*							m_pPlayerBody = nullptr;
@@ -40,6 +42,8 @@ private:
 	//무기 소켓 위치 및 손위치
 	CPlayerItemSlot*						m_pWeaponSocket[3] = {};
 	const _float4x4*						m_pWeaponSocketMatrix[3];
+	_float4x4*								m_pSpineOffsetMatrix = nullptr;
+
 
 	_bool									m_bIsFinished = false;
 	_bool									m_SplitAnimation = false;
@@ -49,6 +53,10 @@ private:
 	HRESULT									ADD_Components();
 	HRESULT									ADD_ChildObject();
 	HRESULT									ADD_AnimParts();
+	HRESULT									Insert_AnimKeyFrameFunction();
+
+	HRESULT									ShootProjecttileObject();
+
 
 public:
 	static			CPlayerPartData*		Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

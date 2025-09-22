@@ -33,6 +33,8 @@ public :
 	// Model의 뼈에대한 함수
 	_Int						GetBoneIndex(const char* szBoneName) const;
 	_uInt						GetNumBones() const  { return m_iNumBones; }
+	_float4x4*					GetTransformationOffsetMatrixPtr(const char* szBoneName);
+
 	_float4x4*					GetBoneMatrices(_uInt iMeshIndex);
 	const _float4x4*			GetCombinedTransformationMatrixPtr(const char* szBoneName) const;
 
@@ -41,6 +43,7 @@ public :
 	_bool						PlayAnimation(_uInt iAnimLayerIndex, _uInt iCurrentAnimIndex, _float fDeletaTime, _float fAnimSpeed = 10.f, _bool bIsLoop = true, const char* BoneName = "Root Node", const char* EndBoneName = "");
 	_bool						ResetAnimation(_uInt iAnimLayerIndex);
 	void						BindParentAnim(CModel* DstData);
+	void						Bind_KeyFrameFunction(const char* szName, _uInt iKeyFrame, function<void()> function);
 
 	const char*					GetAnimationName(_uInt iIndex);
 	_Int						GetNumAnimation(const char* szName);

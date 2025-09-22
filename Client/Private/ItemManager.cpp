@@ -69,11 +69,26 @@ HRESULT CItemManager::Initialize(const char* FilePath)
         Desc.TypeDesc.EuqipDesc.iHealthPoint = 0;
         Desc.TypeDesc.EuqipDesc.bIsLeftSocket = true;
         Desc.TypeDesc.EuqipDesc.bIsChargeAble = true;
+        Desc.TypeDesc.EuqipDesc.iProjectileIndex = 10;
         Desc.TypeDesc.EuqipDesc.vCenter = {  };
         Desc.TypeDesc.EuqipDesc.vExtents = {  };
         Desc.TypeDesc.EuqipDesc.Equip_Type = EUQIP_TYPE::WEAPON;
         Desc.TypeDesc.EuqipDesc.Weapon_Type = WEAPON::BOW;
         m_Items.emplace(3, Desc);
+
+        ZeroMemory(&Desc, sizeof(ITEM_DESC));
+        Desc.iItemNum = 10;
+        Desc.ItemType = ITEM_TYPE::CONSUM;
+        lstrcpy(Desc.szItemName, TEXT("Arrow"));
+
+        // 이거 고민이네
+        // 프로토타입 이름을 넘길지 실제파일의 경로를 넘길지
+        lstrcpy(Desc.szItemIconPath, TEXT(""));
+        lstrcpy(Desc.szItemModelPath, TEXT("Prototype_Component_VIBuffer_Arrow"));
+        Desc.IsAnimModel = false;
+        Desc.IsPlayAnimation = false;
+        Desc.TypeDesc.ConsumDesc.bIsLeftSocket = false;
+        m_Items.emplace(10, Desc);
     }
     else
     {

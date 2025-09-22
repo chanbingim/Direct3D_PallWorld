@@ -108,6 +108,16 @@ _bool COBBCollision::RayIntersect(COLLISION_TYPE eType, CCollision* pTarget, DEF
     return bIsHit;
 }
 
+void COBBCollision::SetCollision(_float3 vCenter, _float4 vAngle, _float3 vExtents)
+{
+    m_OriginOrientBox->Center = vCenter;
+    m_OriginOrientBox->Extents = vExtents;
+
+    _float4		vQuaternion = {};
+    XMStoreFloat4(&vQuaternion, XMQuaternionRotationRollPitchYaw(vAngle.x, vAngle.y, vAngle.z));
+    m_OriginOrientBox->Orientation = vQuaternion;
+}
+
 void COBBCollision::Render(_vector vColor)
 {
     __super::Render(vColor);

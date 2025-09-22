@@ -115,57 +115,58 @@ HRESULT CPlayer::Render()
 void CPlayer::Key_Input(_float fDeletaTime)
 {
     CPlayerStateMachine::PLAYER_STATE State = m_pPlayerFSM->GetState();
-    if (XMVector3Equal(XMLoadFloat3(&m_PreMovePos), XMVectorZero()))
+
+    if (CPlayerStateMachine::COMBAT_ACTION::END == State.eCombat_State)
     {
-        m_pPlayerFSM->ChangeState(TEXT("LowerLayer"), TEXT("Idle"));
-    }
-    else
-    {
-        if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_LSHIFT))
+        if (XMVector3Equal(XMLoadFloat3(&m_PreMovePos), XMVectorZero()))
         {
-            if (!State.bIsAiming)
-            {
-                if (m_pPlayerFSM->ChangeState(TEXT("LowerLayer"), TEXT("Sprint")))
-                    m_fMoveSpeed = P_RUN_SPEED;
-            }
-        }
-        else if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_LCONTROL))
-        {
-            if (!State.bIsAiming)
-            {
-                if (m_pPlayerFSM->ChangeState(TEXT("LowerLayer"), TEXT("Walk")))
-                    m_fMoveSpeed = P_WALK_SPEED;
-            }
+            m_pPlayerFSM->ChangeState(TEXT("LowerLayer"), TEXT("Idle"));
         }
         else
         {
-            if (CPlayerStateMachine::MOVE_ACTION::CROUCH == State.eMove_State)
+            if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_LSHIFT))
             {
-                if (m_pPlayerFSM->ChangeState(TEXT("LowerLayer"), TEXT("Walk")))
-                    m_fMoveSpeed = P_WALK_SPEED;
+                if (!State.bIsAiming)
+                {
+                    if (m_pPlayerFSM->ChangeState(TEXT("LowerLayer"), TEXT("Sprint")))
+                        m_fMoveSpeed = P_RUN_SPEED;
+                }
+            }
+            else if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_LCONTROL))
+            {
+                if (!State.bIsAiming)
+                {
+                    if (m_pPlayerFSM->ChangeState(TEXT("LowerLayer"), TEXT("Walk")))
+                        m_fMoveSpeed = P_WALK_SPEED;
+                }
             }
             else
             {
-                if (m_pPlayerFSM->ChangeState(TEXT("LowerLayer"), TEXT("Jog")))
-                    m_fMoveSpeed = P_JOG_SPEED;
+                if (CPlayerStateMachine::MOVE_ACTION::CROUCH == State.eMove_State)
+                {
+                    if (m_pPlayerFSM->ChangeState(TEXT("LowerLayer"), TEXT("Walk")))
+                        m_fMoveSpeed = P_WALK_SPEED;
+                }
+                else
+                {
+                    if (m_pPlayerFSM->ChangeState(TEXT("LowerLayer"), TEXT("Jog")))
+                        m_fMoveSpeed = P_JOG_SPEED;
+                }
             }
         }
-    }
-   
 
-    if (CPlayerStateMachine::NONE_COBAT_ACTION::END == State.eNone_Combat_State)
-    {
-        PlayerMoveView(fDeletaTime);
-        ChangeAction(fDeletaTime);
-        MoveAction(fDeletaTime);
-        ChangeWeapon();
-
-        
+        if (CPlayerStateMachine::NONE_COBAT_ACTION::END == State.eNone_Combat_State)
+            ChangeWeapon();
     }
     else
     {
-
+        if (!GetWeaponAttackType() && State.bIsAttacking)
+            m_pAnimator->NearAttackOnCollision();
     }
+
+    MoveAction(fDeletaTime);
+    PlayerMoveView(fDeletaTime);
+    ChangeAction(fDeletaTime);
 
     if (CPlayerStateMachine::MOVE_ACTION::JUMP != State.eMove_State)
         m_pNevigation->ComputeHeight(m_pTransformCom);
@@ -298,7 +299,14 @@ void CPlayer::PlayerMoveView(_float fDeletaTime)
         m_pPlayerCamera->ADDPitchRotation(-90.f, fDeletaTime);
     else if (10 < MoveMouseY)
         m_pPlayerCamera->ADDPitchRotation(90.f, fDeletaTime);
-       
+
+    _float spineRotAngle = {};
+    if (State.bIsAiming)
+        spineRotAngle = m_pPlayerCamera->GetPlayerCameraPitch();
+    else
+        spineRotAngle = 0.f;
+
+    m_pAnimator->RoatationPitchSpine(spineRotAngle);
 }
 
 void CPlayer::ChangeAction(_float fDeltaTime)
@@ -403,7 +411,7 @@ void CPlayer::ChangeAction(_float fDeltaTime)
             m_pPlayerFSM->PlayerStateReset(TEXT("CombatLayer"));
             m_pPlayerFSM->SetAttack(true);
             m_pAnimator->ChangeWeaponState(ENUM_CLASS(CPlayerWeaponSlot::WEAPON_STATE::ATTACK));
-            m_pAnimator->ShootProjecttileObject();
+            //m_pAnimator->ShootProjecttileObject();
             m_bIsAnimLoop = false;
         }
 #pragma endregion
@@ -624,6 +632,41 @@ _bool CPlayer::IsAimingState() const
         return false;
 
     return m_pPlayerFSM->GetState().bIsAiming;
+}
+
+void CPlayer::SetPlayerData(CHARACTER_DESC* pPlayerInfo)
+{
+    m_pCharacterInfo = pPlayerInfo;
+}
+
+void CPlayer::GetPlayerState(void* pOut)
+{
+    CPlayerStateMachine::PLAYER_STATE* PlayerState = static_cast<CPlayerStateMachine::PLAYER_STATE*>(pOut);
+    *PlayerState = m_pPlayerFSM->GetState();
+}
+
+void CPlayer::Damage(void* pArg, CActor* pDamagedActor)
+{
+    if (nullptr == pArg)
+        return;
+
+    DEFAULT_DAMAGE_DESC* pDamageDesc = static_cast<DEFAULT_DAMAGE_DESC*>(pArg);
+    if (pDamageDesc)
+    {
+        m_pCharacterInfo->CurHealth -= pDamageDesc->fDmaged;
+        if (0 >= m_pCharacterInfo->CurHealth)
+        {
+            //여기서 대충 페이드 아웃할거임
+            m_pPlayerFSM->ChangeState(TEXT("CombatLayer"), TEXT("Dead"));
+            m_bIsAnimLoop = false;
+            m_pCharacterInfo->CurHealth = 0;
+        }
+        else
+        {
+            m_pPlayerFSM->ChangeState(TEXT("CombatLayer"), TEXT("Hit"));
+            m_bIsAnimLoop = false;
+        }
+    }
 }
 
 CPlayer* CPlayer::Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext)

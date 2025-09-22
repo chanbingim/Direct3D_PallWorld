@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Client_Define.h"
+#include "Client_Struct.h"
 #include "ContainerObject.h"
 
 #define P_WALK_SPEED 2.5f
@@ -41,6 +42,10 @@ public:
 	_bool									IsFinishedAnimationAction();
 	_bool									IsAimingState() const;
 
+	void									SetPlayerData(CHARACTER_DESC* pPlayerInfo);
+	void									GetPlayerState(void* pOut);
+
+	virtual		void						Damage(void* pArg, CActor* pDamagedActor) override;
 
 private :
 	CPlayerCamera*							m_pPlayerCamera = nullptr;
@@ -50,6 +55,7 @@ private :
 	CTerrainManager*						m_pTerrainManager = nullptr;
 	CNavigation*							m_pNevigation = nullptr;
 	CCollision*								m_pCollision = nullptr;
+	CHARACTER_DESC*							m_pCharacterInfo = nullptr;
 
 	// 플레이어의 현재 방향
 	_bool									m_bIsAnimLoop = true;

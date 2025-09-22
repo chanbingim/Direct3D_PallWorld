@@ -14,8 +14,12 @@ public :
 public :
 	typedef struct	PellPatrolStateDesc
 	{
+		
 		const CPellBase*			pActPell;
 		_float*						fPellMoveSpeed;
+
+		_bool						bIsPartnerPell = false;
+		PELL_MOVE_TYPE				ePellMoveType = { PELL_MOVE_TYPE::END };
 	}PELL_PATROL_STATE_DESC;
 
 private:

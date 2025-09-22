@@ -77,6 +77,7 @@ _bool CAnimation::UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTi
 	m_fCurrentTrackPosition += m_fTickPerSecond * fTimeDelta;
 	if (m_fCurrentTrackPosition >= m_fLength)
 	{
+		m_iLastCallFunctionIndex = -1;
 		if (bIsLoop)
 		{
 			m_fCurrentTrackPosition = 0.f;
@@ -90,6 +91,7 @@ _bool CAnimation::UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTi
 	}
 
 	_uInt iIndex = {};
+	_uInt iKeyFrameTime = {};
 	for (auto& pChannel : m_Channels)
 	{
 		if (m_iChannelIndex.size() <= iIndex)
@@ -98,8 +100,21 @@ _bool CAnimation::UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTi
 		_Int ChannelBoneIdx = pChannel->GetBoneIndex();
 		if (UpdateBoneIdx.x <= ChannelBoneIdx && UpdateBoneIdx.y >= ChannelBoneIdx)
 			pChannel->Update_TransformationMatrix(Bones, m_fCurrentTrackPosition, &m_iChannelIndex[iIndex]);
+		
+		iKeyFrameTime = max(iKeyFrameTime, m_iChannelIndex[iIndex]);
 		iIndex++;
 	}
+
+	auto iter = m_KeyFrameCallFunction.find(iKeyFrameTime);
+	if (iter != m_KeyFrameCallFunction.end())
+	{
+		if (m_iLastCallFunctionIndex < (_Int)iKeyFrameTime)
+		{
+			iter->second();
+			m_iLastCallFunctionIndex = iKeyFrameTime;
+		}
+	}
+
 	return false;
 }
 
@@ -167,7 +182,18 @@ void CAnimation::GetUseBoneIndex(vector<_bool>& BoneList)
 void CAnimation::ResetAnimation()
 {
 	m_fCurrentTrackPosition = 0;
+	m_iLastCallFunctionIndex = -1;
 	fill(m_iChannelIndex.begin(), m_iChannelIndex.end(), 0);
+}
+
+void CAnimation::Bind_KeyFrameFunction(_uInt iKeyFrame, function<void()> function)
+{
+	auto iter = m_KeyFrameCallFunction.find(iKeyFrame);
+
+	if (iter == m_KeyFrameCallFunction.end())
+		m_KeyFrameCallFunction.emplace(iKeyFrame, function);
+	else
+		(*iter).second = function;
 }
 
 CAnimation* CAnimation::Create(const CModel* pModel, const aiAnimation* pAIAnimation, _bool bIsLoop)

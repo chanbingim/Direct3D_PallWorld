@@ -21,7 +21,7 @@ public :
 
 	// 파일의 데이터를 로드하는 기능
 	HRESULT							LoadItemData(const char* FilePath);
-
+	
 private :
 	// 맵을 통해서 아이템 인덱스와 아이템 구조체를 가지고있자.
 	map<_uInt, ITEM_DESC>			m_Items;

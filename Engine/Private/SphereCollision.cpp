@@ -105,6 +105,12 @@ _bool CSphereCollision::RayIntersect(COLLISION_TYPE eType, CCollision* pTarget, 
 	return bIsHit;
 }
 
+void CSphereCollision::SetCollision(_float3 vCenter, _float fRadius)
+{
+	m_OriginBounding->Center = vCenter;
+	m_OriginBounding->Radius = fRadius;
+}
+
 void CSphereCollision::Render(_vector vColor)
 {
 	__super::Render(vColor);

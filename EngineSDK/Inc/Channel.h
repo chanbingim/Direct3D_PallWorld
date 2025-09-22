@@ -29,9 +29,9 @@ private:
 	_uInt					m_iNumKeyFrames = {};
 
 	// 새로운 애니메이션을 재생할때 필요한 이전 뼈의 정보
-	_bool					m_bIsBoneLerp = false;
-	_float4x4				m_PreBoneMatrix = {};
-	vector<KEYFRAME>		m_KeyFrames;
+	_bool										m_bIsBoneLerp = false;
+	_float4x4									m_PreBoneMatrix = {};
+	vector<KEYFRAME>							m_KeyFrames;
 
 public:
 	static		CChannel*	Create(const class CModel* pModel, const aiNodeAnim* pAIChannel);

@@ -202,6 +202,19 @@ _Int CModel::GetBoneIndex(const char* szBoneName) const
 	return iBoneIndex;
 }
 
+_float4x4* CModel::GetTransformationOffsetMatrixPtr(const char* szBoneName)
+{
+	auto iter = find_if(m_Bones.begin(), m_Bones.end(), [&](CBone* pBone)
+		{
+			return pBone->CompareName(szBoneName);
+		});
+
+	if (iter == m_Bones.end())
+		return nullptr;
+
+	return (*iter)->GetTransformationOffsetMatrixPtr();
+}
+
 _float4x4* CModel::GetBoneMatrices(_uInt iMeshIndex)
 {
 	return m_Meshes[iMeshIndex]->GetMeshBoneMatrices(m_Bones);
@@ -279,6 +292,16 @@ void CModel::BindParentAnim(CModel* DstData)
 
 		m_Bones[i]->UpdateCombinedTransformationMatrix(m_Bones, XMLoadFloat4x4(&m_PreTransformMatrix));
 	}
+}
+
+void CModel::Bind_KeyFrameFunction(const char* szName, _uInt iKeyFrame, function<void()> function)
+{
+	_uInt iIndex = GetNumAnimation(szName);
+
+	if (iIndex >= (_uInt)m_Animations.size())
+		return;
+
+	m_Animations[iIndex]->Bind_KeyFrameFunction(iKeyFrame, function);
 }
 
 const char* CModel::GetAnimationName(_uInt iIndex)

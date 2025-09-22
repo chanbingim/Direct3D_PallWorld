@@ -28,6 +28,8 @@ public :
 	virtual HRESULT								Initialize(void* pArg) override;
 	void										Update();
 
+	void										ResetCombatComponent();
+
 	void										UpdateTarget();
 	void										ADD_TargetObject(CGameObject* pTarget);
 	CGameObject*								GetCurrentTarget() { return m_pTargetObject; }

@@ -21,18 +21,36 @@ void CPellPatrolState::OnStateEnter(void* pArg)
 		m_pActPell = PatrolDesc->pActPell;
 		auto PellInfoData = m_pActPell->GetPellInfo();
 
-		_float fRandomNum = CGameInstance::GetInstance()->Random(0.f, 100.f);
-		if (fRandomNum < 30.f)
+		if (PatrolDesc->bIsPartnerPell)
 		{
-			m_eMoveType = PELL_MOVE_TYPE::SPRINT;
-			*PatrolDesc->fPellMoveSpeed = PellInfoData.fPellRunSpeed;
-			m_szStateName = "Sprint";
+			m_eMoveType = PatrolDesc->ePellMoveType;
+			switch (m_eMoveType)
+			{
+			case Client::CPellPatrolState::WALK:
+				*PatrolDesc->fPellMoveSpeed = PellInfoData.fPellWalkSpeed;
+				m_szStateName = "Walk";
+				break;
+			case Client::CPellPatrolState::SPRINT:
+				*PatrolDesc->fPellMoveSpeed = PellInfoData.fPellRunSpeed;
+				m_szStateName = "Sprint";
+				break;
+			}
 		}
 		else
 		{
-			m_eMoveType = PELL_MOVE_TYPE::WALK;
-			*PatrolDesc->fPellMoveSpeed = PellInfoData.fPellWalkSpeed;
-			m_szStateName = "Walk";
+			_float fRandomNum = CGameInstance::GetInstance()->Random(0.f, 100.f);
+			if (fRandomNum < 30.f)
+			{
+				m_eMoveType = PELL_MOVE_TYPE::SPRINT;
+				*PatrolDesc->fPellMoveSpeed = PellInfoData.fPellRunSpeed;
+				m_szStateName = "Sprint";
+			}
+			else
+			{
+				m_eMoveType = PELL_MOVE_TYPE::WALK;
+				*PatrolDesc->fPellMoveSpeed = PellInfoData.fPellWalkSpeed;
+				m_szStateName = "Walk";
+			}
 		}
 	}
 }

@@ -2,9 +2,7 @@
 
 #include "PellBase.h"
 
-NS_BEGIN(Engine)
-class CChaseComponent;
-NS_END
+
 
 NS_BEGIN(Client)
 class CDororong : public CPellBase
@@ -32,9 +30,6 @@ public:
 protected:
 	// 전투를 위한 전투 기능
 	virtual		void						CombatAction(CGameObject* pTarget);
-
-private :
-	CChaseComponent*									m_pChase = nullptr;
 
 private:
 	HRESULT									ADD_Components();

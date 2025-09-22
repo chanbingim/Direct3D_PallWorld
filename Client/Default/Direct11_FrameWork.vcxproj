@@ -178,6 +178,7 @@
     <ClInclude Include="..\public\ItemQuickSlot.h" />
     <ClInclude Include="..\public\NeturalPellInfo.h" />
     <ClInclude Include="..\public\NeturalTypeIcon.h" />
+    <ClInclude Include="..\public\PallSpherPercentBar.h" />
     <ClInclude Include="..\public\PellAttackState.h" />
     <ClInclude Include="..\public\PellCombatLayer.h" />
     <ClInclude Include="..\public\PellDeadState.h" />
@@ -193,6 +194,7 @@
     <ClInclude Include="..\public\PellStateMachine.h" />
     <ClInclude Include="..\Public\PellStructData.h" />
     <ClInclude Include="..\public\PellWorkState.h" />
+    <ClInclude Include="..\public\PelSpherUI.h" />
     <ClInclude Include="..\public\PlayerCombatLayer.h" />
     <ClInclude Include="..\public\CrouchState.h" />
     <ClInclude Include="..\public\DororongBody.h" />
@@ -205,6 +207,8 @@
     <ClInclude Include="..\public\ItemManager.h" />
     <ClInclude Include="..\Public\ItemStruct.h" />
     <ClInclude Include="..\public\JumpState.h" />
+    <ClInclude Include="..\public\PlayerDeadState.h" />
+    <ClInclude Include="..\public\PlayerHitState.h" />
     <ClInclude Include="..\Public\PlayerItemSlot.h" />
     <ClInclude Include="..\public\PlayerNoneCombatLayer.h" />
     <ClInclude Include="..\public\PalSpher.h" />
@@ -303,6 +307,7 @@
     <ClInclude Include="..\public\PlayerWeaponSlot.h" />
     <ClInclude Include="..\public\Player_Interface.h" />
     <ClInclude Include="..\public\ProjectileObject.h" />
+    <ClInclude Include="..\public\ProjectileSlot.h" />
     <ClInclude Include="..\public\Recovery.h" />
     <ClInclude Include="..\public\RockObject.h" />
     <ClInclude Include="..\public\SkyBox.h" />
@@ -334,6 +339,7 @@
     <ClCompile Include="..\private\ItemQuickSlot.cpp" />
     <ClCompile Include="..\private\NeturalPellInfo.cpp" />
     <ClCompile Include="..\private\NeturalTypeIcon.cpp" />
+    <ClCompile Include="..\private\PallSpherPercentBar.cpp" />
     <ClCompile Include="..\private\PellDeadState.cpp" />
     <ClCompile Include="..\Private\PellHealthBar.cpp" />
     <ClCompile Include="..\private\PellManager.cpp" />
@@ -347,6 +353,7 @@
     <ClCompile Include="..\Private\PellSkillManager.cpp" />
     <ClCompile Include="..\private\PellStateMachine.cpp" />
     <ClCompile Include="..\private\PellWorkState.cpp" />
+    <ClCompile Include="..\private\PelSpherUI.cpp" />
     <ClCompile Include="..\private\PlayerCombatLayer.cpp" />
     <ClCompile Include="..\private\CrouchState.cpp" />
     <ClCompile Include="..\private\DororongBody.cpp" />
@@ -359,6 +366,8 @@
     <ClCompile Include="..\Private\IMG_ModelConvert.cpp" />
     <ClCompile Include="..\private\ItemManager.cpp" />
     <ClCompile Include="..\private\JumpState.cpp" />
+    <ClCompile Include="..\private\PlayerDeadState.cpp" />
+    <ClCompile Include="..\private\PlayerHitState.cpp" />
     <ClCompile Include="..\Private\PlayerItemSlot.cpp" />
     <ClCompile Include="..\private\PlayerNoneCombatLayer.cpp" />
     <ClCompile Include="..\private\PalSpher.cpp" />
@@ -400,6 +409,7 @@
     <ClCompile Include="..\private\PlayerWalkState.cpp" />
     <ClCompile Include="..\private\PlayerWeaponSlot.cpp" />
     <ClCompile Include="..\private\ProjectileObject.cpp" />
+    <ClCompile Include="..\private\ProjectileSlot.cpp" />
     <ClCompile Include="..\private\Recovery.cpp" />
     <ClCompile Include="..\private\SkyBox.cpp" />
     <ClCompile Include="..\private\SlotImage.cpp" />

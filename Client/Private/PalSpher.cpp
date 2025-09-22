@@ -4,8 +4,6 @@
 #include "PlayerManager.h"
 #include "PellBase.h"
 
-_float		CPalSpher::m_fComputeCompeleteTime = 2.f;
-
 CPalSpher::CPalSpher(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 	CProjectileObject(pDevice, pContext)
 {
@@ -152,6 +150,9 @@ void CPalSpher::BeginOverlapEvent(_float3 vDir, CGameObject* pTarget)
 	CPellBase* pHitPell = dynamic_cast<CPellBase*>(pTarget);
 	if (pHitPell)
 	{
+		if (CPellBase::PELL_TEAM::NEUTRAL != pHitPell->GetPellTeam())
+			return;
+
 		//여기서 펠 플래그나 상태 바꿔주고 모든로직을 잠깐 멈춰둠
 		//pHitPell->
 		auto pModel = static_cast<CModel *>(pTarget->Find_Component(TEXT("VIBuffer_Com")));
@@ -196,7 +197,7 @@ void CPalSpher::ComputeCatchPellSuccess(_float fDeletaTime)
 	auto PlayerData = CPlayerManager::GetInstance()->GetPlayerData();
 	auto PellData = m_pHitPell->GetPellInfo();
 
-	if (0.f == fmod(m_fCurComputeTime, 0.5f))
+	if (0.5f <= m_fCurComputeTime)
 	{
 		if (PlayerData.iLevel >= PellData.iLevel)
 		{
@@ -213,10 +214,13 @@ void CPalSpher::ComputeCatchPellSuccess(_float fDeletaTime)
 			fApplyPercent = Clamp<_float>(fApplyPercent, 0.f, 25.f);
 			m_fAccPercent += fApplyPercent;
 		}
+
+		m_iAccCount++;
+		m_fCurComputeTime = 0.f;
 	}
 
 	// 누적 연산이 끝나면 잡았는지 안잡았는지 확인
-	if (m_fComputeCompeleteTime <=  m_fCurComputeTime)
+	if (4 <= m_iAccCount)
 	{
 		if (80 <= m_fAccPercent)
 		{

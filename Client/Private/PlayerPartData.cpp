@@ -32,14 +32,16 @@ HRESULT CPlayerPartData::Initialize(void* pArg)
     if (FAILED(ADD_Components()))
         return E_FAIL;
 
+    if (FAILED(Insert_AnimKeyFrameFunction()))
+        return E_FAIL;
+
     if (FAILED(ADD_ChildObject()))
         return E_FAIL;
 
     if (FAILED(__super::Bind_ShaderResources()))
         return E_FAIL;
 
-
-
+    m_pSpineOffsetMatrix = m_pVIBufferCom->GetTransformationOffsetMatrixPtr("spine_01");
     return S_OK;
 }
 
@@ -118,6 +120,17 @@ void CPlayerPartData::ChangeSocketFlag(_char bitFlag)
 void CPlayerPartData::ChangeWeaponState(_uInt iWeaponState)
 {
     m_pWeaponSocket[0]->ChangeWeaponState(CPlayerWeaponSlot::WEAPON_STATE(iWeaponState));
+}
+
+void CPlayerPartData::NearAttackOnCollision()
+{
+    static_cast<CPlayerWeaponSlot *>(m_pWeaponSocket[0])->NearAttackOnCollision();
+}
+
+void CPlayerPartData::RoatationPitchSpine(_float fPitchAngle)
+{
+    XMStoreFloat4x4(m_pSpineOffsetMatrix, 
+        XMMatrixRotationQuaternion(XMQuaternionRotationRollPitchYaw(0.f, 0.f, -fPitchAngle)));
 }
 
 HRESULT CPlayerPartData::ShootProjecttileObject()
@@ -203,6 +216,15 @@ HRESULT CPlayerPartData::ADD_AnimParts()
     m_pWeaponSocket[2] = static_cast<CPlayerItemSlot*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_BackItemSlot"), &ItemSlotDesc));
     __super::ADD_Child(m_pWeaponSocket[2]);
 #pragma endregion
+
+    return S_OK;
+}
+
+HRESULT CPlayerPartData::Insert_AnimKeyFrameFunction()
+{
+    m_pVIBufferCom->Bind_KeyFrameFunction("Attack_Bow", 1, [this]() { ShootProjecttileObject(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Attack_Throw", 4, [this]() { ShootProjecttileObject(); });
+    //m_pVIBufferCom->Bind_KeyFrameFunction("Throw_PalCarry", 12, [this]() { ShootProjecttileObject(); });
 
     return S_OK;
 }

@@ -33,6 +33,12 @@ void CCombatComponent::Update()
 		m_BindCombatFunc(m_pTargetObject);
 }
 
+void CCombatComponent::ResetCombatComponent()
+{
+	m_pTargetList.clear();
+	m_pTargetObject = nullptr;
+}
+
 void CCombatComponent::ADD_TargetObject(CGameObject* pTarget)
 {
 	auto iter = find(m_pTargetList.begin(), m_pTargetList.end(), pTarget);

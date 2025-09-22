@@ -31,7 +31,6 @@ public:
 	virtual		HRESULT						Render() override;
 
 private :
-	CHARACTER_DESC*							m_pCharacterInfo = nullptr;
 	CHealthBar*								m_pHpBar = nullptr;
 	CHealthBar*								m_pHugerBar = nullptr;
 	CProgressBar*							m_pGuardBar = nullptr;

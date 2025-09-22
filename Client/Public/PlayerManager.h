@@ -40,6 +40,7 @@ public :
 	void					SwapEquipmentSlot(_Int MoveFlag);
 	CModel*					GetBackSlotItem(_uInt iBackSlotNum);
 	CModel*					GetCurrentSelectItem();
+	CModel*					GetCurrentSelectItemProjecTileModel();
 
 	_uInt					GetNumEuipSlot()	{ return m_iNumEquipSlot; }
 	_bool					GetIsAnimSelect();
@@ -56,12 +57,15 @@ public :
 
 	const CHARACTER_DESC&	GetPlayerData() { return m_PlayerInfo; }
 	const CItemBase*		GetSlotItemData(_uInt iIndex);
+	const CItemBase*		GetProjecTileSlotItemData(_uInt iIndex);
+
 	const CItemBase*		GetSelectItemData();
+	const CItemBase*		GetSelectProjecTileItemData();
 
 	void					BindPlayerCharacter(class CPlayer* pPlayer);
 	_bool					IsAimState();
-	class CPlayer*			GetCurrentPlayer() { return m_pCurrentPlayer; }
 
+	class CPlayer*			GetCurrentPlayer() { return m_pCurrentPlayer; }
 	//펠을 추가하기위한 클래스
 	HRESULT					ADDOwnerPellList(CPellBase* pPellBase);
 
@@ -77,7 +81,13 @@ private :
 	// 아이템의 인덱스만 보관해 두기
 	// 장비 슬롯이랑 연동해서 사용하면 될거같음
 	vector<CItemBase*>					m_EquipSlots = {};
-	vector<CModel *>					m_pBackSlotItem = {};
+	vector<CModel*>						m_pBackSlotItem = {};
+
+	// 장비 아이템에서 사용할 화살 및 총알 이런거들 애니메이션있으면
+	// 보여주고 아니라면 안보여주려는 용도로 STL 선언
+	vector<CItemBase*>					m_EquipProjectileSlots = {};
+	vector<CModel*>						m_pBackProjectileSlotItem = {};
+
 	// 등뒤에 보관되어 보여줄 녀석의 VIBuffer
 	// 이건 매시 아이템 실 객체 클래스여야할거같음
 	_Int								m_iSelectSlotIndex = {};
@@ -94,6 +104,9 @@ private :
 
 	//소유 중인 펠의 포인터 정보를 그냥 통으로 넘겨서 관리할 예정
 	vector<CPellBase*>					m_pOwnerPells = {};
+
+private :
+	HRESULT								SettingDefaultPlayerData();
 
 public :
 	virtual		void					Free()	override;

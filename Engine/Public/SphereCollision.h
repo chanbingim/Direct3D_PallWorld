@@ -22,6 +22,8 @@ public:
 	virtual _bool					Intersect(COLLISION_TYPE eType, CCollision* pTarget) override;
 	virtual _bool					RayIntersect(COLLISION_TYPE eType, CCollision* pTarget, DEFAULT_HIT_DESC& OutDesc) override;
 
+	void							SetCollision(_float3 vCenter, _float fRadius);
+
 #ifdef _DEBUG
 	virtual void					Render(_vector vColor) override;
 #endif // _DBUG

@@ -1,2 +1,61 @@
-﻿  Dororong.cpp
-  Direct11_FrameWork.vcxproj -> C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe
+﻿FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\MouseShader.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ShaderFiles\MutipleBlend.hlsl(79,5-41): warning X3206: implicit truncation of vector type
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\MutipleBlend.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ProgressBar.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\TestShader.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_AnimMesh.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_Mesh.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_NorTex.cso
+  PellSkillManager.cpp
+C:\Git\GitHub\Direct3D_PallWorld\Client\Private\PellSkillManager.cpp(23,38): warning C4244: '=': 'float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  PlayerItemSlot.cpp
+  AimInterface.cpp
+  ArrowProjectile.cpp
+  BedCat.cpp
+  Dororong.cpp
+  ElectPanda.cpp
+  FlowerRabbit.cpp
+  Frog.cpp
+  GamePlayLevel.cpp
+  Hedgehog.cpp
+  Herorong.cpp
+  Loader.cpp
+  MainApp.cpp
+  NeturalPellInfo.cpp
+  PalSpher.cpp
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\PalSpher.cpp(174,49): warning C4305: '인수': 'double'에서 'Engine::_float'(으)로 잘립니다.
+  PellAttackState.cpp
+  PellBase.cpp
+  PellCombatLayer.cpp
+  PellManager.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  PellPatrolState.cpp
+  Player.cpp
+  PlayerAttackState.cpp
+  PlayerHitState.cpp
+  PlayerManager.cpp
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\PlayerManager.cpp(211,59): warning C4244: '=': 'float'에서 'unsigned int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  PlayerPartData.cpp
+  PlayerWeaponSlot.cpp
+  Player_Interface.cpp
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\Player_Interface.cpp(52,49): warning C4244: '인수': 'unsigned int'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  ProjectileObject.cpp
+  ProjectileSlot.cpp
+  Yeti.cpp
+  코드를 생성하고 있습니다...
+  Direct11_FrameWork.vcxproj -> C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe

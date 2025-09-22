@@ -4,7 +4,7 @@
 namespace Client
 {
 	enum class ITEM_TYPE { EQUIPMENT, CONSUM, ETC, END };
-	enum class WEAPON	 { MELEE, BOW, GUN, AXE, THROW, NONE, END };
+	enum class WEAPON	 { MELEE, AXE, BOW, GUN, THROW, NONE, END };
 	enum class EUQIP_TYPE { WEAPON, ARMOR, END };
 
 	typedef struct EuqipItemDesc
@@ -16,6 +16,7 @@ namespace Client
 		_uInt				iHealthPoint;
 		_bool				bIsLeftSocket;
 		_bool				bIsChargeAble;
+		_Int				iProjectileIndex;
 
 		//충돌체 정보
 		_float3				vCenter;
@@ -27,6 +28,9 @@ namespace Client
 
 	typedef struct ConsumeItemDesc
 	{
+		// 보여줘야 한다면 사용할 변수들
+		_bool				bIsLeftSocket;
+
 		_uInt				iEffectType;
 		_uInt				iRecoveryPoint;
 		_bool				bIsStateEffectHeal;

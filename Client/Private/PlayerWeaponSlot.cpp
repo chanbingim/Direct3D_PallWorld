@@ -4,7 +4,11 @@
 #include "PlayerManager.h"
 
 #include "ItemBase.h"
+
+#include "PlayerStateMachine.h"
+
 #include "ProjectileObject.h"
+#include "ProjectileSlot.h"
 
 #include "Player.h"
 
@@ -39,7 +43,7 @@ HRESULT CPlayerWeaponSlot::Initialize(void* pArg)
 
 void CPlayerWeaponSlot::Priority_Update(_float fDeletaTime)
 {
-	
+	m_pProjectileSlot->Priority_Update(fDeletaTime);
 }
 
 void CPlayerWeaponSlot::Update(_float fDeletaTime)
@@ -51,8 +55,12 @@ void CPlayerWeaponSlot::Update(_float fDeletaTime)
 	{
 		const ITEM_DESC& ItemData = m_CurrentEuipItemInfo->GetItemData();
 		if (ITEM_TYPE::EQUIPMENT == ItemData.ItemType)
+		{
 			m_LeftFlag = ItemData.TypeDesc.EuqipDesc.bIsLeftSocket;
-		m_pCollision[0]->SetCollision(m_CurrentEuipItemInfo->GetItemData().TypeDesc.EuqipDesc.vCenter, m_CurrentEuipItemInfo->GetItemData().TypeDesc.EuqipDesc.vExtents);
+			m_pProjectileSlot->SetItemIndex(ItemData.TypeDesc.EuqipDesc.iProjectileIndex);
+		}
+
+		m_pCollision[0]->SetCollision(m_CurrentEuipItemInfo->GetItemData().TypeDesc.EuqipDesc.vCenter, { 0.f, 0.f, 0.f, 0.f }, m_CurrentEuipItemInfo->GetItemData().TypeDesc.EuqipDesc.vExtents);
 
 		m_bIsAnimWeapon = ItemData.IsAnimModel;
 		if (m_bIsAnimWeapon)
@@ -71,9 +79,10 @@ void CPlayerWeaponSlot::Update(_float fDeletaTime)
 	}
 	else
 	{
-		m_pCollision[0]->SetCollision({ 0, 0, 0 }, { 0.1f, 0.1f, 0.1f });
-		m_pCollision[1]->SetCollision({ 0, 0, 0 }, { 0.1f, 0.1f, 0.1f });
+		m_pCollision[0]->SetCollision({ 0, 0, 0 }, { 0.f, 0.f, 0.f, 0.f }, { 0.1f, 0.1f, 0.1f });
+		m_pCollision[1]->SetCollision({ 0, 0, 0 }, { 0.f, 0.f, 0.f, 0.f }, { 0.1f, 0.1f, 0.1f });
 	}
+	m_pProjectileSlot->Update(fDeletaTime);
 }
 
 void CPlayerWeaponSlot::Late_Update(_float fDeletaTime)
@@ -97,6 +106,8 @@ void CPlayerWeaponSlot::Late_Update(_float fDeletaTime)
 	}
 
 	m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
+
+	m_pProjectileSlot->Late_Update(fDeletaTime);
 }
 
 HRESULT CPlayerWeaponSlot::Render()
@@ -117,14 +128,6 @@ HRESULT CPlayerWeaponSlot::Render()
 
 HRESULT CPlayerWeaponSlot::ShootProjecttileObject()
 {
-	if (nullptr == m_pVIBufferCom)
-	{
-		for (auto i = 0; i < 2; ++i)
-			m_pGameInstance->ADD_CollisionList(m_pCollision[i]);
-	}
-	else
-		m_pGameInstance->ADD_CollisionList(m_pCollision[0]);
-
 	if (nullptr == m_CurrentEuipItemInfo)
 		return E_FAIL;
 
@@ -132,16 +135,26 @@ HRESULT CPlayerWeaponSlot::ShootProjecttileObject()
 	if (!lstrcmp(EuipInfo.TypeDesc.EuqipDesc.ProjectilePrototpyeName, TEXT("")))
 		return E_FAIL;
 
-	//이함수를 통해서 프로젝타일 위치에 생성해서 날린다.
+	CPlayerStateMachine::PLAYER_STATE playerState = {};
+	CPlayer* CurrentPlayer = CPlayerManager::GetInstance()->GetCurrentPlayer();
+	CurrentPlayer->GetPlayerState(&playerState);
+
 	CProjectileObject::PROJECTILE_DESC ProjectileDesc = {};
-	ProjectileDesc.vPosition = *reinterpret_cast<_float3 *>(m_CombinedWorldMatrix.m[3]);
+	//이함수를 통해서 프로젝타일 위치에 생성해서 날린다.
+	ProjectileDesc.vPosition = *reinterpret_cast<_float3*>(m_CombinedWorldMatrix.m[3]);
 	ProjectileDesc.vScale = { 1.f, 1.f, 1.f };
 
-	_vector FarPoint = m_pGameInstance->GetCameraState(WORLDSTATE::LOOK) * m_pGameInstance->GetCameraINFO().y;
+	if (playerState.bIsAiming)
+	{
+		_vector FarPoint = m_pGameInstance->GetCameraState(WORLDSTATE::POSITION) + m_pGameInstance->GetCameraState(WORLDSTATE::LOOK) * m_pGameInstance->GetCameraINFO().y;
+		XMStoreFloat3(&ProjectileDesc.vDireaction, XMVector3Normalize(FarPoint - XMLoadFloat3(&ProjectileDesc.vPosition)));
+	}
+	else
+	{
+		XMStoreFloat3(&ProjectileDesc.vDireaction, CurrentPlayer->GetTransform()->GetLookVector());
+	}
 
-	XMStoreFloat3(&ProjectileDesc.vDireaction, XMVector3Normalize(FarPoint - XMLoadFloat3(&ProjectileDesc.vPosition)));
 	ProjectileDesc.vThrowSpeed = 10.f;
-	
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), EuipInfo.TypeDesc.EuqipDesc.ProjectilePrototpyeName,
 		ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_GamePlay_Projectile"), &ProjectileDesc)))
 		return E_FAIL;
@@ -149,17 +162,43 @@ HRESULT CPlayerWeaponSlot::ShootProjecttileObject()
 	return S_OK;
 }
 
+void CPlayerWeaponSlot::NearAttackOnCollision()
+{
+	if (nullptr == m_pVIBufferCom)
+	{
+		for (auto i = 0; i < 2; ++i)
+			m_pGameInstance->ADD_CollisionList(m_pCollision[i]);
+	}
+	else
+	{
+		if(WEAPON::AXE >= m_CurrentEuipItemInfo->GetItemData().TypeDesc.EuqipDesc.Weapon_Type)
+			m_pGameInstance->ADD_CollisionList(m_pCollision[0]);
+	}
+		
+}
+
 HRESULT CPlayerWeaponSlot::ADD_Components()
 {
-	CBoxCollision::BOX_COLLISION_DESC BoxColDesc = {};
-	BoxColDesc.pOwner = this;
-	BoxColDesc.Extents = { 0.1f, 0.1f, 0.1f };
-	BoxColDesc.vCneter = {};
+	COBBCollision::OBB_COLLISION_DESC OBBColDesc = {};
+	OBBColDesc.pOwner = this;
+	OBBColDesc.vExtents = { 0.1f, 0.1f, 0.1f };
+	OBBColDesc.vCneter = {};
 
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionBox"), TEXT("CollisionR_Com"), (CComponent**)&m_pCollision[0], &BoxColDesc)))
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionOBB"), TEXT("CollisionR_Com"), (CComponent**)&m_pCollision[0], &OBBColDesc)))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionBox"), TEXT("CollisionL_Com"), (CComponent**)&m_pCollision[1], &BoxColDesc)))
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionOBB"), TEXT("CollisionL_Com"), (CComponent**)&m_pCollision[1], &OBBColDesc)))
+		return E_FAIL;
+
+	CProjectileSlot::PROJECTILE_DESC ProjectileDesc = {};
+	ProjectileDesc.pParent = m_pParent;
+	lstrcpy(ProjectileDesc.ObjectTag, TEXT("ProjectileSocket"));
+	ProjectileDesc.vScale = { 1.f, 1.f, 1.f };
+	ProjectileDesc.SocketMatrix = m_SocketMatrix;
+	ProjectileDesc.fLeftSocket = m_pLeftSocket;
+
+	m_pProjectileSlot = CProjectileSlot::Create(m_pGraphic_Device, m_pDeviceContext);
+	if(FAILED(m_pProjectileSlot->Initialize(&ProjectileDesc)))
 		return E_FAIL;
 
 	for (auto i = 0; i < 2; ++i)
@@ -211,6 +250,7 @@ void CPlayerWeaponSlot::Free()
 {
 	__super::Free();
 
+	Safe_Release(m_pProjectileSlot);
 	for (auto i = 0; i < 2; ++i)
 		Safe_Release(m_pCollision[i]);
 

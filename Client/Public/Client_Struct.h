@@ -15,7 +15,7 @@ namespace Client
 		float	MaxHunger, CurHunger;
 
 		// 현재 쉴드가 가지고있는 방어게이지
-		unsigned int	ShieldPoint;
+		unsigned int	ShieldPoint, MaxShiledPoint;
 
 		// 캐릭터의 공격력
 		float	ATKPoint;

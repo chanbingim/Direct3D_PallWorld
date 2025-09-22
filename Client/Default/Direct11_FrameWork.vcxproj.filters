@@ -533,6 +533,21 @@
     <Filter Include="03. Objects\MeshObject\AnimMesh\Object\ProjecttileObject\Arrow">
       <UniqueIdentifier>{6b60ccbf-3f22-43fe-a655-6576a4e62cf7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerItemSlot\ProjectileSlot">
+      <UniqueIdentifier>{a54c22c4-45d4-457d-8a94-05d55492fbb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\CombatLayer\State\Hit">
+      <UniqueIdentifier>{cdae9773-a904-46d8-b6de-6f80c56fe081}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\CombatLayer\State\Dead">
+      <UniqueIdentifier>{e0673d7d-d994-4f0a-b9c0-2f5bdb16fe9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PallSpherUI">
+      <UniqueIdentifier>{11e18a3c-5fbf-474e-88a0-aca917ccf6bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PallSpherUI\PercentBar">
+      <UniqueIdentifier>{9581766e-83e8-4273-b82f-4f8fea01fbba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -991,6 +1006,21 @@
     <ClInclude Include="..\public\ArrowProjectile.h">
       <Filter>03. Objects\MeshObject\AnimMesh\Object\ProjecttileObject\Arrow</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\ProjectileSlot.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerItemSlot\ProjectileSlot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PlayerHitState.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\CombatLayer\State\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PlayerDeadState.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\CombatLayer\State\Dead</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PelSpherUI.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PallSpherUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PallSpherPercentBar.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PallSpherUI\PercentBar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -1431,6 +1461,21 @@
     </ClCompile>
     <ClCompile Include="..\private\ArrowProjectile.cpp">
       <Filter>03. Objects\MeshObject\AnimMesh\Object\ProjecttileObject\Arrow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ProjectileSlot.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerItemSlot\ProjectileSlot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PlayerHitState.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\CombatLayer\State\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PlayerDeadState.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\CombatLayer\State\Dead</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PelSpherUI.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PallSpherUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PallSpherPercentBar.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PallSpherUI\PercentBar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

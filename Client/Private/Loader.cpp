@@ -87,6 +87,11 @@
 #include "NeturalTypeIcon.h"
 #pragma endregion
 
+#pragma region PAL SPHER INFO
+#include "PelSpherUI.h"
+#include "PallSpherPercentBar.h"
+#pragma endregion
+
 
 #include "InGameMenu.h"
 #include "Player.h"
@@ -318,6 +323,12 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region PAL SPHER UI
+	/* GamePlay_Pell_PalSpher_UI_Texture */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Pell_PalSpherUI_PercentBar_Tex"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/Progressbar/PalSpherUI/PalSpherPercentBar.png"), 1))))
+		return E_FAIL;
+#pragma endregion
 
 #pragma region CrossHair
 	/* GamePlay_CrossHair_DefualtType_Texture */
@@ -357,11 +368,21 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region PROJECTILE
+	PreModelMat = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationZ(XMConvertToRadians(90.f));
+	/* VIBuffer  Arrow  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Arrow"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Weapon/AnimationWeapon/Bow/Arrow/Arrow.fbx", PreModelMat))))
+		return E_FAIL;
+#pragma endregion
+
+
 #pragma region Usable Item
 
 #pragma endregion
 
 #pragma region WEAPON
+	PreModelMat = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.f));
 	/* VIBuffer  CatBlade MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_CatBlade"),
 		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Weapon/CatBlade/CatBlade.dat", PreModelMat))))
@@ -403,7 +424,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma region SheepBall
 	/* VIBuffer  Dororong MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Drorong_Mesh"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Monster/SheepBall/SheepBall.fbx", PreModelMat))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Monster/SheepBall/SheepBall.dat", PreModelMat))))
 		return E_FAIL;
 #pragma endregion
 
@@ -495,8 +516,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("GamePlay_Component_Recovery"), CRecovery::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 #pragma endregion
-
-
 
 #pragma region OBJECT
 	/* GAME_OBJECT_Camera */
@@ -693,6 +712,17 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region PAL SPHER INFO
+	/* GAME_OBJECT_PAlSpher_Info_UI */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_PalSpherInfo_UI"), CPalSpherUI::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_PAlSpher_Info_UI */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_PellInfo_PercentBar"), CPallSpherPercentBar::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+#pragma endregion
+
 #pragma region IN GAME MENU UI
 	/* GAME_OBJECT_InGameMenu_UI */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_InGmaeMenu_UI"), CInGameMenu::Create(m_pDevice, m_pContext))))
@@ -705,6 +735,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* GAME_OBJECT_Pell_Info_UI */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_PellInfo_UI"), CNeturalPellInfo::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
 #pragma endregion
 
 #pragma region Projectile

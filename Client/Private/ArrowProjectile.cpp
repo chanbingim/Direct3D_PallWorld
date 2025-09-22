@@ -26,12 +26,18 @@ HRESULT CArrowProjectile::Initialize(void* pArg)
     if (FAILED(ADD_Components()))
         return E_FAIL;
 
+    if (FAILED(Bind_ShaderResources()))
+        return E_FAIL;
+
     return S_OK;
 }
 
 void CArrowProjectile::Priority_Update(_float fDeletaTime)
 {
+    m_pTransformCom->ADD_Position(XMLoadFloat3(&m_fThorwDireaction) * m_fThorowSpeed * fDeletaTime);
+    m_pCollision->UpdateColiision(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
 
+    m_CombinedWorldMatrix = m_pTransformCom->GetWorldMat();
 }
 
 void CArrowProjectile::Update(_float fDeletaTime)
@@ -41,20 +47,30 @@ void CArrowProjectile::Update(_float fDeletaTime)
 
 void CArrowProjectile::Late_Update(_float fDeletaTime)
 {
-
+    m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
 }
 
 HRESULT CArrowProjectile::Render()
 {
+    _uInt iNumMeshes = m_pVIBufferCom->GetNumMeshes();
+
+    for (_uInt i = 0; i < iNumMeshes; ++i)
+    {
+        Apply_ConstantShaderResources(i);
+
+        m_pShaderCom->Update_Shader(0);
+
+        m_pVIBufferCom->Render(i);
+    }
     return S_OK;
 }
 
 HRESULT CArrowProjectile::ADD_Components()
 {
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Yeti_Mesh"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Arrow"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
         return E_FAIL;
 
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_AnimMesh"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Mesh"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
         return E_FAIL;
 
     COBBCollision::OBB_COLLISION_DESC OBBDesc = {};
@@ -96,7 +112,7 @@ CArrowProjectile* CArrowProjectile::Create(ID3D11Device* pDevice, ID3D11DeviceCo
 CGameObject* CArrowProjectile::Clone(void* pArg)
 {
     CArrowProjectile* pArrowProjectTile = new CArrowProjectile(*this);
-    if (FAILED(pArrowProjectTile->Initalize_Prototype()))
+    if (FAILED(pArrowProjectTile->Initialize(pArg)))
     {
         Safe_Release(pArrowProjectTile);
         MSG_BOX("CLONE FAIL : ARROW PORJECTILE");

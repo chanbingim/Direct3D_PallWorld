@@ -4,6 +4,8 @@
 #include "HealthBar.h"
 #include "BackGround.h"
 
+#include "PlayerManager.h"
+
 #include "GameData_Manager.h"
 #include "GamePlayHUD.h"
 
@@ -43,27 +45,12 @@ HRESULT CPlayer_Interface::Initialize(void* pArg)
 
 void CPlayer_Interface::Update(_float fDeletaTime)
 {
-	if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_0))
-	{
-		m_Per += 0.1f;
-		m_pHpBar->SetPercent(m_Per);
+	auto PlayerInfo = CPlayerManager::GetInstance()->GetPlayerData();
 
-	}
-	if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_1))
-	{
-		m_Per -= 0.1f;
-		m_pHpBar->SetPercent(m_Per);
+	m_pHpBar->SetPercent(PlayerInfo.CurHealth / PlayerInfo.MaxHealth);
+	m_pHugerBar->SetPercent(PlayerInfo.CurHunger / PlayerInfo.MaxHunger);
+	m_pGuardBar->SetPercent(PlayerInfo.ShieldPoint / PlayerInfo.ShieldPoint);
 
-	}
-
-	m_pHugerBar->SetPercent(1.0f);
-	m_pGuardBar->SetPercent(0.8f);
-
-	/*if (m_pCharacterInfo)
-	{
-		m_pHpBar->SetPercent(m_pCharacterInfo->CurHealth / m_pCharacterInfo->MaxHealth);
-		m_pHugerBar->SetPercent(m_pCharacterInfo->CurHunger / m_pCharacterInfo->MaxHunger);
-	}*/
 }
 
 void CPlayer_Interface::Late_Update(_float fDeletaTime)
