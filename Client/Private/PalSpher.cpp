@@ -2,7 +2,9 @@
 
 #include "GameInstance.h"
 #include "PlayerManager.h"
+
 #include "PellBase.h"
+#include "PalSpherUI.h"
 
 CPalSpher::CPalSpher(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 	CProjectileObject(pDevice, pContext)
@@ -75,6 +77,8 @@ void CPalSpher::Update(_float fDeletaTime)
 				m_pVIBufferCom->PlayAnimation(0, 0, 0);
 				m_pTransformCom->Turn(m_pTransformCom->GetUpVector(), XMConvertToRadians(-180.f), fDeletaTime);
 				ComputeCatchPellSuccess(fDeletaTime);
+				m_pPalSpherUI->SetPalSpherUI(m_fAccPercent);
+				m_pPalSpherUI->Update(fDeletaTime);
 			}
 			else
 			{
@@ -103,8 +107,18 @@ void CPalSpher::Update(_float fDeletaTime)
 
 void CPalSpher::Late_Update(_float fDeletaTime)
 {
+	if (m_bIsPlayAnim)
+		m_pPalSpherUI->Late_Update(fDeletaTime);
+
 	if (!m_pHitPell)
+	{
+		_float3 vPalSpherPos = m_pTransformCom->GetPosition();
+		auto fDistance = XMVectorGetX(XMVector3Length(XMLoadFloat3(&vPalSpherPos) - m_pGameInstance->GetCameraState(WORLDSTATE::POSITION)));
+		if (fDistance >= m_pGameInstance->GetCameraINFO().y)
+			m_IsDead = true;
+
 		m_pGameInstance->ADD_CollisionList(m_pCollision);
+	}
 
 	m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
 }
@@ -132,6 +146,11 @@ HRESULT CPalSpher::ADD_Components()
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_AnimMesh"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
 		return E_FAIL;
+
+	CPalSpherUI::GAMEOBJECT_DESC PalSpherDesc = {};
+	PalSpherDesc.pParent = this;
+	PalSpherDesc.vScale = { 0.3, 0.3, 0.3 };
+	m_pPalSpherUI = static_cast<CPalSpherUI *>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_PalSpherInfo_UI"), &PalSpherDesc));
 
 	CSphereCollision::SPEHRE_COLLISION_DESC SphereDesc = {};
 	ZeroMemory(&SphereDesc, sizeof(CSphereCollision::SPEHRE_COLLISION_DESC));
@@ -265,4 +284,6 @@ CGameObject* CPalSpher::Clone(void* pArg)
 void CPalSpher::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_pPalSpherUI);
 }

@@ -13,6 +13,7 @@
 #include "PlayerManager.h"
 #include "TerrainManager.h"
 #include "PellManager.h"
+#include "PellSkillManager.h"
 #pragma endregion
 
 
@@ -298,6 +299,7 @@ void CMainApp::Free()
 	CItemManager::DestroyInstance();
 	CPellManager::DestroyInstance();
 	CTerrainManager::DestroyInstance();
+	CPellSkillManager::DestroyInstance();
 
 	m_pGameInstance->Release_Engine();
 	Safe_Release(m_pGameInstance);

@@ -88,7 +88,7 @@
 #pragma endregion
 
 #pragma region PAL SPHER INFO
-#include "PelSpherUI.h"
+#include "PalSpherUI.h"
 #include "PallSpherPercentBar.h"
 #pragma endregion
 
@@ -718,7 +718,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 
 	/* GAME_OBJECT_PAlSpher_Info_UI */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_PellInfo_PercentBar"), CPallSpherPercentBar::Create(m_pDevice, m_pContext))))
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_PalSpherInfo_PercentBar"), CPallSpherPercentBar::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 #pragma endregion

@@ -150,7 +150,7 @@ HRESULT CGamePlayLevel::ADD_PellLayer(const _wstring& LayerName)
 		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
 		return E_FAIL;*/
 
-	for (_uInt i = 0; i < 1; ++i)
+	for (_uInt i = 0; i < 10; ++i)
 	{
 		wsprintf(Desc.ObjectTag, TEXT("Drorong"));
 		Desc.vScale = { 1.f, 1.f, 1.f };

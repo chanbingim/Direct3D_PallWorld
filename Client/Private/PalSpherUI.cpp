@@ -1,4 +1,4 @@
-#include "PelSpherUI.h"
+#include "PalSpherUI.h"
 
 #include "GameInstance.h"
 #include "PalSpher.h"
@@ -21,6 +21,8 @@ HRESULT CPalSpherUI::Initalize_Prototype()
 
 HRESULT CPalSpherUI::Initialize(void* pArg)
 {
+    m_bIsWorld = true;
+
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
@@ -32,10 +34,6 @@ HRESULT CPalSpherUI::Initialize(void* pArg)
 
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
-
-    PALSPHER_DESC* Desc = static_cast<PALSPHER_DESC*>(pArg);
-    if (Desc)
-        m_pOwner = Desc->pOwner;
 
     return S_OK;
 }
@@ -49,14 +47,15 @@ void CPalSpherUI::Update(_float fDeletaTime)
         WorldMat.r[i] = XMVector3Normalize(WorldMat.r[i]) * XMLoadFloat3(&vScale).m128_f32[i];
 
     WorldMat.r[3] = XMLoadFloat3(&vPos);
-    if (m_pOwner)
+    if (m_pParent)
     {
-        vPos = m_pOwner->GetTransform()->GetPosition();
+        vPos = m_pParent->GetTransform()->GetPosition();
         WorldMat.r[3] += XMLoadFloat3(&vPos);
         WorldMat.r[3].m128_f32[3] = 1;
         XMStoreFloat4x4(&m_CombinedMatrix, WorldMat);
     }
 
+    m_pPercentBar->SetPercent(m_fPercent * 0.01f);
     for (auto pChild : m_pChildList)
         pChild->Update(fDeletaTime);
 }
@@ -75,6 +74,11 @@ HRESULT CPalSpherUI::Render()
 
 
     return S_OK;
+}
+
+void CPalSpherUI::SetPalSpherUI(_float fPercent)
+{
+    m_fPercent = fPercent;
 }
 
 HRESULT CPalSpherUI::Apply_ConstantShaderResources()
@@ -100,14 +104,15 @@ HRESULT CPalSpherUI::ADD_Components()
 
 HRESULT CPalSpherUI::ADD_Childs()
 {
-    CBackGround::GAMEOBJECT_DESC Desc = {};
+    CPallSpherPercentBar::PROGRESS_DESC Desc = {};
     Desc.pParent = this;
     _float3 vParentScale = m_pTransformCom->GetScale();
-    Desc.vScale = { vParentScale.x - 0.16f , 0.5f, 0.f };
+    Desc.vScale = { 20.f , 20.0f, 0.f };
+    Desc.vColor = { 0.f, 1.f, 0.f, 1.f };
 
     //Pell Health Bar
-    Desc.vPosition = { 0, -(vParentScale.y * 0.25f), -0.01f };
-    m_pPercentBar = static_cast<CPallSpherPercentBar*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_PellInfo_PercentBar"), &Desc));
+    Desc.vPosition = { 0, 0, -0.01f };
+    m_pPercentBar = static_cast<CPallSpherPercentBar*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_PalSpherInfo_PercentBar"), &Desc));
     ADD_Child(m_pPercentBar);
 
     return S_OK;
@@ -115,12 +120,24 @@ HRESULT CPalSpherUI::ADD_Childs()
 
 CPalSpherUI* CPalSpherUI::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    return nullptr;
+    CPalSpherUI* pPalSpherUI = new CPalSpherUI(pDevice, pContext);
+    if (FAILED(pPalSpherUI->Initalize_Prototype()))
+    {
+        Safe_Release(pPalSpherUI);
+        MSG_BOX("CREATE FAIL : PALSPHER UI");
+    }
+    return pPalSpherUI;
 }
 
 CGameObject* CPalSpherUI::Clone(void* pArg)
 {
-    return nullptr;
+    CGameObject* pPalSpherUI = new CPalSpherUI(*this);
+    if (FAILED(pPalSpherUI->Initialize(pArg)))
+    {
+        Safe_Release(pPalSpherUI);
+        MSG_BOX("CLONE FAIL : PALSPHER UI");
+    }
+    return pPalSpherUI;
 }
 
 void CPalSpherUI::Free()

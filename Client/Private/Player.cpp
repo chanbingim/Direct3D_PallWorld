@@ -155,18 +155,16 @@ void CPlayer::Key_Input(_float fDeletaTime)
             }
         }
 
-        if (CPlayerStateMachine::NONE_COBAT_ACTION::END == State.eNone_Combat_State)
-            ChangeWeapon();
+   
     }
-    else
-    {
-        if (!GetWeaponAttackType() && State.bIsAttacking)
-            m_pAnimator->NearAttackOnCollision();
-    }
+
+    if (!GetWeaponAttackType() && State.bIsAttacking)
+        m_pAnimator->NearAttackOnCollision();
 
     MoveAction(fDeletaTime);
     PlayerMoveView(fDeletaTime);
     ChangeAction(fDeletaTime);
+    ChangeWeapon();
 
     if (CPlayerStateMachine::MOVE_ACTION::JUMP != State.eMove_State)
         m_pNevigation->ComputeHeight(m_pTransformCom);

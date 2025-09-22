@@ -7,12 +7,6 @@ class CPallSpherPercentBar;
 
 class CPalSpherUI : public CBackGround
 {
-public :
-	typedef struct PalSpherDesc
-	{
-		CPalSpher*				pOwner;
-	}PALSPHER_DESC;
-
 protected:
 	CPalSpherUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CPalSpherUI(const CPalSpherUI& rhs);
@@ -27,13 +21,15 @@ public:
 	virtual		void						Late_Update(_float fDeletaTime) override;
 	// 랜더
 	virtual		HRESULT						Render() override;
+
+	void									SetPalSpherUI(_float fPercent);
 	const		_float4x4&					GetCombinedMatrix() const { return m_CombinedMatrix; }
 
 private:
 	_float4x4								m_CombinedMatrix = {};
+	_float									m_fPercent = {};
 
 	//폰트는 나중에 구해서 적용
-	CPalSpher*								m_pOwner = nullptr;
 	CPallSpherPercentBar*					m_pPercentBar = nullptr;
 
 protected:

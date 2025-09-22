@@ -5,6 +5,7 @@
 NS_BEGIN(Client)
 
 class CPellBase;
+class CPalSpherUI;
 
 class CPalSpher : public CProjectileObject
 {
@@ -29,6 +30,10 @@ public:
 private :
 	/* 펠과 충돌 됐을때 사용할 변수 목록 */
 	CPellBase*								m_pHitPell = nullptr;
+
+	/* 펠이 안에서 테이밍 되고있을때 보여줄 UI */
+	CPalSpherUI*							m_pPalSpherUI = nullptr;
+
 	_float									m_fAccTime = {};
 
 	_float									m_fCurComputeTime = {};

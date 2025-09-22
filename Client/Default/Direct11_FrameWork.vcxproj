@@ -194,7 +194,7 @@
     <ClInclude Include="..\public\PellStateMachine.h" />
     <ClInclude Include="..\Public\PellStructData.h" />
     <ClInclude Include="..\public\PellWorkState.h" />
-    <ClInclude Include="..\public\PelSpherUI.h" />
+    <ClInclude Include="..\public\PalSpherUI.h" />
     <ClInclude Include="..\public\PlayerCombatLayer.h" />
     <ClInclude Include="..\public\CrouchState.h" />
     <ClInclude Include="..\public\DororongBody.h" />
@@ -353,7 +353,7 @@
     <ClCompile Include="..\Private\PellSkillManager.cpp" />
     <ClCompile Include="..\private\PellStateMachine.cpp" />
     <ClCompile Include="..\private\PellWorkState.cpp" />
-    <ClCompile Include="..\private\PelSpherUI.cpp" />
+    <ClCompile Include="..\private\PalSpherUI.cpp" />
     <ClCompile Include="..\private\PlayerCombatLayer.cpp" />
     <ClCompile Include="..\private\CrouchState.cpp" />
     <ClCompile Include="..\private\DororongBody.cpp" />

@@ -1,7 +1,7 @@
 #include "PallSpherPercentBar.h"
 
 #include "GameInstance.h"
-#include "PelSpherUI.h"
+#include "PalSpherUI.h"
 
 CPallSpherPercentBar::CPallSpherPercentBar(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 	CProgressBar(pDevice, pContext)
@@ -57,12 +57,8 @@ void CPallSpherPercentBar::Late_Update(_float fDeletaTime)
 HRESULT CPallSpherPercentBar::Render()
 {
 	Apply_ConstantShaderResources();
-	m_pShaderCom->Update_Shader(0);
 
 	m_pShaderCom->Update_Shader(1);
-	m_pTextureCom->SetTexture(0, 1);
-	m_pVIBufferCom->Render_VIBuffer();
-
 	m_pTextureCom->SetTexture(0, 0);
 	m_pVIBufferCom->Render_VIBuffer();
 
@@ -74,6 +70,9 @@ HRESULT CPallSpherPercentBar::Apply_ConstantShaderResources()
 	m_pEMVWorldMat->SetMatrix(reinterpret_cast<const float*>(&m_CombinedMat));
 	m_pEMVViewMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::VIEW)));
 	m_pEMVProjMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION)));
+	 
+	m_pShader_Percent->SetRawValue(&m_fPercent, 0, sizeof(_float));
+	m_pShader_Color->SetFloatVector((float*)&m_vColor);
 
 	return S_OK;
 }

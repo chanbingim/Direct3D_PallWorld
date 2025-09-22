@@ -1015,7 +1015,7 @@
     <ClInclude Include="..\public\PlayerDeadState.h">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\CombatLayer\State\Dead</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\PelSpherUI.h">
+    <ClInclude Include="..\public\PalSpherUI.h">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PallSpherUI</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PallSpherPercentBar.h">
@@ -1471,7 +1471,7 @@
     <ClCompile Include="..\private\PlayerDeadState.cpp">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\CombatLayer\State\Dead</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\PelSpherUI.cpp">
+    <ClCompile Include="..\private\PalSpherUI.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PallSpherUI</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PallSpherPercentBar.cpp">
