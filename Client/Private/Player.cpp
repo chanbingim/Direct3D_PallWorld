@@ -533,7 +533,7 @@ HRESULT CPlayer::ADD_Components()
     {
         CNavigation::NAVIGATION_DESC Desc = {};
         _float3 vPos = m_pTransformCom->GetPosition();
-        Desc.iCurrentCellIndex = 5000;
+        Desc.iCurrentCellIndex = 3042;
 
         m_pTransformCom->SetPosition(FindNaviMesh->CellCenterPos(Desc.iCurrentCellIndex));
         m_pNevigation = static_cast<CNavigation*>(FindNaviMesh->Clone(&Desc));

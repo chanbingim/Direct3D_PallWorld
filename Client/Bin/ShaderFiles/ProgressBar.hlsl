@@ -99,12 +99,55 @@ PS_OUT PS_MAIN1(PS_IN In)
     return Out;
 }
 
+/* Circle Bar Pass */
+VS_OUT VS_Circle_Pass_MAIN(VS_IN In)
+{
+    VS_OUT Out;
+    
+    /* In.vPosition * 월드 * 뷰 * 투영 */    
+    //float4x4 == matrix
+    matrix matWV, matWVP;
+    
+    matWV = mul(g_WorldMatrix, g_ViewMatrix);
+    matWVP = mul(matWV, g_ProjMatrix);
+    
+    Out.vPosition = mul(vector(In.vPosition, 1.f), matWVP);    
+    Out.vTexcoord = In.vTexcoord;
+
+    return Out;
+}
+
+/* 픽셀 쉐이더 : 픽셀의 최종적인 색을 결정한다. */
+PS_OUT PS_Circle_Pass_MAIN(PS_IN In)
+{
+    PS_OUT Out;
+    vector vTexColor = g_Texture.Sample(sampler0, In.vTexcoord);
+    
+    if (vTexColor.a < 0.3f)
+        discard;
+    
+    float3 vCenter = { 0.5f, 0.5f, 0.f };
+    
+    float3 vUp = { 0.f, 1.f, 0.f };
+    float3 vDir = normalize(float3(In.vTexcoord, 0.f) - vCenter);
+    float fRad = acos(dot(-vUp, vDir));
+    float3 fScalar = cross(-vUp, vDir); 
+    
+    if(0 < fScalar.z)
+        fRad *= -1;
+    if (fRad > g_Percent * 2 * PI)
+        discard;
+    
+    Out.vColor = vTexColor * g_Color;
+    return Out;
+}
+
 technique11 Tech
 {
     pass Pass0
     {
         SetRasterizerState(RS_Default);
-        SetDepthStencilState(DSS_Default, 0);
+        SetDepthStencilState(DSS_None, 0);
         SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_MAIN();
@@ -114,10 +157,20 @@ technique11 Tech
     pass Pass1
     {
         SetRasterizerState(RS_Default);
-        SetDepthStencilState(DSS_Default, 0);
+        SetDepthStencilState(DSS_None, 0);
         SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_MAIN1();
         PixelShader = compile ps_5_0 PS_MAIN1();
+    }
+
+    pass CircleBar
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_None, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_Circle_Pass_MAIN();
+        PixelShader = compile ps_5_0 PS_Circle_Pass_MAIN();
     }
 }

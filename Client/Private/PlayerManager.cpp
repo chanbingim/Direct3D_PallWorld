@@ -3,6 +3,7 @@
 #include "Level.h"
 
 #include "Player.h"
+#include "PlayerStateMachine.h"
 #include "PellBase.h"
 
 #include "ItemManager.h"
@@ -26,13 +27,15 @@ void CPlayerManager::Initialize(void* pArg)
 	m_EquipProjectileSlots.resize(m_iNumEquipSlot, nullptr);
 	m_pBackProjectileSlotItem.resize(m_iNumEquipSlot, nullptr);
 
-	m_pOwnerPells.resize(6, nullptr);
+	m_iNumMaxOwnPell = 6;
+	m_pOwnerPells.resize(m_iNumMaxOwnPell, nullptr);
 
 	BindEquipSlot(3, 3);
 	BindEquipSlot(1, 1);
 	BindEquipSlot(2, 2);
 }
 
+#pragma region Equipment
 void CPlayerManager::SelectEquipmentSlot(_uInt SlotIndex)
 {
 }
@@ -44,7 +47,7 @@ void CPlayerManager::BindEquipSlot(_uInt iSlotIndex, _uInt iItemIndex)
 	{
 		auto ItemData = CItemManager::GetInstance()->GetItemInfo(iItemIndex);
 		const ITEM_DESC* ProejectileItemData = nullptr;
-		if(-1 < ItemData->TypeDesc.EuqipDesc.iProjectileIndex)
+		if (-1 < ItemData->TypeDesc.EuqipDesc.iProjectileIndex)
 			ProejectileItemData = CItemManager::GetInstance()->GetItemInfo(ItemData->TypeDesc.EuqipDesc.iProjectileIndex);
 
 		if (ITEM_TYPE::EQUIPMENT == ItemData->ItemType)
@@ -61,7 +64,7 @@ void CPlayerManager::BindEquipSlot(_uInt iSlotIndex, _uInt iItemIndex)
 
 			m_EquipSlots[iSlotIndex] = CItemBase::Create(*ItemData);
 			m_pBackSlotItem[iSlotIndex] = pModel;
-			
+
 			if (nullptr != ProejectileItemData)
 			{
 				CModel* pProjecTileModel = static_cast<CModel*>(pGameInstancce->Clone_Prototype(OBJECT_ID::COMPONENT, iLevelID, ProejectileItemData->szItemModelPath, nullptr));
@@ -70,7 +73,7 @@ void CPlayerManager::BindEquipSlot(_uInt iSlotIndex, _uInt iItemIndex)
 					Safe_Release(m_EquipProjectileSlots[iSlotIndex]);
 					Safe_Release(m_pBackProjectileSlotItem[iSlotIndex]);
 				}
-					
+
 				m_EquipProjectileSlots[iSlotIndex] = CItemBase::Create(*ProejectileItemData);
 				m_pBackProjectileSlotItem[iSlotIndex] = pProjecTileModel;
 			}
@@ -115,22 +118,28 @@ CModel* CPlayerManager::GetCurrentSelectItemProjecTileModel()
 	return m_pBackProjectileSlotItem[m_iSelectSlotIndex];;
 }
 
-_bool CPlayerManager::GetIsAnimSelect()
+const CItemBase* CPlayerManager::GetSlotItemData(_uInt iIndex)
 {
-	if (nullptr == m_EquipSlots[m_iSelectSlotIndex])
-		return false;
-	return m_EquipSlots[m_iSelectSlotIndex]->GetItemData().IsAnimModel;
+	return m_EquipSlots[iIndex];
 }
 
-_bool CPlayerManager::GetIsAttachLeft()
+const CItemBase* CPlayerManager::GetProjecTileSlotItemData(_uInt iIndex)
 {
-	if (nullptr == m_EquipSlots[m_iSelectSlotIndex] ||
-		ITEM_TYPE::EQUIPMENT != m_EquipSlots[m_iSelectSlotIndex]->GetItemData().ItemType)
-		return false;
-
-	return m_EquipSlots[m_iSelectSlotIndex]->GetItemData().TypeDesc.EuqipDesc.bIsLeftSocket;
+	return m_EquipProjectileSlots[iIndex];
 }
 
+const CItemBase* CPlayerManager::GetSelectItemData()
+{
+	return m_EquipSlots[m_iSelectSlotIndex];
+}
+
+const CItemBase* CPlayerManager::GetSelectProjecTileItemData()
+{
+	return m_EquipProjectileSlots[m_iSelectSlotIndex];
+}
+#pragma endregion
+
+#pragma region Inventory
 _bool CPlayerManager::AddInventoryItem(_uInt iItemID, _uInt iCount)
 {
 	// 아이템을 검색해서 정보를 가져온다음 그 아이템의 무게랑 현재 무게 확인해서
@@ -144,63 +153,23 @@ _bool CPlayerManager::AddInventoryItem(_uInt iItemID, _uInt iCount)
 
 void CPlayerManager::RemoveInventoryItem(_uInt iSlotIndex, _uInt iCount)
 {
-	
-}
 
-const CItemBase* CPlayerManager::GetSlotItemData(_uInt iIndex)
-{
-	return m_EquipSlots[iIndex];
 }
+#pragma endregion
 
-const CItemBase* CPlayerManager::GetProjecTileSlotItemData(_uInt iIndex)
-{
-	return m_EquipProjectileSlots[iIndex];
-}
-
-const CItemBase*  CPlayerManager::GetSelectItemData()
-{
-	return m_EquipSlots[m_iSelectSlotIndex];
-}
-
-const CItemBase* CPlayerManager::GetSelectProjecTileItemData()
-{
-	return m_EquipProjectileSlots[m_iSelectSlotIndex];
-}
-
+#pragma region Player
 void CPlayerManager::BindPlayerCharacter(CPlayer* pPlayer)
 {
 	m_pCurrentPlayer = pPlayer;
 	m_pCurrentPlayer->SetPlayerData(&m_PlayerInfo);
 }
 
-_bool CPlayerManager::IsAimState()
+_bool CPlayerManager::IsPlayerAnimming()
 {
-	if (nullptr == m_pCurrentPlayer)
-		return false;
-	return m_pCurrentPlayer->IsAimingState();
-}
+	CPlayerStateMachine::PLAYER_STATE playerState;
+	m_pCurrentPlayer->GetPlayerState(&playerState);
 
-HRESULT CPlayerManager::ADDOwnerPellList(CPellBase* pPellBase)
-{
-	auto iter = find_if(m_pOwnerPells.begin(), m_pOwnerPells.end(), [&](CPellBase* pPell)
-		{
-			if (nullptr == pPell)
-				return true;
-			return false;
-		});
-
-	if (iter == m_pOwnerPells.end())
-		return E_FAIL;
-
-	if (CPellBase::PELL_TEAM::NEUTRAL == pPellBase->GetPellTeam())
-	{
-		pPellBase->ChangePellTeam(CPellBase::PELL_TEAM::FRENDLY);
-		*iter = pPellBase;
-	}
-	else
-		return E_FAIL;
-
-	return S_OK;
+	return playerState.bIsAiming;
 }
 
 HRESULT CPlayerManager::SettingDefaultPlayerData()
@@ -214,6 +183,71 @@ HRESULT CPlayerManager::SettingDefaultPlayerData()
 
 	return S_OK;
 }
+#pragma endregion
+
+#pragma region Pell Inven
+HRESULT CPlayerManager::ADDOwnerPellList(CPellBase* pPellBase)
+{
+	_bool bNotOverlap = true;
+	auto iter = find_if(m_pOwnerPells.begin(), m_pOwnerPells.end(), [&](CPellBase* pPell)
+		{
+			if (pPell == pPellBase)
+				bNotOverlap = false;
+
+			if (nullptr == pPell)
+				return true;
+			return false;
+		});
+
+	if (iter == m_pOwnerPells.end() || !bNotOverlap)
+		return E_FAIL;
+
+	if (CPellBase::PELL_TEAM::NEUTRAL == pPellBase->GetPellTeam())
+	{
+		pPellBase->ChangePellTeam(CPellBase::PELL_TEAM::FRENDLY);
+		*iter = pPellBase;
+	}
+	else
+		return E_FAIL;
+
+	return S_OK;
+}
+
+const CPellBase* CPlayerManager::GetSelectPellInfomation()
+{
+	return m_pOwnerPells[m_iSelectPellIndex];
+}
+
+const CPellBase* CPlayerManager::GetPellInfomation(_uInt iIndex)
+{
+	return m_pOwnerPells[iIndex];
+}
+
+void CPlayerManager::UpdateSelectPellIndex(_uInt vDir)
+{
+	m_iSelectPellIndex += vDir;
+
+	if (0 > m_iSelectPellIndex)
+		m_iSelectPellIndex = m_iNumMaxOwnPell - 1;
+	else if (m_iNumMaxOwnPell <= m_iSelectPellIndex)
+		m_iSelectPellIndex = 0;
+}
+
+void CPlayerManager::GetLeftRightSelectIndex(_Int* pLeftIndex, _Int* pSelectIndex, _Int* pRightIndex)
+{
+	if (0 > m_iSelectPellIndex - 1)
+		*pLeftIndex = m_iNumMaxOwnPell - 1;
+	else
+		*pLeftIndex = m_iSelectPellIndex - 1;
+
+	*pSelectIndex = m_iSelectPellIndex;
+
+	if (m_iNumMaxOwnPell <= m_iSelectPellIndex + 1)
+		*pRightIndex = 0;
+	else
+		*pRightIndex = m_iSelectPellIndex + 1;
+}
+#pragma endregion
 
 void CPlayerManager::Free()
 {
@@ -235,5 +269,4 @@ void CPlayerManager::Free()
 	m_pBackSlotItem.clear();
 	m_EquipProjectileSlots.clear();
 	m_pBackProjectileSlotItem.clear();
-
 }

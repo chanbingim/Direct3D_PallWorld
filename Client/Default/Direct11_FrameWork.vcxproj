@@ -180,6 +180,7 @@
     <ClInclude Include="..\public\NeturalTypeIcon.h" />
     <ClInclude Include="..\public\PallSpherPercentBar.h" />
     <ClInclude Include="..\public\PellAttackState.h" />
+    <ClInclude Include="..\public\PellCharacterIcon.h" />
     <ClInclude Include="..\public\PellCombatLayer.h" />
     <ClInclude Include="..\public\PellDeadState.h" />
     <ClInclude Include="..\public\PellHealthBar.h" />
@@ -340,6 +341,7 @@
     <ClCompile Include="..\private\NeturalPellInfo.cpp" />
     <ClCompile Include="..\private\NeturalTypeIcon.cpp" />
     <ClCompile Include="..\private\PallSpherPercentBar.cpp" />
+    <ClCompile Include="..\private\PellCharacterIcon.cpp" />
     <ClCompile Include="..\private\PellDeadState.cpp" />
     <ClCompile Include="..\Private\PellHealthBar.cpp" />
     <ClCompile Include="..\private\PellManager.cpp" />

@@ -369,7 +369,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma endregion
 
 #pragma region PROJECTILE
-	PreModelMat = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationZ(XMConvertToRadians(90.f));
+	PreModelMat = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationX(XMConvertToRadians(90.f));
 	/* VIBuffer  Arrow  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Arrow"),
 		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Weapon/AnimationWeapon/Bow/Arrow/Arrow.fbx", PreModelMat))))
@@ -416,10 +416,12 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma endregion
 
 #pragma region PELL
-	///* VIBuffer  BedCat MESH  Component */
-	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_BedCat_Mesh"),
-	//	CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM,"../Bin/Resources/Models/BedCat/BedCat.fbx", PreModelMat))))
-	//	return E_FAIL;
+#pragma region PinkCat
+	/* VIBuffer  BedCat MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_BedCat_Mesh"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM,"../Bin/Resources/Models/Monster/BedCat/PinkCat.fbx", PreModelMat))))
+		return E_FAIL;
+#pragma endregion
 
 #pragma region SheepBall
 	/* VIBuffer  Dororong MESH  Component */

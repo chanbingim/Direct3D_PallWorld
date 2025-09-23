@@ -30,6 +30,7 @@ public :
 public :
 	void					Initialize(void* pArg);
 
+#pragma region EuipMent Function
 	/* 장비창  관련 함수 */
 	// 장비 슬롯 번호를 통해서 무기 선택
 	void					SelectEquipmentSlot(_uInt SlotIndex);
@@ -42,39 +43,56 @@ public :
 	CModel*					GetCurrentSelectItem();
 	CModel*					GetCurrentSelectItemProjecTileModel();
 
-	_uInt					GetNumEuipSlot()	{ return m_iNumEquipSlot; }
-	_bool					GetIsAnimSelect();
-	_bool					GetIsAttachLeft();
-
-	/* 인벤토리  관련 함수 */
-	// 인벤토리 아이템 최대 보관개수
-	_uInt					GetNumInvenSlot()	{ return m_iNumInvenSlots; }
-
-	// 인벤토리에 보관된 아이템의 무게 반환
-	_uInt					GetInvenWieght()	{ return m_iInvenWeight; }
-	_bool					AddInventoryItem(_uInt iItemID, _uInt iCount);
-	void					RemoveInventoryItem(_uInt iSlotIndex, _uInt iCount);
-
-	const CHARACTER_DESC&	GetPlayerData() { return m_PlayerInfo; }
+	_uInt					GetNumEuipSlot() { return m_iNumEquipSlot; }
 	const CItemBase*		GetSlotItemData(_uInt iIndex);
 	const CItemBase*		GetProjecTileSlotItemData(_uInt iIndex);
 
 	const CItemBase*		GetSelectItemData();
 	const CItemBase*		GetSelectProjecTileItemData();
+#pragma endregion
 
-	void					BindPlayerCharacter(class CPlayer* pPlayer);
-	_bool					IsAimState();
+#pragma region Iven Function
+	/* 인벤토리  관련 함수 */
+	// 인벤토리 아이템 최대 보관개수
+	_uInt					GetNumInvenSlot() { return m_iNumInvenSlots; }
 
+	// 인벤토리에 보관된 아이템의 무게 반환
+	_uInt					GetInvenWieght() { return m_iInvenWeight; }
+	_bool					AddInventoryItem(_uInt iItemID, _uInt iCount);
+	void					RemoveInventoryItem(_uInt iSlotIndex, _uInt iCount);
+#pragma endregion
+
+#pragma region PLATYER Function
 	class CPlayer*			GetCurrentPlayer() { return m_pCurrentPlayer; }
+	const CHARACTER_DESC&	GetPlayerData() { return m_PlayerInfo; }
+	void					BindPlayerCharacter(class CPlayer* pPlayer);
+
+	_bool					IsPlayerAnimming();
+#pragma endregion
+	
+#pragma region PELL INVEN
 	//펠을 추가하기위한 클래스
 	HRESULT					ADDOwnerPellList(CPellBase* pPellBase);
 
+	const CPellBase*		GetSelectPellInfomation();
+	const CPellBase*		GetPellInfomation(_uInt iIndex);
+
+	// 0번 가운데 -1 왼쪽 1 오른쪽
+	void					UpdateSelectPellIndex(_uInt vDir);
+	void					GetLeftRightSelectIndex(_Int* pLeftIndex, _Int* pSelectIndex, _Int* pRightIndex);
+
+	_uInt					GetCurrentSelectPellSlotIndex() { return m_iSelectPellIndex; }
+#pragma endregion
+
 private :
-	class CPlayer*						m_pCurrentPlayer = nullptr;
+#pragma region Player variable
+	class CPlayer* m_pCurrentPlayer = nullptr;
 
 	//나중에 여기서 플레이어으 ㅣ모델 정보도 바꿀수있게 만들거같음
 	CHARACTER_DESC						m_PlayerInfo = {};
+#pragma endregion
 
+#pragma region EuipMent Variable
 	// 아이템을 보관할 슬롯 최대개수
 	_uInt								m_iNumEquipSlot = {};
 
@@ -83,15 +101,27 @@ private :
 	vector<CItemBase*>					m_EquipSlots = {};
 	vector<CModel*>						m_pBackSlotItem = {};
 
+	// 등뒤에 보관되어 보여줄 녀석의 VIBuffer
+// 이건 매시 아이템 실 객체 클래스여야할거같음
+	_Int								m_iSelectSlotIndex = {};
+
 	// 장비 아이템에서 사용할 화살 및 총알 이런거들 애니메이션있으면
 	// 보여주고 아니라면 안보여주려는 용도로 STL 선언
 	vector<CItemBase*>					m_EquipProjectileSlots = {};
 	vector<CModel*>						m_pBackProjectileSlotItem = {};
+#pragma endregion
 
-	// 등뒤에 보관되어 보여줄 녀석의 VIBuffer
-	// 이건 매시 아이템 실 객체 클래스여야할거같음
-	_Int								m_iSelectSlotIndex = {};
+#pragma region Pell Iven Variable
+	//소유 중인 펠의 포인터 정보를 그냥 통으로 넘겨서 관리할 예정
+	vector<CPellBase*>					m_pOwnerPells = {};
 
+	//소유할수 있는 펠의 개수
+	_uInt								m_iNumMaxOwnPell = {};
+	// 현재 어떤 펠이 선택되어 있는지
+	_Int								m_iSelectPellIndex = {};
+#pragma endregion
+
+#pragma region Iven variable
 	// 최대 인벤토리의 슬롯 개수
 	_uInt								m_iNumInvenSlots = {};
 
@@ -101,9 +131,7 @@ private :
 
 	// 인벤토리의 정보를 보관할 녀석
 	vector<pair<_uInt, _uInt>>			m_InvenSlots = {};
-
-	//소유 중인 펠의 포인터 정보를 그냥 통으로 넘겨서 관리할 예정
-	vector<CPellBase*>					m_pOwnerPells = {};
+#pragma endregion
 
 private :
 	HRESULT								SettingDefaultPlayerData();

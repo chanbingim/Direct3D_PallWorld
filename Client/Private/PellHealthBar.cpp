@@ -71,8 +71,6 @@ HRESULT CPellHealthBar::Render()
 	m_pTextureCom->SetTexture(0, 0);
 	m_pVIBufferCom->Render_VIBuffer();
 
-
-
 	return S_OK;
 }
 
@@ -82,6 +80,8 @@ HRESULT CPellHealthBar::Apply_ConstantShaderResources()
 	m_pEMVViewMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::VIEW)));
 	m_pEMVProjMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION)));
 
+	m_pShader_Percent->SetRawValue(&m_fPercent, 0, sizeof(_float));
+	m_pShader_Color->SetFloatVector((float*)&m_vColor);
 	return S_OK;
 }
 

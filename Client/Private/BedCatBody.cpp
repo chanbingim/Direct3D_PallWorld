@@ -45,7 +45,7 @@ void CBedCatBody::Update(_float fDeletaTime)
 
 void CBedCatBody::Late_Update(_float fDeletaTime)
 {
-    __super::Late_Update(fDeletaTime);
+    UpdateCombinedMatrix();
     m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
 }
 

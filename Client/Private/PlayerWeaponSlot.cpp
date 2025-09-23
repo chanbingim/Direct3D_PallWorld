@@ -140,6 +140,7 @@ HRESULT CPlayerWeaponSlot::ShootProjecttileObject()
 	CurrentPlayer->GetPlayerState(&playerState);
 
 	CProjectileObject::PROJECTILE_DESC ProjectileDesc = {};
+
 	//이함수를 통해서 프로젝타일 위치에 생성해서 날린다.
 	ProjectileDesc.vPosition = *reinterpret_cast<_float3*>(m_CombinedWorldMatrix.m[3]);
 	ProjectileDesc.vScale = { 1.f, 1.f, 1.f };

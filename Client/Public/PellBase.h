@@ -51,18 +51,16 @@ public:
 protected :
 	_uInt									m_PellID;
 	PELL_TEAM								m_eTeam;
+	PELL_INFO								m_PellInfo = {};
 
 	_float									m_fPellMoveSpeed = {};
-
-	_bool									m_bIsPartnerPell = false;
 	_bool									m_bIsLoop = true;
 	_bool									m_bIsAction = false;
-	_bool									m_bIsConfined = false;
-
+	
 	_float									m_fAccActionTime = 0;
-
 	CPellStateMachine*						m_pPellFsm = nullptr;
 	CChaseComponent*						m_pChase = nullptr;
+
 #pragma region Component
 
 #pragma region Collision
@@ -81,8 +79,7 @@ protected :
 	_float									m_fInfoVisibleDistance = 5.f;
 	CNeturalPellInfo*						m_pNeturalPellUI = nullptr;
 #pragma endregion
-
-	PELL_INFO								m_PellInfo = {};
+	
 	list<_float3>							m_PathFinding;
 
 	_float3									m_vTargetPoint = { -1.f, -1.f, -1.f};

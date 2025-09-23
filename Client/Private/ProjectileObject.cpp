@@ -25,6 +25,10 @@ HRESULT CProjectileObject::Initialize(void* pArg)
 	m_fThorwDireaction = pProjectileDesc->vDireaction;
 	m_fThorowSpeed = pProjectileDesc->vThrowSpeed;
 
+	_vector vPosition = XMLoadFloat3(&pProjectileDesc->vPosition);
+	_vector vDireaction = XMLoadFloat3(&m_fThorwDireaction);
+	m_pTransformCom->LookAt(vPosition + vDireaction);
+
 	return S_OK;
 }
 

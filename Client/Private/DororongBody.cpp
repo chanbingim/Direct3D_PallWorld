@@ -63,14 +63,6 @@ HRESULT CDororongBody::Render()
 	return S_OK;
 }
 
-void CDororongBody::CombatAction()
-{
-
-
-
-
-}
-
 HRESULT CDororongBody::ADD_Components()
 {
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Drorong_Mesh"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))

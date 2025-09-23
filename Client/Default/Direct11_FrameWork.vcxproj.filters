@@ -548,6 +548,9 @@
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PallSpherUI\PercentBar">
       <UniqueIdentifier>{9581766e-83e8-4273-b82f-4f8fea01fbba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell\PellCharacIcon">
+      <UniqueIdentifier>{9fc2cc71-7e46-403f-a125-5e295c21861c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -1021,6 +1024,9 @@
     <ClInclude Include="..\public\PallSpherPercentBar.h">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PallSpherUI\PercentBar</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\PellCharacterIcon.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell\PellCharacIcon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -1476,6 +1482,9 @@
     </ClCompile>
     <ClCompile Include="..\private\PallSpherPercentBar.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PallSpherUI\PercentBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PellCharacterIcon.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell\PellCharacIcon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

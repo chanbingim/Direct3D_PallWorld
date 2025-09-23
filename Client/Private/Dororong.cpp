@@ -105,7 +105,7 @@ void CDororong::Priority_Update(_float fDeletaTime)
 
 void CDororong::Update(_float fDeletaTime)
 {
-    if (true == m_bIsConfined)
+    if (PELL_STORAGE_STATE::PARTNER_PELL < m_PellInfo.ePellStorageState)
         return;
 
     m_pPellBody->PellPlayAnimation(m_pPellFsm->GetAnimationName().c_str(), m_bIsLoop);
@@ -115,7 +115,7 @@ void CDororong::Update(_float fDeletaTime)
 
 void CDororong::Late_Update(_float fDeletaTime)
 {
-    if (true == m_bIsConfined)
+    if (PELL_STORAGE_STATE::PARTNER_PELL < m_PellInfo.ePellStorageState)
         return;
 
     __super::Late_Update(fDeletaTime);

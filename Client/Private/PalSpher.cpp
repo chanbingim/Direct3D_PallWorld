@@ -149,7 +149,7 @@ HRESULT CPalSpher::ADD_Components()
 
 	CPalSpherUI::GAMEOBJECT_DESC PalSpherDesc = {};
 	PalSpherDesc.pParent = this;
-	PalSpherDesc.vScale = { 0.3, 0.3, 0.3 };
+	PalSpherDesc.vScale = { 0.3f, 0.3f, 0.3f };
 	m_pPalSpherUI = static_cast<CPalSpherUI *>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_PalSpherInfo_UI"), &PalSpherDesc));
 
 	CSphereCollision::SPEHRE_COLLISION_DESC SphereDesc = {};
@@ -193,7 +193,7 @@ void CPalSpher::BeginOverlapEvent(_float3 vDir, CGameObject* pTarget)
 		/* R = P + 2N(-P * N)*/
 		_vector ProjVector = vNormal * XMVector3Dot(vDirecation * -1.f, vNormal);
 		_vector vReflectVector = vDirecation + ProjVector * 2.f;
-		_float RandomOffset = m_pGameInstance->Random(0.4, 1.f);
+		_float RandomOffset = m_pGameInstance->Random(0.4f, 1.f);
 
 		XMStoreFloat3(&m_ReflectDir, vReflectVector);
 		m_HitStartPoint = DefaultHitDesc.vHitPoint;

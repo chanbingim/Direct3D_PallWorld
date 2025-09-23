@@ -51,7 +51,7 @@ HRESULT CPellBase::Initialize(void* pArg)
         return E_FAIL;
 
     m_PellInfo.iLevel = 1;
-
+    m_PellInfo.ePellStorageState = PELL_STORAGE_STATE::WORLD;
     return S_OK;
 }
 
@@ -108,7 +108,14 @@ void CPellBase::Damage(void* pArg, CActor* pDamagedActor)
     {
         auto HitPalSpher = dynamic_cast<CPalSpher*>(pDamagedActor);
         if (nullptr != HitPalSpher)
-            m_bIsConfined = !m_bIsConfined;
+        {
+            switch (m_PellInfo.ePellStorageState)
+            {
+            case PELL_STORAGE_STATE::WORLD:
+                m_PellInfo.ePellStorageState = PELL_STORAGE_STATE::PELL_SHPER;
+                break;
+            }
+        }
     }
     else
     {
@@ -141,16 +148,20 @@ void CPellBase::ChangePellTeam(PELL_TEAM eTeam)
 {
     m_eTeam = eTeam;
 
+    m_pPellFsm->ResetLayer(TEXT("CombatLayer"));
+    m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Idle"));
+    m_pCombatCom->ResetCombatComponent();
+
     switch (m_eTeam)
     {
     case Client::CPellBase::PELL_TEAM::FRENDLY:
-        m_pPellFsm->ResetLayer(TEXT("CombatLayer"));
-        m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Idle"));
-        m_pCombatCom->ResetCombatComponent();
+        m_PellInfo.ePellStorageState = PELL_STORAGE_STATE::PLAYER_INVEN;
         break;
     case Client::CPellBase::PELL_TEAM::NEUTRAL:
+        m_PellInfo.ePellStorageState = PELL_STORAGE_STATE::WORLD;
         break;
     case Client::CPellBase::PELL_TEAM::ENEMY:
+
         break;
     }
 }
@@ -182,15 +193,15 @@ HRESULT CPellBase::ADD_PellInfoUI()
     _float3 vParentScale = m_pPellBody->GetTransform()->GetScale();
     PellInfoDesc.vPosition = { vParentScale.x * 0.5f +  PellInfoDesc.vScale.x * 0.5f, 
                                vParentScale.y * 0.5f + 3.f , 0.f };
-    m_pNeturalPellUI = static_cast<CNeturalPellInfo*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_PellInfo_UI"), &PellInfoDesc));
 
+    m_pNeturalPellUI = static_cast<CNeturalPellInfo*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_PellInfo_UI"), &PellInfoDesc));
     return S_OK;
 }
 
 _bool CPellBase::PellPlayFSM(_float fDeletaTime)
 {
     const CPellStateMachine::PELL_STATE& State = m_pPellFsm->GetState();
-    if (m_bIsConfined)
+    if (PELL_STORAGE_STATE::PARTNER_PELL < m_PellInfo.ePellStorageState)
         return false;
 
     m_fAccActionTime += fDeletaTime;
@@ -322,7 +333,7 @@ void CPellBase::ActionFrendly()
         // 플레이어가 걷기 중이라면 펠도 걷는다.
 
          //기본적으로 플레이어를 따라다니게 변경
-        if (m_bIsPartnerPell)
+        if (PELL_STORAGE_STATE::PARTNER_PELL == m_PellInfo.ePellStorageState)
         {
             _float3 vPellPos = m_pTransformCom->GetPosition();
             _vector vPlayerPos = m_pGameInstance->GetPlayerState(WORLDSTATE::POSITION);

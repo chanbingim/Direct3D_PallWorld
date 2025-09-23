@@ -27,6 +27,16 @@ void CPellSkillManager::Initialize(const char* szFilePath)
         PellSkillDesc.eSkillType = PELL_SKILL_TYPE::NORAML;
 
         m_PellSkillDatas.emplace(0, PellSkillDesc);
+
+        PellSkillDesc.SkillName = "NekoPunch";
+        PellSkillDesc.fAfterStateDelay = 0.5f;
+        PellSkillDesc.iSkillDamage = 8.f;
+        PellSkillDesc.fSkillMoveSpeed = 5.f;
+        PellSkillDesc.fStartDurationTime = 0.f;
+        PellSkillDesc.fSkillDurationTime = 3.f;
+        PellSkillDesc.eSkillType = PELL_SKILL_TYPE::NORAML;
+
+        m_PellSkillDatas.emplace(1, PellSkillDesc);
     }
 }
 

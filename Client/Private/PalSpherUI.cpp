@@ -55,7 +55,7 @@ void CPalSpherUI::Update(_float fDeletaTime)
         XMStoreFloat4x4(&m_CombinedMatrix, WorldMat);
     }
 
-    m_pPercentBar->SetPercent(m_fPercent * 0.01f);
+  
     for (auto pChild : m_pChildList)
         pChild->Update(fDeletaTime);
 }
@@ -79,6 +79,7 @@ HRESULT CPalSpherUI::Render()
 void CPalSpherUI::SetPalSpherUI(_float fPercent)
 {
     m_fPercent = fPercent;
+    m_pPercentBar->SetPercent(m_fPercent * 0.01f);
 }
 
 HRESULT CPalSpherUI::Apply_ConstantShaderResources()
@@ -107,7 +108,7 @@ HRESULT CPalSpherUI::ADD_Childs()
     CPallSpherPercentBar::PROGRESS_DESC Desc = {};
     Desc.pParent = this;
     _float3 vParentScale = m_pTransformCom->GetScale();
-    Desc.vScale = { 20.f , 20.0f, 0.f };
+    Desc.vScale = { 3.f , 3.f, 0.f };
     Desc.vColor = { 0.f, 1.f, 0.f, 1.f };
 
     //Pell Health Bar

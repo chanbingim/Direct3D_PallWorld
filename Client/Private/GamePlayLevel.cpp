@@ -41,7 +41,7 @@ HRESULT CGamePlayLevel::Initialize()
 	/*if (FAILED(ADD_EnviornmentLayer(TEXT("Layer_GamePlay_Enviorment"))))
 		return E_FAIL;*/
 
-	CPellManager::GetInstance()->Initialize();
+	CPellManager::GetInstance()->Initialize(m_pGraphic_Device, m_pDeviceContext);
 	if (FAILED(ADD_PellLayer(TEXT("Layer_GamePlay_Pell"))))
 		return E_FAIL;
 
@@ -142,13 +142,16 @@ HRESULT CGamePlayLevel::ADD_PellLayer(const _wstring& LayerName)
 {
 	CGameObject::GAMEOBJECT_DESC Desc;
 	ZeroMemory(&Desc, sizeof(CGameObject::GAMEOBJECT_DESC));
-	Desc.vScale = { 0.2f, 0.2f, 0.2f };
 
-	/*wsprintf(Desc.ObjectTag, TEXT("Bed Cat"));
-	Desc.vPosition = { 7.f, 1.f, 7.f };
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_BedCat"),
-		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
-		return E_FAIL;*/
+	for (_uInt i = 0; i < 10; ++i)
+	{
+		wsprintf(Desc.ObjectTag, TEXT("Bed Cat"));
+		Desc.vScale = { 1.f, 1.f, 1.f };
+		Desc.vPosition = { m_pGameInstance->Random(100, 200.f), 1.f, m_pGameInstance->Random(100, 200.f) };
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_BedCat"),
+			ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
+			return E_FAIL;
+	}
 
 	for (_uInt i = 0; i < 10; ++i)
 	{

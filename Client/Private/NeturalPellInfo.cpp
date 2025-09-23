@@ -93,6 +93,7 @@ HRESULT CNeturalPellInfo::Apply_ConstantShaderResources()
 	m_pEMVViewMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::VIEW)));
 	m_pEMVProjMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION)));
 
+
 	return S_OK;
 }
 
@@ -135,7 +136,7 @@ void CNeturalPellInfo::SetUpPellInfoData()
 {
 	const PELL_INFO& PellData = m_pOwner->GetPellInfo();
 
-	m_pHealthBar->SetPercent(PellData.MaxHealth / PellData.CurHealth);
+	m_pHealthBar->SetPercent(PellData.CurHealth / PellData.MaxHealth);
 	m_pTypeIcon->SetData(ENUM_CLASS(PellData.ePellType));
 }
 
