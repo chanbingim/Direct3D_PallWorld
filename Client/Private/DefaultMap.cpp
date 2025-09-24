@@ -165,38 +165,16 @@ void CDefaultMap::Late_Update(_float fDeletaTime)
 
 HRESULT CDefaultMap::Render()
 {
-    if (m_bViewMesh)
-    {
-        _uInt iNum = m_pVIBufferCom->GetNumMeshes();
-        for (_uInt i = 0; i < iNum; ++i)
-        {
-            Apply_ConstantShaderResources(i);
-
-            m_pShaderCom->Update_Shader(0);
-            m_pVIBufferCom->Render(i);
-        }
-    }
-    
-
-#ifdef _DEBUG
-    for (auto i : m_MapRenderIndex)
-    {
-        Apply_ConstantShaderResources(i);
-        m_pShaderCom->Update_Shader(0);
-        m_pNavigationCom->Render({ 1.f, 0.f,0.f,1.f });
-    }
-        
-#endif // _DEBUG
-        
-    /*for (auto i : m_MapRenderIndex)
+    _uInt iNum = m_pVIBufferCom->GetNumMeshes();
+    for (_uInt i = 0; i < iNum; ++i)
     {
         Apply_ConstantShaderResources(i);
 
         m_pShaderCom->Update_Shader(0);
         m_pVIBufferCom->Render(i);
-        m_pNavigationCom[i]->Render({ 1.f, 0.f,0.f,1.f });
-    }*/
-    //m_MapRenderIndex.clear();
+    }
+    m_pNavigationCom->Render({ 1.f, 0.f,0.f,1.f });
+
     return S_OK;
 }
 
