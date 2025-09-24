@@ -37,9 +37,9 @@ HRESULT CNavigation::Initialize_Prototype(const _tchar* pNavigationDataFiles)
 	return S_OK;
 }
 
-HRESULT CNavigation::Initialize_Prototype(const CModel* pMapModel, _uInt iMeshNum)
+HRESULT CNavigation::Initialize_Prototype(const CModel* pMapModel)
 {
-	Bowyer_WatsonAlgorithm(pMapModel, iMeshNum);
+	//Bowyer_WatsonAlgorithm(pMapModel, iMeshNum);
 
 #ifdef _DEBUG
 	m_pShaderCom = CShader::Create(m_pDevice, m_pContext, VTX_COL::Elements, VTX_COL::iNumElements, TEXT("../Bin/ShaderFiles/Shader_Cell.hlsl"));
@@ -477,7 +477,7 @@ void CNavigation::Bowyer_WatsonAlgorithm(const CModel* pMapModel, _uInt iMeshNum
 			if (0 < XMVectorGetY(vCross))
 				m_Triangles.emplace_back(Edge.A, Edge.B, Vertices[i]);
 			else
-				m_Triangles.emplace_back(Edge.B, Edge.A, Vertices[i]);
+				m_Triangles.emplace_back(Edge.A, Vertices[i], Edge.B);
 			
 			if (-1 == m_Triangles.back().Radius)
 				m_Triangles.pop_back();
@@ -694,10 +694,10 @@ CNavigation* CNavigation::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 	return pNavigation;
 }
 
-CNavigation* CNavigation::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const CModel* pModel, _uInt iNumMesh)
+CNavigation* CNavigation::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const CModel* pModel)
 {
 	CNavigation* pNavigation = new CNavigation(pDevice, pContext);
-	if (FAILED(pNavigation->Initialize_Prototype(pModel, iNumMesh)))
+	if (FAILED(pNavigation->Initialize_Prototype(pModel)))
 	{
 		Safe_Release(pNavigation);
 		MSG_BOX("CREATE FAIL : NAVIGATION");

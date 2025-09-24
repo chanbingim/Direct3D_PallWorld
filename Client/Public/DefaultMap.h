@@ -48,7 +48,7 @@ private:
 	_uInt									m_iTerrainCnt = {};
 
 	list<_uInt>								m_MapRenderIndex = {};
-	vector<CNavigation*>					m_pNavigationCom = { };
+	CNavigation*							m_pNavigationCom = { };
 
 private:
 	HRESULT									ADD_Components();

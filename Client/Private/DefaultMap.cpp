@@ -37,7 +37,7 @@ HRESULT CDefaultMap::Initialize(void* pArg)
         return E_FAIL;
 
     for (_uInt i = 0; i < m_iTerrainCnt; ++i)
-        m_pNavigationCom[i]->Update(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
+        m_pNavigationCom->Update(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
 
 
     m_ObejctTag = TEXT("MapObject");
@@ -103,13 +103,13 @@ void CDefaultMap::Update(_float fDeletaTime)
                     switch (m_iDrawTriCount)
                     {
                     case 0 :
-                        vPosition = m_pNavigationCom[iPickMeshIndex]->DrawTriangle(XMLoadFloat3(&vOut), Img_LandScape->GetBurshSize());
+                        vPosition = m_pNavigationCom->DrawTriangle(XMLoadFloat3(&vOut), Img_LandScape->GetBurshSize());
                         break;
                     case 1:
-                        vPosition = m_pNavigationCom[iPickMeshIndex]->DrawTriangle(XMLoadFloat3(&vOut), Img_LandScape->GetBurshSize());
+                        vPosition = m_pNavigationCom->DrawTriangle(XMLoadFloat3(&vOut), Img_LandScape->GetBurshSize());
                         break;
                     case 2:
-                        vPosition = m_pNavigationCom[iPickMeshIndex]->DrawTriangle(XMLoadFloat3(&vOut), Img_LandScape->GetBurshSize());
+                        vPosition = m_pNavigationCom->DrawTriangle(XMLoadFloat3(&vOut), Img_LandScape->GetBurshSize());
                         break;
                     }
 
@@ -130,7 +130,7 @@ void CDefaultMap::Update(_float fDeletaTime)
             if (2 < m_iDrawTriCount)
             {
                 auto new_Triangle = NAVI_TRIANGLE(m_CrateTriangle[0], m_CrateTriangle[1], m_CrateTriangle[2]);
-                m_pNavigationCom[iPickMeshIndex]->InsertTriangle(new_Triangle);
+                m_pNavigationCom->InsertTriangle(new_Triangle);
                 ZeroMemory(&m_CrateTriangle, sizeof(_float3) * 3);
                 m_iDrawTriCount = 0;
             }
@@ -149,7 +149,7 @@ void CDefaultMap::Update(_float fDeletaTime)
                 switch (Img_LandScape->GetBurshMode())
                 {
                 case CIMG_LandScape::BRUSH_MODE::EDIT_NAVIMESH:
-                    m_pNavigationCom[iPickMeshIndex]->RemoveCell(XMLoadFloat3(&vOut), Img_LandScape->GetBurshSize());
+                    m_pNavigationCom->RemoveCell(XMLoadFloat3(&vOut), Img_LandScape->GetBurshSize());
                     break;
                 }
             }
@@ -183,7 +183,7 @@ HRESULT CDefaultMap::Render()
     {
         Apply_ConstantShaderResources(i);
         m_pShaderCom->Update_Shader(0);
-        m_pNavigationCom[i]->Render({ 1.f, 0.f,0.f,1.f });
+        m_pNavigationCom->Render({ 1.f, 0.f,0.f,1.f });
     }
         
 #endif // _DEBUG
@@ -238,17 +238,8 @@ HRESULT CDefaultMap::ADD_Components()
         return E_FAIL;
 
     m_iTerrainCnt = m_pVIBufferCom->GetNumMeshes();
-    m_pNavigationCom.reserve(m_iTerrainCnt);
-
-    WCHAR NaviComPath[MAX_PATH] = {};
-    for (_uInt i = 0; i < m_iTerrainCnt; ++i)
-    {
-        wsprintf(NaviComPath, TEXT("NaviMesh%d_Com"), i);
-        m_pNavigationCom.push_back(CNavigation::Create(m_pGraphic_Device, m_pDeviceContext, m_pVIBufferCom, i));
-
-        m_pComponentMap.emplace(NaviComPath, m_pNavigationCom[i]);
-    }
-
+    m_pNavigationCom = CNavigation::Create(m_pGraphic_Device, m_pDeviceContext, m_pVIBufferCom);
+    m_pComponentMap.emplace(TEXT("NaviMesh_Com"), m_pNavigationCom);
     return S_OK;
 }
 
@@ -259,7 +250,7 @@ CNavigation* CDefaultMap::FindOnTerrian(_float3 vPosition)
     for (_uInt i = 0; i < m_iTerrainCnt; ++i)
     {
         _float fLength = {};
-        if (m_pNavigationCom[i]->IsInNaviMesh(vPosition, 50, &fLength))
+        if (m_pNavigationCom->IsInNaviMesh(vPosition, 50, &fLength))
         {
             if (Distance > fLength)
             {
@@ -272,14 +263,14 @@ CNavigation* CDefaultMap::FindOnTerrian(_float3 vPosition)
     if (-1 == OnTerrianIndex)
         return nullptr;
 
-    return m_pNavigationCom[OnTerrianIndex];
+    return m_pNavigationCom;
 }
 
 void CDefaultMap::GetAllNaviMeshTriangle(list<NAVI_TRIANGLE>* pOut)
 {
     for (_uInt i = 0; i < m_iTerrainCnt; ++i)
-        pOut->insert(pOut->end(), m_pNavigationCom[i]->GetNaviMeshTriangleList().begin(),
-                                  m_pNavigationCom[i]->GetNaviMeshTriangleList().end());
+        pOut->insert(pOut->end(), m_pNavigationCom->GetNaviMeshTriangleList().begin(),
+                                  m_pNavigationCom->GetNaviMeshTriangleList().end());
 }
 
 void CDefaultMap::SelectRenderPlane(_uInt i)
@@ -299,7 +290,7 @@ void CDefaultMap::UpdateCullList()
     for (_uInt i = 0; i < m_iTerrainCnt; ++i)
     {
         _float fLength = {};
-        if (m_pNavigationCom[i]->IsInNaviMesh(vPlayerPos, 20.f, &fLength))
+        if (m_pNavigationCom->IsInNaviMesh(vPlayerPos, 20.f, &fLength))
            m_MapRenderIndex.push_back(i);
     }
 }
@@ -329,6 +320,5 @@ CGameObject* CDefaultMap::Clone(void* pArg)
 void CDefaultMap::Free()
 {
     __super::Free();
-    for (auto& iter : m_pNavigationCom)
-        Safe_Release(iter);
+    Safe_Release(m_pNavigationCom);
 }
