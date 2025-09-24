@@ -80,6 +80,7 @@ public :
 	// 0번 가운데 -1 왼쪽 1 오른쪽
 	void					UpdateSelectPellIndex(_uInt vDir);
 	void					GetLeftRightSelectIndex(_Int* pLeftIndex, _Int* pSelectIndex, _Int* pRightIndex);
+	void					SpawnSelectPell();
 
 	_uInt					GetCurrentSelectPellSlotIndex() { return m_iSelectPellIndex; }
 #pragma endregion

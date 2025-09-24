@@ -578,38 +578,11 @@ HRESULT CNavigation::ReadNaviMeshDataFile(const char* szFilePath)
 
 	for (auto& iter : ReadFileData)
 	{
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-		_float3 vPoints[ENUM_CLASS(NAVI_POINT::END)] = { iter.A  , iter.C , iter.B };
-=======
-=======
->>>>>>> parent of 0523970 (Update)
 		_float3 vPoints[ENUM_CLASS(NAVI_POINT::END)] = {};
 		_vector PointA = XMLoadFloat3(&iter.A);
 		_vector PointB = XMLoadFloat3(&iter.B);
 		_vector PointC = XMLoadFloat3(&iter.C);
 		_vector vCross = XMVector3Cross(PointB - PointA, PointC - PointA);
-<<<<<<< HEAD
-=======
-
-		if (XMVector3Equal(PointA, PointB) || XMVector3Equal(PointA, PointC) || XMVector3Equal(PointB, PointC))
-			continue;
-
-		if (0 > XMVectorGetY(vCross))
-		{
-			vPoints[0] = iter.A;
-			vPoints[1] = iter.B;
-			vPoints[2] = iter.C;
-		}
-		else
-		{
-			vPoints[0] = iter.A;
-			vPoints[1] = iter.C;
-			vPoints[2] = iter.B;
-		}
->>>>>>> parent of 0523970 (Update)
 
 		if (XMVector3Equal(PointA, PointB) || XMVector3Equal(PointA, PointC) || XMVector3Equal(PointB, PointC))
 			continue;
@@ -626,14 +599,7 @@ HRESULT CNavigation::ReadNaviMeshDataFile(const char* szFilePath)
 			vPoints[1] = iter.C;
 			vPoints[2] = iter.B;
 		}
->>>>>>> parent of edf5d9f (Update)
 
-=======
-		_float3 vPoints[ENUM_CLASS(NAVI_POINT::END)] = { iter.A , iter.B, iter.C };
->>>>>>> parent of 388837e (update)
-=======
-		_float3 vPoints[ENUM_CLASS(NAVI_POINT::END)] = { iter.A , iter.B, iter.C };
->>>>>>> parent of 388837e (update)
 		CCell* pCell = CCell::Create(m_pDevice, m_pContext, (_uInt)m_Cells.size(), 0, vPoints);
 		if (nullptr == pCell)
 			return E_FAIL;

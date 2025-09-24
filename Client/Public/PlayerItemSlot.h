@@ -34,7 +34,7 @@ public :
 	
 	void									ChangeModelBuffer(CModel* pModel, _bool bIsAnim = false);
 	
-	void									ChangeWeaponState(WEAPON_STATE eWeaponState);
+	void									ChangeWeaponState(WEAPON_STATE eWeaponState, _bool bIsAnimLoop);
 	const WEAPON_STATE&						GetWeaponState() { return m_eState; }
 
 protected :
@@ -43,6 +43,7 @@ protected :
 
 protected :
 	const	CItemBase*						m_CurrentEuipItemInfo = {};
+	_bool									m_bIsAnimFinished = false;
 	_bool									m_bIsAnimWeapon = false;
 
 	CShader*								m_pNoneAimShader = nullptr;

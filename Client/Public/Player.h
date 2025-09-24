@@ -64,6 +64,7 @@ private :
 	_float									m_fMoveSpeed = P_WALK_SPEED;
 
 	// Jump Variable
+	_float									m_fAnimSpeed = 10.f;
 	_float									m_fJumpSpeed = 0.35f;
 	_float									m_fLandingPointY = 0;
 

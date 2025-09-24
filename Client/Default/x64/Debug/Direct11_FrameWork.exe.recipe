@@ -27,12 +27,9 @@
     <ContentFile>
       <FullPath>C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\VTX_NorTex.cso</FullPath>
     </ContentFile>
-<<<<<<< HEAD
     <ContentFile>
       <FullPath>C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\WorldUI.cso</FullPath>
     </ContentFile>
-=======
->>>>>>> parent of 388837e (update)
   </ContentFiles>
   <SatelliteDlls />
   <NonRecipeFileRefs />

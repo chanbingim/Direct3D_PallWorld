@@ -20,6 +20,7 @@
 #pragma endregion
 
 #include "PalSpher.h"
+#include "ProjectileObject.h"
 #include "CombatComponent.h"
 
 CPellBase::CPellBase(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext) :
@@ -119,7 +120,22 @@ void CPellBase::Damage(void* pArg, CActor* pDamagedActor)
     }
     else
     {
+        if (nullptr == pDamagedActor)
+            return;
+
+        _bool bIsAddTarget = false;
         DEFAULT_DAMAGE_DESC* DamageDesc = static_cast<DEFAULT_DAMAGE_DESC*>(pArg);
+
+        auto pProjectileHit = dynamic_cast<CProjectileObject *>(pDamagedActor);
+        if (pProjectileHit)
+        {
+            pDamagedActor = nullptr;
+        }
+        else
+        {
+            bIsAddTarget = true;
+        }
+
         if (DamageDesc)
         {
             m_PellInfo.CurHealth -= DamageDesc->fDmaged;
@@ -132,6 +148,7 @@ void CPellBase::Damage(void* pArg, CActor* pDamagedActor)
             {
                 if (m_pPellBody)
                     m_pPellBody->ResetPellCurrentAnimation();
+
                 if (m_pCombatCom)
                     m_pCombatCom->ADD_TargetObject(pDamagedActor);
 
@@ -164,6 +181,22 @@ void CPellBase::ChangePellTeam(PELL_TEAM eTeam)
 
         break;
     }
+}
+
+void CPellBase::SpawnPellFriendly()
+{
+    if (PELL_STORAGE_STATE::PLAYER_INVEN == m_PellInfo.ePellStorageState)
+    {
+        m_PellInfo.ePellStorageState = PELL_STORAGE_STATE::PARTNER_PELL;
+
+        _float3 vPlayerPos = {};
+        XMStoreFloat3(&vPlayerPos, m_pGameInstance->GetPlayerState(WORLDSTATE::POSITION));
+        m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Idle"));
+        m_pPellFsm->CombatStateReset();
+        m_pTransformCom->SetPosition(vPlayerPos);
+    }
+    else if (PELL_STORAGE_STATE::PARTNER_PELL == m_PellInfo.ePellStorageState)
+        m_PellInfo.ePellStorageState = PELL_STORAGE_STATE::PLAYER_INVEN;
 }
 
 HRESULT CPellBase::SetUpDefaultPellData()
@@ -216,21 +249,24 @@ _bool CPellBase::PellPlayFSM(_float fDeletaTime)
         if (PELL_TEAM::NEUTRAL == m_eTeam)
             ShowPellInfo();
 
-        if(m_bIsAction)
+        if(m_bIsAction || PELL_STORAGE_STATE::PARTNER_PELL == m_PellInfo.ePellStorageState)
             PellTackingAction(fDeletaTime);
 
-        if (State.bIsCombat)
+        if (CPellStateMachine::COMBAT_ACTION::STUN > State.eCombat_State)
         {
-            CGameObject* vTargetObject = m_pCombatCom->GetCurrentTarget();
-            if (nullptr != vTargetObject)
+            if (State.bIsCombat)
             {
-                _float3 vTargetPos = vTargetObject->GetTransform()->GetPosition();
-                m_pTransformCom->LerpTurn(m_pTransformCom->GetUpVector(), XMLoadFloat3(&vTargetPos), XMConvertToRadians(180.f), fDeletaTime);
+                CGameObject* vTargetObject = m_pCombatCom->GetCurrentTarget();
+                if (nullptr != vTargetObject)
+                {
+                    _float3 vTargetPos = vTargetObject->GetTransform()->GetPosition();
+                    m_pTransformCom->LerpTurn(m_pTransformCom->GetUpVector(), XMLoadFloat3(&vTargetPos), XMConvertToRadians(180.f), fDeletaTime);
+                }
             }
         }
     }
 
-    m_pPellFsm->Update(fDeletaTime, m_pFsmArgContainer);
+    m_pPellFsm->Update(fDeletaTime);
     if(CPellStateMachine::COMBAT_ACTION::END == State.eCombat_State)
         m_bIsLoop = m_pPellFsm->GetLayerAnimLoop(TEXT("BodyLayer"));
     else
@@ -258,50 +294,128 @@ void CPellBase::PellChiceAction()
 void CPellBase::PellTackingAction(_float fDeletaTime)
 {
     const CPellStateMachine::PELL_STATE& State = m_pPellFsm->GetState();
-    if (CPellStateMachine::COMBAT_ACTION::HIT >= State.eCombat_State)
+    if (CPellStateMachine::COMBAT_ACTION::DEAD == State.eCombat_State)
     {
-        if (m_pPellFsm->GetLayerLastPhase(TEXT("CombatLayer")) && m_pPellBody->FinishedAnimation())
-        {
-            m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Idle"));
-            m_pPellFsm->CombatStateReset();
-
-            if (State.bIsAttacking)
-            {
-                m_pPellFsm->SetAttack(false);
-                m_pFsmArgContainer = nullptr;
-            }
-
-            m_bIsAction = false;
-        }
+        if (PELL_STORAGE_STATE::PARTNER_PELL > m_PellInfo.ePellStorageState)
+            DeadNeutalPell();
     }
-
-   
-    switch (State.eMove_State)
+    else
     {
-    case CPellStateMachine::MOVE_ACTION::PATROL:
-    {
-        // 이거는 여기에서 목표지점에 가까이가거나하면 모드 전환
-        // 이거도 추적이라는 컴포넌트로 관리할거임
-        _vector vTargetPos = XMLoadFloat3(&m_vTargetPoint);
-        _float3 vCurPos = m_pTransformCom->GetPosition();
-        vCurPos.y = 0;
-        _vector vPos = XMLoadFloat3(&vCurPos);
-        if (1 > XMVectorGetX(XMVector3Length(vTargetPos - vPos)))
+        if (CPellStateMachine::COMBAT_ACTION::STUN >= State.eCombat_State)
         {
-            if (m_PathFinding.empty())
+            if (m_pPellFsm->GetLayerLastPhase(TEXT("CombatLayer")) && m_pPellBody->FinishedAnimation())
             {
                 m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Idle"));
-                if(CPellStateMachine::COMBAT_ACTION::END == State.eCombat_State)
-                    m_bIsAction = false;
-            }
-            else
-            {
-                auto iter = m_PathFinding.begin();
-                m_vTargetPoint = *iter;
-                m_PathFinding.erase(iter);
+                m_pPellFsm->CombatStateReset();
+
+                if (State.bIsAttacking)
+                    m_pPellFsm->SetAttack(false);
+
+                m_bIsAction = false;
             }
         }
-    }
+        else
+        {
+            switch (State.eMove_State)
+            {
+            case CPellStateMachine::MOVE_ACTION::DEFAULT:
+            {
+                if (PELL_STORAGE_STATE::PARTNER_PELL == m_PellInfo.ePellStorageState)
+                {
+                    _float3 vPellPos = m_pTransformCom->GetPosition();
+                    _vector vPlayerPos = m_pGameInstance->GetPlayerState(WORLDSTATE::POSITION);
+                    _vector vCalulationPellPos = XMLoadFloat3(&vPellPos);
+
+                    _float Distance = XMVectorGetX((XMVector3Length(vPlayerPos - vCalulationPellPos)));
+                    if (Distance > 5.f)
+                    {
+                        //플레이어를 따라다니는 파트너 펠은 플레이어의 이동상태와 상태를 공유해야한다.
+                        auto pPlayer = CPlayerManager::GetInstance()->GetCurrentPlayer();
+                        CPlayerStateMachine::PLAYER_STATE PlayerState = {};
+                        pPlayer->GetPlayerState(&PlayerState);
+
+                        CChaseComponent::CHASE_DESC ChaseDesc = {};
+                        ChaseDesc.pTargetTransform = pPlayer->GetTransform();
+                        ChaseDesc.fChaseSpeed = &m_fPellMoveSpeed;
+                        m_pChase->SetChase(ChaseDesc);
+
+                        CPellPatrolState::PELL_PATROL_STATE_DESC PatrolDesc = {};
+                        PatrolDesc.pActPell = this;
+                        PatrolDesc.fPellMoveSpeed = &m_fPellMoveSpeed;
+
+                        m_vTargetPoint = {};
+                        switch (PlayerState.eMove_Child_State)
+                        {
+                        case CPlayerStateMachine::MOVE_CHILD_ACTION::WALK:
+                            PatrolDesc.ePellMoveType = CPellPatrolState::PELL_MOVE_TYPE::WALK;
+                            break;
+                        case CPlayerStateMachine::MOVE_CHILD_ACTION::JOG:
+                            PatrolDesc.ePellMoveType = CPellPatrolState::PELL_MOVE_TYPE::WALK;
+                            break;
+                        case CPlayerStateMachine::MOVE_CHILD_ACTION::SPRINT:
+                            PatrolDesc.ePellMoveType = CPellPatrolState::PELL_MOVE_TYPE::SPRINT;
+                            break;
+                        }
+
+                        m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Patrol"), &PatrolDesc);
+                    }
+                }
+            }
+            break;
+            case CPellStateMachine::MOVE_ACTION::PATROL:
+            {
+                if (PELL_STORAGE_STATE::PARTNER_PELL == m_PellInfo.ePellStorageState)
+                {
+                    _float3 vPellPos = m_pTransformCom->GetPosition();
+                    _vector vPlayerPos = m_pGameInstance->GetPlayerState(WORLDSTATE::POSITION);
+                    _vector vCalulationPellPos = XMLoadFloat3(&vPellPos);
+
+                    vPlayerPos.m128_f32[1] = vCalulationPellPos.m128_f32[1] = 0;
+                    _float Distance = XMVectorGetX((XMVector3Length(vPlayerPos - vCalulationPellPos)));
+                    if (5.f >= Distance)
+                    {
+                        m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Idle"));
+                    }
+                    else
+                    {
+                        _float3 vDir{}, vOutMovePoint{};
+                        m_pChase->ComputeLerpPoint(fDeletaTime, vDir, vOutMovePoint);
+                        _vector vMoveDistance = XMLoadFloat3(&vOutMovePoint);
+
+                        m_pTransformCom->LerpTurn({ 0.f, 1.f, 0.f, 0.f }, vPlayerPos, XMConvertToRadians(180.f), fDeletaTime);
+                        if (m_pNevigation->IsMove(vMoveDistance + vCalulationPellPos))
+                        {
+                            m_pTransformCom->ADD_Position(vMoveDistance);
+                        }
+                    }
+                }
+                else
+                {
+                    // 이거는 여기에서 목표지점에 가까이가거나하면 모드 전환
+                    // 이거도 추적이라는 컴포넌트로 관리할거임
+                    _vector vTargetPos = XMLoadFloat3(&m_vTargetPoint);
+                    _float3 vCurPos = m_pTransformCom->GetPosition();
+                    vCurPos.y = 0;
+                    _vector vPos = XMLoadFloat3(&vCurPos);
+                    if (1 > XMVectorGetX(XMVector3Length(vTargetPos - vPos)))
+                    {
+                        if (m_PathFinding.empty())
+                        {
+                            m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Idle"));
+                            if (CPellStateMachine::COMBAT_ACTION::END == State.eCombat_State)
+                                m_bIsAction = false;
+                        }
+                        else
+                        {
+                            auto iter = m_PathFinding.begin();
+                            m_vTargetPoint = *iter;
+                            m_PathFinding.erase(iter);
+                        }
+                    }
+                }
+            }
+            }
+        }
     }
 }
 
@@ -333,45 +447,7 @@ void CPellBase::ActionFrendly()
         // 플레이어가 걷기 중이라면 펠도 걷는다.
 
          //기본적으로 플레이어를 따라다니게 변경
-        if (PELL_STORAGE_STATE::PARTNER_PELL == m_PellInfo.ePellStorageState)
-        {
-            _float3 vPellPos = m_pTransformCom->GetPosition();
-            _vector vPlayerPos = m_pGameInstance->GetPlayerState(WORLDSTATE::POSITION);
-            _vector vCalulationPellPos = XMLoadFloat3(&vPellPos);
-
-            _float Distance = XMVectorGetX((XMVector3Length(vPlayerPos - vCalulationPellPos)));
-            if (Distance >= 10.f)
-            {
-                //플레이어를 따라다니는 파트너 펠은 플레이어의 이동상태와 상태를 공유해야한다.
-                auto pPlayer = CPlayerManager::GetInstance()->GetCurrentPlayer();
-                CPlayerStateMachine::PLAYER_STATE PlayerState = {};
-                pPlayer->GetPlayerState(&PlayerState);
-
-                CChaseComponent::CHASE_DESC ChaseDesc = {};
-                ChaseDesc.pTargetTransform = pPlayer->GetTransform();
-                ChaseDesc.fChaseSpeed = &m_fPellMoveSpeed;
-                m_pChase->SetChase(ChaseDesc);
-               
-                CPellPatrolState::PELL_PATROL_STATE_DESC PatrolDesc = {};
-                PatrolDesc.pActPell = this;
-                PatrolDesc.fPellMoveSpeed = &m_fPellMoveSpeed;
-
-                switch (PlayerState.eMove_Child_State)
-                {
-                case CPlayerStateMachine::MOVE_CHILD_ACTION::WALK:
-                    PatrolDesc.ePellMoveType = CPellPatrolState::PELL_MOVE_TYPE::WALK;
-                    break;
-                case CPlayerStateMachine::MOVE_CHILD_ACTION::SPRINT:
-                    PatrolDesc.ePellMoveType = CPellPatrolState::PELL_MOVE_TYPE::SPRINT;
-                    break;
-                }
-       
-                m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Patrol"), &PatrolDesc);
-            }
-            else
-                m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Idle"));
-        }
-        else
+        if (PELL_STORAGE_STATE::WORLD == m_PellInfo.ePellStorageState)
         {
             //여기서 작업 및 이동 로직을 구현해야함
             _float3 vEndPoint = m_pTransformCom->GetPosition();
@@ -439,9 +515,7 @@ void CPellBase::ActionNeutral()
     }
     else
     {
-        if (CPellStateMachine::COMBAT_ACTION::DEAD == State.eCombat_State)
-            DeadNeutalPell();
-        else
+        if(CPellStateMachine::COMBAT_ACTION::END == State.eCombat_State)
         {
             if (!State.bIsAttacking)
             {

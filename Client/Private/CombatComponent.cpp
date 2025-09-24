@@ -30,7 +30,10 @@ HRESULT CCombatComponent::Initialize(void* pArg)
 void CCombatComponent::Update()
 {
 	if (nullptr != m_BindCombatFunc)
-		m_BindCombatFunc(m_pTargetObject);
+	{
+		if (m_pTargetObject)
+			m_BindCombatFunc(m_pTargetObject);
+	}
 }
 
 void CCombatComponent::ResetCombatComponent()

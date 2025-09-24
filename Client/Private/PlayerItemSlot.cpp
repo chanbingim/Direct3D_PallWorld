@@ -91,9 +91,10 @@ void CPlayerItemSlot::ChangeModelBuffer(CModel* pModel, _bool bIsAnim)
 	m_pVIBufferCom = pModel;
 }
 
-void CPlayerItemSlot::ChangeWeaponState(WEAPON_STATE eWeaponState)
+void CPlayerItemSlot::ChangeWeaponState(WEAPON_STATE eWeaponState, _bool bIsAnimLoop)
 {
 	m_eState = eWeaponState;
+	m_bIsAnimLoop = bIsAnimLoop;
 }
 
 HRESULT CPlayerItemSlot::Bind_ShaderResources()
@@ -154,9 +155,11 @@ void CPlayerItemSlot::ChangeAnimWaponAnimationIndex()
 	switch (m_eState)
 	{
 	case Client::CPlayerItemSlot::WEAPON_STATE::CHARGE:
+		m_bIsAnimLoop = false;
 		m_iAnimIndex = 1;
 		break;
 	case Client::CPlayerItemSlot::WEAPON_STATE::CHARGE_LOOP:
+		m_bIsAnimLoop = true;
 		m_iAnimIndex = 2;
 		break;
 	case Client::CPlayerItemSlot::WEAPON_STATE::ATTACK:
