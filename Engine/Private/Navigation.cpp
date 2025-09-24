@@ -578,7 +578,28 @@ HRESULT CNavigation::ReadNaviMeshDataFile(const char* szFilePath)
 
 	for (auto& iter : ReadFileData)
 	{
-		_float3 vPoints[ENUM_CLASS(NAVI_POINT::END)] = { iter.A , iter.B, iter.C };
+		_float3 vPoints[ENUM_CLASS(NAVI_POINT::END)] = {};
+		_vector PointA = XMLoadFloat3(&iter.A);
+		_vector PointB = XMLoadFloat3(&iter.B);
+		_vector PointC = XMLoadFloat3(&iter.C);
+		_vector vCross = XMVector3Cross(PointB - PointA, PointC - PointA);
+
+		if (XMVector3Equal(PointA, PointB) || XMVector3Equal(PointA, PointC) || XMVector3Equal(PointB, PointC))
+			continue;
+
+		if (0 < XMVectorGetY(vCross))
+		{
+			vPoints[0] = iter.A;
+			vPoints[1] = iter.B;
+			vPoints[2] = iter.C;
+		}
+		else
+		{
+			vPoints[0] = iter.A;
+			vPoints[1] = iter.C;
+			vPoints[2] = iter.B;
+		}
+
 		CCell* pCell = CCell::Create(m_pDevice, m_pContext, (_uInt)m_Cells.size(), 0, vPoints);
 		if (nullptr == pCell)
 			return E_FAIL;

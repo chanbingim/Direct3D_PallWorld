@@ -3,7 +3,9 @@
 #include "GameInstance.h"
 
 #include "TerrainManager.h"
+
 #include "PellStateMachine.h"
+#include "PellStateStun.h"
 
 #pragma region Client Compoent
 #include "Recovery.h"
@@ -66,21 +68,24 @@ void CDororong::Priority_Update(_float fDeletaTime)
     _vector vPos{}, vDir{}, vMovePoint;
     if (CPellStateMachine::COMBAT_ACTION::END == State.eCombat_State)
     {
-        if (CPellStateMachine::MOVE_ACTION::PATROL == State.eMove_State)
+        if (PELL_STORAGE_STATE::PARTNER_PELL != m_PellInfo.ePellStorageState)
         {
-            _vector vTarget = XMLoadFloat3(&m_vTargetPoint);
-            if (!XMVector3Equal(vTarget, XMVectorZero()))
+            if (CPellStateMachine::MOVE_ACTION::PATROL == State.eMove_State)
             {
-                _float3 vCurPos = m_pTransformCom->GetPosition();
-                vCurPos.y = 0.f;
-                vPos = XMLoadFloat3(&vCurPos);
-                vDir = XMVector3Normalize(vTarget - vPos);
-
-                vMovePoint = vDir * m_fPellMoveSpeed * fDeletaTime;
-                if (m_pNevigation->IsMove(vPos + vMovePoint))
+                _vector vTarget = XMLoadFloat3(&m_vTargetPoint);
+                if (!XMVector3Equal(vTarget, XMVectorZero()))
                 {
-                    m_pTransformCom->LerpTurn(XMVectorSet(0.f, 1.f, 0.f, 0.f), vTarget, XMConvertToRadians(180.f), fDeletaTime);
-                    m_pTransformCom->ADD_Position(vMovePoint);
+                    _float3 vCurPos = m_pTransformCom->GetPosition();
+                    vCurPos.y = 0.f;
+                    vPos = XMLoadFloat3(&vCurPos);
+                    vDir = XMVector3Normalize(vTarget - vPos);
+
+                    vMovePoint = vDir * m_fPellMoveSpeed * fDeletaTime;
+                    if (m_pNevigation->IsMove(vPos + vMovePoint))
+                    {
+                        m_pTransformCom->LerpTurn(XMVectorSet(0.f, 1.f, 0.f, 0.f), vTarget, XMConvertToRadians(180.f), fDeletaTime);
+                        m_pTransformCom->ADD_Position(vMovePoint);
+                    }
                 }
             }
         }
@@ -254,8 +259,51 @@ void CDororong::OverlapEvent(_float3 vDir, CGameObject* pHitObject)
         DamageDesc.fDmaged = (_float)m_PellInfo.DefaultSkill.iSkillDamage;
 
        auto Hit =  static_cast<CActor*>(pHitObject);
-       if(Hit)
+       if (Hit)
+       {
            Hit->Damage(&DamageDesc, this);
+
+           CPellStateStun::PELL_STATE_STUN_STATE StunStateDesc = {};
+           StunStateDesc.StunTime = 0.7f;
+           StunStateDesc.ActionFunction = [&](_float fDeletaTime, _bool bIsEndStun) { StunAction(fDeletaTime, bIsEndStun); };
+           
+           _float3  vPellPosition = m_pTransformCom->GetPosition();
+           _float3  vHitActorPoint = pHitObject->GetTransform()->GetPosition();
+           
+           _vector vCalculationPosition = XMLoadFloat3(&vPellPosition);
+           _vector vCalculationHitActorPosition = XMLoadFloat3(&vHitActorPoint);
+
+           _vector vDir = vCalculationHitActorPosition - vCalculationPosition;
+           vDir.m128_f32[1] = 0;
+           vDir = XMVector3Normalize(vDir);
+
+           _float RandomSeta = m_pGameInstance->Random(-XM_PIDIV4, XM_PIDIV4);
+            vDir.m128_f32[0] *= cos(RandomSeta);
+            vDir.m128_f32[2] *= sin(RandomSeta);
+
+            XMStoreFloat3(&m_HitReflectionDir, vDir);
+           m_pPellFsm->ChangeState(TEXT("CombatLayer"), TEXT("Stun"), &StunStateDesc);
+           m_pPellFsm->SetAttack(false);
+           m_bIsAction = false;
+       }
+    }
+}
+
+void CDororong::StunAction(_float fDeletaTime, _bool bIsStunEnd)
+{
+    if (bIsStunEnd)
+    {
+        m_pPellFsm->CombatStateReset();
+        m_pPellFsm->SetAttack(false);
+      //  m_pTransformCom->SetRotation({ 0.f, 0.f, 0.f });
+        m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Idle"));
+    }
+    else
+    {
+        // 여기서 이제 동글동글 굴러가는 효과를 낼거임
+        // 부딪힌 점으로 부터 
+        m_pTransformCom->ADD_Position(XMLoadFloat3(&m_HitReflectionDir) * fDeletaTime * 3.f);
+       // m_pTransformCom->Turn(m_pTransformCom->GetRightVector(), 3.f, fDeletaTime);
     }
 }
 

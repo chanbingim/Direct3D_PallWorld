@@ -13,6 +13,7 @@ class CProjectileObject : public CPartObject
 public:
 	typedef struct ProjectileDesc : GAMEOBJECT_DESC
 	{
+		CActor*			pAttacker;
 		_float3			vDireaction;
 		_float			vThrowSpeed;
 	}PROJECTILE_DESC;
@@ -36,6 +37,7 @@ public:
 	virtual		HRESULT						Render() override;
 
 protected :
+	CActor*									m_pAttacker = nullptr;
 	CCollision*								m_pCollision = nullptr;
 	_bool									m_bIsPlayAnim = false;
 

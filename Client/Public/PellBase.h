@@ -48,6 +48,10 @@ public:
 	void									ChangePellTeam(PELL_TEAM eTeam);
 	PELL_TEAM								GetPellTeam() { return m_eTeam; }
 
+#pragma region Friendly Team Function
+	void									SpawnPellFriendly();
+#pragma endregion
+
 protected :
 	_uInt									m_PellID;
 	PELL_TEAM								m_eTeam;
@@ -83,7 +87,6 @@ protected :
 	list<_float3>							m_PathFinding;
 
 	_float3									m_vTargetPoint = { -1.f, -1.f, -1.f};
-	void*									m_pFsmArgContainer = nullptr;
 
 protected :
 	HRESULT									SetUpDefaultPellData();

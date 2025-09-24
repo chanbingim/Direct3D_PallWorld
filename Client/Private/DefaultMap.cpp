@@ -66,28 +66,6 @@ HRESULT CDefaultMap::Render()
         m_pShaderCom->Update_Shader(0);
         m_pVIBufferCom->Render(i);
     }
-
-
-#ifdef _DEBUG
-   // m_pNavigationCom->Render({ 1.f, 0.f,0.f,1.f });
-   /* for (auto i : m_MapRenderIndex)
-    {
-        Apply_ConstantShaderResources(i);
-        m_pShaderCom->Update_Shader(0);
-        m_pNavigationCom[i]->Render({ 1.f, 0.f,0.f,1.f });
-    }
-        */
-#endif // _DEBUG
-        
-    /*for (auto i : m_MapRenderIndex)
-    {
-        Apply_ConstantShaderResources(i);
-
-        m_pShaderCom->Update_Shader(0);
-        m_pVIBufferCom->Render(i);
-        m_pNavigationCom[i]->Render({ 1.f, 0.f,0.f,1.f });
-    }*/
-    //m_MapRenderIndex.clear();
     return S_OK;
 }
 

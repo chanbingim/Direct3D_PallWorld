@@ -78,7 +78,7 @@ void CNeturalPellInfo::Late_Update(_float fDeletaTime)
 HRESULT CNeturalPellInfo::Render()
 {
 	Apply_ConstantShaderResources();
-	m_pShaderCom->Update_Shader(1);
+	m_pShaderCom->Update_Shader(3);
 
 	m_pTextureCom->SetTexture(0, 0);
 	m_pVIBufferCom->Render_VIBuffer();
@@ -102,7 +102,7 @@ HRESULT CNeturalPellInfo::ADD_Components()
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Pell_HeatlhBar_Tex"), TEXT("Texture_Com"), (CComponent**)&m_pTextureCom)))
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_PellInfo_BackGround_Tex"), TEXT("Texture_Com"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
@@ -125,7 +125,7 @@ HRESULT CNeturalPellInfo::ADD_Childs()
 
 	//Pell Type
 	Desc.vScale = { 0.5f, 0.5f, 0.f };
-	Desc.vPosition = { -vParentScale.x * 0.5f, vParentScale.y * 0.5f, -0.02f };
+	Desc.vPosition = { -vParentScale.x * 0.3f, vParentScale.y * 0.4f, -0.02f };
 	m_pTypeIcon = static_cast<CNeturalTypeIcon*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Netrual_Pell_Type_UI"), &Desc));
 	ADD_Child(m_pTypeIcon);
 

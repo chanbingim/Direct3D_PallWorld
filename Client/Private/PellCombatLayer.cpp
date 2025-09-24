@@ -3,6 +3,7 @@
 #pragma region State
 #include "PellAttackState.h"
 #include "PellHitState.h"
+#include "PellStateStun.h"
 #include "PellDeadState.h"
 #pragma endregion
 
@@ -35,6 +36,9 @@ HRESULT CPellCombatLayer::ADD_CombatState()
         return E_FAIL;
 
     if (FAILED(AddState(TEXT("Hit"), CPellHitState::Create("Damage"))))
+        return E_FAIL;
+
+    if (FAILED(AddState(TEXT("Stun"), CPellStateStun::Create("Stun"))))
         return E_FAIL;
 
     if (FAILED(AddState(TEXT("Dead"), CPellDeadState::Create("Dead"))))

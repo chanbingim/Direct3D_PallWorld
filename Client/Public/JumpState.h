@@ -7,6 +7,12 @@ class CPlayer;
 
 class CJumpState : public CState
 {
+public :
+	typedef struct JumStateDesc
+	{
+		_float*		fAnimSpeed;
+	}JUMPSTATE_DESC;
+
 private :
 	CJumpState(const char* szStateName);
 	virtual ~CJumpState() = default;
@@ -18,6 +24,7 @@ public:
 
 private :
 	_uInt						m_iJumpIndex = 0;
+	_float*						m_fJumpSpeed = nullptr;
 
 private :
 	void						ChangeStateName();

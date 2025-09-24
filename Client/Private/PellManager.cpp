@@ -37,8 +37,8 @@ void CPellManager::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pConte
         PellDesc.fPellAttackRange = 100.f;
         PellDesc.fPellActTime = 5.f;
         PellDesc.DefaultSkill = *CPellSkillManager::GetInstance()->FindPellData(0);
-        PellDesc.fPellWalkSpeed = 2.5f;
-        PellDesc.fPellRunSpeed = 10.f;
+        PellDesc.fPellWalkSpeed = 1.5f;
+        PellDesc.fPellRunSpeed = 5.f;
 
         PellDesc.MaxStemina = 100.f;
         PellDesc.ShieldPoint = 100;
@@ -54,14 +54,31 @@ void CPellManager::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pConte
         PellDesc.fPellAttackRange = 50.f;
         PellDesc.fPellActTime = 6.f;
         PellDesc.DefaultSkill = *CPellSkillManager::GetInstance()->FindPellData(1);
-        PellDesc.fPellWalkSpeed = 2.5f;
-        PellDesc.fPellRunSpeed = 10.f;
+        PellDesc.fPellWalkSpeed = 1.5f;
+        PellDesc.fPellRunSpeed = 5.f;
 
         PellDesc.MaxStemina = 100.f;
         PellDesc.ShieldPoint = 100;
         PellDesc.eWorkType = PELL_WORK_TYPE::MINING;
         PellDesc.ePellType = PELL_TYPE::NORMAL;
         m_PellDatas.emplace(1, PellDesc);
+
+        /* ElecPanda Infomation */
+        PellDesc.szPellName = "ElecPanda";
+        PellDesc.pPellIconTexture = CreateTexture(1, TEXT("../Bin/Resources/Textures/UI/InGameUI/PellCharacter/T_ElecPanda_icon_normal.png"));
+        PellDesc.MaxHealth = 200.f;
+        PellDesc.MaxHunger = 70.f;
+        PellDesc.fPellAttackRange = 50.f;
+        PellDesc.fPellActTime = 6.f;
+        PellDesc.DefaultSkill = *CPellSkillManager::GetInstance()->FindPellData(2);
+        PellDesc.fPellWalkSpeed = 1.5f;
+        PellDesc.fPellRunSpeed = 5.f;
+
+        PellDesc.MaxStemina = 100.f;
+        PellDesc.ShieldPoint = 100;
+        PellDesc.eWorkType = PELL_WORK_TYPE::TREE_GATHER;
+        PellDesc.ePellType = PELL_TYPE::ELETRIC;
+        m_PellDatas.emplace(2, PellDesc);
     }
 }
 

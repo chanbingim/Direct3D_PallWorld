@@ -130,6 +130,7 @@ _string CPellStateMachine::GetAnimationName()
 void CPellStateMachine::CombatStateReset()
 {
     m_StateData.eCombat_State = COMBAT_ACTION::END;
+    m_StateData.bIsCombat = false;
     ResetLayer(TEXT("CombatLayer"));
 }
 

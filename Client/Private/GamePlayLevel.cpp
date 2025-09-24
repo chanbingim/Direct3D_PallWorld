@@ -156,21 +156,22 @@ HRESULT CGamePlayLevel::ADD_PellLayer(const _wstring& LayerName)
 	for (_uInt i = 0; i < 10; ++i)
 	{
 		wsprintf(Desc.ObjectTag, TEXT("Drorong"));
-		Desc.vScale = { 1.f, 1.f, 1.f };
 		Desc.vPosition = { m_pGameInstance->Random(100, 200.f), 1.f, m_pGameInstance->Random(100, 200.f) };
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Drorong"),
 			ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
 			return E_FAIL;
 	}
 	
-
-	/*wsprintf(Desc.ObjectTag, TEXT("ElectricPanda"));
-	Desc.vScale = { 0.05f, 0.05f, 0.05f };
-	Desc.vPosition = { 20.f, 1.f, 20.f };
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ElectricPanda"),
-		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
-		return E_FAIL;
-
+	for (_uInt i = 0; i < 10; ++i)
+	{
+		wsprintf(Desc.ObjectTag, TEXT("ElectricPanda"));
+		Desc.vPosition = { m_pGameInstance->Random(100, 200.f), 1.f, m_pGameInstance->Random(100, 200.f) };
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ElectricPanda"),
+			ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
+			return E_FAIL;
+	}
+	
+	/*
 	wsprintf(Desc.ObjectTag, TEXT("Herorong"));
 	Desc.vScale = { 0.05f, 0.05f, 0.05f };
 	Desc.vPosition = { 30.f, 1.f, 30.f };

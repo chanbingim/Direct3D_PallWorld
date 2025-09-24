@@ -10,6 +10,7 @@
 #include "ProjectileObject.h"
 #include "ProjectileSlot.h"
 
+#include "PellBase.h"
 #include "Player.h"
 
 CPlayerWeaponSlot::CPlayerWeaponSlot(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
@@ -67,12 +68,15 @@ void CPlayerWeaponSlot::Update(_float fDeletaTime)
 		{
 			if (ITEM_TYPE::EQUIPMENT == ItemData.ItemType)
 			{
+				if (WEAPON_STATE::CHARGE == m_eState && m_bIsAnimFinished)
+					m_eState = WEAPON_STATE::CHARGE_LOOP;
+
 				if (ItemData.TypeDesc.EuqipDesc.bIsChargeAble)
 					ChangeAnimWaponAnimationIndex();
 			}
 
 			if (ItemData.IsPlayAnimation)
-				m_pVIBufferCom->PlayAnimation(0, m_iAnimIndex, fDeletaTime);
+				m_bIsAnimFinished = m_pVIBufferCom->PlayAnimation(0, m_iAnimIndex, fDeletaTime, 10.f , m_bIsAnimLoop);
 			else
 				m_pVIBufferCom->PlayAnimation(0, 0, 0);
 		}
@@ -144,6 +148,7 @@ HRESULT CPlayerWeaponSlot::ShootProjecttileObject()
 	//이함수를 통해서 프로젝타일 위치에 생성해서 날린다.
 	ProjectileDesc.vPosition = *reinterpret_cast<_float3*>(m_CombinedWorldMatrix.m[3]);
 	ProjectileDesc.vScale = { 1.f, 1.f, 1.f };
+	ProjectileDesc.pAttacker = CurrentPlayer;
 
 	if (playerState.bIsAiming)
 	{
@@ -215,8 +220,30 @@ HRESULT CPlayerWeaponSlot::ADD_Components()
 
 void CPlayerWeaponSlot::HitBegin(_float3 vDir, CGameObject* pHitActor)
 {
+	_bool bIsDamage = false;
 	auto HitObejct = dynamic_cast<CContainerObject*>(pHitActor);
 	if (HitObejct)
+	{
+		auto pPellBase = dynamic_cast<CPellBase*>(pHitActor);
+		if(pPellBase)
+		{
+			switch (pPellBase->GetPellTeam())
+			{
+			case CPellBase::PELL_TEAM::NEUTRAL:
+			case CPellBase::PELL_TEAM::ENEMY :
+				bIsDamage = true;
+				break;
+			case CPellBase::PELL_TEAM::FRENDLY:
+				return;
+			}
+		}
+		else
+		{
+			bIsDamage = true;
+		}
+	}
+
+	if (bIsDamage)
 	{
 		DEFAULT_DAMAGE_DESC DamageDes = {};
 		DamageDes.fDmaged = 10.f;

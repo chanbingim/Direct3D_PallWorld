@@ -27,6 +27,9 @@
     <ContentFile>
       <FullPath>C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_NorTex.cso</FullPath>
     </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\WorldUI.cso</FullPath>
+    </ContentFile>
   </ContentFiles>
   <SatelliteDlls />
   <NonRecipeFileRefs />
