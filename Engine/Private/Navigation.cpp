@@ -329,7 +329,7 @@ HRESULT CNavigation::InsertTriangle(NAVI_TRIANGLE& TriAngleDesc)
 	if (XMVector3Equal(PointA, PointB) || XMVector3Equal(PointA, PointC) || XMVector3Equal(PointB, PointC))
 		return E_FAIL;
 
-	if (0 < XMVectorGetY(vCross))
+	if (0  > XMVectorGetY(vCross))
 	{
 		vPoints[0] = TriAngleDesc.A;
 		vPoints[1] = TriAngleDesc.B;
