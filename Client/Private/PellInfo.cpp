@@ -131,4 +131,6 @@ CGameObject* CPellInfo::Clone(void* pArg)
 void CPellInfo::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_pTypeIcon);
 }

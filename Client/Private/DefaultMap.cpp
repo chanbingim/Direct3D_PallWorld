@@ -66,6 +66,8 @@ HRESULT CDefaultMap::Render()
         m_pShaderCom->Update_Shader(0);
         m_pVIBufferCom->Render(i);
     }
+
+    m_pNavigationCom->Render({ 1.f, 0.f, 0.f, 1.f });
     return S_OK;
 }
 
