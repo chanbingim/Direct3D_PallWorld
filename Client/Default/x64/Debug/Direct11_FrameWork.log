@@ -176,4 +176,4 @@ C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\priva
   PellHealthBar.cpp
   Direct11_FrameWork.cpp
   코드를 생성하고 있습니다...
-  Direct11_FrameWork.vcxproj -> C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe
+C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\PellHealthBar.cpp : fatal  error C1090: PDB API를 호출하지 못했습니다. 오류 코드 '3': C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\vc143.pdb

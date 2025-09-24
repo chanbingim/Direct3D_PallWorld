@@ -319,29 +319,21 @@ _float3 CNavigation::DrawTriangle(_vector vPos, _float Radius)
 
 HRESULT CNavigation::InsertTriangle(NAVI_TRIANGLE& TriAngleDesc)
 {
-	_float3 vPoints[ENUM_CLASS(NAVI_POINT::END)] = {};
+	
 
 	_vector PointA = XMLoadFloat3(&TriAngleDesc.A);
 	_vector PointB = XMLoadFloat3(&TriAngleDesc.B);
 	_vector PointC = XMLoadFloat3(&TriAngleDesc.C);
 	_vector vCross = XMVector3Cross(PointB - PointA, PointC - PointA);
 
-	if (XMVector3Equal(PointA, PointB) || XMVector3Equal(PointA, PointC) || XMVector3Equal(PointB, PointC))
-		return E_FAIL;
+	if (0 > XMVectorGetY(vCross))
+	{
+		_float3 temp = TriAngleDesc.B;
+		TriAngleDesc.B = TriAngleDesc.C;
+		TriAngleDesc.C = temp;
+	}
 
-	if (0  > XMVectorGetY(vCross))
-	{
-		vPoints[0] = TriAngleDesc.A;
-		vPoints[1] = TriAngleDesc.B;
-		vPoints[2] = TriAngleDesc.C;
-	}
-	else
-	{
-		vPoints[0] = TriAngleDesc.A;
-		vPoints[1] = TriAngleDesc.C;
-		vPoints[2] = TriAngleDesc.B;
-	}
-	
+	_float3 vPoints[ENUM_CLASS(NAVI_POINT::END)] = { TriAngleDesc.A , TriAngleDesc.B, TriAngleDesc.C };
 	CCell* pCell = CCell::Create(m_pDevice, m_pContext, (_uInt)m_Cells.size(), 0, vPoints);
 	if (nullptr == pCell)
 		return E_FAIL;
