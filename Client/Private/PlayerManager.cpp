@@ -247,13 +247,6 @@ void CPlayerManager::GetLeftRightSelectIndex(_Int* pLeftIndex, _Int* pSelectInde
 	else
 		*pRightIndex = m_iSelectPellIndex + 1;
 }
-
-void CPlayerManager::SpawnSelectPell()
-{
-	CPellBase* pSelectPell = m_pOwnerPells[m_iSelectPellIndex];
-	if(pSelectPell)
-		pSelectPell->SpawnPellFriendly();
-}
 #pragma endregion
 
 void CPlayerManager::Free()

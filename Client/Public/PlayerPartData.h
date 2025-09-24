@@ -31,7 +31,7 @@ public:
 	void									SetUppderAnimation(_uInt iIndex, _bool bIsSplite);
 	void									ChangeSocketFlag(_char bitFlag);
 
-	void									ChangeWeaponState(_uInt iWeaponState, _bool bIsAnimLoop = true);
+	void									ChangeWeaponState(_uInt iWeaponState);
 	void									NearAttackOnCollision();
 	void									RoatationPitchSpine(_float fPitchAngle);
 

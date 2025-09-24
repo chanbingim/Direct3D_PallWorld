@@ -22,9 +22,6 @@ HRESULT CProjectileObject::Initialize(void* pArg)
 		return E_FAIL;
 
 	PROJECTILE_DESC* pProjectileDesc = static_cast<PROJECTILE_DESC*>(pArg);
-	if (pProjectileDesc->pAttacker)
-		m_pAttacker = pProjectileDesc->pAttacker;
-
 	m_fThorwDireaction = pProjectileDesc->vDireaction;
 	m_fThorowSpeed = pProjectileDesc->vThrowSpeed;
 

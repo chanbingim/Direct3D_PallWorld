@@ -38,12 +38,12 @@ void CElectricPandaBody::Priority_Update(_float fDeletaTime)
 
 void CElectricPandaBody::Update(_float fDeletaTime)
 {
-    m_bIsAnimFinished = m_pVIBufferCom->PlayAnimation(0, m_iAnimIndex, fDeletaTime, 10.f, m_bIsAnimLoop);
+    m_pVIBufferCom->PlayAnimation(0, m_iAnimIndex, fDeletaTime);
 }
 
 void CElectricPandaBody::Late_Update(_float fDeletaTime)
 {
-    UpdateCombinedMatrix();
+    __super::Late_Update(fDeletaTime);
     m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
 }
 

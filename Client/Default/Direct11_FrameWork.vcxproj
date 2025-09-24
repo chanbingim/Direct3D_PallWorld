@@ -193,7 +193,6 @@
     <ClInclude Include="..\Public\PellSkillManager.h" />
     <ClInclude Include="..\Public\PellSkillStruct.h" />
     <ClInclude Include="..\public\PellStateMachine.h" />
-    <ClInclude Include="..\public\PellStateStun.h" />
     <ClInclude Include="..\Public\PellStructData.h" />
     <ClInclude Include="..\public\PellWorkState.h" />
     <ClInclude Include="..\public\PalSpherUI.h" />
@@ -355,7 +354,6 @@
     <ClCompile Include="..\private\PellResetState.cpp" />
     <ClCompile Include="..\Private\PellSkillManager.cpp" />
     <ClCompile Include="..\private\PellStateMachine.cpp" />
-    <ClCompile Include="..\private\PellStateStun.cpp" />
     <ClCompile Include="..\private\PellWorkState.cpp" />
     <ClCompile Include="..\private\PalSpherUI.cpp" />
     <ClCompile Include="..\private\PlayerCombatLayer.cpp" />
@@ -495,7 +493,6 @@
     <FxCompile Include="..\Bin\ShaderFiles\VTX_AnimMesh.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\VTX_Mesh.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\VTX_NorTex.hlsl" />
-    <FxCompile Include="..\Bin\ShaderFiles\WorldUI.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

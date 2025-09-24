@@ -51,11 +51,15 @@ void CNeturalTypeIcon::Late_Update(_float fDeletaTime)
 HRESULT CNeturalTypeIcon::Render()
 {
     Apply_ConstantShaderResources();
-    m_pShaderCom->Update_Shader(3);
+    m_pShaderCom->Update_Shader(1);
 
     //이거 내가 보니까 무조건 먼저 그려지는 녀석이 확정되는거같음 여기서 설정해서 보여줘야할듯
     m_pTextureCom->SetTexture(0, m_iTypeID);
     m_pVIBufferCom->Render_VIBuffer();
+
+    m_pBackGroundTex->SetTexture(0, 0);
+    m_pVIBufferCom->Render_VIBuffer();
+
   
     return S_OK;
 }

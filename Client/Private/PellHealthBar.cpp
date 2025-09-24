@@ -34,7 +34,6 @@ HRESULT CPellHealthBar::Initialize(void* pArg)
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
-	m_vColor = {1.f, 0.f, 0.f, 1.f};
 	m_eType = OBJECT_TYPE::STATIC;
 
 	return S_OK;
@@ -63,8 +62,12 @@ void CPellHealthBar::Late_Update(_float fDeletaTime)
 HRESULT CPellHealthBar::Render()
 {
 	Apply_ConstantShaderResources();
+	m_pShaderCom->Update_Shader(0);
 
-	m_pShaderCom->Update_Shader(2);
+	m_pShaderCom->Update_Shader(1);
+	m_pTextureCom->SetTexture(0, 1);
+	m_pVIBufferCom->Render_VIBuffer();
+
 	m_pTextureCom->SetTexture(0, 0);
 	m_pVIBufferCom->Render_VIBuffer();
 

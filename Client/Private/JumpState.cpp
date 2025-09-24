@@ -7,18 +7,6 @@ CJumpState::CJumpState(const char* szStateName) :
 
 void CJumpState::OnStateEnter(void* pArg)
 {
-	if (nullptr == pArg)
-	{
-
-	}
-	else
-	{
-		JUMPSTATE_DESC* pDesc = static_cast<JUMPSTATE_DESC*>(pArg);
-		m_fJumpSpeed = pDesc->fAnimSpeed;
-
-		*m_fJumpSpeed = 17.f;
-	}
-
 	m_szStateName = "JumpStart";
 	m_iPhaseIndex = 0;
 }
@@ -32,8 +20,7 @@ void CJumpState::OnStateExcution(_float fDeletaTime, void* pArg)
 
 void CJumpState::OnStateExit(void* pArg)
 {
-	*m_fJumpSpeed = 10.f;
-	m_fJumpSpeed = nullptr;
+
 }
 
 void CJumpState::ChangeStateName()
@@ -59,5 +46,4 @@ CJumpState* CJumpState::Create(const char* szStateName)
 
 void CJumpState::Free()
 {
-
 }

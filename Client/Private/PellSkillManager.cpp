@@ -37,16 +37,6 @@ void CPellSkillManager::Initialize(const char* szFilePath)
         PellSkillDesc.eSkillType = PELL_SKILL_TYPE::NORAML;
 
         m_PellSkillDatas.emplace(1, PellSkillDesc);
-
-        PellSkillDesc.SkillName = "Electric_Shot";
-        PellSkillDesc.fAfterStateDelay = 0.5f;
-        PellSkillDesc.iSkillDamage = 20.f;
-        PellSkillDesc.fSkillMoveSpeed = 0.f;
-        PellSkillDesc.fStartDurationTime = 0.f;
-        PellSkillDesc.fSkillDurationTime = 3.f;
-        PellSkillDesc.eSkillType = PELL_SKILL_TYPE::NORAML;
-
-        m_PellSkillDatas.emplace(2, PellSkillDesc);
     }
 }
 

@@ -1,5 +1,8 @@
 #pragma once
+
 #include "PellBase.h"
+
+
 
 NS_BEGIN(Client)
 class CDororong : public CPellBase
@@ -28,17 +31,13 @@ protected:
 	// 전투를 위한 전투 기능
 	virtual		void						CombatAction(CGameObject* pTarget);
 
-private :
-	_float3									m_HitReflectionDir = {};
-
-
 private:
 	HRESULT									ADD_Components();
 	HRESULT									ADD_PartObjects();
 	HRESULT									Setup_PellFsm();
 
 	void									OverlapEvent(_float3 vDir, CGameObject* pHitObject);
-	void									StunAction(_float fDeletaTime, _bool bIsStunEnd);
+
 
 public:
 	static			CDororong*				Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);

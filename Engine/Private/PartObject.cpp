@@ -60,13 +60,12 @@ HRESULT CPartObject::Render()
 	return S_OK;
 }
 
-void CPartObject::SetAnimIndex(_uInt iIndex, _float fAnimSpeed, _bool bIsLoop)
+void CPartObject::SetAnimIndex(_uInt iIndex, _bool bIsLoop)
 {
 	if (-1 == iIndex)
 		return;
 
 	m_iAnimIndex = iIndex;
-	m_fAnimSpeed = fAnimSpeed;
 	m_bIsAnimLoop = bIsLoop;
 }
 

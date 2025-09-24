@@ -23,7 +23,6 @@ void CPellAttackState::OnStateEnter(void* pArg)
 
     m_bStateAnimLoop = false;
     m_iPhaseIndex = 0;
-    m_fAccTime = 0.f;
 }
 
 void CPellAttackState::OnStateExcution(_float fDeletaTime, void* pArg)
@@ -79,6 +78,7 @@ void CPellAttackState::OnStateExit(void* pArg)
 
 void CPellAttackState::SkillMotionChange(_float fTimeDeleta)
 {
+    
     if (false == m_bStateAnimLoop && m_pActPell->GetFinisehdAnimation())
     {
         if (PELL_SKILL_TYPE::SPECIAL == m_AttackData.eSkillType)

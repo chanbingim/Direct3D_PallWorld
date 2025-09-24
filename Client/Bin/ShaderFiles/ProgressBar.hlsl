@@ -51,6 +51,8 @@ VS_OUT VS_MAIN1(VS_IN In)
     VS_OUT Out;
     
     matrix matWV, matWVP;
+    In.vPosition.x = clamp((In.vPosition.x + 0.5f) * g_Percent, 0.f, 1.f) - 0.5f;
+    
     matWV = mul(g_WorldMatrix, g_ViewMatrix);
     matWVP = mul(matWV, g_ProjMatrix);
     
@@ -92,9 +94,6 @@ PS_OUT PS_MAIN1(PS_IN In)
 {
     PS_OUT Out;
     vector vNewBackColor = g_Texture.Sample(sampler0, In.vTexcoord);
-    
-    if(In.vTexcoord.x > g_Percent)
-        discard;
     
     Out.vColor = vNewBackColor * g_Color;
     return Out;
@@ -152,7 +151,6 @@ technique11 Tech
         SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_MAIN();
-        GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_MAIN();
     }
 
@@ -163,18 +161,6 @@ technique11 Tech
         SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_MAIN1();
-        GeometryShader = NULL;
-        PixelShader = compile ps_5_0 PS_MAIN1();
-    }
-
-    pass Percent_World
-    {
-        SetRasterizerState(RS_Default);
-        SetDepthStencilState(DSS_Default, 0);
-        SetBlendState(BS_None, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
-
-        VertexShader = compile vs_5_0 VS_MAIN1();
-        GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_MAIN1();
     }
 
@@ -182,21 +168,9 @@ technique11 Tech
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_None, 0);
-        SetBlendState(BS_None, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_Circle_Pass_MAIN();
-        GeometryShader = NULL;
-        PixelShader = compile ps_5_0 PS_Circle_Pass_MAIN();
-    }
-
-    pass CircleBar_World
-    {
-        SetRasterizerState(RS_Default);
-        SetDepthStencilState(DSS_Default, 0);
-        SetBlendState(BS_None, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
-
-        VertexShader = compile vs_5_0 VS_Circle_Pass_MAIN();
-        GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_Circle_Pass_MAIN();
     }
 }

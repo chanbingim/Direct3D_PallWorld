@@ -11,7 +11,6 @@
 #include "PlayerCamera.h"
 
 #include "PlayerManager.h"
-#include "JumpState.h"
 #include "ItemBase.h"
 
 CPlayer::CPlayer(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext) :
@@ -81,11 +80,11 @@ void CPlayer::Update(_float fDeletaTime)
 {
     m_pPlayerFSM->Update(fDeletaTime);
     CPlayerStateMachine::PLAYER_STATE State = m_pPlayerFSM->GetState();
+    m_pAnimator->SetAnimIndex(m_pAnimator->GetAnimIndex(m_pPlayerFSM->GetStateFullName().c_str()), m_bIsAnimLoop);
     
-    m_pAnimator->SetAnimIndex(m_pAnimator->GetAnimIndex(m_pPlayerFSM->GetStateFullName().c_str()), m_fAnimSpeed, m_bIsAnimLoop);
     if (CPlayerStateMachine::MOVE_CHILD_ACTION::IDLE != State.eMove_Child_State)
     {
-        if (State.bIsAiming || State.bIsAttacking)
+        if (State.bIsAiming)
             m_pAnimator->SetUppderAnimation(m_pAnimator->GetAnimIndex(m_pPlayerFSM->GetLayerAimStateName().c_str()), true);
         else 
             m_pAnimator->SetUppderAnimation(-1, false);
@@ -117,42 +116,48 @@ void CPlayer::Key_Input(_float fDeletaTime)
 {
     CPlayerStateMachine::PLAYER_STATE State = m_pPlayerFSM->GetState();
 
-    if (XMVector3Equal(XMLoadFloat3(&m_PreMovePos), XMVectorZero()))
+    if (CPlayerStateMachine::COMBAT_ACTION::END == State.eCombat_State)
     {
-        m_pPlayerFSM->ChangeState(TEXT("LowerLayer"), TEXT("Idle"));
-    }
-    if (!XMVector3Equal(XMLoadFloat3(&m_PreMovePos), XMVectorZero()))
-    {
-        if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_LSHIFT))
+        if (XMVector3Equal(XMLoadFloat3(&m_PreMovePos), XMVectorZero()))
         {
-            if (!State.bIsAiming)
-            {
-                if (m_pPlayerFSM->ChangeState(TEXT("LowerLayer"), TEXT("Sprint")))
-                    m_fMoveSpeed = P_RUN_SPEED;
-            }
-        }
-        else if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_LCONTROL))
-        {
-            if (!State.bIsAiming)
-            {
-                if (m_pPlayerFSM->ChangeState(TEXT("LowerLayer"), TEXT("Walk")))
-                    m_fMoveSpeed = P_WALK_SPEED;
-            }
+            m_pPlayerFSM->ChangeState(TEXT("LowerLayer"), TEXT("Idle"));
         }
         else
         {
-            if (CPlayerStateMachine::MOVE_ACTION::CROUCH == State.eMove_State)
+            if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_LSHIFT))
             {
-                if (m_pPlayerFSM->ChangeState(TEXT("LowerLayer"), TEXT("Walk")))
-                    m_fMoveSpeed = P_WALK_SPEED;
+                if (!State.bIsAiming)
+                {
+                    if (m_pPlayerFSM->ChangeState(TEXT("LowerLayer"), TEXT("Sprint")))
+                        m_fMoveSpeed = P_RUN_SPEED;
+                }
+            }
+            else if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_LCONTROL))
+            {
+                if (!State.bIsAiming)
+                {
+                    if (m_pPlayerFSM->ChangeState(TEXT("LowerLayer"), TEXT("Walk")))
+                        m_fMoveSpeed = P_WALK_SPEED;
+                }
             }
             else
             {
-                if (m_pPlayerFSM->ChangeState(TEXT("LowerLayer"), TEXT("Jog")))
-                    m_fMoveSpeed = P_JOG_SPEED;
+                if (CPlayerStateMachine::MOVE_ACTION::CROUCH == State.eMove_State)
+                {
+                    if (m_pPlayerFSM->ChangeState(TEXT("LowerLayer"), TEXT("Walk")))
+                        m_fMoveSpeed = P_WALK_SPEED;
+                }
+                else
+                {
+                    if (m_pPlayerFSM->ChangeState(TEXT("LowerLayer"), TEXT("Jog")))
+                        m_fMoveSpeed = P_JOG_SPEED;
+                }
             }
         }
+
+   
     }
+
     if (!GetWeaponAttackType() && State.bIsAttacking)
         m_pAnimator->NearAttackOnCollision();
 
@@ -259,7 +264,6 @@ void CPlayer::MoveAction(_float fDeletaTime)
 
         if (State.bIsAttacking && !State.bIsAiming)
         {
-            m_pPlayerFSM->ResetLayer(TEXT("CombatLayer"));
             m_pPlayerFSM->SetAttack(false);
             m_bIsAnimLoop = true;
         }
@@ -323,10 +327,7 @@ void CPlayer::ChangeAction(_float fDeltaTime)
             {
                 if (CPlayerStateMachine::MOVE_ACTION::DEFAULT == State.eMove_State)
                 {
-                    CJumpState::JUMPSTATE_DESC JumpStateDesc = {};
-                    JumpStateDesc.fAnimSpeed = &m_fAnimSpeed;
-
-                    m_pPlayerFSM->ChangeState(TEXT("UpperLayer"), TEXT("Jump"), &JumpStateDesc);
+                    m_pPlayerFSM->ChangeState(TEXT("UpperLayer"), TEXT("Jump"));
                     auto vPos = m_pTransformCom->GetPosition();
                     m_fLandingPointY = vPos.y;
                     m_fAccTime = 0.f;
@@ -363,16 +364,16 @@ void CPlayer::ChangeAction(_float fDeltaTime)
         {
             if (State.bIsAttacking)
             {
-                m_bIsAnimLoop = true;
+                m_pAnimator->ChangeWeaponState(ENUM_CLASS(CPlayerWeaponSlot::WEAPON_STATE::IDLE));
                 m_pPlayerFSM->SetAttack(false);
-                m_pAnimator->ChangeWeaponState(ENUM_CLASS(CPlayerWeaponSlot::WEAPON_STATE::IDLE), m_bIsAnimLoop);
+                m_bIsAnimLoop = true;
             }
             else
             {
                 if (m_pGameInstance->KeyPressed(KEY_INPUT::MOUSE, 0) && !m_bIsAnimLoop)
                 {
-                    m_bIsAnimLoop = true;
                     m_pPlayerFSM->NextStatePhase(TEXT("CombatLayer"));
+                    m_bIsAnimLoop = true;
                 }
             }
         }
@@ -383,9 +384,9 @@ void CPlayer::ChangeAction(_float fDeltaTime)
             {
                 if (!State.bIsAttacking)
                 {
-                    m_bIsAnimLoop = false;
                     m_pPlayerFSM->ChangeState(TEXT("CombatLayer"), TEXT("Attack"));
-                    m_pAnimator->ChangeWeaponState(ENUM_CLASS(CPlayerWeaponSlot::WEAPON_STATE::CHARGE), m_bIsAnimLoop);
+                    m_pAnimator->ChangeWeaponState(ENUM_CLASS(CPlayerWeaponSlot::WEAPON_STATE::CHARGE));
+                    m_bIsAnimLoop = false;
                 }
             }
             else if(m_pGameInstance->KeyUp(KEY_INPUT::MOUSE, 0))
@@ -412,24 +413,11 @@ void CPlayer::ChangeAction(_float fDeltaTime)
             m_bIsAnimLoop = false;
         }
 #pragma endregion
-
-#pragma region PELL CREATE
-        if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_F))
-        {
-            CPlayerManager::GetInstance()->SpawnSelectPell();
-        }
-
-#pragma endregion
-
     }
 }
 
 void CPlayer::ChangeWeapon()
 {
-    CPlayerStateMachine::PLAYER_STATE State = m_pPlayerFSM->GetState();
-    if (State.bIsAttacking)
-        return;
-
     _bool ItemSelect = false;
     if (0 < m_pGameInstance->GetMouseAxis(2))
     {
@@ -545,7 +533,7 @@ HRESULT CPlayer::ADD_Components()
     {
         CNavigation::NAVIGATION_DESC Desc = {};
         _float3 vPos = m_pTransformCom->GetPosition();
-        Desc.iCurrentCellIndex = 5000;
+        Desc.iCurrentCellIndex = 3042;
 
         m_pTransformCom->SetPosition(FindNaviMesh->CellCenterPos(Desc.iCurrentCellIndex));
         m_pNevigation = static_cast<CNavigation*>(FindNaviMesh->Clone(&Desc));

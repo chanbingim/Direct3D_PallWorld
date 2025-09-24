@@ -47,7 +47,6 @@ void CArrowProjectile::Update(_float fDeletaTime)
 
 void CArrowProjectile::Late_Update(_float fDeletaTime)
 {
-    m_pGameInstance->ADD_CollisionList(m_pCollision);
     m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
 }
 
@@ -82,6 +81,8 @@ HRESULT CArrowProjectile::ADD_Components()
         return E_FAIL;
 
     m_pCollision->BindBeginOverlapEvent([this](_float3 vDir, CGameObject* pTarget) { BeginOverlapEvent(vDir, pTarget); });
+    m_pCollision->ADD_OnlyHitObject(typeid(CActor).hash_code());
+
     return S_OK;
 }
 
@@ -93,7 +94,7 @@ void CArrowProjectile::BeginOverlapEvent(_float3 vDir, CGameObject* pTarget)
         DEFAULT_DAMAGE_DESC DamageDesc = {};
         DamageDesc.fDmaged = 5.f;
 
-        pHitActor->Damage(&DamageDesc, m_pAttacker);
+        pHitActor->Damage(&DamageDesc, this);
     }
 }
 

@@ -34,7 +34,7 @@ public:
 
 	// 랜더
 	virtual		HRESULT						Render() override;
-	void									SetAnimIndex(_uInt iIndex, _float fAnimSpeed, _bool bIsLoop = true);
+	void									SetAnimIndex(_uInt iIndex, _bool bIsLoop = true);
 	_uInt									GetAnimIndex(const char* szName);
 
 	// 0b00000111 : 3개의 비트로 스케일 회전 위치 적용을 결정
@@ -59,7 +59,6 @@ protected :
 	ID3DX11EffectMatrixVariable*			m_pBoneMatrixEffect = nullptr;
 
 	_uInt									m_iAnimIndex = {};
-	_float									m_fAnimSpeed = {};
 	_bool									m_bIsAnimLoop = true;
 #pragma endregion
 

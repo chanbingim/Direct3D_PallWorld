@@ -40,7 +40,7 @@ void CBedCatBody::Priority_Update(_float fDeletaTime)
 
 void CBedCatBody::Update(_float fDeletaTime)
 {
-    m_bIsAnimFinished = m_pVIBufferCom->PlayAnimation(0, m_iAnimIndex, fDeletaTime, 10.f , m_bIsAnimLoop);
+    m_pVIBufferCom->PlayAnimation(0, m_iAnimIndex, fDeletaTime);
 }
 
 void CBedCatBody::Late_Update(_float fDeletaTime)

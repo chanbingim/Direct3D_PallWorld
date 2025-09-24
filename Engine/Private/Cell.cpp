@@ -84,8 +84,8 @@ _bool CCell::Compare(_vector vSourPoint, _vector vDestPoint)
         if (true == XMVector3Equal(XMLoadFloat3(&m_vTirPoints[ENUM_CLASS(NAVI_POINT::C)]), vDestPoint))
         {
             _uInt iIndex = ENUM_CLASS(NAVI_LINE::BC);
-            m_Portals[iIndex].vLeftPoint = m_vTirPoints[ENUM_CLASS(NAVI_POINT::B)];
-            m_Portals[iIndex].vRightPoint = m_vTirPoints[ENUM_CLASS(NAVI_POINT::C)];
+            m_Portals[iIndex].vLeftPoint = m_vTirPoints[ENUM_CLASS(NAVI_POINT::C)];
+            m_Portals[iIndex].vRightPoint = m_vTirPoints[ENUM_CLASS(NAVI_POINT::B)];
             return true;
         }
 
@@ -111,8 +111,8 @@ _bool CCell::Compare(_vector vSourPoint, _vector vDestPoint)
         if (true == XMVector3Equal(XMLoadFloat3(&m_vTirPoints[ENUM_CLASS(NAVI_POINT::B)]), vDestPoint))
         {
             _uInt iIndex = ENUM_CLASS(NAVI_LINE::BC);
-            m_Portals[iIndex].vLeftPoint = m_vTirPoints[ENUM_CLASS(NAVI_POINT::B)];
-            m_Portals[iIndex].vRightPoint = m_vTirPoints[ENUM_CLASS(NAVI_POINT::C)];
+            m_Portals[iIndex].vLeftPoint = m_vTirPoints[ENUM_CLASS(NAVI_POINT::C)];
+            m_Portals[iIndex].vRightPoint = m_vTirPoints[ENUM_CLASS(NAVI_POINT::B)];
             return true;
         }
     }

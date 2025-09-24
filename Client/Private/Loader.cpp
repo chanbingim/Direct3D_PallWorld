@@ -321,11 +321,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Pell_HeatlhBar_Tex"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/Progressbar/T_gauge_HP0.png"), 1))))
 		return E_FAIL;
-
-	/* GamePlay_Pell_PellInfoUI_BackGround_Texture */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_PellInfo_BackGround_Tex"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/PalInfoUI/T_prt_enemy_base_line.png"), 1))))
-		return E_FAIL;
 #pragma endregion
 
 #pragma region PAL SPHER UI
@@ -377,7 +372,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	PreModelMat = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationX(XMConvertToRadians(90.f));
 	/* VIBuffer  Arrow  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Arrow"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Weapon/AnimationWeapon/Bow/Arrow/Arrow.dat"))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Weapon/AnimationWeapon/Bow/Arrow/Arrow.fbx", PreModelMat))))
 		return E_FAIL;
 #pragma endregion
 
@@ -393,10 +388,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Weapon/CatBlade/CatBlade.dat", PreModelMat))))
 		return E_FAIL;
 
-	///* VIBuffer  Prop MESH  Component */
-	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_CatBladeProp"),
-	//	CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Weapon/CatBlade/CatBladeProp.fbx", PreModelMat))))
-	//	return E_FAIL;
+	/* VIBuffer  Prop MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_CatBladeProp"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Weapon/CatBlade/CatBladeProp.fbx", PreModelMat))))
+		return E_FAIL;
 
 	/* VIBuffer  PellSpher MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_PalSpher"),
@@ -424,7 +419,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma region PinkCat
 	/* VIBuffer  BedCat MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_BedCat_Mesh"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM,"../Bin/Resources/Models/Monster/BedCat/PinkCat.dat", PreModelMat))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM,"../Bin/Resources/Models/Monster/BedCat/PinkCat.fbx", PreModelMat))))
 		return E_FAIL;
 #pragma endregion
 
@@ -435,12 +430,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
-#pragma region ElecPanda
-	/* VIBuffer  Electric Panda MESH  Component */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_ElectricPanda_Mesh"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Monster/ElectricPanda/ElecPanda.fbx", PreModelMat))))
-		return E_FAIL;
-#pragma endregion
+	///* VIBuffer  Electric Panda MESH  Component */
+	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_ElectricPanda_Mesh"),
+	//	CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/ElectricPanda/Panda.fbx", PreModelMat))))
+	//	return E_FAIL;
 
 	///* VIBuffer  Herorong MESH  Component */
 	//if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Herorong_Mesh"),
@@ -478,16 +471,16 @@ HRESULT CLoader::Loading_For_GamePlay()
 	_char szFilePath[MAX_PATH] = {};
 
 #pragma region ROCK
-	//for (_uInt i = 0; i < 8; ++i)
-	//{
-	//	wsprintf(szModelName, TEXT("Prototype_Component_VIBuffer_Rock_%d_Mesh"), i);
-	//	sprintf_s(szFilePath, "../Bin/Resources/Models/Rock/Rock_%d.fbx", i);
+	for (_uInt i = 0; i < 8; ++i)
+	{
+		wsprintf(szModelName, TEXT("Prototype_Component_VIBuffer_Rock_%d_Mesh"), i);
+		sprintf_s(szFilePath, "../Bin/Resources/Models/Rock/Rock_%d.fbx", i);
 
-	//	/* EnviornMent Rock MESH  Component */
-	//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), szModelName,
-	//		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, szFilePath))))
-	//		return E_FAIL;
-	//}
+		/* EnviornMent Rock MESH  Component */
+		if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), szModelName,
+			CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, szFilePath))))
+			return E_FAIL;
+	}
 #pragma endregion
 
 #pragma region TREE
