@@ -41,9 +41,9 @@ HRESULT CGamePlayLevel::Initialize()
 	/*if (FAILED(ADD_EnviornmentLayer(TEXT("Layer_GamePlay_Enviorment"))))
 		return E_FAIL;*/
 
-	CPellManager::GetInstance()->Initialize(m_pGraphic_Device, m_pDeviceContext);
+	/*CPellManager::GetInstance()->Initialize(m_pGraphic_Device, m_pDeviceContext);
 	if (FAILED(ADD_PellLayer(TEXT("Layer_GamePlay_Pell"))))
-		return E_FAIL;
+		return E_FAIL;*/
 
 
 	//m_pGameInstance->ShowInGameMouse(VISIBILITY::HIDDEN);

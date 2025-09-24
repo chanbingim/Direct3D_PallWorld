@@ -143,6 +143,9 @@ _Int CNavigation::Find_CellEdge(_vector vPos)
 
 _float3 CNavigation::CellCenterPos(_uInt iCellIndex)
 {
+	if (m_Cells.size() <= iCellIndex || 0 > iCellIndex)
+		return { 0.f ,0.f, 0.f };
+
 	_vector		vLocalPos = XMVector3TransformCoord(m_Cells[iCellIndex]->GetCellCenterPoint(), XMLoadFloat4x4(&m_WorldMatrix));
 	_float3 vPos;
 	XMStoreFloat3(&vPos, vLocalPos);
@@ -568,7 +571,19 @@ HRESULT CNavigation::ReadNaviMeshDataFile(const char* szFilePath)
 			file >> Point[ENUM_CLASS(NAVI_POINT::B)].x >> Point[ENUM_CLASS(NAVI_POINT::B)].y >> Point[ENUM_CLASS(NAVI_POINT::B)].z;
 			file >> Point[ENUM_CLASS(NAVI_POINT::C)].x >> Point[ENUM_CLASS(NAVI_POINT::C)].y >> Point[ENUM_CLASS(NAVI_POINT::C)].z;
 
-			ReadFileData.emplace_back(Point[ENUM_CLASS(NAVI_POINT::A)], Point[ENUM_CLASS(NAVI_POINT::B)], Point[ENUM_CLASS(NAVI_POINT::C)]);
+			_bool bIsAdd = true;
+			for (auto iter : ReadFileData)
+			{
+				Navi_Triangle NewTriangle = Navi_Triangle(Point[0], Point[1] , Point[2]);
+				if (iter == NewTriangle)
+				{
+					bIsAdd = false;
+					break;
+				}
+			}
+
+			if(bIsAdd)
+				ReadFileData.emplace_back(Point[ENUM_CLASS(NAVI_POINT::A)], Point[ENUM_CLASS(NAVI_POINT::B)], Point[ENUM_CLASS(NAVI_POINT::C)]);
 		}
 	}
 	else

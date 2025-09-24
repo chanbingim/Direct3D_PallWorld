@@ -191,9 +191,9 @@ void CTransform::LerpTurn(_vector vAxis, _vector vAt, _float fSpeed, _float fTim
             fSpeed *= 2.f;
 
         if (0 > XMVectorGetY(XMVector3Cross(vCurNormalLook, vNormalLook)))
-            Turn(GetUpVector(), -fSpeed, fTimeDelta);
+            Turn(vAxis, -fSpeed, fTimeDelta);
         else
-            Turn(GetUpVector(), fSpeed, fTimeDelta);
+            Turn(vAxis, fSpeed, fTimeDelta);
     }
 }
 

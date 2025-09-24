@@ -73,8 +73,8 @@ void CPlayer::Priority_Update(_float fDeletaTime)
     if (GAMEMODE::GAME == m_pGameInstance->GetGameMode())
     {
         Key_Input(fDeletaTime);
-        m_pGameInstance->SetPlayerWorldMatrix(m_pTransformCom->GetWorldMat());
     }
+    m_pGameInstance->SetPlayerWorldMatrix(m_pTransformCom->GetWorldMat());
 }
 
 void CPlayer::Update(_float fDeletaTime)
@@ -545,7 +545,7 @@ HRESULT CPlayer::ADD_Components()
     {
         CNavigation::NAVIGATION_DESC Desc = {};
         _float3 vPos = m_pTransformCom->GetPosition();
-        Desc.iCurrentCellIndex = 5000;
+        Desc.iCurrentCellIndex = 100;
 
         m_pTransformCom->SetPosition(FindNaviMesh->CellCenterPos(Desc.iCurrentCellIndex));
         m_pNevigation = static_cast<CNavigation*>(FindNaviMesh->Clone(&Desc));

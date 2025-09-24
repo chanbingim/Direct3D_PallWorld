@@ -193,6 +193,7 @@ void CPellBase::SpawnPellFriendly()
         XMStoreFloat3(&vPlayerPos, m_pGameInstance->GetPlayerState(WORLDSTATE::POSITION));
         m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Idle"));
         m_pPellFsm->CombatStateReset();
+        m_pPellFsm->SetCombatAction(false);
         m_pTransformCom->SetPosition(vPlayerPos);
     }
     else if (PELL_STORAGE_STATE::PARTNER_PELL == m_PellInfo.ePellStorageState)

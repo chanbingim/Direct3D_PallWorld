@@ -203,7 +203,7 @@ HRESULT CBedCat::ADD_Components()
     auto OriginNav = static_cast<CNavigation*>((*Object)->Find_Component(TEXT("NaviMesh_Com")));
     CNavigation::NAVIGATION_DESC Desc = {};
     _float3 vPos = m_pTransformCom->GetPosition();
-    Desc.iCurrentCellIndex = (int)m_pGameInstance->Random(4500.f, 4600.f);
+    Desc.iCurrentCellIndex = (int)m_pGameInstance->Random(100.f, 150.f);
 
     m_pTransformCom->SetPosition(OriginNav->CellCenterPos(Desc.iCurrentCellIndex));
     m_pNevigation = static_cast<CNavigation*>(OriginNav->Clone(&Desc));
