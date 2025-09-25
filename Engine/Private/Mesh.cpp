@@ -185,7 +185,6 @@ HRESULT CMesh::Export(void* pOut)
 		}
 	}
 	Safe_Release(StagingBuffer);
-
 	return S_OK;
 }
 
@@ -429,6 +428,23 @@ _bool CMesh::IsPicking(_vector vRayOrizin, _vector vRayDir, CTransform* pTransfo
 	Safe_Release(StagingBuffer);
 
 	return bIsPicking;
+}
+
+ID3D11Buffer* CMesh::GetVertexBuffer(_uInt* pOutVertexStride)
+{
+	*pOutVertexStride = m_iVertexStride;
+
+	Safe_AddRef(m_pVertexBuffer);
+	return m_pVertexBuffer;
+}
+
+ID3D11Buffer* CMesh::GetIndexBuffer(DXGI_FORMAT* eFormat, _uInt* pIndices)
+{
+	*eFormat = m_eIndexFormat;
+	*pIndices = m_iNumIndices;
+
+	Safe_AddRef(m_pIndexBuffer);
+	return m_pIndexBuffer;
 }
 
 HRESULT CMesh::Ready_VertexBuffer_For_NonAnim(const aiMesh* pAIMesh, _matrix PreTransformMatrix)

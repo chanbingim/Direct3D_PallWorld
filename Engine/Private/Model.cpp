@@ -543,6 +543,22 @@ _bool CModel::IsPicking(_vector vRayOrizin, _vector vRayDir, CTransform* pTransf
 	return false;
 }
 
+ID3D11Buffer* CModel::GetMeshVertexBuffer(_uInt iMeshIndex, _uInt* pOutVertexStride)
+{
+	if (0 > iMeshIndex || m_iNumMeshes <= iMeshIndex)
+		return nullptr;
+
+	return m_Meshes[iMeshIndex]->GetVertexBuffer(pOutVertexStride);
+}
+
+ID3D11Buffer* CModel::GetMeshIndexBuffer(_uInt iMeshIndex, DXGI_FORMAT* eFormat, _uInt* pIndices)
+{
+	if (0 > iMeshIndex || m_iNumMeshes <= iMeshIndex)
+		return nullptr;
+
+	return m_Meshes[iMeshIndex]->GetIndexBuffer(eFormat, pIndices);
+}
+
 void CModel::ExportNonAnim(void* pArg)
 {
 	SAVE_MODEL_DESC* ExportData = static_cast<SAVE_MODEL_DESC*>(pArg);

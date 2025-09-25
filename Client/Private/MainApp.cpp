@@ -40,6 +40,10 @@ HRESULT CMainApp::Initialize_MainApp()
 	if (FAILED(SetUp_MouseTexture()))
 		return E_FAIL;
 
+	if (FAILED(SetUp_InGameFont()))
+		return E_FAIL;
+
+
 #ifdef _DEBUG
 	if (FAILED(SetUp_DebugWindow()))
 		return E_FAIL;
@@ -190,6 +194,10 @@ HRESULT CMainApp::SetUp_StaticComponents()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_WorldUI"),
 		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_MESH::Elements, VTX_MESH::iNumElements, TEXT("../Bin/ShaderFiles/WorldUI.hlsl")))))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_InstanceMesh"),
+		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_MODEL_INSTANCE_DESC::Elements, VTX_MODEL_INSTANCE_DESC::iNumElements, TEXT("../Bin/ShaderFiles/VTX_InstnaceMesh.hlsl")))))
+		return E_FAIL;
 #pragma endregion
 
 #pragma region VIBuffer
@@ -207,6 +215,7 @@ HRESULT CMainApp::SetUp_StaticComponents()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Animation"), CSpriteAnimation::Create(m_pGraphic_Device, m_pDevice_Context))))
 		return E_FAIL;
 
+#pragma region Collision
 	/* BoxCollision Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionBox"), CBoxCollision::Create(m_pGraphic_Device, m_pDevice_Context))))
 		return E_FAIL;
@@ -218,6 +227,14 @@ HRESULT CMainApp::SetUp_StaticComponents()
 	/* OBBCollision Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionOBB"), COBBCollision::Create(m_pGraphic_Device, m_pDevice_Context))))
 		return E_FAIL;
+#pragma endregion
+
+#pragma region Font Component
+	/* OBBCollision Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_FontComponent"), CFontComponent::Create(m_pGraphic_Device, m_pDevice_Context))))
+		return E_FAIL;
+#pragma endregion
+
 
 #pragma endregion
 
@@ -252,6 +269,29 @@ HRESULT CMainApp::SetUp_MouseTexture()
 		return E_FAIL;
 
 	ShowCursor(false);
+	return S_OK;
+}
+
+HRESULT CMainApp::SetUp_InGameFont()
+{
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("HanSanFont_16"), TEXT("../Bin/Resources/Fonts/Spoqa_Han_Sans_Neo_Medium16.spritefont"))))
+		return E_FAIL;
+
+	if( FAILED(m_pGameInstance->Add_Font(TEXT("HanSanFont_20"), TEXT("../Bin/Resources/Fonts/Spoqa_Han_Sans_Neo_Medium20.spritefont"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("HanSanFont_24"), TEXT("../Bin/Resources/Fonts/Spoqa_Han_Sans_Neo_Medium24.spritefont"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("HanSanFont_32"), TEXT("../Bin/Resources/Fonts/Spoqa_Han_Sans_Neo_Medium32.spritefont"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("HanSanFont_50"), TEXT("../Bin/Resources/Fonts/Spoqa_Han_Sans_Neo_Medium50.spritefont"))))
+		return E_FAIL;
+		
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("HanSanFont_56"), TEXT("../Bin/Resources/Fonts/Spoqa_Han_Sans_Neo_Medium56.spritefont"))))
+		return E_FAIL;
+
 	return S_OK;
 }
 

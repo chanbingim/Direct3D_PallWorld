@@ -2,33 +2,36 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe</FullPath>
+      <FullPath>C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles>
     <ContentFile>
-      <FullPath>C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\MouseShader.cso</FullPath>
+      <FullPath>C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\MouseShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\MutipleBlend.cso</FullPath>
+      <FullPath>C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\MutipleBlend.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\ProgressBar.cso</FullPath>
+      <FullPath>C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ProgressBar.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\TestShader.cso</FullPath>
+      <FullPath>C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\TestShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\VTX_AnimMesh.cso</FullPath>
+      <FullPath>C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_AnimMesh.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\VTX_Mesh.cso</FullPath>
+      <FullPath>C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_InstnaceMesh.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\VTX_NorTex.cso</FullPath>
+      <FullPath>C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_Mesh.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\WorldUI.cso</FullPath>
+      <FullPath>C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_NorTex.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\WorldUI.cso</FullPath>
     </ContentFile>
   </ContentFiles>
   <SatelliteDlls />

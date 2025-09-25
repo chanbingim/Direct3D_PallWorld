@@ -23,6 +23,7 @@
 #include "PlayerPartData.h"
 #include "PlayerBody.h"
 #include "PlayerWeaponSlot.h"
+#include "WeaponQuickSlot.h"
 #pragma endregion
 
 #pragma region SKY_BOX
@@ -57,6 +58,8 @@
 
 #pragma region ENVIORNMENT
 #include "RockObject.h"
+#include "SmallGrass.h"
+#include "Flower.h"
 #pragma endregion
 
 #pragma region Components
@@ -297,6 +300,15 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/SelectPell/Frame/T_prt_icon_circle_f_%d.png"), 2))))
 		return E_FAIL;
 
+#pragma region WEAPON_UI_TEXTURE
+
+	/* GamePlay_PlayerInfo_Battle_Pell_TypeUI_Texture */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_WeaponQuickSlot_BackGround"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/WeaponUI/BackGround/T_prt_loadout_base.png"), 1))))
+		return E_FAIL;
+
+#pragma endregion
+
 #pragma endregion
 
 #pragma region IN GAME MENU TEXTURE
@@ -474,8 +486,49 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma endregion
 
 #pragma region EnviornMent
-	WCHAR szModelName[MAX_PATH] = {};
-	_char szFilePath[MAX_PATH] = {};
+
+#pragma region SMALL Grass InstanceBuffer
+	CVIBuffer_Model_Instance::MODEL_INSTANCE_DESC InstanceModelDesc = {};
+	InstanceModelDesc.iNumInstance = 300.f;
+	InstanceModelDesc.vSize = { 1.f, 1.f, 1.f };
+	InstanceModelDesc.vCenter = { 0.f ,0.f, 0.f };
+	InstanceModelDesc.vRange = { 400.f ,0.f, 300.f };
+
+	InstanceModelDesc.pModelFilePath = "../Bin/Resources/Models/Enviornmenet/SmallGrass/small_Grass.fbx";
+	InstanceModelDesc.PreModelMat = PreModelMat;
+	InstanceModelDesc.RetargetFile = "";
+	InstanceModelDesc.iLayerCount = 1;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Instance_SamllGrass"),
+				CVIBuffer_Model_Instance::Create(m_pDevice, m_pContext, &InstanceModelDesc))))
+				return E_FAIL;
+#pragma endregion
+
+#pragma region FLOWER InstaceBuffer;
+	InstanceModelDesc.iNumInstance = 300.f;
+	InstanceModelDesc.vSize = { 1.f, 1.f, 1.f };
+	InstanceModelDesc.vCenter = { 0.f ,0.f, 0.f };
+	InstanceModelDesc.vRange = { 400.f ,0.f, 300.f };
+
+	InstanceModelDesc.pModelFilePath = "../Bin/Resources/Models/Enviornmenet/Flower/Flower.fbx";
+	InstanceModelDesc.PreModelMat = PreModelMat;
+	InstanceModelDesc.RetargetFile = "";
+	InstanceModelDesc.iLayerCount = 1;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Instance_Flower"),
+		CVIBuffer_Model_Instance::Create(m_pDevice, m_pContext, &InstanceModelDesc))))
+		return E_FAIL;
+#pragma endregion
+
+	/* VIBuffer  Clothes2 MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Grass"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/SmallGrass/small_Grass.fbx"))))
+		return E_FAIL;
+
+	/* VIBuffer  Clothes2 MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Flower"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Flower/Flower.fbx"))))
+		return E_FAIL;
 
 #pragma region ROCK
 	//for (_uInt i = 0; i < 8; ++i)
@@ -638,6 +691,22 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region Small Grass
+	/* GAME_OBJECT_SmallGrass */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Environment_SmallGrass"),
+		CSmallGrass::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region Flower
+	/* GAME_OBJECT_SmallGrass */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Environment_Flower"),
+		CFlower::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
+
+
 #pragma endregion
 
 	
@@ -709,6 +778,15 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* GAME_OBJECT_Battle_Pell_TypeUI */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Battle_Pell_TypeUI"), CTypeIcon::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
+#pragma region WEAPON UI
+
+	/* GAME_OBJECT_Weapon_UI */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Weapon_QuickSlot"), CWeaponQuickSlot::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+#pragma endregion
+
 #pragma endregion
 
 #pragma region PELL_INFO_UI

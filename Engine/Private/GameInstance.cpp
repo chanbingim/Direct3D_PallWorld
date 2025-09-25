@@ -513,12 +513,12 @@ void CGameInstance::ADD_CollisionList(CCollision* pObject)
 #pragma region FONT MANAGER
 HRESULT CGameInstance::Add_Font(const _wstring& FontTag, const _tchar* pFontFilePath)
 {
-    return E_NOTIMPL;
+    return m_pFontManager->Add_Font(FontTag, pFontFilePath);
 }
 
 HRESULT CGameInstance::Render_Font(const _wstring& FontTag, const _tchar* pText, const _float2& vPosition, _vector vColor)
 {
-    return E_NOTIMPL;
+    return m_pFontManager->Render(FontTag, pText, vPosition, vColor);
 }
 
 #pragma endregion

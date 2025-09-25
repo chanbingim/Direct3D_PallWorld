@@ -557,6 +557,63 @@
     <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\CombatLayer\State\Stun">
       <UniqueIdentifier>{da9e8c38-8f21-4b1d-92a8-a790d7907aaf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\ItemQuickSlot\Font">
+      <UniqueIdentifier>{2c130b7c-840a-4372-8634-b6e33afc907c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\WeaponSlot\Font">
+      <UniqueIdentifier>{600924a3-1a7e-465b-83f3-c6726fc94a99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\WeaponSlot\WeaponIcon">
+      <UniqueIdentifier>{0ff06e55-2675-4233-9347-68219dd9cf40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\WeaponSlot\Font\Name">
+      <UniqueIdentifier>{2433e14e-7fec-4a54-a433-8d6bbca7fef7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\ItemQuickSlot\ItemIcon">
+      <UniqueIdentifier>{1c4a51d4-5aca-4f5b-8945-082ca1844a92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\KeyIcon">
+      <UniqueIdentifier>{27d310e7-0ee1-43c8-b702-50100933f868}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\SpawnBox">
+      <UniqueIdentifier>{f9522881-9436-429b-9608-2e1e551754f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell\PellInfo\Font">
+      <UniqueIdentifier>{256dc4bd-9895-4e7b-ba11-9c382c5c8a89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell\PellInfo\Font\Name">
+      <UniqueIdentifier>{a40ea602-4d7d-44bc-b8cd-ae9611763e1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell\PellInfo\Font\HeathBar">
+      <UniqueIdentifier>{e572eb6e-2399-44f9-bdb3-506436c6234d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\ItemQuickSlot\Font\Count">
+      <UniqueIdentifier>{253e25ab-f30a-4040-ae43-5bf7ecb3b25e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\ItemQuickSlot\Font\Name">
+      <UniqueIdentifier>{54203ba9-dd71-4267-94db-434b0f4ae187}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\InstanceModel">
+      <UniqueIdentifier>{ab62ec51-7349-4805-814b-abdcfabdd9e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\InstanceModel\Grass">
+      <UniqueIdentifier>{0c74b82e-5f92-4abd-8947-24a3468de4e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\InstanceModel\Grass\Flower">
+      <UniqueIdentifier>{f81aa0f8-b9eb-41f3-9ad1-7ff10df359aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\InstanceModel\Grass\Grass00">
+      <UniqueIdentifier>{19b6f41f-4d5f-437d-b24c-a9526f53c4b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\Instance">
+      <UniqueIdentifier>{cf32d5e7-85a6-49c6-a3d9-e36d10c657d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\Instance\ModelIsntance">
+      <UniqueIdentifier>{29fa91c1-cf1a-4fa7-9df7-dd4969bfbe7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\WeaponSlot\Font\ProjectileCount">
+      <UniqueIdentifier>{40343e6a-c645-4660-8cbc-0ba02262d872}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -913,9 +970,6 @@
     <ClInclude Include="..\public\NoneAnimMesh.h">
       <Filter>03. Objects\MeshObject\NonAnimMesh</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\ItemStruct.h">
-      <Filter>04. DataManager\Object\Item</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\PalSpher.h">
       <Filter>03. Objects\MeshObject\AnimMesh\Object\ProjecttileObject\PalSpher</Filter>
     </ClInclude>
@@ -1035,6 +1089,48 @@
     </ClInclude>
     <ClInclude Include="..\public\PellStateStun.h">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\CombatLayer\State\Stun</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SpawnBox.h">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\SpawnBox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\WeaponSlotIcon.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\WeaponSlot\WeaponIcon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\WeaponQuickSlotName.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\WeaponSlot\Font\Name</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\WeaponQuickSlotCount.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\WeaponSlot\Font\ProjectileCount</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PellInfoNameUI.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell\PellInfo\Font\Name</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PellInfoHealthbar.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell\PellInfo\Font\HeathBar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KeyIcon.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\KeyIcon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ItemQuickSlotCount.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\ItemQuickSlot\Font\Count</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ItemQuickSlotIcon.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\ItemQuickSlot\ItemIcon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ItemQuickSlotName.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\ItemQuickSlot\Font\Name</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ItemStruct.h">
+      <Filter>04. DataManager\Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\SmallGrass.h">
+      <Filter>03. Objects\MeshObject\InstanceModel\Grass\Grass00</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Flower.h">
+      <Filter>03. Objects\MeshObject\InstanceModel\Grass\Flower</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\InstanceModel.h">
+      <Filter>03. Objects\MeshObject\InstanceModel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1498,6 +1594,45 @@
     <ClCompile Include="..\private\PellStateStun.cpp">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\CombatLayer\State\Stun</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\SpawnBox.cpp">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\SpawnBox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\WeaponSlotIcon.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\WeaponSlot\WeaponIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\WeaponQuickSlotName.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\WeaponSlot\Font\Name</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\WeaponQuickSlotCount.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\WeaponSlot\Font\ProjectileCount</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PellInfoNameUI.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell\PellInfo\Font\Name</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PellInfoHealthbar.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell\PellInfo\Font\HeathBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KeyIcon.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\KeyIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ItemQuickSlotCount.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\ItemQuickSlot\Font\Count</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ItemQuickSlotIcon.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\ItemQuickSlot\ItemIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ItemQuickSlotName.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\ItemQuickSlot\Font\Name</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\SmallGrass.cpp">
+      <Filter>03. Objects\MeshObject\InstanceModel\Grass\Grass00</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Flower.cpp">
+      <Filter>03. Objects\MeshObject\InstanceModel\Grass\Flower</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\InstanceModel.cpp">
+      <Filter>03. Objects\MeshObject\InstanceModel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\TestShader.hlsl">
@@ -1523,6 +1658,9 @@
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\WorldUI.hlsl">
       <Filter>Shader\Geomerty</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\VTX_InstnaceMesh.hlsl">
+      <Filter>Shader\Instance\ModelIsntance</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

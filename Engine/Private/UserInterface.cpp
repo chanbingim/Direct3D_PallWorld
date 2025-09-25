@@ -124,6 +124,14 @@ const RECT& CUserInterface::GetRectSize()
 	return m_UISize;
 }
 
+_float2 CUserInterface::GetScreenPos()
+{
+	_float2 vScreenPos = { (_float)(m_UISize.left + (m_UISize.right - m_UISize.left) * 0.5f),
+						   (_float)(m_UISize.top + (m_UISize.bottom - m_UISize.top) * 0.5f)};
+
+	return vScreenPos;
+}
+
 void CUserInterface::MouseHoverEnter()
 {
 
@@ -261,7 +269,7 @@ void CUserInterface::UpdateRectSize()
 	_float		RectCenterX = (vParentpos.x + m_fPos.x);
 	_float		RectCenterY = (vParentpos.y + m_fPos.y);
 
-	m_pTransformCom->SetPosition({RectCenterX - ViewportDesc.Width * 0.5f,
+	m_pTransformCom->SetPosition({ RectCenterX - ViewportDesc.Width * 0.5f,
 								  -RectCenterY + ViewportDesc.Height * 0.5f, 0.f});
 
 	m_UISize = {static_cast<long>(RectCenterX - (vScale.x * 0.5f)),

@@ -29,7 +29,7 @@ HRESULT CGamePlayLevel::Initialize()
 	/*if (FAILED(ADD_SkyLayer(TEXT("Layer_GamePlay_SKY"))))
 		return E_FAIL;*/
 
-	CItemManager::GetInstance()->Initialize();
+	CItemManager::GetInstance()->Initialize(m_pGraphic_Device, m_pDeviceContext);
 	CPlayerManager::PLAYER_MANAGER_DESC PlayerDesc;
 	PlayerDesc.iMaxInvenWeight = 1000;
 	PlayerDesc.iNumEquipMaxSlot = 4;
@@ -38,8 +38,8 @@ HRESULT CGamePlayLevel::Initialize()
 	if (FAILED(ADD_PlayerLayer(TEXT("Layer_GamePlay_Player"))))
 		return E_FAIL;
 
-	/*if (FAILED(ADD_EnviornmentLayer(TEXT("Layer_GamePlay_Enviorment"))))
-		return E_FAIL;*/
+	if (FAILED(ADD_EnviornmentLayer(TEXT("Layer_GamePlay_Enviorment"))))
+		return E_FAIL;
 
 	/*CPellManager::GetInstance()->Initialize(m_pGraphic_Device, m_pDeviceContext);
 	if (FAILED(ADD_PellLayer(TEXT("Layer_GamePlay_Pell"))))
@@ -111,17 +111,20 @@ HRESULT CGamePlayLevel::ADD_SkyLayer(const _wstring& LayerName)
 
 HRESULT CGamePlayLevel::ADD_EnviornmentLayer(const _wstring& LayerName)
 {
-	CEnviormnent::ENVIORMNENT_DESC Desc;
-	ZeroMemory(&Desc, sizeof(CEnviormnent::ENVIORMNENT_DESC));
+	CGameObject::GAMEOBJECT_DESC Desc;
+	ZeroMemory(&Desc, sizeof(CGameObject::GAMEOBJECT_DESC));
+	Desc.vScale = { 1.f, 1.f, 1.f };
+	Desc.vPosition = { 109.f, -64.f, 795.f };
 
-	for (_uInt i = 0; i < 8; ++i)
-	{
-		wsprintf(Desc.ObjectTag, TEXT("ROCK %d"), i);
-		Desc.iModelIndex = i;
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Rock"),
-			ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
-			return E_FAIL;
-	}
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Environment_SmallGrass"),
+		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
+		return E_FAIL;
+
+	Desc.vPosition = { -114.f, 14.f, 215.f };
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Environment_Flower"),
+		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
+		return E_FAIL;
+
 	return S_OK;
 }
 

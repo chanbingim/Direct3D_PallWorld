@@ -33,6 +33,8 @@ public:
 
 	_float2									GetViewPos();
 	const		RECT&						GetRectSize();
+	_float2									GetScreenPos();
+
 protected :
 	_float4x4								m_ViewMatrix = {};
 	_float4x4								m_ProjMatrix = {};

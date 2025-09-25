@@ -29,7 +29,7 @@ HRESULT CNavigation::Initialize_Prototype(const char* pNavigationDataFilePath)
 	ReadNaviMeshDataFile(pNavigationDataFilePath);
 
 #ifdef _DEBUG
-	m_pShaderCom = CShader::Create(m_pDevice, m_pContext, VTX_COL::Elements, VTX_COL::iNumElements, TEXT("../Bin/ShaderFiles/Shader_Cell.hlsl"));
+	m_pShaderCom = CShader::Create(m_pDevice, m_pContext, VTX_POINT::Elements, VTX_POINT::iNumElements, TEXT("../Bin/ShaderFiles/Shader_Cell.hlsl"));
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
 	BindSahderResource();
@@ -43,7 +43,7 @@ HRESULT CNavigation::Initialize_Prototype(const CModel* pMapModel, _uInt iMeshNu
 	Bowyer_WatsonAlgorithm(pMapModel, iMeshNum);
 
 #ifdef _DEBUG
-	m_pShaderCom = CShader::Create(m_pDevice, m_pContext, VTX_COL::Elements, VTX_COL::iNumElements, TEXT("../Bin/ShaderFiles/Shader_Cell.hlsl"));
+	m_pShaderCom = CShader::Create(m_pDevice, m_pContext, VTX_POINT::Elements, VTX_POINT::iNumElements, TEXT("../Bin/ShaderFiles/Shader_Cell.hlsl"));
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
 #endif
@@ -106,6 +106,19 @@ void CNavigation::ComputeHeight(CTransform* pTransform)
 
 	vPos.y = fHeight;
 	pTransform->SetPosition(vPos);
+}
+
+void CNavigation::ComputeHeight(_float3* pPosition)
+{
+	_float3		vPos = *pPosition;
+	_vector		vLocalPos = XMVector3TransformCoord(XMLoadFloat3(&vPos), XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_WorldMatrix)));
+	_uInt iIndex = Find_Cell(vLocalPos);
+
+	if (-1 == iIndex)
+		return;
+
+	_float		fHeight = m_Cells[iIndex]->ComputeHeight(vLocalPos);
+	pPosition->y = fHeight;
 }
 
 _Int CNavigation::Find_Cell(_vector vPos)

@@ -53,6 +53,8 @@ public:
 	_bool							IsMove(_vector vPosition);
 
 	void							ComputeHeight(CTransform* pTransform);
+	void							ComputeHeight(_float3* pPosition);
+
 	_Int							Find_Cell(_vector vPos);
 	_Int							Find_CellEdge(_vector vPos);
 	_float3							CellCenterPos(_uInt iCellIndex);

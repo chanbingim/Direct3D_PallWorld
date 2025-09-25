@@ -24,9 +24,6 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
-protected:
-	virtual		HRESULT						Bind_ShaderResources() override;
-
 private :
 	CWeaponSlotIcon*						m_pWeaponSlotIcon = nullptr;
 	CWeaponQuickSlotName*					m_pWeaponSlotName = nullptr;

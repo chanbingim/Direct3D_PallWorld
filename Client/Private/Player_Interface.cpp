@@ -123,6 +123,16 @@ HRESULT CPlayer_Interface::ADD_Childs()
 		if (FAILED(pInGame_HUD->Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Battle_Pell_UI"), TEXT("Battle_Pell_UI"), &IconDesc)))
 			return E_FAIL;
 #pragma endregion
+
+#pragma region WEAPON_UI
+		IconDesc.vScale = { 200.f, 75.f, 0.f };
+		//Health Icon
+		IconDesc.vPosition = { g_iWinSizeX * 0.7f + (IconDesc.vScale.x * 0.5f),
+							   IconDesc.vScale.x * 0.5f,
+							   0.f };
+		if (FAILED(pInGame_HUD->Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Weapon_QuickSlot"), TEXT("Weapon_Slot_UI"), &IconDesc)))
+			return E_FAIL;
+#pragma endregion
 	}
 
 	return S_OK;

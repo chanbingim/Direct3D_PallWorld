@@ -1,9 +1,16 @@
 #include "ItemManager.h"
+#include "GameInstance.h"
 
 IMPLEMENT_SINGLETON(CItemManager);
 
-HRESULT CItemManager::Initialize(const char* FilePath)
+HRESULT CItemManager::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const char* FilePath)
 {
+    m_pDevice = pDevice;
+    m_pContext = pContext;
+
+    Safe_AddRef(m_pDevice);
+    Safe_AddRef(m_pContext);
+
     if (!strcmp(FilePath, ""))
     {
         //이거도 나중에 테스트 끝나고 정상화되면 다 데이터 파일로 바꿔서 보관할거
@@ -14,7 +21,8 @@ HRESULT CItemManager::Initialize(const char* FilePath)
 
         // 이거 고민이네
         // 프로토타입 이름을 넘길지 실제파일의 경로를 넘길지
-        lstrcpy(Desc.szItemIconPath, TEXT(""));
+        
+        m_ItemTextures.emplace(Desc.iItemNum, CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/WeaponUI/WeaponIcon/T_icon_YakushimaBlade_UI.png"), 1));
         lstrcpy(Desc.szItemModelPath, TEXT("Prototype_Component_VIBuffer_CatBlade"));
         Desc.IsAnimModel = false;
 
@@ -28,7 +36,7 @@ HRESULT CItemManager::Initialize(const char* FilePath)
         Desc.TypeDesc.EuqipDesc.vExtents = {0.2f, 0.5f, 0.2f};
         Desc.TypeDesc.EuqipDesc.Equip_Type = EUQIP_TYPE::WEAPON;
         Desc.TypeDesc.EuqipDesc.Weapon_Type = WEAPON::MELEE;
-        m_Items.emplace(1, Desc);
+             m_Items.emplace(1, Desc);
 
         Desc.iItemNum = 2;
         Desc.ItemType = ITEM_TYPE::EQUIPMENT;
@@ -36,7 +44,7 @@ HRESULT CItemManager::Initialize(const char* FilePath)
 
         // 이거 고민이네
         // 프로토타입 이름을 넘길지 실제파일의 경로를 넘길지
-        lstrcpy(Desc.szItemIconPath, TEXT(""));
+        m_ItemTextures.emplace(Desc.iItemNum, CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/WeaponUI/WeaponIcon/T_icon_pal_sphere.png"), 1));
         lstrcpy(Desc.szItemModelPath, TEXT("Prototype_Component_VIBuffer_PalSpher"));
         Desc.IsAnimModel = true;
 
@@ -58,7 +66,7 @@ HRESULT CItemManager::Initialize(const char* FilePath)
 
         // 이거 고민이네
         // 프로토타입 이름을 넘길지 실제파일의 경로를 넘길지
-        lstrcpy(Desc.szItemIconPath, TEXT(""));
+        m_ItemTextures.emplace(Desc.iItemNum, CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/WeaponUI/WeaponIcon/T_icon_Bow_UI.png"), 1));
         lstrcpy(Desc.szItemModelPath, TEXT("Prototype_Component_VIBuffer_Bow"));
         Desc.IsAnimModel = true;
         Desc.IsPlayAnimation = true;
@@ -109,6 +117,15 @@ const ITEM_DESC* CItemManager::GetItemInfo(_uInt ItemID)
     return &iter->second;
 }
 
+const CTexture* CItemManager::GetItemTexture(_uInt ItemID)
+{
+    auto iter = m_ItemTextures.find(ItemID);
+    if (iter == m_ItemTextures.end())
+        return nullptr;
+
+    return iter->second;
+}
+
 HRESULT CItemManager::LoadItemData(const char* FilePath)
 {
     return S_OK;
@@ -116,5 +133,11 @@ HRESULT CItemManager::LoadItemData(const char* FilePath)
 
 void CItemManager::Free()
 {
+    Safe_Release(m_pDevice);
+    Safe_Release(m_pContext);
 
+    for (auto pair : m_ItemTextures)
+        Safe_Release(pair.second);
+
+    m_ItemTextures.clear();
 }

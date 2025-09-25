@@ -56,6 +56,8 @@ public :
 
 	_bool						IsPicking(_vector vRayOrizin, _vector vRayDir, CTransform* pTransform, _float3* pOut);
 
+	ID3D11Buffer*				GetMeshVertexBuffer(_uInt iMeshIndex, _uInt* pOutVertexStride);
+	ID3D11Buffer*				GetMeshIndexBuffer(_uInt iMeshIndex, DXGI_FORMAT* eFormat, _uInt* pIndices);
 private :
 	// Assimp Lib
 #ifdef _DEBUG

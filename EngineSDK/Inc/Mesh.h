@@ -33,6 +33,9 @@ public:
 
 	virtual _bool			IsPicking(_vector vRayOrizin, _vector vRayDir, CTransform* pTransform, _float3* pOut) override;
 
+	ID3D11Buffer*			GetVertexBuffer(_uInt* pOutVertexStride);
+	ID3D11Buffer*			GetIndexBuffer(DXGI_FORMAT* eFormat, _uInt* pIndices);
+
 private :
 	// 메시의 이름을 보관해둔다.
 	_char					m_szMeshName[MAX_PATH] = {};
