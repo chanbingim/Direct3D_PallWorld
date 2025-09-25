@@ -39,11 +39,11 @@ VS_OUT VS_MAIN(VS_IN In)
     matrix  matWV, matWVP;
     row_major matrix InstanceMatrix = { In.vRight, In.vUp, In.vLook, In.vTranslation };
     
-    vector vPosition = mul(vector(In.vPosition, 1.f), InstanceMatrix);
-    matWV = mul(g_WorldMatrix, g_ViewMatrix);
+    //vector vPosition = mul(vector(In.vPosition, 1.f), InstanceMatrix);
+    matWV = mul(InstanceMatrix, g_ViewMatrix);
     matWVP = mul(matWV, g_ProjMatrix);
 
-    Out.vPosition = mul(vPosition, matWVP);
+    Out.vPosition = mul(vector(In.vPosition, 1.f), matWVP);
     Out.vTexcoord = In.vTexcoord;
 
     return Out;

@@ -24,6 +24,7 @@
 #include "PlayerBody.h"
 #include "PlayerWeaponSlot.h"
 #include "WeaponQuickSlot.h"
+#include "ItemQuickSlot.h"
 #pragma endregion
 
 #pragma region SKY_BOX
@@ -781,10 +782,16 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 #pragma region WEAPON UI
 
-	/* GAME_OBJECT_Weapon_UI */
+	/* GAME_OBJECT_Weapon_QuickSlot_UI */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Weapon_QuickSlot"), CWeaponQuickSlot::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+#pragma endregion
+
+#pragma region Item QuickSlot UI
+	/* GAME_OBJECT_Item_QuickSlot_UI */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Item_QuickSlot"), CItemQuickSlot::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 #pragma endregion
 
 #pragma endregion

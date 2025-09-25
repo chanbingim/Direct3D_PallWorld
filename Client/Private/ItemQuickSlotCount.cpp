@@ -31,7 +31,10 @@ HRESULT CItemQuickSlotCount::Initialize(void* pArg)
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
+    m_iZOrder = 1;
     m_fFontPoint = { (_float)GetRectSize().left, (_float)GetRectSize().top };
+
+    return S_OK;
 }
 
 void CItemQuickSlotCount::Update(_float fDeletaTime)
@@ -48,12 +51,12 @@ HRESULT CItemQuickSlotCount::Render()
 {
     if (!lstrcmp(m_szTopVeiwText, L"¹«ÇÑ´ë"))
     {
-        m_pFontCom->Render(m_szTopVeiwText, { 1.f, 1.f, 1.f, 1.f });
+        m_pFontCom->Render(m_szTopVeiwText, { 0.f, 0.f, 0.f, 1.f });
     }
     else
     {
-        m_pFontCom->Render(m_szTopVeiwText, { 1.f, 1.f, 1.f, 1.f });
-        m_pFontCom->Render(m_szUnderVeiwText, { 1.f, 1.f, 1.f, 1.f }, { 0.f, 10.f });
+        m_pFontCom->Render(m_szTopVeiwText, { 0.f, 0.f, 0.f, 1.f });
+        m_pFontCom->Render(m_szUnderVeiwText, { 0.f, 0.f, 0.f, 1.f }, { 0.f, 10.f });
     }
     return S_OK;
 }
@@ -80,6 +83,8 @@ HRESULT CItemQuickSlotCount::ADD_Components()
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_FontComponent"), TEXT("Font_Com"), (CComponent**)&m_pFontCom, &FontDesc)))
         return E_FAIL;
+
+    return S_OK;
 }
 
 CItemQuickSlotCount* CItemQuickSlotCount::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

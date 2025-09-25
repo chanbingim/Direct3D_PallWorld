@@ -125,14 +125,26 @@ HRESULT CPlayer_Interface::ADD_Childs()
 #pragma endregion
 
 #pragma region WEAPON_UI
-		IconDesc.vScale = { 200.f, 75.f, 0.f };
+		IconDesc.vScale = { 200.f, 65.f, 0.f };
 		//Health Icon
-		IconDesc.vPosition = { g_iWinSizeX * 0.7f + (IconDesc.vScale.x * 0.5f),
-							   IconDesc.vScale.x * 0.5f,
+		IconDesc.vPosition = { g_iWinSizeX * 0.69f + (IconDesc.vScale.x * 0.8f),
+							   IconDesc.vScale.y + 30.f,
 							   0.f };
 		if (FAILED(pInGame_HUD->Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Weapon_QuickSlot"), TEXT("Weapon_Slot_UI"), &IconDesc)))
 			return E_FAIL;
 #pragma endregion
+
+#pragma region ITEM_SLOT_UI
+		IconDesc.vScale = { 100.f, 65.f, 0.f };
+		//Health Icon
+		IconDesc.vPosition = { g_iWinSizeX * 0.63f + ( IconDesc.vScale.x * 0.8f),
+								IconDesc.vScale.y + 30.f,
+								0.f };
+		if (FAILED(pInGame_HUD->Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Item_QuickSlot"), TEXT("Item_Slot_UI"), &IconDesc)))
+			return E_FAIL;
+
+#pragma endregion
+
 	}
 
 	return S_OK;

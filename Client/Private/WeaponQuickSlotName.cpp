@@ -31,12 +31,13 @@ HRESULT CWeaponQuickSlotName::Initialize(void* pArg)
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
+	m_fFontPoint = { (_float)GetRectSize().left, (_float)GetRectSize().top };
 	return S_OK;
 }
 
 void CWeaponQuickSlotName::Update(_float fDeletaTime)
 {
-	m_fFontPoint = { (_float)GetRectSize().left, (_float)GetRectSize().top };
+
 }
 
 void CWeaponQuickSlotName::Late_Update(_float fDeletaTime)

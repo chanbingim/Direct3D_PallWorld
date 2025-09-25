@@ -34,6 +34,7 @@ HRESULT CFlower::Initialize(void* pArg)
 
     D3D11_MAPPED_SUBRESOURCE SubResource = {};
 
+    _float3 vPos = m_pTransformCom->GetPosition();
     _uInt iNumInstance = m_pVIBufferCom->GetNumInstance();
     m_pVIBufferCom->Lock(&SubResource);;
     VTX_INSTANCE_DEFAULT_DESC* pVertices = static_cast<VTX_INSTANCE_DEFAULT_DESC*>(SubResource.pData);
@@ -41,8 +42,10 @@ HRESULT CFlower::Initialize(void* pArg)
     {
         for (_uInt i = 0; i < iNumInstance; i++)
         {
-            _float3 vHeightPos = { pVertices[i].vPosition.x, pVertices[i].vPosition.y, pVertices[i].vPosition.z };
-
+         
+            _float3 vHeightPos = { pVertices[i].vPosition.x + vPos.x,
+                                   pVertices[i].vPosition.y + vPos.y,
+                                   pVertices[i].vPosition.z + vPos.z };
             pNaviMesh->ComputeHeight(&vHeightPos);
             pVertices[i].vPosition.x = vHeightPos.x;
             pVertices[i].vPosition.y = vHeightPos.y;

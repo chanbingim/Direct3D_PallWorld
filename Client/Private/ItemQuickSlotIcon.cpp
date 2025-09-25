@@ -31,6 +31,7 @@ HRESULT CItemQuickSlotIcon::Initialize(void* pArg)
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
+	m_iZOrder = 1;
 	return S_OK;
 }
 
@@ -46,15 +47,18 @@ void CItemQuickSlotIcon::Late_Update(_float fDeletaTime)
 HRESULT CItemQuickSlotIcon::Render()
 {
 	Apply_ConstantShaderResources();
-	m_pShaderCom->Update_Shader(0);
-	m_pTextureCom->SetTexture(0, m_iWeaponTypeIcon);
-	m_pVIBufferCom->Render_VIBuffer();
+	m_pShaderCom->Update_Shader(2);
+	if (m_pItemIcon)
+	{
+		m_pItemIcon->SetTexture(0, 0);
+		m_pVIBufferCom->Render_VIBuffer();
+	}
 	return S_OK;
 }
 
-void CItemQuickSlotIcon::SetWeaponTypeIcon(WEAPON eType)
+void CItemQuickSlotIcon::SetItemTypeIcon(const CTexture* pIconTexture)
 {
-	m_iWeaponTypeIcon = ENUM_CLASS(eType);
+	m_pItemIcon = pIconTexture;
 }
 
 HRESULT CItemQuickSlotIcon::ADD_Components()
@@ -62,10 +66,7 @@ HRESULT CItemQuickSlotIcon::ADD_Components()
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Pell_HeatlhBar_Tex"), TEXT("Texture_Com"), (CComponent**)&m_pTextureCom)))
-		return E_FAIL;
-
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_ProgressBar"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
 		return E_FAIL;
 
 	return S_OK;

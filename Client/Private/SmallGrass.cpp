@@ -33,6 +33,8 @@ HRESULT CSmallGrass::Initialize(void* pArg)
 
 	D3D11_MAPPED_SUBRESOURCE SubResource = {};
 
+	_matrix vWorldMat = XMLoadFloat4x4(&m_pTransformCom->GetWorldMat());
+
 	_uInt iNumInstance = m_pVIBufferCom->GetNumInstance();
 	m_pVIBufferCom->Lock(&SubResource);;
 	VTX_INSTANCE_DEFAULT_DESC* pVertices = static_cast<VTX_INSTANCE_DEFAULT_DESC*>(SubResource.pData);
@@ -40,7 +42,11 @@ HRESULT CSmallGrass::Initialize(void* pArg)
 	{
 		for (_uInt i = 0; i < iNumInstance; i++)
 		{
-			_float3 vHeightPos = { pVertices[i].vPosition.x, pVertices[i].vPosition.y, pVertices[i].vPosition.z };
+			_float3 vHeightPos = { pVertices[i].vPosition.x,
+								   pVertices[i].vPosition.y,
+							       pVertices[i].vPosition.z };
+
+			XMStoreFloat3(&vHeightPos, XMVector3TransformCoord(XMLoadFloat3(&vHeightPos), vWorldMat));
 		
 			pNaviMesh->ComputeHeight(&vHeightPos);
 			pVertices[i].vPosition.x = vHeightPos.x;

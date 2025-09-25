@@ -29,12 +29,13 @@ HRESULT CWeaponQuickSlotCount::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_iZOrder = 2;
+	m_fFontPoint = { (_float)GetRectSize().left, (_float)GetRectSize().top };
 	return S_OK;
 }
 
 void CWeaponQuickSlotCount::Update(_float fDeletaTime)
 {
-	m_fFontPoint = { (_float)GetRectSize().left, (_float)GetRectSize().top };
+
 }
 
 void CWeaponQuickSlotCount::Late_Update(_float fDeletaTime)

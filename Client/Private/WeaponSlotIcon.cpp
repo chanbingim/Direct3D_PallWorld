@@ -47,7 +47,7 @@ void CWeaponSlotIcon::Late_Update(_float fDeletaTime)
 HRESULT CWeaponSlotIcon::Render()
 {
 	Apply_ConstantShaderResources();
-	m_pShaderCom->Update_Shader(0);
+	m_pShaderCom->Update_Shader(2);
 
 	if(m_pItemIcon)
 		m_pItemIcon->SetTexture(0, 0);

@@ -108,7 +108,7 @@ HRESULT CWeaponQuickSlot::ADD_Childs()
 	pUIDesc.pParent = this;
 
 	pUIDesc.vScale = { vScale.x * 0.6f , vScale.y, 0.f };
-	pUIDesc.vPosition = { -50.f, 0.f, 0.f };
+	pUIDesc.vPosition = { -30.f, 0.f, 0.f };
 	/* 여기서 만들어서 자식으로 추가한다. */
 	m_pWeaponSlotIcon = CWeaponSlotIcon::Create(m_pGraphic_Device, m_pDeviceContext);
 	if (nullptr == m_pWeaponSlotIcon)
@@ -116,7 +116,7 @@ HRESULT CWeaponQuickSlot::ADD_Childs()
 	m_pWeaponSlotIcon->Initialize(&pUIDesc);
 
 	pUIDesc.vScale = { vScale.x , 30.f, 0.f };
-	pUIDesc.vPosition = {0, -vScale.y, 0.f};
+	pUIDesc.vPosition = {0, -vScale.y * 0.75f, 0.f};
 	m_pWeaponSlotName = CWeaponQuickSlotName::Create(m_pGraphic_Device, m_pDeviceContext);
 	if (nullptr == m_pWeaponSlotName)
 		return E_FAIL;

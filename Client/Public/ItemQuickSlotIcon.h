@@ -1,5 +1,4 @@
 #pragma once
-#include "ItemStruct.h"
 #include "BackGround.h"
 
 NS_BEGIN(Client)
@@ -20,10 +19,10 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
-	void									SetWeaponTypeIcon(WEAPON eType);
+	void									SetItemTypeIcon(const CTexture* pIconTexture);
 
-private :
-	_uInt									m_iWeaponTypeIcon = {};
+private:
+	const CTexture*							m_pItemIcon = nullptr;
 
 private :
 	HRESULT									ADD_Components();
