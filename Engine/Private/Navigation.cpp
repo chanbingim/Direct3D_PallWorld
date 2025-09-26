@@ -98,11 +98,18 @@ _bool CNavigation::IsMove(_vector vPosition)
 	return false;
 }
 
-void CNavigation::ComputeHeight(CTransform* pTransform)
+void CNavigation::ComputeHeight(CTransform* pTransform, _bool bIsFindCell)
 {
 	_float3		vPos = pTransform->GetPosition();
 	_vector		vLocalPos = XMVector3TransformCoord(XMLoadFloat3(&vPos), XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_WorldMatrix)));
-	_float		fHeight = m_Cells[m_iCurrentCellIndex]->ComputeHeight(vLocalPos);
+	
+	_uInt iIndex = m_iCurrentCellIndex;
+	if (bIsFindCell)
+		iIndex = Find_Cell(vLocalPos);
+	if (-1 == iIndex)
+		return;
+
+	_float		fHeight = m_Cells[iIndex]->ComputeHeight(vLocalPos);
 
 	vPos.y = fHeight;
 	pTransform->SetPosition(vPos);

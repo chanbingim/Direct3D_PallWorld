@@ -10,6 +10,7 @@
 
 //FILE Input
 #include <fstream>
+#include <sstream>
 
 //STL
 #include <set>

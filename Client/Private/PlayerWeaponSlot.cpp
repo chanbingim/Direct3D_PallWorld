@@ -9,6 +9,7 @@
 
 #include "ProjectileObject.h"
 #include "ProjectileSlot.h"
+#include "Enviormnent.h"
 
 #include "PellBase.h"
 #include "Player.h"
@@ -58,7 +59,7 @@ void CPlayerWeaponSlot::Update(_float fDeletaTime)
 		if (ITEM_TYPE::EQUIPMENT == ItemData.ItemType)
 		{
 			m_LeftFlag = ItemData.TypeDesc.EuqipDesc.bIsLeftSocket;
-			m_pProjectileSlot->SetItemIndex(ItemData.TypeDesc.EuqipDesc.iProjectileIndex);
+			m_pProjectileSlot->SetItemIndex(ItemData.TypeDesc.EuqipDesc.iProjectileItemIndex);
 		}
 
 		m_pCollision[0]->SetCollision(m_CurrentEuipItemInfo->GetItemData().TypeDesc.EuqipDesc.vCenter, { 0.f, 0.f, 0.f, 0.f }, m_CurrentEuipItemInfo->GetItemData().TypeDesc.EuqipDesc.vExtents);
@@ -243,12 +244,16 @@ void CPlayerWeaponSlot::HitBegin(_float3 vDir, CGameObject* pHitActor)
 		}
 	}
 
+	auto EnvObject = dynamic_cast<CEnviormnent*>(pHitActor);
+	if (EnvObject)
+		bIsDamage = true;
+
 	if (bIsDamage)
 	{
 		DEFAULT_DAMAGE_DESC DamageDes = {};
 		DamageDes.fDmaged = 10.f;
 
-		HitObejct->Damage(&DamageDes, CPlayerManager::GetInstance()->GetCurrentPlayer());
+		static_cast<CActor *>(pHitActor)->Damage(&DamageDes, CPlayerManager::GetInstance()->GetCurrentPlayer());
 	}
 }
 

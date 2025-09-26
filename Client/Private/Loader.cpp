@@ -59,12 +59,20 @@
 
 #pragma region ENVIORNMENT
 #include "RockObject.h"
+#include "TreeObject.h"
+#include "PellRock.h"
 #include "SmallGrass.h"
 #include "Flower.h"
 #pragma endregion
 
+#pragma region ITEM
+#include "ItemObject.h"
+#pragma endregion
+
+
 #pragma region Components
 #include "Recovery.h"
+#include "DropComponent.h"
 #pragma endregion
 
 #pragma region UI
@@ -532,33 +540,59 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 
 #pragma region ROCK
-	//for (_uInt i = 0; i < 8; ++i)
-	//{
-	//	wsprintf(szModelName, TEXT("Prototype_Component_VIBuffer_Rock_%d_Mesh"), i);
-	//	sprintf_s(szFilePath, "../Bin/Resources/Models/Rock/Rock_%d.fbx", i);
+	/* EnviornMent Rock MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Rock_0_Mesh"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Rock/Rock/Rock/Rock02/Rock02.dat"))))
+		return E_FAIL;
 
-	//	/* EnviornMent Rock MESH  Component */
-	//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), szModelName,
-	//		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, szFilePath))))
-	//		return E_FAIL;
-	//}
+	/* EnviornMent Rock3 MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Rock_1_Mesh"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Rock/Rock/Rock/Rock03/Rock03.fbx"))))
+		return E_FAIL;
+
+	/* EnviornMent Rock3 MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Rock_2_Mesh"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Rock/Rock/ClifRock/Clif01/Clif_Rock1.fbx"))))
+		return E_FAIL;
+
+#pragma region PalJium
+	/* EnviornMent PalJium MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_PellJium_Mesh"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Rock/Ore/Paljium.dat"))))
+		return E_FAIL;
+#pragma endregion
+
 #pragma endregion
 
 #pragma region TREE
-	//for (_uInt i = 0; i < 8; ++i)
-	//{
-	//	wsprintf(szModelName, TEXT("Prototype_Component_VIBuffer_Rock_%d_Mesh"), i);
-	//	sprintf_s(szFilePath, "../Bin/Resources/Models/Rock/Rock_%d.fbx", i);
+	/* EnviornMent Tree0 MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Tree0_Mesh"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Tree/Tree03/b03.dat"))))
+		return E_FAIL;
 
-	//	/* EnviornMent Rock MESH  Component */
-	//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), szModelName,
-	//		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Rock/Rock_0.fbx"))))
-	//		return E_FAIL;
-	//}
+	/* EnviornMent Tree1 MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Tree1_Mesh"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Tree/Tree04/b04.dat"))))
+		return E_FAIL;
 #pragma endregion
 
+#pragma endregion
 
+#pragma endregion
+#pragma region ITEM
 
+#pragma region ROCK
+	/* ITEM Rock MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Item_Rock_Mesh"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Item/Rock/ItemRock.fbx", PreModelMat))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region Wood
+	/* ITEM Rock MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Item_Wood_Mesh"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Item/Wood/Wood.fbx", PreModelMat))))
+		return E_FAIL;
 #pragma endregion
 
 #pragma endregion
@@ -577,6 +611,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* GamePlay_Component_RecoveryComponent */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("GamePlay_Component_Recovery"), CRecovery::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GamePlay_Component_DropComponent */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GamePlay_Component_Drop"), CDropComponent::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 #pragma endregion
 
@@ -687,8 +725,16 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma region ENVIORNMENT
 
 #pragma region ROCK
-	/* GAME_OBJECT_Yeti */
+	/* GAME_OBJECT_Rock */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Rock"), CRockObject::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_Tree */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Tree"), CTreeObject::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_PellJium */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_PelJium"), CPellRock::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 #pragma endregion
 
@@ -842,6 +888,12 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ArrowProjectile"), CArrowProjectile::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+#pragma endregion
+
+#pragma region ITEM OBJECT
+	/* GAME_OBJECT_ItemObject */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ItemObject"), CItemObject::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 #pragma endregion
 
 

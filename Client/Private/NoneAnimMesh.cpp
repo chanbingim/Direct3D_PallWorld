@@ -55,7 +55,7 @@ HRESULT CNoneAnimMesh::Bind_ShaderResources()
     m_pEMVWorldMat = m_pShaderCom->GetVariable("g_WorldMatrix")->AsMatrix();
     m_pEMVViewMat = m_pShaderCom->GetVariable("g_ViewMatrix")->AsMatrix();
     m_pEMVProjMat = m_pShaderCom->GetVariable("g_ProjMatrix")->AsMatrix();
-    m_pSRVEffect = m_pShaderCom->GetVariable("g_Texture")->AsShaderResource();
+    m_pSRVEffect = m_pShaderCom->GetVariable("g_DiffuseTexture")->AsShaderResource();
 
     return S_OK;
 }

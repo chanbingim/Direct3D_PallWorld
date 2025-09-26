@@ -1,5 +1,8 @@
 #include "ItemManager.h"
+
 #include "GameInstance.h"
+#include "StringHelper.h"
+#include "CsvHelper.h"
 
 IMPLEMENT_SINGLETON(CItemManager);
 
@@ -28,15 +31,14 @@ HRESULT CItemManager::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 
         lstrcpy(Desc.TypeDesc.EuqipDesc.ProjectilePrototpyeName, TEXT(""));
         Desc.TypeDesc.EuqipDesc.iAtkPoint = 10;
-        Desc.TypeDesc.EuqipDesc.iGuardPoint = 0;
-        Desc.TypeDesc.EuqipDesc.iHealthPoint = 0;
+        Desc.TypeDesc.EuqipDesc.iDurability = 100;
         Desc.TypeDesc.EuqipDesc.bIsLeftSocket = false;
         Desc.TypeDesc.EuqipDesc.bIsChargeAble = false;
         Desc.TypeDesc.EuqipDesc.vCenter = {0.f, 0.5f, 0.f};
         Desc.TypeDesc.EuqipDesc.vExtents = {0.2f, 0.5f, 0.2f};
         Desc.TypeDesc.EuqipDesc.Equip_Type = EUQIP_TYPE::WEAPON;
         Desc.TypeDesc.EuqipDesc.Weapon_Type = WEAPON::MELEE;
-             m_Items.emplace(1, Desc);
+        m_Items.emplace(1, Desc);
 
         Desc.iItemNum = 2;
         Desc.ItemType = ITEM_TYPE::EQUIPMENT;
@@ -50,8 +52,7 @@ HRESULT CItemManager::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 
         lstrcpy(Desc.TypeDesc.EuqipDesc.ProjectilePrototpyeName, TEXT("Prototype_GameObject_PalSpher"));
         Desc.TypeDesc.EuqipDesc.iAtkPoint = 10;
-        Desc.TypeDesc.EuqipDesc.iGuardPoint = 0;
-        Desc.TypeDesc.EuqipDesc.iHealthPoint = 0;
+        Desc.TypeDesc.EuqipDesc.iDurability = 100;
         Desc.TypeDesc.EuqipDesc.bIsLeftSocket = false;
         Desc.TypeDesc.EuqipDesc.bIsChargeAble = false;
         Desc.TypeDesc.EuqipDesc.vCenter = {  };
@@ -73,11 +74,10 @@ HRESULT CItemManager::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 
         lstrcpy(Desc.TypeDesc.EuqipDesc.ProjectilePrototpyeName, TEXT("Prototype_GameObject_ArrowProjectile"));
         Desc.TypeDesc.EuqipDesc.iAtkPoint = 10;
-        Desc.TypeDesc.EuqipDesc.iGuardPoint = 0;
-        Desc.TypeDesc.EuqipDesc.iHealthPoint = 0;
+        Desc.TypeDesc.EuqipDesc.iDurability = 100;
         Desc.TypeDesc.EuqipDesc.bIsLeftSocket = true;
         Desc.TypeDesc.EuqipDesc.bIsChargeAble = true;
-        Desc.TypeDesc.EuqipDesc.iProjectileIndex = 10;
+        Desc.TypeDesc.EuqipDesc.iProjectileItemIndex = 10;
         Desc.TypeDesc.EuqipDesc.vCenter = {  };
         Desc.TypeDesc.EuqipDesc.vExtents = {  };
         Desc.TypeDesc.EuqipDesc.Equip_Type = EUQIP_TYPE::WEAPON;
@@ -97,13 +97,6 @@ HRESULT CItemManager::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
         Desc.IsPlayAnimation = false;
         Desc.TypeDesc.ConsumDesc.bIsLeftSocket = false;
         m_Items.emplace(10, Desc);
-    }
-    else
-    {
-        // 넘겨받을 녀석의 저장 파일이있다면
-        // 저장된 파일의 정보를 읽어와서 파싱
-        if(FAILED(LoadItemData(FilePath)))
-            return E_FAIL;
     }
     return S_OK;
 }
@@ -126,8 +119,77 @@ const CTexture* CItemManager::GetItemTexture(_uInt ItemID)
     return iter->second;
 }
 
-HRESULT CItemManager::LoadItemData(const char* FilePath)
+HRESULT CItemManager::LoadItemData(_bool bFlag, const char* FilePath)
 {
+    vector<_string> LoadEquipData = {};
+    CSV_Read<const char>(FilePath, LoadEquipData);
+
+    HRESULT hr = {};
+    if (bFlag)
+        hr =  ParseEuipData(LoadEquipData);
+    else
+        hr = ParseConsumeData(LoadEquipData);
+
+    return hr;
+}
+
+HRESULT CItemManager::ParseEuipData(vector<_string>& Data)
+{
+    WCHAR ConvertName[MAX_PATH] = {};
+    for (size_t i = 17; i < Data.size();)
+    {
+        ITEM_DESC Desc;
+        Desc.iItemNum = atoi(Data[i++].c_str());
+    
+        CStringHelper::ConvertUTFToWide(Data[i++].c_str(), Desc.szItemName);
+        CStringHelper::ConvertUTFToWide(Data[i++].c_str(), ConvertName);
+        CStringHelper::ConvertUTFToWide(Data[i++].c_str(), Desc.szItemModelPath);
+        
+        Desc.ItemType = ITEM_TYPE(atoi(Data[i++].c_str()));
+        Desc.IsAnimModel = atoi(Data[i++].c_str());
+        Desc.IsPlayAnimation = atoi(Data[i++].c_str());
+
+        CStringHelper::ConvertUTFToWide(Data[i++].c_str(), Desc.TypeDesc.EuqipDesc.ProjectilePrototpyeName);
+        Desc.TypeDesc.EuqipDesc.iAtkPoint = atoi(Data[i++].c_str());
+        Desc.TypeDesc.EuqipDesc.iDurability = atoi(Data[i++].c_str());
+        Desc.TypeDesc.EuqipDesc.bIsLeftSocket = atoi(Data[i++].c_str());
+        Desc.TypeDesc.EuqipDesc.bIsChargeAble = atoi(Data[i++].c_str());
+        Desc.TypeDesc.EuqipDesc.iProjectileItemIndex = atoi(Data[i++].c_str());
+
+        Desc.TypeDesc.EuqipDesc.vCenter = {  (_float)atof(Data[i++].c_str()), (_float)atof(Data[i++].c_str()), (_float)atof(Data[i++].c_str()) };
+        Desc.TypeDesc.EuqipDesc.vExtents = { (_float)atof(Data[i++].c_str()), (_float)atof(Data[i++].c_str()), (_float)atof(Data[i++].c_str()) };
+        Desc.TypeDesc.EuqipDesc.Equip_Type = EUQIP_TYPE(atoi(Data[i++].c_str()));
+        Desc.TypeDesc.EuqipDesc.Weapon_Type = WEAPON(atoi(Data[i++].c_str()));
+
+        m_ItemTextures.emplace(Desc.iItemNum, CTexture::Create(m_pDevice, m_pContext, ConvertName, 1));
+        m_Items.emplace(Desc.iItemNum, Desc);
+    }
+
+    return S_OK;
+}
+
+HRESULT CItemManager::ParseConsumeData(vector<_string>& Data)
+{
+    WCHAR ConvertName[MAX_PATH] = {};
+    for (size_t i = 10; i < Data.size();)
+    {
+        ITEM_DESC Desc;
+        Desc.iItemNum = atoi(Data[i++].c_str());
+       
+        CStringHelper::ConvertUTFToWide(Data[i++].c_str(), Desc.szItemName);
+        CStringHelper::ConvertUTFToWide(Data[i++].c_str(), ConvertName);
+        CStringHelper::ConvertUTFToWide(Data[i++].c_str(), Desc.szItemModelPath);
+     
+        Desc.ItemType = ITEM_TYPE(atoi(Data[i++].c_str()));
+        Desc.IsAnimModel = atoi(Data[i++].c_str());
+        Desc.IsPlayAnimation = atoi(Data[i++].c_str());
+
+        Desc.TypeDesc.ConsumDesc.bIsLeftSocket = atoi(Data[i++].c_str());
+        Desc.TypeDesc.ConsumDesc.iEffectType = atoi(Data[i++].c_str());
+        Desc.TypeDesc.ConsumDesc.iRecoveryPoint = atoi(Data[i++].c_str());
+        m_ItemTextures.emplace(Desc.iItemNum, CTexture::Create(m_pDevice, m_pContext, ConvertName, 1));
+        m_Items.emplace(Desc.iItemNum, Desc);
+    }
     return S_OK;
 }
 

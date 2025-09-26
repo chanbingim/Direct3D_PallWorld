@@ -1,6 +1,9 @@
 #include "RockObject.h"
 
 #include "GameInstance.h"
+#include "TerrainManager.h"
+
+#include "DropComponent.h"
 
 CRockObject::CRockObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CEnviormnent(pDevice, pContext)
@@ -32,6 +35,10 @@ HRESULT CRockObject::Initialize(void* pArg)
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
+    auto pNaviMesh = CTerrainManager::GetInstance()->GetNavimesh();
+    pNaviMesh->ComputeHeight(m_pTransformCom, true);
+    m_pCollision->UpdateColiision(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
+    m_pDropComponent->Insert_ItemIndex(12, 100);
     return S_OK;
 }
 
@@ -45,7 +52,11 @@ void CRockObject::Update(_float fDeletaTime)
 
 void CRockObject::Late_Update(_float fDeletaTime)
 {
-    m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
+    if (m_pGameInstance->DistanceCulling(m_pTransformCom->GetPosition()))
+    {
+        m_pGameInstance->ADD_CollisionList(m_pCollision);
+        m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
+    }
 }
 
 HRESULT CRockObject::Render()
@@ -58,7 +69,29 @@ HRESULT CRockObject::Render()
         m_pShaderCom->Update_Shader(0);
         m_pVIBufferCom->Render(i);
     }
+    m_pCollision->Render();
     return S_OK;
+}
+
+HRESULT CRockObject::DeadFunction()
+{
+    if (FAILED(__super::DeadFunction()))
+        return E_FAIL;
+
+    return S_OK;
+}
+
+HRESULT CRockObject::HitBeginFunction(_float3 vDir, CGameObject* pGameObject)
+{
+    if (FAILED(__super::HitBeginFunction(vDir, pGameObject)))
+        return E_FAIL;
+
+    return S_OK;
+}
+
+void CRockObject::Damage(void* pArg, CActor* pDamagedActor)
+{
+    __super::Damage(pArg, pDamagedActor);
 }
 
 HRESULT CRockObject::ADD_Components(_uInt iModelIndex)
@@ -68,6 +101,22 @@ HRESULT CRockObject::ADD_Components(_uInt iModelIndex)
 
     // 돌  모델 정보
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), szModelName, TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
+        return E_FAIL;
+
+    // 콜리전 정보를 넣어서 한다.
+    // 근데 이거 돌마다 다른데 이거도 뭐 데이터값으로 하자
+    COBBCollision::OBB_COLLISION_DESC OBBDesc = {};
+    OBBDesc.pOwner = this;
+    OBBDesc.vExtents = {1.f, 1.f, 1.f};
+
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionOBB"), TEXT("Collision_Com"), (CComponent**)&m_pCollision, &OBBDesc)))
+        return E_FAIL;
+
+    m_pCollision->BindBeginOverlapEvent([this](_float3 vDir, CGameObject* pHitActor) { HitBeginFunction(vDir, pHitActor); });
+
+
+    // DropComponent
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GamePlay_Component_Drop"), TEXT("Drop_Com"), (CComponent**)&m_pDropComponent)))
         return E_FAIL;
 
     // NonAnimShader

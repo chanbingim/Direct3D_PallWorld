@@ -599,9 +599,6 @@
     <Filter Include="03. Objects\MeshObject\InstanceModel\Grass">
       <UniqueIdentifier>{0c74b82e-5f92-4abd-8947-24a3468de4e0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Objects\MeshObject\InstanceModel\Grass\Flower">
-      <UniqueIdentifier>{f81aa0f8-b9eb-41f3-9ad1-7ff10df359aa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. Objects\MeshObject\InstanceModel\Grass\Grass00">
       <UniqueIdentifier>{19b6f41f-4d5f-437d-b24c-a9526f53c4b7}</UniqueIdentifier>
     </Filter>
@@ -613,6 +610,18 @@
     </Filter>
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\WeaponSlot\Font\ProjectileCount">
       <UniqueIdentifier>{40343e6a-c645-4660-8cbc-0ba02262d872}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\InstanceModel\Flower">
+      <UniqueIdentifier>{f81aa0f8-b9eb-41f3-9ad1-7ff10df359aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Static_Object\Item\DropItem">
+      <UniqueIdentifier>{3ee645c3-e3a7-427b-98fe-653a2a1312c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. Component\ObjectAnimComonent">
+      <UniqueIdentifier>{c695f6b4-2dfb-4591-ba27-b1ed2c0e5c34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. Component\ObjectAnimComonent\ObjectAnim">
+      <UniqueIdentifier>{b4306d5f-213f-446c-bdd3-373643197acd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1127,10 +1136,19 @@
       <Filter>03. Objects\MeshObject\InstanceModel\Grass\Grass00</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Flower.h">
-      <Filter>03. Objects\MeshObject\InstanceModel\Grass\Flower</Filter>
+      <Filter>03. Objects\MeshObject\InstanceModel\Flower</Filter>
     </ClInclude>
     <ClInclude Include="..\public\InstanceModel.h">
       <Filter>03. Objects\MeshObject\InstanceModel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ItemObject.h">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Item\DropItem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ObjectAnimComponent.h">
+      <Filter>06. Component\ObjectAnimComonent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ObjectAnim.h">
+      <Filter>06. Component\ObjectAnimComonent\ObjectAnim</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1628,10 +1646,19 @@
       <Filter>03. Objects\MeshObject\InstanceModel\Grass\Grass00</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Flower.cpp">
-      <Filter>03. Objects\MeshObject\InstanceModel\Grass\Flower</Filter>
+      <Filter>03. Objects\MeshObject\InstanceModel\Flower</Filter>
     </ClCompile>
     <ClCompile Include="..\private\InstanceModel.cpp">
       <Filter>03. Objects\MeshObject\InstanceModel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ItemObject.cpp">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Item\DropItem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ObjectAnimComponent.cpp">
+      <Filter>06. Component\ObjectAnimComonent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ObjectAnim.cpp">
+      <Filter>06. Component\ObjectAnimComonent\ObjectAnim</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

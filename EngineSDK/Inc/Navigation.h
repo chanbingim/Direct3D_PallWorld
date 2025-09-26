@@ -52,7 +52,7 @@ public:
 	void							Update(_matrix WorldMatrix);
 	_bool							IsMove(_vector vPosition);
 
-	void							ComputeHeight(CTransform* pTransform);
+	void							ComputeHeight(CTransform* pTransform, _bool bIsFindCell = false);
 	void							ComputeHeight(_float3* pPosition);
 
 	_Int							Find_Cell(_vector vPos);

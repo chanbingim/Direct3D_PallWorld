@@ -483,6 +483,18 @@ _float CGameInstance::Random(_float fMin, _float fMax)
     return fMin + Random_Normal() * (fMax - fMin);
 }
 
+_bool CGameInstance::DistanceCulling(_float3 vPos)
+{
+    _vector vCameraPos = GetCameraState(WORLDSTATE::POSITION);
+    _vector vObjectPos = XMLoadFloat3(&vPos);
+
+    _float fDistance = XMVectorGetX(XMVector3Length(vCameraPos - vObjectPos));
+    if (100.f >= fDistance)
+        return true;
+
+    return false;
+}
+
 _float CGameInstance::GetPipeLineLoopTime(const TCHAR* Str)
 {
     return m_pTimer_Manager->Get_TimeDelta(Str);

@@ -176,6 +176,9 @@ public :
 	void						GetGamePause(_bool bFlag);
 	_float						Random_Normal();
 	_float						Random(_float fMin, _float fMax);
+
+	_bool						DistanceCulling(_float3 vPos);
+
 #pragma endregion
 
 #pragma region LIGHT_MANAGER

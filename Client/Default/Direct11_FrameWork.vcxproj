@@ -177,6 +177,7 @@
     <ClInclude Include="..\public\DropComponent.h" />
     <ClInclude Include="..\public\Flower.h" />
     <ClInclude Include="..\public\InstanceModel.h" />
+    <ClInclude Include="..\public\ItemObject.h" />
     <ClInclude Include="..\public\ItemQuickSlot.h" />
     <ClInclude Include="..\Public\ItemQuickSlotCount.h" />
     <ClInclude Include="..\Public\ItemQuickSlotIcon.h" />
@@ -184,6 +185,8 @@
     <ClInclude Include="..\Public\KeyIcon.h" />
     <ClInclude Include="..\public\NeturalPellInfo.h" />
     <ClInclude Include="..\public\NeturalTypeIcon.h" />
+    <ClInclude Include="..\public\ObjectAnim.h" />
+    <ClInclude Include="..\public\ObjectAnimComponent.h" />
     <ClInclude Include="..\public\PallSpherPercentBar.h" />
     <ClInclude Include="..\public\PellAttackState.h" />
     <ClInclude Include="..\public\PellCharacterIcon.h" />
@@ -351,6 +354,9 @@
     <ClCompile Include="..\private\CombatComponent.cpp" />
     <ClCompile Include="..\private\Flower.cpp" />
     <ClCompile Include="..\private\InstanceModel.cpp" />
+    <ClCompile Include="..\private\ItemObject.cpp" />
+    <ClCompile Include="..\private\ObjectAnim.cpp" />
+    <ClCompile Include="..\private\ObjectAnimComponent.cpp" />
     <ClCompile Include="..\private\SmallGrass.cpp" />
     <ClCompile Include="..\private\DefaultMap.cpp" />
     <ClCompile Include="..\private\DropComponent.cpp" />

@@ -6,6 +6,8 @@ Texture2D g_DiffuseTexture;
 sampler sampler0 = sampler_state
 {
     filter = MIN_MAG_MIP_LINEAR;
+    AddressU = WRAP;
+    AddressV = WRAP;
 };
 
 /* 정점 쉐이더 : */

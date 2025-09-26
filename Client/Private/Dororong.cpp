@@ -120,11 +120,14 @@ void CDororong::Update(_float fDeletaTime)
 
 void CDororong::Late_Update(_float fDeletaTime)
 {
-    if (PELL_STORAGE_STATE::PARTNER_PELL < m_PellInfo.ePellStorageState)
-        return;
+    if (m_pGameInstance->DistanceCulling(m_pTransformCom->GetPosition()))
+    {
+        if (PELL_STORAGE_STATE::PARTNER_PELL < m_PellInfo.ePellStorageState)
+            return;
 
-    __super::Late_Update(fDeletaTime);
-    m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
+        __super::Late_Update(fDeletaTime);
+        m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
+    }
 }
 
 HRESULT CDororong::Render()

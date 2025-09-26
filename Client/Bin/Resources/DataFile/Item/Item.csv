@@ -1,0 +1,5 @@
+아이템 번호,아이템 이름,아이템 아이콘 프로토타입,모델의 프로토타입,타입,애니메이션모델,애니메이션 재생,왼쪽 무기,이펙트타입,회복량
+10,Arrow,../Bin/Resources/Textures/UI/InGameUI/ItemIcon/T_itemicon_Ammo_Arrow.png,Prototype_Component_VIBuffer_Arrow,1,0,0,0,0,0
+11,Wood,../Bin/Resources/Textures/UI/InGameUI/ItemIcon/T_itemicon_Material_Wood.png,Prototype_Component_VIBuffer_Item_Wood_Mesh,1,0,0,0,0,0
+12,Rock,../Bin/Resources/Textures/UI/InGameUI/ItemIcon/T_itemicon_Material_Stone.png,Prototype_Component_VIBuffer_Item_Rock_Mesh,1,0,0,0,0,0
+13,PalJium,../Bin/Resources/Textures/UI/InGameUI/ItemIcon/T_itemicon_Material_Pal_crystal_S.png,Prototype_Component_VIBuffer_Item_Wood_Mesh,1,0,0,0,0,0

@@ -47,8 +47,8 @@ void CPlayerManager::BindEquipSlot(_uInt iSlotIndex, _uInt iItemIndex)
 	{
 		auto ItemData = CItemManager::GetInstance()->GetItemInfo(iItemIndex);
 		const ITEM_DESC* ProejectileItemData = nullptr;
-		if (-1 < ItemData->TypeDesc.EuqipDesc.iProjectileIndex)
-			ProejectileItemData = CItemManager::GetInstance()->GetItemInfo(ItemData->TypeDesc.EuqipDesc.iProjectileIndex);
+		if (-1 < ItemData->TypeDesc.EuqipDesc.iProjectileItemIndex)
+			ProejectileItemData = CItemManager::GetInstance()->GetItemInfo(ItemData->TypeDesc.EuqipDesc.iProjectileItemIndex);
 
 		if (ITEM_TYPE::EQUIPMENT == ItemData->ItemType)
 		{

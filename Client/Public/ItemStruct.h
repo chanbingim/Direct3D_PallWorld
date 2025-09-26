@@ -12,11 +12,10 @@ namespace Client
 		// 무기의 UI Icon 정보를 가진녀석
 		WCHAR				ProjectilePrototpyeName[MAX_PATH];
 		_uInt				iAtkPoint;
-		_uInt				iGuardPoint;
-		_uInt				iHealthPoint;
+		_float				iDurability;
 		_bool				bIsLeftSocket;
 		_bool				bIsChargeAble;
-		_Int				iProjectileIndex;
+		_Int				iProjectileItemIndex;
 
 		//충돌체 정보
 		_float3				vCenter;
@@ -33,7 +32,6 @@ namespace Client
 
 		_uInt				iEffectType;
 		_uInt				iRecoveryPoint;
-		_bool				bIsStateEffectHeal;
 	}CONSUME_ITEM_DESC;
 
 	typedef union ItemTypeDesc

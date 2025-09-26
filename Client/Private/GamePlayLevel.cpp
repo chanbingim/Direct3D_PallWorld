@@ -29,7 +29,12 @@ HRESULT CGamePlayLevel::Initialize()
 	/*if (FAILED(ADD_SkyLayer(TEXT("Layer_GamePlay_SKY"))))
 		return E_FAIL;*/
 
-	CItemManager::GetInstance()->Initialize(m_pGraphic_Device, m_pDeviceContext);
+#pragma region ItemManager
+	CItemManager::GetInstance()->Initialize(m_pGraphic_Device, m_pDeviceContext, "a");
+	CItemManager::GetInstance()->LoadItemData(true, "../Bin/Resources/DataFile/Weapon/WeaponData.csv");
+	CItemManager::GetInstance()->LoadItemData(false, "../Bin/Resources/DataFile/Item/Item.csv");
+#pragma endregion
+
 	CPlayerManager::PLAYER_MANAGER_DESC PlayerDesc;
 	PlayerDesc.iMaxInvenWeight = 1000;
 	PlayerDesc.iNumEquipMaxSlot = 4;
@@ -41,9 +46,9 @@ HRESULT CGamePlayLevel::Initialize()
 	if (FAILED(ADD_EnviornmentLayer(TEXT("Layer_GamePlay_Enviorment"))))
 		return E_FAIL;
 
-	/*CPellManager::GetInstance()->Initialize(m_pGraphic_Device, m_pDeviceContext);
+	CPellManager::GetInstance()->Initialize(m_pGraphic_Device, m_pDeviceContext);
 	if (FAILED(ADD_PellLayer(TEXT("Layer_GamePlay_Pell"))))
-		return E_FAIL;*/
+		return E_FAIL;
 
 
 	//m_pGameInstance->ShowInGameMouse(VISIBILITY::HIDDEN);
@@ -111,8 +116,7 @@ HRESULT CGamePlayLevel::ADD_SkyLayer(const _wstring& LayerName)
 
 HRESULT CGamePlayLevel::ADD_EnviornmentLayer(const _wstring& LayerName)
 {
-	CGameObject::GAMEOBJECT_DESC Desc;
-	ZeroMemory(&Desc, sizeof(CGameObject::GAMEOBJECT_DESC));
+	CGameObject::GAMEOBJECT_DESC Desc = {};
 	Desc.vScale = { 1.f, 1.f, 1.f };
 	Desc.vPosition = { 109.f, -64.f, 795.f };
 
@@ -124,6 +128,29 @@ HRESULT CGamePlayLevel::ADD_EnviornmentLayer(const _wstring& LayerName)
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Environment_Flower"),
 		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
 		return E_FAIL;
+
+	CEnviormnent::ENVIORMNENT_DESC EnviDesc = {};
+	EnviDesc.vScale = { 1.f, 1.f,1.f };
+	for (_uInt i = 0; i < 10; i++)
+	{
+		EnviDesc.iModelIndex = m_pGameInstance->Random(0.f, 2.f);
+		
+		EnviDesc.vPosition = { -84.f, 14.f, 515.f + 50 * i };
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Rock"),
+			ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &EnviDesc)))
+			return E_FAIL;
+
+		EnviDesc.iModelIndex = m_pGameInstance->Random(0.f, 1.f);
+		EnviDesc.vPosition = { -114.f + 50 * i, 14.f, 575.f - 50 * i };
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Tree"),
+			ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &EnviDesc)))
+			return E_FAIL;
+
+		EnviDesc.vPosition = { -114.f - 50 * i, 14.f, 575.f + 50 * i };
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_PelJium"),
+			ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &EnviDesc)))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }

@@ -1,6 +1,13 @@
 #include "Enviormnent.h"
 
 #include "GameInstance.h"
+#include "Level.h"
+
+#include "ItemObject.h"
+#include "ItemManager.h"
+#include "DropComponent.h"
+
+#include "Client_Struct.h"
 
 CEnviormnent::CEnviormnent(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CNoneAnimMesh(pDevice, pContext)
@@ -45,6 +52,68 @@ HRESULT CEnviormnent::Render()
     return S_OK;
 }
 
+HRESULT CEnviormnent::DeadFunction()
+{
+    if (m_pDropComponent)
+    {
+        //아이템 떨구기
+        list<CDropComponent::DROP_ITEM_DESC> DropItems = {};
+        m_pDropComponent->GetDropItemDesc(true, &DropItems);
+
+        if (!DropItems.empty())
+        {
+            CItemManager* pItemManager = CItemManager::GetInstance();
+            _uInt iLevelIndex = m_pGameInstance->GetCurrentLevel()->GetLevelID();
+
+            for (auto ItemDesc : DropItems)
+            {
+                CItemObject::ITEM_OBJECT_DESC ObjectDesc = {};
+                ObjectDesc.vScale = { 1.f,1.f,1.f };
+                ObjectDesc.vPosition = m_pTransformCom->GetPosition();
+                ObjectDesc.iItemIndex = ItemDesc.iDropItemIndex;
+                ObjectDesc.iItemCount = ItemDesc.iDropItemCount;
+
+                _uInt LoopCount = ItemDesc.iDropItemCount / 100.f + 1;
+                for (_uInt i = 0; i < LoopCount; ++i)
+                {
+                    //여기서 월드 아이템 생성
+                    m_pGameInstance->Add_GameObject_ToLayer(iLevelIndex, TEXT("GameLevel_Layer_Item"),
+                        static_cast<CGameObject *>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, iLevelIndex, TEXT("Prototype_GameObject_ItemObject"), &ObjectDesc)));
+
+                }
+            }
+        }
+    
+    }
+
+    m_IsDead = true;
+    return S_OK;
+}
+
+HRESULT CEnviormnent::HitBeginFunction(_float3 vDir, CGameObject* pGameObject)
+{
+   
+
+    return S_OK;
+}
+
+void CEnviormnent::Damage(void* pArg, CActor* pDamagedActor)
+{
+    DEFAULT_DAMAGE_DESC* pDamageDesc = static_cast<DEFAULT_DAMAGE_DESC*>(pArg);
+    if (pDamageDesc)
+    {
+        m_fHealth -= pDamageDesc->fDmaged;
+        if (0 >= m_fHealth)
+            DeadFunction();
+        else
+        {
+            //여기서 애니메이션 처리
+            //있다면
+
+        }
+    }
+}
+
 CGameObject* CEnviormnent::Clone(void* pArg)
 {
     return nullptr;
@@ -53,4 +122,7 @@ CGameObject* CEnviormnent::Clone(void* pArg)
 void CEnviormnent::Free()
 {
     __super::Free();
+
+    Safe_Release(m_pCollision);
+    Safe_Release(m_pDropComponent);
 }

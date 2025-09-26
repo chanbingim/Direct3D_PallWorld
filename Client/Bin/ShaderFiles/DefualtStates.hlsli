@@ -1,5 +1,12 @@
 float PI = 3.14159265359f;
 
+sampler DefaultSampler = sampler_state
+{
+    filter = MIN_MAG_MIP_LINEAR;
+    AddressU = WRAP;
+    AddressV = WRAP;
+};
+
 RasterizerState RS_Default
 {
     FillMode = Solid;

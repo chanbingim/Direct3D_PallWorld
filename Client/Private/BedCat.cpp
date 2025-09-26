@@ -119,8 +119,11 @@ void CBedCat::Late_Update(_float fDeletaTime)
     if (PELL_STORAGE_STATE::PARTNER_PELL < m_PellInfo.ePellStorageState)
         return;
 
-    __super::Late_Update(fDeletaTime);
-    m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
+    if (m_pGameInstance->DistanceCulling(m_pTransformCom->GetPosition()))
+    {
+        __super::Late_Update(fDeletaTime);
+        m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
+    }
 }
 
 HRESULT CBedCat::Render()

@@ -1,8 +1,14 @@
 #pragma once
 #include "NoneAnimMesh.h"
 
+NS_BEGIN(Engine)
+class CCollision;
+NS_END
+
 NS_BEGIN(Client)
-class CEnviormnent : public CNoneAnimMesh
+class CDropComponent;
+
+class CEnviormnent abstract : public CNoneAnimMesh
 {
 public :
 	enum class ENVIORNMENT_TYPE {TREE, ROCK, PELLSTONE, END};
@@ -30,9 +36,16 @@ public:
 
 	// ·£´õ
 	virtual		HRESULT						Render() override;
+	
+	virtual		HRESULT						DeadFunction();
+	virtual		HRESULT						HitBeginFunction(_float3 vDir, CGameObject* pGameObject);
+	virtual		void						Damage(void* pArg, CActor* pDamagedActor);
 
 protected :
-	
+	CCollision*								m_pCollision = nullptr;
+	CDropComponent*							m_pDropComponent = nullptr;
+
+	_float									m_fHealth = {};
 
 public:
 	virtual		CGameObject*				Clone(void* pArg) override;
