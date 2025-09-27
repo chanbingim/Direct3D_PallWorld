@@ -90,44 +90,38 @@ void CSlider::MouseButtonUp()
 
 void CSlider::UpdateSliderBar()
 {
+    _float StartPoint{};
     if (m_pSliderBut)
     {
-        POINT   MousePos = m_pGameInstance->GetMousePoint();
-        m_MoveDir = {};
+        POINT MousPsisition = m_pGameInstance->GetMousePoint();
 
-        _float3 vPos;
-        _float2 vStartPos, vEndPos;
-        vStartPos = vEndPos = GetViewPos();
-        
-        _float3 vScale = GetTransform()->GetScale();
-        _float3 vButSize = m_pSliderBut->GetTransform()->GetScale();
-       
-        _float fOffset = {}, fMousePoint = {}, fHalf = {};
-        if (m_eSliderType == AXIS::HORIZONTAL)
+        _float3 vButPos = m_pSliderBut->GetTransform()->GetPosition();
+        _float3 vButScale = m_pSliderBut->GetTransform()->GetScale();
+
+        _float ButHalfX = vButScale.x * 0.5f;
+        _float ButHalfY = vButScale.y * 0.5f;
+
+        //길이가 나왔다면
+        _float fLength = (m_fSliderMaxMin.y - ButHalfY) - (m_fSliderMaxMin.x + ButHalfX);
+        if (AXIS::HORIZONTAL == m_eSliderType)
         {
-            m_MoveDir.x = (MousePos.x - m_ClickPos.x) > 0 ? 1.f : -1.f;
-            fOffset = vButSize.x * 0.5f;
-            fMousePoint = (_float)m_pGameInstance->GetMousePoint().x;
-            fHalf = (vScale.x * 0.5f) - fOffset;
-            vStartPos.x -= fHalf;
-            vEndPos.x += fHalf;
+            m_MoveDir.x = 0 < MousPsisition.x - m_ClickPos.x ? 1 : -1;
+            m_fSliderCurPercent = (MousPsisition.x - m_fSliderMaxMin.x) / fLength;
+            StartPoint = (m_pTransformCom->GetPosition().x - fLength * 0.5f);
         }
         else
         {
-            m_MoveDir.y= (MousePos.y - m_ClickPos.y) > 0 ? 1.f : -1.f;
-            fOffset = vButSize.y * 0.5f;
-            fMousePoint = (_float)m_pGameInstance->GetMousePoint().y;
-            fHalf = (vScale.y * 0.5f) - fOffset;
-            vStartPos.y -= fHalf;
-            vEndPos.y += fHalf;
+            m_MoveDir.y = 0 < MousPsisition.y - m_ClickPos.y ? 1 : -1;
+            m_fSliderCurPercent = (MousPsisition.y - m_fSliderMaxMin.x) / fLength;
+            StartPoint = (m_pTransformCom->GetPosition().y - fLength * 0.5f);
         }
-        
-        _float vPercentX = m_fSliderMaxMin.x + fOffset;
-        _float vPercentY = m_fSliderMaxMin.y - fOffset;
-        m_fSliderCurPercent = Clamp<_float>((fMousePoint - vPercentX) / vPercentY, 0.f, 1.f);
+        m_fSliderCurPercent = Clamp<_float>(m_fSliderCurPercent, 0.f, 1.f);
 
-        XMStoreFloat3(&vPos, XMVectorLerp(XMLoadFloat2(&vStartPos), XMLoadFloat2(&vEndPos), m_fSliderCurPercent));
-        m_pSliderBut->SetLocation(vPos);
+        _float fTranslation = Lerp<_float>(0, fLength, m_fSliderCurPercent);
+        if (AXIS::HORIZONTAL == m_eSliderType)
+            m_pSliderBut->SetLocation({ StartPoint + fTranslation , m_pSliderBut->GetViewPos().y, 0.f });
+        else
+            m_pSliderBut->SetLocation({ m_pSliderBut->GetViewPos().x, StartPoint + fTranslation, 0.f });
     }
 }
 

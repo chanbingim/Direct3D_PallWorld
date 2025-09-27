@@ -54,8 +54,8 @@ void GS_MAIN(point GS_IN In[1], inout TriangleStream<GS_OUT> OutStream)
     matrix matVP = mul(g_ViewMatrix, g_ProjMatrix);
     
     float3 vLook = (g_vCamPosition - In[0].vPosition).xyz;
-    float3 vRight = normalize(cross(float3(0.f, 1.f, 0.f), vLook)) * length(g_WorldMatrix._21_22_23) * 0.5f;
-    float3 vUp = normalize(cross(vLook, vRight)) * length(g_WorldMatrix._31_32_33) * 0.5f;
+    float3 vRight = normalize(cross(float3(0.f, 1.f, 0.f), vLook)) * length(g_WorldMatrix._11_12_13) * 0.5f;
+    float3 vUp = normalize(cross(vLook, vRight)) * length(g_WorldMatrix._21_22_23) * 0.5f;
     
     Out[0].vPosition = mul(float4(In[0].vPosition.xyz + vRight + vUp, 1.f), matVP);
     Out[0].vTexcoord = float2(0.f, 0.f);

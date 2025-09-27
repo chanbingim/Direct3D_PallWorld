@@ -1,4 +1,4 @@
 아이템 번호,아이템 이름,아이템 아이콘 프로토타입,모델의 프로토타입,타입,애니메이션모델,애니메이션 재생,발사체 모델 정보,공격력,내구도,왼쪽 소켓,차지 아이템,발사체 아이템 번호,충돌체 가운데점,충돌체 범위,장비 타입,무기 타입
 1,Pink Cat Blade,../Bin/Resources/Textures/UI/InGameUI/WeaponUI/WeaponIcon/T_icon_YakushimaBlade_UI.png,Prototype_Component_VIBuffer_CatBlade,0,0,0,0,10,100,0,0,0,"0,0.5,0","0.2,0.5,0.2",0,0
-2,Pell Spher,../Bin/Resources/Textures/UI/InGameUI/WeaponUI/WeaponIcon/T_icon_pal_sphere.png,Prototype_Component_VIBuffer_PalSpher,0,1,0,0,10,100,0,0,0,"0,0,0","0,0,0",0,4
+2,Pell Spher,../Bin/Resources/Textures/UI/InGameUI/WeaponUI/WeaponIcon/T_icon_pal_sphere.png,Prototype_Component_VIBuffer_PalSpher,0,1,0,Prototype_GameObject_PalSpher,10,100,0,0,0,"0,0,0","0,0,0",0,4
 3,Bow,../Bin/Resources/Textures/UI/InGameUI/WeaponUI/WeaponIcon/T_icon_Bow_UI.png,Prototype_Component_VIBuffer_Bow,0,1,1,Prototype_GameObject_ArrowProjectile,10,100,1,1,10,"0,0,0","0,0,0",0,2

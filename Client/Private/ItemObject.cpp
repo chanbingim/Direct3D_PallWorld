@@ -5,6 +5,7 @@
 #include "ItemManager.h"
 
 #include "PlayerManager.h"
+#include "ItemInfoUI.h"
 
 CItemObject::CItemObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CNoneAnimMesh(pDevice, pContext)
@@ -41,6 +42,7 @@ HRESULT CItemObject::Initialize(void* pArg)
     if (nullptr != pNaviMesh)
         pNaviMesh->ComputeHeight(m_pTransformCom, true);
 
+    m_pCollision->UpdateColiision(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
     return S_OK;
 }
 
@@ -50,13 +52,35 @@ void CItemObject::Priority_Update(_float fDeletaTime)
 
 void CItemObject::Update(_float fDeletaTime)
 {
+
+
 }
 
 void CItemObject::Late_Update(_float fDeletaTime)
 {
     if (m_pGameInstance->DistanceCulling(m_pTransformCom->GetPosition()))
     {
-        m_pGameInstance->ADD_CollisionList(m_pCollision);
+        CCollision::DEFAULT_HIT_DESC HitDesc = {};
+
+        //카메라 위치에서 중간지점으로 레이를 쏜다.
+        m_bIsRayHit = m_pCollision->RayHit(m_pGameInstance->GetCameraState(WORLDSTATE::POSITION),
+                                           m_pGameInstance->GetCameraState(WORLDSTATE::LOOK),
+                                           HitDesc);
+
+        if (m_bIsRayHit && 3.f >= HitDesc.vfDistance)
+        {
+            if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_F))
+            {
+                //여기서 습득 이벤트 발생
+                Damage(nullptr, nullptr);
+            }
+            else
+            {
+                //여기서 월드 UI를 통해 아이템의 이름을 보여준다.
+                m_pItemUI->Late_Update(fDeletaTime);
+            }
+        }
+
         m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
     }
 }
@@ -72,6 +96,10 @@ HRESULT CItemObject::Render()
 
         m_pVIBufferCom->Render(i);
     }
+
+#ifdef _DEBUG
+    true == m_bIsRayHit ? m_pCollision->Render({ 0.f, 1.f, 1.f, 1.f }) : m_pCollision->Render();
+#endif // _DEBUG
     return S_OK;
 }
 
@@ -96,6 +124,13 @@ HRESULT CItemObject::ADD_Components()
    //셰이더는 그냥 모델 셰이더 써야겠다
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Mesh"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
         return E_FAIL;
+    
+    CItemInfoUI::ITEM_INFO_DESC ItemDesc = {};
+    ItemDesc.pParent = this;
+    ItemDesc.vScale = { 1.f, 0.3f, 0.f };
+    ItemDesc.pItemName = m_ItemDesc->szItemName;
+    ItemDesc.vPosition = { ItemDesc.vScale.x * 0.5f, 0.3f, 0.f };
+    m_pItemUI = static_cast<CItemInfoUI*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Info_UI"), &ItemDesc));
 
     return S_OK;
 }
@@ -125,4 +160,7 @@ CGameObject* CItemObject::Clone(void* pArg)
 void CItemObject::Free()
 {
     __super::Free();
+
+    Safe_Release(m_pItemUI);
+    Safe_Release(m_pCollision);
 }

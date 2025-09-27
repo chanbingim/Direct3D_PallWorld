@@ -100,8 +100,22 @@ _bool CSphereCollision::RayIntersect(COLLISION_TYPE eType, CCollision* pTarget, 
 	}
 
 	XMStoreFloat3(&OutDesc.vHitPoint, CalCulationOwnerPosition + vDireaction * fDistance);
+	OutDesc.vfDistance = fDistance;
 	XMStoreFloat3(&OutDesc.vDireaction, vDireaction);
 	XMStoreFloat3(&OutDesc.vNormal, XMVector3Normalize(XMLoadFloat3(&OutDesc.vHitPoint) - CalCulationTargetPosition));
+	return bIsHit;
+}
+
+_bool CSphereCollision::RayHit(_vector vOrizin, _vector vDiraction, DEFAULT_HIT_DESC& OutDesc)
+{
+	_bool bIsHit = false;
+	_float fDistance = {};
+	bIsHit = m_Bounding->Intersects(vOrizin, vDiraction, fDistance);
+
+	XMStoreFloat3(&OutDesc.vHitPoint, vOrizin + vDiraction * fDistance);
+	OutDesc.vfDistance = fDistance;
+	XMStoreFloat3(&OutDesc.vDireaction, vDiraction);
+	XMStoreFloat3(&OutDesc.vNormal, XMVector3Normalize(XMLoadFloat3(&OutDesc.vHitPoint) - vOrizin));
 	return bIsHit;
 }
 

@@ -69,7 +69,6 @@
 #include "ItemObject.h"
 #pragma endregion
 
-
 #pragma region Components
 #include "Recovery.h"
 #include "DropComponent.h"
@@ -104,6 +103,9 @@
 #include "PallSpherPercentBar.h"
 #pragma endregion
 
+#pragma region ITEM_UI
+#include "ItemInfoUI.h"
+#pragma endregion
 
 #include "InGameMenu.h"
 #include "Player.h"
@@ -547,12 +549,12 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* EnviornMent Rock3 MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Rock_1_Mesh"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Rock/Rock/Rock/Rock03/Rock03.fbx"))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Rock/Rock/Rock/Rock03/Rock03.fbx", PreModelMat))))
 		return E_FAIL;
 
 	/* EnviornMent Rock3 MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Rock_2_Mesh"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Rock/Rock/ClifRock/Clif01/Clif_Rock1.fbx"))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Rock/Rock/ClifRock/Clif01/Clif_Rock1.fbx", PreModelMat))))
 		return E_FAIL;
 
 #pragma region PalJium
@@ -876,6 +878,12 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_PellInfo_UI"), CNeturalPellInfo::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+#pragma endregion
+
+#pragma region ITEM INFO UI
+	/* GAME_OBJECT_InGameMenu_UI */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Info_UI"), CItemInfoUI::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 #pragma endregion
 
 #pragma region Projectile

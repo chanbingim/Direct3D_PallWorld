@@ -59,7 +59,12 @@ public :
 	// 인벤토리에 보관된 아이템의 무게 반환
 	_uInt					GetInvenWieght() { return m_iInvenWeight; }
 	_bool					AddInventoryItem(_uInt iItemID, _uInt iCount);
+	_bool					SubInventoryItem(_uInt iItemID, _uInt iCount);
+	
 	void					RemoveInventoryItem(_uInt iSlotIndex, _uInt iCount);
+
+	const DEFAULT_SLOT_DESC&	GetSlotItem(_uInt iSlotIndex);
+
 #pragma endregion
 
 #pragma region PLATYER Function
@@ -130,12 +135,18 @@ private :
 	LONG								m_iMaxInvenWeight = {};
 	LONG								m_iInvenWeight = {};
 
+	//빈정보			
+	DEFAULT_SLOT_DESC					m_EmptySlot = {};
 	// 인벤토리의 정보를 보관할 녀석
-	vector<pair<_uInt, _uInt>>			m_InvenSlots = {};
+	vector<pair<_bool, DEFAULT_SLOT_DESC>>		m_InvenSlots = {};
 #pragma endregion
 
 private :
 	HRESULT								SettingDefaultPlayerData();
+
+	//슬롯 번호를 반환
+	_Int								Find_ItemSlot(_uInt iItemID);
+	_Int								FindEmpty_ItemSlot();
 
 public :
 	virtual		void					Free()	override;

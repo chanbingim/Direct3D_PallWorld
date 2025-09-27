@@ -55,6 +55,7 @@ private :
 	CTerrainManager*						m_pTerrainManager = nullptr;
 	CNavigation*							m_pNevigation = nullptr;
 	CCollision*								m_pCollision = nullptr;
+
 	CHARACTER_DESC*							m_pCharacterInfo = nullptr;
 
 	// 플레이어의 현재 방향
@@ -90,6 +91,12 @@ private:
 
 	// 어택의 종류를 체크 하는 함수
 	_bool									GetWeaponAttackType();
+
+
+
+
+
+
 
 public:
 	static			CPlayer*				Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);

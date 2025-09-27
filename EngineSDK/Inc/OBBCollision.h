@@ -20,8 +20,10 @@ public:
 	virtual HRESULT					Initialize_Prototype();
 	virtual HRESULT					Initialize(void* pArg);
 	virtual void					UpdateColiision(_matrix WorldMatrix) override;
+
 	virtual _bool					Intersect(COLLISION_TYPE eType, CCollision* pTarget) override;
 	virtual _bool					RayIntersect(COLLISION_TYPE eType, CCollision* pTarget, DEFAULT_HIT_DESC& OutDesc) override;
+	virtual _bool					RayHit(_vector vOrizin, _vector vDiraction, DEFAULT_HIT_DESC& OutDesc) override;
 
 	void							SetCollision(_float3 vCenter, _float4 vAngle, _float3 vExtents);
 

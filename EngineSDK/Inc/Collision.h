@@ -16,6 +16,7 @@ public:
 	typedef struct DefaultHitDesc
 	{
 		_float3					vHitPoint;
+		_float					vfDistance;
 		_float3					vDireaction;
 		_float3					vNormal;
 	}DEFAULT_HIT_DESC;
@@ -29,8 +30,12 @@ public:
 	virtual HRESULT			Initialize_Prototype();
 	virtual HRESULT			Initialize(void* pArg);
 	virtual void			UpdateColiision(_matrix WorldMatrix);
+	
 	virtual _bool			Intersect(COLLISION_TYPE eType, CCollision* pTarget) = 0;
 	virtual _bool			RayIntersect(COLLISION_TYPE eType, CCollision* pTarget, DEFAULT_HIT_DESC& OutDesc) { return false; }
+	virtual _bool			RayHit(_vector vOrizin, _vector vDiraction, DEFAULT_HIT_DESC& OutDesc);
+	
+	
 	virtual void			Render(_vector vColor = {1.f, 0.f, 0.f, 1.f});
 
 	void					BindBeginOverlapEvent(function<void(_float3 vDir, CGameObject* pHitActor)> BeginEvent);

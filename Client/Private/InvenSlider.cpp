@@ -3,6 +3,8 @@
 #include "GameInstance.h"
 #include "InvenSliderButton.h"
 
+#include "PlayerManager.h"
+
 CInvenSlider::CInvenSlider(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CSlider(pDevice, pContext)
 {
@@ -43,12 +45,11 @@ HRESULT CInvenSlider::Initialize(void* pArg)
 void CInvenSlider::Update(_float fDeletaTime)
 {
     __super::Update(fDeletaTime);
-   // m_pSliderBut->Update(fDeletaTime);
 }
 
 void CInvenSlider::Late_Update(_float fDeletaTime)
 {
-   // m_pSliderBut->Late_Update(fDeletaTime);
+
 }
 
 HRESULT CInvenSlider::Render()
@@ -112,15 +113,13 @@ HRESULT CInvenSlider::ADD_Components()
 HRESULT CInvenSlider::CreateSliderButton()
 {
     m_pSliderBut = CInvenSliderButton::Create(m_pGraphic_Device, m_pDeviceContext);
-    CInvenSliderButton::GAMEOBJECT_DESC Desc;
-    ZeroMemory(&Desc, sizeof(CInvenSliderButton::GAMEOBJECT_DESC));
+    CInvenSliderButton::GAMEOBJECT_DESC Desc = {};
 
-    Desc.pParent = m_pParent;
+    Desc.pParent = this;
     Desc.vScale = { 20.f, 50.f, 0.f };
+    Desc.vPosition = { 0.f, -m_pTransformCom->GetScale().y * 0.5f , 0.f};
     if (FAILED(m_pSliderBut->Initialize(&Desc)))
         return E_FAIL;
-
-    UpdateSliderBar();
     return S_OK;
 }
 

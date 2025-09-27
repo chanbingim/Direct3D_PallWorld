@@ -204,6 +204,10 @@ HRESULT CMainApp::SetUp_StaticComponents()
 	/* VIBuffer  RECT  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"), CVIBuffer_Rect::Create(m_pGraphic_Device, m_pDevice_Context))))
 		return E_FAIL;
+
+	/* VIBuffer  POINT  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Point"), CVIBuffer_Point::Create(m_pGraphic_Device, m_pDevice_Context))))
+		return E_FAIL;
 #pragma endregion
 
 #pragma region  Component

@@ -58,6 +58,11 @@ void CCollision::UpdateColiision(_matrix WorldMatrix)
   
 }
 
+_bool CCollision::RayHit(_vector vOrizin, _vector vDiraction, DEFAULT_HIT_DESC& OutDesc)
+{
+    return _bool();
+}
+
 void CCollision::Render(_vector vColor)
 {
     m_pEffect->SetWorld(XMMatrixIdentity());

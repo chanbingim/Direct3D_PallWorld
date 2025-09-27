@@ -6,6 +6,7 @@
 #include "Mesh.h"
 
 #include "VIBuffer_Terrain.h"
+#include "VIBuffer_Point.h"
 #include "VIBuffer_Cell.h"
 #include "VIBuffer_Model_Instance.h"
 

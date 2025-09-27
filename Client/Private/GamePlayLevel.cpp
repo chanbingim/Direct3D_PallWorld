@@ -16,8 +16,7 @@ CGamePlayLevel::CGamePlayLevel(ID3D11Device* pDevice, ID3D11DeviceContext* pCont
 
 HRESULT CGamePlayLevel::Initialize()
 {
-	if (FAILED(Setting_GamePlayHUD()))
-		return E_FAIL;
+
 
 	if (FAILED(ADD_CameraLayer(TEXT("Layer_GamePlay_Camera"))))
 		return E_FAIL;
@@ -50,6 +49,8 @@ HRESULT CGamePlayLevel::Initialize()
 	if (FAILED(ADD_PellLayer(TEXT("Layer_GamePlay_Pell"))))
 		return E_FAIL;
 
+	if (FAILED(Setting_GamePlayHUD()))
+		return E_FAIL;
 
 	//m_pGameInstance->ShowInGameMouse(VISIBILITY::HIDDEN);
 

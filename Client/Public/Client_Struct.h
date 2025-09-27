@@ -41,10 +41,11 @@ namespace Client
 	{
 		//Damaged
 		_float					fDmaged;
-
-
-
-
-
 	}DEFAULT_DAMAGE_DESC;
+
+	typedef struct Default_Slot_Desc
+	{
+		_uInt			iItemID;
+		_uInt			iItemCount;
+	}DEFAULT_SLOT_DESC;
 }

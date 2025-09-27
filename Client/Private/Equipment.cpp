@@ -155,6 +155,7 @@ HRESULT CEquipment::ADD_Childs()
 	ViewerDesc.vPosition = {-100.f, 0.f, 0.f};
 	ViewerDesc.fHeight = 600.f;
 	ViewerDesc.fWidth = 800.f;
+
 	//부모위치잡고 세팅
 	m_pPlayerView = CPlayerView::Create(m_pGraphic_Device, m_pDeviceContext);
 	if (nullptr == m_pPlayerView)

@@ -2,14 +2,27 @@
 
 #include "GameInstance.h"
 
+#include "PlayerManager.h"
+#include "ItemManager.h"
+#include "ItemBase.h"
+#include "ItemSlotIcon.h"
+
 CItemSlot::CItemSlot(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
-    CSlotBase(pDevice, pContext, SLOT_TYPE::ITEM)
+    CSlotBase(pDevice, pContext, SLOT_TYPE::ITEM),
+    m_pPlayerManager(CPlayerManager::GetInstance()),
+    m_pItemManager(CItemManager::GetInstance())
 {
+    Safe_AddRef(m_pPlayerManager);
+    Safe_AddRef(m_pItemManager);
 }
 
 CItemSlot::CItemSlot(const CItemSlot& rhs) :
-    CSlotBase(rhs)
+    CSlotBase(rhs),
+    m_pPlayerManager(CPlayerManager::GetInstance()),
+    m_pItemManager(CItemManager::GetInstance())
 {
+    Safe_AddRef(m_pPlayerManager);
+    Safe_AddRef(m_pItemManager);
 }
 
 HRESULT CItemSlot::Initalize_Prototype()
@@ -37,11 +50,15 @@ HRESULT CItemSlot::Initialize(void* pArg)
 void CItemSlot::Update(_float fDeletaTime)
 {
     __super::Update(fDeletaTime);
+
+    const DEFAULT_SLOT_DESC& pSlotInfo = m_pPlayerManager->GetSlotItem(m_iSlotNumber);
+    m_pSlotIcon->SetTexture(m_pItemManager->GetItemTexture(pSlotInfo.iItemID));
 }
 
 void CItemSlot::Late_Update(_float fDeletaTime)
 {
     __super::Late_Update(fDeletaTime);
+    m_pSlotIcon->Late_Update(fDeletaTime);
 }
 
 HRESULT CItemSlot::Render()
@@ -49,7 +66,7 @@ HRESULT CItemSlot::Render()
     if (FAILED(Apply_ConstantShaderResources()))
         return E_FAIL;
 
-    m_pShaderCom->Update_Shader(0);
+    m_pShaderCom->Update_Shader(2);
     m_pTextureCom->SetTexture(0, 0);
     m_pVIBufferCom->Render_VIBuffer();
     return S_OK;
@@ -98,6 +115,19 @@ HRESULT CItemSlot::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
         return E_FAIL;
 
+
+    CItemSlotIcon::ITEM_SLOT_ICON_DESC pItemIconDesc = {};
+    pItemIconDesc.pParent = this;
+    pItemIconDesc.pParentTransform = m_pTransformCom;
+    pItemIconDesc.vScale = m_pTransformCom->GetScale();
+    pItemIconDesc.vScale.x -= 10.f;
+    pItemIconDesc.vScale.y -= 10.f;
+    pItemIconDesc.vScale.z -= 10.f;
+
+    m_pSlotIcon = CItemSlotIcon::Create(m_pGraphic_Device, m_pDeviceContext);
+    m_pSlotIcon->Initialize(&pItemIconDesc);
+    m_pSlotIcon->SetZOrder(4);
+
     return S_OK;
 }
 
@@ -126,4 +156,8 @@ CUserInterface* CItemSlot::Clone(void* pArg)
 void CItemSlot::Free()
 {
     __super::Free();
+
+    Safe_Release(m_pSlotIcon);
+    Safe_Release(m_pPlayerManager);
+    Safe_Release(m_pItemManager);
 }

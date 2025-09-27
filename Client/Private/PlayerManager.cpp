@@ -30,6 +30,10 @@ void CPlayerManager::Initialize(void* pArg)
 	m_iNumMaxOwnPell = 6;
 	m_pOwnerPells.resize(m_iNumMaxOwnPell, nullptr);
 
+	m_EmptySlot.iItemID = -1;
+	m_EmptySlot.iItemCount = 0;
+	m_InvenSlots.resize(m_iNumInvenSlots, { false, m_EmptySlot });
+
 	BindEquipSlot(3, 3);
 	BindEquipSlot(1, 1);
 	BindEquipSlot(2, 2);
@@ -144,16 +148,106 @@ _bool CPlayerManager::AddInventoryItem(_uInt iItemID, _uInt iCount)
 {
 	// 아이템을 검색해서 정보를 가져온다음 그 아이템의 무게랑 현재 무게 확인해서
 	// 먹을지 말지 반환
+	_Int iFindSlot = {};
+	iFindSlot = Find_ItemSlot(iItemID);
+	if (-1 == iFindSlot)
+	{
+		iFindSlot = FindEmpty_ItemSlot();
+		if (-1 == iFindSlot)
+			return false;
+	}
 
+	if (-1 < iFindSlot)
+	{
+		m_InvenSlots[iFindSlot].first = true;
+		m_InvenSlots[iFindSlot].second.iItemID = iItemID;
+		m_InvenSlots[iFindSlot].second.iItemCount = iCount;
+	}
+	return true;
+}
 
+_bool CPlayerManager::SubInventoryItem(_uInt iItemID, _uInt iCount)
+{
+	// 아이템을 검색해서 정보를 가져온다음 그 아이템의 무게랑 현재 무게 확인해서
+		// 먹을지 말지 반환
+	_Int iFindSlot = {};
+	iFindSlot = Find_ItemSlot(iItemID);
 
+	if (-1 < iFindSlot)
+	{
+		if (m_InvenSlots[iFindSlot].second.iItemCount < iCount)
+			return false;
+
+		m_InvenSlots[iFindSlot].second.iItemCount -= iCount;
+		if (0 >= m_InvenSlots[iFindSlot].second.iItemCount)
+		{
+			m_InvenSlots[iFindSlot].first = false;
+			m_InvenSlots[iFindSlot].second.iItemID = -1;
+			m_InvenSlots[iFindSlot].second.iItemCount = 0;
+		}
+	}
+	else
+		return false;
 
 	return true;
 }
 
 void CPlayerManager::RemoveInventoryItem(_uInt iSlotIndex, _uInt iCount)
 {
+	m_InvenSlots[iSlotIndex].first = false;
+	m_InvenSlots[iSlotIndex].second.iItemID = -1;
+	m_InvenSlots[iSlotIndex].second.iItemCount = 0;
+}
 
+const DEFAULT_SLOT_DESC& CPlayerManager::GetSlotItem(_uInt iSlotIndex)
+{
+	if (0 <= iSlotIndex && m_iNumInvenSlots > iSlotIndex)
+	{
+		if (m_InvenSlots[iSlotIndex].first)
+			return m_InvenSlots[iSlotIndex].second;
+	}
+	return m_EmptySlot;
+}
+
+_Int CPlayerManager::Find_ItemSlot(_uInt iItemID)
+{
+	_uInt iIndex{};
+	auto pair = find_if(m_InvenSlots.begin(), m_InvenSlots.end(), [&](auto& SlotInfo)
+		{
+			if (SlotInfo.second.iItemID == iItemID)
+			{
+				iIndex;
+				return true;
+			}
+
+			iIndex++;
+			return false;
+		});
+
+	if (pair == m_InvenSlots.end())
+		return -1;
+
+	return iIndex;
+}
+_Int CPlayerManager::FindEmpty_ItemSlot()
+{
+	_uInt iIndex{};
+	auto pair = find_if(m_InvenSlots.begin(), m_InvenSlots.end(), [&](auto& SlotInfo)
+		{
+			if (!SlotInfo.first)
+			{
+				iIndex;
+				return true;
+			}
+
+			iIndex++;
+			return false;
+		});
+
+	if (pair == m_InvenSlots.end())
+		return -1;
+
+	return iIndex;
 }
 #pragma endregion
 

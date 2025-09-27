@@ -2,6 +2,10 @@
 #include "SlotBase.h"
 
 NS_BEGIN(Client)
+class CItemSlotIcon;
+class CPlayerManager;
+class CItemManager;
+
 class CItemSlot : public CSlotBase
 {
 public:
@@ -27,6 +31,7 @@ public:
 	virtual		void						Late_Update(_float fDeletaTime) override;
 	// ·£´õ
 	virtual		HRESULT						Render() override;
+	void									SetSlotNumber(_uInt iSlotNum) { m_iSlotNumber = iSlotNum; }
 
 protected:
 	virtual		void						SwapSlot(CSlotBase* To);
@@ -39,9 +44,14 @@ protected:
 	virtual		void						MouseButtonDwon();
 	virtual		void						MouseButtonPressed();
 	virtual		void						MouseButtonUp();
-
+	
 private:
 	ITEM_TYPE								m_eItemSlotType = { ITEM_TYPE::END };
+	_uInt									m_iSlotNumber = {};
+
+	CItemSlotIcon*							m_pSlotIcon = nullptr;
+	CPlayerManager*							m_pPlayerManager = nullptr;
+	CItemManager*							m_pItemManager = nullptr;
 
 private :
 	HRESULT									ADD_Components();

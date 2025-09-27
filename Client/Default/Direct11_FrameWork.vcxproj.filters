@@ -623,6 +623,15 @@
     <Filter Include="06. Component\ObjectAnimComonent\ObjectAnim">
       <UniqueIdentifier>{b4306d5f-213f-446c-bdd3-373643197acd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Item">
+      <UniqueIdentifier>{005e1530-0bee-4ef1-a8a8-2ad210182889}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Item\ItemInfoUI">
+      <UniqueIdentifier>{5ea1bc62-cdeb-454c-a6d9-c947d0f7c5eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\ItemSlot\ItemIcon">
+      <UniqueIdentifier>{855cd33e-5d80-47d5-acee-6da756e9bd7e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -1150,6 +1159,12 @@
     <ClInclude Include="..\public\ObjectAnim.h">
       <Filter>06. Component\ObjectAnimComonent\ObjectAnim</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\ItemInfoUI.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Item\ItemInfoUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ItemSlotIcon.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\ItemSlot\ItemIcon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -1659,6 +1674,12 @@
     </ClCompile>
     <ClCompile Include="..\private\ObjectAnim.cpp">
       <Filter>06. Component\ObjectAnimComonent\ObjectAnim</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ItemInfoUI.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Item\ItemInfoUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ItemSlotIcon.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\ItemSlot\ItemIcon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

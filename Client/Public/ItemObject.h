@@ -7,6 +7,8 @@ class CCollision;
 NS_END
 
 NS_BEGIN(Client)
+class CItemInfoUI;
+
 class CItemObject final : public CNoneAnimMesh
 {
 public :
@@ -38,14 +40,18 @@ public:
 
 private :
 	const		ITEM_DESC*					m_ItemDesc;
-	const		CModel*						m_ItemVIBuffer = nullptr;
 	CCollision*								m_pCollision = nullptr;
 
+	CItemInfoUI*							m_pItemUI = nullptr;
 	_uInt									m_iItemCount = {};
+
+#ifdef _DEBUG
+	_bool									m_bIsRayHit = false;
+#endif // _DEBUG
 
 private :
 	HRESULT									ADD_Components();
-
+	
 public :
 	static		CItemObject*				Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual		CGameObject*				Clone(void* pArg) override;

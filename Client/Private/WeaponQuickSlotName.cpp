@@ -113,4 +113,5 @@ CGameObject* CWeaponQuickSlotName::Clone(void* pArg)
 void CWeaponQuickSlotName::Free()
 {
 	__super::Free();
+	Safe_Release(m_pFontCom);
 }

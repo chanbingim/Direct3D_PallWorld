@@ -247,6 +247,15 @@
     <Filter Include="Utility\Components\VIBuffer\Instancing\Cube">
       <UniqueIdentifier>{0f9a8a4a-1f33-45a6-b037-c439c10ba658}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utility\Components\VIBuffer\VIPoint">
+      <UniqueIdentifier>{70f9c8fd-11df-4826-8f56-cb07b0e6796d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Font\World">
+      <UniqueIdentifier>{7b1ba767-4aa2-47d5-9ec3-1618aa46ced0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Font\Screen">
+      <UniqueIdentifier>{723d866b-3392-45c4-8630-18d49ed57e8c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Graphic_Device.cpp">
@@ -444,9 +453,6 @@
     <ClCompile Include="..\private\CustomFont.cpp">
       <Filter>Utility\Components\Font\Manager\Font</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\FontComponent.cpp">
-      <Filter>Utility\Components\Font</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\VIBuffer_Point_Instance.cpp">
       <Filter>Utility\Components\VIBuffer\Instancing\point</Filter>
     </ClCompile>
@@ -455,6 +461,15 @@
     </ClCompile>
     <ClCompile Include="..\private\VIBuffer_Model_Instance.cpp">
       <Filter>Utility\Components\VIBuffer\Instancing\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\VIBuffer_Point.cpp">
+      <Filter>Utility\Components\VIBuffer\VIPoint</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\FontComponent.cpp">
+      <Filter>Utility\Components\Font\Screen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\WorldFontComponent.cpp">
+      <Filter>Utility\Components\Font\World</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -695,9 +710,6 @@
     <ClInclude Include="..\public\CustomFont.h">
       <Filter>Utility\Components\Font\Manager\Font</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\FontComponent.h">
-      <Filter>Utility\Components\Font</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\VIBuffer_Point_Instance.h">
       <Filter>Utility\Components\VIBuffer\Instancing\point</Filter>
     </ClInclude>
@@ -706,6 +718,15 @@
     </ClInclude>
     <ClInclude Include="..\public\VIBuffer_Model_Instance.h">
       <Filter>Utility\Components\VIBuffer\Instancing\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\VIBuffer_Point.h">
+      <Filter>Utility\Components\VIBuffer\VIPoint</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\FontComponent.h">
+      <Filter>Utility\Components\Font\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\WorldFontComponent.h">
+      <Filter>Utility\Components\Font\World</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

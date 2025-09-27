@@ -47,8 +47,6 @@ void CPlayerBody::Update(_float fDeletaTime)
 
 void CPlayerBody::Late_Update(_float fDeletaTime)
 {
-   
-
     UpdateCombinedMatrix();
 }
 
