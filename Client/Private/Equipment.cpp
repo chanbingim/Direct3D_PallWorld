@@ -2,6 +2,8 @@
 
 #include "GameInstance.h"
 #include "EquipSlot.h"
+#include "ItemStruct.h"
+
 #include "PlayerView.h"
 
 CEquipment::CEquipment(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
@@ -114,39 +116,39 @@ HRESULT CEquipment::ADD_Childs()
 
 	/* Weapon */
 	_float3 vWeaponPos = {-SlotPosX, -SlotPosY, 0.f};
-	CreateEquipSlot(4, ENUM_CLASS(CEquipSlot::EQUIP_TYPE::WEAPON), vWeaponPos, 0);
+	CreateEquipSlot(4, ENUM_CLASS(EUQIP_TYPE::WEAPON), vWeaponPos, 0);
 
 	/* Head */
 	SlotPosX = ParentScale.x * 0.15f;
 	_float3 vHeadPos = { SlotPosX, -SlotPosY, 0.f };
-	CreateEquipSlot(1, ENUM_CLASS(CEquipSlot::EQUIP_TYPE::HEAD), vHeadPos, 0);
+	CreateEquipSlot(1, ENUM_CLASS(EUQIP_TYPE::HEAD), vHeadPos, 0);
 
 	/* Body */
 	SlotPosY = ParentScale.y * 0.17f;
 	_float3 vBodyPos = { SlotPosX, -SlotPosY, 0.f };
-	CreateEquipSlot(1, ENUM_CLASS(CEquipSlot::EQUIP_TYPE::BODY), vBodyPos, 0);
+	CreateEquipSlot(1, ENUM_CLASS(EUQIP_TYPE::BODY), vBodyPos, 0);
 
 	/* Shield */
 	SlotPosY = ParentScale.y * 0.02f;
 	_float3 vShieldPos = { SlotPosX, -SlotPosY, 0.f };
-	CreateEquipSlot(1, ENUM_CLASS(CEquipSlot::EQUIP_TYPE::SHIELD), vShieldPos, 0);
+	CreateEquipSlot(1, ENUM_CLASS(EUQIP_TYPE::SHIELD), vShieldPos, 0);
 
 	/* Glider */
 	SlotPosY = ParentScale.y * 0.13f;
 	_float3 vGliderPos = { SlotPosX, SlotPosY, 0.f };
-	CreateEquipSlot(1, ENUM_CLASS(CEquipSlot::EQUIP_TYPE::GLIDER), vGliderPos, 0);
+	CreateEquipSlot(1, ENUM_CLASS(EUQIP_TYPE::GLIDER), vGliderPos, 0);
 
 	/* Accessory */
 	SlotPosX = ParentScale.x * 0.4f;
 	SlotPosY = ParentScale.y * 0.2f;
 	_float3 vAccessoryPos = { -SlotPosX, SlotPosY, 0.f };
-	CreateEquipSlot(2, ENUM_CLASS(CEquipSlot::EQUIP_TYPE::ACCESSORY), vAccessoryPos, 0);
+	CreateEquipSlot(2, ENUM_CLASS(EUQIP_TYPE::ACCESSORY), vAccessoryPos, 0);
 
 	/* Food */
 	SlotPosX = ParentScale.x * 0.3f;
 	SlotPosY = ParentScale.y * 0.46f;
 	_float3 vFoodPos = { -SlotPosX, SlotPosY, 0.f };
-	CreateEquipSlot(5, ENUM_CLASS(CEquipSlot::EQUIP_TYPE::FOOD), vFoodPos, 1);
+	CreateEquipSlot(5, ENUM_CLASS(EUQIP_TYPE::FOOD), vFoodPos, 1);
 
 
 	CPlayerView::VIEWER_DESC ViewerDesc;

@@ -75,12 +75,14 @@ _float CSlider::GetMouseMoveDir()
 
 void CSlider::MouseButtonDwon()
 {
-    m_ClickPos = m_pGameInstance->GetMousePoint();
+    if (m_bIsHover)
+        m_ClickPos = m_pGameInstance->GetMousePoint();
 }
 
 void CSlider::MouseButtonPressed()
 {
-    UpdateSliderBar();
+    if(m_bIsHover)
+        UpdateSliderBar();
 }
 
 void CSlider::MouseButtonUp()

@@ -362,6 +362,11 @@ void CGameInstance::SetMouseFocus(CUserInterface* Widget)
     m_pMouse->SetMouseFocus(Widget);
 }
 
+void CGameInstance::GetMouseFocus(CUserInterface** ppWidget)
+{
+    m_pMouse->GetMouseFocus(ppWidget);
+}
+
 BOOL CGameInstance::IsMouseFocus(CUserInterface* Widget)
 {
     return m_pMouse->IsFocus(Widget);

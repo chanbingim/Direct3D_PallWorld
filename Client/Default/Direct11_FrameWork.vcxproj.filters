@@ -629,7 +629,7 @@
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Item\ItemInfoUI">
       <UniqueIdentifier>{5ea1bc62-cdeb-454c-a6d9-c947d0f7c5eb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\ItemSlot\ItemIcon">
+    <Filter Include="02. HUD\Base_UI\Slot\ItemIcon">
       <UniqueIdentifier>{855cd33e-5d80-47d5-acee-6da756e9bd7e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -1163,7 +1163,7 @@
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Item\ItemInfoUI</Filter>
     </ClInclude>
     <ClInclude Include="..\public\ItemSlotIcon.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\ItemSlot\ItemIcon</Filter>
+      <Filter>02. HUD\Base_UI\Slot\ItemIcon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1679,7 +1679,7 @@
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Item\ItemInfoUI</Filter>
     </ClCompile>
     <ClCompile Include="..\private\ItemSlotIcon.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\ItemSlot\ItemIcon</Filter>
+      <Filter>02. HUD\Base_UI\Slot\ItemIcon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -5,7 +5,7 @@ namespace Client
 {
 	enum class ITEM_TYPE { EQUIPMENT, CONSUM, ETC, END };
 	enum class WEAPON	 { MELEE, AXE, BOW, GUN, THROW, NONE, END };
-	enum class EUQIP_TYPE { WEAPON, ARMOR, END };
+	enum class EUQIP_TYPE { WEAPON, HEAD, BODY, SHIELD, GLIDER, ACCESSORY, FOOD, END };
 
 	typedef struct EuqipItemDesc
 	{

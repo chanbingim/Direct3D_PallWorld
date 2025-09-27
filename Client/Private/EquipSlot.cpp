@@ -2,8 +2,16 @@
 
 #include "GameInstance.h"
 
+#include "ItemManager.h"
+#include "ItemSlot.h"
+#include "ItemSlotIcon.h"
+
+#include "PlayerManager.h"
+
+
 CEquipSlot::CEquipSlot(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CSlotBase(pDevice, pContext, SLOT_TYPE::EQUIP)
+
 {
 }
 
@@ -55,8 +63,28 @@ HRESULT CEquipSlot::Render()
     return S_OK;
 }
 
-void CEquipSlot::SwapSlot(CSlotBase* To)
+void CEquipSlot::SwapSlot(CSlotBase* From)
 {
+    if (nullptr == From)
+        return;
+     
+    if (SLOT_TYPE::EQUIP == From->GetSlotType())
+    {
+        auto pSlot = static_cast<CEquipSlot*>(From);
+        if(pSlot->GetSlotType() == m_eEquipSlotType)
+            m_pPlayerManager->SwapInventroyItem(pSlot->GetSlotNumber(), m_iSlotNumber);
+    }
+    else
+    {
+        auto pSlot = static_cast<CItemSlot*>(From);
+        auto ItemDsec = pSlot->GetSlotItemInfo();
+        if (ITEM_TYPE::EQUIPMENT == ItemDsec->ItemType)
+        {
+            if (ItemDsec->TypeDesc.EuqipDesc.Equip_Type == m_eEquipSlotType)
+                m_pPlayerManager->SwapInventroyItem(pSlot->GetSlotNumber(), m_iSlotNumber);
+        }
+    }
+    
 }
 
 void CEquipSlot::UseSlot(void* pArg)
@@ -69,6 +97,7 @@ void CEquipSlot::MouseHoverEnter()
 
 void CEquipSlot::MouseHovering()
 {
+ 
 }
 
 void CEquipSlot::MouseHoverExit()
@@ -77,6 +106,12 @@ void CEquipSlot::MouseHoverExit()
 
 void CEquipSlot::MouseButtonDwon()
 {
+    if (m_bIsHover)
+    {
+        m_pGameInstance->SetMouseFocus(this);
+        m_pGameInstance->SetDrag(true);
+    }
+
 }
 
 void CEquipSlot::MouseButtonPressed()
@@ -85,6 +120,17 @@ void CEquipSlot::MouseButtonPressed()
 
 void CEquipSlot::MouseButtonUp()
 {
+    if (m_bIsHover)
+    {
+        CUserInterface* pFoucusWidget = nullptr;
+        CSlotBase* pToSlot = nullptr;
+
+        m_pGameInstance->GetMouseFocus((CUserInterface**)&pFoucusWidget);
+        m_pGameInstance->SetDrag(false);
+        auto pItemSlot = dynamic_cast<CSlotBase*>(pFoucusWidget);
+        if (pItemSlot)
+            SwapSlot(pItemSlot);
+    }
 }
 
 HRESULT CEquipSlot::ADD_Components()

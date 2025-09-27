@@ -136,6 +136,8 @@ public :
 	BOOL						IsMouseDrag();
 
 	void						SetMouseFocus(CUserInterface* Widget);
+	void						GetMouseFocus(CUserInterface** ppWidget);
+
 	BOOL						IsMouseFocus(CUserInterface* Widget);
 	void						Compute_LocalRay(const _matrix* InvWorldMatrix);
 

@@ -60,8 +60,9 @@ public :
 	_uInt					GetInvenWieght() { return m_iInvenWeight; }
 	_bool					AddInventoryItem(_uInt iItemID, _uInt iCount);
 	_bool					SubInventoryItem(_uInt iItemID, _uInt iCount);
-	
 	void					RemoveInventoryItem(_uInt iSlotIndex, _uInt iCount);
+
+	HRESULT					SwapInventroyItem(_uInt FromSlotNumber, _uInt ToSlotNumber);
 
 	const DEFAULT_SLOT_DESC&	GetSlotItem(_uInt iSlotIndex);
 

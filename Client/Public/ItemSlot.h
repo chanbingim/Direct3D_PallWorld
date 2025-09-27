@@ -1,22 +1,10 @@
 #pragma once
 #include "SlotBase.h"
 
-NS_BEGIN(Client)
-class CItemSlotIcon;
-class CPlayerManager;
-class CItemManager;
 
+NS_BEGIN(Client)
 class CItemSlot : public CSlotBase
 {
-public:
-	enum class ITEM_TYPE { WEAPON, HEAD, BODY, SHIELD, GLIDER, ACCESSORY, END };
-
-	typedef struct ItemSlotDesc : GAMEOBJECT_DESC
-	{
-
-
-	}ITEM_SLOT_DESC;
-
 private:
 	CItemSlot(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CItemSlot(const CItemSlot& rhs);
@@ -31,10 +19,11 @@ public:
 	virtual		void						Late_Update(_float fDeletaTime) override;
 	// ·£´õ
 	virtual		HRESULT						Render() override;
-	void									SetSlotNumber(_uInt iSlotNum) { m_iSlotNumber = iSlotNum; }
+
+	const ITEM_TYPE&						GetSlotType() { return m_eItemSlotType; }
 
 protected:
-	virtual		void						SwapSlot(CSlotBase* To);
+	virtual		void						SwapSlot(CSlotBase* From);
 	virtual		void						UseSlot(void* pArg);
 
 	virtual		void						MouseHoverEnter();
@@ -47,11 +36,6 @@ protected:
 	
 private:
 	ITEM_TYPE								m_eItemSlotType = { ITEM_TYPE::END };
-	_uInt									m_iSlotNumber = {};
-
-	CItemSlotIcon*							m_pSlotIcon = nullptr;
-	CPlayerManager*							m_pPlayerManager = nullptr;
-	CItemManager*							m_pItemManager = nullptr;
 
 private :
 	HRESULT									ADD_Components();

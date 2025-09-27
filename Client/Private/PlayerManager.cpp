@@ -199,6 +199,16 @@ void CPlayerManager::RemoveInventoryItem(_uInt iSlotIndex, _uInt iCount)
 	m_InvenSlots[iSlotIndex].second.iItemCount = 0;
 }
 
+HRESULT CPlayerManager::SwapInventroyItem(_uInt FromSlotNumber, _uInt ToSlotNumber)
+{
+	if (0 > FromSlotNumber || m_iNumInvenSlots <= FromSlotNumber ||
+		0 > ToSlotNumber || m_iNumInvenSlots <= ToSlotNumber)
+		return E_FAIL;
+
+	swap(m_InvenSlots[ToSlotNumber], m_InvenSlots[FromSlotNumber]);
+	return S_OK;
+}
+
 const DEFAULT_SLOT_DESC& CPlayerManager::GetSlotItem(_uInt iSlotIndex)
 {
 	if (0 <= iSlotIndex && m_iNumInvenSlots > iSlotIndex)

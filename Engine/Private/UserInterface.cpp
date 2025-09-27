@@ -178,9 +178,6 @@ HRESULT CUserInterface::Apply_ConstantShaderResources()
 
 void CUserInterface::OverlapEvent()
 {
-	if (!m_pGameInstance->IsMouseFocus(this))
-		return;
-	
 	//그다음 얻은 포커스 및 드래그 플래그를 통해서
 	//Pressed 및 Up 반환
 	if (m_pGameInstance->IsMouseDrag())
@@ -193,40 +190,35 @@ void CUserInterface::OverlapEvent()
 
 		if (m_pGameInstance->KeyUp(KEY_INPUT::MOUSE, 0) || m_pGameInstance->KeyUp(KEY_INPUT::MOUSE, 1))
 		{
-			MouseButtonUp();
-			m_pGameInstance->SetDrag(false);
+			if (m_bIsHover)
+			{
+				MouseButtonUp();
+				m_pGameInstance->SetDrag(false);
+			}
+		}
+	}
+	if (PtInRect(&m_UISize, m_pGameInstance->GetMousePoint()))
+	{
+		if (!m_bIsHover)
+		{
+			MouseHoverEnter();
+		}
+
+		m_bIsHover = true;
+		MouseHovering();
+
+		if (m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 0) || m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 1))
+		{
+			//여기서 Drag 밑 포커스 얻기
+			m_pGameInstance->SetDrag(true);
+			MouseButtonDwon();
 		}
 	}
 	else
 	{
-		if (PtInRect(&m_UISize, m_pGameInstance->GetMousePoint()))
+		if (m_bIsHover)
 		{
-			if (!m_bIsHover)
-			{
-				MouseHoverEnter();
-				m_pGameInstance->SetMouseFocus(this);
-			}
-
-			m_bIsHover = true;
-			MouseHovering();
-
-			if (m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 0) || m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 1))
-			{
-				//여기서 Drag 밑 포커스 얻기
-				m_pGameInstance->SetDrag(true);
-				MouseButtonDwon();
-			}
-		}
-		else
-		{
-			if (!m_pGameInstance->IsMouseDrag())
-			{
-				if (m_bIsHover)
-				{
-					MouseHoverExit();
-					m_pGameInstance->SetMouseFocus(nullptr);
-				}
-			}
+			MouseHoverExit();
 			m_bIsHover = false;
 		}
 	}

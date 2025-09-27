@@ -2,27 +2,20 @@
 
 #include "GameInstance.h"
 
-#include "PlayerManager.h"
 #include "ItemManager.h"
-#include "ItemBase.h"
 #include "ItemSlotIcon.h"
 
+#include "PlayerManager.h"
+
 CItemSlot::CItemSlot(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
-    CSlotBase(pDevice, pContext, SLOT_TYPE::ITEM),
-    m_pPlayerManager(CPlayerManager::GetInstance()),
-    m_pItemManager(CItemManager::GetInstance())
+    CSlotBase(pDevice, pContext, SLOT_TYPE::ITEM)
 {
-    Safe_AddRef(m_pPlayerManager);
-    Safe_AddRef(m_pItemManager);
+
 }
 
 CItemSlot::CItemSlot(const CItemSlot& rhs) :
-    CSlotBase(rhs),
-    m_pPlayerManager(CPlayerManager::GetInstance()),
-    m_pItemManager(CItemManager::GetInstance())
+    CSlotBase(rhs)
 {
-    Safe_AddRef(m_pPlayerManager);
-    Safe_AddRef(m_pItemManager);
 }
 
 HRESULT CItemSlot::Initalize_Prototype()
@@ -43,6 +36,7 @@ HRESULT CItemSlot::Initialize(void* pArg)
 
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
+    
 
     return S_OK;
 }
@@ -52,6 +46,7 @@ void CItemSlot::Update(_float fDeletaTime)
     __super::Update(fDeletaTime);
 
     const DEFAULT_SLOT_DESC& pSlotInfo = m_pPlayerManager->GetSlotItem(m_iSlotNumber);
+    m_pItemDesc = m_pItemManager->GetItemInfo(pSlotInfo.iItemID);
     m_pSlotIcon->SetTexture(m_pItemManager->GetItemTexture(pSlotInfo.iItemID));
 }
 
@@ -72,28 +67,42 @@ HRESULT CItemSlot::Render()
     return S_OK;
 }
 
-void CItemSlot::SwapSlot(CSlotBase* To)
+void CItemSlot::SwapSlot(CSlotBase* From)
 {
+    if (nullptr == From)
+        return;
+
+    auto pSlot = static_cast<CItemSlot*>(From);
+    if (ITEM_TYPE::END == m_eItemSlotType)
+    {
+        m_pPlayerManager->SwapInventroyItem(pSlot->GetSlotNumber(), m_iSlotNumber);
+    }
 }
 
 void CItemSlot::UseSlot(void* pArg)
 {
+
 }
 
 void CItemSlot::MouseHoverEnter()
 {
+
 }
 
 void CItemSlot::MouseHovering()
 {
+
+   
 }
 
 void CItemSlot::MouseHoverExit()
 {
+
 }
 
 void CItemSlot::MouseButtonDwon()
 {
+    m_pGameInstance->SetMouseFocus(this);
 }
 
 void CItemSlot::MouseButtonPressed()
@@ -102,6 +111,18 @@ void CItemSlot::MouseButtonPressed()
 
 void CItemSlot::MouseButtonUp()
 {
+    if (m_bIsHover)
+    {
+        CUserInterface* pFoucusWidget = nullptr;
+        CItemSlot* pToSlot = nullptr;
+    
+        m_pGameInstance->GetMouseFocus((CUserInterface**)&pFoucusWidget);
+        m_pGameInstance->SetDrag(false);
+
+        auto pItemSlot = dynamic_cast<CSlotBase*>(pFoucusWidget);
+        if(pItemSlot)
+            SwapSlot(pItemSlot);
+    }
 }
 
 HRESULT CItemSlot::ADD_Components()
@@ -157,7 +178,5 @@ void CItemSlot::Free()
 {
     __super::Free();
 
-    Safe_Release(m_pSlotIcon);
-    Safe_Release(m_pPlayerManager);
-    Safe_Release(m_pItemManager);
+
 }

@@ -147,15 +147,7 @@ HRESULT CInventory::Apply_ConstantShaderResources()
 
 HRESULT CInventory::ADD_Components()
 {
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
-        return E_FAIL;
-
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_InGameMenu_Category_BackGround"), TEXT("Texture_Com"), (CComponent**)&m_pTextureCom)))
-        return E_FAIL;
-
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
-        return E_FAIL;
-
+ 
     return S_OK;
 }
 
@@ -178,8 +170,7 @@ HRESULT CInventory::ADD_Childs()
 
 HRESULT CInventory::ADD_Slot()
 {
-    CItemSlot::ITEM_SLOT_DESC Desc;
-    ZeroMemory(&Desc, sizeof(CItemSlot::ITEM_SLOT_DESC));
+    CItemSlot::GAMEOBJECT_DESC Desc = {};
 
     Desc.pParent = nullptr;
     Desc.vScale = { m_SlotSize, m_SlotSize, 0.f };
