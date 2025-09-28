@@ -107,13 +107,13 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 #ifdef _DEBUG
     m_pTimer_Manager->Get_TimeDelta(TEXT("PriorityUpdate_Loop"));
 #endif // _DEBUG
-
     m_pObject_Manager->Priority_Update(fTimeDelta);
 
 #ifdef _DEBUG
     m_pTimer_Manager->Get_TimeDelta(TEXT("Update_Loop"));
 #endif // _DEBUG
-    m_pObject_Manager->Update(fTimeDelta);
+    if (false == m_bIsPause)
+        m_pObject_Manager->Update(fTimeDelta);
    
 #ifdef _DEBUG
     m_pTimer_Manager->Get_TimeDelta(TEXT("LateUpdate_Loop"));
@@ -124,7 +124,8 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
     m_pTimer_Manager->Get_TimeDelta(TEXT("Collision_Loop"));
 #endif // _DEBUG
 
-    m_pCollisionManager->Compute_Collision();
+    if (false == m_bIsPause)
+        m_pCollisionManager->Compute_Collision();
 
     m_pObject_Manager->Clear_DeadObject();
 
@@ -475,7 +476,7 @@ void CGameInstance::SetGameMode(GAMEMODE eMode)
 {
     m_eGameMode = eMode;
 }
-void CGameInstance::GetGamePause(_bool bFlag)
+void CGameInstance::SetGamePause(_bool bFlag)
 {
     m_bIsPause = bFlag;
 }
@@ -536,6 +537,16 @@ HRESULT CGameInstance::Add_Font(const _wstring& FontTag, const _tchar* pFontFile
 HRESULT CGameInstance::Render_Font(const _wstring& FontTag, const _tchar* pText, const _float2& vPosition, _vector vColor)
 {
     return m_pFontManager->Render(FontTag, pText, vPosition, vColor);
+}
+
+_vector CGameInstance::GetFontBoundBox(const _wstring& FontTag, const WCHAR* pText)
+{
+    return m_pFontManager->GetFontBoundBox(FontTag, pText);
+}
+
+void CGameInstance::GetSpriteSheet(const _wstring& FontTag, ID3D11ShaderResourceView** pTexture)
+{
+    m_pFontManager->GetSpriteSheet(FontTag, pTexture);
 }
 
 #pragma endregion

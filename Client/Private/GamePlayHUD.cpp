@@ -38,6 +38,7 @@ void CGamePlayHUD::Update(_float fDeletaTime)
 			m_pGameInstance->ShowInGameMouse(VISIBILITY::HIDDEN);
 
 		m_pInGameMenu->SetActive(bIsFlag);
+		m_pGameInstance->SetGamePause(bIsFlag);
 	}
 }
 

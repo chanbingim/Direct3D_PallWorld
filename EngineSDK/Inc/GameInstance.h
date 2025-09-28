@@ -175,7 +175,9 @@ public :
 	void						SetGameMode(GAMEMODE eMode);
 	GAMEMODE					GetGameMode() { return m_eGameMode; }
 
-	void						GetGamePause(_bool bFlag);
+	void						SetGamePause(_bool bFlag);
+	_bool						GetGamePause() { return m_bIsPause; }
+
 	_float						Random_Normal();
 	_float						Random(_float fMin, _float fMax);
 
@@ -194,7 +196,11 @@ public :
 
 #pragma region FONT MANAGER
 	HRESULT						Add_Font(const _wstring& FontTag, const _tchar* pFontFilePath);
+
 	HRESULT						Render_Font(const _wstring& FontTag, const _tchar* pText, const _float2& vPosition, _vector vColor);
+
+	_vector						GetFontBoundBox(const _wstring& FontTag, const WCHAR* pText);
+	void						GetSpriteSheet(const _wstring& FontTag, ID3D11ShaderResourceView** pTexture);
 #pragma endregion
 
 

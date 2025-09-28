@@ -632,6 +632,42 @@
     <Filter Include="02. HUD\Base_UI\Slot\ItemIcon">
       <UniqueIdentifier>{855cd33e-5d80-47d5-acee-6da756e9bd7e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04. DataManager\Object\Tech">
+      <UniqueIdentifier>{b144b754-cb66-4f56-938e-f3849d903c8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. DataManager\Object\Tech\Manager">
+      <UniqueIdentifier>{0c5f0e44-41f1-4c9d-b584-ba7542b009d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu">
+      <UniqueIdentifier>{2496bf12-a15d-4f3e-ab3a-25826cdd24ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView">
+      <UniqueIdentifier>{f5b5afdb-9c8e-4734-b532-7e663db04c7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine">
+      <UniqueIdentifier>{f9b0b9cf-0781-4dc9-992d-78a1e7481f43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine\LevelSlotIcon">
+      <UniqueIdentifier>{39226273-cc35-4d61-8067-e5978291297e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine\TechSlot">
+      <UniqueIdentifier>{3d1b32aa-8395-495c-b5d6-9e809f5e1d1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine\TechSlot\Font">
+      <UniqueIdentifier>{778ffaad-d458-4fc0-b339-3d53f7fd57aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine\TechSlot\Font\TitleBar">
+      <UniqueIdentifier>{f285ae86-1c71-4230-8d9c-0b984ae89113}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine\TechSlot\Font\NameBar">
+      <UniqueIdentifier>{5c31785a-650e-4479-b2ca-d796a7552fcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TiltelBar">
+      <UniqueIdentifier>{195595a5-8b27-4147-92dc-37edee69e48c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\PointBar">
+      <UniqueIdentifier>{70a52495-be05-4e4a-bfa5-8e8a501d4572}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -1165,6 +1201,39 @@
     <ClInclude Include="..\public\ItemSlotIcon.h">
       <Filter>02. HUD\Base_UI\Slot\ItemIcon</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\TechnologyMenu.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TechnologyView.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TechnologyTitleBar.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TiltelBar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TechnologyPointView.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\PointBar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TechSlot.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine\TechSlot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TechSlotTitleBar.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine\TechSlot\Font\TitleBar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TechSlotNameBar.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine\TechSlot\Font\NameBar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TechSlotLine.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\LevelIcon.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine\LevelSlotIcon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TechManager.h">
+      <Filter>04. DataManager\Object\Tech\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TechStruct.h">
+      <Filter>04. DataManager\Object\Tech</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -1680,6 +1749,36 @@
     </ClCompile>
     <ClCompile Include="..\private\ItemSlotIcon.cpp">
       <Filter>02. HUD\Base_UI\Slot\ItemIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TechnologyMenu.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TechnologyView.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TechnologyTitleBar.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TiltelBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TechnologyPointView.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\PointBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TechSlot.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine\TechSlot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TechSlotTitleBar.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine\TechSlot\Font\TitleBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TechSlotNameBar.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine\TechSlot\Font\NameBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TechSlotLine.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\LevelIcon.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine\LevelSlotIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TechManager.cpp">
+      <Filter>04. DataManager\Object\Tech\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

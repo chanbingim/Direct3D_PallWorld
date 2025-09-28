@@ -197,6 +197,7 @@ void CUserInterface::OverlapEvent()
 			}
 		}
 	}
+
 	if (PtInRect(&m_UISize, m_pGameInstance->GetMousePoint()))
 	{
 		if (!m_bIsHover)
@@ -252,17 +253,13 @@ void CUserInterface::UpdateRectSize()
 	}
 
 	_float3 vScale = m_pTransformCom->GetScale();
-
-	D3D11_VIEWPORT       ViewportDesc{};
-	_uInt                iNumViewports = { 1 };
-
-	m_pDeviceContext->RSGetViewports(&iNumViewports, &ViewportDesc);
+	auto ScreenSize = m_pGameInstance->GetScreenSize();
 
 	_float		RectCenterX = (vParentpos.x + m_fPos.x);
 	_float		RectCenterY = (vParentpos.y + m_fPos.y);
 
-	m_pTransformCom->SetPosition({ RectCenterX - ViewportDesc.Width * 0.5f,
-								  -RectCenterY + ViewportDesc.Height * 0.5f, 0.f});
+	m_pTransformCom->SetPosition({ RectCenterX - ScreenSize.x * 0.5f,
+								  -RectCenterY + ScreenSize.y * 0.5f, 0.f});
 
 	m_UISize = {static_cast<long>(RectCenterX - (vScale.x * 0.5f)),
 				static_cast<long>(RectCenterY - (vScale.y * 0.5f)),

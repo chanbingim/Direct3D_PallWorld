@@ -70,10 +70,8 @@ void CPlayer::Priority_Update(_float fDeletaTime)
     if(m_ViewCamera)
         m_pPlayerCamera->Late_Update(fDeletaTime);
 
-    if (GAMEMODE::GAME == m_pGameInstance->GetGameMode())
-    {
+    if(false == m_pGameInstance->GetGamePause())
         Key_Input(fDeletaTime);
-    }
     m_pGameInstance->SetPlayerWorldMatrix(m_pTransformCom->GetWorldMat());
 }
 
@@ -414,11 +412,10 @@ void CPlayer::ChangeAction(_float fDeltaTime)
 #pragma endregion
 
 #pragma region PELL CREATE
-        if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_F))
+        if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_E))
         {
             CPlayerManager::GetInstance()->SpawnSelectPell();
         }
-
 #pragma endregion
 
     }

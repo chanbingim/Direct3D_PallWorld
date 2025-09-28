@@ -61,10 +61,10 @@ protected :
 	virtual     HRESULT						Apply_ConstantShaderResources() override;
 
 	_bool									IsHover() { return m_bIsHover; }
+	void									UpdateRectSize();
 
 private :
 	void									OverlapEvent();
-	void									UpdateRectSize();
 
 public:
 	virtual			CGameObject*			Clone(void* pArg);

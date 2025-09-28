@@ -53,7 +53,7 @@ void CInputManager::UpdateKeyFrame()
 	memcpy(m_PreKeyState, m_CurKeyState, sizeof(m_CurKeyState));
 	memcpy(m_PreMouseState, m_DIMouseSate.rgbButtons, sizeof(m_DIMouseSate.rgbButtons));
 
-	//폴링 방식을 통해서 윈도우 메시지에 접근해 키보드 입력과 마우스 입력을 가져온다.
+	////폴링 방식을 통해서 윈도우 메시지에 접근해 키보드 입력과 마우스 입력을 가져온다.
 	m_pKeyboard->GetDeviceState(sizeof(m_CurKeyState), &m_CurKeyState);
 	m_pMouse->GetDeviceState(sizeof(m_DIMouseSate), &m_DIMouseSate);
 }

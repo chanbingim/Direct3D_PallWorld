@@ -52,7 +52,7 @@ HRESULT CGamePlayLevel::Initialize()
 	if (FAILED(Setting_GamePlayHUD()))
 		return E_FAIL;
 
-	//m_pGameInstance->ShowInGameMouse(VISIBILITY::HIDDEN);
+	m_pGameInstance->ShowInGameMouse(VISIBILITY::HIDDEN);
 
 	return S_OK;
 }

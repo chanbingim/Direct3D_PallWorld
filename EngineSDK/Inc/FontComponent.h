@@ -19,10 +19,12 @@ private:
 	virtual ~CFontComponent() = default;
 
 public:
-	virtual HRESULT			Initialize_Prototype() override;
-	virtual HRESULT			Initialize(void* pArg) override;
+	virtual HRESULT				Initialize_Prototype() override;
+	virtual HRESULT				Initialize(void* pArg) override;
 
-	HRESULT Render(const _tchar* pText, _vector vColor, _float2 Offset = {0.f, 0.f});
+	HRESULT						Render(const _tchar* pText, _vector vColor, _float2 Offset = {0.f, 0.f});
+	_vector						GetFontBoundBox(const WCHAR* pText);
+	void						GetSpriteSheet(ID3D11ShaderResourceView** pTexture);
 
 private:
 	const _float2*					m_pPoint = nullptr;

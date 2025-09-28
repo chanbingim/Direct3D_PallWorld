@@ -14,6 +14,7 @@
 #include "TerrainManager.h"
 #include "PellManager.h"
 #include "PellSkillManager.h"
+#include "TechManager.h"
 #pragma endregion
 
 
@@ -43,24 +44,13 @@ HRESULT CMainApp::Initialize_MainApp()
 	if (FAILED(SetUp_InGameFont()))
 		return E_FAIL;
 
+	CTechManager::GetInstance()->Initialize("../Bin/Resources/DataFile/BuildObject/BuildObject.csv");
 
 #ifdef _DEBUG
 	if (FAILED(SetUp_DebugWindow()))
 		return E_FAIL;
 #endif // _DEBUG
 
-
-	//// 와이어프레임 RasterizerState 생성
-	//D3D11_RASTERIZER_DESC desc = {};
-	//desc.FillMode = D3D11_FILL_WIREFRAME; // 와이어프레임 모드
-	//desc.CullMode = D3D11_CULL_BACK;      // 백페이스 컬링
-	//desc.DepthClipEnable = TRUE;
-
-	//ID3D11RasterizerState* pWireframeRS = nullptr;
-	//m_pGraphic_Device->CreateRasterizerState(&desc, &pWireframeRS);
-
-	//// 적용
-	//m_pDevice_Context->RSSetState(pWireframeRS);
 
 	return S_OK;
 }
@@ -348,6 +338,7 @@ void CMainApp::Free()
 	CPellManager::DestroyInstance();
 	CTerrainManager::DestroyInstance();
 	CPellSkillManager::DestroyInstance();
+	CTechManager::DestroyInstance();
 
 	m_pGameInstance->Release_Engine();
 	Safe_Release(m_pGameInstance);

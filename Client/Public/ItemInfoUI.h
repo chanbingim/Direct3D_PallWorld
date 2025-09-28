@@ -33,8 +33,8 @@ public:
 	virtual		HRESULT						Render() override;
 
 private:
-	CItemObject* m_pOwner = nullptr;
-	CFontComponent* m_pFontCom = nullptr;
+	CItemObject*							m_pOwner = nullptr;
+	CFontComponent*							m_pFontCom = nullptr;
 
 	_float2									m_vFontPosition = {};
 	_float3									m_vAwayPoisition = {};

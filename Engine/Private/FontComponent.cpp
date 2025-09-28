@@ -31,6 +31,16 @@ HRESULT CFontComponent::Render(const _tchar* pText, _vector vColor, _float2 Offs
     return m_pGameInstance->Render_Font(m_szUseFontTag, pText, { m_pPoint->x + Offset.x, m_pPoint->y + Offset.y }, vColor);
 }
 
+_vector CFontComponent::GetFontBoundBox(const WCHAR* pText)
+{
+    return m_pGameInstance->GetFontBoundBox(m_szUseFontTag, pText);
+}
+
+void CFontComponent::GetSpriteSheet(ID3D11ShaderResourceView** pTexture)
+{
+    m_pGameInstance->GetSpriteSheet(m_szUseFontTag, pTexture);
+}
+
 CFontComponent* CFontComponent::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
     CFontComponent* pFont = new CFontComponent(pDevice, pContext);

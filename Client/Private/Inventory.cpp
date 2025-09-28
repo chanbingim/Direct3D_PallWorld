@@ -31,10 +31,8 @@ HRESULT CInventory::Initialize(void* pArg)
     if (FAILED(ADD_Components()))
         return E_FAIL;
     
-    m_SlotCount = { 5, 12 };
+    m_SlotCount = { 5, 11 };
     m_SlotSize = 40.f;
-
-    m_pViewItemSlot = new list<CItemSlot*>[m_SlotCount.y];
 
     if (FAILED(ADD_Childs()))
         return E_FAIL;
@@ -48,49 +46,29 @@ HRESULT CInventory::Initialize(void* pArg)
 void CInventory::Update(_float fDeletaTime)
 {
     _float3 vStartPos = { (_float)m_SlotViewSize.left, (_float)m_SlotViewSize.top, 0.f };
-    _float fOffset = -m_pIvenSlider->GetCurPercent() * 100.f;
-    _uInt iRowIndex = (m_pIvenSlider->GetCurPercent() * m_SlotCount.y);
+    _float fOffset = m_pIvenSlider->GetCurPercent() * 100.f;
+    _uInt iRowIndex = (_uInt)((fOffset) / m_SlotSize);
+    _bool bIsReverse = false;
 
-    for (_uInt i = 0; i < (_uInt)m_SlotCount.y; ++i)
+    _uInt iSlotStartNum;
+
+    for (_uInt i = iRowIndex; i < (_uInt)m_SlotCount.y; ++i)
     {
-        if (m_SlotCount.y <= iRowIndex)
-            iRowIndex -= m_SlotCount.y;
-
         for (_uInt j = 0; j < (_uInt)m_SlotCount.x; ++j)
         {
             _uInt iIndex = _uInt(i * m_SlotCount.x + j);
             _float2 SlotPos = m_pItemSlot[iIndex]->GetViewPos();
-            SlotPos.y = vStartPos.y + (m_SlotSize + 10) * i + fOffset;
+            SlotPos.y = vStartPos.y + (m_SlotSize + 10) * i - fOffset;
             m_pItemSlot[iIndex]->SetLocation({ SlotPos.x ,SlotPos.y ,0.f });
-           
+
             RECT rc{};
             if (IntersectRect(&rc, &m_SlotViewSize, &m_pItemSlot[iIndex]->GetRectSize()))
-            {
-                m_pViewItemSlot[iRowIndex].push_back(m_pItemSlot[iIndex]);
-            }
-            else
-            {
-                SlotPos.y -= m_SlotViewSize.bottom;
-                SlotPos.y += vStartPos.y - (m_SlotSize + 10);
-                m_pItemSlot[iIndex]->SetLocation({ SlotPos.x, SlotPos.y, 0.f });
-                if (IntersectRect(&rc, &m_SlotViewSize, &m_pItemSlot[iIndex]->GetRectSize()))
-                {
-                    m_pViewItemSlot[0].push_back(m_pItemSlot[iIndex]);
-                }
-            }
+                m_pViewItemSlot.push_back(m_pItemSlot[iIndex]);
         }
-        iRowIndex++;
     }
 
-    _uInt iSlotStartNum = m_SlotCount.x * (-fOffset);
-    for (_uInt i = 0; i < (_uInt)m_SlotCount.y; ++i)
-    {
-        for (auto iter : m_pViewItemSlot[i])
-        {
-            iter->SetSlotNumber(iSlotStartNum++);
-            iter->Update(fDeletaTime);
-        }
-    }
+    for (auto iter : m_pViewItemSlot)
+        iter->Update(fDeletaTime);
    
     for (auto iter : m_pChildList)
         iter->Update(fDeletaTime);
@@ -101,11 +79,8 @@ void CInventory::Late_Update(_float fDeletaTime)
     for (auto iter : m_pChildList)
         iter->Late_Update(fDeletaTime);
 
-    for (_uInt i = 0; i < (_uInt)m_SlotCount.y; ++i)
-    {
-        for (auto pSlot : m_pViewItemSlot[i])
-            pSlot->Late_Update(fDeletaTime);
-    }
+    for (auto pSlot : m_pViewItemSlot)
+        pSlot->Late_Update(fDeletaTime);
 
 }
 
@@ -114,13 +89,9 @@ HRESULT CInventory::Render()
     for (auto iter : m_pChildList)
         iter->Render();
 
-    for (_uInt i = 0; i < (_uInt)m_SlotCount.y; ++i)
-    {
-        for (auto pSlot : m_pViewItemSlot[i])
-            pSlot->Render();
-
-        m_pViewItemSlot[i].clear();
-    }
+    for (auto pSlot : m_pViewItemSlot)
+        pSlot->Render();
+    m_pViewItemSlot.clear();
       
     return S_OK;
 }
@@ -189,6 +160,7 @@ HRESULT CInventory::ADD_Slot()
             if (FAILED(pItemSlot->Initialize(&Desc)))
                 return E_FAIL;
 
+            pItemSlot->SetSlotNumber(_uInt(i * m_SlotCount.x + j));
             m_pItemSlot.push_back(pItemSlot);
         }
     }
@@ -246,5 +218,4 @@ void CInventory::Free()
     m_pItemSlot.clear();
 
     Safe_Release(m_pIvenSlider);
-    Safe_Delete_Array(m_pViewItemSlot);
 }

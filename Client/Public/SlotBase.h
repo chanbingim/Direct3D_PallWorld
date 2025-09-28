@@ -16,7 +16,7 @@ class CItemManager;
 class CSlotBase : public CBackGround
 {
 public :
-	enum class SLOT_TYPE { EQUIP, ITEM, QUICKSLOT, END};
+	enum class SLOT_TYPE { EQUIP, ITEM, TECH, QUICKSLOT, END};
 
 protected:
 	CSlotBase(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, SLOT_TYPE eType);

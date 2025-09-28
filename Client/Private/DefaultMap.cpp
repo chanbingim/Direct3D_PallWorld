@@ -172,5 +172,4 @@ CGameObject* CDefaultMap::Clone(void* pArg)
 void CDefaultMap::Free()
 {
     __super::Free();
-    Safe_Release(m_pNavigationCom);
 }

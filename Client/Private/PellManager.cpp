@@ -28,7 +28,6 @@ void CPellManager::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pConte
     {
         // PELL_SAVE_DATA PellDesc;
         PELL_INFO      PellDesc;
-
         /* Sheep Ball Infomation */
         PellDesc.szPellName = "Dororong";
         PellDesc.pPellIconTexture = CreateTexture(0, TEXT("../Bin/Resources/Textures/UI/InGameUI/PellCharacter/T_SheepBall_icon_normal.png"));
@@ -65,7 +64,7 @@ void CPellManager::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pConte
 
         /* ElecPanda Infomation */
         PellDesc.szPellName = "ElecPanda";
-        PellDesc.pPellIconTexture = CreateTexture(1, TEXT("../Bin/Resources/Textures/UI/InGameUI/PellCharacter/T_ElecPanda_icon_normal.png"));
+        PellDesc.pPellIconTexture = CreateTexture(2, TEXT("../Bin/Resources/Textures/UI/InGameUI/PellCharacter/T_ElecPanda_icon_normal.png"));
         PellDesc.MaxHealth = 200.f;
         PellDesc.MaxHunger = 70.f;
         PellDesc.fPellAttackRange = 50.f;
@@ -79,6 +78,7 @@ void CPellManager::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pConte
         PellDesc.eWorkType = PELL_WORK_TYPE::TREE_GATHER;
         PellDesc.ePellType = PELL_TYPE::ELETRIC;
         m_PellDatas.emplace(2, PellDesc);
+
     }
 }
 
@@ -104,7 +104,6 @@ const CTexture* CPellManager::CreateTexture(_uInt iID, const WCHAR* szFilePath)
     auto pTexture = CTexture::Create(m_pDevice, m_pContext, szFilePath, 1);
     if (nullptr == pTexture)
         return nullptr;
-
     m_PellIcons.emplace(iID, pTexture);
     return pTexture;
 }
