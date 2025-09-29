@@ -139,6 +139,6 @@ void CVIBuffer_Model_Instance::Free()
 	Safe_Release(m_pModel);
 	if (false == m_isCloned)
 	{
-		Safe_Delete(m_pInstanceVertices);
+		Safe_Delete_Array(m_pInstanceVertices);
 	}
 }

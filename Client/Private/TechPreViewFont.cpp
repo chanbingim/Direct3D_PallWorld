@@ -35,7 +35,8 @@ HRESULT CTechPreViewFont::Initialize(void* pArg)
 
 void CTechPreViewFont::Update(_float fDeletaTime)
 {
-
+	_vector FontBound = m_pFontCom->GetFontBoundBox(m_szItemName.c_str());
+	m_vFontPoint = { GetViewPos().x - FontBound.m128_f32[0] * 0.5f, GetViewPos().y};
 }
 
 void CTechPreViewFont::Late_Update(_float fDeletaTime)
@@ -61,6 +62,16 @@ void CTechPreViewFont::SetText(const WCHAR* szText)
 
 HRESULT CTechPreViewFont::ADD_Components()
 {
+	// 여기서 폰트를 생성해서 하자 폰트는 물론 컴포넌트로
+	CFontComponent::FONT_DESC FontDesc = {};
+	m_vFontPoint = GetViewPos();
+	FontDesc.pPoint = &m_vFontPoint;
+	FontDesc.szUseFontName = TEXT("HanSanFont_16");
+	FontDesc.vFontSize = { 50, 100 };
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_FontComponent"), TEXT("Font_Com"), (CComponent**)&m_pFontCom, &FontDesc)))
+		return E_FAIL;
+
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
 		return E_FAIL;
 

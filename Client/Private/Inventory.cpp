@@ -50,8 +50,6 @@ void CInventory::Update(_float fDeletaTime)
     _uInt iRowIndex = (_uInt)((fOffset) / m_SlotSize);
     _bool bIsReverse = false;
 
-    _uInt iSlotStartNum;
-
     for (_uInt i = iRowIndex; i < (_uInt)m_SlotCount.y; ++i)
     {
         for (_uInt j = 0; j < (_uInt)m_SlotCount.x; ++j)

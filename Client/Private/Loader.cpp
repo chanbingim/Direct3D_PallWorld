@@ -95,6 +95,7 @@
 
 #pragma region CREATE UI
 #include "CreateMenu.h"
+#include "TechListViewSlot.h"
 #pragma endregion
 
 #pragma region PELL INFO
@@ -947,6 +948,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma region CREATE UI
 	/* GAME_OBJECT_CREATE_UI */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Tech_Create"), CCreateMenu::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_TECH_LIST_VIEW_UI */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Tech_List_View_Slot"), CTechListViewSlot::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 #pragma endregion
 

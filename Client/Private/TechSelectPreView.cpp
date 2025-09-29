@@ -99,15 +99,17 @@ HRESULT CTechSelectPreView::ADD_Components()
 HRESULT CTechSelectPreView::ADD_Childs()
 {
     _float3 vScale = m_pTransformCom->GetScale();
-    CGameObject::GAMEOBJECT_DESC pObejctDesc = {};
-    pObejctDesc.pParent = this;
+    CItemSlotIcon::ITEM_SLOT_ICON_DESC pItemSlotDesc = {};
+    pItemSlotDesc.pParentTransform = m_pTransformCom;
 
-    pObejctDesc.vScale = { vScale.x * 0.8f, vScale.y * 0.7f, 0.f};
-    pObejctDesc.vPosition = { 0.f, -pObejctDesc.vScale.y * 0.5f, 0.f };
+    pItemSlotDesc.vScale = { vScale.x * 0.8f, vScale.y * 0.7f, 0.f};
+    pItemSlotDesc.vPosition = { 0.f, -pItemSlotDesc.vScale.y * 0.5f, 0.f };
     m_pPreViewIcon = CItemSlotIcon::Create(m_pGraphic_Device, m_pDeviceContext);
-    if (FAILED(m_pPreViewIcon->Initialize(&pObejctDesc)))
+    if (FAILED(m_pPreViewIcon->Initialize(&pItemSlotDesc)))
         return E_FAIL;
 
+    CGameObject::GAMEOBJECT_DESC pObejctDesc = {};
+    pObejctDesc.pParent = this;
     pObejctDesc.vScale = { vScale.x * 0.8f, vScale.y * 0.2f, 0.f};
     pObejctDesc.vPosition = {0.f , pObejctDesc.vScale.y, 0.f};
     m_pPreViewFont = CTechPreViewFont::Create(m_pGraphic_Device, m_pDeviceContext);

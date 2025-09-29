@@ -35,7 +35,7 @@ HRESULT CSmallGrass::Initialize(void* pArg)
 
 	_matrix vWorldMat = XMLoadFloat4x4(&m_pTransformCom->GetWorldMat());
 
-	_uInt iNumInstance = m_pVIBufferCom->GetNumInstance();
+	/*_uInt iNumInstance = m_pVIBufferCom->GetNumInstance();
 	m_pVIBufferCom->Lock(&SubResource);;
 	VTX_INSTANCE_DEFAULT_DESC* pVertices = static_cast<VTX_INSTANCE_DEFAULT_DESC*>(SubResource.pData);
 	if (pVertices)
@@ -55,7 +55,7 @@ HRESULT CSmallGrass::Initialize(void* pArg)
 		}
 	}
 
-	m_pVIBufferCom->UnLock();
+	m_pVIBufferCom->UnLock();*/
 
 	return S_OK;
 }
@@ -77,23 +77,23 @@ void CSmallGrass::Late_Update(_float fDeletaTime)
 
 HRESULT CSmallGrass::Render()
 {
-	_uInt iNumMeshes = m_pVIBufferCom->GetModelIndex();
+	/*_uInt iNumMeshes = m_pVIBufferCom->GetModelIndex();
 
 	for (_uInt i = 0; i < iNumMeshes; ++i)
 	{
 		__super::Apply_ConstantShaderResources(i);
 		m_pShaderCom->Update_Shader(0);
 		m_pVIBufferCom->Render_VIBuffer(i);
-	}
+	}*/
 
 	return S_OK;
 }
 
 HRESULT CSmallGrass::ADD_Components()
 {
-	// ¸ðµ¨ Á¤º¸
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Instance_SamllGrass"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
-		return E_FAIL;
+	//// ¸ðµ¨ Á¤º¸
+	//if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Instance_SamllGrass"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
+	//	return E_FAIL;
 
 	// NonAnimShader
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_InstanceMesh"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))

@@ -7,14 +7,12 @@ CVIBuffer_Instance::CVIBuffer_Instance(ID3D11Device* pDevice, ID3D11DeviceContex
 
 CVIBuffer_Instance::CVIBuffer_Instance(const CVIBuffer_Instance& Prototype) :
     CVIBuffer(Prototype)
-	, m_pVBInstance{ Prototype.m_pVBInstance }
 	, m_InstanceBufferDesc(Prototype.m_InstanceBufferDesc)
 	, m_InstanceInitialDesc{ Prototype.m_InstanceInitialDesc }
 	, m_iInstanceStride{ Prototype.m_iInstanceStride }
 	, m_iNumInstance{ Prototype.m_iNumInstance }
 	, m_iNumIndexPerInstance{ Prototype.m_iNumIndexPerInstance }
 {
-	Safe_AddRef(m_pVBInstance);
 }
 
 HRESULT CVIBuffer_Instance::Initialize_Prototype(const INSTANCE_DESC* pInstanceDesc)

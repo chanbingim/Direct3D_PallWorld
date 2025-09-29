@@ -36,6 +36,7 @@ private:
 	CTechSelectPreView*						m_pSelectPreView = nullptr;
 	vector<CTechListViewSlot*>				m_pViewSlotList = {};
 
+	_uInt									m_iViewStartIndex = 0;
 	_float4									m_vImageColor;
 	const		TECH_ITEM_DESC*				m_SelectViewTechItem = nullptr;
 

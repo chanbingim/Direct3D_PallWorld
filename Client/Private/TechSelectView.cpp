@@ -2,6 +2,7 @@
 
 #include "GameInstance.h"
 #include "TechSelectPreView.h"
+#include "TechListViewSlot.h"
 
 #include "ItemManager.h"
 #include "TechManager.h"
@@ -54,12 +55,26 @@ HRESULT CTechSelectView::Initialize(void* pArg)
 
 void CTechSelectView::Update(_float fDeletaTime)
 {
-	auto TechList = m_pTechManager->GetCategoryTypeTechList(m_eTechType);
-	for (auto TechID : TechList)
-	{
-		//여기서 슬롯에다가 세팅
+	auto& TechList = m_pTechManager->GetCategoryTypeTechList(m_eTechType);
 
+	auto pTechID = next(TechList.begin(), m_iViewStartIndex);
+	for (size_t i = 0; i < m_pViewSlotList.size(); ++i)
+	{
+		if (pTechID == TechList.end())
+		{
+			m_pViewSlotList[i]->SetViewItemInfo(nullptr);
+		}
+		else
+		{
+			auto& TechInfo = m_pTechManager->GetTechData((*pTechID));
+			auto ItemDesc = m_pItemManager->GetItemInfo(TechInfo.ReturnItemID);
+
+			//여기서 슬롯에다가 세팅
+			m_pViewSlotList[i]->SetViewItemInfo(ItemDesc);
+			pTechID++;
+		}
 	}
+
 
 	if(m_SelectViewTechItem)
 		m_pSelectPreView->SetViewItemInfo(m_pItemManager->GetItemInfo(m_SelectViewTechItem->ReturnItemID));
@@ -119,11 +134,42 @@ HRESULT CTechSelectView::ADD_Childs()
 	if (FAILED(m_pSelectPreView->Initialize(&pObjectDesc)))
 		return E_FAIL;
 
+	ADD_Child(m_pSelectPreView);
 	return S_OK;
 }
 
 HRESULT CTechSelectView::ADD_TechViewListSlot()
 {
+	m_pViewSlotList.reserve(12);
+	CGameObject::GAMEOBJECT_DESC pObejctDesc = {};
+	pObejctDesc.pParent = this;
+
+	//중점을 가져온다
+	_float2 vCircleCenterPos = GetScreenPos();
+
+	// 안쪽원 반지름 + (밖깥원 반지름 - 안쪽원 반지름) * 0.5 는 중간원 반지름
+	// 그러면 중점 X에다가 중간원의 반지름을 더하면 중간원의 0도일때의 좌표가 나옴
+	_float InCircleRadius = (_float)m_pSelectPreView->GetRectSize().right;
+	_float OutCircleRadius = (_float)GetRectSize().right;
+
+	_float RadiusDiff = OutCircleRadius - InCircleRadius;
+	_float MiddleCircleRadius = InCircleRadius - vCircleCenterPos.x + RadiusDiff * 0.5f;
+
+	pObejctDesc.vScale = { RadiusDiff, RadiusDiff, 0.f};
+	for (_float i = 15; i < 360.f; i += 30.f)
+	{
+		pObejctDesc.vPosition.x = MiddleCircleRadius * cosf(XMConvertToRadians(i));
+		pObejctDesc.vPosition.y =  MiddleCircleRadius * sinf(XMConvertToRadians(i));
+
+		CTechListViewSlot* pTechListSlot = static_cast<CTechListViewSlot*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Tech_List_View_Slot"), &pObejctDesc));
+		if (nullptr == pTechListSlot)
+			return E_FAIL;
+
+		pTechListSlot->SetZOrder(m_iZOrder + 1);
+		m_pViewSlotList.push_back(pTechListSlot);
+		ADD_Child(pTechListSlot);
+	}
+
 	return S_OK;
 }
 

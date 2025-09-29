@@ -48,8 +48,10 @@ void CTechListViewSlot::Update(_float fDeletaTime)
 
 void CTechListViewSlot::Late_Update(_float fDeletaTime)
 {
-    m_pItemIcon->Update(fDeletaTime);
+    m_pItemIcon->Late_Update(fDeletaTime);
     m_pGameInstance->Add_RenderGroup(RENDER::SCREEN_UI, this);
+
+    
 }
 
 HRESULT CTechListViewSlot::Render()
@@ -61,8 +63,16 @@ HRESULT CTechListViewSlot::Render()
 
 void CTechListViewSlot::SetViewItemInfo(const ITEM_DESC* pItemDesc)
 {
-    m_pItemIcon->SetTexture(CItemManager::GetInstance()->GetItemTexture(pItemDesc->iItemNum));
-    m_szItemName = pItemDesc->szItemName;
+    if (nullptr == pItemDesc)
+    {
+        m_pItemIcon->SetTexture(nullptr);
+        m_szItemName = TEXT("");
+    }
+    else
+    {
+        m_pItemIcon->SetTexture(CItemManager::GetInstance()->GetItemTexture(pItemDesc->iItemNum));
+        m_szItemName = pItemDesc->szItemName;
+    }
 }
 
 HRESULT CTechListViewSlot::ADD_Components()
@@ -79,11 +89,12 @@ HRESULT CTechListViewSlot::ADD_Components()
 
     _float3 vScale = m_pTransformCom->GetScale();
     CItemSlotIcon::ITEM_SLOT_ICON_DESC ItemSlotDesc = {};
-    ItemSlotDesc.pParent = this;
+    ItemSlotDesc.pParentTransform = m_pTransformCom;
 
     ItemSlotDesc.vScale = { vScale.x * 0.7f, vScale.y * 0.7f, 0.f };
     ItemSlotDesc.vPosition = {0.f,  ItemSlotDesc.vScale.y * 0.5f, 0.f };
     m_pItemIcon = CItemSlotIcon::Create(m_pGraphic_Device, m_pDeviceContext);
+    m_pItemIcon->SetZOrder(static_cast<CUserInterface*>(m_pParent)->GetZOrder() + 2);
     if (FAILED(m_pItemIcon->Initialize(&ItemSlotDesc)))
         return E_FAIL;
 
