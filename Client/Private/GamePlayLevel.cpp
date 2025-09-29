@@ -121,9 +121,9 @@ HRESULT CGamePlayLevel::ADD_EnviornmentLayer(const _wstring& LayerName)
 	Desc.vScale = { 1.f, 1.f, 1.f };
 	Desc.vPosition = { 109.f, -64.f, 795.f };
 
-	//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Environment_SmallGrass"),
-	//	ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
-	//	return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Environment_SmallGrass"),
+		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
+		return E_FAIL;
 
 	Desc.vPosition = { -114.f, 14.f, 575.f };
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Environment_Flower"),

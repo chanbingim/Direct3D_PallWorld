@@ -134,6 +134,6 @@ void CVIBuffer_Point_Instance::Free()
 
 	if (false == m_isCloned)
 	{
-		Safe_Delete(m_pInstanceVertices);
+		Safe_Delete_Array(m_pInstanceVertices);
 	}
 }

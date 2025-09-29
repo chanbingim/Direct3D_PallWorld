@@ -89,8 +89,9 @@ _uInt CVIBuffer_Model_Instance::GetModelIndex()
 
 void CVIBuffer_Model_Instance::Bind_Resource(_uInt iMeshIndex)
 {
+	ID3D11Buffer* pModelVertexBuffer = m_pModel->GetMeshVertexBuffer(iMeshIndex, &m_iVertexStride);
 	ID3D11Buffer* VertexBuffers[] = {
-			m_pModel->GetMeshVertexBuffer(iMeshIndex, &m_iVertexStride),
+			pModelVertexBuffer,
 		    m_pVBInstance,
 	};
 
@@ -99,15 +100,18 @@ void CVIBuffer_Model_Instance::Bind_Resource(_uInt iMeshIndex)
 	m_iInstanceStride,
 	};
 
-	ID3D11Buffer* IndexBuffer = m_pModel->GetMeshIndexBuffer(iMeshIndex, &m_eIndexFormat, &m_iNumIndices);
+	ID3D11Buffer* pMoelIndexBuffer = m_pModel->GetMeshIndexBuffer(iMeshIndex, &m_eIndexFormat, &m_iNumIndices);
 	_uInt		Offsets[] = {
 		0,
 		0
 	};
 
 	m_pContext->IASetVertexBuffers(0, m_iNumVertexBuffers, VertexBuffers, VertexStrides, Offsets);
-	m_pContext->IASetIndexBuffer(IndexBuffer, m_eIndexFormat, 0);
+	m_pContext->IASetIndexBuffer(pMoelIndexBuffer, m_eIndexFormat, 0);
 	m_pContext->IASetPrimitiveTopology(m_ePrimitive);
+
+	Safe_Release(pModelVertexBuffer);
+	Safe_Release(pMoelIndexBuffer);
 }
 
 CVIBuffer_Model_Instance* CVIBuffer_Model_Instance::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const INSTANCE_DESC* pInstanceDesc)
