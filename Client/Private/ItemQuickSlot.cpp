@@ -43,6 +43,7 @@ HRESULT CItemQuickSlot::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_iZOrder = 0;
+	m_vImageColor = { 0.21f, 0.32f, 0.36f, 0.5f };
 
 	return S_OK;
 }
@@ -79,7 +80,9 @@ HRESULT CItemQuickSlot::Render()
 {
 	//이제 전부 지오메트리로 그릴거임
 	Apply_ConstantShaderResources();
-	m_pShaderCom->Update_Shader(1);
+	m_pShaderCom->Bind_RawValue("g_vColor", &m_vImageColor, sizeof(_float4));
+
+	m_pShaderCom->Update_Shader(4);
 	m_pTextureCom->SetTexture(0, 0);
 	m_pVIBufferCom->Render_VIBuffer();
 

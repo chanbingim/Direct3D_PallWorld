@@ -43,6 +43,9 @@ HRESULT CWeaponQuickSlot::Initialize(void* pArg)
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
+	m_vImageColor = { 115.f / 225.f, 
+					  128.f / 225.f,
+					  112.f / 225.f, 0.5f };
 	m_iZOrder = 0;
 	return S_OK;
 }
@@ -80,7 +83,9 @@ HRESULT CWeaponQuickSlot::Render()
 {
 	//이제 전부 지오메트리로 그릴거임
 	Apply_ConstantShaderResources();
-	m_pShaderCom->Update_Shader(1);
+	m_pShaderCom->Bind_RawValue("g_vColor", &m_vImageColor, sizeof(_float4));
+
+	m_pShaderCom->Update_Shader(4);
 	m_pTextureCom->SetTexture(0, 0);
 	m_pVIBufferCom->Render_VIBuffer();
 

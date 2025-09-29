@@ -53,6 +53,9 @@ private:
 
 	const WCHAR*							GetTechTypeName(TECH_TYPE eTechType);
 
+	void									LearnEvent();
+	void									CancelEvent();
+
 public:
 	static		CTechSlot*					Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual		CUserInterface*				Clone(void* pArg) override;

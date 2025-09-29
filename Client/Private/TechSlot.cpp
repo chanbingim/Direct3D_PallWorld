@@ -9,6 +9,9 @@
 #include "TechSlotTitleBar.h"
 #include "ItemManager.h"
 
+#include "GamePlayHUD.h"
+#include "SelectUI.h"
+#include "Level.h"
 
 CTechSlot::CTechSlot(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 	CSlotBase(pDevice, pContext, SLOT_TYPE::TECH),
@@ -57,6 +60,8 @@ void CTechSlot::Update(_float fDeletaTime)
 	UpdateRectSize();
 	for (auto pChild : m_pChildList)
 		pChild->Update(fDeletaTime);
+
+	__super::Update(fDeletaTime);
 }
 
 void CTechSlot::Late_Update(_float fDeletaTime)
@@ -108,7 +113,24 @@ void CTechSlot::MouseHoverExit()
 
 void CTechSlot::MouseButtonDwon()
 {
-	m_pTechManager->LernTechObject(m_TechItem->TechTypeID);
+	auto GamePlayHUD = static_cast<CGamePlayHUD*>(m_pGameInstance->GetCurrentLevel()->GetHUD());
+	auto SelectUI = GamePlayHUD->GetSelectUI();
+
+	if (m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 1))
+	{
+		GamePlayHUD->SetVisibleSelectUI(VISIBILITY::VISIBLE);
+		SelectUI->SetText(0, TEXT("취소"));
+		SelectUI->SetText(1, TEXT("배우기"));
+		SelectUI->SetPosition({ (_float)GetRectSize().right,
+							   (_float)GetRectSize().bottom, 0.f });
+
+		SelectUI->BindEvent(0, [&]() { CancelEvent(); });
+		SelectUI->BindEvent(1, [&]() {  LearnEvent(); });
+	}
+	else
+	{
+		GamePlayHUD->SetVisibleSelectUI(VISIBILITY::HIDDEN);
+	}
 }
 
 void CTechSlot::MouseButtonPressed()
@@ -144,6 +166,17 @@ const WCHAR* CTechSlot::GetTechTypeName(TECH_TYPE eTechType)
 	}
 
 	return TEXT("");
+}
+
+void CTechSlot::LearnEvent()
+{
+	m_pTechManager->LernTechObject(m_TechItem->TechTypeID);
+}
+
+void CTechSlot::CancelEvent()
+{
+	auto GamePlayHUD = static_cast<CGamePlayHUD*>(m_pGameInstance->GetCurrentLevel()->GetHUD());
+	GamePlayHUD->SetVisibleSelectUI(VISIBILITY::HIDDEN);
 }
 
 HRESULT CTechSlot::ADD_Childs()

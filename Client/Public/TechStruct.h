@@ -4,7 +4,7 @@
 
 namespace Client
 {
-	enum class TECH_TYPE { ITEM, ARCHITECTURE, END };
+	enum class TECH_TYPE {  ARCHITECTURE, PELL, ITEM, END };
 
 	typedef struct TechItemDesc
 	{

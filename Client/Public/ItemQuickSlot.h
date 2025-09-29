@@ -29,6 +29,7 @@ private:
 	CItemQuickSlotName*						m_pQuickSlotName = nullptr;
 	CItemQuickSlotCount*					m_pQuickSlotCount = nullptr;
 
+	_float4									m_vImageColor;
 private:
 	HRESULT									ADD_Components();
 	HRESULT									ADD_Childs();

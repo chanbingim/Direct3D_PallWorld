@@ -7,12 +7,12 @@ class CTechnologyPointView;
 class CTechnologyTitleBar;
 class CTechnologyView;
 
-class CCreateMenu final : public CUserInterface
+class CTechnologyMenu final : public CUserInterface
 {
 private:
-	CCreateMenu(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CCreateMenu(const CCreateMenu& rhs);
-	virtual ~CCreateMenu() = default;
+	CTechnologyMenu(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CTechnologyMenu(const CTechnologyMenu& rhs);
+	virtual ~CTechnologyMenu() = default;
 
 public:
 	//√ ±‚»≠
@@ -34,7 +34,7 @@ private:
 	HRESULT									ADD_Childs();
 
 public:
-	static		CCreateMenu*				Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static		CTechnologyMenu*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual		CGameObject*				Clone(void* pArg);
 	virtual		void						Free() override;
 

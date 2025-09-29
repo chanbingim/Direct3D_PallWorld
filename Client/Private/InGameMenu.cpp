@@ -165,7 +165,7 @@ HRESULT CInGameMenu::ADD_Widgets()
     if (FAILED(m_pGameOptionUI->Initialize(&Desc)))
         return E_FAIL;
 
-    m_pTechMenuUI = CCreateMenu::Create(m_pGraphic_Device, m_pDeviceContext);
+    m_pTechMenuUI = CTechnologyMenu::Create(m_pGraphic_Device, m_pDeviceContext);
     if (FAILED(m_pTechMenuUI->Initialize(&Desc)))
         return E_FAIL;
 

@@ -93,6 +93,10 @@
 #include "PellInfoFrame.h"
 #include "TypeIcon.h"
 
+#pragma region CREATE UI
+#include "CreateMenu.h"
+#pragma endregion
+
 #pragma region PELL INFO
 #include "PellHealthBar.h"
 #include "NeturalTypeIcon.h"
@@ -105,6 +109,11 @@
 
 #pragma region ITEM_UI
 #include "ItemInfoUI.h"
+#pragma endregion
+
+#pragma region Button
+#include "EventButton.h"
+#include "TechCategoryUI.h"
 #pragma endregion
 
 #include "InGameMenu.h"
@@ -255,6 +264,45 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Map/Tile/Tile%d.dds"), 2))))
 		return E_FAIL;
 #pragma endregion
+
+#pragma region DEFULAT_BUTTON_TEX
+	/* GamePlay_PlayerInfo_Button_Default_Texture */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Button_BackGround"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/BackGround/T_prt_inventory_gauge_frame.png"), 1))))
+		return E_FAIL;
+
+	/* GamePlay_PlayerInfo_Button_Tech_Category_Texture */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Tech_Category_BackGround"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/TechUI/TechBut/T_prt_loadout_base.png"), 1))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region CREATE MENU TEXTURE
+
+#pragma region TabTex
+	/* GamePlay_PlayerInfo_Button_Tech_Category_Tech_Texture */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Tech_Texture"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/TechUI/TechBut/Tab/T_icon_construction_tab_0%d.png"), 10))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region PreviewCircle
+	/* GamePlay_PlayerInfo_Button_Tech_Menu_OutRidal_Tex */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Tech_Crate_OutCircle"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/TechUI/TechBut/T_prt_radial_base.png"), 1))))
+		return E_FAIL;
+
+	/* GamePlay_PlayerInfo_Button_Tech_Category_Tech_InRidal_Tex */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Tech_Crate_InCircle"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/TechUI/TechBut/T_prt_radial_base_line.png"), 1))))
+		return E_FAIL;
+#pragma endregion
+
+
+#pragma endregion
+
+
+
 
 #pragma region PLAYER_INFO_TEXTURE
 	/* GamePlay_PlayerInfo_bar_Texture */
@@ -883,6 +931,22 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma region ITEM INFO UI
 	/* GAME_OBJECT_InGameMenu_UI */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Info_UI"), CItemInfoUI::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region EVENT UI
+	/* GAME_OBJECT_InGameMenu_UI */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Event_Button"), CEventButton::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_InGameMenu_UI */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Tech_Category"), CTechCategoryUI::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region CREATE UI
+	/* GAME_OBJECT_CREATE_UI */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Tech_Create"), CCreateMenu::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 #pragma endregion
 

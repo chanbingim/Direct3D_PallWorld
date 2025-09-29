@@ -32,6 +32,8 @@ private:
 
 	_wstring								m_szItemName = {};
 	_float2									m_fFontPoint = {};
+
+	_float4									m_vImageColor = {};
 private:
 	HRESULT									ADD_Components();
 

@@ -16,6 +16,9 @@ public:
 	HRESULT							Initialize(const char* FilePath = "");
 	void							LernTechObject(_uInt TechItemID);
 
+	const WCHAR*					GetTechTypeToString(TECH_TYPE eTechType);
+
+
 	const TECH_ITEM_DESC&			GetTechData(_uInt iTechID);
 	const list<_uInt>&				GetCategoryLevelTechList(_uInt iLevel);
 	const list<_uInt>&				GetCategoryTypeTechList(TECH_TYPE eType);

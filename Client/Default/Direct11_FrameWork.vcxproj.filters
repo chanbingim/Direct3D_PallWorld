@@ -440,50 +440,8 @@
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Pell\NaturalPellInfo\HealthBar">
       <UniqueIdentifier>{39312cab-0af0-4a7a-94c2-76b279542b18}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player">
-      <UniqueIdentifier>{d5058853-0462-4279-a28f-50ff035bd64e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface">
-      <UniqueIdentifier>{7c68cba6-3ec9-4f81-92c5-07d2e57d7b26}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\HealthBar">
-      <UniqueIdentifier>{6e6d8958-9654-45ca-a0c8-83ba942ce7f4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\HealthBar\HealthIcon">
-      <UniqueIdentifier>{8a07cd76-da19-4ef7-b9f1-fa44aab114a0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\HealthBar\HungerIcon">
-      <UniqueIdentifier>{967ea44e-4ca4-4f3a-a81e-0dd037410106}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\GuardBar">
-      <UniqueIdentifier>{86108b2b-9c78-4cf1-9a88-d21659edfb6b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell">
-      <UniqueIdentifier>{a172a63c-7406-4259-9c36-50c1c7e8ddaf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell\PellInfo">
-      <UniqueIdentifier>{c19ab426-7ee2-47e3-89a3-845c4f3127e7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell\Frame">
-      <UniqueIdentifier>{49421187-1beb-4f99-b55d-963ca3b8695b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Compass">
-      <UniqueIdentifier>{af4c12df-4c2b-40cc-abe8-4ab7d979e5ae}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Compass\CompassPoint">
-      <UniqueIdentifier>{6adcd3cb-233c-4e57-a3dc-b058496d870b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Aim">
-      <UniqueIdentifier>{bcb12343-7f9b-459c-8f34-23f2358722ea}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\TypeIcon">
       <UniqueIdentifier>{decad20f-aa06-4cec-b67d-6aac2a0b0b82}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\WeaponSlot">
-      <UniqueIdentifier>{28fca465-a137-47fc-8566-376793ec3317}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\ItemQuickSlot">
-      <UniqueIdentifier>{a86b77f1-80dc-419c-9392-479f39212d43}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Pell\NaturalPellInfo\PellIcon">
       <UniqueIdentifier>{afe32fa3-f418-44bd-b465-e6506c764afa}</UniqueIdentifier>
@@ -545,9 +503,6 @@
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PallSpherUI\PercentBar">
       <UniqueIdentifier>{9581766e-83e8-4273-b82f-4f8fea01fbba}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell\PellCharacIcon">
-      <UniqueIdentifier>{9fc2cc71-7e46-403f-a125-5e295c21861c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\CombatLayer\State\Dead">
       <UniqueIdentifier>{e0673d7d-d994-4f0a-b9c0-2f5bdb16fe9f}</UniqueIdentifier>
     </Filter>
@@ -557,41 +512,8 @@
     <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\CombatLayer\State\Stun">
       <UniqueIdentifier>{da9e8c38-8f21-4b1d-92a8-a790d7907aaf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\ItemQuickSlot\Font">
-      <UniqueIdentifier>{2c130b7c-840a-4372-8634-b6e33afc907c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\WeaponSlot\Font">
-      <UniqueIdentifier>{600924a3-1a7e-465b-83f3-c6726fc94a99}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\WeaponSlot\WeaponIcon">
-      <UniqueIdentifier>{0ff06e55-2675-4233-9347-68219dd9cf40}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\WeaponSlot\Font\Name">
-      <UniqueIdentifier>{2433e14e-7fec-4a54-a433-8d6bbca7fef7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\ItemQuickSlot\ItemIcon">
-      <UniqueIdentifier>{1c4a51d4-5aca-4f5b-8945-082ca1844a92}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\KeyIcon">
-      <UniqueIdentifier>{27d310e7-0ee1-43c8-b702-50100933f868}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. Objects\MeshObject\NonAnimMesh\SpawnBox">
       <UniqueIdentifier>{f9522881-9436-429b-9608-2e1e551754f3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell\PellInfo\Font">
-      <UniqueIdentifier>{256dc4bd-9895-4e7b-ba11-9c382c5c8a89}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell\PellInfo\Font\Name">
-      <UniqueIdentifier>{a40ea602-4d7d-44bc-b8cd-ae9611763e1d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell\PellInfo\Font\HeathBar">
-      <UniqueIdentifier>{e572eb6e-2399-44f9-bdb3-506436c6234d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\ItemQuickSlot\Font\Count">
-      <UniqueIdentifier>{253e25ab-f30a-4040-ae43-5bf7ecb3b25e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\ItemQuickSlot\Font\Name">
-      <UniqueIdentifier>{54203ba9-dd71-4267-94db-434b0f4ae187}</UniqueIdentifier>
     </Filter>
     <Filter Include="03. Objects\MeshObject\InstanceModel">
       <UniqueIdentifier>{ab62ec51-7349-4805-814b-abdcfabdd9e3}</UniqueIdentifier>
@@ -607,9 +529,6 @@
     </Filter>
     <Filter Include="Shader\Instance\ModelIsntance">
       <UniqueIdentifier>{29fa91c1-cf1a-4fa7-9df7-dd4969bfbe7c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\WeaponSlot\Font\ProjectileCount">
-      <UniqueIdentifier>{40343e6a-c645-4660-8cbc-0ba02262d872}</UniqueIdentifier>
     </Filter>
     <Filter Include="03. Objects\MeshObject\InstanceModel\Flower">
       <UniqueIdentifier>{f81aa0f8-b9eb-41f3-9ad1-7ff10df359aa}</UniqueIdentifier>
@@ -638,35 +557,146 @@
     <Filter Include="04. DataManager\Object\Tech\Manager">
       <UniqueIdentifier>{0c5f0e44-41f1-4c9d-b584-ba7542b009d1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu">
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\DragIcon">
+      <UniqueIdentifier>{480de8f0-32d2-47e4-9bc8-1c8bffe7d52b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\SelectUI">
+      <UniqueIdentifier>{384db897-81d8-4c8c-8a13-99415acb9058}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu">
       <UniqueIdentifier>{2496bf12-a15d-4f3e-ab3a-25826cdd24ae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView">
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView">
       <UniqueIdentifier>{f5b5afdb-9c8e-4734-b532-7e663db04c7a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine">
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine">
       <UniqueIdentifier>{f9b0b9cf-0781-4dc9-992d-78a1e7481f43}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine\LevelSlotIcon">
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\LevelSlotIcon">
       <UniqueIdentifier>{39226273-cc35-4d61-8067-e5978291297e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine\TechSlot">
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\TechSlot">
       <UniqueIdentifier>{3d1b32aa-8395-495c-b5d6-9e809f5e1d1d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine\TechSlot\Font">
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\TechSlot\Font">
       <UniqueIdentifier>{778ffaad-d458-4fc0-b339-3d53f7fd57aa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine\TechSlot\Font\TitleBar">
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\TechSlot\Font\TitleBar">
       <UniqueIdentifier>{f285ae86-1c71-4230-8d9c-0b984ae89113}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine\TechSlot\Font\NameBar">
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\TechSlot\Font\NameBar">
       <UniqueIdentifier>{5c31785a-650e-4479-b2ca-d796a7552fcc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TiltelBar">
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TiltelBar">
       <UniqueIdentifier>{195595a5-8b27-4147-92dc-37edee69e48c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\PointBar">
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\PointBar">
       <UniqueIdentifier>{70a52495-be05-4e4a-bfa5-8e8a501d4572}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\EventButton">
+      <UniqueIdentifier>{ef45c818-b0b9-45db-bf67-6db4b211bbe1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player">
+      <UniqueIdentifier>{d5058853-0462-4279-a28f-50ff035bd64e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface">
+      <UniqueIdentifier>{7c68cba6-3ec9-4f81-92c5-07d2e57d7b26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\HealthBar">
+      <UniqueIdentifier>{6e6d8958-9654-45ca-a0c8-83ba942ce7f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\HealthBar\HealthIcon">
+      <UniqueIdentifier>{8a07cd76-da19-4ef7-b9f1-fa44aab114a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\HealthBar\HungerIcon">
+      <UniqueIdentifier>{967ea44e-4ca4-4f3a-a81e-0dd037410106}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\GuardBar">
+      <UniqueIdentifier>{86108b2b-9c78-4cf1-9a88-d21659edfb6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell">
+      <UniqueIdentifier>{a172a63c-7406-4259-9c36-50c1c7e8ddaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell\PellInfo">
+      <UniqueIdentifier>{c19ab426-7ee2-47e3-89a3-845c4f3127e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell\PellInfo\Font">
+      <UniqueIdentifier>{256dc4bd-9895-4e7b-ba11-9c382c5c8a89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell\PellInfo\Font\Name">
+      <UniqueIdentifier>{a40ea602-4d7d-44bc-b8cd-ae9611763e1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell\PellInfo\Font\HeathBar">
+      <UniqueIdentifier>{e572eb6e-2399-44f9-bdb3-506436c6234d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell\Frame">
+      <UniqueIdentifier>{49421187-1beb-4f99-b55d-963ca3b8695b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell\PellCharacIcon">
+      <UniqueIdentifier>{9fc2cc71-7e46-403f-a125-5e295c21861c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\WeaponSlot">
+      <UniqueIdentifier>{28fca465-a137-47fc-8566-376793ec3317}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\WeaponSlot\Font">
+      <UniqueIdentifier>{600924a3-1a7e-465b-83f3-c6726fc94a99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\WeaponSlot\Font\Name">
+      <UniqueIdentifier>{2433e14e-7fec-4a54-a433-8d6bbca7fef7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\WeaponSlot\Font\ProjectileCount">
+      <UniqueIdentifier>{40343e6a-c645-4660-8cbc-0ba02262d872}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\WeaponSlot\WeaponIcon">
+      <UniqueIdentifier>{0ff06e55-2675-4233-9347-68219dd9cf40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\ItemQuickSlot">
+      <UniqueIdentifier>{a86b77f1-80dc-419c-9392-479f39212d43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\ItemQuickSlot\Font">
+      <UniqueIdentifier>{2c130b7c-840a-4372-8634-b6e33afc907c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\ItemQuickSlot\Font\Count">
+      <UniqueIdentifier>{253e25ab-f30a-4040-ae43-5bf7ecb3b25e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\ItemQuickSlot\Font\Name">
+      <UniqueIdentifier>{54203ba9-dd71-4267-94db-434b0f4ae187}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\ItemQuickSlot\ItemIcon">
+      <UniqueIdentifier>{1c4a51d4-5aca-4f5b-8945-082ca1844a92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\KeyIcon">
+      <UniqueIdentifier>{27d310e7-0ee1-43c8-b702-50100933f868}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Compass">
+      <UniqueIdentifier>{af4c12df-4c2b-40cc-abe8-4ab7d979e5ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Compass\CompassPoint">
+      <UniqueIdentifier>{6adcd3cb-233c-4e57-a3dc-b058496d870b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Aim">
+      <UniqueIdentifier>{bcb12343-7f9b-459c-8f34-23f2358722ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\CreateMenu">
+      <UniqueIdentifier>{d1ca51b3-ec65-4c66-a698-179df184d50c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\CreateMenu\Category">
+      <UniqueIdentifier>{6e07942e-6b8e-4267-b0bb-e230509bda8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\CreateMenu\TechSelectView">
+      <UniqueIdentifier>{ee44471d-d65e-4c26-966a-d78de8839939}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\CreateMenu\Category\TabIcon">
+      <UniqueIdentifier>{b78e3283-1ca3-44c4-b5a7-e9f1312a2cba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\CreateMenu\TechSelectView\SelecPretViewIcon">
+      <UniqueIdentifier>{68afbf32-44bd-4e75-ac20-35e08280ded6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\CreateMenu\TechSelectView\SelecPretViewIcon\Font">
+      <UniqueIdentifier>{98afe9a8-6d67-41d2-9ed2-42763b4452d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\CreateMenu\TechSelectView\TechSelectViewSlot">
+      <UniqueIdentifier>{4b00d1cc-7a42-4cfb-a6d3-3b4940331f38}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1202,37 +1232,64 @@
       <Filter>02. HUD\Base_UI\Slot\ItemIcon</Filter>
     </ClInclude>
     <ClInclude Include="..\public\TechnologyMenu.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu</Filter>
     </ClInclude>
     <ClInclude Include="..\public\TechnologyView.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView</Filter>
     </ClInclude>
     <ClInclude Include="..\public\TechnologyTitleBar.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TiltelBar</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TiltelBar</Filter>
     </ClInclude>
     <ClInclude Include="..\public\TechnologyPointView.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\PointBar</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\PointBar</Filter>
     </ClInclude>
     <ClInclude Include="..\public\TechSlot.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine\TechSlot</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\TechSlot</Filter>
     </ClInclude>
     <ClInclude Include="..\public\TechSlotTitleBar.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine\TechSlot\Font\TitleBar</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\TechSlot\Font\TitleBar</Filter>
     </ClInclude>
     <ClInclude Include="..\public\TechSlotNameBar.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine\TechSlot\Font\NameBar</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\TechSlot\Font\NameBar</Filter>
     </ClInclude>
     <ClInclude Include="..\public\TechSlotLine.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine</Filter>
     </ClInclude>
     <ClInclude Include="..\public\LevelIcon.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine\LevelSlotIcon</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\LevelSlotIcon</Filter>
     </ClInclude>
     <ClInclude Include="..\public\TechManager.h">
       <Filter>04. DataManager\Object\Tech\Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\TechStruct.h">
       <Filter>04. DataManager\Object\Tech</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\SelectUI.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\SelectUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\EventButton.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\EventButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CreateMenu.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\CreateMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TechSelectView.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\CreateMenu\TechSelectView</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TechCategoryUI.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\CreateMenu\Category</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TechTabIcon.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\CreateMenu\Category\TabIcon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TechSelectPreView.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\CreateMenu\TechSelectView\SelecPretViewIcon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TechPreViewFont.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\CreateMenu\TechSelectView\SelecPretViewIcon\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TechListViewSlot.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\CreateMenu\TechSelectView\TechSelectViewSlot</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1751,34 +1808,61 @@
       <Filter>02. HUD\Base_UI\Slot\ItemIcon</Filter>
     </ClCompile>
     <ClCompile Include="..\private\TechnologyMenu.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu</Filter>
     </ClCompile>
     <ClCompile Include="..\private\TechnologyView.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView</Filter>
     </ClCompile>
     <ClCompile Include="..\private\TechnologyTitleBar.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TiltelBar</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TiltelBar</Filter>
     </ClCompile>
     <ClCompile Include="..\private\TechnologyPointView.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\PointBar</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\PointBar</Filter>
     </ClCompile>
     <ClCompile Include="..\private\TechSlot.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine\TechSlot</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\TechSlot</Filter>
     </ClCompile>
     <ClCompile Include="..\private\TechSlotTitleBar.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine\TechSlot\Font\TitleBar</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\TechSlot\Font\TitleBar</Filter>
     </ClCompile>
     <ClCompile Include="..\private\TechSlotNameBar.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine\TechSlot\Font\NameBar</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\TechSlot\Font\NameBar</Filter>
     </ClCompile>
     <ClCompile Include="..\private\TechSlotLine.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine</Filter>
     </ClCompile>
     <ClCompile Include="..\private\LevelIcon.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CreateMenu\TechnologyView\TechSlotLine\LevelSlotIcon</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\LevelSlotIcon</Filter>
     </ClCompile>
     <ClCompile Include="..\private\TechManager.cpp">
       <Filter>04. DataManager\Object\Tech\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\SelectUI.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\SelectUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\EventButton.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\EventButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CreateMenu.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\CreateMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TechSelectView.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\CreateMenu\TechSelectView</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TechCategoryUI.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\CreateMenu\Category</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TechTabIcon.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\CreateMenu\Category\TabIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TechSelectPreView.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\CreateMenu\TechSelectView\SelecPretViewIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TechPreViewFont.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\CreateMenu\TechSelectView\SelecPretViewIcon\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TechListViewSlot.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\CreateMenu\TechSelectView\TechSelectViewSlot</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

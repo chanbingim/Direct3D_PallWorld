@@ -5,17 +5,17 @@
 #include "TechnologyView.h"
 #include "TechnologyPointView.h"
 
-CCreateMenu::CCreateMenu(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
+CTechnologyMenu::CTechnologyMenu(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 	CUserInterface(pDevice, pContext)
 {
 }
 
-CCreateMenu::CCreateMenu(const CCreateMenu& rhs) :
+CTechnologyMenu::CTechnologyMenu(const CTechnologyMenu& rhs) :
 	CUserInterface(rhs)
 {
 }
 
-HRESULT CCreateMenu::Initalize_Prototype()
+HRESULT CTechnologyMenu::Initalize_Prototype()
 {
 	if (FAILED(__super::Initalize_Prototype()))
 		return E_FAIL;
@@ -23,7 +23,7 @@ HRESULT CCreateMenu::Initalize_Prototype()
 	return S_OK;
 }
 
-HRESULT CCreateMenu::Initialize(void* pArg)
+HRESULT CTechnologyMenu::Initialize(void* pArg)
 {
 	m_iZOrder = 3;
 
@@ -36,24 +36,24 @@ HRESULT CCreateMenu::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CCreateMenu::Update(_float fDeletaTime)
+void CTechnologyMenu::Update(_float fDeletaTime)
 {
 	for (auto pChild : m_pChildList)
 		pChild->Update(fDeletaTime);
 }
 
-void CCreateMenu::Late_Update(_float fDeletaTime)
+void CTechnologyMenu::Late_Update(_float fDeletaTime)
 {
 	for (auto pChild : m_pChildList)
 		pChild->Late_Update(fDeletaTime);
 }
 
-HRESULT CCreateMenu::Render()
+HRESULT CTechnologyMenu::Render()
 {
 	return S_OK;
 }
 
-HRESULT CCreateMenu::ADD_Childs()
+HRESULT CTechnologyMenu::ADD_Childs()
 {
 	_float3 vParentScale = m_pTransformCom->GetScale();
 	CGameObject::GAMEOBJECT_DESC pObejctDesc = {};
@@ -91,9 +91,9 @@ HRESULT CCreateMenu::ADD_Childs()
 	return S_OK;
 }
 
-CCreateMenu* CCreateMenu::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
+CTechnologyMenu* CTechnologyMenu::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-	CCreateMenu* pCreateMenu = new CCreateMenu(pDevice, pContext);
+	CTechnologyMenu* pCreateMenu = new CTechnologyMenu(pDevice, pContext);
 	if (FAILED(pCreateMenu->Initalize_Prototype()))
 	{
 		Safe_Release(pCreateMenu);
@@ -102,9 +102,9 @@ CCreateMenu* CCreateMenu::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 	return pCreateMenu;
 }
 
-CGameObject* CCreateMenu::Clone(void* pArg)
+CGameObject* CTechnologyMenu::Clone(void* pArg)
 {
-	CCreateMenu* pCreateMenu = new CCreateMenu(*this);
+	CTechnologyMenu* pCreateMenu = new CTechnologyMenu(*this);
 	if (FAILED(pCreateMenu->Initialize(pArg)))
 	{
 		Safe_Release(pCreateMenu);
@@ -113,7 +113,7 @@ CGameObject* CCreateMenu::Clone(void* pArg)
 	return pCreateMenu;
 }
 
-void CCreateMenu::Free()
+void CTechnologyMenu::Free()
 {
 	__super::Free();
 

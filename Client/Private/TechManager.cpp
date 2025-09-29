@@ -15,6 +15,19 @@ void CTechManager::LernTechObject(_uInt TechItemID)
     m_TechItems[TechItemID].LearnTech = true;
 }
 
+const WCHAR* CTechManager::GetTechTypeToString(TECH_TYPE eTechType)
+{
+    switch (eTechType)
+    {
+    case TECH_TYPE::ITEM:
+        return TEXT("아이템");
+    case TECH_TYPE::ARCHITECTURE:
+        return TEXT("건축물");
+    }
+
+    return TEXT("");
+}
+
 const TECH_ITEM_DESC& CTechManager::GetTechData(_uInt iLevel)
 {
     return m_TechItems[iLevel];

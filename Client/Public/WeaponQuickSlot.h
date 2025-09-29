@@ -29,6 +29,8 @@ private :
 	CWeaponQuickSlotName*					m_pWeaponSlotName = nullptr;
 	CWeaponQuickSlotCount*					m_pWeaponSlotCount = nullptr;
 
+	_float4									m_vImageColor;
+
 private :
 	HRESULT									ADD_Components();
 	HRESULT									ADD_Childs();

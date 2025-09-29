@@ -31,6 +31,10 @@ HRESULT CWeaponQuickSlotName::Initialize(void* pArg)
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
+	m_vImageColor = { 128.f / 255.f,
+					  128.f / 255.f,
+					  128.f / 255.f, 0.5f };
+
 	m_fFontPoint = { (_float)GetRectSize().left, (_float)GetRectSize().top };
 	return S_OK;
 }
@@ -48,12 +52,14 @@ void CWeaponQuickSlotName::Late_Update(_float fDeletaTime)
 HRESULT CWeaponQuickSlotName::Render()
 {
 	Apply_ConstantShaderResources();
-	m_pShaderCom->Update_Shader(0);
+	m_pShaderCom->Bind_RawValue("g_vColor", &m_vImageColor, sizeof(_float4));
+
+	m_pShaderCom->Update_Shader(4);
 	m_pTextureCom->SetTexture(0, 0);
 	m_pVIBufferCom->Render_VIBuffer();
 
 	
-	m_pFontCom->Render(m_szWeaponName.c_str(), {0.f,0.f,0.f,1.f});
+	m_pFontCom->Render(m_szWeaponName.c_str(), {1.f,1.f,1.f,1.f});
 
 	return S_OK;
 }

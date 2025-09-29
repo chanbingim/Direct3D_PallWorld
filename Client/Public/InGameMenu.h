@@ -9,7 +9,7 @@ NS_END
 NS_BEGIN(Client)
 class CCategory;
 class CCharacterView;
-class CCreateMenu;
+class CTechnologyMenu;
 class CGameOption;
 
 class CInGameMenu final : public CBackGround
@@ -38,7 +38,7 @@ private :
 
 	CUserInterface*							m_pSelectWidget = nullptr;
 	CGameOption*							m_pGameOptionUI = nullptr;
-	CCreateMenu*							m_pTechMenuUI = nullptr;
+	CTechnologyMenu*						m_pTechMenuUI = nullptr;
 	CCharacterView*							m_pCharacterView = nullptr;
 
 private:
