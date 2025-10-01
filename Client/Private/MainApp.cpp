@@ -44,7 +44,14 @@ HRESULT CMainApp::Initialize_MainApp()
 	if (FAILED(SetUp_InGameFont()))
 		return E_FAIL;
 
+#pragma region ItemManager
+	CItemManager::GetInstance()->Initialize(m_pGraphic_Device, m_pDevice_Context, "a");
+
+#pragma endregion
+
+#pragma region TechManager
 	CTechManager::GetInstance()->Initialize("../Bin/Resources/DataFile/BuildObject/BuildObject.csv");
+#pragma endregion
 
 #ifdef _DEBUG
 	if (FAILED(SetUp_DebugWindow()))

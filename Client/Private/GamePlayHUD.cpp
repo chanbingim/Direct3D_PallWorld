@@ -34,6 +34,12 @@ void CGamePlayHUD::SetVisibleSelectUI(VISIBILITY eVisible)
 	m_pSelectUI->SetVisibility(eVisible);
 }
 
+void CGamePlayHUD::ResetCreatePopUp()
+{
+	m_pCreateMenu->SetActive(false);
+	FoucusInUserInterface(false);
+}
+
 CSelectUI* CGamePlayHUD::GetSelectUI()
 {
 	return m_pSelectUI;
@@ -74,7 +80,7 @@ HRESULT CGamePlayHUD::ADD_UserInterface()
 	if (FAILED(__super::Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Tech_Create"), TEXT("Create_Menu"), &Desc, (CUserInterface**)&m_pCreateMenu)))
 		return E_FAIL;
 
-	Desc.vScale = { 50.f, 30.f, 0.f };
+	Desc.vScale = { 50.f, 20.f, 0.f };
 	m_pSelectUI = CSelectUI::Create(m_pDevice, m_pContext);
 	m_pSelectUI->SetZOrder(100.f);
 	if (FAILED(m_pSelectUI->Initialize(&Desc)))

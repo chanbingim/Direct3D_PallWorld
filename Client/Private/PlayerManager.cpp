@@ -9,11 +9,20 @@
 #include "ItemManager.h"
 #include "ItemBase.h"
 
+#include "TechManager.h"
+
+#include "Level.h"
+#include "GamePlayHUD.h"
+
+
 IMPLEMENT_SINGLETON(CPlayerManager);
 
 void CPlayerManager::Initialize(void* pArg)
 {
 	PLAYER_MANAGER_DESC* Desc = static_cast<PLAYER_MANAGER_DESC*>(pArg);
+	m_pGameInstance = CGameInstance::GetInstance();
+	Safe_AddRef(m_pGameInstance);
+
 	m_iNumEquipSlot = Desc->iNumEquipMaxSlot;
 	m_iNumInvenSlots = Desc->iNumInvenMaxSlot;
 	m_iMaxInvenWeight = Desc->iMaxInvenWeight;
@@ -166,30 +175,63 @@ _bool CPlayerManager::AddInventoryItem(_uInt iItemID, _uInt iCount)
 	return true;
 }
 
-_bool CPlayerManager::SubInventoryItem(_uInt iItemID, _uInt iCount)
+_bool CPlayerManager::SubInventoryItem(const unordered_map<_uInt, _uInt>& ItemHash)
 {
 	// 아이템을 검색해서 정보를 가져온다음 그 아이템의 무게랑 현재 무게 확인해서
 		// 먹을지 말지 반환
-	_Int iFindSlot = {};
-	iFindSlot = Find_ItemSlot(iItemID);
+	list<pair<_uInt, _uInt>>		AbleSlotList = {};
+	_Int iSlotIndex = {-1};
 
-	if (-1 < iFindSlot)
+	for (auto& pSlot : m_InvenSlots)
 	{
-		if (m_InvenSlots[iFindSlot].second.iItemCount < iCount)
-			return false;
+		++iSlotIndex;
+		if (false == pSlot.first)
+			continue;
 
-		m_InvenSlots[iFindSlot].second.iItemCount -= iCount;
-		if (0 >= m_InvenSlots[iFindSlot].second.iItemCount)
+		auto iter = ItemHash.find(pSlot.second.iItemID);
+		if (iter == ItemHash.end())
+			continue;
+		else
 		{
-			m_InvenSlots[iFindSlot].first = false;
-			m_InvenSlots[iFindSlot].second.iItemID = -1;
-			m_InvenSlots[iFindSlot].second.iItemCount = 0;
+			if (iter->second <= pSlot.second.iItemCount)
+				AbleSlotList.push_back(make_pair(iSlotIndex, pSlot.second.iItemCount));
+			else
+				return false;
+		}
+	}
+
+	if (AbleSlotList.size() == ItemHash.size())
+	{
+		for (auto& Pair : AbleSlotList)
+		{
+			_uInt ItemCount = m_InvenSlots[Pair.first].second.iItemCount - Pair.second;
+			if (ItemCount <= 0)
+			{
+				m_InvenSlots[Pair.first].second.iItemID = -1;
+				m_InvenSlots[Pair.first].first = false;
+			}
 		}
 	}
 	else
 		return false;
 
 	return true;
+}
+
+void CPlayerManager::FindInventroyItem(unordered_map<_uInt, _uInt>& Itemlist)
+{
+	_Int iFindSlot = {};
+	for (auto& pSlot : m_InvenSlots)
+	{
+		if (false == pSlot.first)
+			continue;
+
+		auto iter = Itemlist.find(pSlot.second.iItemID);
+		if (iter == Itemlist.end())
+			continue;
+		else
+			iter->second = pSlot.second.iItemCount;
+	}
 }
 
 void CPlayerManager::RemoveInventoryItem(_uInt iSlotIndex, _uInt iCount)
@@ -268,6 +310,33 @@ void CPlayerManager::BindPlayerCharacter(CPlayer* pPlayer)
 	m_pCurrentPlayer->SetPlayerData(&m_PlayerInfo);
 }
 
+void CPlayerManager::SelectArchitecture(_uInt iTechIndex)
+{
+	auto& TehcInfo = CTechManager::GetInstance()->GetTechData(iTechIndex);
+	unordered_map<_uInt, _uInt>		IngredientItemHash;
+	
+	size_t iIngredientCount = TehcInfo.IngredientItemIDs.size();
+	for (_uInt i = 0; i < iIngredientCount; ++i)
+		IngredientItemHash.emplace(TehcInfo.IngredientItemIDs[i], TehcInfo.IngredientItemCounts[i]);
+
+	_bool IsAble = SubInventoryItem(IngredientItemHash);
+
+	// 만들수 있다면 세팅
+	if (true)
+	{
+		m_pCurrentPlayer->SetArchitecture(CItemManager::GetInstance()->GetItemInfo(TehcInfo.ReturnItemID));
+
+		auto GameplayHUD = dynamic_cast<CGamePlayHUD *>(m_pGameInstance->GetCurrentLevel()->GetHUD());
+		if (GameplayHUD)
+			GameplayHUD->ResetCreatePopUp();
+	}
+}
+
+void CPlayerManager::SetNearArchitecture(CArchitecture* pArchitecture)
+{
+	m_pCurrentPlayer->SetNearArchitecture(pArchitecture);
+}
+
 _bool CPlayerManager::IsPlayerAnimming()
 {
 	CPlayerStateMachine::PLAYER_STATE playerState;
@@ -282,7 +351,7 @@ HRESULT CPlayerManager::SettingDefaultPlayerData()
 	m_PlayerInfo.CurHunger = m_PlayerInfo.MaxHunger = 100.f;
 	m_PlayerInfo.CurStemina = m_PlayerInfo.MaxStemina = 50.f;
 	m_PlayerInfo.ShieldPoint = m_PlayerInfo.MaxShiledPoint = 100;
-
+	m_PlayerInfo.WorkSpeed = 3.f;
 	m_PlayerInfo.iLevel = 10;
 
 	return S_OK;
@@ -376,6 +445,7 @@ void CPlayerManager::Free()
 	for (auto iter : m_pBackProjectileSlotItem)
 		Safe_Release(iter);
 
+	Safe_Release(m_pGameInstance);
 	m_EquipSlots.clear();
 	m_pBackSlotItem.clear();
 	m_EquipProjectileSlots.clear();

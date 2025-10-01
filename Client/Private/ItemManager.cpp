@@ -14,6 +14,10 @@ HRESULT CItemManager::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
     Safe_AddRef(m_pDevice);
     Safe_AddRef(m_pContext);
 
+    LoadItemData(0, "../Bin/Resources/DataFile/Item/Equip/WeaponData.csv");
+    LoadItemData(1, "../Bin/Resources/DataFile/Item/consum/Item.csv");
+    LoadItemData(2, "../Bin/Resources/DataFile/Item/Architecture/Architecture.csv");
+
     return S_OK;
 }
 
@@ -35,17 +39,24 @@ const CTexture* CItemManager::GetItemTexture(_uInt ItemID)
     return iter->second;
 }
 
-HRESULT CItemManager::LoadItemData(_bool bFlag, const char* FilePath)
+HRESULT CItemManager::LoadItemData(_uInt bFlag, const char* FilePath)
 {
     vector<_string> LoadEquipData = {};
     CSV_Read<const char>(FilePath, LoadEquipData);
 
     HRESULT hr = {};
-    if (bFlag)
-        hr =  ParseEuipData(LoadEquipData);
-    else
+    switch (bFlag)
+    {
+    case 0 :
+        hr = ParseEuipData(LoadEquipData);
+        break;
+    case 1:
         hr = ParseConsumeData(LoadEquipData);
-
+        break;
+    case 2:
+        hr = ParseArchitecturetData(LoadEquipData);
+        break;
+    }
     return hr;
 }
 
@@ -103,6 +114,32 @@ HRESULT CItemManager::ParseConsumeData(vector<_string>& Data)
         Desc.TypeDesc.ConsumDesc.bIsLeftSocket = atoi(Data[i++].c_str());
         Desc.TypeDesc.ConsumDesc.iEffectType = atoi(Data[i++].c_str());
         Desc.TypeDesc.ConsumDesc.iRecoveryPoint = atoi(Data[i++].c_str());
+        m_ItemTextures.emplace(Desc.iItemNum, CTexture::Create(m_pDevice, m_pContext, ConvertName, 1));
+        m_Items.emplace(Desc.iItemNum, Desc);
+    }
+    return S_OK;
+}
+
+HRESULT CItemManager::ParseArchitecturetData(vector<_string>& Data)
+{
+    WCHAR ConvertName[MAX_PATH] = {};
+    for (size_t i = 11; i < Data.size();)
+    {
+        ITEM_DESC Desc;
+        Desc.iItemNum = atoi(Data[i++].c_str());
+
+        CStringHelper::ConvertUTFToWide(Data[i++].c_str(), Desc.szItemName);
+        CStringHelper::ConvertUTFToWide(Data[i++].c_str(), ConvertName);
+        CStringHelper::ConvertUTFToWide(Data[i++].c_str(), Desc.szItemModelPath);
+
+        Desc.ItemType = ITEM_TYPE(atoi(Data[i++].c_str()));
+        Desc.IsAnimModel = atoi(Data[i++].c_str());
+        Desc.IsPlayAnimation = atoi(Data[i++].c_str());
+
+        CStringHelper::ConvertUTFToWide(Data[i++].c_str(), Desc.TypeDesc.ArchitectureDesc.ArchitecturePrototpyeName);
+        Desc.TypeDesc.ArchitectureDesc.fCompleteTime = atoi(Data[i++].c_str());
+        Desc.TypeDesc.ArchitectureDesc.iWorkPartner = atoi(Data[i++].c_str());
+        Desc.TypeDesc.ArchitectureDesc.iCellTypes = atoi(Data[i++].c_str());
         m_ItemTextures.emplace(Desc.iItemNum, CTexture::Create(m_pDevice, m_pContext, ConvertName, 1));
         m_Items.emplace(Desc.iItemNum, Desc);
     }

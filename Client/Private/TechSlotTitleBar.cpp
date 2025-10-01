@@ -60,10 +60,10 @@ void CTechSlotTitleBar::SetTehcItemTypeName(const WCHAR* pTechTypeName)
     m_szTechTypeName = pTechTypeName;
 
     _vector FontBound = m_pFontCom->GetFontBoundBox(pTechTypeName);
-    _float halfX = FontBound.m128_f32[0] * 0.5f;
 
     m_fFontPoint = GetScreenPos();
-    m_fFontPoint.x -= halfX;
+    m_fFontPoint.x -= FontBound.m128_f32[0] * 0.5f;
+    m_fFontPoint.y -= FontBound.m128_f32[1] * 0.5f;
 }
 
 HRESULT CTechSlotTitleBar::ADD_Components()

@@ -75,16 +75,19 @@ void CDororong::Priority_Update(_float fDeletaTime)
                 _vector vTarget = XMLoadFloat3(&m_vTargetPoint);
                 if (!XMVector3Equal(vTarget, XMVectorZero()))
                 {
-                    _float3 vCurPos = m_pTransformCom->GetPosition();
-                    vCurPos.y = 0.f;
-                    vPos = XMLoadFloat3(&vCurPos);
-                    vDir = XMVector3Normalize(vTarget - vPos);
-
-                    vMovePoint = vDir * m_fPellMoveSpeed * fDeletaTime;
-                    if (m_pNevigation->IsMove(vPos + vMovePoint))
+                    if (0 != m_fPellMoveSpeed)
                     {
-                        m_pTransformCom->LerpTurn(XMVectorSet(0.f, 1.f, 0.f, 0.f), vTarget, XMConvertToRadians(180.f), fDeletaTime);
-                        m_pTransformCom->ADD_Position(vMovePoint);
+                        _float3 vCurPos = m_pTransformCom->GetPosition();
+                        vPos = XMLoadFloat3(&vCurPos);
+                        vPos.m128_f32[1] = 0.f;
+                        vDir = XMVector3Normalize(vTarget - vPos);
+
+                        vMovePoint = vDir * m_fPellMoveSpeed * fDeletaTime;
+                        if (m_pNevigation->IsMove(vPos + vMovePoint))
+                        {
+                            m_pTransformCom->LerpTurn(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMLoadFloat3(&vCurPos) + vDir, XMConvertToRadians(180.f), fDeletaTime);
+                            m_pTransformCom->ADD_Position(vMovePoint);
+                        }
                     }
                 }
             }
@@ -96,15 +99,20 @@ void CDororong::Priority_Update(_float fDeletaTime)
         {
             _float3 vCurPos = m_pTransformCom->GetPosition();
             vPos = XMLoadFloat3(&vCurPos);
-
-            _float3 ChaseDir, ChaseMovePoint;
-            m_pChase->ComputeLerpPoint(fDeletaTime, ChaseDir, ChaseMovePoint);
-            if (m_pNevigation->IsMove(vPos + XMLoadFloat3(&ChaseMovePoint)))
-                m_pTransformCom->ADD_Position(XMLoadFloat3(&ChaseMovePoint));
+            if (0 != m_fPellMoveSpeed)
+            {
+                _float3 ChaseDir, ChaseMovePoint;
+                m_pChase->ComputeLerpPoint(fDeletaTime, ChaseDir, ChaseMovePoint);
+                if (m_pNevigation->IsMove(vPos + XMLoadFloat3(&ChaseMovePoint)))
+                {
+                    m_pTransformCom->LerpTurn(XMVectorSet(0.f, 1.f, 0.f, 0.f), vPos + XMLoadFloat3(&ChaseMovePoint), XMConvertToRadians(180.f), fDeletaTime);
+                    m_pTransformCom->ADD_Position(XMLoadFloat3(&ChaseMovePoint));
+                }
+            }
         }
     }
 
-    m_pNevigation->ComputeHeight(m_pTransformCom);
+    m_pNevigation->ComputeHeight(m_pTransformCom, false);
     m_pCollision->UpdateColiision(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
 }
 
@@ -298,7 +306,7 @@ void CDororong::StunAction(_float fDeletaTime, _bool bIsStunEnd)
     {
         m_pPellFsm->CombatStateReset();
         m_pPellFsm->SetAttack(false);
-      //  m_pTransformCom->SetRotation({ 0.f, 0.f, 0.f });
+        m_pTransformCom->SetRotation({ 0.f, 0.f, 0.f });
         m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Idle"));
     }
     else
@@ -306,7 +314,7 @@ void CDororong::StunAction(_float fDeletaTime, _bool bIsStunEnd)
         // 여기서 이제 동글동글 굴러가는 효과를 낼거임
         // 부딪힌 점으로 부터 
         m_pTransformCom->ADD_Position(XMLoadFloat3(&m_HitReflectionDir) * fDeletaTime * 3.f);
-       // m_pTransformCom->Turn(m_pTransformCom->GetRightVector(), 3.f, fDeletaTime);
+        m_pTransformCom->Turn(m_pTransformCom->GetRightVector(), 3.f, fDeletaTime);
     }
 }
 

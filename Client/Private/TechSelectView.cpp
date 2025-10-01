@@ -4,6 +4,7 @@
 #include "TechSelectPreView.h"
 #include "TechListViewSlot.h"
 
+#include "PlayerManager.h"
 #include "ItemManager.h"
 #include "TechManager.h"
 
@@ -62,7 +63,7 @@ void CTechSelectView::Update(_float fDeletaTime)
 	{
 		if (pTechID == TechList.end())
 		{
-			m_pViewSlotList[i]->SetViewItemInfo(nullptr);
+			m_pViewSlotList[i]->SetViewItemInfo(nullptr, -1);
 		}
 		else
 		{
@@ -70,14 +71,16 @@ void CTechSelectView::Update(_float fDeletaTime)
 			auto ItemDesc = m_pItemManager->GetItemInfo(TechInfo.ReturnItemID);
 
 			//여기서 슬롯에다가 세팅
-			m_pViewSlotList[i]->SetViewItemInfo(ItemDesc);
+			m_pViewSlotList[i]->SetViewItemInfo(ItemDesc, TechInfo.TechTypeID);
 			pTechID++;
 		}
 	}
 
-
-	if(m_SelectViewTechItem)
-		m_pSelectPreView->SetViewItemInfo(m_pItemManager->GetItemInfo(m_SelectViewTechItem->ReturnItemID));
+	if (m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 2))
+	{
+		if(m_SelectViewTechItem)
+			CPlayerManager::GetInstance()->SelectArchitecture(m_SelectViewTechItem->TechTypeID);
+	}
 
 	for (auto pChild : m_pChildList)
 		pChild->Update(fDeletaTime);
@@ -166,11 +169,24 @@ HRESULT CTechSelectView::ADD_TechViewListSlot()
 			return E_FAIL;
 
 		pTechListSlot->SetZOrder(m_iZOrder + 1);
+		pTechListSlot->ClikcedBindFunction([&](_Int iItemIndex, _Int iTechIndex) { SelectItemEvent(iItemIndex, iTechIndex); });
 		m_pViewSlotList.push_back(pTechListSlot);
 		ADD_Child(pTechListSlot);
 	}
 
 	return S_OK;
+}
+
+void CTechSelectView::SelectItemEvent(_Int iItemIndex, _Int iTechIndex)
+{
+	if (-1 == iTechIndex)
+	{
+		m_SelectViewTechItem = nullptr;
+		return;
+	}
+
+	m_SelectViewTechItem = &m_pTechManager->GetTechData(iTechIndex);
+	m_pSelectPreView->SetViewItemInfo(m_pItemManager->GetItemInfo(iItemIndex));
 }
 
 CTechSelectView* CTechSelectView::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

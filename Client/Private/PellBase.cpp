@@ -188,6 +188,8 @@ void CPellBase::SpawnPellFriendly()
     if (PELL_STORAGE_STATE::PLAYER_INVEN == m_PellInfo.ePellStorageState)
     {
         m_PellInfo.ePellStorageState = PELL_STORAGE_STATE::PARTNER_PELL;
+        auto pPlayer = CPlayerManager::GetInstance()->GetCurrentPlayer();
+        m_pNevigation->ChangeNaviMeshIndex(pPlayer->GetNaviMeshCell());
 
         _float3 vPlayerPos = {};
         XMStoreFloat3(&vPlayerPos, m_pGameInstance->GetPlayerState(WORLDSTATE::POSITION));
@@ -253,15 +255,26 @@ _bool CPellBase::PellPlayFSM(_float fDeletaTime)
         if(m_bIsAction || PELL_STORAGE_STATE::PARTNER_PELL == m_PellInfo.ePellStorageState)
             PellTackingAction(fDeletaTime);
 
-        if (CPellStateMachine::COMBAT_ACTION::STUN > State.eCombat_State)
+        if (State.bIsCombat)
         {
-            if (State.bIsCombat)
+            if (CPellStateMachine::COMBAT_ACTION::END == State.eCombat_State)
             {
                 CGameObject* vTargetObject = m_pCombatCom->GetCurrentTarget();
                 if (nullptr != vTargetObject)
                 {
+                    _float3 vPellPos = m_pTransformCom->GetPosition();
                     _float3 vTargetPos = vTargetObject->GetTransform()->GetPosition();
-                    m_pTransformCom->LerpTurn(m_pTransformCom->GetUpVector(), XMLoadFloat3(&vTargetPos), XMConvertToRadians(180.f), fDeletaTime);
+                    _float Distance = XMVectorGetX((XMVector3Length(XMLoadFloat3(&vTargetPos) - XMLoadFloat3(&vPellPos))));
+                    if (false == State.bIsAttacking)
+                    {
+                        if (5.f <= Distance)
+                        {
+                            _vector vDirDiff = XMLoadFloat3(&vTargetPos) - XMLoadFloat3(&vPellPos);
+                            _float3 vTargetPoint = {};
+                            XMStoreFloat3(&vTargetPoint, XMLoadFloat3(&vPellPos) + +vDirDiff * Distance);
+                            StartMoveAction(vTargetPoint);
+                        }
+                    }
                 }
             }
         }
@@ -342,21 +355,9 @@ void CPellBase::PellTackingAction(_float fDeletaTime)
 
                         CPellPatrolState::PELL_PATROL_STATE_DESC PatrolDesc = {};
                         PatrolDesc.pActPell = this;
+                        PatrolDesc.bIsPartnerPell = true;
+                        PatrolDesc.pPlayer = pPlayer;
                         PatrolDesc.fPellMoveSpeed = &m_fPellMoveSpeed;
-
-                        m_vTargetPoint = {};
-                        switch (PlayerState.eMove_Child_State)
-                        {
-                        case CPlayerStateMachine::MOVE_CHILD_ACTION::WALK:
-                            PatrolDesc.ePellMoveType = CPellPatrolState::PELL_MOVE_TYPE::WALK;
-                            break;
-                        case CPlayerStateMachine::MOVE_CHILD_ACTION::JOG:
-                            PatrolDesc.ePellMoveType = CPellPatrolState::PELL_MOVE_TYPE::WALK;
-                            break;
-                        case CPlayerStateMachine::MOVE_CHILD_ACTION::SPRINT:
-                            PatrolDesc.ePellMoveType = CPellPatrolState::PELL_MOVE_TYPE::SPRINT;
-                            break;
-                        }
 
                         m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Patrol"), &PatrolDesc);
                     }
@@ -371,7 +372,6 @@ void CPellBase::PellTackingAction(_float fDeletaTime)
                     _vector vPlayerPos = m_pGameInstance->GetPlayerState(WORLDSTATE::POSITION);
                     _vector vCalulationPellPos = XMLoadFloat3(&vPellPos);
 
-                    vPlayerPos.m128_f32[1] = vCalulationPellPos.m128_f32[1] = 0;
                     _float Distance = XMVectorGetX((XMVector3Length(vPlayerPos - vCalulationPellPos)));
                     if (5.f >= Distance)
                     {
@@ -380,13 +380,16 @@ void CPellBase::PellTackingAction(_float fDeletaTime)
                     else
                     {
                         _float3 vDir{}, vOutMovePoint{};
-                        m_pChase->ComputeLerpPoint(fDeletaTime, vDir, vOutMovePoint);
-                        _vector vMoveDistance = XMLoadFloat3(&vOutMovePoint);
-
-                        m_pTransformCom->LerpTurn({ 0.f, 1.f, 0.f, 0.f }, vPlayerPos, XMConvertToRadians(180.f), fDeletaTime);
-                        if (m_pNevigation->IsMove(vMoveDistance + vCalulationPellPos))
+                        if (0 != m_fPellMoveSpeed)
                         {
-                            m_pTransformCom->ADD_Position(vMoveDistance);
+                            m_pChase->ComputeLerpPoint(fDeletaTime, vDir, vOutMovePoint);
+                            _vector vMoveDistance = XMLoadFloat3(&vOutMovePoint);
+
+                            if (m_pNevigation->IsMove(vMoveDistance + vCalulationPellPos))
+                            {
+                                m_pTransformCom->LerpTurn({ 0.f, 1.f, 0.f, 0.f }, vMoveDistance + vCalulationPellPos, XMConvertToRadians(180.f), fDeletaTime);
+                                m_pTransformCom->ADD_Position(vMoveDistance);
+                            }
                         }
                     }
                 }
@@ -422,6 +425,7 @@ void CPellBase::PellTackingAction(_float fDeletaTime)
 
 void CPellBase::StartMoveAction(const _float3 vEndPos)
 {
+    m_PathFinding.clear();
     m_pNevigation->ComputePathfindingAStar(m_pTransformCom->GetPosition(), vEndPos, &m_PathFinding);
 
     if (!m_PathFinding.empty())
@@ -433,6 +437,7 @@ void CPellBase::StartMoveAction(const _float3 vEndPos)
 
         CPellPatrolState::PELL_PATROL_STATE_DESC PatrolDesc = {};
         PatrolDesc.pActPell = this;
+        PatrolDesc.bIsCombat = m_pPellFsm->GetState().bIsCombat;
         PatrolDesc.fPellMoveSpeed = &m_fPellMoveSpeed;
         m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Patrol"), &PatrolDesc);
     }
@@ -531,7 +536,6 @@ void CPellBase::ActionEnemy()
 {
    
 }
-
 
 void CPellBase::ShowPellInfo()
 {

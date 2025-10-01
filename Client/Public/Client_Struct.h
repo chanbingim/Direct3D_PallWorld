@@ -19,6 +19,9 @@ namespace Client
 
 		// 캐릭터의 공격력
 		float	ATKPoint;
+
+		// 캐릭터의 작업 속도
+		float	WorkSpeed;
 	}CHARACTER_DESC;
 
 	typedef struct Character_Save_Defualt
@@ -35,6 +38,9 @@ namespace Client
 
 		// 캐릭터의 공격력
 		float	ATKPoint;
+
+		// 캐릭터의 작업 속도
+		float	WorkSpeed;
 	}CHARACTER_SAVE_DESC;
 
 	typedef struct Default_Damage_Desc

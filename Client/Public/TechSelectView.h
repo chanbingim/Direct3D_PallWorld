@@ -38,12 +38,15 @@ private:
 
 	_uInt									m_iViewStartIndex = 0;
 	_float4									m_vImageColor;
+
 	const		TECH_ITEM_DESC*				m_SelectViewTechItem = nullptr;
 
 private:
 	HRESULT									ADD_Components();
 	HRESULT									ADD_Childs();
 	HRESULT									ADD_TechViewListSlot();
+
+	void									SelectItemEvent(_Int iItemIndex, _Int iTechIndex);
 
 public:
 	static		CTechSelectView*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

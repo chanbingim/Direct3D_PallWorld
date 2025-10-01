@@ -2,6 +2,7 @@
 
 #include "GameInstance.h"
 #include "ItemSlotIcon.h"
+#include "TechListSlotFont.h"
 
 #include "ItemManager.h"
 
@@ -34,59 +35,62 @@ HRESULT CTechListViewSlot::Initialize(void* pArg)
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
+    m_bIsMouseEvent = true;
     return S_OK;
 }
 
 void CTechListViewSlot::Update(_float fDeletaTime)
 {
-    m_pItemIcon->Update(fDeletaTime);
+    __super::Update(fDeletaTime);
 
-    _vector vFontBound = m_pFontCom->GetFontBoundBox(m_szItemName.c_str());
-    m_fFontPoint = { GetScreenPos().x - vFontBound.m128_f32[0],
-                     (_float)GetRectSize().bottom + m_fFontPoint .y * 2.f};
+    for (auto pChild : m_pChildList)
+        pChild->Update(fDeletaTime);
 }
 
 void CTechListViewSlot::Late_Update(_float fDeletaTime)
 {
-    m_pItemIcon->Late_Update(fDeletaTime);
+    for (auto pChild : m_pChildList)
+        pChild->Late_Update(fDeletaTime);
     m_pGameInstance->Add_RenderGroup(RENDER::SCREEN_UI, this);
-
-    
 }
 
 HRESULT CTechListViewSlot::Render()
 {
-    m_pFontCom->Render(m_szItemName.c_str(), { 1.f, 1.f, 1.f, 1.f });
 
     return S_OK;
 }
 
-void CTechListViewSlot::SetViewItemInfo(const ITEM_DESC* pItemDesc)
+void CTechListViewSlot::SetViewItemInfo(const ITEM_DESC* pItemDesc, _Int iTechIndex)
 {
     if (nullptr == pItemDesc)
     {
         m_pItemIcon->SetTexture(nullptr);
-        m_szItemName = TEXT("");
+        m_iItemIndex = -1;
+        m_iTechIndex = -1;
+        m_pTechSlotFont->SetText(TEXT(""));
     }
     else
     {
         m_pItemIcon->SetTexture(CItemManager::GetInstance()->GetItemTexture(pItemDesc->iItemNum));
-        m_szItemName = pItemDesc->szItemName;
+        m_iItemIndex = pItemDesc->iItemNum;
+        m_iTechIndex = iTechIndex;
+        m_pTechSlotFont->SetText(pItemDesc->szItemName);
     }
+}
+
+void CTechListViewSlot::ClikcedBindFunction(function<void(_Int, _Int)> BindFunction)
+{
+    m_BindClickedFunction = BindFunction;
+}
+
+void CTechListViewSlot::MouseButtonDwon()
+{
+    if (m_BindClickedFunction)
+        m_BindClickedFunction(m_iItemIndex, m_iTechIndex);
 }
 
 HRESULT CTechListViewSlot::ADD_Components()
 {
-    // 여기서 폰트를 생성해서 하자 폰트는 물론 컴포넌트로
-    CFontComponent::FONT_DESC FontDesc = {};
-    m_fFontPoint = GetViewPos();
-    FontDesc.pPoint = &m_fFontPoint;
-    FontDesc.szUseFontName = TEXT("HanSanFont_16");
-    FontDesc.vFontSize = { 50, 100 };
-
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_FontComponent"), TEXT("Font_Com"), (CComponent**)&m_pFontCom, &FontDesc)))
-        return E_FAIL;
-
     _float3 vScale = m_pTransformCom->GetScale();
     CItemSlotIcon::ITEM_SLOT_ICON_DESC ItemSlotDesc = {};
     ItemSlotDesc.pParentTransform = m_pTransformCom;
@@ -94,9 +98,21 @@ HRESULT CTechListViewSlot::ADD_Components()
     ItemSlotDesc.vScale = { vScale.x * 0.7f, vScale.y * 0.7f, 0.f };
     ItemSlotDesc.vPosition = {0.f,  ItemSlotDesc.vScale.y * 0.5f, 0.f };
     m_pItemIcon = CItemSlotIcon::Create(m_pGraphic_Device, m_pDeviceContext);
-    m_pItemIcon->SetZOrder(static_cast<CUserInterface*>(m_pParent)->GetZOrder() + 2);
+    m_pItemIcon->SetZOrder(static_cast<CUserInterface*>(m_pParent)->GetZOrder() + 1);
     if (FAILED(m_pItemIcon->Initialize(&ItemSlotDesc)))
         return E_FAIL;
+
+    CTechListSlotFont::GAMEOBJECT_DESC ItemSlotFontDesc = {};
+    ItemSlotFontDesc.pParent = this;
+    ItemSlotFontDesc.vScale = { vScale.x, vScale.y * 0.2f, 0.f };
+    ItemSlotFontDesc.vPosition = { 0.f,  ItemSlotDesc.vScale.y * 0.3f, 0.f };
+    m_pTechSlotFont = CTechListSlotFont::Create(m_pGraphic_Device, m_pDeviceContext);
+    m_pTechSlotFont->SetZOrder(static_cast<CUserInterface*>(m_pParent)->GetZOrder() + 2);
+    if (FAILED(m_pTechSlotFont->Initialize(&ItemSlotFontDesc)))
+        return E_FAIL;
+
+    ADD_Child(m_pItemIcon);
+    ADD_Child(m_pTechSlotFont);
 
     return S_OK;
 }
@@ -128,5 +144,5 @@ void CTechListViewSlot::Free()
     __super::Free();
 
     Safe_Release(m_pItemIcon);
-    Safe_Release(m_pFontCom);
+    Safe_Release(m_pTechSlotFont);
 }

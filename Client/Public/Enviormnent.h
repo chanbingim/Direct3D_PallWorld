@@ -38,8 +38,12 @@ public:
 	virtual		HRESULT						Render() override;
 	
 	virtual		HRESULT						DeadFunction();
-	virtual		HRESULT						HitBeginFunction(_float3 vDir, CGameObject* pGameObject);
+	
 	virtual		void						Damage(void* pArg, CActor* pDamagedActor);
+
+protected :
+	virtual		HRESULT						HitBeginFunction(_float3 vDir, CGameObject* pGameObject);
+	virtual		HRESULT						HitOverlapFunction(_float3 vDir, CGameObject* pGameObject);
 
 protected :
 	CCollision*								m_pCollision = nullptr;

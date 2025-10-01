@@ -24,8 +24,6 @@ HRESULT CChaseComponent::Initialize(void* pArg)
 
     CHASE_INITIALIZE_DESC* ChaseInitDesc = static_cast<CHASE_INITIALIZE_DESC*>(pArg);
     m_pOwnerTransform = ChaseInitDesc->pOwnerTransform;
-
-
     return S_OK;
 }
 
@@ -34,10 +32,7 @@ void CChaseComponent::ComputeLerpPoint(_float fDeletaTime, _float3& vOutDir, _fl
     _float3 vOwnerPosition = m_pOwnerTransform->GetPosition();
     _float3 vTargetPosition = m_pTargetTransform->GetPosition();
 
-    _vector vCalculationOwnerPosition = XMLoadFloat3(&vOwnerPosition);
-    _vector vCalculationTargetPosition = XMLoadFloat3(&vTargetPosition);
-
-    _vector vDir = vCalculationTargetPosition - vCalculationOwnerPosition;
+    _vector vDir = XMLoadFloat3(&vTargetPosition) - XMLoadFloat3(&vOwnerPosition);
     vDir = XMVector3Normalize(vDir);
 
     XMStoreFloat3(&vOutDir, vDir);

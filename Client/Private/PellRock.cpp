@@ -3,6 +3,8 @@
 #include "GameInstance.h"
 #include "TerrainManager.h"
 
+#include "DropComponent.h"
+
 CPellRock::CPellRock(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CEnviormnent(pDevice, pContext)
 {
@@ -34,6 +36,8 @@ HRESULT CPellRock::Initialize(void* pArg)
 
     auto pNaviMesh = CTerrainManager::GetInstance()->GetNavimesh();
     pNaviMesh->ComputeHeight(m_pTransformCom, true);
+
+    m_pDropComponent->Insert_ItemIndex(13, 100);
     m_pCollision->UpdateColiision(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
 
     return S_OK;
@@ -101,13 +105,14 @@ HRESULT CPellRock::ADD_Components()
 // 근데 이거 돌마다 다른데 이거도 뭐 데이터값으로 하자
     COBBCollision::OBB_COLLISION_DESC OBBDesc = {};
     OBBDesc.pOwner = this;
-    OBBDesc.vExtents = { 1.f, 1.f, 1.f };
+    OBBDesc.vExtents = { 0.5f, 0.5f, 0.5f };
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionOBB"), TEXT("Collision_Com"), (CComponent**)&m_pCollision, &OBBDesc)))
         return E_FAIL;
+    m_pCollision->BindOverlappingEvent([this](_float3 vDir, CGameObject* pHitActor) { HitOverlapFunction(vDir, pHitActor); });
 
     // DropComponent
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Drop"), TEXT("Drop_Com"), (CComponent**)&m_pDropComponent)))
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GamePlay_Component_Drop"), TEXT("Drop_Com"), (CComponent**)&m_pDropComponent)))
         return E_FAIL;
 
     // NonAnimShader

@@ -5,11 +5,13 @@
 
 NS_BEGIN(Engine)
 class CModel;
+class CGameInstance;
 NS_END
 
 NS_BEGIN(Client)
 class CItemBase;
 class CPellBase;
+class CArchitecture;
 
 class CPlayerManager : public CBase
 {
@@ -57,12 +59,13 @@ public :
 	_uInt					GetNumInvenSlot() { return m_iNumInvenSlots; }
 
 	// 인벤토리에 보관된 아이템의 무게 반환
-	_uInt					GetInvenWieght() { return m_iInvenWeight; }
-	_bool					AddInventoryItem(_uInt iItemID, _uInt iCount);
-	_bool					SubInventoryItem(_uInt iItemID, _uInt iCount);
-	void					RemoveInventoryItem(_uInt iSlotIndex, _uInt iCount);
-
-	HRESULT					SwapInventroyItem(_uInt FromSlotNumber, _uInt ToSlotNumber);
+	_uInt						GetInvenWieght() { return m_iInvenWeight; }
+	_bool						AddInventoryItem(_uInt iItemID, _uInt iCount);
+	_bool						SubInventoryItem(const unordered_map<_uInt, _uInt>& ItemHash);
+	void						FindInventroyItem(unordered_map<_uInt, _uInt>& Itemlist);
+	
+	void						RemoveInventoryItem(_uInt iSlotIndex, _uInt iCount);
+	HRESULT						SwapInventroyItem(_uInt FromSlotNumber, _uInt ToSlotNumber);
 
 	const DEFAULT_SLOT_DESC&	GetSlotItem(_uInt iSlotIndex);
 
@@ -72,6 +75,9 @@ public :
 	class CPlayer*			GetCurrentPlayer() { return m_pCurrentPlayer; }
 	const CHARACTER_DESC&	GetPlayerData() { return m_PlayerInfo; }
 	void					BindPlayerCharacter(class CPlayer* pPlayer);
+
+	void					SelectArchitecture(_uInt iTechIndex);
+	void					SetNearArchitecture(CArchitecture* pArchitecture);
 
 	_bool					IsPlayerAnimming();
 #pragma endregion
@@ -92,6 +98,8 @@ public :
 #pragma endregion
 
 private :
+	CGameInstance*						m_pGameInstance = nullptr;
+
 #pragma region Player variable
 	class CPlayer* m_pCurrentPlayer = nullptr;
 

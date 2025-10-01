@@ -146,7 +146,7 @@ HRESULT CTechSlot::ADD_Components()
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Battle_PellInfo_Background"), TEXT("Texture_Com"), (CComponent**)&m_pTextureCom)))
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Tech_Category_BackGround"), TEXT("Texture_Com"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
@@ -159,9 +159,11 @@ const WCHAR* CTechSlot::GetTechTypeName(TECH_TYPE eTechType)
 {
 	switch (eTechType)
 	{
-	case Client::TECH_TYPE::ITEM:
+	case TECH_TYPE::PELL:
+		return TEXT("펠");
+	case TECH_TYPE::ITEM:
 		return TEXT("아이템");
-	case Client::TECH_TYPE::ARCHITECTURE:
+	case TECH_TYPE::ARCHITECTURE:
 		return TEXT("건축물");
 	}
 
@@ -186,7 +188,7 @@ HRESULT CTechSlot::ADD_Childs()
 	_float		vIconHalfSzieY = vParentScale.y * 0.5f;
 
 	pItemSlottDesc.pParent = this;
-	pItemSlottDesc.vScale = { vParentScale.x, vParentScale.y * 0.6f, 0.f };
+	pItemSlottDesc.vScale = { vParentScale.x, vParentScale.y * 0.5f, 0.f };
 	pItemSlottDesc.vPosition = { 0.f, 0.f, 0.f };
 	pItemSlottDesc.pParentTransform = m_pTransformCom;
 	m_pSlotIcon = CItemSlotIcon::Create(m_pGraphic_Device, m_pDeviceContext);

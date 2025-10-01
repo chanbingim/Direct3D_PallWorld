@@ -10,6 +10,7 @@
 #include "CombatComponent.h"
 #pragma endregion
 
+#include "PellStateMachine.h"
 #include "PellAttackState.h"
 #include "PellBody.h"
 
@@ -69,21 +70,27 @@ void CBedCat::Priority_Update(_float fDeletaTime)
     _vector vPos{}, vDir{}, vMovePoint;
     if (CPellStateMachine::COMBAT_ACTION::END == State.eCombat_State)
     {
-        if (CPellStateMachine::MOVE_ACTION::PATROL == State.eMove_State)
+        if (PELL_STORAGE_STATE::PARTNER_PELL != m_PellInfo.ePellStorageState)
         {
-            _vector vTarget = XMLoadFloat3(&m_vTargetPoint);
-            if (!XMVector3Equal(vTarget, XMVectorZero()))
+            if (CPellStateMachine::MOVE_ACTION::PATROL == State.eMove_State)
             {
-                _float3 vCurPos = m_pTransformCom->GetPosition();
-                vCurPos.y = 0.f;
-                vPos = XMLoadFloat3(&vCurPos);
-                vDir = XMVector3Normalize(vTarget - vPos);
-
-                vMovePoint = vDir * m_fPellMoveSpeed * fDeletaTime;
-                if (m_pNevigation->IsMove(vPos + vMovePoint))
+                _vector vTarget = XMLoadFloat3(&m_vTargetPoint);
+                if (!XMVector3Equal(vTarget, XMVectorZero()))
                 {
-                    m_pTransformCom->LerpTurn(XMVectorSet(0.f, 1.f, 0.f, 0.f), vTarget, XMConvertToRadians(180.f), fDeletaTime);
-                    m_pTransformCom->ADD_Position(vMovePoint);
+                    if (0 != m_fPellMoveSpeed)
+                    {
+                        _float3 vCurPos = m_pTransformCom->GetPosition();
+                        vPos = XMLoadFloat3(&vCurPos);
+                        vPos.m128_f32[1] = 0.f;
+                        vDir = XMVector3Normalize(vTarget - vPos);
+
+                        vMovePoint = vDir * m_fPellMoveSpeed * fDeletaTime;
+                        if (m_pNevigation->IsMove(vPos + vMovePoint))
+                        {
+                            m_pTransformCom->LerpTurn(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMLoadFloat3(&vCurPos) + vDir, XMConvertToRadians(180.f), fDeletaTime);
+                            m_pTransformCom->ADD_Position(vMovePoint);
+                        }
+                    }
                 }
             }
         }
@@ -94,14 +101,20 @@ void CBedCat::Priority_Update(_float fDeletaTime)
         {
             _float3 vCurPos = m_pTransformCom->GetPosition();
             vPos = XMLoadFloat3(&vCurPos);
-
-            _float3 ChaseDir, ChaseMovePoint;
-            m_pChase->ComputeLerpPoint(fDeletaTime, ChaseDir, ChaseMovePoint);
-            if (m_pNevigation->IsMove(vPos + XMLoadFloat3(&ChaseMovePoint)))
-                m_pTransformCom->ADD_Position(XMLoadFloat3(&ChaseMovePoint));
+            if (0 != m_fPellMoveSpeed)
+            {
+                _float3 ChaseDir, ChaseMovePoint;
+                m_pChase->ComputeLerpPoint(fDeletaTime, ChaseDir, ChaseMovePoint);
+                if (m_pNevigation->IsMove(vPos + XMLoadFloat3(&ChaseMovePoint)))
+                {
+                    m_pTransformCom->LerpTurn(XMVectorSet(0.f, 1.f, 0.f, 0.f), vPos + XMLoadFloat3(&ChaseMovePoint), XMConvertToRadians(180.f), fDeletaTime);
+                    m_pTransformCom->ADD_Position(XMLoadFloat3(&ChaseMovePoint));
+                }
+            }
         }
     }
-    m_pNevigation->ComputeHeight(m_pTransformCom);
+
+    m_pNevigation->ComputeHeight(m_pTransformCom, false);
     m_pCollision->UpdateColiision(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
 }
 
@@ -254,7 +267,11 @@ void CBedCat::OverlapEvent(_float3 vDir, CGameObject* pHitObject)
 
         auto Hit = static_cast<CActor*>(pHitObject);
         if (Hit)
+        {
             Hit->Damage(&DamageDesc, this);
+            m_pPellFsm->CombatStateReset();
+            m_pPellFsm->ChangeState(TEXT("Body_Layer"), TEXT("Idle"));
+        }
     }
 }
 

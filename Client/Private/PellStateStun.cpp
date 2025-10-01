@@ -22,7 +22,7 @@ void CPellStateStun::OnStateEnter(void* pArg)
         }
     }
 
-    m_fAccStunTime = 0.f;
+    m_fAccStunTime = 0.0f;
 }
 
 void CPellStateStun::OnStateExcution(_float fDeletaTime, void* pArg)

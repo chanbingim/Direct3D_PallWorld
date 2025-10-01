@@ -344,12 +344,6 @@
     <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Pell\Container\Herorong\HerorongBody">
       <UniqueIdentifier>{2f3ad9fe-4a17-4765-89cf-4704882a25e1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Pell\Container\BedCat">
-      <UniqueIdentifier>{8a306134-5a11-4b99-a6c4-02cf81a51830}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Pell\Container\BedCat\BedCatBody">
-      <UniqueIdentifier>{b86c748a-d560-4d3c-8989-e8190545b760}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Pell\Container\Dororong">
       <UniqueIdentifier>{4bd2b4eb-717a-4b2c-8a47-87fa2fc04cfb}</UniqueIdentifier>
     </Filter>
@@ -566,27 +560,6 @@
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu">
       <UniqueIdentifier>{2496bf12-a15d-4f3e-ab3a-25826cdd24ae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView">
-      <UniqueIdentifier>{f5b5afdb-9c8e-4734-b532-7e663db04c7a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine">
-      <UniqueIdentifier>{f9b0b9cf-0781-4dc9-992d-78a1e7481f43}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\LevelSlotIcon">
-      <UniqueIdentifier>{39226273-cc35-4d61-8067-e5978291297e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\TechSlot">
-      <UniqueIdentifier>{3d1b32aa-8395-495c-b5d6-9e809f5e1d1d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\TechSlot\Font">
-      <UniqueIdentifier>{778ffaad-d458-4fc0-b339-3d53f7fd57aa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\TechSlot\Font\TitleBar">
-      <UniqueIdentifier>{f285ae86-1c71-4230-8d9c-0b984ae89113}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\TechSlot\Font\NameBar">
-      <UniqueIdentifier>{5c31785a-650e-4479-b2ca-d796a7552fcc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TiltelBar">
       <UniqueIdentifier>{195595a5-8b27-4147-92dc-37edee69e48c}</UniqueIdentifier>
     </Filter>
@@ -697,6 +670,60 @@
     </Filter>
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\CreateMenu\TechSelectView\TechSelectViewSlot">
       <UniqueIdentifier>{4b00d1cc-7a42-4cfb-a6d3-3b4940331f38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\CreateMenu\TechSelectView\TechSelectViewSlot\SlotFont">
+      <UniqueIdentifier>{8a423342-e1e4-44ff-bb17-bdd25e0f7951}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Static_Object\Architecture">
+      <UniqueIdentifier>{23e544a7-a1fc-4914-9326-676a0d62ba1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Static_Object\Architecture\PalBox">
+      <UniqueIdentifier>{ab5f2132-68b8-4071-a1f8-9159698544ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Static_Object\Architecture\PalBed">
+      <UniqueIdentifier>{fccd6af1-10b2-4a19-a967-d334bf3484f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Static_Object\Architecture\WorkBench">
+      <UniqueIdentifier>{e2e73dae-89ed-4b8f-b238-3f6386010a70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\Architecture">
+      <UniqueIdentifier>{45ba8e11-6419-449c-b515-6d544e93bea0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\NoneCombatLayer\State">
+      <UniqueIdentifier>{f79419a2-e9f6-4762-b132-a84f12736f69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\NoneCombatLayer\State\Work">
+      <UniqueIdentifier>{d565aba1-7f5f-45e4-9821-eddcce175ae5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Object\ProjecttileObject\ElectricBullet">
+      <UniqueIdentifier>{84c8b48e-a5fd-4af1-9f26-a44c576e7f07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Pell\Container\BedCat">
+      <UniqueIdentifier>{8a306134-5a11-4b99-a6c4-02cf81a51830}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Pell\Container\BedCat\BedCatBody">
+      <UniqueIdentifier>{b86c748a-d560-4d3c-8989-e8190545b760}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView">
+      <UniqueIdentifier>{f5b5afdb-9c8e-4734-b532-7e663db04c7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine">
+      <UniqueIdentifier>{f9b0b9cf-0781-4dc9-992d-78a1e7481f43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\LevelSlotIcon">
+      <UniqueIdentifier>{39226273-cc35-4d61-8067-e5978291297e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\TechSlot">
+      <UniqueIdentifier>{3d1b32aa-8395-495c-b5d6-9e809f5e1d1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\TechSlot\Font">
+      <UniqueIdentifier>{778ffaad-d458-4fc0-b339-3d53f7fd57aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\TechSlot\Font\TitleBar">
+      <UniqueIdentifier>{f285ae86-1c71-4230-8d9c-0b984ae89113}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\TechSlot\Font\NameBar">
+      <UniqueIdentifier>{5c31785a-650e-4479-b2ca-d796a7552fcc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1291,6 +1318,33 @@
     <ClInclude Include="..\public\TechListViewSlot.h">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\CreateMenu\TechSelectView\TechSelectViewSlot</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\TechListSlotFont.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\CreateMenu\TechSelectView\TechSelectViewSlot\SlotFont</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Architecture.h">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Architecture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PalBox.h">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Architecture\PalBox</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Item_Defines.h">
+      <Filter>04. DataManager\Object\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PlayerSlotArchitecture.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Architecture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\WorkBench.h">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Architecture\WorkBench</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PalBed.h">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Architecture\PalBed</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PlayerWorkState.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\NoneCombatLayer\State\Work</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\EletricBullet.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Object\ProjecttileObject\ElectricBullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -1863,6 +1917,30 @@
     </ClCompile>
     <ClCompile Include="..\private\TechListViewSlot.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\CreateMenu\TechSelectView\TechSelectViewSlot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TechListSlotFont.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\CreateMenu\TechSelectView\TechSelectViewSlot\SlotFont</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Architecture.cpp">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Architecture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PalBox.cpp">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Architecture\PalBox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PlayerSlotArchitecture.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Architecture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\WorkBench.cpp">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Architecture\WorkBench</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PalBed.cpp">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Architecture\PalBed</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PlayerWorkState.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\NoneCombatLayer\State\Work</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\EletricBullet.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Object\ProjecttileObject\ElectricBullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

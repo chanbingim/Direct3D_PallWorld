@@ -166,6 +166,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\public\AimInterface.h" />
+    <ClInclude Include="..\public\Architecture.h" />
     <ClInclude Include="..\public\ArrowProjectile.h" />
     <ClInclude Include="..\public\BackGround.h" />
     <ClInclude Include="..\public\BattlePell.h" />
@@ -174,10 +175,17 @@
     <ClInclude Include="..\public\ClimbState.h" />
     <ClInclude Include="..\public\CombatComponent.h" />
     <ClInclude Include="..\public\CreateMenu.h" />
+    <ClInclude Include="..\public\EletricBullet.h" />
     <ClInclude Include="..\public\EventButton.h" />
+    <ClInclude Include="..\Public\Item_Defines.h" />
     <ClInclude Include="..\public\LevelIcon.h" />
+    <ClInclude Include="..\public\PalBed.h" />
+    <ClInclude Include="..\public\PalBox.h" />
+    <ClInclude Include="..\public\PlayerSlotArchitecture.h" />
+    <ClInclude Include="..\public\PlayerWorkState.h" />
     <ClInclude Include="..\public\SelectUI.h" />
     <ClInclude Include="..\public\TechCategoryUI.h" />
+    <ClInclude Include="..\public\TechListSlotFont.h" />
     <ClInclude Include="..\public\TechListViewSlot.h" />
     <ClInclude Include="..\public\TechManager.h" />
     <ClInclude Include="..\public\TechnologyMenu.h" />
@@ -358,6 +366,7 @@
     <ClInclude Include="..\Public\WeaponQuickSlotCount.h" />
     <ClInclude Include="..\Public\WeaponQuickSlotName.h" />
     <ClInclude Include="..\Public\WeaponSlotIcon.h" />
+    <ClInclude Include="..\public\WorkBench.h" />
     <ClInclude Include="..\public\Yeti.h" />
     <ClInclude Include="..\public\YetiBody.h" />
     <ClInclude Include="Direct11_FrameWork.h" />
@@ -367,6 +376,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\AimInterface.cpp" />
+    <ClCompile Include="..\private\Architecture.cpp" />
     <ClCompile Include="..\private\ArrowProjectile.cpp" />
     <ClCompile Include="..\private\BackGround.cpp" />
     <ClCompile Include="..\private\BattlePell.cpp" />
@@ -375,10 +385,16 @@
     <ClCompile Include="..\private\ClimbState.cpp" />
     <ClCompile Include="..\private\CombatComponent.cpp" />
     <ClCompile Include="..\private\CreateMenu.cpp" />
+    <ClCompile Include="..\private\EletricBullet.cpp" />
     <ClCompile Include="..\private\EventButton.cpp" />
     <ClCompile Include="..\private\LevelIcon.cpp" />
+    <ClCompile Include="..\private\PalBed.cpp" />
+    <ClCompile Include="..\private\PalBox.cpp" />
+    <ClCompile Include="..\private\PlayerSlotArchitecture.cpp" />
+    <ClCompile Include="..\private\PlayerWorkState.cpp" />
     <ClCompile Include="..\private\SelectUI.cpp" />
     <ClCompile Include="..\private\TechCategoryUI.cpp" />
+    <ClCompile Include="..\private\TechListSlotFont.cpp" />
     <ClCompile Include="..\private\TechListViewSlot.cpp" />
     <ClCompile Include="..\private\TechManager.cpp" />
     <ClCompile Include="..\private\TechnologyMenu.cpp" />
@@ -551,6 +567,7 @@
     <ClCompile Include="..\Private\WeaponQuickSlotCount.cpp" />
     <ClCompile Include="..\Private\WeaponQuickSlotName.cpp" />
     <ClCompile Include="..\Private\WeaponSlotIcon.cpp" />
+    <ClCompile Include="..\private\WorkBench.cpp" />
     <ClCompile Include="..\private\Yeti.cpp" />
     <ClCompile Include="..\private\YetiBody.cpp" />
     <ClCompile Include="Direct11_FrameWork.cpp" />

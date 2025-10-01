@@ -13,13 +13,15 @@ public:
 
 	//전투 상태 및 비 전투 상태에 대한 Layer 구조
 	enum class COMBAT_ACTION { ATTACK, HIT, DEAD, END };
-	enum class NONE_COBAT_ACTION { PETTING, CARRY, SLEEP, COOK, END };
+	enum class NONE_COBAT_ACTION { CREATE, PETTING, CARRY, SLEEP, COOK, END };
 
 	typedef	struct	PLAYER_STATE
 	{
 		// 현재 무기를 Player가 들고있는가
 		_bool				bIsAiming;
 		_bool				bIsAttacking;
+		_bool				bIsCreateAble;
+
 		DIRECTION			eDireaction;
 		_uInt				iWeaponType;
 
@@ -49,10 +51,13 @@ public:
 	void								SetAiming(_bool	bFlag) { m_StateData.bIsAiming = bFlag; }
 	void								SetWeapon(_uInt	iWeapon) { m_StateData.iWeaponType = iWeapon; }
 	void								SetAttack(_bool	bFlag) { m_StateData.bIsAttacking = bFlag; }
+	void								SetCreateFlag(_bool	bFlag) { m_StateData.bIsCreateAble = bFlag; }
+
 	void								SetDireaction(DIRECTION eType) { m_StateData.eDireaction = eType; }
 
 	_string								GetStateFullName();
 	_string								GetLayerAimStateName();
+	_bool								GetLayerLastPhase(const _wstring& LayerTag);
 
 	void								PlayerStateReset(const _wstring& LayerTag);
 

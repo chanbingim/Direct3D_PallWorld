@@ -19,6 +19,8 @@ const WCHAR* CTechManager::GetTechTypeToString(TECH_TYPE eTechType)
 {
     switch (eTechType)
     {
+    case TECH_TYPE::PELL:
+        return TEXT("∆Á");
     case TECH_TYPE::ITEM:
         return TEXT("æ∆¿Ã≈€");
     case TECH_TYPE::ARCHITECTURE:

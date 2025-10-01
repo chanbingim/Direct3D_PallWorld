@@ -10,6 +10,7 @@ NS_END
 
 NS_BEGIN(Client)
 class CItemSlotIcon;
+class CTechListSlotFont;
 
 class CTechListViewSlot : public CUserInterface
 {
@@ -28,15 +29,21 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
-		void								SetViewItemInfo(const ITEM_DESC* pItemDesc);
+	void									SetViewItemInfo(const ITEM_DESC* pItemDesc, _Int iTechIndex);
+	void									ClikcedBindFunction(function<void(_Int, _Int)> BindFunction);
+
+protected:
+	virtual			void					MouseButtonDwon();
 
 private:
 	CItemSlotIcon*							m_pItemIcon = nullptr;
-	CFontComponent*							m_pFontCom = nullptr;
+	CTechListSlotFont*						m_pTechSlotFont = nullptr;
 
-	_wstring								m_szItemName = {};
-	_float2									m_fFontPoint = {};
+	_Int									m_iTechIndex = {};
+	_Int									m_iItemIndex = {};
+
 	_float4									m_vImageColor;
+	function<void(_Int, _Int)>				m_BindClickedFunction = nullptr;
 
 private:
 	HRESULT									ADD_Components();

@@ -3,6 +3,8 @@
 #include "GameInstance.h"
 #include "TerrainManager.h"
 
+#include "DropComponent.h"
+
 CTreeObject::CTreeObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CEnviormnent(pDevice, pContext)
 {
@@ -35,6 +37,8 @@ HRESULT CTreeObject::Initialize(void* pArg)
 
     auto pNaviMesh = CTerrainManager::GetInstance()->GetNavimesh();
     pNaviMesh->ComputeHeight(m_pTransformCom, true);
+
+    m_pDropComponent->Insert_ItemIndex(11, 100);
     m_pCollision->UpdateColiision(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
 
     return S_OK;
@@ -112,9 +116,10 @@ HRESULT CTreeObject::ADD_Components(_uInt iModelIndex)
         return E_FAIL;
 
     m_pCollision->BindBeginOverlapEvent([this](_float3 vDir, CGameObject* pHitActor) { HitBeginFunction(vDir, pHitActor); });
+    m_pCollision->BindOverlappingEvent([this](_float3 vDir, CGameObject* pHitActor) { HitOverlapFunction(vDir, pHitActor); });
 
     // DropComponent
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Drop"), TEXT("Drop_Com"), (CComponent**)&m_pDropComponent)))
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GamePlay_Component_Drop"), TEXT("Drop_Com"), (CComponent**)&m_pDropComponent)))
         return E_FAIL;
 
     // NonAnimShader

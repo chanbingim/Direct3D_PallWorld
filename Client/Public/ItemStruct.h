@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine_Defines.h"
+#include "Item_Defines.h"
 
 namespace Client
 {
@@ -34,10 +35,20 @@ namespace Client
 		_uInt				iRecoveryPoint;
 	}CONSUME_ITEM_DESC;
 
+	typedef struct ArchitectureDesc
+	{
+		// 보여줘야 한다면 사용할 변수들
+		WCHAR				ArchitecturePrototpyeName[MAX_PATH];
+		_float				fCompleteTime;
+		_uInt				iWorkPartner;
+		_uInt				iCellTypes;
+	}ARCHITECTURE_ITEM_DESC;
+
 	typedef union ItemTypeDesc
 	{
-		CONSUME_ITEM_DESC ConsumDesc;
-		EUQIP_ITEM_DESC	  EuqipDesc;
+		CONSUME_ITEM_DESC		ConsumDesc;
+		EUQIP_ITEM_DESC			EuqipDesc;
+		ARCHITECTURE_ITEM_DESC	ArchitectureDesc;
 
 	}ITME_TYPE_DESC;
 

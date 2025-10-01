@@ -47,8 +47,13 @@ void CArrowProjectile::Update(_float fDeletaTime)
 
 void CArrowProjectile::Late_Update(_float fDeletaTime)
 {
-    m_pGameInstance->ADD_CollisionList(m_pCollision);
-    m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
+    if (m_pGameInstance->DistanceCulling(m_pTransformCom->GetPosition()))
+    {
+        m_pGameInstance->ADD_CollisionList(m_pCollision);
+        m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
+    }
+    else
+        m_IsDead = true;
 }
 
 HRESULT CArrowProjectile::Render()

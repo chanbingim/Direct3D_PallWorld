@@ -104,16 +104,21 @@ HRESULT CRockObject::ADD_Components(_uInt iModelIndex)
         return E_FAIL;
 
     // 콜리전 정보를 넣어서 한다.
-    // 근데 이거 돌마다 다른데 이거도 뭐 데이터값으로 하자
+    // 근데 이거 돌마다 다른데 이거도 뭐 데이터값으로 하자s
     COBBCollision::OBB_COLLISION_DESC OBBDesc = {};
     OBBDesc.pOwner = this;
-    OBBDesc.vExtents = {1.f, 1.f, 1.f};
+    if(2 == iModelIndex)
+        OBBDesc.vExtents = {1.f, 1.f, 1.f};
+    else if(1 == iModelIndex)
+        OBBDesc.vExtents = { 1.f, 1.f, 1.f };
+    else if (0 == iModelIndex)
+        OBBDesc.vExtents = { 1.5f, 2.3f, 2.5f };
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionOBB"), TEXT("Collision_Com"), (CComponent**)&m_pCollision, &OBBDesc)))
         return E_FAIL;
 
     m_pCollision->BindBeginOverlapEvent([this](_float3 vDir, CGameObject* pHitActor) { HitBeginFunction(vDir, pHitActor); });
-
+    m_pCollision->BindOverlappingEvent([this](_float3 vDir, CGameObject* pHitActor) { HitOverlapFunction(vDir, pHitActor); });
 
     // DropComponent
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GamePlay_Component_Drop"), TEXT("Drop_Com"), (CComponent**)&m_pDropComponent)))

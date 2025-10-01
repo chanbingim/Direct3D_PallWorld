@@ -114,7 +114,7 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 #endif // _DEBUG
     if (false == m_bIsPause)
         m_pObject_Manager->Update(fTimeDelta);
-   
+
 #ifdef _DEBUG
     m_pTimer_Manager->Get_TimeDelta(TEXT("LateUpdate_Loop"));
 #endif // _DEBUG

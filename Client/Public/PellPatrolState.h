@@ -5,6 +5,7 @@
 NS_BEGIN(Client)
 
 class CPellBase;
+class CPlayer;
 
 class CPellPatrolState : public CState
 {
@@ -14,12 +15,12 @@ public :
 public :
 	typedef struct	PellPatrolStateDesc
 	{
-		
 		const CPellBase*			pActPell;
-		_float*						fPellMoveSpeed;
+		CPlayer*					pPlayer;
 
+		_float*						fPellMoveSpeed;
 		_bool						bIsPartnerPell = false;
-		PELL_MOVE_TYPE				ePellMoveType = { PELL_MOVE_TYPE::END };
+		_bool						bIsCombat = false;
 	}PELL_PATROL_STATE_DESC;
 
 private:
@@ -33,6 +34,11 @@ public:
 
 private : 
 	const CPellBase*					m_pActPell = nullptr;
+
+	_bool								m_bIsPartnerPell = false;
+	_float*								m_pPellMoveSpeed = nullptr;
+	CPlayer*							m_pPlayer = nullptr;
+
 	PELL_MOVE_TYPE						m_eMoveType = { PELL_MOVE_TYPE::END };
 
 public:

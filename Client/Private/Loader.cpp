@@ -23,6 +23,7 @@
 #include "PlayerPartData.h"
 #include "PlayerBody.h"
 #include "PlayerWeaponSlot.h"
+#include "PlayerSlotArchitecture.h"
 #include "WeaponQuickSlot.h"
 #include "ItemQuickSlot.h"
 #pragma endregion
@@ -124,6 +125,13 @@
 #pragma region PROJECTILE
 #include "PalSpher.h"
 #include "ArrowProjectile.h"
+#include "EletricBullet.h"
+#pragma endregion
+
+#pragma region BUILD OBJECT
+#include "PalBed.h"
+#include "PalBox.h"
+#include "WorkBench.h"
 #pragma endregion
 
 #pragma endregion
@@ -272,6 +280,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/BackGround/T_prt_inventory_gauge_frame.png"), 1))))
 		return E_FAIL;
 
+	/* GamePlay_PlayerInfo_Button_Default_Texture */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Button_SkillBase"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/TechUI/TechBut/T_prt_pal_skill_base_01.png"), 1))))
+		return E_FAIL;
+
 	/* GamePlay_PlayerInfo_Button_Tech_Category_Texture */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Tech_Category_BackGround"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/TechUI/TechBut/T_prt_loadout_base.png"), 1))))
@@ -297,13 +310,20 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Tech_Crate_InCircle"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/TechUI/TechBut/T_prt_radial_base_line.png"), 1))))
 		return E_FAIL;
+
+#pragma endregion
+
+#pragma region FONT BACKGROUND
+
+	/* GamePlay_PlayerInfo_Button_Tech_Font_BackGround */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Tech_Font_BackGround"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/TechUI/TechBut/FontBackGround.png"), 1))))
+		return E_FAIL;
+
 #pragma endregion
 
 
 #pragma endregion
-
-
-
 
 #pragma region PLAYER_INFO_TEXTURE
 	/* GamePlay_PlayerInfo_bar_Texture */
@@ -453,6 +473,23 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region Build Object
+	PreModelMat = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+	/* VIBuffer  PAL BOX  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_PalBox"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BuildObject/PalBox/PalBox.fbx", PreModelMat))))
+		return E_FAIL;
+
+	/* VIBuffer  PAL BED  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_PalBed"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BuildObject/PalBed/PalBed.fbx", PreModelMat))))
+		return E_FAIL;
+
+	/* VIBuffer  WORK BENCH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_WorkBench"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BuildObject/WorkBench/WorkBench.fbx", PreModelMat))))
+		return E_FAIL;
+#pragma endregion
 
 #pragma region Usable Item
 
@@ -549,7 +586,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 #pragma region SMALL Grass InstanceBuffer
 	CVIBuffer_Model_Instance::MODEL_INSTANCE_DESC InstanceModelDesc = {};
-	InstanceModelDesc.iNumInstance = 300.f;
+	InstanceModelDesc.iNumInstance = 1000.f;
 	InstanceModelDesc.vSize = { 1.f, 1.f, 1.f };
 	InstanceModelDesc.vCenter = { 0.f ,0.f, 0.f };
 	InstanceModelDesc.vRange = { 400.f ,0.f, 300.f };
@@ -565,7 +602,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma endregion
 
 #pragma region FLOWER InstaceBuffer;
-	InstanceModelDesc.iNumInstance = 300.f;
+	InstanceModelDesc.iNumInstance = 1000.f;
 	InstanceModelDesc.vSize = { 1.f, 1.f, 1.f };
 	InstanceModelDesc.vCenter = { 0.f ,0.f, 0.f };
 	InstanceModelDesc.vRange = { 400.f ,0.f, 300.f };
@@ -630,6 +667,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma endregion
 
 #pragma endregion
+
 #pragma region ITEM
 
 #pragma region ROCK
@@ -647,7 +685,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma endregion
 
 #pragma endregion
-
 
 #pragma region Component
 	/* GamePlay_Component_CombatComponent */
@@ -830,6 +867,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* GAME_OBJECT_Item Slot */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_BackItemSlot"), CPlayerItemSlot::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
+	/* GAME_OBJECT_Architecture Slot */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_Slot_Architecture"), CPlayerSlotArchitecture::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 #pragma endregion
 
 #pragma region PLAYER_INFO
@@ -965,6 +1006,23 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ArrowProjectile"), CArrowProjectile::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	/* GAME_OBJECT_ElectricBall */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ElectricBall"), CEletricBullet::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region BUILD OBJECT
+	/* GAME_OBJECT_PalBox */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_PalBox"), CPalBox::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_PalBed */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_PalBed"), CPalBed::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_WorkBench */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_WorkBench"), CWorkBench::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 #pragma endregion
 
 #pragma region ITEM OBJECT
@@ -972,7 +1030,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ItemObject"), CItemObject::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 #pragma endregion
-
 
 #pragma region CComponents
 

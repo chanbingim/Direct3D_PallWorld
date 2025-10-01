@@ -61,7 +61,7 @@ void CPlayerPartData::Update(_float fDeletaTime)
         // 애니메이션을 두개 재생하고 바디에게 넘겨줄때 바디는 두개의 데이터를 받아서
         // 상체 하체를 분할해서 애니메이션을 재생한다.
         m_pVIBufferCom->PlayAnimation(1, m_iAnimIndex, fDeletaTime, m_fAnimSpeed, true);
-        m_bIsFinished = m_pVIBufferCom->PlayAnimation(0, m_UpperBodyIndex, fDeletaTime, 10.f, m_bIsAnimLoop, "spine_01");
+        m_bIsFinished = m_pVIBufferCom->PlayAnimation(0, m_UpperBodyIndex, fDeletaTime, 10.f, m_bIsAnimLoop, "spine_02");
     }
 
     m_pPlayerBody->Update(fDeletaTime);

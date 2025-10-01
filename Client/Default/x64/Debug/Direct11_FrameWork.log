@@ -1,4 +1,32 @@
-﻿  GamePlayLevel.cpp
-C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\GamePlayLevel.cpp(137,49): warning C4244: '=': 'Engine::_float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\GamePlayLevel.cpp(144,49): warning C4244: '=': 'Engine::_float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Direct11_FrameWork.vcxproj -> C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe
+﻿FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\MouseShader.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ShaderFiles\MutipleBlend.hlsl(79,5-41): warning X3206: implicit truncation of vector type
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\MutipleBlend.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ProgressBar.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\TestShader.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_AnimMesh.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_InstnaceMesh.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_Mesh.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_NorTex.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\WorldUI.cso
+  GamePlayLevel.cpp
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\GamePlayLevel.cpp(131,49): warning C4244: '=': 'Engine::_float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\GamePlayLevel.cpp(138,49): warning C4244: '=': 'Engine::_float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Direct11_FrameWork.vcxproj -> C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe

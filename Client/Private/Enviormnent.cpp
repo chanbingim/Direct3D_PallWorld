@@ -97,6 +97,29 @@ HRESULT CEnviormnent::HitBeginFunction(_float3 vDir, CGameObject* pGameObject)
     return S_OK;
 }
 
+HRESULT CEnviormnent::HitOverlapFunction(_float3 vDir, CGameObject* pGameObject)
+{
+    _float3 vHitActorPos = pGameObject->GetTransform()->GetPosition();
+    _vector vCalHitActorPos = XMLoadFloat3(&vHitActorPos);
+
+    _float3 vColisionExtents = {};
+    if (m_pCollision)
+    {
+        auto pOBBColision = static_cast<COBBCollision*>(m_pCollision);
+        _float3 vBoundCenter = pOBBColision->GetBounding().Center;
+        _vector vCalBoundCenter = XMLoadFloat3(&vBoundCenter);
+        _vector vDir = XMVector3Normalize(vCalBoundCenter - vCalHitActorPos);
+
+        _float vDist = {};
+        _float fLength = XMVectorGetX(XMVector3Length(vCalBoundCenter - vCalHitActorPos));
+        pOBBColision->GetBounding().Intersects(vCalHitActorPos, vDir, vDist);
+        if (0 > vDist)
+            pGameObject->ADDPosition(vDir * vDist);
+    }
+
+    return S_OK;
+}
+
 void CEnviormnent::Damage(void* pArg, CActor* pDamagedActor)
 {
     DEFAULT_DAMAGE_DESC* pDamageDesc = static_cast<DEFAULT_DAMAGE_DESC*>(pArg);

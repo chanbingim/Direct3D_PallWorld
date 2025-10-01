@@ -25,14 +25,8 @@ HRESULT CGamePlayLevel::Initialize()
 		return E_FAIL;
 
 	CTerrainManager::GetInstance()->Initialize(nullptr);
-	/*if (FAILED(ADD_SkyLayer(TEXT("Layer_GamePlay_SKY"))))
-		return E_FAIL;*/
-
-#pragma region ItemManager
-	CItemManager::GetInstance()->Initialize(m_pGraphic_Device, m_pDeviceContext, "a");
-	CItemManager::GetInstance()->LoadItemData(true, "../Bin/Resources/DataFile/Weapon/WeaponData.csv");
-	CItemManager::GetInstance()->LoadItemData(false, "../Bin/Resources/DataFile/Item/Item.csv");
-#pragma endregion
+	if (FAILED(ADD_SkyLayer(TEXT("Layer_GamePlay_SKY"))))
+		return E_FAIL;
 
 	CPlayerManager::PLAYER_MANAGER_DESC PlayerDesc;
 	PlayerDesc.iMaxInvenWeight = 1000;
@@ -119,13 +113,13 @@ HRESULT CGamePlayLevel::ADD_EnviornmentLayer(const _wstring& LayerName)
 {
 	CGameObject::GAMEOBJECT_DESC Desc = {};
 	Desc.vScale = { 1.f, 1.f, 1.f };
-	Desc.vPosition = { 109.f, -64.f, 795.f };
+	Desc.vPosition = { 100.f, -64.f, 890.f };
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Environment_SmallGrass"),
 		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
 		return E_FAIL;
 
-	Desc.vPosition = { -114.f, 14.f, 575.f };
+	Desc.vPosition = { 100.f, 14.f, 900.f };
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Environment_Flower"),
 		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
 		return E_FAIL;
@@ -142,12 +136,12 @@ HRESULT CGamePlayLevel::ADD_EnviornmentLayer(const _wstring& LayerName)
 			return E_FAIL;
 
 		EnviDesc.iModelIndex = m_pGameInstance->Random(0.f, 1.f);
-		EnviDesc.vPosition = { -114.f + 50 * i, 14.f, 575.f - 50 * i };
+		EnviDesc.vPosition = { -114.f, 14.f, 505.f + 50 * i };
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Tree"),
 			ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &EnviDesc)))
 			return E_FAIL;
 
-		EnviDesc.vPosition = { -114.f - 50 * i, 14.f, 575.f + 50 * i };
+		EnviDesc.vPosition = { -114.f - 5 * i, 14.f, 495.f + 50 * i };
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_PelJium"),
 			ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &EnviDesc)))
 			return E_FAIL;

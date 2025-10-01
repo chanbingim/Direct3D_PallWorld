@@ -26,7 +26,7 @@ public :
 
 	// 파일의 데이터를 로드하는 기능
 	// 일단 Bool로 해서 구별
-	HRESULT							LoadItemData(_bool bFlag, const char* FilePath);
+	HRESULT							LoadItemData(_uInt bFlag, const char* FilePath);
 	
 private :
 	ID3D11Device*					m_pDevice = nullptr;
@@ -39,6 +39,7 @@ private :
 private :
 	HRESULT							ParseEuipData(vector<_string>& Data);
 	HRESULT							ParseConsumeData(vector<_string>& Data);
+	HRESULT							ParseArchitecturetData(vector<_string>& Data);
 
 public :
 	virtual		void		Free() override;

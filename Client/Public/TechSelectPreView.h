@@ -1,5 +1,7 @@
 #pragma once
 #include "BackGround.h"
+
+#include "TechStruct.h"
 #include "ItemStruct.h"
 
 NS_BEGIN(Client)
@@ -27,6 +29,7 @@ public:
 	void									SetViewItemInfo(const ITEM_DESC* ItemInfo);
 
 private:
+	const TECH_ITEM_DESC*					m_pTechItemDesc = nullptr;
 	const ITEM_DESC*						m_pItemInfo = nullptr;
 
 	CItemSlotIcon*							m_pPreViewIcon = nullptr;

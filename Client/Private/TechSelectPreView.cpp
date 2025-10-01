@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "ItemManager.h"
 
+#include "PlayerManager.h"
 #include "ItemSlotIcon.h"
 #include "TechPreViewFont.h"
 
@@ -103,16 +104,18 @@ HRESULT CTechSelectPreView::ADD_Childs()
     pItemSlotDesc.pParentTransform = m_pTransformCom;
 
     pItemSlotDesc.vScale = { vScale.x * 0.8f, vScale.y * 0.7f, 0.f};
-    pItemSlotDesc.vPosition = { 0.f, -pItemSlotDesc.vScale.y * 0.5f, 0.f };
+    pItemSlotDesc.vPosition = { 0.f, -pItemSlotDesc.vScale.y * 0.7f, 0.f };
     m_pPreViewIcon = CItemSlotIcon::Create(m_pGraphic_Device, m_pDeviceContext);
+    m_pPreViewIcon->SetZOrder(m_iZOrder + 1);
     if (FAILED(m_pPreViewIcon->Initialize(&pItemSlotDesc)))
         return E_FAIL;
 
     CGameObject::GAMEOBJECT_DESC pObejctDesc = {};
     pObejctDesc.pParent = this;
     pObejctDesc.vScale = { vScale.x * 0.8f, vScale.y * 0.2f, 0.f};
-    pObejctDesc.vPosition = {0.f , pObejctDesc.vScale.y, 0.f};
+    pObejctDesc.vPosition = {0.f , pItemSlotDesc.vScale.y * 0.45f, 0.f};
     m_pPreViewFont = CTechPreViewFont::Create(m_pGraphic_Device, m_pDeviceContext);
+    m_pPreViewFont->SetZOrder(m_iZOrder + 2);
     if (FAILED(m_pPreViewFont->Initialize(&pObejctDesc)))
         return E_FAIL;
 

@@ -26,7 +26,7 @@ public:
 
 	// ·£´õ
 	virtual		HRESULT						Render() override;
-	_bool									IsAnimFinished() { return m_bIsFinished; }
+	_bool									IsAnimFinished() const { return m_bIsFinished; }
 
 	void									SetUppderAnimation(_uInt iIndex, _bool bIsSplite);
 	void									ChangeSocketFlag(_char bitFlag);

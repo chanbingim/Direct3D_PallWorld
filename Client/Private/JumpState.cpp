@@ -16,7 +16,7 @@ void CJumpState::OnStateEnter(void* pArg)
 		JUMPSTATE_DESC* pDesc = static_cast<JUMPSTATE_DESC*>(pArg);
 		m_fJumpSpeed = pDesc->fAnimSpeed;
 
-		*m_fJumpSpeed = 17.f;
+		*m_fJumpSpeed = 0.5f;
 	}
 
 	m_szStateName = "JumpStart";
@@ -32,7 +32,7 @@ void CJumpState::OnStateExcution(_float fDeletaTime, void* pArg)
 
 void CJumpState::OnStateExit(void* pArg)
 {
-	*m_fJumpSpeed = 10.f;
+	*m_fJumpSpeed = 0.5f;
 	m_fJumpSpeed = nullptr;
 }
 

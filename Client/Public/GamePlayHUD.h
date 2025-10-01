@@ -20,6 +20,7 @@ public:
 	virtual void				Update(_float fDeletaTime) override;
 
 	void						SetVisibleSelectUI(VISIBILITY eVisible);
+	void						ResetCreatePopUp();
 	CSelectUI*					GetSelectUI();
 
 private :

@@ -1,5 +1,7 @@
 #include "PlayerNoneCombatLayer.h"
 
+#include "PlayerWorkState.h"
+
 CPlayerNoneCombatLayer::CPlayerNoneCombatLayer() 
 {
 }
@@ -24,6 +26,9 @@ void CPlayerNoneCombatLayer::Update(_float DeltaTime, void* pArg)
 
 HRESULT CPlayerNoneCombatLayer::ADD_CombatState()
 {
+    if (FAILED(AddState(TEXT("Create"), CPlayerWorkState::Create("Work"))))
+        return E_FAIL;
+
     return S_OK;
 }
 

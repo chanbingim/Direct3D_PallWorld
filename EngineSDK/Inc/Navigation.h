@@ -52,13 +52,14 @@ public:
 	void							Update(_matrix WorldMatrix);
 	_bool							IsMove(_vector vPosition);
 
-	void							ComputeHeight(CTransform* pTransform, _bool bIsFindCell = false);
+	_float							ComputeHeight(CTransform* pTransform);
+	void							ComputeHeight(CTransform* pTransform, _bool bIsFindCell);
 	void							ComputeHeight(_float3* pPosition);
 
 	_Int							Find_Cell(_vector vPos);
 	_Int							Find_CellEdge(_vector vPos);
 	_float3							CellCenterPos(_uInt iCellIndex);
-
+	_Int							GetCurrentCellIndex() { return m_iCurrentCellIndex; }
 
 	void							ComputePathfindingAStar(_float3 vStartPoint, _float3 vTargetPoint, list<_float3>* PathList);
 	
@@ -66,7 +67,7 @@ public:
 	void							Bowyer_WatsonAlgorithm(const CModel* pMapModel, _uInt iMeshNum);
 
 	_bool							IsInNaviMesh(_float3 vPos, _float fOffset, _float* pOut);
-
+	void							ChangeNaviMeshIndex(_uInt iIndex) { m_iCurrentCellIndex = iIndex; }
 #ifdef _DEBUG
 public:
 	HRESULT							Export(const char* FilePath);
