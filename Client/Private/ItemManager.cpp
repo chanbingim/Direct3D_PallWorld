@@ -30,10 +30,10 @@ const ITEM_DESC* CItemManager::GetItemInfo(_uInt ItemID)
     return &iter->second;
 }
 
-const CTexture* CItemManager::GetItemTexture(_uInt ItemID)
+const CTexture* CItemManager::GetItemTexture(ITEM_TEXTURE_TYPE eTextureType, _uInt ItemID)
 {
-    auto iter = m_ItemTextures.find(ItemID);
-    if (iter == m_ItemTextures.end())
+    auto iter = m_ItemTextures[ENUM_CLASS(eTextureType)].find(ItemID);
+    if (iter == m_ItemTextures[ENUM_CLASS(eTextureType)].end())
         return nullptr;
 
     return iter->second;
@@ -62,20 +62,23 @@ HRESULT CItemManager::LoadItemData(_uInt bFlag, const char* FilePath)
 
 HRESULT CItemManager::ParseEuipData(vector<_string>& Data)
 {
-    WCHAR ConvertName[MAX_PATH] = {};
-    for (size_t i = 17; i < Data.size();)
+    WCHAR ConvertIvenUIName[MAX_PATH] = {};
+    WCHAR ConvertWeaponUIName[MAX_PATH] = {};
+
+    for (size_t i = 18; i < Data.size();)
     {
         ITEM_DESC Desc;
         Desc.iItemNum = atoi(Data[i++].c_str());
     
         CStringHelper::ConvertUTFToWide(Data[i++].c_str(), Desc.szItemName);
-        CStringHelper::ConvertUTFToWide(Data[i++].c_str(), ConvertName);
+        CStringHelper::ConvertUTFToWide(Data[i++].c_str(), ConvertIvenUIName);
         CStringHelper::ConvertUTFToWide(Data[i++].c_str(), Desc.szItemModelPath);
         
         Desc.ItemType = ITEM_TYPE(atoi(Data[i++].c_str()));
         Desc.IsAnimModel = atoi(Data[i++].c_str());
         Desc.IsPlayAnimation = atoi(Data[i++].c_str());
 
+        CStringHelper::ConvertUTFToWide(Data[i++].c_str(), ConvertWeaponUIName);
         CStringHelper::ConvertUTFToWide(Data[i++].c_str(), Desc.TypeDesc.EuqipDesc.ProjectilePrototpyeName);
         Desc.TypeDesc.EuqipDesc.iAtkPoint = atoi(Data[i++].c_str());
         Desc.TypeDesc.EuqipDesc.iDurability = atoi(Data[i++].c_str());
@@ -88,7 +91,10 @@ HRESULT CItemManager::ParseEuipData(vector<_string>& Data)
         Desc.TypeDesc.EuqipDesc.Equip_Type = EUQIP_TYPE(atoi(Data[i++].c_str()));
         Desc.TypeDesc.EuqipDesc.Weapon_Type = WEAPON(atoi(Data[i++].c_str()));
 
-        m_ItemTextures.emplace(Desc.iItemNum, CTexture::Create(m_pDevice, m_pContext, ConvertName, 1));
+        m_ItemTextures[ENUM_CLASS(ITEM_TEXTURE_TYPE::INVEN)].emplace(Desc.iItemNum, CTexture::Create(m_pDevice, m_pContext, ConvertIvenUIName, 1));
+       
+        if(lstrcmp(ConvertWeaponUIName, TEXT("0")))
+            m_ItemTextures[ENUM_CLASS(ITEM_TEXTURE_TYPE::WEAPON)].emplace(Desc.iItemNum, CTexture::Create(m_pDevice, m_pContext, ConvertWeaponUIName, 1));
         m_Items.emplace(Desc.iItemNum, Desc);
     }
 
@@ -114,7 +120,7 @@ HRESULT CItemManager::ParseConsumeData(vector<_string>& Data)
         Desc.TypeDesc.ConsumDesc.bIsLeftSocket = atoi(Data[i++].c_str());
         Desc.TypeDesc.ConsumDesc.iEffectType = atoi(Data[i++].c_str());
         Desc.TypeDesc.ConsumDesc.iRecoveryPoint = atoi(Data[i++].c_str());
-        m_ItemTextures.emplace(Desc.iItemNum, CTexture::Create(m_pDevice, m_pContext, ConvertName, 1));
+        m_ItemTextures[ENUM_CLASS(ITEM_TEXTURE_TYPE::INVEN)].emplace(Desc.iItemNum, CTexture::Create(m_pDevice, m_pContext, ConvertName, 1));
         m_Items.emplace(Desc.iItemNum, Desc);
     }
     return S_OK;
@@ -140,7 +146,7 @@ HRESULT CItemManager::ParseArchitecturetData(vector<_string>& Data)
         Desc.TypeDesc.ArchitectureDesc.fCompleteTime = atoi(Data[i++].c_str());
         Desc.TypeDesc.ArchitectureDesc.iWorkPartner = atoi(Data[i++].c_str());
         Desc.TypeDesc.ArchitectureDesc.iCellTypes = atoi(Data[i++].c_str());
-        m_ItemTextures.emplace(Desc.iItemNum, CTexture::Create(m_pDevice, m_pContext, ConvertName, 1));
+        m_ItemTextures[ENUM_CLASS(ITEM_TEXTURE_TYPE::INVEN)].emplace(Desc.iItemNum, CTexture::Create(m_pDevice, m_pContext, ConvertName, 1));
         m_Items.emplace(Desc.iItemNum, Desc);
     }
     return S_OK;
@@ -151,8 +157,11 @@ void CItemManager::Free()
     Safe_Release(m_pDevice);
     Safe_Release(m_pContext);
 
-    for (auto pair : m_ItemTextures)
-        Safe_Release(pair.second);
+    for (_uInt i = 0; i < ENUM_CLASS(ITEM_TEXTURE_TYPE::END); ++i)
+    {
+        for (auto pair : m_ItemTextures[i])
+            Safe_Release(pair.second);
 
-    m_ItemTextures.clear();
+        m_ItemTextures[i].clear();
+    }
 }

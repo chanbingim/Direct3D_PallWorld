@@ -1,6 +1,7 @@
 #pragma once
 #include "Client_Define.h"
 #include "Client_Struct.h"
+#include "ItemStruct.h"
 #include "Base.h"
 
 NS_BEGIN(Engine)
@@ -24,7 +25,6 @@ private:
 public :
 	typedef		struct		PlayerManagerDesc
 	{
-		_uInt				iNumEquipMaxSlot;
 		_uInt				iNumInvenMaxSlot;
 		_uInt				iMaxInvenWeight;
 	}PLAYER_MANAGER_DESC;
@@ -35,28 +35,25 @@ public :
 #pragma region EuipMent Function
 	/* 장비창  관련 함수 */
 	// 장비 슬롯 번호를 통해서 무기 선택
-	void					SelectEquipmentSlot(_uInt SlotIndex);
-	void					BindEquipSlot(_uInt iSlotIndex, _uInt iItemIndex);
+	_Int					BindEquipSlot(EUQIP_TYPE SlotType, _uInt iSlotIndex, _uInt iItemIndex);
 
 	// 장비 슬롯 양수 1 증가 음수 1감소
 	// 현재 들어야하는 아이템의 모델 버퍼를 반환
-	void					SwapEquipmentSlot(_Int MoveFlag);
-	CModel*					GetBackSlotItem(_uInt iBackSlotNum);
-	CModel*					GetCurrentSelectItem();
-	CModel*					GetCurrentSelectItemProjecTileModel();
+	void					SwapEquipmentSlot(EUQIP_TYPE SlotType, _Int MoveFlag);
 
-	_uInt					GetNumEuipSlot() { return m_iNumEquipSlot; }
-	const CItemBase*		GetSlotItemData(_uInt iIndex);
-	const CItemBase*		GetProjecTileSlotItemData(_uInt iIndex);
+	CModel*					GetSlotItemModel(EUQIP_TYPE SlotType, _uInt iSlotNum);
+	const CItemBase*		GetSlotItemInfo(EUQIP_TYPE SlotType, _uInt iSlotNum);
 
-	const CItemBase*		GetSelectItemData();
-	const CItemBase*		GetSelectProjecTileItemData();
+	CModel*					GetCurrentSlotItemModel(EUQIP_TYPE SlotType);
+	const	CItemBase*		GetCurrentSlotItemInfo(EUQIP_TYPE SlotType);
+
+	_uInt					GetNumEuipSlot(EUQIP_TYPE SlotType);
 #pragma endregion
 
 #pragma region Iven Function
 	/* 인벤토리  관련 함수 */
 	// 인벤토리 아이템 최대 보관개수
-	_uInt					GetNumInvenSlot() { return m_iNumInvenSlots; }
+	_uInt						GetNumInvenSlot() { return m_iNumInvenSlots; }
 
 	// 인벤토리에 보관된 아이템의 무게 반환
 	_uInt						GetInvenWieght() { return m_iInvenWeight; }
@@ -65,10 +62,13 @@ public :
 	void						FindInventroyItem(unordered_map<_uInt, _uInt>& Itemlist);
 	
 	void						RemoveInventoryItem(_uInt iSlotIndex, _uInt iCount);
+
 	HRESULT						SwapInventroyItem(_uInt FromSlotNumber, _uInt ToSlotNumber);
 
+	//장비창에 대한 데이터
+	HRESULT						SwapInventroyItem(EUQIP_TYPE eFromEquipType, _uInt FromSlotNumber, EUQIP_TYPE eToEquipType, _uInt ToSlotNumber);
 	const DEFAULT_SLOT_DESC&	GetSlotItem(_uInt iSlotIndex);
-
+	const CItemBase*			GetEquipSlotItem(EUQIP_TYPE eEquipType,_uInt iSlotIndex);
 #pragma endregion
 
 #pragma region PLATYER Function
@@ -109,21 +109,9 @@ private :
 
 #pragma region EuipMent Variable
 	// 아이템을 보관할 슬롯 최대개수
-	_uInt								m_iNumEquipSlot = {};
-
-	// 아이템의 인덱스만 보관해 두기
-	// 장비 슬롯이랑 연동해서 사용하면 될거같음
-	vector<CItemBase*>					m_EquipSlots = {};
-	vector<CModel*>						m_pBackSlotItem = {};
-
-	// 등뒤에 보관되어 보여줄 녀석의 VIBuffer
-// 이건 매시 아이템 실 객체 클래스여야할거같음
-	_Int								m_iSelectSlotIndex = {};
-
-	// 장비 아이템에서 사용할 화살 및 총알 이런거들 애니메이션있으면
-	// 보여주고 아니라면 안보여주려는 용도로 STL 선언
-	vector<CItemBase*>					m_EquipProjectileSlots = {};
-	vector<CModel*>						m_pBackProjectileSlotItem = {};
+	unordered_map<EUQIP_TYPE, pair<_Int, _uInt>>		m_SlotSelectIndex = {};
+	unordered_map<EUQIP_TYPE, vector<CItemBase*>>		m_pEquipItems = {};
+	unordered_map<EUQIP_TYPE, vector<CModel*>>			m_pEquipSlots = {};
 #pragma endregion
 
 #pragma region Pell Iven Variable

@@ -64,7 +64,7 @@ void CPlayerPartData::Update(_float fDeletaTime)
         m_bIsFinished = m_pVIBufferCom->PlayAnimation(0, m_UpperBodyIndex, fDeletaTime, 10.f, m_bIsAnimLoop, "spine_02");
     }
 
-    m_pPlayerBody->Update(fDeletaTime);
+    m_pPlayerBody->UpdateAnimation(m_pVIBufferCom);
     for (_uInt i = 0; i < 3; ++i)
         m_pWeaponSocket[i]->Update(fDeletaTime);
 }

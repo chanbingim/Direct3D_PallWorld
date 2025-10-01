@@ -90,7 +90,7 @@ void CTechSlot::SetSlotItem(const TECH_ITEM_DESC& TehcItem)
 	m_TechItem = &TehcItem;
 	m_pItemDesc = m_pItemManager->GetItemInfo(m_TechItem->ReturnItemID);
 
-	m_pSlotIcon->SetTexture(m_pItemManager->GetItemTexture(m_TechItem->ReturnItemID));
+	m_pSlotIcon->SetTexture(m_pItemManager->GetItemTexture(CItemManager::ITEM_TEXTURE_TYPE::INVEN, m_TechItem->ReturnItemID));
 	m_pSlotTitleBar->SetTehcItemTypeName(GetTechTypeName(m_TechItem->TechType));
 	m_pSlotItemName->SetTehcItemName(m_pItemDesc->szItemName);
 }

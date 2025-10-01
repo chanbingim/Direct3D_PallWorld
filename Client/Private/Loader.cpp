@@ -448,7 +448,8 @@ HRESULT CLoader::Loading_For_GamePlay()
 	PreModelMat = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.f));
 	/* VIBuffer  Old_Clothes MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_OldClothes"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Clothes/OldClothes/OldClothes.dat"))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Clothes/OldClothes/OldClothes.dat", PreModelMat,
+			"../Bin/Resources/Models/Clothes/OldClothes/OldColtehsRetarget.txt"))))
 		return E_FAIL;
 
 	/* VIBuffer  Clothes2 MESH  Component */

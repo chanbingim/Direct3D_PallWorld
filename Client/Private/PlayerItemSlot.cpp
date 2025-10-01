@@ -45,8 +45,8 @@ void CPlayerItemSlot::Priority_Update(_float fDeletaTime)
 
 void CPlayerItemSlot::Update(_float fDeletaTime)
 {
-	m_CurrentEuipItemInfo = CPlayerManager::GetInstance()->GetSlotItemData(m_iSlotIndex);
-	ChangeModelBuffer(CPlayerManager::GetInstance()->GetBackSlotItem(m_iSlotIndex), false);
+	m_CurrentEuipItemInfo = CPlayerManager::GetInstance()->GetSlotItemInfo(EUQIP_TYPE::WEAPON ,m_iSlotIndex);
+	ChangeModelBuffer(CPlayerManager::GetInstance()->GetSlotItemModel(EUQIP_TYPE::WEAPON, m_iSlotIndex), false);
 
 	if (nullptr == m_pVIBufferCom || nullptr == m_CurrentEuipItemInfo)
 		return;

@@ -6,7 +6,7 @@ namespace Client
 {
 	enum class ITEM_TYPE { EQUIPMENT, CONSUM, ETC, BUILDOBJECT, END };
 	enum class WEAPON	 { MELEE, AXE, BOW, GUN, THROW, NONE, END };
-	enum class EUQIP_TYPE { WEAPON, HEAD, BODY, SHIELD, GLIDER, ACCESSORY, FOOD, END };
+	enum class EUQIP_TYPE { WEAPON, PROJECTILE, HEAD, BODY, SHIELD, GLIDER, ACCESSORY, FOOD, END };
 
 	typedef struct EuqipItemDesc
 	{
@@ -57,9 +57,6 @@ namespace Client
 		unsigned int			iItemNum = {};
 
 		WCHAR					szItemName[MAX_PATH] = {};
-
-		// 무기의 UI Icon 정보를 가진녀석
-		WCHAR					szItemIconPath[MAX_PATH] = {};
 
 		//무기의 모델정보를 가진 녀석
 		WCHAR					szItemModelPath[MAX_PATH] = {}; 

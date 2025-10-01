@@ -49,7 +49,7 @@ void CPlayer_Interface::Update(_float fDeletaTime)
 
 	m_pHpBar->SetPercent(PlayerInfo.CurHealth / PlayerInfo.MaxHealth);
 	m_pHugerBar->SetPercent(PlayerInfo.CurHunger / PlayerInfo.MaxHunger);
-	m_pGuardBar->SetPercent(PlayerInfo.ShieldPoint / PlayerInfo.ShieldPoint);
+	m_pGuardBar->SetPercent(_float(PlayerInfo.ShieldPoint / PlayerInfo.ShieldPoint));
 
 }
 

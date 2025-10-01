@@ -170,9 +170,9 @@ HRESULT CEquipment::ADD_Childs()
 
 HRESULT CEquipment::CreateEquipSlot(_uInt iCount, _uInt iSlotType, _float3 vStartPos, _uInt MajorType)
 {
-	CUserInterface::GAMEOBJECT_DESC Desc;
-	ZeroMemory(&Desc, sizeof(CUserInterface::GAMEOBJECT_DESC));
+	CEquipSlot::EQUIP_SLOT_DESC Desc = {};
 
+	Desc.eSlotType = EUQIP_TYPE(iSlotType);
 	Desc.pParent = this;
 	Desc.vScale = { 50, 50, 0.f };
 	for (_uInt i = 0; i < iCount; ++i)
@@ -187,6 +187,7 @@ HRESULT CEquipment::CreateEquipSlot(_uInt iCount, _uInt iSlotType, _float3 vStar
 		if (nullptr == pEquipSlot)
 			return E_FAIL;
 
+		Desc.iNumberSlot = i;
 		//만들어보고 여기서 위치까지 잡아주자
 		pEquipSlot->Initialize(&Desc);
 		m_pEquipSlot.push_back(pEquipSlot);

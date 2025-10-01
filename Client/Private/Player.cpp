@@ -492,18 +492,18 @@ void CPlayer::ChangeWeapon()
     _bool ItemSelect = false;
     if (0 < m_pGameInstance->GetMouseAxis(2))
     {
-        CPlayerManager::GetInstance()->SwapEquipmentSlot(1);
+        CPlayerManager::GetInstance()->SwapEquipmentSlot(EUQIP_TYPE::WEAPON, 1);
         ItemSelect = true;
     }
     else if (0 > m_pGameInstance->GetMouseAxis(2))
     {
-        CPlayerManager::GetInstance()->SwapEquipmentSlot(-1);
+        CPlayerManager::GetInstance()->SwapEquipmentSlot(EUQIP_TYPE::WEAPON,-1);
         ItemSelect = true;
     }
 
     if (ItemSelect)
     {
-        const CItemBase* pItem = CPlayerManager::GetInstance()->GetSelectItemData();
+        const CItemBase* pItem = CPlayerManager::GetInstance()->GetCurrentSlotItemInfo(EUQIP_TYPE::WEAPON);
         if (pItem)
         {
             ITEM_DESC ItemData = pItem->GetItemData();
@@ -709,7 +709,7 @@ _bool CPlayer::IsResetNoneCombat()
 
 _bool CPlayer::GetWeaponAttackType()
 {
-    const CItemBase* pItemData = CPlayerManager::GetInstance()->GetSelectItemData();
+    const CItemBase* pItemData = CPlayerManager::GetInstance()->GetCurrentSlotItemInfo(EUQIP_TYPE::WEAPON);
     if (nullptr == pItemData)
         return false;
     const ITEM_DESC ItemDesc = pItemData->GetItemData();

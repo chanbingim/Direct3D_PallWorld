@@ -46,8 +46,8 @@ void CProjectileSlot::Priority_Update(_float fDeletaTime)
 
 void CProjectileSlot::Update(_float fDeletaTime)
 {
-    const CItemBase* CurrentEuipItemInfo = CPlayerManager::GetInstance()->GetSelectProjecTileItemData();
-    m_pVIBufferCom = CPlayerManager::GetInstance()->GetCurrentSelectItemProjecTileModel();
+    const CItemBase* CurrentEuipItemInfo = CPlayerManager::GetInstance()->GetCurrentSlotItemInfo(EUQIP_TYPE::PROJECTILE);
+    m_pVIBufferCom = CPlayerManager::GetInstance()->GetCurrentSlotItemModel(EUQIP_TYPE::PROJECTILE);
 
     if (CurrentEuipItemInfo)
     {

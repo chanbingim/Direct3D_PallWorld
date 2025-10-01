@@ -23,18 +23,68 @@ void CPlayerManager::Initialize(void* pArg)
 	m_pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(m_pGameInstance);
 
-	m_iNumEquipSlot = Desc->iNumEquipMaxSlot;
 	m_iNumInvenSlots = Desc->iNumInvenMaxSlot;
 	m_iMaxInvenWeight = Desc->iMaxInvenWeight;
 
 	if (FAILED(SettingDefaultPlayerData()))
 		return;
 
-	m_EquipSlots.resize(m_iNumEquipSlot, nullptr);
-	m_pBackSlotItem.resize(m_iNumEquipSlot, nullptr);
+	vector<CItemBase*> vSlotItems;
+	vector<CModel*> vSlotModels;
 
-	m_EquipProjectileSlots.resize(m_iNumEquipSlot, nullptr);
-	m_pBackProjectileSlotItem.resize(m_iNumEquipSlot, nullptr);
+	vSlotItems.resize(5, nullptr);
+	vSlotModels.resize(5, nullptr);
+
+	// 무기 슬롯
+	// 아이템 슬롯은 최대 4개니까 4개까지 넣자
+	m_SlotSelectIndex.emplace(EUQIP_TYPE::WEAPON, make_pair(0, 4));
+	m_pEquipItems.emplace(EUQIP_TYPE::WEAPON, vSlotItems);
+	m_pEquipSlots.emplace(EUQIP_TYPE::WEAPON, vSlotModels);
+
+	// 화살 이나 특정 발사체
+	// 이거는 인벤토리 안에 있어야 확인이 가능할거같음
+	m_SlotSelectIndex.emplace(EUQIP_TYPE::PROJECTILE, make_pair(0, 4));
+	m_pEquipItems.emplace(EUQIP_TYPE::PROJECTILE, vSlotItems);
+	m_pEquipSlots.emplace(EUQIP_TYPE::PROJECTILE, vSlotModels);
+
+	// 푸드 슬롯
+	m_SlotSelectIndex.emplace(EUQIP_TYPE::FOOD, make_pair(0, 5));
+	m_pEquipItems.emplace(EUQIP_TYPE::FOOD, vSlotItems);
+	m_pEquipSlots.emplace(EUQIP_TYPE::FOOD, vSlotModels);
+
+	// 머리
+	// 이거는 인벤토리 안에 있어야 확인이 가능할거같음
+	vSlotItems.resize(1, nullptr);
+	vSlotModels.resize(1, nullptr);
+	m_SlotSelectIndex.emplace(EUQIP_TYPE::HEAD, make_pair(0, 1));
+	m_pEquipItems.emplace(EUQIP_TYPE::HEAD, vSlotItems);
+	m_pEquipSlots.emplace(EUQIP_TYPE::HEAD, vSlotModels);
+
+	// 머리
+	// 이거는 인벤토리 안에 있어야 확인이 가능할거같음
+	m_SlotSelectIndex.emplace(EUQIP_TYPE::BODY, make_pair(0, 1));
+	m_pEquipItems.emplace(EUQIP_TYPE::BODY, vSlotItems);
+	m_pEquipSlots.emplace(EUQIP_TYPE::BODY, vSlotModels);
+
+	// 방패
+	// 이거는 인벤토리 안에 있어야 확인이 가능할거같음
+	m_SlotSelectIndex.emplace(EUQIP_TYPE::SHIELD, make_pair(0, 1));
+	m_pEquipItems.emplace(EUQIP_TYPE::SHIELD, vSlotItems);
+	m_pEquipSlots.emplace(EUQIP_TYPE::SHIELD, vSlotModels);
+
+	// 글라이더
+	// 이거는 인벤토리 안에 있어야 확인이 가능할거같음
+	m_SlotSelectIndex.emplace(EUQIP_TYPE::GLIDER, make_pair(0, 1));
+	m_pEquipItems.emplace(EUQIP_TYPE::GLIDER, vSlotItems);
+	m_pEquipSlots.emplace(EUQIP_TYPE::GLIDER, vSlotModels);
+
+	// 장신구
+	// 이거는 인벤토리 안에 있어야 확인이 가능할거같음
+	vSlotItems.resize(2, nullptr);
+	vSlotModels.resize(2, nullptr);
+	m_SlotSelectIndex.emplace(EUQIP_TYPE::ACCESSORY, make_pair(0, 2));
+	m_pEquipItems.emplace(EUQIP_TYPE::ACCESSORY, vSlotItems);
+	m_pEquipSlots.emplace(EUQIP_TYPE::ACCESSORY, vSlotModels);
 
 	m_iNumMaxOwnPell = 6;
 	m_pOwnerPells.resize(m_iNumMaxOwnPell, nullptr);
@@ -43,113 +93,176 @@ void CPlayerManager::Initialize(void* pArg)
 	m_EmptySlot.iItemCount = 0;
 	m_InvenSlots.resize(m_iNumInvenSlots, { false, m_EmptySlot });
 
-	BindEquipSlot(3, 3);
-	BindEquipSlot(1, 1);
-	BindEquipSlot(2, 2);
+	//BindEquipSlot(EUQIP_TYPE::WEAPON, 3, 3);
+	//BindEquipSlot(EUQIP_TYPE::WEAPON, 1, 1);
+	//BindEquipSlot(EUQIP_TYPE::WEAPON, 2, 2);
+
+	AddInventoryItem(1, 1);
+	AddInventoryItem(2, 1);
+	AddInventoryItem(3, 1);
+
+	AddInventoryItem(100, 1);
 }
 
 #pragma region Equipment
-void CPlayerManager::SelectEquipmentSlot(_uInt SlotIndex)
-{
-}
 
-void CPlayerManager::BindEquipSlot(_uInt iSlotIndex, _uInt iItemIndex)
+_Int CPlayerManager::BindEquipSlot(EUQIP_TYPE SlotType, _uInt iSlotIndex, _uInt iItemIndex)
 {
-	/* None Swap Slot */
-	if (nullptr == m_EquipSlots[iSlotIndex])
+	auto SlotPair = m_pEquipSlots.find(SlotType);
+	auto ItemInfoPair = m_pEquipItems.find(SlotType);
+
+	if (SlotPair == m_pEquipSlots.end() || ItemInfoPair == m_pEquipItems.end())
+		return -1;
+
+	auto iLevelID = m_pGameInstance->GetCurrentLevel()->GetLevelID();
+	auto ItemData = CItemManager::GetInstance()->GetItemInfo(iItemIndex);
+
+	if (nullptr == ItemData)
+		return -1;
+
+	CModel* pModel = static_cast<CModel*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::COMPONENT, iLevelID, ItemData->szItemModelPath, nullptr));
+	if (ITEM_TYPE::EQUIPMENT == ItemData->ItemType)
 	{
-		auto ItemData = CItemManager::GetInstance()->GetItemInfo(iItemIndex);
-		const ITEM_DESC* ProejectileItemData = nullptr;
-		if (-1 < ItemData->TypeDesc.EuqipDesc.iProjectileItemIndex)
-			ProejectileItemData = CItemManager::GetInstance()->GetItemInfo(ItemData->TypeDesc.EuqipDesc.iProjectileItemIndex);
-
-		if (ITEM_TYPE::EQUIPMENT == ItemData->ItemType)
+		if (SlotType == ItemData->TypeDesc.EuqipDesc.Equip_Type)
 		{
-			auto pGameInstancce = CGameInstance::GetInstance();
-			auto iLevelID = pGameInstancce->GetCurrentLevel()->GetLevelID();
-
-			CModel* pModel = static_cast<CModel*>(pGameInstancce->Clone_Prototype(OBJECT_ID::COMPONENT, iLevelID, ItemData->szItemModelPath, nullptr));
-			if (m_pBackSlotItem[iSlotIndex])
+			if (ItemInfoPair->second[iSlotIndex])
 			{
-				Safe_Release(m_EquipSlots[iSlotIndex]);
-				Safe_Release(m_pBackSlotItem[iSlotIndex]);
+				Safe_Release(ItemInfoPair->second[iSlotIndex]);
+				Safe_Release(SlotPair->second[iSlotIndex]);
 			}
+			
+			ItemInfoPair->second[iSlotIndex] = CItemBase::Create(*ItemData);
+			SlotPair->second[iSlotIndex] = pModel;
 
-			m_EquipSlots[iSlotIndex] = CItemBase::Create(*ItemData);
-			m_pBackSlotItem[iSlotIndex] = pModel;
-
-			if (nullptr != ProejectileItemData)
+			if (EUQIP_TYPE::WEAPON == SlotType)
 			{
-				CModel* pProjecTileModel = static_cast<CModel*>(pGameInstancce->Clone_Prototype(OBJECT_ID::COMPONENT, iLevelID, ProejectileItemData->szItemModelPath, nullptr));
-				if (m_pBackProjectileSlotItem[iSlotIndex])
+				if (-1 < ItemData->TypeDesc.EuqipDesc.iProjectileItemIndex)
 				{
-					Safe_Release(m_EquipProjectileSlots[iSlotIndex]);
-					Safe_Release(m_pBackProjectileSlotItem[iSlotIndex]);
-				}
+					const ITEM_DESC* ProjectileItemData = CItemManager::GetInstance()->GetItemInfo(ItemData->TypeDesc.EuqipDesc.iProjectileItemIndex);
+					if (nullptr != ProjectileItemData)
+					{
+						CModel* pProjecTileModel = static_cast<CModel*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::COMPONENT, iLevelID, ProjectileItemData->szItemModelPath, nullptr));
+						auto ProjecTileSlotPair = m_pEquipSlots.find(EUQIP_TYPE::PROJECTILE);
+						auto ProjecTileItemInfoPair = m_pEquipItems.find(EUQIP_TYPE::PROJECTILE);
 
-				m_EquipProjectileSlots[iSlotIndex] = CItemBase::Create(*ProejectileItemData);
-				m_pBackProjectileSlotItem[iSlotIndex] = pProjecTileModel;
+						if (ProjecTileSlotPair == m_pEquipSlots.end() || ProjecTileItemInfoPair == m_pEquipItems.end())
+							return -1;
+
+						if (ProjecTileItemInfoPair->second[iSlotIndex])
+						{
+							Safe_Release(ProjecTileItemInfoPair->second[iSlotIndex]);
+							Safe_Release(ProjecTileSlotPair->second[iSlotIndex]);
+						}
+
+						ProjecTileItemInfoPair->second[iSlotIndex] = CItemBase::Create(*ProjectileItemData);
+						ProjecTileSlotPair->second[iSlotIndex] = pProjecTileModel;
+					}
+				}
 			}
 		}
 	}
+	else
+	{
+		// 소비슬롯은 일단 보류
+		/*if (SlotType == ItemData->TypeDesc.ConsumDesc.)
+		{
+			if (ItemInfoPair->second[iSlotIndex])
+			{
+				Safe_Release(ItemInfoPair->second[iSlotIndex]);
+				Safe_Release(SlotPair->second[iSlotIndex]);
+			}
+
+			ItemInfoPair->second[iSlotIndex] = CItemBase::Create(*ItemData);
+			SlotPair->second[iSlotIndex] = pModel;
+		}*/
+	}
+
+	return ItemData->iItemNum;
 }
 
-void CPlayerManager::SwapEquipmentSlot(_Int MoveFlag)
+void CPlayerManager::SwapEquipmentSlot(EUQIP_TYPE SlotType, _Int MoveFlag)
 {
-	if (0 >= m_iNumEquipSlot)
+	auto SelectSlotIndexPair = m_SlotSelectIndex.find(SlotType);
+
+	if (SelectSlotIndexPair == m_SlotSelectIndex.end())
 		return;
 
 	if (0 < MoveFlag)
 	{
-		m_iSelectSlotIndex++;
-		if ((_Int)m_iNumEquipSlot <= m_iSelectSlotIndex)
-			m_iSelectSlotIndex = 0;
+		SelectSlotIndexPair->second.first++;
+		if ((_Int)SelectSlotIndexPair->second.second <= SelectSlotIndexPair->second.first)
+			SelectSlotIndexPair->second.first = 0;
 	}
 	else if (0 > MoveFlag)
 	{
-		m_iSelectSlotIndex--;
-		if (0 > m_iSelectSlotIndex)
-			m_iSelectSlotIndex = m_iNumEquipSlot - 1;
+		SelectSlotIndexPair->second.first--;
+		if (0 > SelectSlotIndexPair->second.first)
+			SelectSlotIndexPair->second.first = SelectSlotIndexPair->second.second - 1;
 	}
 }
 
-CModel* CPlayerManager::GetBackSlotItem(_uInt iBackSlotNum)
+CModel* CPlayerManager::GetSlotItemModel(EUQIP_TYPE SlotType, _uInt iSlotNum)
 {
-	if (m_iSelectSlotIndex == iBackSlotNum || m_pBackSlotItem.size() <= iBackSlotNum || 0 > iBackSlotNum)
+	auto SlotPair = m_pEquipSlots.find(SlotType);
+	auto SlotSelectPair = m_SlotSelectIndex.find(SlotType);
+
+	if (SlotPair == m_pEquipSlots.end() || (_uInt)SlotPair->second.size() <= iSlotNum || SlotSelectPair == m_SlotSelectIndex.end())
 		return nullptr;
 
-	return m_pBackSlotItem[iBackSlotNum];
+	// 현재 선택된 슬롯과 같다면 안보여준다.
+	if (iSlotNum == SlotSelectPair->second.first)
+		return nullptr;
+
+	return SlotPair->second[iSlotNum];
 }
 
-CModel* CPlayerManager::GetCurrentSelectItem()
+const CItemBase* CPlayerManager::GetSlotItemInfo(EUQIP_TYPE SlotType, _uInt iSlotNum)
 {
-	return m_pBackSlotItem[m_iSelectSlotIndex];
+	auto ItemInfoPair = m_pEquipItems.find(SlotType);
+
+	if (ItemInfoPair == m_pEquipItems.end() || (_uInt)ItemInfoPair->second.size() <= iSlotNum)
+		return nullptr;
+
+	return ItemInfoPair->second[iSlotNum];
 }
 
-CModel* CPlayerManager::GetCurrentSelectItemProjecTileModel()
+CModel* CPlayerManager::GetCurrentSlotItemModel(EUQIP_TYPE SlotType)
 {
-	return m_pBackProjectileSlotItem[m_iSelectSlotIndex];;
+	auto SlotPair = m_pEquipSlots.find(SlotType);
+	if (SlotPair == m_pEquipSlots.end())
+		return nullptr;
+
+	auto SlotSelectPair = m_SlotSelectIndex.find(SlotType);
+	if (SlotSelectPair == m_SlotSelectIndex.end())
+		return nullptr;
+
+	return SlotPair->second[SlotSelectPair->second.first];
 }
 
-const CItemBase* CPlayerManager::GetSlotItemData(_uInt iIndex)
+const CItemBase* CPlayerManager::GetCurrentSlotItemInfo(EUQIP_TYPE SlotType)
 {
-	return m_EquipSlots[iIndex];
+	auto ItemInfoPair = m_pEquipItems.find(SlotType);
+
+	if (ItemInfoPair == m_pEquipItems.end())
+		return nullptr;
+
+	auto SlotSelectPair = m_SlotSelectIndex.find(SlotType);
+	if (SlotSelectPair == m_SlotSelectIndex.end())
+		return nullptr;
+
+	return ItemInfoPair->second[SlotSelectPair->second.first];
 }
 
-const CItemBase* CPlayerManager::GetProjecTileSlotItemData(_uInt iIndex)
+_uInt CPlayerManager::GetNumEuipSlot(EUQIP_TYPE SlotType)
 {
-	return m_EquipProjectileSlots[iIndex];
+	auto SlotSelectPair = m_SlotSelectIndex.find(SlotType);
+
+	if (SlotSelectPair == m_SlotSelectIndex.end())
+		return 0;
+
+	return SlotSelectPair->second.second;
 }
 
-const CItemBase* CPlayerManager::GetSelectItemData()
-{
-	return m_EquipSlots[m_iSelectSlotIndex];
-}
-
-const CItemBase* CPlayerManager::GetSelectProjecTileItemData()
-{
-	return m_EquipProjectileSlots[m_iSelectSlotIndex];
-}
 #pragma endregion
 
 #pragma region Inventory
@@ -251,6 +364,95 @@ HRESULT CPlayerManager::SwapInventroyItem(_uInt FromSlotNumber, _uInt ToSlotNumb
 	return S_OK;
 }
 
+HRESULT CPlayerManager::SwapInventroyItem(EUQIP_TYPE eFromEquipType, _uInt FromSlotNumber, EUQIP_TYPE eToEquipType, _uInt ToSlotNumber)
+{
+	// 장비창에 장비가 있었는지 없었는지 알아서
+	// 있었다면 장비 ID 반환
+	// 없다면 -1 반환해서 스왑 이런식으로 가면될거같음
+	if (eFromEquipType == eToEquipType)
+	{
+		auto SlotPair = m_pEquipSlots.find(eToEquipType);
+		auto ItemInfoPair = m_pEquipItems.find(eToEquipType);
+
+		if (SlotPair == m_pEquipSlots.end() || ItemInfoPair == m_pEquipItems.end())
+			return E_FAIL;
+
+
+		swap(SlotPair->second[ToSlotNumber], SlotPair->second[FromSlotNumber]);
+		swap(ItemInfoPair->second[ToSlotNumber], ItemInfoPair->second[FromSlotNumber]);
+	}
+	else if(EUQIP_TYPE::END == eFromEquipType)
+	{
+		auto SlotPair = m_pEquipSlots.find(eToEquipType);
+		auto ItemInfoPair = m_pEquipItems.find(eToEquipType);
+
+		if (SlotPair == m_pEquipSlots.end() || ItemInfoPair == m_pEquipItems.end() ||
+			0 > FromSlotNumber || m_iNumInvenSlots <= FromSlotNumber)
+			return E_FAIL;
+
+		if (nullptr != ItemInfoPair->second[ToSlotNumber])
+		{
+			auto FromSlotItemInfo = CItemManager::GetInstance()->GetItemInfo(m_InvenSlots[FromSlotNumber].second.iItemID);
+			if (nullptr == FromSlotItemInfo)
+				return E_FAIL;
+
+			if (FromSlotItemInfo->ItemType == ItemInfoPair->second[FromSlotNumber]->GetItemData().ItemType)
+			{
+				_uInt FomeSlotItemIndex = m_InvenSlots[FromSlotNumber].second.iItemID;
+				m_InvenSlots[FromSlotNumber].second = { ItemInfoPair->second[ToSlotNumber]->GetItemData().iItemNum, 1 };
+				_Int itemID = BindEquipSlot(eToEquipType, ToSlotNumber, FomeSlotItemIndex);
+				
+			}
+			else
+				return E_FAIL;
+		}
+		else
+		{
+			_Int itemID = BindEquipSlot(eToEquipType, ToSlotNumber, m_InvenSlots[FromSlotNumber].second.iItemID);
+			m_InvenSlots[FromSlotNumber].first = false;
+			m_InvenSlots[FromSlotNumber].second = m_EmptySlot;
+		}
+
+	
+	}
+	else if (EUQIP_TYPE::END == eToEquipType)
+	{
+		auto SlotPair = m_pEquipSlots.find(eFromEquipType);
+		auto ItemInfoPair = m_pEquipItems.find(eFromEquipType);
+
+		if (SlotPair == m_pEquipSlots.end() || ItemInfoPair == m_pEquipItems.end() ||
+			0 > ToSlotNumber || m_iNumInvenSlots <= ToSlotNumber)
+			return E_FAIL;
+
+		if (m_InvenSlots[ToSlotNumber].first)
+		{
+			auto ToSlotItemInfo = CItemManager::GetInstance()->GetItemInfo(m_InvenSlots[FromSlotNumber].second.iItemID);
+			if (nullptr == ToSlotItemInfo)
+				return E_FAIL;
+
+			if (ToSlotItemInfo->ItemType == ItemInfoPair->second[FromSlotNumber]->GetItemData().ItemType)
+			{
+				_uInt toSlotItemIndex = m_InvenSlots[ToSlotNumber].second.iItemID;
+				m_InvenSlots[ToSlotNumber].second = { ItemInfoPair->second[FromSlotNumber]->GetItemData().iItemNum, 1 };
+			
+				_Int itemID = BindEquipSlot(eFromEquipType, FromSlotNumber, toSlotItemIndex);
+			}
+			else
+				return E_FAIL;
+		}
+		else
+		{
+			m_InvenSlots[ToSlotNumber].first = true;
+			m_InvenSlots[ToSlotNumber].second = { ItemInfoPair->second[FromSlotNumber]->GetItemData().iItemNum, 1};
+
+			Safe_Release(SlotPair->second[FromSlotNumber]);
+			Safe_Release(ItemInfoPair->second[FromSlotNumber]);
+		}
+	}
+	
+	return S_OK;
+}
+
 const DEFAULT_SLOT_DESC& CPlayerManager::GetSlotItem(_uInt iSlotIndex)
 {
 	if (0 <= iSlotIndex && m_iNumInvenSlots > iSlotIndex)
@@ -259,6 +461,15 @@ const DEFAULT_SLOT_DESC& CPlayerManager::GetSlotItem(_uInt iSlotIndex)
 			return m_InvenSlots[iSlotIndex].second;
 	}
 	return m_EmptySlot;
+}
+
+const CItemBase* CPlayerManager::GetEquipSlotItem(EUQIP_TYPE eEquipType, _uInt iSlotIndex)
+{
+	auto pSloItemInfoPair = m_pEquipItems.find(eEquipType);
+	if (pSloItemInfoPair == m_pEquipItems.end() || (_uInt)pSloItemInfoPair->second.size() <= iSlotIndex)
+		return nullptr;
+
+	return pSloItemInfoPair->second[iSlotIndex];
 }
 
 _Int CPlayerManager::Find_ItemSlot(_uInt iItemID)
@@ -433,21 +644,19 @@ void CPlayerManager::Free()
 {
 	__super::Free();
 
-	for (auto iter : m_EquipSlots)
-		Safe_Release(iter);
+	for (auto Pair : m_pEquipItems)
+	{
+		for (auto pItemBase : Pair.second)
+			Safe_Release(pItemBase);
+	}
 
-	for (auto iter : m_pBackSlotItem)
-		Safe_Release(iter);
-
-	for (auto iter : m_EquipProjectileSlots)
-		Safe_Release(iter);
-
-	for (auto iter : m_pBackProjectileSlotItem)
-		Safe_Release(iter);
+	for (auto Pair : m_pEquipSlots)
+	{
+		for (auto pModel : Pair.second)
+			Safe_Release(pModel);
+	}
 
 	Safe_Release(m_pGameInstance);
-	m_EquipSlots.clear();
-	m_pBackSlotItem.clear();
-	m_EquipProjectileSlots.clear();
-	m_pBackProjectileSlotItem.clear();
+	m_pEquipItems.clear();
+	m_pEquipSlots.clear();
 }

@@ -50,7 +50,7 @@ void CTechSelectPreView::Update(_float fDeletaTime)
 {
     if (m_pItemInfo)
     {
-        m_pPreViewIcon->SetTexture(m_pItemManager->GetItemTexture(m_pItemInfo->iItemNum));
+        m_pPreViewIcon->SetTexture(m_pItemManager->GetItemTexture(CItemManager::ITEM_TEXTURE_TYPE::INVEN, m_pItemInfo->iItemNum));
         m_pPreViewFont->SetText(m_pItemInfo->szItemName);
     }
     else

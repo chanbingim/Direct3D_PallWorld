@@ -5,6 +5,13 @@ NS_BEGIN(Client)
 
 class CEquipSlot : public CSlotBase
 {
+public :
+	typedef struct EquipSlotDesc : public GAMEOBJECT_DESC
+	{
+		EUQIP_TYPE			eSlotType;
+		_uInt				iNumberSlot;
+	}EQUIP_SLOT_DESC;
+
 private :
 	CEquipSlot(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CEquipSlot(const CEquipSlot& rhs);

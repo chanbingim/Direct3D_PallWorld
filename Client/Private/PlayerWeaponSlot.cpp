@@ -50,8 +50,8 @@ void CPlayerWeaponSlot::Priority_Update(_float fDeletaTime)
 
 void CPlayerWeaponSlot::Update(_float fDeletaTime)
 {
-	m_CurrentEuipItemInfo = CPlayerManager::GetInstance()->GetSelectItemData();
-	ChangeModelBuffer(CPlayerManager::GetInstance()->GetCurrentSelectItem(), false);
+	m_CurrentEuipItemInfo = CPlayerManager::GetInstance()->GetCurrentSlotItemInfo(EUQIP_TYPE::WEAPON);
+	ChangeModelBuffer(CPlayerManager::GetInstance()->GetCurrentSlotItemModel(EUQIP_TYPE::WEAPON), false);
 
 	if (m_CurrentEuipItemInfo)
 	{

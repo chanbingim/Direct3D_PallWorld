@@ -47,7 +47,7 @@ void CItemSlot::Update(_float fDeletaTime)
 
     const DEFAULT_SLOT_DESC& pSlotInfo = m_pPlayerManager->GetSlotItem(m_iSlotNumber);
     m_pItemDesc = m_pItemManager->GetItemInfo(pSlotInfo.iItemID);
-    m_pSlotIcon->SetTexture(m_pItemManager->GetItemTexture(pSlotInfo.iItemID));
+    m_pSlotIcon->SetTexture(m_pItemManager->GetItemTexture(CItemManager::ITEM_TEXTURE_TYPE::INVEN, pSlotInfo.iItemID));
 }
 
 void CItemSlot::Late_Update(_float fDeletaTime)

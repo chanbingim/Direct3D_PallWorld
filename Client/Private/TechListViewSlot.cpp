@@ -71,7 +71,7 @@ void CTechListViewSlot::SetViewItemInfo(const ITEM_DESC* pItemDesc, _Int iTechIn
     }
     else
     {
-        m_pItemIcon->SetTexture(CItemManager::GetInstance()->GetItemTexture(pItemDesc->iItemNum));
+        m_pItemIcon->SetTexture(CItemManager::GetInstance()->GetItemTexture(CItemManager::ITEM_TEXTURE_TYPE::INVEN, pItemDesc->iItemNum));
         m_iItemIndex = pItemDesc->iItemNum;
         m_iTechIndex = iTechIndex;
         m_pTechSlotFont->SetText(pItemDesc->szItemName);

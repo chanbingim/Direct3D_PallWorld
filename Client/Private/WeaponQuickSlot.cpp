@@ -52,10 +52,10 @@ HRESULT CWeaponQuickSlot::Initialize(void* pArg)
 
 void CWeaponQuickSlot::Update(_float fDeletaTime)
 {
-	auto pSelectWepaon = CPlayerManager::GetInstance()->GetSelectItemData();
+	auto pSelectWepaon = CPlayerManager::GetInstance()->GetCurrentSlotItemInfo(EUQIP_TYPE::WEAPON);
 	if (pSelectWepaon)
 	{
-		auto ItemTexture = CItemManager::GetInstance()->GetItemTexture(pSelectWepaon->GetItemData().iItemNum);
+		auto ItemTexture = CItemManager::GetInstance()->GetItemTexture(CItemManager::ITEM_TEXTURE_TYPE::WEAPON, pSelectWepaon->GetItemData().iItemNum);
 		m_pWeaponSlotIcon->SetIconTexture(ItemTexture);
 		m_pWeaponSlotName->SetItemName(pSelectWepaon->GetItemData().szItemName);
 	}

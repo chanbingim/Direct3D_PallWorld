@@ -4,6 +4,7 @@
 
 #include "ItemManager.h"
 #include "ItemSlot.h"
+#include "ItemBase.h"
 #include "ItemSlotIcon.h"
 
 #include "PlayerManager.h"
@@ -39,17 +40,29 @@ HRESULT CEquipSlot::Initialize(void* pArg)
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
+    EQUIP_SLOT_DESC* pEquipDesc = static_cast<EQUIP_SLOT_DESC*>(pArg);
+    m_eEquipSlotType = pEquipDesc->eSlotType;
+    m_iSlotNumber = pEquipDesc->iNumberSlot;
+
     return S_OK;
 }
 
 void CEquipSlot::Update(_float fDeletaTime)
 {
     __super::Update(fDeletaTime);
+
+    const CItemBase* pItemBase = m_pPlayerManager->GetEquipSlotItem(m_eEquipSlotType, m_iSlotNumber);
+    if (nullptr != pItemBase)
+    {
+        m_pItemDesc = m_pItemManager->GetItemInfo(pItemBase->GetItemData().iItemNum);
+        m_pSlotIcon->SetTexture(m_pItemManager->GetItemTexture(CItemManager::ITEM_TEXTURE_TYPE::INVEN, m_pItemDesc->iItemNum));
+    }
 }
 
 void CEquipSlot::Late_Update(_float fDeletaTime)
 {
     __super::Late_Update(fDeletaTime);
+    m_pSlotIcon->Late_Update(fDeletaTime);
 }
 
 HRESULT CEquipSlot::Render()
@@ -72,7 +85,7 @@ void CEquipSlot::SwapSlot(CSlotBase* From)
     {
         auto pSlot = static_cast<CEquipSlot*>(From);
         if(pSlot->GetSlotType() == m_eEquipSlotType)
-            m_pPlayerManager->SwapInventroyItem(pSlot->GetSlotNumber(), m_iSlotNumber);
+            m_pPlayerManager->SwapInventroyItem(pSlot->GetSlotType(), pSlot->GetSlotNumber(), m_eEquipSlotType, m_iSlotNumber);
     }
     else
     {
@@ -81,7 +94,7 @@ void CEquipSlot::SwapSlot(CSlotBase* From)
         if (ITEM_TYPE::EQUIPMENT == ItemDsec->ItemType)
         {
             if (ItemDsec->TypeDesc.EuqipDesc.Equip_Type == m_eEquipSlotType)
-                m_pPlayerManager->SwapInventroyItem(pSlot->GetSlotNumber(), m_iSlotNumber);
+                m_pPlayerManager->SwapInventroyItem(EUQIP_TYPE::END, pSlot->GetSlotNumber(), m_eEquipSlotType, m_iSlotNumber);
         }
     }
     
@@ -143,6 +156,18 @@ HRESULT CEquipSlot::ADD_Components()
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
         return E_FAIL;
+
+    CItemSlotIcon::ITEM_SLOT_ICON_DESC pItemIconDesc = {};
+    pItemIconDesc.pParent = this;
+    pItemIconDesc.pParentTransform = m_pTransformCom;
+    pItemIconDesc.vScale = m_pTransformCom->GetScale();
+    pItemIconDesc.vScale.x -= 10.f;
+    pItemIconDesc.vScale.y -= 10.f;
+    pItemIconDesc.vScale.z -= 10.f;
+
+    m_pSlotIcon = CItemSlotIcon::Create(m_pGraphic_Device, m_pDeviceContext);
+    m_pSlotIcon->Initialize(&pItemIconDesc);
+    m_pSlotIcon->SetZOrder(6);
 
     return S_OK;
 }

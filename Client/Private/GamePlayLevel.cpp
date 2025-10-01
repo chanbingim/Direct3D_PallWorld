@@ -30,7 +30,6 @@ HRESULT CGamePlayLevel::Initialize()
 
 	CPlayerManager::PLAYER_MANAGER_DESC PlayerDesc;
 	PlayerDesc.iMaxInvenWeight = 1000;
-	PlayerDesc.iNumEquipMaxSlot = 4;
 	PlayerDesc.iNumInvenMaxSlot = 60;
 	CPlayerManager::GetInstance()->Initialize(&PlayerDesc);
 	if (FAILED(ADD_PlayerLayer(TEXT("Layer_GamePlay_Player"))))
