@@ -396,7 +396,7 @@ HRESULT CPlayerManager::SwapInventroyItem(EUQIP_TYPE eFromEquipType, _uInt FromS
 			if (nullptr == FromSlotItemInfo)
 				return E_FAIL;
 
-			if (FromSlotItemInfo->ItemType == ItemInfoPair->second[FromSlotNumber]->GetItemData().ItemType)
+			if (FromSlotItemInfo->ItemType == ItemInfoPair->second[ToSlotNumber]->GetItemData().ItemType)
 			{
 				_uInt FomeSlotItemIndex = m_InvenSlots[FromSlotNumber].second.iItemID;
 				m_InvenSlots[FromSlotNumber].second = { ItemInfoPair->second[ToSlotNumber]->GetItemData().iItemNum, 1 };

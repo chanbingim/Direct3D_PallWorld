@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 
 #include "ItemManager.h"
+#include "EquipSlot.h"
 #include "ItemSlotIcon.h"
 
 #include "PlayerManager.h"
@@ -72,10 +73,21 @@ void CItemSlot::SwapSlot(CSlotBase* From)
     if (nullptr == From)
         return;
 
-    auto pSlot = static_cast<CItemSlot*>(From);
+  
     if (ITEM_TYPE::END == m_eItemSlotType)
     {
-        m_pPlayerManager->SwapInventroyItem(pSlot->GetSlotNumber(), m_iSlotNumber);
+        switch (From->GetSlotType())
+        {
+        case SLOT_TYPE::EQUIP :
+        {
+            CEquipSlot* pEquipSlot = static_cast<CEquipSlot*>(From);
+            m_pPlayerManager->SwapInventroyItem(pEquipSlot->GetSlotType(), pEquipSlot->GetSlotNumber(), EUQIP_TYPE::END, m_iSlotNumber);
+        }
+            break;
+        case SLOT_TYPE::ITEM:
+            m_pPlayerManager->SwapInventroyItem(From->GetSlotNumber(), m_iSlotNumber);
+            break;
+        }
     }
 }
 
@@ -113,18 +125,7 @@ void CItemSlot::MouseButtonPressed()
 
 void CItemSlot::MouseButtonUp()
 {
-    if (m_bIsHover)
-    {
-        CUserInterface* pFoucusWidget = nullptr;
-        CItemSlot* pToSlot = nullptr;
-    
-        m_pGameInstance->GetMouseFocus((CUserInterface**)&pFoucusWidget);
-        m_pGameInstance->SetDrag(false);
-
-        auto pItemSlot = dynamic_cast<CSlotBase*>(pFoucusWidget);
-        if(pItemSlot)
-            SwapSlot(pItemSlot);
-    }
+    __super::MouseButtonUp();
 }
 
 HRESULT CItemSlot::ADD_Components()

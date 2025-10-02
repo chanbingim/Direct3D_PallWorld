@@ -57,6 +57,10 @@ void CEquipSlot::Update(_float fDeletaTime)
         m_pItemDesc = m_pItemManager->GetItemInfo(pItemBase->GetItemData().iItemNum);
         m_pSlotIcon->SetTexture(m_pItemManager->GetItemTexture(CItemManager::ITEM_TEXTURE_TYPE::INVEN, m_pItemDesc->iItemNum));
     }
+    else
+    {
+        m_pSlotIcon->SetTexture(nullptr);
+    }
 }
 
 void CEquipSlot::Late_Update(_float fDeletaTime)
@@ -133,17 +137,7 @@ void CEquipSlot::MouseButtonPressed()
 
 void CEquipSlot::MouseButtonUp()
 {
-    if (m_bIsHover)
-    {
-        CUserInterface* pFoucusWidget = nullptr;
-        CSlotBase* pToSlot = nullptr;
-
-        m_pGameInstance->GetMouseFocus((CUserInterface**)&pFoucusWidget);
-        m_pGameInstance->SetDrag(false);
-        auto pItemSlot = dynamic_cast<CSlotBase*>(pFoucusWidget);
-        if (pItemSlot)
-            SwapSlot(pItemSlot);
-    }
+    __super::MouseButtonUp();
 }
 
 HRESULT CEquipSlot::ADD_Components()

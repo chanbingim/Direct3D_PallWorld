@@ -89,6 +89,17 @@ void CSlotBase::MouseButtonPressed()
 
 void CSlotBase::MouseButtonUp()
 {
+    if (m_bIsHover)
+    {
+        CUserInterface* pFoucusWidget = nullptr;
+        CSlotBase* pToSlot = nullptr;
+
+        m_pGameInstance->GetMouseFocus((CUserInterface**)&pFoucusWidget);
+        m_pGameInstance->SetDrag(false);
+        auto pItemSlot = dynamic_cast<CSlotBase*>(pFoucusWidget);
+        if (pItemSlot)
+            SwapSlot(pItemSlot);
+    }
 }
 
 CGameObject* CSlotBase::Clone(void* pArg)

@@ -20,7 +20,7 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
-	const ITEM_TYPE&						GetSlotType() { return m_eItemSlotType; }
+	const ITEM_TYPE&						GetSlotItemType() { return m_eItemSlotType; }
 
 protected:
 	virtual		void						SwapSlot(CSlotBase* From);
