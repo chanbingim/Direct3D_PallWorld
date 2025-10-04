@@ -29,11 +29,7 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
-	void									SetActive(_bool flag);
-	_bool									IsActive();
-
 private :
-	_bool									m_bIsActive = false;
 	vector<CCategory*>						m_CategoryButton = {};
 
 	CUserInterface*							m_pSelectWidget = nullptr;

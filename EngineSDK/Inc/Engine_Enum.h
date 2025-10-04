@@ -23,7 +23,7 @@ namespace Engine
 	enum class COLLISION_TYPE	{ BOX, SPHERE, OBB, END };
 	enum class LIGHT_TYPE		{ POINT = 1, SPOT, DIRECATION, END };
 
-	enum class MAT_STATE		{ VIEW, PROJECTION, END };
+	enum class MAT_STATE		{ VIEW, PROJECTION, ORTHROGRAPHIC,END };
 	enum class AXIS				{ HORIZONTAL, VERTICAL, END };
 	enum class LIGHT			{ DIRECTION, POINT, SOPT, END };
 

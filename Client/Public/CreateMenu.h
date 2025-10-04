@@ -23,11 +23,7 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
-	_bool									IsActive();
-	void									SetActive(_bool bFlag);
-
 private:
-	_bool									m_bIsActive = false;
 	vector<CTechCategoryUI*>				m_CategoryButton = {};
 	CTechSelectView*						m_pCharacterView = nullptr;
 

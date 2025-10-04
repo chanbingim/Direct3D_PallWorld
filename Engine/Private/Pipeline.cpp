@@ -30,7 +30,6 @@ HRESULT CPipeline::Initalize()
 
 void CPipeline::Update(_float fDeletaTime)
 {
-	
 }
 
 void CPipeline::SetMatrix(MAT_STATE eState, _float4x4 Matrix)

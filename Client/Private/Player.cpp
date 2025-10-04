@@ -382,12 +382,19 @@ void CPlayer::ChangeAction(_float fDeltaTime)
             {
                 if (m_pNearArchitecture)
                 {
-                    CPlayerWorkState::PLAYER_WORK_STATE WorkStateDesc = {};
-                    WorkStateDesc.pPlayerAnim = m_pAnimator;
-                    WorkStateDesc.pArchitecture = m_pNearArchitecture;
-                    WorkStateDesc.bIsAnimLoop = &m_bIsAnimLoop;
-                    m_pNearArchitecture->PlusWorkSpeed(m_pCharacterInfo->WorkSpeed);
-                    m_pPlayerFSM->ChangeState(TEXT("None_Combat_Layer"), TEXT("Create"), &WorkStateDesc);
+                    if (!m_pNearArchitecture->IsBuildFinished())
+                    {
+                        CPlayerWorkState::PLAYER_WORK_STATE WorkStateDesc = {};
+                        WorkStateDesc.pPlayerAnim = m_pAnimator;
+                        WorkStateDesc.pArchitecture = m_pNearArchitecture;
+                        WorkStateDesc.bIsAnimLoop = &m_bIsAnimLoop;
+                        m_pNearArchitecture->PlusWorkSpeed(m_pCharacterInfo->WorkSpeed);
+                        m_pPlayerFSM->ChangeState(TEXT("None_Combat_Layer"), TEXT("Create"), &WorkStateDesc);
+                    }
+                    else
+                    {
+                        m_pNearArchitecture->ArchitectureAction();
+                    }
                 }
             }
         }

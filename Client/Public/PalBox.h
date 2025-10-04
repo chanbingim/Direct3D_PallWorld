@@ -27,6 +27,7 @@ public:
 
 	// ·£´õ
 	virtual		HRESULT						Render() override;
+	virtual		void						ArchitectureAction() override;
 
 protected :
 	virtual void							HitOverlapFunction(_float3 vDir, CGameObject* pHitActor) override;

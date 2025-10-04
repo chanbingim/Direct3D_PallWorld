@@ -1,6 +1,9 @@
 #include "WorkBench.h"
 
 #include "GameInstance.h"
+#include "GamePlayHUD.h"
+#include "Level.h"
+
 
 CWorkBench::CWorkBench(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CArchitecture(pDevice, pContext)
@@ -43,6 +46,19 @@ void CWorkBench::Priority_Update(_float fDeletaTime)
 void CWorkBench::Update(_float fDeletaTime)
 {
     __super::Update(fDeletaTime);
+
+    //여기서 플레이어랑 멀어지면 UI 제거
+    //이건 일단 UI 보고
+    if (m_bIsAction)
+    {
+        _float3 vWorkBenchPos = m_pTransformCom->GetPosition();
+        _vector vPlayerPos = m_pGameInstance->GetPlayerState(WORLDSTATE::POSITION);
+        _vector vCalWorkBenchPos = XMLoadFloat3(&vWorkBenchPos);
+
+        _float fLength = XMVectorGetX(XMVector3Length(vPlayerPos - vCalWorkBenchPos));
+        if (fLength < 20.f)
+            ArchitectureAction();
+    }
 }
 
 void CWorkBench::Late_Update(_float fDeletaTime)
@@ -60,13 +76,38 @@ HRESULT CWorkBench::Render()
     for (_uInt i = 0; i < iNumMesh; ++i)
     {
         Apply_ConstantShaderResources(i);
-        m_pShaderCom->Update_Shader(0);
+
+        if (m_bIsCompleted)
+            m_pShaderCom->Update_Shader(0);
+        else
+            m_pShaderCom->Update_Shader(2);
+
         m_pVIBufferCom->Render(i);
     }
 
     m_pHitBoxCollision->Render();
 
     return S_OK;
+}
+
+void CWorkBench::ArchitectureAction()
+{
+    //여기서 워크밴치 UI에 대한처리
+    auto pLevelHUD = m_pGameInstance->GetCurrentLevel()->GetHUD();
+    if (nullptr == pLevelHUD)
+        return;
+
+    CGamePlayHUD* pGamePlayHUD = static_cast<CGamePlayHUD*>(pLevelHUD);
+    if (false == m_bIsAction)
+    {
+        pGamePlayHUD->ActivePopUpUserInterface(2);
+        m_bIsAction = true;
+    }
+    else
+    {
+        pGamePlayHUD->UnActivePopUpUserInterface(2);
+        m_bIsAction = false;
+    }
 }
 
 void CWorkBench::HitOverlapFunction(_float3 vDir, CGameObject* pHitActor)

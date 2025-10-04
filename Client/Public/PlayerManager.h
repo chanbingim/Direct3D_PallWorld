@@ -101,7 +101,7 @@ private :
 	CGameInstance*						m_pGameInstance = nullptr;
 
 #pragma region Player variable
-	class CPlayer* m_pCurrentPlayer = nullptr;
+	class CPlayer*						m_pCurrentPlayer = nullptr;
 
 	//나중에 여기서 플레이어으 ㅣ모델 정보도 바꿀수있게 만들거같음
 	CHARACTER_DESC						m_PlayerInfo = {};

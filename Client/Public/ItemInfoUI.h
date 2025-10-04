@@ -53,8 +53,5 @@ public:
 	virtual			CGameObject*			Clone(void* pArg);
 	virtual			void					Free() override;
 
-
-
-
 };
 NS_END

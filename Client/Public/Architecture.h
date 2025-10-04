@@ -26,7 +26,10 @@ public:
 
 	// ·£´õ
 	virtual		HRESULT						Render() override;
+	virtual		void						ArchitectureAction() {}
+	
 	_bool									IsBuildFinished() const { return m_bIsCompleted; }
+
 
 
 	void									PlusWorkSpeed(_float fWorkSpeed);

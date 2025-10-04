@@ -39,7 +39,7 @@ HRESULT CCreateMenu::Initialize(void* pArg)
 
 void CCreateMenu::Update(_float fDeletaTime)
 {
-    if (false == m_bIsActive)
+    if (VISIBILITY::HIDDEN == m_eVisible)
         return;
 
     for (auto pChild : m_pChildList)
@@ -48,7 +48,7 @@ void CCreateMenu::Update(_float fDeletaTime)
 
 void CCreateMenu::Late_Update(_float fDeletaTime)
 {
-    if (false == m_bIsActive)
+    if (VISIBILITY::HIDDEN == m_eVisible)
         return;
 
     for (auto pChild : m_pChildList)
@@ -58,16 +58,6 @@ void CCreateMenu::Late_Update(_float fDeletaTime)
 HRESULT CCreateMenu::Render()
 {
     return S_OK;
-}
-
-_bool CCreateMenu::IsActive()
-{
-    return m_bIsActive;
-}
-
-void CCreateMenu::SetActive(_bool bFlag)
-{
-    m_bIsActive = bFlag;
 }
 
 HRESULT CCreateMenu::ADD_Childs()

@@ -94,6 +94,17 @@
 #include "PellInfoFrame.h"
 #include "TypeIcon.h"
 
+#pragma region WORKBENCH
+#include "WorkBenchCreateUI.h"
+#include "CreateToolTipUI.h"
+#pragma endregion
+
+#pragma region BASE UI
+#include "TitleUI.h"
+#pragma endregion
+
+#include "IngredientUI.h"
+
 #pragma region CREATE UI
 #include "CreateMenu.h"
 #include "TechListViewSlot.h"
@@ -1031,6 +1042,25 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ItemObject"), CItemObject::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 #pragma endregion
+
+#pragma region BASE UI
+	
+	/* GAME_OBJECT_Title_UI */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Base_Title_UI"), CTitleUI::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+#pragma endregion
+
+#pragma region WORKBENCH UI
+	/* GAME_OBJECT_WorkBench_Create_Menu */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_WorkbenchCreateUI"), CWorkBenchCreateUI::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_WorkBench_ToolTip */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Workbench_ToolTip_UI"), CCreateToolTipUI::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
 
 #pragma region CComponents
 

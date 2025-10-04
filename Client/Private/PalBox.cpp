@@ -76,6 +76,11 @@ HRESULT CPalBox::Render()
     return S_OK;
 }
 
+void CPalBox::ArchitectureAction()
+{
+
+}
+
 void CPalBox::HitOverlapFunction(_float3 vDir, CGameObject* pHitActor)
 {
     __super::HitOverlapFunction(vDir, pHitActor);

@@ -539,7 +539,7 @@ void CPlayerManager::SelectArchitecture(_uInt iTechIndex)
 
 		auto GameplayHUD = dynamic_cast<CGamePlayHUD *>(m_pGameInstance->GetCurrentLevel()->GetHUD());
 		if (GameplayHUD)
-			GameplayHUD->ResetCreatePopUp();
+			GameplayHUD->UnActivePopUpUserInterface(1);
 	}
 }
 

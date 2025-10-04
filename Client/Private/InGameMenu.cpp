@@ -47,7 +47,7 @@ HRESULT CInGameMenu::Initialize(void* pArg)
 
 void CInGameMenu::Update(_float fDeletaTime)
 {
-    if (!m_bIsActive)
+    if (VISIBILITY::HIDDEN == m_eVisible)
         return;
 
     for (auto& iter : m_pChildList)
@@ -59,7 +59,7 @@ void CInGameMenu::Update(_float fDeletaTime)
 
 void CInGameMenu::Late_Update(_float fDeletaTime)
 {
-    if (!m_bIsActive)
+    if (VISIBILITY::HIDDEN == m_eVisible)
         return;
 
     m_pGameInstance->Add_RenderGroup(RENDER::SCREEN_UI, this);
@@ -79,20 +79,6 @@ HRESULT CInGameMenu::Render()
     m_pVIBufferCom->Render_VIBuffer();
 
     return S_OK;
-}
-
-void CInGameMenu::SetActive(_bool flag)
-{
-    m_bIsActive = flag;
-  
-    //버튼 애니메이션 초기화후 버튼 애니메이션 재생
-    /*for (auto& iter : m_CategoryButton)
-        iter->SetActive(flag);*/
-}
-
-_bool CInGameMenu::IsActive()
-{
-    return m_bIsActive;
 }
 
 HRESULT CInGameMenu::ADD_Childs()

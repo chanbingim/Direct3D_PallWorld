@@ -48,7 +48,7 @@ void CArchitecture::Update(_float fDeletaTime)
 			m_fAccTime = 0;
 		}
 
-		if (m_fAccComplteTime  >= m_pArchitectureInfo.TypeDesc.ArchitectureDesc.fCompleteTime * 30.f)
+		if (m_fAccComplteTime  >= m_pArchitectureInfo.TypeDesc.ArchitectureDesc.fCompleteTime )
 		{
 			m_bIsCompleted = true;
 		}
@@ -73,9 +73,10 @@ void CArchitecture::Update(_float fDeletaTime)
 		_vector vCalCamereaLook = m_pGameInstance->GetCameraState(WORLDSTATE::LOOK);
 		
 		_vector vCameraToArchDir = XMVector3Normalize(XMLoadFloat3(&vArchitecturePos) - vCalCamereaPos);
-		_float fRad = acosf(XMVectorGetX(XMVector3Dot(vCameraToArchDir, vCalCamereaPos)));
+		_float fRad = acosf(XMVectorGetX(XMVector3Dot(vCameraToArchDir, vCalCamereaLook)));
 
-		CPlayerManager::GetInstance()->SetNearArchitecture(this);
+		if(fRad <= XM_PIDIV4)
+			CPlayerManager::GetInstance()->SetNearArchitecture(this);
 	}
 }
 

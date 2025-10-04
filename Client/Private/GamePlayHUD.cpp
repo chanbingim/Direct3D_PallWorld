@@ -5,6 +5,7 @@
 
 #include "InGameMenu.h"
 #include "CreateMenu.h"
+#include "WorkBenchCreateUI.h"
 #include "SelectUI.h"
 
 CGamePlayHUD::CGamePlayHUD(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
@@ -34,10 +35,30 @@ void CGamePlayHUD::SetVisibleSelectUI(VISIBILITY eVisible)
 	m_pSelectUI->SetVisibility(eVisible);
 }
 
-void CGamePlayHUD::ResetCreatePopUp()
+HRESULT CGamePlayHUD::ActivePopUpUserInterface(_uInt iID)
 {
-	m_pCreateMenu->SetActive(false);
+	for (auto& pPopup : m_PopupUIs)
+		pPopup.second->SetVisibility(VISIBILITY::HIDDEN);
+
+	auto pair = m_PopupUIs.find(iID);
+	if (pair == m_PopupUIs.end())
+		return E_FAIL;
+
+	pair->second->SetVisibility(VISIBILITY::VISIBLE);
+	FoucusInUserInterface(true);
+	return S_OK;
+}
+
+HRESULT CGamePlayHUD::UnActivePopUpUserInterface(_uInt iID)
+{
+	auto pair = m_PopupUIs.find(iID);
+	if (pair == m_PopupUIs.end())
+		return E_FAIL;
+
+	pair->second->SetVisibility(VISIBILITY::HIDDEN);
 	FoucusInUserInterface(false);
+
+	return S_OK;
 }
 
 CSelectUI* CGamePlayHUD::GetSelectUI()
@@ -68,17 +89,23 @@ HRESULT CGamePlayHUD::ADD_UserInterface()
 
 	if (FAILED(__super::Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_InGmaeMenu_UI"), TEXT("InGame_Menu"), &Desc, (CUserInterface**)&m_pInGameMenu)))
 		return E_FAIL;
+	Safe_AddRef(m_pInGameMenu);
+	m_PopupUIs.emplace(0, m_pInGameMenu);
 
 	Desc.vScale = { g_iWinSizeY * 0.1f , g_iWinSizeY * 0.1f , 1.f };
 	Desc.vPosition = { g_iHalfWinSizeX, g_iHalfWinSizeY, 0.f };
 
-	if (FAILED(__super::Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CrossHair_UI"), TEXT("CrossHair"), &Desc, (CUserInterface**)&m_pCrossHair)))
+	if (FAILED(__super::Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CrossHair_UI"), TEXT("CrossHair"), &Desc)))
 		return E_FAIL;
 
 	Desc.vScale = { g_iWinSizeY , g_iWinSizeY , 1.f };
 	Desc.vPosition = { g_iHalfWinSizeX, g_iHalfWinSizeY, 0.f };
 	if (FAILED(__super::Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Tech_Create"), TEXT("Create_Menu"), &Desc, (CUserInterface**)&m_pCreateMenu)))
 		return E_FAIL;
+
+	Safe_AddRef(m_pCreateMenu);
+	m_PopupUIs.emplace(1, m_pCreateMenu);
+
 
 	Desc.vScale = { 50.f, 20.f, 0.f };
 	m_pSelectUI = CSelectUI::Create(m_pDevice, m_pContext);
@@ -89,6 +116,14 @@ HRESULT CGamePlayHUD::ADD_UserInterface()
 	m_pSelectUI->SetVisibility(VISIBILITY::HIDDEN);
 	m_pUserInterfaceMap.emplace(TEXT("SelectUI"), m_pSelectUI);
 
+	Desc.vScale = { g_iWinSizeY * 0.7f , g_iWinSizeY * 0.8f , 1.f };
+	Desc.vPosition = { g_iHalfWinSizeX, g_iHalfWinSizeY, 0.f };
+	if (FAILED(__super::Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_WorkbenchCreateUI"), TEXT("WorkBench_Create_Menu"), &Desc, (CUserInterface**)&m_pWorkBenchCreateMenu)))
+		return E_FAIL;
+
+	Safe_AddRef(m_pWorkBenchCreateMenu);
+	m_PopupUIs.emplace(2, m_pWorkBenchCreateMenu);
+
 	return S_OK;
 }
 
@@ -96,31 +131,25 @@ void CGamePlayHUD::UIKeyInput()
 {
 	if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_I))
 	{
-		m_pCreateMenu->SetActive(false);
-		if (false == m_pInGameMenu->IsActive())
+		if (VISIBILITY::HIDDEN == m_pInGameMenu->GetVisibility())
 		{
-			m_pInGameMenu->SetActive(true);
-			FoucusInUserInterface(true);
+			ActivePopUpUserInterface(0);
 		}
 		else
 		{
-			m_pInGameMenu->SetActive(false);
-			FoucusInUserInterface(false);
+			UnActivePopUpUserInterface(0);
 		}
 	}
 
 	if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_B))
 	{
-		m_pInGameMenu->SetActive(false);
-		if (false == m_pCreateMenu->IsActive())
+		if (VISIBILITY::HIDDEN == m_pCreateMenu->GetVisibility())
 		{
-			m_pCreateMenu->SetActive(true);
-			FoucusInUserInterface(true);
+			ActivePopUpUserInterface(1);
 		}
 		else
 		{
-			m_pCreateMenu->SetActive(false);
-			FoucusInUserInterface(false);
+			UnActivePopUpUserInterface(1);
 		}
 	}
 }
@@ -129,7 +158,7 @@ void CGamePlayHUD::Change_ViewUI()
 {
 	if (m_Visible)
 	{
-		if (m_pInGameMenu->IsActive())
+		if (VISIBILITY::VISIBLE == m_pInGameMenu->GetVisibility())
 		{
 			if (m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 0))
 			{
@@ -164,12 +193,6 @@ void CGamePlayHUD::FoucusInUserInterface(_bool bFlag)
 	}
 }
 
-void CGamePlayHUD::ALL_PopUp_UnActive()
-{
-	m_pInGameMenu->SetActive(false);
-	m_pCreateMenu->SetActive(false);
-}
-
 CGamePlayHUD* CGamePlayHUD::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
 	CGamePlayHUD* pGameplayHUD = new CGamePlayHUD(pDevice, pContext);
@@ -182,4 +205,8 @@ CGamePlayHUD* CGamePlayHUD::Create(ID3D11Device* pDevice, ID3D11DeviceContext* p
 void CGamePlayHUD::Free()
 {
 	__super::Free();
+
+
+	for (auto pair : m_PopupUIs)
+		Safe_Release(pair.second);
 }

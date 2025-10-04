@@ -2,6 +2,7 @@
 #include "Architecture.h"
 
 NS_BEGIN(Client)
+
 class CWorkBench final : public CArchitecture
 {
 protected:
@@ -21,9 +22,13 @@ public:
 
 	// ·£´õ
 	virtual		HRESULT						Render() override;
+	virtual		void						ArchitectureAction() override;
 
 protected :
 	virtual void							HitOverlapFunction(_float3 vDir, CGameObject* pHitActor);
+
+private :
+	_bool									m_bIsAction = false;
 
 private:
 	HRESULT									ADD_Components();

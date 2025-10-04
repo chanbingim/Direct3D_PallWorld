@@ -182,9 +182,9 @@ HRESULT CPlayerPartData::ADD_AnimParts()
     SlotDesc.vRotation = { XMConvertToRadians(90.f), 0.f,  XMConvertToRadians(180.f) };
     SlotDesc.vPosition = { 0.01f, 0.f, 0.f };
     SlotDesc.UseSocketMatrixFlag = 0b00000001;
-    m_pWeaponSocketMatrix[0] = m_pPlayerBody->GetBoneMatrix("weapon_r");
+    m_pWeaponSocketMatrix[0] = GetBoneMatrix("weapon_r");
     SlotDesc.SocketMatrix = m_pWeaponSocketMatrix[0];
-    SlotDesc.pLeftSocket = m_pPlayerBody->GetBoneMatrix("weapon_l");
+    SlotDesc.pLeftSocket = GetBoneMatrix("weapon_l");
     SlotDesc.iSlotIndex = 0;
 
     m_pWeaponSocket[0] = static_cast<CPlayerWeaponSlot*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_WeaponSot"), &SlotDesc));
