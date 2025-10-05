@@ -2,6 +2,8 @@
 
 #include "GameInstance.h"
 
+_float4 CTitleUI::m_vBackColor = {128 / 255.f, 128/ 255.f, 128/255.f, 1.f};
+
 CTitleUI::CTitleUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CBackGround(pDevice, pContext)
 {
@@ -31,6 +33,9 @@ HRESULT CTitleUI::Initialize(void* pArg)
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
+    TITLE_UI_DESC* pTitleUIDesc = static_cast<TITLE_UI_DESC*>(pArg);
+    m_szTitle = pTitleUIDesc->szTitleName;
+
     return S_OK;
 }
 
@@ -47,13 +52,20 @@ void CTitleUI::Late_Update(_float fDeletaTime)
 HRESULT CTitleUI::Render()
 {
     Apply_ConstantShaderResources();
-    m_pShaderCom->Update_Shader(2);
+    m_pShaderCom->Bind_RawValue("g_vColor", &m_vBackColor, sizeof(_float4));
+
+    m_pShaderCom->Update_Shader(4);
     m_pTextureCom->SetTexture(0, 0);
     m_pVIBufferCom->Render_VIBuffer();
 
     m_pFontCom->Render(m_szTitle.c_str(), { 0.f, 0.f, 0.f, 1.f });
 
     return S_OK;
+}
+
+void CTitleUI::SetText(const WCHAR* szTitle)
+{
+    m_szTitle = szTitle;
 }
 
 HRESULT CTitleUI::ADD_Components()

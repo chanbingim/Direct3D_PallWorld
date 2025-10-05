@@ -5,6 +5,7 @@
 
 #include "InGameMenu.h"
 #include "CreateMenu.h"
+#include "DiallogUI.h"
 #include "WorkBenchCreateUI.h"
 #include "SelectUI.h"
 
@@ -18,6 +19,7 @@ HRESULT CGamePlayHUD::Initialize()
 	if (FAILED(ADD_UserInterface()))
 		return E_FAIL;
 
+	UnActiveAllPopUp();
 	m_pGameInstance->ShowInGameMouse(VISIBILITY::VISIBLE);
 	return S_OK;
 }
@@ -61,9 +63,26 @@ HRESULT CGamePlayHUD::UnActivePopUpUserInterface(_uInt iID)
 	return S_OK;
 }
 
+CUserInterface* CGamePlayHUD::GetPopUpUserInterface(_uInt iPopupID)
+{
+	auto pair = m_PopupUIs.find(iPopupID);
+	if (pair == m_PopupUIs.end())
+		return nullptr;
+
+	return pair->second;
+}
+
 CSelectUI* CGamePlayHUD::GetSelectUI()
 {
 	return m_pSelectUI;
+}
+
+void CGamePlayHUD::UnActiveAllPopUp()
+{
+	for (auto& pair : m_PopupUIs)
+		pair.second->SetVisibility(VISIBILITY::HIDDEN);
+
+	FoucusInUserInterface(false);
 }
 
 HRESULT CGamePlayHUD::ADD_UserInterface()
@@ -116,6 +135,7 @@ HRESULT CGamePlayHUD::ADD_UserInterface()
 	m_pSelectUI->SetVisibility(VISIBILITY::HIDDEN);
 	m_pUserInterfaceMap.emplace(TEXT("SelectUI"), m_pSelectUI);
 
+#pragma region Archtecture Create UI
 	Desc.vScale = { g_iWinSizeY * 0.7f , g_iWinSizeY * 0.8f , 1.f };
 	Desc.vPosition = { g_iHalfWinSizeX, g_iHalfWinSizeY, 0.f };
 	if (FAILED(__super::Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_WorkbenchCreateUI"), TEXT("WorkBench_Create_Menu"), &Desc, (CUserInterface**)&m_pWorkBenchCreateMenu)))
@@ -123,7 +143,21 @@ HRESULT CGamePlayHUD::ADD_UserInterface()
 
 	Safe_AddRef(m_pWorkBenchCreateMenu);
 	m_PopupUIs.emplace(2, m_pWorkBenchCreateMenu);
+#pragma endregion
 
+#pragma region DialLog
+	CDiallogUI* pDiallog = nullptr;
+
+	/* DialLog UI*/
+	Desc.vScale = { g_iWinSizeY * 0.8f , 200.f , 1.f };
+	Desc.vPosition = { g_iHalfWinSizeX, g_iWinSizeY - Desc.vScale.y * 0.5f, 0.f };
+	if (FAILED(__super::Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_DialLogUI"), TEXT("DialLog_UI"), &Desc, (CUserInterface**)&pDiallog)))
+		return E_FAIL;
+
+	Safe_AddRef(pDiallog);
+	m_PopupUIs.emplace(3, pDiallog);
+#pragma endregion
+	
 	return S_OK;
 }
 
@@ -150,6 +184,22 @@ void CGamePlayHUD::UIKeyInput()
 		else
 		{
 			UnActivePopUpUserInterface(1);
+		}
+	}
+
+	if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_C))
+	{
+		if (VISIBILITY::HIDDEN == m_PopupUIs.find(3)->second->GetVisibility())
+		{
+			ActivePopUpUserInterface(3);
+			
+			auto pDiallog = static_cast<CDiallogUI *>(m_PopupUIs.find(3)->second);
+			pDiallog->SetDiallogText(TEXT("안녕 하세요 반갑습니다. 테스트 테스트"));
+		
+		}
+		else
+		{
+			UnActivePopUpUserInterface(3);
 		}
 	}
 }
@@ -205,7 +255,6 @@ CGamePlayHUD* CGamePlayHUD::Create(ID3D11Device* pDevice, ID3D11DeviceContext* p
 void CGamePlayHUD::Free()
 {
 	__super::Free();
-
 
 	for (auto pair : m_PopupUIs)
 		Safe_Release(pair.second);

@@ -4,9 +4,18 @@
 NS_BEGIN(Client)
 class CTitleUI;
 class CCreateToolTipUI;
+class CWorkBenchSlotView;
 
 class CWorkBenchCreateUI : public CBackGround	
 {
+public :
+	typedef struct WorkBenchCreateDesc
+	{
+		const WCHAR*				szTitleName;
+		const vector<_uInt>*		ItemList;
+
+	}WORK_BENCH_CREATE_DESC;
+
 protected:
 	CWorkBenchCreateUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CWorkBenchCreateUI(const CWorkBenchCreateUI& rhs);
@@ -22,10 +31,14 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
+	void									SetViewItemList(void* pArg);
+
 private :
 	CTitleUI*								m_pTitle = nullptr;
+	CWorkBenchSlotView*						m_pWorkBenchSlotView = nullptr;
 	CCreateToolTipUI*						m_pCreateToolTip = nullptr;
 
+	_float4									m_vBackColor = {};
 private:
 	HRESULT									ADD_Components();
 

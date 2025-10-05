@@ -4,6 +4,9 @@
 #include "GamePlayHUD.h"
 #include "Level.h"
 
+#include "WorkBenchCreateUI.h"
+
+vector<_uInt> CWorkBench::m_MakeItemList = {};
 
 CWorkBench::CWorkBench(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CArchitecture(pDevice, pContext)
@@ -21,6 +24,9 @@ HRESULT CWorkBench::Initalize_Prototype()
     if (FAILED(__super::Initalize_Prototype()))
         return E_FAIL;
 
+    m_MakeItemList.push_back(1);
+    m_MakeItemList.push_back(2);
+    m_MakeItemList.push_back(3);
     return S_OK;
 }
 
@@ -100,6 +106,14 @@ void CWorkBench::ArchitectureAction()
     CGamePlayHUD* pGamePlayHUD = static_cast<CGamePlayHUD*>(pLevelHUD);
     if (false == m_bIsAction)
     {
+        auto pWorkPopupUI = static_cast<CWorkBenchCreateUI*>(pGamePlayHUD->GetPopUpUserInterface(2));
+        CWorkBenchCreateUI::WORK_BENCH_CREATE_DESC WorkBenchCreateDesc;
+        WorkBenchCreateDesc.ItemList = &m_MakeItemList;
+        WorkBenchCreateDesc.szTitleName = TEXT("원시적인 작업대");
+
+        pWorkPopupUI->SetViewItemList(&WorkBenchCreateDesc);
+
+
         pGamePlayHUD->ActivePopUpUserInterface(2);
         m_bIsAction = true;
     }

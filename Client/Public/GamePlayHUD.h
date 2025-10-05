@@ -9,6 +9,7 @@ class CAimInterface;
 class CCreateMenu;
 class CInGameMenu;
 class CWorkBenchCreateUI;
+class CDiallogUI;
 
 class CGamePlayHUD final : public CHeadUpDisplay
 {
@@ -23,14 +24,17 @@ public:
 	void						SetVisibleSelectUI(VISIBILITY eVisible);
 	HRESULT						ActivePopUpUserInterface(_uInt iID);
 	HRESULT						UnActivePopUpUserInterface(_uInt iID);
-	
+	CUserInterface*				GetPopUpUserInterface(_uInt iPopupID);
+
+
 	CSelectUI*					GetSelectUI();
+	void						UnActiveAllPopUp();
 
 private :
 	CInGameMenu*				m_pInGameMenu = nullptr;
 	CCreateMenu*				m_pCreateMenu = nullptr;
 	CWorkBenchCreateUI*			m_pWorkBenchCreateMenu = nullptr;
-
+	
 	map<_uInt, CUserInterface*>	m_PopupUIs;
 	CSelectUI*					m_pSelectUI = nullptr;
 	_bool						m_Visible = false;

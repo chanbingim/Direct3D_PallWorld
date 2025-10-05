@@ -28,6 +28,7 @@ protected :
 	virtual void							HitOverlapFunction(_float3 vDir, CGameObject* pHitActor);
 
 private :
+	static		vector<_uInt>				m_MakeItemList;
 	_bool									m_bIsAction = false;
 
 private:

@@ -177,6 +177,7 @@
     <ClInclude Include="..\public\CombatComponent.h" />
     <ClInclude Include="..\public\CreateMenu.h" />
     <ClInclude Include="..\public\CreateToolTipUI.h" />
+    <ClInclude Include="..\public\DiallogUI.h" />
     <ClInclude Include="..\public\EletricBullet.h" />
     <ClInclude Include="..\public\EventButton.h" />
     <ClInclude Include="..\public\IngredientCountView.h" />
@@ -387,6 +388,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\ButtonArrow.cpp" />
+    <ClCompile Include="..\private\DiallogUI.cpp" />
     <ClCompile Include="..\private\IngredientCountView.cpp" />
     <ClCompile Include="..\private\IngredientList.cpp" />
     <ClCompile Include="..\private\IngredientUI.cpp" />

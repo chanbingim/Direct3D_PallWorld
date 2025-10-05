@@ -30,9 +30,10 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
+	void									SetText(const WCHAR* szTitle);
 private :
 	CFontComponent*							m_pFontCom = nullptr;
-
+	static		_float4						m_vBackColor;
 	_wstring								m_szTitle = {};
 	_float2									m_vTitleFontPos = {};
 

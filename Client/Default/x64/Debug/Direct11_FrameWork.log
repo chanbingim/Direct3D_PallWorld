@@ -26,9 +26,5 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
 FXC : warning X4717: Effects deprecated for D3DCompiler_47
   
   compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\WorldUI.cso
-  ButtonArrow.cpp
-  CWorkBenchCountView.cpp
-C:\Git\GitHub\Direct3D_PallWorld\Client\Default\CWorkBenchCountView.cpp(61,2): error C2065: 'm_vTitleFontPos': 선언되지 않은 식별자입니다.
-C:\Git\GitHub\Direct3D_PallWorld\Client\Default\CWorkBenchCountView.cpp(61,18): error C3079: 이니셜라이저 목록을 이 대입 연산자의 오른쪽 피연산자로 사용할 수 없습니다.
-C:\Git\GitHub\Direct3D_PallWorld\Client\Default\CWorkBenchCountView.cpp(62,21): error C2065: 'm_vTitleFontPos': 선언되지 않은 식별자입니다.
-  코드를 생성하고 있습니다...
+  DiallogUI.cpp
+  Direct11_FrameWork.vcxproj -> C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe

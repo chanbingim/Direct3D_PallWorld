@@ -9,6 +9,12 @@ class CWorkBenchSlot;
 
 class CWorkBenchSlotView : public CUserInterface
 {
+public :
+	typedef struct WorkBenchSlotViewDesc : public GAMEOBJECT_DESC
+	{
+		_uInt				iSlotCount;
+	}WORK_BENCH_SLOT_VIEW_DESC;
+
 protected:
 	CWorkBenchSlotView(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CWorkBenchSlotView(const CWorkBenchSlotView& rhs);
@@ -23,6 +29,8 @@ public:
 	virtual		void						Late_Update(_float fDeletaTime) override;
 	// ·£´õ
 	virtual		HRESULT						Render() override;
+
+	void									SetViewItemList(const vector<_uInt>& ItemList);
 
 private:
 	_uInt									m_iItemCount = {};

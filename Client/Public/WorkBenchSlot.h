@@ -1,11 +1,10 @@
 #pragma once
-#include "Client_Define.h"
-#include "UserInterface.h"
+#include "BackGround.h"
 
 NS_BEGIN(Client)
 class CItemSlotIcon;
 
-class CWorkBenchSlot : public CUserInterface
+class CWorkBenchSlot : public CBackGround
 {
 private:
 	CWorkBenchSlot(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -21,6 +20,8 @@ public:
 	virtual		void						Late_Update(_float fDeletaTime) override;
 	// ·£´õ
 	virtual		HRESULT						Render() override;
+
+	void									SetItem(_uInt iItemID);
 
 protected:
 	virtual		void						MouseHoverEnter();

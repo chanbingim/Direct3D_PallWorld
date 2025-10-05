@@ -80,13 +80,17 @@ HRESULT CCreateToolTipUI::ADD_Components()
 HRESULT CCreateToolTipUI::ADD_Childs()
 {
 	_float3 vScale = m_pTransformCom->GetScale();
+	_float	fParentZorder = {};
+	
+	if(nullptr != m_pParent)
+		fParentZorder = static_cast<CUserInterface*>(m_pParent)->GetZOrder();
 
 	CItemSlotIcon::ITEM_SLOT_ICON_DESC SlotIconDesc = {};
 	SlotIconDesc.pParentTransform = m_pTransformCom;
 	SlotIconDesc.vScale = { vScale.y * 0.4f, vScale.y * 0.4f, 0.f };
 	SlotIconDesc.vPosition = { 0.f, -vScale.y * 0.5f + SlotIconDesc.vScale.y * 0.5f, 0.f };
 	m_pItemIcon = CItemSlotIcon::Create(m_pGraphic_Device, m_pDeviceContext);
-	m_pItemIcon->SetZOrder(m_iZOrder + 1);
+	m_pItemIcon->SetZOrder(fParentZorder + 1);
 	if (FAILED(m_pItemIcon->Initialize(&SlotIconDesc)))
 		return E_FAIL;
 
@@ -96,7 +100,7 @@ HRESULT CCreateToolTipUI::ADD_Childs()
 	IngredientListDesc.vScale = { vScale.x - 10.f, vScale.y * 0.4f, 0.f };
 	IngredientListDesc.vPosition = { 0.f, IngredientListDesc.vScale.y * 0.5f, 0.f};
 	m_pIngredientList = CIngredientList::Create(m_pGraphic_Device, m_pDeviceContext);
-	m_pIngredientList->SetZOrder(m_iZOrder + 1);
+	m_pIngredientList->SetZOrder(fParentZorder + 1);
 	if (FAILED(m_pIngredientList->Initialize(&IngredientListDesc)))
 		return E_FAIL;
 

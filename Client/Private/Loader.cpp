@@ -97,11 +97,17 @@
 #pragma region WORKBENCH
 #include "WorkBenchCreateUI.h"
 #include "CreateToolTipUI.h"
+#include "WorkBenchSlotView.h"
 #pragma endregion
 
 #pragma region BASE UI
 #include "TitleUI.h"
 #pragma endregion
+
+#pragma region Diallog
+#include "DiallogUI.h"
+#pragma endregion
+
 
 #include "IngredientUI.h"
 
@@ -299,6 +305,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* GamePlay_PlayerInfo_Button_Tech_Category_Texture */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Tech_Category_BackGround"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/TechUI/TechBut/T_prt_loadout_base.png"), 1))))
+		return E_FAIL;
+
+	/* GamePlay_PlayerInfo_Button_Slot_Texture */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Slot_Base_Texture"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/Slot/SlotBack.png"), 1))))
 		return E_FAIL;
 #pragma endregion
 
@@ -1058,6 +1069,16 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* GAME_OBJECT_WorkBench_ToolTip */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Workbench_ToolTip_UI"), CCreateToolTipUI::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_WorkBench_SlotView */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Workbench_SlotView"), CWorkBenchSlotView::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region DialLogUI
+	/* GAME_OBJECT_DialLog */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_DialLogUI"), CDiallogUI::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 #pragma endregion
 

@@ -761,6 +761,9 @@
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\WorkBench\SlotList\Slot">
       <UniqueIdentifier>{fc48e8db-dfad-48a3-b667-616968149b10}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Diallog">
+      <UniqueIdentifier>{5dd28c55-f5b9-4114-8dde-fd1b1ac3b48e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -1414,6 +1417,9 @@
     <ClInclude Include="..\public\WorkBenchSlotView.h">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\WorkBench\SlotList</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\DiallogUI.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Diallog</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -2043,6 +2049,9 @@
     </ClCompile>
     <ClCompile Include="..\private\WorkBenchSlotView.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\WorkBench\SlotList</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\DiallogUI.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Diallog</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
