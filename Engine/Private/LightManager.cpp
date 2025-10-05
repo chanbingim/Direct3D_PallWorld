@@ -26,6 +26,16 @@ const CLight* CLightManager::GetLight(_uInt iIndex)
     return nullptr;
 }
 
+HRESULT CLightManager::Render_Lights(CShader* pShader, CVIBuffer* pVIBuffer)
+{
+    for (auto& pLight : m_Lights)
+    {
+        pLight->Render(pShader, pVIBuffer);
+    }
+
+    return S_OK;
+}
+
 CLightManager* CLightManager::Create()
 {
     return new CLightManager();

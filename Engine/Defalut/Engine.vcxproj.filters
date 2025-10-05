@@ -256,6 +256,12 @@
     <Filter Include="Utility\Components\Font\Screen">
       <UniqueIdentifier>{723d866b-3392-45c4-8630-18d49ed57e8c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utility\RenerTarget">
+      <UniqueIdentifier>{b810e2b3-a3ff-4ad4-8f1f-5414f6a5b923}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\RenerTarget\Manager">
+      <UniqueIdentifier>{0e12fea0-9b81-40bf-8e31-abc963a7be24}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Graphic_Device.cpp">
@@ -470,6 +476,12 @@
     </ClCompile>
     <ClCompile Include="..\private\WorldFontComponent.cpp">
       <Filter>Utility\Components\Font\World</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RenderTagetManager.cpp">
+      <Filter>Utility\RenerTarget\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RenderTarget.cpp">
+      <Filter>Utility\RenerTarget</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -727,6 +739,12 @@
     </ClInclude>
     <ClInclude Include="..\public\WorldFontComponent.h">
       <Filter>Utility\Components\Font\World</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\RenderTagetManager.h">
+      <Filter>Utility\RenerTarget\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\RenderTarget.h">
+      <Filter>Utility\RenerTarget</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -14,6 +14,8 @@ public :
 	void							ADDLight(CLight* pLight);
 	const CLight*					GetLight(_uInt iIndex);
 
+	HRESULT							Render_Lights(class CShader* pShader, class CVIBuffer* pVIBuffer);
+
 private :
 	list<CLight*>					m_Lights;
 

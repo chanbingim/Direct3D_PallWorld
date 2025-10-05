@@ -15,6 +15,7 @@
 #include "LightManager.h"
 #include "FontManager.h"
 #include "CollisionManager.h"
+#include "RenderTagetManager.h"
 #pragma endregion
 
 #include "Level.h"
@@ -80,6 +81,10 @@ HRESULT CGameInstance::Initialize_Engine(void* pArg)
 
     m_pCollisionManager = CCollisionManager::Create();
     if (nullptr == m_pCollisionManager)
+        return E_FAIL;
+
+    m_pRenderTargetManager = CRenderTagetManager::Create(*GameSetting->ppDevice, *GameSetting->ppContext);
+    if (nullptr == m_pRenderTargetManager)
         return E_FAIL;
 
 #ifdef _DEBUG
@@ -518,6 +523,11 @@ const CLight* CGameInstance::GetLight(_uInt iIndex)
     return m_pLightManager->GetLight(iIndex);
 }
 
+HRESULT CGameInstance::Render_Lights(CShader* pShader, CVIBuffer* pVIBuffer)
+{
+    return m_pLightManager->Render_Lights(pShader, pVIBuffer);
+}
+
 #pragma endregion
 
 #pragma region COLLISION_MANAGER
@@ -548,7 +558,46 @@ void CGameInstance::GetSpriteSheet(const _wstring& FontTag, ID3D11ShaderResource
 {
     m_pFontManager->GetSpriteSheet(FontTag, pTexture);
 }
+#pragma endregion
 
+
+#pragma region RENDER TARGET MANAGER
+HRESULT CGameInstance::Add_RenderTarget(const _wstring& strTargetTag, _uInt iSizeX, _uInt iSizeY, DXGI_FORMAT ePixelFormat, const _float4& vClearColor)
+{
+    return m_pRenderTargetManager->Add_RenderTarget(strTargetTag, iSizeX, iSizeY, ePixelFormat, vClearColor);
+}
+
+HRESULT CGameInstance::Add_MRT(const _wstring& strMRTTag, const _wstring& strTargetTag)
+{
+    return m_pRenderTargetManager->Add_MRT(strMRTTag, strTargetTag);
+}
+
+HRESULT CGameInstance::Begin_MRT(const _wstring& strMRTTag)
+{
+    return m_pRenderTargetManager->Begin_MRT(strMRTTag);
+}
+
+HRESULT CGameInstance::End_MRT()
+{
+    return m_pRenderTargetManager->End_MRT();
+}
+
+HRESULT CGameInstance::Bind_RenderTarget(const _wstring& strTargetTag, CShader* pShader, const _char* pConstantName)
+{
+    return m_pRenderTargetManager->Bind_RenderTarget(strTargetTag, pShader, pConstantName);
+}
+
+#ifdef _DEBUG
+HRESULT CGameInstance::Ready_RenderTargetDebug(const _wstring& strTargetTag, _float fX, _float fY, _float fSizeX, _float fSizeY)
+{
+    return m_pRenderTargetManager->Ready_Debug(strTargetTag, fX, fY, fSizeX, fSizeY);
+}
+
+HRESULT CGameInstance::Render_RenderTargetDebug(const _wstring& strMRTTag, CShader* pShader, CVIBuffer_Rect* pVIBuffer)
+{
+    return m_pRenderTargetManager->Render_Debug(strMRTTag, pShader, pVIBuffer);
+}
+#endif // _DEBUG
 #pragma endregion
 
 void CGameInstance::Release_Engine()
@@ -560,6 +609,7 @@ void CGameInstance::Release_Engine()
     Safe_Release(m_pFontManager);
     Safe_Release(m_pRenderer);
     Safe_Release(m_pPrototype_Manager);
+    Safe_Release(m_pRenderTargetManager);
     Safe_Release(m_pObject_Manager);
     Safe_Release(m_pLevel_Manager);
     Safe_Release(m_pInput_Manager);
@@ -568,7 +618,6 @@ void CGameInstance::Release_Engine()
     Safe_Release(m_pLightManager);
     Safe_Release(m_pPipeline);
     Safe_Release(m_pGraphic_Device);
-
 }
 
 void CGameInstance::Free()

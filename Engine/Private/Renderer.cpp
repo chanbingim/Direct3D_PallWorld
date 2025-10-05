@@ -17,6 +17,69 @@ CRenderer::CRenderer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 
 HRESULT CRenderer::Initialize()
 {
+    _uInt		iNumViewports = { 1 };
+
+    D3D11_VIEWPORT		Viewport{};
+    m_pContext->RSGetViewports(&iNumViewports, &Viewport);
+
+    /* 후처리 쉐이딩을 위한 렌더타겟들을 준비하낟. */
+    /* Target_Diffuse */
+    if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Diffuse"), Viewport.Width, Viewport.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.0f, 0.f, 0.f, 0.f))))
+        return E_FAIL;
+
+    /* Target_Normal */
+    if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Normal"), Viewport.Width, Viewport.Height, DXGI_FORMAT_R16G16B16A16_UNORM, _float4(0.0f, 0.f, 0.f, 1.f))))
+        return E_FAIL;
+
+    /* Target_Depth */
+    if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Depth"), Viewport.Width, Viewport.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, _float4(0.0f, 0.f, 0.f, 0.f))))
+        return E_FAIL;
+
+    /* Target_Shade */
+    if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Shade"), Viewport.Width, Viewport.Height, DXGI_FORMAT_R16G16B16A16_UNORM, _float4(0.0f, 0.f, 0.f, 1.f))))
+        return E_FAIL;
+
+    /* Target_Specular */
+    if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Specular"), Viewport.Width, Viewport.Height, DXGI_FORMAT_R16G16B16A16_UNORM, _float4(0.0f, 0.f, 0.f, 0.f))))
+        return E_FAIL;
+
+    /* MRT_GameObjects */
+    if (FAILED(m_pGameInstance->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Diffuse"))))
+        return E_FAIL;
+    if (FAILED(m_pGameInstance->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Normal"))))
+        return E_FAIL;
+    if (FAILED(m_pGameInstance->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Depth"))))
+        return E_FAIL;
+
+    /* MRT_LightAcc */
+    if (FAILED(m_pGameInstance->Add_MRT(TEXT("MRT_LightAcc"), TEXT("Target_Shade"))))
+        return E_FAIL;
+    if (FAILED(m_pGameInstance->Add_MRT(TEXT("MRT_LightAcc"), TEXT("Target_Specular"))))
+        return E_FAIL;
+
+
+    m_pShader = CShader::Create(m_pDevice, m_pContext, VTX_TEX::Elements, VTX_TEX::iNumElements, TEXT("../Bin/ShaderFiles/Shader_Deferred.hlsl"));
+    if (nullptr == m_pShader)
+        return E_FAIL;
+
+    m_pVIBuffer = CVIBuffer_Rect::Create(m_pDevice, m_pContext);
+    if (nullptr == m_pVIBuffer)
+        return E_FAIL;
+
+    XMStoreFloat4x4(&m_WorldMatrix, XMMatrixScaling(Viewport.Width, Viewport.Height, 1.f));
+    XMStoreFloat4x4(&m_ViewMatrix, XMMatrixIdentity());
+    XMStoreFloat4x4(&m_ProjMatrix, XMMatrixOrthographicLH(Viewport.Width, Viewport.Height, 0.f, 1.f));
+
+#ifdef _DEBUG
+    if (FAILED(m_pGameInstance->Ready_RenderTargetDebug(TEXT("Target_Diffuse"), 150.0f, 150.0f, 300.f, 300.f)))
+        return E_FAIL;
+    if (FAILED(m_pGameInstance->Ready_RenderTargetDebug(TEXT("Target_Normal"), 150.0f, 450.0f, 300.f, 300.f)))
+        return E_FAIL;
+    if (FAILED(m_pGameInstance->Ready_RenderTargetDebug(TEXT("Target_Shade"), 450.0f, 150.0f, 300.f, 300.f)))
+        return E_FAIL;
+    if (FAILED(m_pGameInstance->Ready_RenderTargetDebug(TEXT("Target_Specular"), 450.0f, 450.0f, 300.f, 300.f)))
+        return E_FAIL;
+#endif
 
     return S_OK;
 }
@@ -38,19 +101,22 @@ void CRenderer::Render()
     Render_NonBlend();
    
     Render_WorldUI();
-    FLOAT blendFactor[4] = { 0.f, 0.f, 0.f, 0.f };
-
-    ID3D11BlendState* OldBlend = nullptr;
-    FLOAT   OldblendFactor[4] = {};
-    UINT    OldMask = {};
-
     Render_Blend();
     DrawPosTex();
 
     Render_ScreenUI();
-    m_pContext->OMSetBlendState(OldBlend, OldblendFactor, OldMask);
 }
 
+#ifdef _DEBUG
+HRESULT CRenderer::Add_DebugComponent(CComponent* pDebugCom)
+{
+    m_DebugComponents.push_back(pDebugCom);
+
+    Safe_AddRef(pDebugCom);
+
+    return S_OK;
+}
+#endif
 
 void CRenderer::Render_Priority()
 {
@@ -67,6 +133,10 @@ void CRenderer::Render_Priority()
 
 void CRenderer::Render_NonBlend()
 {
+    /* Diffuse + Normal */
+    if (FAILED(m_pGameInstance->Begin_MRT(TEXT("MRT_GameObjects"))))
+        return;
+
     for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::NONBLEND)])
     {
         if (nullptr != pRenderObject)
@@ -76,6 +146,68 @@ void CRenderer::Render_NonBlend()
     }
 
     m_RenderObjects[ENUM_CLASS(RENDER::NONBLEND)].clear();
+
+    if (FAILED(m_pGameInstance->End_MRT()))
+        return;
+}
+
+void CRenderer::Render_LightAcc()
+{
+    /* Shade + Specular */
+    if (FAILED(m_pGameInstance->Begin_MRT(TEXT("MRT_LightAcc"))))
+        return;
+
+    m_pShader->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix);
+    m_pShader->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix);
+    m_pShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix);
+    m_pShader->Bind_Matrix("g_ViewMatrixInv", &m_pGameInstance->GetInvMatrix(MAT_STATE::VIEW));
+    m_pShader->Bind_Matrix("g_ProjMatrixInv", &m_pGameInstance->GetInvMatrix(MAT_STATE::PROJECTION));
+
+    _float4 vCamPos = {};
+    XMStoreFloat4(&vCamPos, m_pGameInstance->GetCameraState(WORLDSTATE::POSITION));
+    m_pShader->Bind_RawValue("g_vCamPosition", &vCamPos, sizeof(_float4));
+
+    if (FAILED(m_pGameInstance->Bind_RenderTarget(TEXT("Target_Normal"), m_pShader, "g_NormalTexture")))
+        return;
+    if (FAILED(m_pGameInstance->Bind_RenderTarget(TEXT("Target_Depth"), m_pShader, "g_DepthTexture")))
+        return;
+
+    if (FAILED(m_pGameInstance->Render_Lights(m_pShader, m_pVIBuffer)))
+        return;
+
+    if (FAILED(m_pGameInstance->End_MRT()))
+        return;
+}
+
+void CRenderer::Render_Combined()
+{
+    m_pShader->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix);
+    m_pShader->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix);
+    m_pShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix);
+
+    if (FAILED(m_pGameInstance->Bind_RenderTarget(TEXT("Target_Diffuse"), m_pShader, "g_DiffuseTexture")))
+        return;
+    if (FAILED(m_pGameInstance->Bind_RenderTarget(TEXT("Target_Shade"), m_pShader, "g_ShadeTexture")))
+        return;
+    if (FAILED(m_pGameInstance->Bind_RenderTarget(TEXT("Target_Specular"), m_pShader, "g_SpecularTexture")))
+        return;
+
+    m_pShader->Update_Shader(3);
+    m_pVIBuffer->Render_VIBuffer();
+}
+
+void CRenderer::Render_NonLight()
+{
+    for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::NONLIGHT)])
+    {
+        if (nullptr != pRenderObject)
+            pRenderObject->Render();
+
+        Safe_Release(pRenderObject);
+    }
+
+    m_RenderObjects[ENUM_CLASS(RENDER::NONLIGHT)].clear();
+
 }
 
 void CRenderer::Render_WorldUI()
@@ -141,14 +273,6 @@ void CRenderer::DrawPosTex()
         PostTex->GetResource(&pPostBuffer);
         ////픽셀 값만 복사해오는 함수
         m_pContext->CopyResource(pPostBuffer, pBackBuffer);
-
-        //// 멀티 셈플링이 적용되게 가져오는 방법이다.
-        ////m_pContext->ResolveSubresource(
-        ////    pPostBuffer, 0,   // 싱글샘플 타겟
-        ////    pBackBuffer, 0,   // 멀티샘플 소스
-        ////    DXGI_FORMAT_R8G8B8A8_UNORM // 반드시 렌더타겟과 SRV가 지원하는 동일 포맷
-        ////);        
-
         Safe_Release(pPostBuffer);
     }
     Safe_Release(pBackBuffer);

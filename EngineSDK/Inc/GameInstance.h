@@ -23,6 +23,7 @@ class CLightManager;
 class CLight;
 class CFontManager;
 class CCollisionManager;
+class CRenderTagetManager;
 
 class ENGINE_DLL CGameInstance : public CBase
 {
@@ -188,6 +189,8 @@ public :
 #pragma region LIGHT_MANAGER
 	void						ADDLight(CLight* pLight);
 	const CLight*				GetLight(_uInt iIndex);
+
+	HRESULT						Render_Lights(class CShader* pShader, class CVIBuffer* pVIBuffer);
 #pragma endregion
 
 #pragma region COLLISION_MANAGER
@@ -203,6 +206,21 @@ public :
 	void						GetSpriteSheet(const _wstring& FontTag, ID3D11ShaderResourceView** pTexture);
 #pragma endregion
 
+#pragma region RenderTargetManager
+	HRESULT						Add_RenderTarget(const _wstring& strTargetTag, _uInt iSizeX, _uInt iSizeY, DXGI_FORMAT ePixelFormat, const _float4& vClearColor);
+	HRESULT						Add_MRT(const _wstring& strMRTTag, const _wstring& strTargetTag);
+
+	HRESULT						Begin_MRT(const _wstring& strMRTTag);
+	HRESULT						End_MRT();
+
+	HRESULT						Bind_RenderTarget(const _wstring& strTargetTag, class CShader* pShader, const _char* pConstantName);
+
+#ifdef _DEBUG
+public:
+	HRESULT						Ready_RenderTargetDebug(const _wstring& strTargetTag, _float fX, _float fY, _float fSizeX, _float fSizeY);
+	HRESULT						Render_RenderTargetDebug(const _wstring& strMRTTag, class CShader* pShader, class CVIBuffer_Rect* pVIBuffer);
+#endif
+#pragma endregion
 
 private :
 	CGraphic_Device*			m_pGraphic_Device = nullptr;
@@ -218,6 +236,7 @@ private :
 	CLightManager*				m_pLightManager = nullptr;
 	CFontManager*				m_pFontManager = nullptr;
 	CCollisionManager*			m_pCollisionManager = nullptr;
+	CRenderTagetManager*		m_pRenderTargetManager = nullptr;
 
 	_bool						m_bIsPause = false;
 	GAMEMODE					m_eGameMode = GAMEMODE::GAME;

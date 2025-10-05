@@ -10,11 +10,12 @@ public :
 	{
 		LIGHT			eType;
 		_float3			vDiffuse;
-		_float3			vEmbient;
+		_float3			vAmbient;
 		_float3			vSpecular;
 
+		_float3			vPosition;
 		_float3			vDirection;        /* 광원의 빛의 방향 */
-		_float          Range;            /* 빛의 최대 진행 거리 방향성 광원의 경우 의이없음 */
+		_float			fRange;            /* 빛의 최대 진행 거리 방향성 광원의 경우 의이없음 */
 		/* 루트 FLT_MAX의 값을 넘어갈수 없다.  */
 
 		_float          Falloff;          /* 스포트 광원에서 사용 보통 1.0f 설정하며     */
@@ -33,6 +34,7 @@ private :
 
 public :
 	const LIGHT_DESC&		GetLightInfo() { return m_LightInfo; }
+	HRESULT					Render(class CShader* pShader, class CVIBuffer* pVIBuffer);
 
 private :
 	LIGHT_DESC				m_LightInfo = {};

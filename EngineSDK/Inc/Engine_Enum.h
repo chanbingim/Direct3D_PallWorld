@@ -14,6 +14,7 @@ namespace Engine
 	enum class RENDER {
 		PRIORITY,
 		NONBLEND,
+		NONLIGHT,
 		BLEND,
 		WORLD_UI, SCREEN_UI, END
 	};
