@@ -94,23 +94,28 @@ HRESULT CPlayerBody::Apply_ConstantShaderResources(_uInt iMeshIndex)
     m_pEMVWorldMat->SetMatrix(reinterpret_cast<const float*>(&m_CombinedWorldMatrix));
     m_pEMVViewMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::VIEW)));
     m_pEMVProjMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION)));
-   
 
     ID3D11ShaderResourceView* pResourceVeiw = {};
+    ID3D11ShaderResourceView* pResourceNormalVeiw = {};
     if (nullptr == m_pClothesBuffer)
     {
         m_pBoneMatrixEffect->SetMatrixArray(reinterpret_cast<const float*>(m_pVIBufferCom->GetBoneMatrices(iMeshIndex)), 0, m_pVIBufferCom->GetMeshNumBones(iMeshIndex));
         m_pVIBufferCom->GetMeshResource(iMeshIndex, aiTextureType_DIFFUSE, 0, &pResourceVeiw);
+        m_pVIBufferCom->GetMeshResource(iMeshIndex, aiTextureType_NORMALS, 0, &pResourceNormalVeiw);
     }
-       
     else
     {
         m_pBoneMatrixEffect->SetMatrixArray(reinterpret_cast<const float*>(m_pClothesBuffer->GetBoneMatrices(iMeshIndex)), 0, m_pClothesBuffer->GetMeshNumBones(iMeshIndex));
         m_pClothesBuffer->GetMeshResource(iMeshIndex, aiTextureType_DIFFUSE, 0, &pResourceVeiw);
+        m_pClothesBuffer->GetMeshResource(iMeshIndex, aiTextureType_NORMALS, 0, &pResourceNormalVeiw);
+        
     }
       
     if (pResourceVeiw)
         m_pSRVEffect->SetResource(pResourceVeiw);
+
+    if(pResourceNormalVeiw)
+        m_pShaderCom->Bind_SRV("g_NormalTexture", pResourceNormalVeiw);
 
     return S_OK;
 }

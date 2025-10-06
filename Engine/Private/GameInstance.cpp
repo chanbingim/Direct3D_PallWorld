@@ -51,6 +51,10 @@ HRESULT CGameInstance::Initialize_Engine(void* pArg)
     if (nullptr == m_pLevel_Manager)
         return E_FAIL;
 
+    m_pRenderTargetManager = CRenderTagetManager::Create(*GameSetting->ppDevice, *GameSetting->ppContext);
+    if (nullptr == m_pRenderTargetManager)
+        return E_FAIL;
+    
     m_pRenderer = CRenderer::Create(*GameSetting->ppDevice, *GameSetting->ppContext);
     if (nullptr == m_pRenderer)
         return E_FAIL;
@@ -81,10 +85,6 @@ HRESULT CGameInstance::Initialize_Engine(void* pArg)
 
     m_pCollisionManager = CCollisionManager::Create();
     if (nullptr == m_pCollisionManager)
-        return E_FAIL;
-
-    m_pRenderTargetManager = CRenderTagetManager::Create(*GameSetting->ppDevice, *GameSetting->ppContext);
-    if (nullptr == m_pRenderTargetManager)
         return E_FAIL;
 
 #ifdef _DEBUG

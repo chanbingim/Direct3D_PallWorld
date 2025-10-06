@@ -1,6 +1,9 @@
 #include "CreateToolTipUI.h"
 
 #include "GameInstance.h"
+#include "ItemManager.h"
+#include "TechManager.h"
+
 #include "ItemSlotIcon.h"
 #include "IngredientList.h"
 
@@ -41,12 +44,18 @@ HRESULT CCreateToolTipUI::Initialize(void* pArg)
 
 void CCreateToolTipUI::Update(_float fDeletaTime)
 {
+	if (VISIBILITY::HIDDEN == m_eVisible)
+		return;
+
 	for (auto pChild : m_pChildList)
 		pChild->Update(fDeletaTime);
 }
 
 void CCreateToolTipUI::Late_Update(_float fDeletaTime)
 {
+	if (VISIBILITY::HIDDEN == m_eVisible)
+		return;
+
 	for (auto pChild : m_pChildList)
 		pChild->Late_Update(fDeletaTime);
 
@@ -61,6 +70,13 @@ HRESULT CCreateToolTipUI::Render()
 	m_pVIBufferCom->Render_VIBuffer();
 
 	return S_OK;
+}
+
+void CCreateToolTipUI::SettingToolTipUI(_uInt iItemID, _float3 vPosition)
+{
+	SetLocation(vPosition);
+	m_pItemIcon->SetTexture(CItemManager::GetInstance()->GetItemTexture(CItemManager::ITEM_TEXTURE_TYPE::INVEN, iItemID));
+
 }
 
 HRESULT CCreateToolTipUI::ADD_Components()
@@ -93,6 +109,7 @@ HRESULT CCreateToolTipUI::ADD_Childs()
 	m_pItemIcon->SetZOrder(fParentZorder + 1);
 	if (FAILED(m_pItemIcon->Initialize(&SlotIconDesc)))
 		return E_FAIL;
+	ADD_Child(m_pItemIcon);
 
 	CIngredientList::INGREDIENT_LIST_DESC IngredientListDesc = {};
 	IngredientListDesc.pParent = this;
@@ -103,6 +120,7 @@ HRESULT CCreateToolTipUI::ADD_Childs()
 	m_pIngredientList->SetZOrder(fParentZorder + 1);
 	if (FAILED(m_pIngredientList->Initialize(&IngredientListDesc)))
 		return E_FAIL;
+	ADD_Child(m_pIngredientList);
 
 	return S_OK;
 }

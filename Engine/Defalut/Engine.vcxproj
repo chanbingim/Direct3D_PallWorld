@@ -328,6 +328,7 @@ popd</Command>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Cell.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\SkyMeshDefault.hlsl" />
   </ItemGroup>
   <ItemGroup>

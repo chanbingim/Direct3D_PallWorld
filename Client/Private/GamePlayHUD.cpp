@@ -7,7 +7,11 @@
 #include "CreateMenu.h"
 #include "DiallogUI.h"
 #include "WorkBenchCreateUI.h"
+
+#pragma region PreViewUI
 #include "SelectUI.h"
+#include "CreateToolTipUI.h"
+#pragma endregion
 
 CGamePlayHUD::CGamePlayHUD(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 	CHeadUpDisplay(pDevice, pContext)
@@ -17,6 +21,9 @@ CGamePlayHUD::CGamePlayHUD(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 HRESULT CGamePlayHUD::Initialize()
 {
 	if (FAILED(ADD_UserInterface()))
+		return E_FAIL;
+
+	if (FAILED(ADD_PreviewUserInterface()))
 		return E_FAIL;
 
 	UnActiveAllPopUp();
@@ -63,10 +70,39 @@ HRESULT CGamePlayHUD::UnActivePopUpUserInterface(_uInt iID)
 	return S_OK;
 }
 
+HRESULT CGamePlayHUD::ActivePreviewUserInterface(_uInt iID)
+{
+	auto pair = m_PopupUIs.find(iID);
+	if (pair == m_PopupUIs.end())
+		return E_FAIL;
+
+	pair->second->SetVisibility(VISIBILITY::VISIBLE);
+	return S_OK;
+}
+
+HRESULT CGamePlayHUD::UnActivePreviewUserInterface(_uInt iID)
+{
+	auto pair = m_PreviewUIs.find(iID);
+	if (pair == m_PreviewUIs.end())
+		return E_FAIL;
+
+	pair->second->SetVisibility(VISIBILITY::HIDDEN);
+	return S_OK;
+}
+
 CUserInterface* CGamePlayHUD::GetPopUpUserInterface(_uInt iPopupID)
 {
 	auto pair = m_PopupUIs.find(iPopupID);
 	if (pair == m_PopupUIs.end())
+		return nullptr;
+
+	return pair->second;
+}
+
+CUserInterface* CGamePlayHUD::GetPreViewUserInterface(_uInt iPopupID)
+{
+	auto pair = m_PreviewUIs.find(iPopupID);
+	if (pair == m_PreviewUIs.end())
 		return nullptr;
 
 	return pair->second;
@@ -83,6 +119,12 @@ void CGamePlayHUD::UnActiveAllPopUp()
 		pair.second->SetVisibility(VISIBILITY::HIDDEN);
 
 	FoucusInUserInterface(false);
+}
+
+void CGamePlayHUD::UnActiveAllPreView()
+{
+	for (auto& pair : m_PreviewUIs)
+		pair.second->SetVisibility(VISIBILITY::HIDDEN);
 }
 
 HRESULT CGamePlayHUD::ADD_UserInterface()
@@ -125,16 +167,6 @@ HRESULT CGamePlayHUD::ADD_UserInterface()
 	Safe_AddRef(m_pCreateMenu);
 	m_PopupUIs.emplace(1, m_pCreateMenu);
 
-
-	Desc.vScale = { 50.f, 20.f, 0.f };
-	m_pSelectUI = CSelectUI::Create(m_pDevice, m_pContext);
-	m_pSelectUI->SetZOrder(100.f);
-	if (FAILED(m_pSelectUI->Initialize(&Desc)))
-		return E_FAIL;
-
-	m_pSelectUI->SetVisibility(VISIBILITY::HIDDEN);
-	m_pUserInterfaceMap.emplace(TEXT("SelectUI"), m_pSelectUI);
-
 #pragma region Archtecture Create UI
 	Desc.vScale = { g_iWinSizeY * 0.7f , g_iWinSizeY * 0.8f , 1.f };
 	Desc.vPosition = { g_iHalfWinSizeX, g_iHalfWinSizeY, 0.f };
@@ -158,6 +190,38 @@ HRESULT CGamePlayHUD::ADD_UserInterface()
 	m_PopupUIs.emplace(3, pDiallog);
 #pragma endregion
 	
+	return S_OK;
+}
+
+HRESULT CGamePlayHUD::ADD_PreviewUserInterface()
+{
+	CUserInterface::GAMEOBJECT_DESC Desc = {};
+
+#pragma region SelectView
+	Desc.vScale = { 50.f, 20.f, 0.f };
+	m_pSelectUI = CSelectUI::Create(m_pDevice, m_pContext);
+	m_pSelectUI->SetZOrder(100.f);
+	if (FAILED(m_pSelectUI->Initialize(&Desc)))
+		return E_FAIL;
+
+	m_pSelectUI->SetVisibility(VISIBILITY::HIDDEN);
+	m_PreviewUIs.emplace(0, m_pSelectUI);
+	m_pUserInterfaceMap.emplace(TEXT("SelectUI"), m_pSelectUI);
+
+#pragma endregion
+
+#pragma region Create Tool tip
+	Desc.vScale = { 200.f, 120.f, 0.f };
+	m_pCreateToolTip = CCreateToolTipUI::Create(m_pDevice, m_pContext);
+	m_pCreateToolTip->SetZOrder(100.f);
+	if (FAILED(m_pCreateToolTip->Initialize(&Desc)))
+		return E_FAIL;
+
+	m_pCreateToolTip->SetVisibility(VISIBILITY::HIDDEN);
+	m_PreviewUIs.emplace(1, m_pCreateToolTip);
+	m_pUserInterfaceMap.emplace(TEXT("Create_ToolTip"), m_pCreateToolTip);
+#pragma endregion
+
 	return S_OK;
 }
 
@@ -240,6 +304,8 @@ void CGamePlayHUD::FoucusInUserInterface(_bool bFlag)
 		m_Visible = false;
 		m_pGameInstance->SetGamePause(false);
 		m_pGameInstance->ShowInGameMouse(VISIBILITY::HIDDEN);
+
+
 	}
 }
 

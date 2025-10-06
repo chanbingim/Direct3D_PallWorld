@@ -474,7 +474,7 @@ HRESULT CMesh::Ready_VertexBuffer_For_NonAnim(const aiMesh* pAIMesh, _matrix Pre
 
 		memcpy(&pVtxMeshs[i].vNormal, &pAIMesh->mNormals[i], sizeof(_float3));
 		XMStoreFloat3(&pVtxMeshs[i].vNormal, XMVector3TransformCoord(XMLoadFloat3(&pVtxMeshs[i].vNormal), PreTransformMatrix));
-
+	
 		memcpy(&pVtxMeshs[i].vTangent, &pAIMesh->mTangents[i], sizeof(_float3));
 		XMStoreFloat3(&pVtxMeshs[i].vTangent, XMVector3TransformCoord(XMLoadFloat3(&pVtxMeshs[i].vTangent), PreTransformMatrix));
 

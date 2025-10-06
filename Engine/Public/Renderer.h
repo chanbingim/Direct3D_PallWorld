@@ -39,6 +39,7 @@ private:
 	CVIBuffer_Rect*						m_pVIBuffer = { nullptr };
 
 private:
+	_bool								m_bIsShowRenderTarget = false;
 	_float4x4							m_WorldMatrix{}, m_ViewMatrix{}, m_ProjMatrix{};
 
 

@@ -3,18 +3,18 @@
 #include "Base.h"
 
 NS_BEGIN(Engine)
-class CLight : public CBase
+class ENGINE_DLL CLight : public CBase
 {
 public :
 	typedef struct LightDesc
 	{
 		LIGHT			eType;
-		_float3			vDiffuse;
-		_float3			vAmbient;
-		_float3			vSpecular;
+		_float4			vDiffuse;
+		_float4			vAmbient;
+		_float4			vSpecular;
 
 		_float3			vPosition;
-		_float3			vDirection;        /* 광원의 빛의 방향 */
+		_float4			vDirection;        /* 광원의 빛의 방향 */
 		_float			fRange;            /* 빛의 최대 진행 거리 방향성 광원의 경우 의이없음 */
 		/* 루트 FLT_MAX의 값을 넘어갈수 없다.  */
 

@@ -33,6 +33,7 @@ protected:
 	virtual		void						MouseButtonUp();
 
 private :
+	_uInt									m_iItemID = {};
 	CItemSlotIcon*							m_pItemIcon = nullptr;
 
 private:

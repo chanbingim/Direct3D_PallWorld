@@ -125,10 +125,16 @@ HRESULT CPlayerItemSlot::Apply_ConstantShaderResources(_uInt iMeshIndex)
 	m_pEMVProjMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION)));
 
 	ID3D11ShaderResourceView* pResourceVeiw = {};
+	ID3D11ShaderResourceView* pResourceNormalVeiw = {};
 
 	m_pVIBufferCom->GetMeshResource(iMeshIndex, aiTextureType_DIFFUSE, 0, &pResourceVeiw);
+	m_pVIBufferCom->GetMeshResource(iMeshIndex, aiTextureType_NORMALS, 0, &pResourceNormalVeiw);
+	
 	if (pResourceVeiw)
 		m_pSRVEffect->SetResource(pResourceVeiw);
+
+	if (pResourceNormalVeiw)
+		m_pShaderCom->Bind_SRV("g_NormalTexture", pResourceNormalVeiw);
 
 	if (m_bIsAnimWeapon)
 		m_pBoneMatrixEffect->SetMatrixArray(reinterpret_cast<const float*>(m_pVIBufferCom->GetBoneMatrices(iMeshIndex)), 0, m_pVIBufferCom->GetMeshNumBones(iMeshIndex));

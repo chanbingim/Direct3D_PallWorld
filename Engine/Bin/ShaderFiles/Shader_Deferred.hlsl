@@ -1,29 +1,29 @@
-#include "Engine_Shader_Defines.hlsli"
+#include "DefualtStates.hlsli"
 
 matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 matrix g_ViewMatrixInv, g_ProjMatrixInv;
-texture2D g_Texture;
-vector g_vLightDir;
-vector g_vLightPos;
-float g_fLightRange;
-vector g_vCamPosition;
 
-texture2D g_NormalTexture;
-texture2D g_DiffuseTexture;
-texture2D g_ShadeTexture;
-texture2D g_DepthTexture;
-texture2D g_SpecularTexture;
+vector  g_vLightDir;
+vector  g_vLightPos;
+float   g_fLightRange;
+vector  g_vLightDiffuse;
+vector  g_vLightAmbient;
+vector  g_vLightSpecular;
 
-vector g_vLightDiffuse;
-vector g_vLightAmbient;
-vector g_vLightSpecular;
+vector  g_vCamPosition;
 
+Texture2D g_MtrlSpecularTexture;
 
-
+Texture2D g_Texture;
+Texture2D g_NormalTexture;
+Texture2D g_DiffuseTexture;
+Texture2D g_ShadeTexture;
+Texture2D g_DepthTexture;
+Texture2D g_SpecularTexture;
 
 struct VS_IN
 {
-    float3 vPosition : POSITION;  
+    float3 vPosition : POSITION; 
     float2 vTexcoord : TEXCOORD0;
 };
 

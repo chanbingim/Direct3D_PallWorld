@@ -9,6 +9,7 @@ class CAimInterface;
 class CCreateMenu;
 class CInGameMenu;
 class CWorkBenchCreateUI;
+class CCreateToolTipUI;
 class CDiallogUI;
 
 class CGamePlayHUD final : public CHeadUpDisplay
@@ -24,23 +25,32 @@ public:
 	void						SetVisibleSelectUI(VISIBILITY eVisible);
 	HRESULT						ActivePopUpUserInterface(_uInt iID);
 	HRESULT						UnActivePopUpUserInterface(_uInt iID);
+	
+	HRESULT						ActivePreviewUserInterface(_uInt iID);
+	HRESULT						UnActivePreviewUserInterface(_uInt iID);
+	
 	CUserInterface*				GetPopUpUserInterface(_uInt iPopupID);
-
+	CUserInterface*				GetPreViewUserInterface(_uInt iPopupID);
 
 	CSelectUI*					GetSelectUI();
 	void						UnActiveAllPopUp();
-
+	void						UnActiveAllPreView();
 private :
-	CInGameMenu*				m_pInGameMenu = nullptr;
-	CCreateMenu*				m_pCreateMenu = nullptr;
-	CWorkBenchCreateUI*			m_pWorkBenchCreateMenu = nullptr;
-	
-	map<_uInt, CUserInterface*>	m_PopupUIs;
-	CSelectUI*					m_pSelectUI = nullptr;
-	_bool						m_Visible = false;
+	CInGameMenu*					m_pInGameMenu = nullptr;
+	CCreateMenu*					m_pCreateMenu = nullptr;
+	CWorkBenchCreateUI*				m_pWorkBenchCreateMenu = nullptr;
+
+	CSelectUI*						m_pSelectUI = nullptr;
+	CCreateToolTipUI*				m_pCreateToolTip = nullptr;
+
+	map<_uInt, CUserInterface*>		m_PopupUIs;
+	map<_uInt, CUserInterface*>		m_PreviewUIs;
+
+	_bool							m_Visible = false;
 
 private:
 	HRESULT						ADD_UserInterface();
+	HRESULT						ADD_PreviewUserInterface();
 
 	void						UIKeyInput();
 	void						Change_ViewUI();

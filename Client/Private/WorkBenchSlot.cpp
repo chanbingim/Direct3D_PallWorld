@@ -3,6 +3,10 @@
 #include "GameInstance.h"
 #include "ItemManager.h"
 
+#include "GamePlayHUD.h"
+#include "Level.h"
+#include "CreateToolTipUI.h"
+
 #include "ItemSlotIcon.h"
 #include "TechListSlotFont.h"
 
@@ -72,6 +76,7 @@ HRESULT CWorkBenchSlot::Render()
 
 void CWorkBenchSlot::SetItem(_uInt iItemID)
 {
+	m_iItemID = iItemID;
 	m_pItemIcon->SetTexture(CItemManager::GetInstance()->GetItemTexture(CItemManager::ITEM_TEXTURE_TYPE::INVEN, iItemID));
 }
 
@@ -81,10 +86,22 @@ void CWorkBenchSlot::MouseHoverEnter()
 
 void CWorkBenchSlot::MouseHovering()
 {
+	auto pGamePlayHUD = static_cast<CGamePlayHUD *>(m_pGameInstance->GetCurrentHUD());
+	if (pGamePlayHUD)
+	{
+		auto previewUI = pGamePlayHUD->GetPreViewUserInterface(1);
+		if (nullptr == previewUI)
+			return;
+
+		auto pCreateTooltip = static_cast<CCreateToolTipUI*>(previewUI);
+		pCreateTooltip->SettingToolTipUI(m_iItemID, {200.f, 640.f, 0.f});
+		pCreateTooltip->SetVisibility(VISIBILITY::VISIBLE);
+	}
 }
 
 void CWorkBenchSlot::MouseHoverExit()
 {
+
 }
 
 void CWorkBenchSlot::MouseButtonDwon()

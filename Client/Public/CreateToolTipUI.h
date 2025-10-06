@@ -22,6 +22,8 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
+	void									SettingToolTipUI(_uInt iItemID, _float3 vPosition);
+
 private:
 	CItemSlotIcon*							m_pItemIcon = nullptr;
 	CIngredientList*						m_pIngredientList = nullptr;

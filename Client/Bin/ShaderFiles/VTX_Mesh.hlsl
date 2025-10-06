@@ -3,6 +3,9 @@
 matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
 Texture2D       g_DiffuseTexture;
+Texture2D       g_NormalTexture;
+//Texture2D       g_SpecularTexture;
+
 vector          g_vColor;
 float           g_fMaxHeight;
 
@@ -27,7 +30,10 @@ struct VS_IN
 struct VS_OUT
 {
     float4 vPosition : SV_POSITION;
+    float4 vNormal : NORMAL;
     float2 vTexcoord : TEXCOORD0;
+    float4 vWorldPos : TEXCOORD1;
+    float4 vProjPos : TEXCOORD2;
 };
 
 VS_OUT VS_MAIN(VS_IN In)
@@ -43,7 +49,10 @@ VS_OUT VS_MAIN(VS_IN In)
     
     Out.vPosition = mul(vector(In.vPosition, 1.f), matWVP);
     Out.vTexcoord = In.vTexcoord;
-
+    Out.vNormal = normalize(mul(vector(In.vNormal, 0.f), g_WorldMatrix));
+    Out.vWorldPos = mul(vector(In.vPosition, 1.f), g_WorldMatrix);
+    Out.vProjPos = Out.vPosition;
+    
     return Out;
 }
 
@@ -78,7 +87,10 @@ VS_Model_Create_OUT VS_ModelCreate(VS_IN In)
 struct PS_IN
 {
     float4 vPosition : SV_POSITION;
+    float4 vNormal : NORMAL;
     float2 vTexcoord : TEXCOORD0;
+    float4 vWorldPos : TEXCOORD1;
+    float4 vProjPos : TEXCOORD2;
 };
 
 struct PS_ModelCreateIn
@@ -90,17 +102,23 @@ struct PS_ModelCreateIn
 
 struct PS_OUT
 {
-    float4 vColor : SV_TARGET0;
+    float4 vDiffuse : SV_TARGET0;
+    float4 vNormal : SV_TARGET1;
+  //  float4 vSpecular : SV_TARGET2;
+    float4 vDepth : SV_TARGET3;
 };
 
 PS_OUT PS_MAIN(PS_IN In)
 {
     PS_OUT Out;
     
-    Out.vColor = g_DiffuseTexture.Sample(sampler0, In.vTexcoord);
-    if(Out.vColor.a < 0.3f)
+    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
+    if (vMtrlDiffuse.a < 0.4f)
         discard;
     
+    Out.vDiffuse = vMtrlDiffuse;
+    Out.vNormal = float4(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
+    Out.vDepth = float4(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1000.0f, 0.0f, 0.0f);
     return Out;
 }
 
@@ -108,7 +126,7 @@ PS_OUT PS_ModelPreview(PS_IN In)
 {
     PS_OUT Out;
     
-    Out.vColor = g_vColor;
+    Out.vDiffuse = g_vColor;
     return Out;
 }
 
@@ -116,13 +134,13 @@ PS_OUT PS_ModelCreate(PS_ModelCreateIn In)
 {
     PS_OUT Out;
     
-    Out.vColor = g_DiffuseTexture.Sample(sampler0, In.vTexcoord);
-    if (Out.vColor.a < 0.3f)
+    Out.vDiffuse = g_DiffuseTexture.Sample(sampler0, In.vTexcoord);
+    if (Out.vDiffuse.a < 0.3f)
         discard;
     
     //바운딩 박스에서 높이값을 넘겨주자
     if (g_fMaxHeight <= In.vLocalPosition.y)
-        Out.vColor = float4(0.f, 0.f, 1.f, 1.f);
+        Out.vDiffuse = float4(0.f, 0.f, 1.f, 1.f);
     
     return Out;
 }

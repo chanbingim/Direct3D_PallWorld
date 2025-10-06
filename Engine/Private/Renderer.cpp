@@ -43,10 +43,16 @@ HRESULT CRenderer::Initialize()
     if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Specular"), Viewport.Width, Viewport.Height, DXGI_FORMAT_R16G16B16A16_UNORM, _float4(0.0f, 0.f, 0.f, 0.f))))
         return E_FAIL;
 
+    /* Target_Mtrl_Specular */
+    if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Mtrl_Specular"), Viewport.Width, Viewport.Height, DXGI_FORMAT_R16G16B16A16_UNORM, _float4(0.0f, 0.f, 0.f, 0.f))))
+        return E_FAIL;
+
     /* MRT_GameObjects */
     if (FAILED(m_pGameInstance->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Diffuse"))))
         return E_FAIL;
     if (FAILED(m_pGameInstance->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Normal"))))
+        return E_FAIL;
+    if (FAILED(m_pGameInstance->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Mtrl_Specular"))))
         return E_FAIL;
     if (FAILED(m_pGameInstance->Add_MRT(TEXT("MRT_GameObjects"), TEXT("Target_Depth"))))
         return E_FAIL;
@@ -97,14 +103,26 @@ HRESULT CRenderer::Add_RenderGroup(RENDER eRenderGroup, CGameObject* pRenderObje
 
 void CRenderer::Render()
 {
+    if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_F12))
+        m_bIsShowRenderTarget = !m_bIsShowRenderTarget;
+
     Render_Priority();
+
     Render_NonBlend();
-   
+    Render_LightAcc();
+    Render_Combined();
+    Render_NonLight();
+
     Render_WorldUI();
     Render_Blend();
     DrawPosTex();
 
     Render_ScreenUI();
+
+#ifdef _DEBUG
+    if(m_bIsShowRenderTarget)
+        Render_Debug();
+#endif
 }
 
 #ifdef _DEBUG
@@ -277,7 +295,33 @@ void CRenderer::DrawPosTex()
     }
     Safe_Release(pBackBuffer);
 }
+
+
 #pragma endregion
+#ifdef _DEBUG
+void CRenderer::Render_Debug()
+{
+    for (auto& pDebugCom : m_DebugComponents)
+    {
+        if (nullptr != pDebugCom)
+            pDebugCom->Render();
+
+        Safe_Release(pDebugCom);
+    }
+    m_DebugComponents.clear();
+
+    if (FAILED(m_pShader->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix)))
+        return;
+    if (FAILED(m_pShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix)))
+        return;
+
+    /* 렌더타겟을 디버그로 직교투영을 통해 그려라. */
+    if (FAILED(m_pGameInstance->Render_RenderTargetDebug(TEXT("MRT_GameObjects"), m_pShader, m_pVIBuffer)))
+        return;
+    if (FAILED(m_pGameInstance->Render_RenderTargetDebug(TEXT("MRT_LightAcc"), m_pShader, m_pVIBuffer)))
+        return;
+}
+#endif // _DEBUG
 
 CRenderer* CRenderer::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {

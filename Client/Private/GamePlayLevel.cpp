@@ -8,6 +8,7 @@
 #include "ItemManager.h"
 #include "PlayerManager.h"
 #include "PellManager.h"
+#include "Light.h"
 
 CGamePlayLevel::CGamePlayLevel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, _uInt _iID) :
 	CLevel(pDevice, pContext, _iID)
@@ -16,7 +17,15 @@ CGamePlayLevel::CGamePlayLevel(ID3D11Device* pDevice, ID3D11DeviceContext* pCont
 
 HRESULT CGamePlayLevel::Initialize()
 {
+	CLight::LIGHT_DESC			LightDesc{};
 
+	LightDesc.eType = LIGHT::DIRECTION;
+	LightDesc.vDiffuse = _float4(1.f, 1.0f, 1.0f, 1.f);
+	LightDesc.vAmbient = _float4(0.2f, 0.2f, 0.2f, 1.f);
+	LightDesc.vSpecular = _float4(1.f, 1.f, 1.f, 1.f);
+	LightDesc.vDirection = _float4(1.f, -1.f, 1.f, 0.f);
+
+	m_pGameInstance->ADDLight(CLight::Create(LightDesc));
 
 	if (FAILED(ADD_CameraLayer(TEXT("Layer_GamePlay_Camera"))))
 		return E_FAIL;
