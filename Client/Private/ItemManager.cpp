@@ -120,6 +120,7 @@ HRESULT CItemManager::ParseConsumeData(vector<_string>& Data)
         Desc.TypeDesc.ConsumDesc.bIsLeftSocket = atoi(Data[i++].c_str());
         Desc.TypeDesc.ConsumDesc.iEffectType = atoi(Data[i++].c_str());
         Desc.TypeDesc.ConsumDesc.iRecoveryPoint = atoi(Data[i++].c_str());
+        
         m_ItemTextures[ENUM_CLASS(ITEM_TEXTURE_TYPE::INVEN)].emplace(Desc.iItemNum, CTexture::Create(m_pDevice, m_pContext, ConvertName, 1));
         m_Items.emplace(Desc.iItemNum, Desc);
     }

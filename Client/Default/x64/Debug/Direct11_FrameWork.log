@@ -28,34 +28,8 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
 FXC : warning X4717: Effects deprecated for D3DCompiler_47
   
   compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\WorldUI.cso
-  BattlePell.cpp
-  Compass.cpp
   CreateToolTipUI.cpp
-C:\Git\GitHub\Direct3D_PallWorld\Client\private\CreateToolTipUI.cpp(96,69): warning C4244: '=': 'Engine::_uInt'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Git\GitHub\Direct3D_PallWorld\Client\private\CreateToolTipUI.cpp(103,39): warning C4244: '인수': 'Engine::_float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Git\GitHub\Direct3D_PallWorld\Client\private\CreateToolTipUI.cpp(113,45): warning C4244: '인수': 'Engine::_float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  GamePlayHUD.cpp
-C:\Git\GitHub\Direct3D_PallWorld\Client\private\GamePlayHUD.cpp(203,25): warning C4244: '인수': 'float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Git\GitHub\Direct3D_PallWorld\Client\private\GamePlayHUD.cpp(216,30): warning C4244: '인수': 'float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  GamePlayLevel.cpp
-C:\Git\GitHub\Direct3D_PallWorld\Client\private\GamePlayLevel.cpp(139,49): warning C4244: '=': 'Engine::_float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Git\GitHub\Direct3D_PallWorld\Client\private\GamePlayLevel.cpp(146,49): warning C4244: '=': 'Engine::_float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Loader.cpp
-C:\Git\GitHub\Direct3D_PallWorld\Client\private\Loader.cpp(612,35): warning C4244: '=': 'float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Git\GitHub\Direct3D_PallWorld\Client\private\Loader.cpp(628,35): warning C4244: '=': 'float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  PellInfo.cpp
-  PlayerManager.cpp
-C:\Git\GitHub\Direct3D_PallWorld\Client\private\PlayerManager.cpp(616,28): warning C4018: '<=': signed 또는 unsigned가 일치하지 않습니다.
-C:\Git\GitHub\Direct3D_PallWorld\Client\private\PlayerManager.cpp(629,23): warning C4018: '<=': signed 또는 unsigned가 일치하지 않습니다.
-  Player_Interface.cpp
-  TechSlot.cpp
-  WorkBench.cpp
-  WorkBenchCreateUI.cpp
-  WorkBenchSlot.cpp
-  WorkBenchSlotView.cpp
-C:\Git\GitHub\Direct3D_PallWorld\Client\private\WorkBenchSlotView.cpp(77,23): warning C4244: '초기화 중': 'Engine::_uInt'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Git\GitHub\Direct3D_PallWorld\Client\private\WorkBenchSlotView.cpp(87,21): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-C:\Git\GitHub\Direct3D_PallWorld\Client\private\WorkBenchSlotView.cpp(89,22): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-C:\Git\GitHub\Direct3D_PallWorld\Client\private\WorkBenchSlotView.cpp(93,44): warning C4244: '인수': 'Engine::_float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  코드를 생성하고 있습니다...
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\CreateToolTipUI.cpp(102,69): warning C4244: '=': 'Engine::_uInt'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\CreateToolTipUI.cpp(109,39): warning C4244: '인수': 'Engine::_float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\CreateToolTipUI.cpp(120,45): warning C4244: '인수': 'Engine::_float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   Direct11_FrameWork.vcxproj -> C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe

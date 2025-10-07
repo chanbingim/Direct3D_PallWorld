@@ -103,9 +103,6 @@ HRESULT CRenderer::Add_RenderGroup(RENDER eRenderGroup, CGameObject* pRenderObje
 
 void CRenderer::Render()
 {
-    if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_F12))
-        m_bIsShowRenderTarget = !m_bIsShowRenderTarget;
-
     Render_Priority();
 
     Render_NonBlend();
@@ -126,6 +123,11 @@ void CRenderer::Render()
 }
 
 #ifdef _DEBUG
+void CRenderer::ToggleRenderDebug()
+{
+    m_bIsShowRenderTarget = !m_bIsShowRenderTarget;
+}
+
 HRESULT CRenderer::Add_DebugComponent(CComponent* pDebugCom)
 {
     m_DebugComponents.push_back(pDebugCom);

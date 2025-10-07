@@ -104,6 +104,9 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
     _float Time = fTimeDelta;
     m_pInput_Manager->UpdateKeyFrame();
 
+    if (m_pInput_Manager->KeyDown(KEY_INPUT::KEYBOARD, DIK_F12))
+        m_pRenderer->ToggleRenderDebug();
+
     m_pMouse->Update(fTimeDelta);
 
     if (m_bIsPause)

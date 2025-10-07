@@ -44,7 +44,6 @@ void CPallSpherPercentBar::Update(_float fDeletaTime)
 			ParentMat.r[i] = XMVector3Normalize(ParentMat.r[i]);
 
 		_matrix WorldMat = XMLoadFloat4x4(&m_pTransformCom->GetWorldMat());
-
 		XMStoreFloat4x4(&m_CombinedMat, WorldMat * ParentMat);
 	}
 }

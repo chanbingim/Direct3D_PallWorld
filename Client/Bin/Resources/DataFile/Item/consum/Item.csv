@@ -3,3 +3,4 @@
 11,Wood,../Bin/Resources/Textures/UI/InGameUI/ItemIcon/T_itemicon_Material_Wood.png,Prototype_Component_VIBuffer_Item_Wood_Mesh,1,0,0,0,0,0
 12,Rock,../Bin/Resources/Textures/UI/InGameUI/ItemIcon/T_itemicon_Material_Stone.png,Prototype_Component_VIBuffer_Item_Rock_Mesh,1,0,0,0,0,0
 13,PalJium,../Bin/Resources/Textures/UI/InGameUI/ItemIcon/T_itemicon_Material_Pal_crystal_S.png,Prototype_Component_VIBuffer_PellJium_Mesh,1,0,0,0,0,0
+14,Rope,../Bin/Resources/Textures/UI/InGameUI/ItemIcon/T_itemicon_Weapon_CaptureRope.png,0,1,0,0,0,0,0

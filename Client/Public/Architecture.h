@@ -7,6 +7,8 @@ class CCollision;
 NS_END
 
 NS_BEGIN(Client)
+class CActionAbleUI;
+
 class CArchitecture : public CNoneAnimMesh
 {
 protected:
@@ -41,6 +43,7 @@ protected:
 
 	//OBB 박스가 달려있을거임
 	CCollision*								m_pHitBoxCollision = nullptr;
+	CActionAbleUI*							m_pActionUI = nullptr;
 
 	_bool									m_bIsCompleted = false;
 	_float									m_fAccComplteTime = {};

@@ -20,6 +20,7 @@ public:
 	void		Render();
 
 #ifdef _DEBUG
+	void		ToggleRenderDebug();
 	HRESULT		Add_DebugComponent(CComponent* pDebugCom);
 #endif
 

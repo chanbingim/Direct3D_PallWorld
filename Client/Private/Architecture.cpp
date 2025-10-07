@@ -4,6 +4,7 @@
 #include "ItemManager.h"
 
 #include "PlayerManager.h"
+#include "ActionAbleUI.h"
 
 CArchitecture::CArchitecture(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 	CNoneAnimMesh(pDevice, pContext)
@@ -28,6 +29,14 @@ HRESULT CArchitecture::Initalize_Prototype()
 HRESULT CArchitecture::Initialize(void* pArg)
 {
 	if (FAILED(__super::Initialize(pArg)))
+		return E_FAIL;
+
+	CActionAbleUI::ACTION_ABLE_DESC ActionDesc = {};
+	ActionDesc.pOwner = this;
+	ActionDesc.vAwayPosition = {0.5f, 0.3f, 0.f};
+
+	m_pActionUI = CActionAbleUI::Create(m_pGraphic_Device, m_pDeviceContext);
+	if(FAILED(m_pActionUI->Initialize(&ActionDesc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -75,8 +84,11 @@ void CArchitecture::Update(_float fDeletaTime)
 		_vector vCameraToArchDir = XMVector3Normalize(XMLoadFloat3(&vArchitecturePos) - vCalCamereaPos);
 		_float fRad = acosf(XMVectorGetX(XMVector3Dot(vCameraToArchDir, vCalCamereaLook)));
 
-		if(fRad <= XM_PIDIV4)
+		if (fRad <= XM_PIDIV4)
+		{
 			CPlayerManager::GetInstance()->SetNearArchitecture(this);
+			m_pActionUI->Update(fDeletaTime);
+		}
 	}
 }
 
@@ -152,4 +164,5 @@ void CArchitecture::Free()
 	__super::Free();
 
 	Safe_Release(m_pHitBoxCollision);
+	Safe_Release(m_pActionUI);
 }

@@ -764,6 +764,18 @@
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Diallog">
       <UniqueIdentifier>{5dd28c55-f5b9-4114-8dde-fd1b1ac3b48e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ImGui\UI\Particle">
+      <UniqueIdentifier>{bfd34e60-4e71-43d1-960c-73823d906f42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\CreatePercent">
+      <UniqueIdentifier>{76bfff86-5577-4071-9c8b-482a1a7775c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\ActionAbleUI">
+      <UniqueIdentifier>{2023d8bb-8943-4576-98a0-4f43400c1632}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\CreatePercent\PercentBar">
+      <UniqueIdentifier>{dff0ba7a-3a4b-4a5b-88df-3747c9111d52}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -1420,6 +1432,15 @@
     <ClInclude Include="..\public\DiallogUI.h">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Diallog</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\ActionAbleUI.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ActionAbleUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\WorkPercnet.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\CreatePercent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\WorkPercentBar.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\CreatePercent\PercentBar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -2052,6 +2073,15 @@
     </ClCompile>
     <ClCompile Include="..\private\DiallogUI.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Diallog</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ActionAbleUI.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ActionAbleUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\WorkPercnet.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\CreatePercent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\WorkPercentBar.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\CreatePercent\PercentBar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

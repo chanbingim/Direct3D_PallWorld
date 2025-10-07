@@ -98,7 +98,6 @@ HRESULT CItemInfoUI::Apply_ConstantShaderResources()
     m_pEMVViewMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::VIEW)));
     m_pEMVProjMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION)));
 
-
     _float3 vCamPos = {};
     XMStoreFloat3(&vCamPos, m_pGameInstance->GetCameraState(WORLDSTATE::POSITION));
     m_pEVCamPos->SetRawValue(reinterpret_cast<const float*>(&vCamPos), 0, sizeof(_float3));
