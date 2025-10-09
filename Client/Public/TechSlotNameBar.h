@@ -27,6 +27,7 @@ public:
 
 
 private:
+	static			_float4					m_vColor;
 	CFontComponent*							m_pFontCom = nullptr;
 	_float2									m_fFontPoint = { };
 

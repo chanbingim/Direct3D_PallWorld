@@ -186,6 +186,7 @@ HRESULT CGamePlayHUD::ADD_UserInterface()
 	if (FAILED(__super::Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_DialLogUI"), TEXT("DialLog_UI"), &Desc, (CUserInterface**)&pDiallog)))
 		return E_FAIL;
 
+	pDiallog->SetVisibility(VISIBILITY::HIDDEN);
 	Safe_AddRef(pDiallog);
 	m_PopupUIs.emplace(3, pDiallog);
 #pragma endregion
@@ -323,5 +324,8 @@ void CGamePlayHUD::Free()
 	__super::Free();
 
 	for (auto pair : m_PopupUIs)
+		Safe_Release(pair.second);
+
+	for (auto pair : m_PreviewUIs)
 		Safe_Release(pair.second);
 }

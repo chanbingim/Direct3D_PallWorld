@@ -311,6 +311,22 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Slot_Base_Texture"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/Slot/SlotBack.png"), 1))))
 		return E_FAIL;
+
+	/* GamePlay_PlayerInfo_Button_Tech_Slot_Texture */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Tech_Slot_Base_Texture"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/Slot/T_prt_technorogy_frame_blur.png"), 1))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region MyRegion
+
+#pragma endregion
+
+#pragma region Select Tri Tex
+	/* GamePlay_Select_Tri_Texture */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Button_Select_Tri"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/GameMenu/Category/T_prt_menutab_tri.png"), 1))))
+		return E_FAIL;
 #pragma endregion
 
 #pragma region CREATE MENU TEXTURE
@@ -689,6 +705,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 #pragma endregion
 
+#pragma endregion
+
+#pragma region Shader
+	
 #pragma endregion
 
 #pragma region ITEM
@@ -1080,11 +1100,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* GAME_OBJECT_DialLog */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_DialLogUI"), CDiallogUI::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-#pragma endregion
-
-
-#pragma region CComponents
-
 #pragma endregion
 
 	m_strMessage = TEXT("로딩이 완료되었습니다..");

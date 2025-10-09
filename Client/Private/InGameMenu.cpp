@@ -108,6 +108,7 @@ HRESULT CInGameMenu::ADD_CategoryButton()
     /* CharacterInfo Button */
     Desc.Type = 0;
     Desc.vPosition = { -CenterX, fButtonPosY, 0.f };
+    Desc.szButtonName = TEXT("Inventory");
     pCategorybut = CCategory::Create(m_pGraphic_Device, m_pDeviceContext);
     if (FAILED(pCategorybut->Initialize(&Desc)))
         return E_FAIL;
@@ -117,6 +118,7 @@ HRESULT CInGameMenu::ADD_CategoryButton()
     /* CharacterInfo Button */
     Desc.Type = 1;
     Desc.vPosition = { -(CenterX - (ButHalfX * 2.f)), fButtonPosY, 0.f };
+    Desc.szButtonName = TEXT("Technology");
     pCategorybut = CCategory::Create(m_pGraphic_Device, m_pDeviceContext);
     if (FAILED(pCategorybut->Initialize(&Desc)))
         return E_FAIL;
@@ -125,6 +127,7 @@ HRESULT CInGameMenu::ADD_CategoryButton()
 
     /* Option Button */
     Desc.Type = 2;
+    Desc.szButtonName = TEXT("Option");
     Desc.vPosition = { -(CenterX - (ButHalfX * 4.f)), fButtonPosY, 0.f };
     pCategorybut = CCategory::Create(m_pGraphic_Device, m_pDeviceContext);
     if (FAILED(pCategorybut->Initialize(&Desc)))

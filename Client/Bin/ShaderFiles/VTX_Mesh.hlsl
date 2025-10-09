@@ -9,13 +9,6 @@ Texture2D       g_NormalTexture;
 vector          g_vColor;
 float           g_fMaxHeight;
 
-sampler sampler0 = sampler_state
-{
-    filter = MIN_MAG_MIP_LINEAR;
-    AddressU = WRAP;
-    AddressV = WRAP;
-};
-
 /* 정점 쉐이더 : */
 /* 정점에 대한 셰이딩 == 정점에 필요한 연산을 수행한다 == 정점의 상태변환(월드, 뷰, 투영) + 추가변환 */
 /* 정점의 구성 정보를 수정, 변경한다 */ 
@@ -134,7 +127,7 @@ PS_OUT PS_ModelCreate(PS_ModelCreateIn In)
 {
     PS_OUT Out;
     
-    Out.vDiffuse = g_DiffuseTexture.Sample(sampler0, In.vTexcoord);
+    Out.vDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
     if (Out.vDiffuse.a < 0.3f)
         discard;
     

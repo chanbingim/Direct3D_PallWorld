@@ -195,6 +195,20 @@ HRESULT CMainApp::SetUp_StaticComponents()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_InstanceMesh"),
 		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_MODEL_INSTANCE_DESC::Elements, VTX_MODEL_INSTANCE_DESC::iNumElements, TEXT("../Bin/ShaderFiles/VTX_InstnaceMesh.hlsl")))))
 		return E_FAIL;
+
+#pragma region Button Shader & Select Tri
+	/* Button Shader */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Button"),
+		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_TEX::Elements, VTX_TEX::iNumElements, TEXT("../Bin/ShaderFiles/ButtonShader.hlsl")))))
+		return E_FAIL;
+
+	/* Select Tri Shader */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Select_Tri"),
+		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_TEX::Elements, VTX_TEX::iNumElements, TEXT("../Bin/ShaderFiles/SelectTriShader.hlsl")))))
+		return E_FAIL;
+#pragma endregion
+
+
 #pragma endregion
 
 #pragma region VIBuffer

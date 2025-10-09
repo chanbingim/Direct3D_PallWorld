@@ -108,18 +108,6 @@ HRESULT CDefaultMap::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Mesh"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
         return E_FAIL;
 
-    /*m_iTerrainCnt = m_pVIBufferCom->GetNumMeshes();
-    m_pNavigationCom.reserve(m_iTerrainCnt);
-
-    WCHAR NaviComPath[MAX_PATH] = {};
-    for (_uInt i = 0; i < m_iTerrainCnt; ++i)
-    {
-        wsprintf(NaviComPath, TEXT("NaviMesh%d_Com"), i);
-        m_pNavigationCom.push_back(CNavigation::Create(m_pGraphic_Device, m_pDeviceContext, m_pVIBufferCom, i));
-
-        m_pComponentMap.emplace(NaviComPath, m_pNavigationCom[i]);
-    }*/
-
     m_pNavigationCom = CNavigation::Create(m_pGraphic_Device, m_pDeviceContext, "../Bin/Resources/Models/SmallMap/NaviMesh/NaviMesh.dat");
     m_pComponentMap.emplace(TEXT("NaviMesh_Com"), m_pNavigationCom);
     return S_OK;

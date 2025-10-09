@@ -50,7 +50,7 @@ HRESULT CTechnologyTitleBar::Render()
     m_pTextureCom->SetTexture(0, 0);
     m_pVIBufferCom->Render_VIBuffer();
 
-    m_pFontCom->Render(TEXT("Technology"), {0.f, 0.f, 0.f, 1.f});
+    m_pFontCom->Render(TEXT("Technology"), {1.f, 1.f, 1.f, 1.f});
     return S_OK;
 }
 
@@ -69,7 +69,7 @@ HRESULT CTechnologyTitleBar::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
         return E_FAIL;
 
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Battle_PellInfo_Background"), TEXT("Texture_Com"), (CComponent**)&m_pTextureCom)))
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Tech_Category_BackGround"), TEXT("Texture_Com"), (CComponent**)&m_pTextureCom)))
         return E_FAIL;
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))

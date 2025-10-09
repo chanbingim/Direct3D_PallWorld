@@ -28,8 +28,10 @@ public:
 
 private:
 	CFontComponent*							m_pFontCom = nullptr;
-	_float2									m_fFontPoint = { };
 
+	static		_float4						m_vColor;
+
+	_float2									m_fFontPoint = { };
 	_wstring								m_szTechTypeName = {};
 
 private:

@@ -776,6 +776,27 @@
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\CreatePercent\PercentBar">
       <UniqueIdentifier>{dff0ba7a-3a4b-4a5b-88df-3747c9111d52}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\Category\SelectTri">
+      <UniqueIdentifier>{e5df95bc-9cc6-4c46-932a-92d920277f23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\Button">
+      <UniqueIdentifier>{1b3301f6-75e5-42a5-bf15-424f2f55c01e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\Button\Tri">
+      <UniqueIdentifier>{db2bc343-726b-407e-8102-d37aa9a95c88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\Category\Flare">
+      <UniqueIdentifier>{a8e550de-8833-4e64-8582-323aa3d8d7c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\CharacterViewModel">
+      <UniqueIdentifier>{1f2994b0-4b47-437a-9b76-7ec5f0c5428e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\CharacterViewModel\Body">
+      <UniqueIdentifier>{b93936c2-27f9-4dbf-a72f-1cfa9f96f20d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\CharacterViewModel\Weapon">
+      <UniqueIdentifier>{bc0c7256-7d5d-45a2-aaa5-472921f80903}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -1441,6 +1462,21 @@
     <ClInclude Include="..\public\WorkPercentBar.h">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\CreatePercent\PercentBar</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\SelectTriangle.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\Category\SelectTri</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ButtonFlare.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\Category\Flare</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PreviewModel.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\CharacterViewModel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PreivewModelBody.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\CharacterViewModel\Body</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PreviewModelWeapon.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\CharacterViewModel\Weapon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -2083,6 +2119,21 @@
     <ClCompile Include="..\private\WorkPercentBar.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\CreatePercent\PercentBar</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\SelectTriangle.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\Category\SelectTri</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ButtonFlare.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\Category\Flare</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PreviewModel.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\CharacterViewModel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PreivewModelBody.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\CharacterViewModel\Body</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PreviewModelWeapon.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\CharacterViewModel\Weapon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\TestShader.hlsl">
@@ -2111,6 +2162,12 @@
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\VTX_InstnaceMesh.hlsl">
       <Filter>Shader\Instance\ModelIsntance</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\ButtonShader.hlsl">
+      <Filter>Shader\Button</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\SelectTriShader.hlsl">
+      <Filter>Shader\Button\Tri</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

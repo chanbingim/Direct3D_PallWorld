@@ -56,7 +56,7 @@ void CInventory::Update(_float fDeletaTime)
         {
             _uInt iIndex = _uInt(i * m_SlotCount.x + j);
             _float2 SlotPos = m_pItemSlot[iIndex]->GetViewPos();
-            SlotPos.y = vStartPos.y + (m_SlotSize + 10) * i - fOffset;
+            SlotPos.y = vStartPos.y - (_uInt)fOffset + (m_SlotSize + 10) * i;
             m_pItemSlot[iIndex]->SetLocation({ SlotPos.x ,SlotPos.y ,0.f });
 
             RECT rc{};

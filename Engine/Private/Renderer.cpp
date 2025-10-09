@@ -36,7 +36,7 @@ HRESULT CRenderer::Initialize()
         return E_FAIL;
 
     /* Target_Shade */
-    if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Shade"), Viewport.Width, Viewport.Height, DXGI_FORMAT_R16G16B16A16_UNORM, _float4(0.0f, 0.f, 0.f, 1.f))))
+    if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Shade"), Viewport.Width, Viewport.Height, DXGI_FORMAT_R16G16B16A16_UNORM, _float4(0.f, 0.f, 0.f, 1.f))))
         return E_FAIL;
 
     /* Target_Specular */
@@ -344,6 +344,9 @@ void CRenderer::Free()
             Safe_Release(pRenderObject);
         RenderObjects.clear();
     }
+
+    Safe_Release(m_pShader);
+    Safe_Release(m_pVIBuffer);
 
     Safe_Release(m_pGameInstance);
     Safe_Release(m_pDevice);

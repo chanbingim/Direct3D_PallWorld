@@ -2,6 +2,8 @@
 
 #include "GameInstance.h"
 
+_float4        CTechSlotNameBar::m_vColor = { 44/ 255, 44 / 255, 61 / 255, 0.9f };
+
 CTechSlotNameBar::CTechSlotNameBar(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CBackGround(pDevice, pContext)
 {
@@ -48,11 +50,14 @@ void CTechSlotNameBar::Late_Update(_float fDeletaTime)
 HRESULT CTechSlotNameBar::Render()
 {
     Apply_ConstantShaderResources();
-    m_pShaderCom->Update_Shader(1);
-    m_pTextureCom->SetTexture(0, 0);
+
+    m_pShaderCom->Bind_SRV("g_Texture", m_pTextureCom->GetTexture(0));
+    m_pShaderCom->Bind_RawValue("g_vColor", &m_vColor, sizeof(_float4));
+
+    m_pShaderCom->Update_Shader(2);
     m_pVIBufferCom->Render_VIBuffer();
 
-    m_pFontCom->Render(m_szTechItemName.c_str(), {0.f, 0.f, 0.f, 1.f});
+    m_pFontCom->Render(m_szTechItemName.c_str(), {1.f, 1.f, 1.f, 1.f});
     return S_OK;
 }
 
@@ -86,7 +91,7 @@ HRESULT CTechSlotNameBar::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Battle_PellInfo_Background"), TEXT("Texture_Com"), (CComponent**)&m_pTextureCom)))
         return E_FAIL;
 
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Button"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
         return E_FAIL;
 
     return S_OK;

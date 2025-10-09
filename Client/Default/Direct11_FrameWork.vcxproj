@@ -174,6 +174,7 @@
     <ClInclude Include="..\public\BedCat.h" />
     <ClInclude Include="..\public\BedCatBody.h" />
     <ClInclude Include="..\public\ButtonArrow.h" />
+    <ClInclude Include="..\public\ButtonFlare.h" />
     <ClInclude Include="..\public\ClimbState.h" />
     <ClInclude Include="..\public\CombatComponent.h" />
     <ClInclude Include="..\public\CreateMenu.h" />
@@ -191,6 +192,10 @@
     <ClInclude Include="..\public\PalBox.h" />
     <ClInclude Include="..\public\PlayerSlotArchitecture.h" />
     <ClInclude Include="..\public\PlayerWorkState.h" />
+    <ClInclude Include="..\public\PreivewModelBody.h" />
+    <ClInclude Include="..\public\PreviewModel.h" />
+    <ClInclude Include="..\public\PreviewModelWeapon.h" />
+    <ClInclude Include="..\public\SelectTriangle.h" />
     <ClInclude Include="..\public\SelectUI.h" />
     <ClInclude Include="..\public\TechCategoryUI.h" />
     <ClInclude Include="..\public\TechListSlotFont.h" />
@@ -392,6 +397,7 @@
   <ItemGroup>
     <ClCompile Include="..\private\ActionAbleUI.cpp" />
     <ClCompile Include="..\private\ButtonArrow.cpp" />
+    <ClCompile Include="..\private\ButtonFlare.cpp" />
     <ClCompile Include="..\private\DiallogUI.cpp" />
     <ClCompile Include="..\private\IngredientCountView.cpp" />
     <ClCompile Include="..\private\IngredientList.cpp" />
@@ -415,6 +421,10 @@
     <ClCompile Include="..\private\PalBox.cpp" />
     <ClCompile Include="..\private\PlayerSlotArchitecture.cpp" />
     <ClCompile Include="..\private\PlayerWorkState.cpp" />
+    <ClCompile Include="..\private\PreivewModelBody.cpp" />
+    <ClCompile Include="..\private\PreviewModel.cpp" />
+    <ClCompile Include="..\private\PreviewModelWeapon.cpp" />
+    <ClCompile Include="..\private\SelectTriangle.cpp" />
     <ClCompile Include="..\private\SelectUI.cpp" />
     <ClCompile Include="..\private\TechCategoryUI.cpp" />
     <ClCompile Include="..\private\TechListSlotFont.cpp" />
@@ -610,9 +620,11 @@
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="..\Bin\ShaderFiles\ButtonShader.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\MouseShader.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\MutipleBlend.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\ProgressBar.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\SelectTriShader.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\TestShader.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\VTX_AnimMesh.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\VTX_InstnaceMesh.hlsl" />
