@@ -216,7 +216,7 @@ HRESULT CPellBase::SetUpDefaultPellData()
     return S_OK;
 }
 
-void CPellBase::CombatAction(CGameObject* pTarget)
+void CPellBase::CombatAction(_float fDeletaTime, CGameObject* pTarget)
 {
 }
 
@@ -244,7 +244,7 @@ _bool CPellBase::PellPlayFSM(_float fDeletaTime)
 
     if (m_fAccActionTime >= m_PellInfo.fPellActTime)
     {
-        PellChiceAction();
+        PellChiceAction(fDeletaTime);
         m_fAccActionTime = 0.f;
     }
     else if(false == m_IsDead)
@@ -289,18 +289,18 @@ _bool CPellBase::PellPlayFSM(_float fDeletaTime)
     return true;
 }
 
-void CPellBase::PellChiceAction()
+void CPellBase::PellChiceAction(_float fDeletaTime)
 {
     switch (m_eTeam)
     {
     case PELL_TEAM::FRENDLY:
-        ActionFrendly();
+        ActionFrendly(fDeletaTime);
         break;
     case PELL_TEAM::NEUTRAL:
-        ActionNeutral();
+        ActionNeutral(fDeletaTime);
         break;
     case PELL_TEAM::ENEMY:
-        ActionEnemy();
+        ActionEnemy(fDeletaTime);
         break;
     }
 }
@@ -443,7 +443,7 @@ void CPellBase::StartMoveAction(const _float3 vEndPos)
     }
 }
 
-void CPellBase::ActionFrendly()
+void CPellBase::ActionFrendly(_float fDeletaTime)
 {
     const CPellStateMachine::PELL_STATE& State = m_pPellFsm->GetState();
     if (false == State.bIsCombat)
@@ -472,13 +472,13 @@ void CPellBase::ActionFrendly()
             if (!State.bIsAttacking)
             {
                 m_pCombatCom->UpdateTarget();
-                m_pCombatCom->Update();
+                m_pCombatCom->Update(fDeletaTime);
             }
         }
     }
 }
 
-void CPellBase::ActionNeutral()
+void CPellBase::ActionNeutral(_float fDeletaTime)
 {
     const CPellStateMachine::PELL_STATE& State = m_pPellFsm->GetState();
     if (false == State.bIsCombat)
@@ -505,9 +505,12 @@ void CPellBase::ActionNeutral()
             // 이동 휴식 중에 하나 골라서 진행함
             if (m_PellInfo.MaxStemina * 0.3f >= m_PellInfo.CurStemina)
             {
-                m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Rest"));
-                m_pRecovery->SetRecovery(true);
-                m_bIsAction = true;
+                if (m_pRecovery)
+                {
+                    m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Rest"));
+                    m_pRecovery->SetRecovery(true);
+                    m_bIsAction = true;
+                }
             }
             else
             {
@@ -526,13 +529,13 @@ void CPellBase::ActionNeutral()
             if (!State.bIsAttacking)
             {
                 m_pCombatCom->UpdateTarget();
-                m_pCombatCom->Update();
+                m_pCombatCom->Update(fDeletaTime);
             }
         }
     }
 }
 
-void CPellBase::ActionEnemy()
+void CPellBase::ActionEnemy(_float fDeletaTime)
 {
    
 }

@@ -27,6 +27,7 @@ private :
 	HRESULT					ADD_EnviornmentLayer(const _wstring& LayerName);
 	HRESULT					ADD_PlayerLayer(const _wstring& LayerName);
 	HRESULT					ADD_PellLayer(const _wstring& LayerName);
+	HRESULT					ADD_NpcLayer(const _wstring& LayerName);
 
 	HRESULT					Setting_GamePlayHUD();
 

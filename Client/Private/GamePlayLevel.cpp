@@ -51,6 +51,9 @@ HRESULT CGamePlayLevel::Initialize()
 	if (FAILED(ADD_PellLayer(TEXT("Layer_GamePlay_Pell"))))
 		return E_FAIL;
 
+	if (FAILED(ADD_NpcLayer(TEXT("Layer_GamePlay_Npc"))))
+		return E_FAIL;
+
 	if (FAILED(Setting_GamePlayHUD()))
 		return E_FAIL;
 
@@ -203,6 +206,15 @@ HRESULT CGamePlayLevel::ADD_PellLayer(const _wstring& LayerName)
 			ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
 			return E_FAIL;
 	}
+
+	for (_uInt i = 0; i < 10; ++i)
+	{
+		wsprintf(Desc.ObjectTag, TEXT("Grass Mommoth"));
+		Desc.vPosition = { m_pGameInstance->Random(100, 200.f), 1.f, m_pGameInstance->Random(100, 200.f) };
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GrassMommoth"),
+			ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
+			return E_FAIL;
+	}
 	
 	/*
 	wsprintf(Desc.ObjectTag, TEXT("Herorong"));
@@ -232,6 +244,20 @@ HRESULT CGamePlayLevel::ADD_PellLayer(const _wstring& LayerName)
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Yeti"),
 		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
 		return E_FAIL;*/
+	return S_OK;
+}
+
+HRESULT CGamePlayLevel::ADD_NpcLayer(const _wstring& LayerName)
+{
+	CGameObject::GAMEOBJECT_DESC Desc = {};
+	wsprintf(Desc.ObjectTag, TEXT("People_1"));
+
+	Desc.vScale = { 1.f, 1.f, 1.f };
+	Desc.vPosition = { m_pGameInstance->Random(100, 110.f), 1.f, m_pGameInstance->Random(100, 110.f) };
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Female_People_1"),
+		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
+		return E_FAIL;
+
 	return S_OK;
 }
 

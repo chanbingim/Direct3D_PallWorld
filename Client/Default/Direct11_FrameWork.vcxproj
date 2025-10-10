@@ -167,6 +167,7 @@
   <ItemGroup>
     <ClInclude Include="..\public\ActionAbleUI.h" />
     <ClInclude Include="..\public\AimInterface.h" />
+    <ClInclude Include="..\public\AiSenceComponent.h" />
     <ClInclude Include="..\public\Architecture.h" />
     <ClInclude Include="..\public\ArrowProjectile.h" />
     <ClInclude Include="..\public\BackGround.h" />
@@ -179,15 +180,27 @@
     <ClInclude Include="..\public\CombatComponent.h" />
     <ClInclude Include="..\public\CreateMenu.h" />
     <ClInclude Include="..\public\CreateToolTipUI.h" />
+    <ClInclude Include="..\public\DefenceBossComponent.h" />
     <ClInclude Include="..\public\DiallogUI.h" />
+    <ClInclude Include="..\public\DialogLayer.h" />
     <ClInclude Include="..\public\EletricBullet.h" />
     <ClInclude Include="..\public\EventButton.h" />
+    <ClInclude Include="..\public\FemalePeopleBody_1.h" />
+    <ClInclude Include="..\public\FemalePeople_1.h" />
+    <ClInclude Include="..\public\GrassMommothBody.h" />
+    <ClInclude Include="..\public\GreenMommoth.h" />
+    <ClInclude Include="..\public\Npc.h" />
     <ClInclude Include="..\public\IngredientCountView.h" />
     <ClInclude Include="..\public\IngredientList.h" />
     <ClInclude Include="..\public\IngredientUI.h" />
     <ClInclude Include="..\public\ItemTooltip.h" />
     <ClInclude Include="..\Public\Item_Defines.h" />
     <ClInclude Include="..\public\LevelIcon.h" />
+    <ClInclude Include="..\public\NpcBody.h" />
+    <ClInclude Include="..\public\NpcIdleState.h" />
+    <ClInclude Include="..\public\NpcListenState.h" />
+    <ClInclude Include="..\public\NpcStateMachine.h" />
+    <ClInclude Include="..\public\NpcTalkState.h" />
     <ClInclude Include="..\public\PalBed.h" />
     <ClInclude Include="..\public\PalBox.h" />
     <ClInclude Include="..\public\PlayerSlotArchitecture.h" />
@@ -396,9 +409,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\ActionAbleUI.cpp" />
+    <ClCompile Include="..\private\AiSenceComponent.cpp" />
     <ClCompile Include="..\private\ButtonArrow.cpp" />
     <ClCompile Include="..\private\ButtonFlare.cpp" />
+    <ClCompile Include="..\private\DefenceBossComponent.cpp" />
     <ClCompile Include="..\private\DiallogUI.cpp" />
+    <ClCompile Include="..\private\DialogLayer.cpp" />
+    <ClCompile Include="..\private\FemalePeopleBody_1.cpp" />
+    <ClCompile Include="..\private\FemalePeople_1.cpp" />
+    <ClCompile Include="..\private\GrassMommothBody.cpp" />
+    <ClCompile Include="..\private\GreenMommoth.cpp" />
+    <ClCompile Include="..\private\Npc.cpp" />
     <ClCompile Include="..\private\IngredientCountView.cpp" />
     <ClCompile Include="..\private\IngredientList.cpp" />
     <ClCompile Include="..\private\IngredientUI.cpp" />
@@ -417,6 +438,11 @@
     <ClCompile Include="..\private\EventButton.cpp" />
     <ClCompile Include="..\private\ItemTooltip.cpp" />
     <ClCompile Include="..\private\LevelIcon.cpp" />
+    <ClCompile Include="..\private\NpcBody.cpp" />
+    <ClCompile Include="..\private\NpcIdleState.cpp" />
+    <ClCompile Include="..\private\NpcListenState.cpp" />
+    <ClCompile Include="..\private\NpcStateMachine.cpp" />
+    <ClCompile Include="..\private\NpcTalkState.cpp" />
     <ClCompile Include="..\private\PalBed.cpp" />
     <ClCompile Include="..\private\PalBox.cpp" />
     <ClCompile Include="..\private\PlayerSlotArchitecture.cpp" />

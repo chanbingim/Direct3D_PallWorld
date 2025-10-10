@@ -28,6 +28,16 @@
 #include "ItemQuickSlot.h"
 #pragma endregion
 
+#pragma region NPC
+
+#pragma region Female
+#include "FemalePeopleBody_1.h"
+#include "FemalePeople_1.h"
+#pragma endregion
+
+#pragma endregion
+
+
 #pragma region SKY_BOX
 #include "SkyBox.h"
 #pragma endregion
@@ -56,6 +66,9 @@
 
 #include "Yeti.h"
 #include "YetiBody.h"
+
+#include "GreenMommoth.h"
+#include "GrassMommothBody.h"
 #pragma endregion
 
 #pragma region ENVIORNMENT
@@ -73,6 +86,7 @@
 #pragma region Components
 #include "Recovery.h"
 #include "DropComponent.h"
+#include "AiSenceComponent.h"
 #pragma endregion
 
 #pragma region UI
@@ -530,7 +544,18 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
-#pragma region Usable Item
+#pragma region NPC
+
+#pragma region FEMALE
+
+#pragma region PEOPLE 1
+	/* VIBuffer  FEMLAE PeoPle1  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Female_People_1"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/NPC/Female/People1/FemalePeople.fbx", PreModelMat))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma endregion
 
 #pragma endregion
 
@@ -587,6 +612,13 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* VIBuffer  Electric Panda MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_ElectricPanda_Mesh"),
 		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Monster/ElectricPanda/ElecPanda.fbx", PreModelMat))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region Grass Mommoth
+	/* VIBuffer  GrassMommoth MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_GrassMommoth_Mesh"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Monster/GreenMommoth/GrassMommoth.fbx", PreModelMat))))
 		return E_FAIL;
 #pragma endregion
 
@@ -747,6 +779,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* GamePlay_Component_DropComponent */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GamePlay_Component_Drop"), CDropComponent::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
+	/* GamePlay_Component_Ai_Secne_Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GamePlay_Component_AiSence"), CAiSenceComponent::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 #pragma endregion
 
 #pragma region OBJECT
@@ -851,6 +887,17 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Yeti_Body_Default"), CYetiBody::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 #pragma endregion
+
+#pragma region Grass Mommoth
+	/* GAME_OBJECT_Grass Mommoth */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GrassMommoth"), CGreenMommoth::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_Grass Mommoth Body */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GrassMommoth_Body_Default"), CGrassMommothBody::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
 #pragma endregion
 
 #pragma region ENVIORNMENT
@@ -1079,6 +1126,25 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* GAME_OBJECT_Title_UI */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Base_Title_UI"), CTitleUI::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
+#pragma endregion
+
+#pragma region NPC
+
+#pragma region FEMALE
+
+#pragma region People 1
+	/* GAME_OBJECT_Female_People_1_Body */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Female_People_Body_1"), CFemalePeopleBody_1::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_Female_People_1_Object */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Female_People_1"), CFemalePeople_1::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
+
+#pragma endregion
 
 #pragma endregion
 

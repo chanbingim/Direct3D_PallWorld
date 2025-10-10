@@ -150,7 +150,7 @@ void CBedCat::Damage(void* pArg, CActor* pDamagedActor)
     __super::Damage(pArg, pDamagedActor);
 }
 
-void CBedCat::CombatAction(CGameObject* pTarget)
+void CBedCat::CombatAction(_float fDeletaTime, CGameObject* pTarget)
 {
     m_PathFinding.clear();
     _float3 vTargetPos = pTarget->GetTransform()->GetPosition();
@@ -176,9 +176,7 @@ void CBedCat::CombatAction(CGameObject* pTarget)
     ChaseDesc.fChaseSpeed = &m_fPellMoveSpeed;
     m_pChase->SetChase(ChaseDesc);
 
-    m_PathFinding.clear();
     m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Idle"));
-
     m_pPellFsm->ChangeState(TEXT("CombatLayer"), TEXT("Attack"), &AttackDesc);
     m_pPellFsm->SetAttack(true);
 }
@@ -211,7 +209,7 @@ HRESULT CBedCat::ADD_Components()
     CombatDesc.pOwner = this;
     CombatDesc.fChangeTargetDistance = 200.f;
     CombatDesc.fLostTargetTime = 5.0f;
-    CombatDesc.CallBackFunction = [this](CGameObject* pTarget) { CombatAction(pTarget); };
+    CombatDesc.CallBackFunction = [this](_float fDeletaTime, CGameObject* pTarget) { CombatAction(fDeletaTime, pTarget); };
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Combat"), TEXT("Combat_Com"), (CComponent**)&m_pCombatCom, &CombatDesc)))
         return E_FAIL;
 

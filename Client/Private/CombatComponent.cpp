@@ -27,12 +27,12 @@ HRESULT CCombatComponent::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CCombatComponent::Update()
+void CCombatComponent::Update(_float fDeletaTime)
 {
 	if (nullptr != m_BindCombatFunc)
 	{
 		if (m_pTargetObject)
-			m_BindCombatFunc(m_pTargetObject);
+			m_BindCombatFunc(fDeletaTime, m_pTargetObject);
 	}
 }
 
@@ -47,6 +47,16 @@ void CCombatComponent::ADD_TargetObject(CGameObject* pTarget)
 	auto iter = find(m_pTargetList.begin(), m_pTargetList.end(), pTarget);
 	if (iter == m_pTargetList.end())
 		m_pTargetList.push_back(pTarget);
+}
+
+void CCombatComponent::Remove_TargetObject(CGameObject* pTarget)
+{
+	if (nullptr == pTarget)
+		return;
+
+	auto iter = find(m_pTargetList.begin(), m_pTargetList.end(), pTarget);
+	if (iter != m_pTargetList.end())
+		m_pTargetList.erase(iter);
 }
 
 void CCombatComponent::UpdateTarget()

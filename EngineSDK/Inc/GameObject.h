@@ -45,7 +45,7 @@ public :
 	_bool									IsDead() { return m_IsDead; }
 	void									SetDead(_bool bflag);
 
-	CTransform*								GetTransform() { return m_pTransformCom; }
+	CTransform*								GetTransform() const { return m_pTransformCom; }
 
 	CGameObject*							GetParent() { return m_pParent; }
 	void									SetParent(CGameObject* pParent);

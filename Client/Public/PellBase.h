@@ -20,7 +20,7 @@ class CPellBody;
 class CPellBase : public CContainerObject
 {
 public :
-	enum class PELL_TEAM	{ FRENDLY, NEUTRAL, ENEMY , END };
+	enum class PELL_TEAM	{ FRENDLY, NEUTRAL, ENEMY, END };
 
 protected:
 	CPellBase(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);
@@ -92,28 +92,29 @@ protected :
 	HRESULT									SetUpDefaultPellData();
 	HRESULT									ADD_PellInfoUI();
 	// 전투를 위한 전투 기능
-	virtual		void						CombatAction(CGameObject* pTarget);
+	virtual		void						CombatAction(_float fDeletaTime, CGameObject* pTarget);
 	_bool									PellPlayFSM(_float fDeletaTime);
 	void									StartMoveAction(const _float3 vEndPos);
 
 private :
 	// 이거 펠 파츠오브젝트 세팅부터 하고 불러야함 매번 코드짜서 넣어주기 귀찮아서
 	// 공통으로 묶어둔거라 파츠오브젝트 세팅을 안하고 부를경우 파츠오브젝트 크기를 못받아서 터짐
-	void									PellChiceAction();
+	void									PellChiceAction(_float fDeletaTime);
 	void									PellTackingAction(_float fDeletaTime);
 	// 아군일떄
-	void									ActionFrendly();
+	void									ActionFrendly(_float fDeletaTime);
 
 #pragma region Netural
 	// 야생 몬스터 일떄
-	void									ActionNeutral();
+	void									ActionNeutral(_float fDeletaTime);
 
 	// 야생펠 죽음	
 	void									DeadNeutalPell();
 #pragma endregion
 
 	// NPC가 가지고있는 몬스터일때 
-	void									ActionEnemy();
+	void									ActionEnemy(_float fDeletaTime);
+
 	// HP Bar를 보여준다.
 	void									ShowPellInfo();
 

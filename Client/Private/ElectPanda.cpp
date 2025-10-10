@@ -132,7 +132,7 @@ void CElectPanda::Damage(void* pArg, CActor* pDamagedActor)
     __super::Damage(pArg, pDamagedActor);
 }
 
-void CElectPanda::CombatAction(CGameObject* pTarget)
+void CElectPanda::CombatAction(_float fDeletaTime, CGameObject* pTarget)
 {
 
     // 일반 공격 및 스킬 공격
@@ -199,7 +199,7 @@ HRESULT CElectPanda::ADD_Components()
     CombatDesc.pOwner = this;
     CombatDesc.fChangeTargetDistance = 200.f;
     CombatDesc.fLostTargetTime = 5.0f;
-    CombatDesc.CallBackFunction = [this](CGameObject* pTarget) { CombatAction(pTarget); };
+    CombatDesc.CallBackFunction = [this](_float fDeletaTime, CGameObject* pTarget) { CombatAction(fDeletaTime, pTarget); };
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Combat"), TEXT("Combat_Com"), (CComponent**)&m_pCombatCom, &CombatDesc)))
         return E_FAIL;
 

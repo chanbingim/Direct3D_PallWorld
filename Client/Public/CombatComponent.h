@@ -12,11 +12,11 @@ class CCombatComponent final : public CComponent
 public :
 	typedef struct CombatCom_Desc
 	{
-		CGameObject*					pOwner;
-		_float							fLostTargetTime;
-		_float							fChangeTargetDistance;
+		CGameObject*							pOwner;
+		_float									fLostTargetTime;
+		_float									fChangeTargetDistance;
 
-		function<void(CGameObject*)>	CallBackFunction;
+		function<void(_float, CGameObject*)>	CallBackFunction;
 	}COMBAT_COMPONENT_DESC;
 
 private :
@@ -26,12 +26,14 @@ private :
 
 public :
 	virtual HRESULT								Initialize(void* pArg) override;
-	void										Update();
+	void										Update(_float fDeletaTime);
 
 	void										ResetCombatComponent();
 
 	void										UpdateTarget();
 	void										ADD_TargetObject(CGameObject* pTarget);
+	void										Remove_TargetObject(CGameObject* pTarget);
+
 	CGameObject*								GetCurrentTarget() { return m_pTargetObject; }
 
 private :
@@ -40,7 +42,7 @@ private :
 	CGameObject*								m_pTargetObject = {};
 
 	// 전투 진행시 호출해줄 녀석의 함수
-	function<void(CGameObject*)>				m_BindCombatFunc = nullptr;
+	function<void(_float, CGameObject*)>		m_BindCombatFunc = nullptr;
 
 	_float										m_fLostTargetTime = {};
 	_float										m_fChangeTargetDistance = {};

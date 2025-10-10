@@ -25,7 +25,7 @@ public:
 
 protected:
 	// 전투를 위한 전투 기능
-	virtual		void						CombatAction(CGameObject* pTarget);
+	virtual		void						CombatAction(_float fDeletaTime, CGameObject* pTarget);
 
 private:
 	HRESULT									ADD_Components();

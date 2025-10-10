@@ -150,7 +150,7 @@ void CDororong::Damage(void* pArg, CActor* pDamagedActor)
 
 }
 
-void CDororong::CombatAction(CGameObject* pTarget)
+void CDororong::CombatAction(_float fDeletaTime, CGameObject* pTarget)
 {
     // 일반 공격 및 스킬 공격
     // 둘다 안되면 그냥 이동
@@ -216,7 +216,7 @@ HRESULT CDororong::ADD_Components()
     CombatDesc.pOwner = this;
     CombatDesc.fChangeTargetDistance = 200.f;
     CombatDesc.fLostTargetTime = 5.0f;
-    CombatDesc.CallBackFunction = [this](CGameObject* pTarget) { CombatAction(pTarget); };
+    CombatDesc.CallBackFunction = [this](_float fDeletaTime, CGameObject* pTarget) { CombatAction(fDeletaTime, pTarget); };
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Combat"), TEXT("Combat_Com"), (CComponent**)&m_pCombatCom, &CombatDesc)))
         return E_FAIL;
 

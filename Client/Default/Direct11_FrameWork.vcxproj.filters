@@ -797,6 +797,54 @@
     <Filter Include="03. Objects\MeshObject\AnimMesh\CharacterViewModel\Weapon">
       <UniqueIdentifier>{bc0c7256-7d5d-45a2-aaa5-472921f80903}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\NPC">
+      <UniqueIdentifier>{08dacff1-b8a4-4158-802d-b4fea4ba451c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\NPC\Female">
+      <UniqueIdentifier>{d2d2548a-6100-4651-954c-0ccfc204d5c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\NPC\Female\People1">
+      <UniqueIdentifier>{84ae1511-d8ae-44db-9893-2d2e1871c153}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm">
+      <UniqueIdentifier>{8ef3d0ad-d38e-4e71-8225-8b52c5d82683}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm\State">
+      <UniqueIdentifier>{c43dab41-4c77-45c1-bf6d-70ccac2652b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm\State\DialogLayer">
+      <UniqueIdentifier>{8d3478e7-0927-4dfb-bbe2-644f1c05fa00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm\State\DialogLayer\Listen">
+      <UniqueIdentifier>{38a8b330-85c5-4816-872d-1564dd381fa4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm\State\DialogLayer\Talk">
+      <UniqueIdentifier>{f03f7495-6717-4e24-acb7-6df3c74e83cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\NPC\NpcBody">
+      <UniqueIdentifier>{ba557d90-0bce-478c-a9d2-962a6d680289}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\NPC\Female\People1\Body">
+      <UniqueIdentifier>{ea62e79b-21f0-416a-a738-15e6cc3e8e01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm\State\DialogLayer\Idle">
+      <UniqueIdentifier>{65da30d7-40b7-4b26-b03c-6da32dc6632c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Pell\Boss">
+      <UniqueIdentifier>{40291cb1-421a-4edc-994f-d4caf48cf15f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Pell\Boss\GreenMommoth">
+      <UniqueIdentifier>{61676698-1d0e-4101-8d69-70a7dc5c9e4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Pell\Boss\GreenMommoth\Body">
+      <UniqueIdentifier>{a46bc03f-a7e9-494d-b915-e8b9cf50dab3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. Component\DefenceBossComponent">
+      <UniqueIdentifier>{3b15f2a8-5794-422f-a1b7-9e92580300d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06. Component\AiSenceComponent">
+      <UniqueIdentifier>{8199be52-423a-4df7-bf2f-24ef2734a35e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -1477,6 +1525,45 @@
     <ClInclude Include="..\public\PreviewModelWeapon.h">
       <Filter>03. Objects\MeshObject\AnimMesh\CharacterViewModel\Weapon</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Npc.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\NpcStateMachine.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\DialogLayer.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm\State\DialogLayer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\NpcTalkState.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm\State\DialogLayer\Talk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\NpcListenState.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm\State\DialogLayer\Listen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\NpcBody.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\NpcBody</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\FemalePeople_1.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\Female\People1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\FemalePeopleBody_1.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\Female\People1\Body</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\NpcIdleState.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm\State\DialogLayer\Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\GreenMommoth.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\Boss\GreenMommoth</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\GrassMommothBody.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\Boss\GreenMommoth\Body</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\DefenceBossComponent.h">
+      <Filter>06. Component\DefenceBossComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\AiSenceComponent.h">
+      <Filter>06. Component\AiSenceComponent</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -2133,6 +2220,45 @@
     </ClCompile>
     <ClCompile Include="..\private\PreviewModelWeapon.cpp">
       <Filter>03. Objects\MeshObject\AnimMesh\CharacterViewModel\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Npc.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\NpcStateMachine.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\DialogLayer.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm\State\DialogLayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\NpcTalkState.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm\State\DialogLayer\Talk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\NpcListenState.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm\State\DialogLayer\Listen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\NpcBody.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\NpcBody</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\FemalePeople_1.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\Female\People1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\FemalePeopleBody_1.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\Female\People1\Body</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\NpcIdleState.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm\State\DialogLayer\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\GreenMommoth.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\Boss\GreenMommoth</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\GrassMommothBody.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\Boss\GreenMommoth\Body</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\DefenceBossComponent.cpp">
+      <Filter>06. Component\DefenceBossComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\AiSenceComponent.cpp">
+      <Filter>06. Component\AiSenceComponent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
