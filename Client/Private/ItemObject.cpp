@@ -127,7 +127,7 @@ HRESULT CItemObject::ADD_Components()
     
     CItemInfoUI::ITEM_INFO_DESC ItemDesc = {};
     ItemDesc.pParent = this;
-    ItemDesc.vScale = { 1.f, 0.3f, 0.f };
+    ItemDesc.vScale = { 120.f, 30.f, 0.f };
     ItemDesc.pItemName = m_ItemDesc->szItemName;
     ItemDesc.vPosition = { ItemDesc.vScale.x * 0.5f, 0.3f, 0.f };
     m_pItemUI = static_cast<CItemInfoUI*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Item_Info_UI"), &ItemDesc));

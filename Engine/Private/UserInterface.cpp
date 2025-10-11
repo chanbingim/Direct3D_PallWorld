@@ -41,12 +41,8 @@ HRESULT CUserInterface::Initialize(void* pArg)
 			m_fPos.x = pObjectDesc->vPosition.x;
 			m_fPos.y = pObjectDesc->vPosition.y;
 
-			SetLocation(pObjectDesc->vPosition);
 			if (pObjectDesc->pParent)
-			{
-				m_pTransformCom->SetPosition(pObjectDesc->vPosition);
 				SetParent(pObjectDesc->pParent);
-			}
 
 			UpdateRectSize();
 		}

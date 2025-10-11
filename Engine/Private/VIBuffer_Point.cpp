@@ -28,7 +28,7 @@ HRESULT CVIBuffer_Point::Initialize_Prototype()
     m_eIndexFormat = DXGI_FORMAT_R16_UINT;
 
     //어떤 방식으로 그릴건지
-    m_ePrimitive = D3D_PRIMITIVE_TOPOLOGY_POINTLIST;
+    m_ePrimitive = D3D11_PRIMITIVE_TOPOLOGY_POINTLIST;
 
 #pragma region VERTEX BUFFER
     //정점 세팅
@@ -93,7 +93,22 @@ HRESULT CVIBuffer_Point::Initialize(void* pArg)
 
 void CVIBuffer_Point::Render_VIBuffer()
 {
-    __super::Render_VIBuffer();
+    ID3D11Buffer* VertexBuffers[] = {
+              m_pVertexBuffer,
+    };
+
+    _uInt		VertexStrides[] = {
+        m_iVertexStride,
+    };
+
+    _uInt		Offsets[] = {
+        0,
+    };
+
+    m_pContext->IASetVertexBuffers(0, m_iNumVertexBuffers, VertexBuffers, VertexStrides, Offsets);
+    m_pContext->IASetPrimitiveTopology(m_ePrimitive);
+    //인덱스를 통해서 객체 그리기 함수
+    m_pContext->Draw(1, 0);
 }
 
 CVIBuffer_Point* CVIBuffer_Point::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

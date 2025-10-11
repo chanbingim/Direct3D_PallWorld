@@ -224,7 +224,7 @@ HRESULT CPellBase::ADD_PellInfoUI()
 {
     CNeturalPellInfo::NETURAL_PELL_DESC PellInfoDesc = {};
     PellInfoDesc.pOwner = this;
-    PellInfoDesc.vScale = { 2.5f, 0.5f, 0.f };
+    PellInfoDesc.vScale = { 120.f, 30.f, 0.f };
 
     _float3 vParentScale = m_pPellBody->GetTransform()->GetScale();
     PellInfoDesc.vPosition = { vParentScale.x * 0.5f +  PellInfoDesc.vScale.x * 0.5f, 

@@ -18,6 +18,9 @@ CNeturalPellInfo::CNeturalPellInfo(const CNeturalPellInfo& rhs) :
 
 HRESULT CNeturalPellInfo::Initalize_Prototype()
 {
+	if (FAILED(__super::Initalize_Prototype()))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -46,20 +49,20 @@ HRESULT CNeturalPellInfo::Initialize(void* pArg)
 
 void CNeturalPellInfo::Update(_float fDeletaTime)
 {
-	_float3 vScale = m_pTransformCom->GetScale();
-	_float3 vPos = m_pTransformCom->GetPosition();
-	_matrix WorldMat = XMLoadFloat4x4(&m_pGameInstance->GetInvMatrix(MAT_STATE::VIEW));
-	for (_uInt i = 0; i < 3; ++i)
-		WorldMat.r[i] = XMVector3Normalize(WorldMat.r[i])* XMLoadFloat3(&vScale).m128_f32[i];
+	_float3 vParentPos = m_pOwner->GetTransform()->GetPosition();
+	_vector vParentPosition = XMLoadFloat3(&vParentPos);
+	_float3 CombindPoisition = {};
+	XMStoreFloat3(&CombindPoisition, vParentPosition);
 
-	WorldMat.r[3] = XMLoadFloat3(&vPos);
-	if (m_pOwner)
-	{
-		vPos = m_pOwner->GetTransform()->GetPosition();
-		WorldMat.r[3] += XMLoadFloat3(&vPos);
-		WorldMat.r[3].m128_f32[3] = 1;
-		XMStoreFloat4x4(&m_CombinedMatrix, WorldMat);
-	}
+	_float2	vNDCPos = {};
+	auto MatVP = XMLoadFloat4x4(&m_pGameInstance->GetMatrix(MAT_STATE::VIEW)) * XMLoadFloat4x4(&m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION));
+	XMStoreFloat2(&vNDCPos, XMVector3TransformCoord(XMLoadFloat3(&CombindPoisition), MatVP));
+
+	// 투영 스페이스에 있는 위치
+	// X : -1 ~ 1  -> 0 ~ 1 로변경해서 스크린 위치를 구한다.
+	// Y : 1 ~ -1 -> 0 ~ 1 로 변경
+	m_pTransformCom->SetPosition({ vNDCPos.x * g_iHalfWinSizeX + m_pTransformCom->GetScale().x * 0.5f,
+								   vNDCPos.y * g_iHalfWinSizeY + m_pOwner->GetTransform()->GetScale().y * 0.5f, 0.f});
 
 	for (auto pChild : m_pChildList)
 		pChild->Update(fDeletaTime);
@@ -72,13 +75,13 @@ void CNeturalPellInfo::Late_Update(_float fDeletaTime)
 	for (auto pChild : m_pChildList)
 		pChild->Late_Update(fDeletaTime);
 
-	m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
+	m_pGameInstance->Add_RenderGroup(RENDER::SCREEN_UI, this);
 }
 
 HRESULT CNeturalPellInfo::Render()
 {
 	Apply_ConstantShaderResources();
-	m_pShaderCom->Update_Shader(3);
+	m_pShaderCom->Update_Shader(1);
 
 	m_pTextureCom->SetTexture(0, 0);
 	m_pVIBufferCom->Render_VIBuffer();
@@ -87,25 +90,15 @@ HRESULT CNeturalPellInfo::Render()
 }
 
 
-HRESULT CNeturalPellInfo::Apply_ConstantShaderResources()
-{
-	m_pEMVWorldMat->SetMatrix(reinterpret_cast<const float*>(&m_CombinedMatrix));
-	m_pEMVViewMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::VIEW)));
-	m_pEMVProjMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION)));
-
-
-	return S_OK;
-}
-
 HRESULT CNeturalPellInfo::ADD_Components()
 {
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Point"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
 		return E_FAIL;
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_PellInfo_BackGround_Tex"), TEXT("Texture_Com"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_WorldUI"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
 		return E_FAIL;
 
 	return S_OK;
@@ -116,17 +109,19 @@ HRESULT CNeturalPellInfo::ADD_Childs()
 	CBackGround::GAMEOBJECT_DESC Desc = {};
 	Desc.pParent = this;
 	_float3 vParentScale = m_pTransformCom->GetScale();
-	Desc.vScale = { vParentScale.x - 0.16f , 0.5f, 0.f };
+	Desc.vScale = { 100.f , 15.f, 0.f };
 
 	//Pell Health Bar
-	Desc.vPosition = { 0, -(vParentScale.y * 0.25f), -0.01f };
+	Desc.vPosition = { 10.f, -Desc.vScale.y * 0.4f, 0.f };
 	m_pHealthBar = static_cast<CPellHealthBar *>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Netrual_Pell_Health_Bar"), &Desc));
+	m_pHealthBar->SetZOrder(m_iZOrder + 1);
 	ADD_Child(m_pHealthBar);
 
 	//Pell Type
-	Desc.vScale = { 0.5f, 0.5f, 0.f };
-	Desc.vPosition = { -vParentScale.x * 0.3f, vParentScale.y * 0.4f, -0.02f };
+	Desc.vScale = { 30.f, 30.f, 0.f };
+	Desc.vPosition = { -vParentScale.x * 0.5f, vParentScale.y * 0.4f, 0.f };
 	m_pTypeIcon = static_cast<CNeturalTypeIcon*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Netrual_Pell_Type_UI"), &Desc));
+	m_pTypeIcon->SetZOrder(m_iZOrder + 1);
 	ADD_Child(m_pTypeIcon);
 
 	return S_OK;

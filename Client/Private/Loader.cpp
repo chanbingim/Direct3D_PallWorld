@@ -37,7 +37,6 @@
 
 #pragma endregion
 
-
 #pragma region SKY_BOX
 #include "SkyBox.h"
 #pragma endregion
@@ -93,9 +92,11 @@
 #include "Player_Interface.h"
 #include "AimInterface.h"
 
+#include "BossHealthBar.h"
 #include "HealthBar.h"
 #include "GuardBar.h"
 #include "HealthIcon.h"
+#include "HungerBar.h"
 #include "HungerIcon.h"
 
 #include "Compass.h"
@@ -163,6 +164,13 @@
 #include "PalBed.h"
 #include "PalBox.h"
 #include "WorkBench.h"
+
+#pragma region WOOD
+#include "DefenceWallWood.h"
+#include "WoodWall.h"
+#include "WoodDoor.h"
+#pragma endregion
+
 #pragma endregion
 
 #pragma endregion
@@ -542,6 +550,24 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_WorkBench"),
 		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BuildObject/WorkBench/WorkBench.fbx", PreModelMat))))
 		return E_FAIL;
+
+#pragma region BuildObject Wood
+	/* VIBuffer  Wood Wall  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_WoodWall"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BuildObject/Wood/Wall/WoodWall.fbx", PreModelMat))))
+		return E_FAIL;
+
+	/* VIBuffer  Wood Door  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_WoodDoor"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BuildObject/Wood/Door/Door_Wood.fbx", PreModelMat))))
+		return E_FAIL;
+
+	/* VIBuffer  Defence Wood Wall  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_DefenceWoodWall"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BuildObject/Wood/DefenceWall/DefenceWall_Wood.fbx", PreModelMat))))
+		return E_FAIL;
+#pragma endregion
+
 #pragma endregion
 
 #pragma region NPC
@@ -976,6 +1002,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Hunger_Icon"), CHungerIcon::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	/* GAME_OBJECT_HungerBarUI */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Hunger_Bar"), CHungerBar::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 	/* GAME_OBJECT_HealthIconUI */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Health_Icon"), CHealthIcon::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -1076,6 +1106,12 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region Boss Health Bar
+	/* GAME_OBJECT_Boss_Health_Bar */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Boss_HealthBar"), CBossHealthBar::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
 #pragma region CREATE UI
 	/* GAME_OBJECT_CREATE_UI */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Tech_Create"), CCreateMenu::Create(m_pDevice, m_pContext))))
@@ -1113,6 +1149,21 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* GAME_OBJECT_WorkBench */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_WorkBench"), CWorkBench::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
+#pragma region WOOD
+	/* GAME_OBJECT_DefenceWoodWall */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_DefenceWoodWall"), CDefenceWallWood::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_WoodWall */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_WoodWall"), CWoodWall::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_WoodDoor */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_WoodDoor"), CWoodDoor::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
 #pragma endregion
 
 #pragma region ITEM OBJECT

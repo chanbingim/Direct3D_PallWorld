@@ -8,6 +8,7 @@ class CSelectUI;
 class CAimInterface;
 class CCreateMenu;
 class CInGameMenu;
+class CBossHealthBar;
 class CWorkBenchCreateUI;
 class CCreateToolTipUI;
 class CDiallogUI;
@@ -32,11 +33,17 @@ public:
 	CUserInterface*				GetPopUpUserInterface(_uInt iPopupID);
 	CUserInterface*				GetPreViewUserInterface(_uInt iPopupID);
 
+	void						SetBossHealthBar(void* PellInfo);
+	void						HiddenBossHealthBar();
+
 	CSelectUI*					GetSelectUI();
 	void						UnActiveAllPopUp();
 	void						UnActiveAllPreView();
+
 private :
 	CInGameMenu*					m_pInGameMenu = nullptr;
+	CBossHealthBar*					m_pBossHealthbar = nullptr;
+
 	CCreateMenu*					m_pCreateMenu = nullptr;
 	CWorkBenchCreateUI*				m_pWorkBenchCreateMenu = nullptr;
 

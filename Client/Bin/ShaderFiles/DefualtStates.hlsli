@@ -15,6 +15,12 @@ RasterizerState RS_Default
     CullMode = Back;
 };
 
+RasterizerState RS_Front
+{
+    FillMode = Solid;
+    CullMode = Front;
+};
+
 RasterizerState RS_Wireframe
 {
     FillMode = Wireframe;

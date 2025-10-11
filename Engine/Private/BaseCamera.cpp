@@ -75,7 +75,7 @@ void CBaseCamera::Priority_Update(_float fDeletaTime)
 {
     _float2 ScreenSize = m_pGameInstance->GetScreenSize();
     XMStoreFloat4x4(&m_ProjMat, XMMatrixPerspectiveFovLH(m_fFov, m_fAspect, m_fNear, m_fFar));
-    XMStoreFloat4x4(&m_OrthGraphicMat, XMMatrixOrthographicLH(ScreenSize.x, ScreenSize.y, 0, m_fFar));
+    XMStoreFloat4x4(&m_OrthGraphicMat, XMMatrixOrthographicLH(ScreenSize.x, ScreenSize.y, 0.f, m_fFar));
 
     m_pGameInstance->SetMatrix(MAT_STATE::VIEW, m_pTransformCom->GetInvWorldMat());
     m_pGameInstance->SetMatrix(MAT_STATE::PROJECTION, m_ProjMat);

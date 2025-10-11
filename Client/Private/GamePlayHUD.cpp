@@ -6,6 +6,7 @@
 #include "InGameMenu.h"
 #include "CreateMenu.h"
 #include "DiallogUI.h"
+#include "BossHealthBar.h"
 #include "WorkBenchCreateUI.h"
 
 #pragma region PreViewUI
@@ -108,6 +109,14 @@ CUserInterface* CGamePlayHUD::GetPreViewUserInterface(_uInt iPopupID)
 	return pair->second;
 }
 
+void CGamePlayHUD::SetBossHealthBar(void* PellInfo)
+{
+}
+
+void CGamePlayHUD::HiddenBossHealthBar()
+{
+}
+
 CSelectUI* CGamePlayHUD::GetSelectUI()
 {
 	return m_pSelectUI;
@@ -130,8 +139,7 @@ void CGamePlayHUD::UnActiveAllPreView()
 HRESULT CGamePlayHUD::ADD_UserInterface()
 {
 	//여기서 계층 만들어서 세팅
-	CUserInterface::GAMEOBJECT_DESC Desc;
-	ZeroMemory(&Desc, sizeof(CUserInterface::GAMEOBJECT_DESC));
+	CUserInterface::GAMEOBJECT_DESC Desc = {};
 
 	Desc.vScale = { g_iWinSizeX * 0.3f, g_iWinSizeY * 0.2f , 1.f };
 	Desc.vPosition = { g_iHalfWinSizeX * 0.2f,  g_iWinSizeY * 0.8f, 0.f };
@@ -145,6 +153,18 @@ HRESULT CGamePlayHUD::ADD_UserInterface()
 	if (FAILED(__super::Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Compass"), TEXT("InGame_Compass"), &Desc)))
 		return E_FAIL;
 
+	Desc.vScale = { g_iWinSizeY * 0.1f , g_iWinSizeY * 0.1f , 1.f };
+	Desc.vPosition = { g_iHalfWinSizeX, g_iHalfWinSizeY, 0.f };
+	if (FAILED(__super::Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CrossHair_UI"), TEXT("CrossHair"), &Desc)))
+		return E_FAIL;
+
+	Desc.vScale = { g_iWinSizeX * 0.7f, 20.f , 1.f };
+	Desc.vPosition = { g_iHalfWinSizeX, 120.f, 0.f };
+	if (FAILED(__super::Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Boss_HealthBar"), TEXT("BossHealthBar"), &Desc, (CUserInterface **)&m_pBossHealthbar)))
+		return E_FAIL;
+	m_pBossHealthbar->SetVisibility(VISIBILITY::HIDDEN);
+
+#pragma region In Game Menu
 	Desc.vScale = { g_iWinSizeX * 0.8f , g_iWinSizeY * 0.85f , 1.f };
 	Desc.vPosition = { g_iHalfWinSizeX, g_iWinSizeY * 0.55f, 0.f };
 
@@ -152,13 +172,9 @@ HRESULT CGamePlayHUD::ADD_UserInterface()
 		return E_FAIL;
 	Safe_AddRef(m_pInGameMenu);
 	m_PopupUIs.emplace(0, m_pInGameMenu);
+#pragma endregion
 
-	Desc.vScale = { g_iWinSizeY * 0.1f , g_iWinSizeY * 0.1f , 1.f };
-	Desc.vPosition = { g_iHalfWinSizeX, g_iHalfWinSizeY, 0.f };
-
-	if (FAILED(__super::Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CrossHair_UI"), TEXT("CrossHair"), &Desc)))
-		return E_FAIL;
-
+#pragma region Create Menu
 	Desc.vScale = { g_iWinSizeY , g_iWinSizeY , 1.f };
 	Desc.vPosition = { g_iHalfWinSizeX, g_iHalfWinSizeY, 0.f };
 	if (FAILED(__super::Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Tech_Create"), TEXT("Create_Menu"), &Desc, (CUserInterface**)&m_pCreateMenu)))
@@ -166,6 +182,7 @@ HRESULT CGamePlayHUD::ADD_UserInterface()
 
 	Safe_AddRef(m_pCreateMenu);
 	m_PopupUIs.emplace(1, m_pCreateMenu);
+#pragma endregion
 
 #pragma region Archtecture Create UI
 	Desc.vScale = { g_iWinSizeY * 0.7f , g_iWinSizeY * 0.8f , 1.f };

@@ -189,7 +189,7 @@ HRESULT CMainApp::SetUp_StaticComponents()
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_WorldUI"),
-		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_MESH::Elements, VTX_MESH::iNumElements, TEXT("../Bin/ShaderFiles/WorldUI.hlsl")))))
+		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_POINT::Elements, VTX_POINT::iNumElements, TEXT("../Bin/ShaderFiles/WorldUI.hlsl")))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_InstanceMesh"),

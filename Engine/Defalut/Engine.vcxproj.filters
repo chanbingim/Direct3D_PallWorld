@@ -106,18 +106,6 @@
     <Filter Include="Utility\Object\PartObject">
       <UniqueIdentifier>{6ed40050-0b7a-4907-91db-7e734f5092d9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utility\StateMachine">
-      <UniqueIdentifier>{6aa12991-8d10-4624-b8c8-206dc57d733f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\StateMachine\FSM">
-      <UniqueIdentifier>{44fcd9f9-3289-4775-8c69-d674e801dda0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\StateMachine\Layer">
-      <UniqueIdentifier>{ffc4d072-daa5-47d0-a8b2-9f8d43aecb1c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\StateMachine\State">
-      <UniqueIdentifier>{22105f21-9be3-44ac-b73c-9325aa478734}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utility\Light">
       <UniqueIdentifier>{24bc391a-da14-40a5-9a44-828e192f7523}</UniqueIdentifier>
     </Filter>
@@ -261,6 +249,15 @@
     </Filter>
     <Filter Include="Utility\RenerTarget\Manager">
       <UniqueIdentifier>{0e12fea0-9b81-40bf-8e31-abc963a7be24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\StateMachine">
+      <UniqueIdentifier>{291ff957-cd06-468e-bcc4-3bff8c478d10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\StateMachine\Layer">
+      <UniqueIdentifier>{dbca9e1e-3811-4321-8366-d409c2371a56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\StateMachine\Layer\State">
+      <UniqueIdentifier>{2abcef8c-f757-4b5e-8d4c-c107cfbd8bfa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -414,15 +411,6 @@
     <ClCompile Include="..\private\PartObject.cpp">
       <Filter>Utility\Object\PartObject</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\StateLayer.cpp">
-      <Filter>Utility\StateMachine\Layer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\FiniteStateMachine.cpp">
-      <Filter>Utility\StateMachine\FSM</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\State.cpp">
-      <Filter>Utility\StateMachine\State</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Light.cpp">
       <Filter>Utility\Light</Filter>
     </ClCompile>
@@ -482,6 +470,15 @@
     </ClCompile>
     <ClCompile Include="..\private\RenderTarget.cpp">
       <Filter>Utility\RenerTarget</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\FiniteStateMachine.cpp">
+      <Filter>Utility\StateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State.cpp">
+      <Filter>Utility\StateMachine\Layer\State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\StateLayer.cpp">
+      <Filter>Utility\StateMachine\Layer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -662,15 +659,6 @@
     <ClInclude Include="..\public\PartObject.h">
       <Filter>Utility\Object\PartObject</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\StateLayer.h">
-      <Filter>Utility\StateMachine\Layer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\FiniteStateMachine.h">
-      <Filter>Utility\StateMachine\FSM</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\State.h">
-      <Filter>Utility\StateMachine\State</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Light.h">
       <Filter>Utility\Light</Filter>
     </ClInclude>
@@ -745,6 +733,15 @@
     </ClInclude>
     <ClInclude Include="..\public\RenderTarget.h">
       <Filter>Utility\RenerTarget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\FiniteStateMachine.h">
+      <Filter>Utility\StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State.h">
+      <Filter>Utility\StateMachine\Layer\State</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\StateLayer.h">
+      <Filter>Utility\StateMachine\Layer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

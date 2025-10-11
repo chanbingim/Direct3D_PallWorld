@@ -2,6 +2,7 @@
 
 #include "GameInstance.h"
 #include "HealthBar.h"
+#include "HungerBar.h"
 #include "BackGround.h"
 
 #include "PlayerManager.h"
@@ -47,7 +48,6 @@ void CPlayer_Interface::Update(_float fDeletaTime)
 {
 	auto PlayerInfo = CPlayerManager::GetInstance()->GetPlayerData();
 
-	m_pHpBar->SetPercent(PlayerInfo.CurHealth / PlayerInfo.MaxHealth);
 	m_pHugerBar->SetPercent(PlayerInfo.CurHunger / PlayerInfo.MaxHunger);
 	m_pGuardBar->SetPercent(_float(PlayerInfo.ShieldPoint / PlayerInfo.ShieldPoint));
 
@@ -112,7 +112,7 @@ HRESULT CPlayer_Interface::ADD_Childs()
 		//Hunger bar
 		Desc.vPosition = { 50.f, 100.f, 0.f };
 		Desc.vColor = { 250 / 255.f, 124 / 255.f, 35 / 255.f, 1.f };
-		if (FAILED(pInGame_HUD->Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Health_Bar"), TEXT("HungerBar"), &Desc, (CUserInterface**)&m_pHugerBar)))
+		if (FAILED(pInGame_HUD->Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Hunger_Bar"), TEXT("HungerBar"), &Desc, (CUserInterface**)&m_pHugerBar)))
 			return E_FAIL;
 #pragma endregion
 

@@ -1,15 +1,10 @@
-    #include "DefualtStates.hlsli"
+#include "DefualtStates.hlsli"
 
 matrix      g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 Texture2D   g_Texture : register(t0);
 
 vector      g_vCamPosition;
 float       g_Percent;
-
-sampler sampler0 = sampler_state
-{
-    filter = MIN_MAG_MIP_LINEAR;
-};
 
 /* 정점 쉐이더 : */
 /* 정점에 대한 셰이딩 == 정점에 필요한 연산을 수행한다 == 정점의 상태변환(월드, 뷰, 투영) + 추가변환 */
@@ -29,6 +24,15 @@ VS_OUT VS_MAIN(VS_IN In)
     //지오 메트리 셰이더를 이용해서 한번 그려보자
     VS_OUT Out;
     Out.vPosition = mul(vector(In.vPosition, 1.f), g_WorldMatrix);
+    
+    return Out;
+}
+
+VS_OUT VS_Screen(VS_IN In)
+{
+    //지오 메트리 셰이더를 이용해서 한번 그려보자
+    VS_OUT Out;
+    Out.vPosition = vector(In.vPosition, 1.f);
     
     return Out;
 }
@@ -53,7 +57,7 @@ void GS_MAIN(point GS_IN In[1], inout TriangleStream<GS_OUT> OutStream)
     
     matrix matVP = mul(g_ViewMatrix, g_ProjMatrix);
     
-    float3 vLook = (g_vCamPosition - In[0].vPosition).xyz;
+    float3 vLook = normalize(g_vCamPosition - In[0].vPosition).xyz;
     float3 vRight = normalize(cross(float3(0.f, 1.f, 0.f), vLook)) * length(g_WorldMatrix._11_12_13) * 0.5f;
     float3 vUp = normalize(cross(vLook, vRight)) * length(g_WorldMatrix._21_22_23) * 0.5f;
     
@@ -67,6 +71,41 @@ void GS_MAIN(point GS_IN In[1], inout TriangleStream<GS_OUT> OutStream)
     Out[2].vTexcoord = float2(1.f, 1.f);
     
     Out[3].vPosition = mul(float4(In[0].vPosition.xyz + vRight - vUp, 1.f), matVP);
+    Out[3].vTexcoord = float2(0.f, 1.f);
+    
+    OutStream.Append(Out[0]);
+    OutStream.Append(Out[1]);
+    OutStream.Append(Out[2]);
+    OutStream.RestartStrip();
+    
+    OutStream.Append(Out[0]);
+    OutStream.Append(Out[2]);
+    OutStream.Append(Out[3]);
+    OutStream.RestartStrip();
+    
+  
+}
+
+[maxvertexcount(6)]
+void GS_Screen(point GS_IN In[1], inout TriangleStream<GS_OUT> OutStream)
+{
+    //지오 메트리 셰이더를 이용해서 한번 그려보자
+    GS_OUT Out[4];
+    
+    matrix matWV, matWVP;
+    matWV = mul(g_WorldMatrix, g_ViewMatrix);
+    matWVP = mul(matWV, g_ProjMatrix);
+    
+    Out[0].vPosition = mul(float4(In[0].vPosition.xyz + float3(-0.5f, 0.5f, 0.f), 1.f), matWVP);
+    Out[0].vTexcoord = float2(0.f, 0.f);
+    
+    Out[1].vPosition = mul(float4(In[0].vPosition.xyz + float3(0.5f, 0.5f, 0.f), 1.f), matWVP);
+    Out[1].vTexcoord = float2(1.f, 0.f);
+    
+    Out[2].vPosition = mul(float4(In[0].vPosition.xyz + float3(0.5f, -0.5f, 0.f), 1.f), matWVP);
+    Out[2].vTexcoord = float2(1.f, 1.f);
+    
+    Out[3].vPosition = mul(float4(In[0].vPosition.xyz + float3(-0.5f, -0.5f, 0.f), 1.f), matWVP);
     Out[3].vTexcoord = float2(0.f, 1.f);
     
     OutStream.Append(Out[0]);
@@ -99,7 +138,7 @@ PS_OUT PS_MAIN(PS_IN In)
 {
     PS_OUT Out;
     
-    float4 vNewColor = g_Texture.Sample(sampler0, In.vTexcoord);
+    float4 vNewColor = g_Texture.Sample(DefaultSampler, In.vTexcoord);
     if(vNewColor.a < 0.4f)
         discard;
    
@@ -107,18 +146,6 @@ PS_OUT PS_MAIN(PS_IN In)
     return Out;
 }
 
-/* 셰이더를 통해 특정 UV좌표 만 탈락시킨다.*/
-PS_OUT PS_PERCENT(PS_IN In)
-{
-    PS_OUT Out;
-    
-    float4 vNewColor = g_Texture.Sample(sampler0, In.vTexcoord);
-    if (vNewColor.a < 0.4f || In.vTexcoord.x > g_Percent)
-        discard;
-   
-    Out.vColor = vNewColor;
-    return Out;
-}
 
 technique11 Tech
 {
@@ -139,8 +166,19 @@ technique11 Tech
         SetDepthStencilState(DSS_None, 0);
         SetBlendState(BS_None, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
-        VertexShader = compile vs_5_0 VS_MAIN();
-        GeometryShader = compile gs_5_0 GS_MAIN();
+        VertexShader = compile vs_5_0 VS_Screen();
+        GeometryShader = compile gs_5_0 GS_Screen();
         PixelShader = compile ps_5_0 PS_MAIN();
+    }
+
+    pass Reset
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_None, 0);
+        SetBlendState(BS_None, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = NULL;
+        GeometryShader = NULL;
+        PixelShader = NULL;
     }
 }

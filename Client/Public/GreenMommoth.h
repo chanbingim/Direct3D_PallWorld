@@ -37,6 +37,8 @@ private :
 private:
 	HRESULT									ADD_Components();
 	HRESULT									ADD_PartObjects();
+
+private :
 	HRESULT									Setup_PellFsm();
 
 	void									TargetSearchBegin(CGameObject* pSearchObject);

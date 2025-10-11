@@ -182,8 +182,8 @@ popd</Command>
     <ClInclude Include="..\public\CsvHelper.h" />
     <ClInclude Include="..\Public\DebugDraw.h" />
     <ClInclude Include="..\Public\EditorCamera.h" />
-    <ClInclude Include="..\Public\FiniteStateMachine.h" />
     <ClInclude Include="..\public\CustomFont.h" />
+    <ClInclude Include="..\Public\FiniteStateMachine.h" />
     <ClInclude Include="..\public\FontComponent.h" />
     <ClInclude Include="..\public\FontManager.h" />
     <ClInclude Include="..\public\JsonHelper.h" />
@@ -204,7 +204,7 @@ popd</Command>
     <ClInclude Include="..\public\SliderButton.h" />
     <ClInclude Include="..\public\SphereCollision.h" />
     <ClInclude Include="..\Public\State.h" />
-    <ClInclude Include="..\public\StateLayer.h" />
+    <ClInclude Include="..\Public\StateLayer.h" />
     <ClInclude Include="..\Public\StringHelper.h" />
     <ClInclude Include="..\Public\Engine_Defines.h" />
     <ClInclude Include="..\Public\Engine_Enum.h" />
@@ -271,8 +271,8 @@ popd</Command>
     <ClCompile Include="..\private\CsvHelper.cpp" />
     <ClCompile Include="..\Private\DebugDraw.cpp" />
     <ClCompile Include="..\Private\EditorCamera.cpp" />
-    <ClCompile Include="..\Private\FiniteStateMachine.cpp" />
     <ClCompile Include="..\private\CustomFont.cpp" />
+    <ClCompile Include="..\Private\FiniteStateMachine.cpp" />
     <ClCompile Include="..\private\FontComponent.cpp" />
     <ClCompile Include="..\private\FontManager.cpp" />
     <ClCompile Include="..\private\JsonHelper.cpp" />
@@ -288,7 +288,7 @@ popd</Command>
     <ClCompile Include="..\private\SliderButton.cpp" />
     <ClCompile Include="..\private\SphereCollision.cpp" />
     <ClCompile Include="..\Private\State.cpp" />
-    <ClCompile Include="..\private\StateLayer.cpp" />
+    <ClCompile Include="..\Private\StateLayer.cpp" />
     <ClCompile Include="..\Private\StringHelper.cpp" />
     <ClCompile Include="..\private\GameInstance.cpp" />
     <ClCompile Include="..\Private\GameObject.cpp" />

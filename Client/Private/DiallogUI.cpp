@@ -2,6 +2,8 @@
 
 #include "GameInstance.h"
 
+#include "GamePlayHUD.h"
+
 CDiallogUI::CDiallogUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CBackGround(pDevice, pContext)
 {
@@ -36,6 +38,15 @@ HRESULT CDiallogUI::Initialize(void* pArg)
 
 void CDiallogUI::Update(_float fDeletaTime)
 {
+    if (VISIBILITY::HIDDEN == m_eVisible)
+        return;
+
+    if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_RETURN))
+    {
+        CGamePlayHUD* pGamePlayHUD = static_cast<CGamePlayHUD*>(m_pGameInstance->GetCurrentHUD());
+        pGamePlayHUD->UnActivePopUpUserInterface(3);
+    }
+
     if (m_iTextLength < m_szTotalText.length())
     {
         m_szText = m_szTotalText.substr(0, m_iTextLength);
@@ -47,6 +58,9 @@ void CDiallogUI::Update(_float fDeletaTime)
 
 void CDiallogUI::Late_Update(_float fDeletaTime)
 {
+    if (VISIBILITY::HIDDEN == m_eVisible)
+        return;
+
     m_pGameInstance->Add_RenderGroup(RENDER::SCREEN_UI, this);
 }
 

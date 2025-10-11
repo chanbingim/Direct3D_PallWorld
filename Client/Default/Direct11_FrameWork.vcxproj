@@ -174,8 +174,11 @@
     <ClInclude Include="..\public\BattlePell.h" />
     <ClInclude Include="..\public\BedCat.h" />
     <ClInclude Include="..\public\BedCatBody.h" />
+    <ClInclude Include="..\Public\BossHealthBar.h" />
+    <ClInclude Include="..\public\BossTitleName.h" />
     <ClInclude Include="..\public\ButtonArrow.h" />
     <ClInclude Include="..\public\ButtonFlare.h" />
+    <ClInclude Include="..\public\DefenceWallWood.h" />
     <ClInclude Include="..\public\ClimbState.h" />
     <ClInclude Include="..\public\CombatComponent.h" />
     <ClInclude Include="..\public\CreateMenu.h" />
@@ -185,10 +188,12 @@
     <ClInclude Include="..\public\DialogLayer.h" />
     <ClInclude Include="..\public\EletricBullet.h" />
     <ClInclude Include="..\public\EventButton.h" />
+    <ClInclude Include="..\public\FarmGround.h" />
     <ClInclude Include="..\public\FemalePeopleBody_1.h" />
     <ClInclude Include="..\public\FemalePeople_1.h" />
     <ClInclude Include="..\public\GrassMommothBody.h" />
     <ClInclude Include="..\public\GreenMommoth.h" />
+    <ClInclude Include="..\public\HungerBar.h" />
     <ClInclude Include="..\public\Npc.h" />
     <ClInclude Include="..\public\IngredientCountView.h" />
     <ClInclude Include="..\public\IngredientList.h" />
@@ -392,6 +397,8 @@
     <ClInclude Include="..\Public\WeaponQuickSlotCount.h" />
     <ClInclude Include="..\Public\WeaponQuickSlotName.h" />
     <ClInclude Include="..\Public\WeaponSlotIcon.h" />
+    <ClInclude Include="..\public\WoodDoor.h" />
+    <ClInclude Include="..\public\WoodWall.h" />
     <ClInclude Include="..\public\WorkBenchSlot.h" />
     <ClInclude Include="..\public\TitleUI.h" />
     <ClInclude Include="..\public\WorkBench.h" />
@@ -410,15 +417,20 @@
   <ItemGroup>
     <ClCompile Include="..\private\ActionAbleUI.cpp" />
     <ClCompile Include="..\private\AiSenceComponent.cpp" />
+    <ClCompile Include="..\Private\BossHealthBar.cpp" />
+    <ClCompile Include="..\private\BossTitleName.cpp" />
     <ClCompile Include="..\private\ButtonArrow.cpp" />
     <ClCompile Include="..\private\ButtonFlare.cpp" />
+    <ClCompile Include="..\private\DefenceWallWood.cpp" />
     <ClCompile Include="..\private\DefenceBossComponent.cpp" />
     <ClCompile Include="..\private\DiallogUI.cpp" />
     <ClCompile Include="..\private\DialogLayer.cpp" />
+    <ClCompile Include="..\private\FarmGround.cpp" />
     <ClCompile Include="..\private\FemalePeopleBody_1.cpp" />
     <ClCompile Include="..\private\FemalePeople_1.cpp" />
     <ClCompile Include="..\private\GrassMommothBody.cpp" />
     <ClCompile Include="..\private\GreenMommoth.cpp" />
+    <ClCompile Include="..\private\HungerBar.cpp" />
     <ClCompile Include="..\private\Npc.cpp" />
     <ClCompile Include="..\private\IngredientCountView.cpp" />
     <ClCompile Include="..\private\IngredientList.cpp" />
@@ -626,6 +638,8 @@
     <ClCompile Include="..\Private\WeaponQuickSlotCount.cpp" />
     <ClCompile Include="..\Private\WeaponQuickSlotName.cpp" />
     <ClCompile Include="..\Private\WeaponSlotIcon.cpp" />
+    <ClCompile Include="..\private\WoodDoor.cpp" />
+    <ClCompile Include="..\private\WoodWall.cpp" />
     <ClCompile Include="..\private\WorkBenchSlot.cpp" />
     <ClCompile Include="..\private\TitleUI.cpp" />
     <ClCompile Include="..\private\WorkBench.cpp" />

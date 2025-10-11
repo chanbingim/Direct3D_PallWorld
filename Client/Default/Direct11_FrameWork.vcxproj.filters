@@ -395,9 +395,6 @@
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Pell\NaturalPellInfo\HealthBar">
       <UniqueIdentifier>{39312cab-0af0-4a7a-94c2-76b279542b18}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\TypeIcon">
-      <UniqueIdentifier>{decad20f-aa06-4cec-b67d-6aac2a0b0b82}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Pell\NaturalPellInfo\PellIcon">
       <UniqueIdentifier>{afe32fa3-f418-44bd-b465-e6506c764afa}</UniqueIdentifier>
     </Filter>
@@ -565,9 +562,6 @@
     </Filter>
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\HealthBar\HealthIcon">
       <UniqueIdentifier>{8a07cd76-da19-4ef7-b9f1-fa44aab114a0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\HealthBar\HungerIcon">
-      <UniqueIdentifier>{967ea44e-4ca4-4f3a-a81e-0dd037410106}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\GuardBar">
       <UniqueIdentifier>{86108b2b-9c78-4cf1-9a88-d21659edfb6b}</UniqueIdentifier>
@@ -845,6 +839,39 @@
     <Filter Include="06. Component\AiSenceComponent">
       <UniqueIdentifier>{8199be52-423a-4df7-bf2f-24ef2734a35e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Boss">
+      <UniqueIdentifier>{9f37c35f-3a1b-4fab-9c36-e62961809016}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\Base_UI\TypeIcon">
+      <UniqueIdentifier>{decad20f-aa06-4cec-b67d-6aac2a0b0b82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Boss\BossHealthBar">
+      <UniqueIdentifier>{69b6079f-a0ee-4ce5-a3b2-7839347b139e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Boss\BossTitleName">
+      <UniqueIdentifier>{5ece4b3e-c5a6-47fb-a49b-dd0a999c5c46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\HungerBar">
+      <UniqueIdentifier>{a177b2d5-3bcf-4243-b4da-5bf463234317}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\HungerBar\HungerIcon">
+      <UniqueIdentifier>{967ea44e-4ca4-4f3a-a81e-0dd037410106}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Static_Object\Architecture\Wood">
+      <UniqueIdentifier>{3bec65f8-d0b4-417f-9273-b4fa90a2ca3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Static_Object\Architecture\Wood\DefenceWall">
+      <UniqueIdentifier>{c3f0393e-119b-4f83-bfb5-96a55c00f533}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Static_Object\Architecture\Wood\Wall">
+      <UniqueIdentifier>{ebb335e1-c248-48f4-936f-2e85060fd775}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Static_Object\Architecture\Wood\Door">
+      <UniqueIdentifier>{f535dd07-5d9e-418f-9c95-3c87b2fc3974}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Static_Object\Architecture\Farm">
+      <UniqueIdentifier>{6e237ee0-f11a-407a-acad-d7317bc15078}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -917,7 +944,7 @@
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\HealthBar</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\HungerIcon.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\HealthBar\HungerIcon</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\HungerBar\HungerIcon</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\HealthIcon.h">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\HealthBar\HealthIcon</Filter>
@@ -938,7 +965,7 @@
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\BattlePell\PellInfo</Filter>
     </ClInclude>
     <ClInclude Include="..\public\TypeIcon.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\TypeIcon</Filter>
+      <Filter>02. HUD\Base_UI\TypeIcon</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PellInfoFrame.h">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\BattlePell\Frame</Filter>
@@ -1564,6 +1591,27 @@
     <ClInclude Include="..\public\AiSenceComponent.h">
       <Filter>06. Component\AiSenceComponent</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\BossHealthBar.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Boss\BossHealthBar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\BossTitleName.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Boss\BossTitleName</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\DefenceWallWood.h">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Architecture\Wood\DefenceWall</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\HungerBar.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\HungerBar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\WoodDoor.h">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Architecture\Wood\Door</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\WoodWall.h">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Architecture\Wood\Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\FarmGround.h">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Architecture\Farm</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -1634,7 +1682,7 @@
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\HealthBar</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\HungerIcon.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\HealthBar\HungerIcon</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\HungerBar\HungerIcon</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\HealthIcon.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\HealthBar\HealthIcon</Filter>
@@ -1655,7 +1703,7 @@
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\BattlePell\PellInfo</Filter>
     </ClCompile>
     <ClCompile Include="..\private\TypeIcon.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\TypeIcon</Filter>
+      <Filter>02. HUD\Base_UI\TypeIcon</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PellInfoFrame.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\BattlePell\Frame</Filter>
@@ -2259,6 +2307,27 @@
     </ClCompile>
     <ClCompile Include="..\private\AiSenceComponent.cpp">
       <Filter>06. Component\AiSenceComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BossHealthBar.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Boss\BossHealthBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BossTitleName.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Boss\BossTitleName</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\DefenceWallWood.cpp">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Architecture\Wood\DefenceWall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\HungerBar.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\HungerBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\WoodDoor.cpp">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Architecture\Wood\Door</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\WoodWall.cpp">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Architecture\Wood\Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\FarmGround.cpp">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Architecture\Farm</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

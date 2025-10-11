@@ -41,11 +41,11 @@ protected:
 	_uInt									m_NpcID;
 	NPC_TEAM								m_eTeam;
 
-	_float									m_fPellMoveSpeed = {};
+	_float									m_fActionDistance = {};
+
 	_bool									m_bIsLoop = true;
 	_bool									m_bIsAction = false;
 
-	_float									m_fAccActionTime = 0;
 	CNpcStateMachine*						m_pNpcFsm = nullptr;
 
 #pragma region Component

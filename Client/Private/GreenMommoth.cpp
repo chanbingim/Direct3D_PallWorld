@@ -2,7 +2,6 @@
 #include "GameInstance.h"
 
 #include "TerrainManager.h"
-#include "PellStateMachine.h"
 
 #pragma region Client Compoent
 #include "CombatComponent.h"
@@ -12,8 +11,9 @@
 
 #include "PellStateMachine.h"
 #include "PellAttackState.h"
+#include "PellPatrolState.h"
+
 #include "PellBody.h"
-#include <PellPatrolState.h>
 
 CGreenMommoth::CGreenMommoth(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CPellBase(pDevice, pContext)
@@ -45,16 +45,13 @@ HRESULT CGreenMommoth::Initialize(void* pArg)
     if (FAILED(ADD_PartObjects()))
         return E_FAIL;
 
-    if (FAILED(ADD_PellInfoUI()))
-        return E_FAIL;
-
     m_eTeam = PELL_TEAM::NEUTRAL;
     return S_OK;
 }
 
 void CGreenMommoth::Priority_Update(_float fDeletaTime)
 {
-    __super::Priority_Update(fDeletaTime);
+    CContainerObject::Priority_Update(fDeletaTime);
 
     auto pTarget = m_pCombatCom->GetCurrentTarget();
     if(pTarget)
@@ -83,14 +80,14 @@ void CGreenMommoth::Priority_Update(_float fDeletaTime)
 void CGreenMommoth::Update(_float fDeletaTime)
 {
     m_pPellBody->PellPlayAnimation(m_pPellFsm->GetAnimationName().c_str(), m_bIsLoop);
-    __super::Update(fDeletaTime);
+    CContainerObject::Update(fDeletaTime);
 }
 
 void CGreenMommoth::Late_Update(_float fDeletaTime)
 {
     if (m_pGameInstance->DistanceCulling(m_pTransformCom->GetPosition()))
     {
-        __super::Late_Update(fDeletaTime);
+        CContainerObject::Late_Update(fDeletaTime);
         m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
     }
 }
@@ -290,4 +287,6 @@ CGameObject* CGreenMommoth::Clone(void* pArg)
 void CGreenMommoth::Free()
 {
     __super::Free();
+
+    Safe_Release(m_pAiSenceCom);
 }
