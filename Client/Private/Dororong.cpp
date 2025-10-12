@@ -112,7 +112,9 @@ void CDororong::Priority_Update(_float fDeletaTime)
         }
     }
 
-    m_pNevigation->ComputeHeight(m_pTransformCom, false);
+    if (CPellStateMachine::MOVE_ACTION::CARRY > State.eMove_State)
+        m_pNevigation->ComputeHeight(m_pTransformCom, false);
+
     m_pCollision->UpdateColiision(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
 }
 
@@ -298,6 +300,10 @@ void CDororong::OverlapEvent(_float3 vDir, CGameObject* pHitObject)
            m_bIsAction = false;
        }
     }
+    else
+    {
+        __super::OverlapEvent(vDir, pHitObject);
+    }
 }
 
 void CDororong::StunAction(_float fDeletaTime, _bool bIsStunEnd)
@@ -306,7 +312,7 @@ void CDororong::StunAction(_float fDeletaTime, _bool bIsStunEnd)
     {
         m_pPellFsm->CombatStateReset();
         m_pPellFsm->SetAttack(false);
-        m_pTransformCom->SetRotation({ 0.f, 0.f, 0.f });
+        m_pTransformCom->SetRotation(_float3( 0.f, 0.f, 0.f ));
         m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Idle"));
     }
     else

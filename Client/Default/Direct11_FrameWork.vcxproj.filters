@@ -872,6 +872,21 @@
     <Filter Include="03. Objects\MeshObject\NonAnimMesh\Static_Object\Architecture\Farm">
       <UniqueIdentifier>{6e237ee0-f11a-407a-acad-d7317bc15078}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\MoveLayer\State\Carry">
+      <UniqueIdentifier>{2fb67c86-e71e-4dac-bacb-1ce65a6a13ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\UpperLayer\State\Grab">
+      <UniqueIdentifier>{f30856a2-f6b9-4b31-9742-63813e17c995}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\MoveLayer\State\flyState">
+      <UniqueIdentifier>{99a9e438-f70c-46a9-b10a-e33fab5a7b4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\MoveLayer\State\Launched">
+      <UniqueIdentifier>{eb981022-6ac6-4494-9bd3-85d1e0758c3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04. DataManager\PellBoxManager">
+      <UniqueIdentifier>{fc342024-b43b-41a3-bffe-3a9be921043f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -1612,6 +1627,18 @@
     <ClInclude Include="..\public\FarmGround.h">
       <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Architecture\Farm</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\PellCarryState.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\MoveLayer\State\Carry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PlayerGrabState.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\UpperLayer\State\Grab</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PellStateLaunched.h">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\MoveLayer\State\Launched</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PellBoxManager.h">
+      <Filter>04. DataManager\PellBoxManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -2328,6 +2355,18 @@
     </ClCompile>
     <ClCompile Include="..\private\FarmGround.cpp">
       <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Architecture\Farm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PellCarryState.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\MoveLayer\State\Carry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PlayerGrabState.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\UpperLayer\State\Grab</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PellStateLaunched.cpp">
+      <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\MoveLayer\State\Launched</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PellBoxManager.cpp">
+      <Filter>04. DataManager\PellBoxManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

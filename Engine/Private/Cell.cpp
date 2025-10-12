@@ -159,6 +159,16 @@ void CCell::GetNeighborIndex(_Int* pNeighborIndex)
     pNeighborIndex[2] = m_NeighborIndices[ENUM_CLASS(NAVI_LINE::CA)];
 }
 
+_vector CCell::ComputeNormal()
+{
+    _vector vNormal = XMLoadFloat3(&m_vTirNormals[0]);
+
+    for (_uInt i = 1; i < ENUM_CLASS(NAVI_POINT::END); ++i)
+        vNormal += XMLoadFloat3(&m_vTirNormals[i]);
+
+    return XMVector3Normalize(vNormal / 3);
+}
+
 const PORTAL_DESC* CCell::GetPortal(_Int iNeighborIndex)
 {
     for (_uInt i = 0; i < ENUM_CLASS(NAVI_LINE::END); ++i)

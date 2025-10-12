@@ -15,6 +15,7 @@
 #include "Architecture.h"
 #include "JumpState.h"
 #include "PlayerWorkState.h"
+#include "PellBase.h"
 #include "ItemBase.h"
 
 CPlayer::CPlayer(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext) :
@@ -167,8 +168,11 @@ void CPlayer::Key_Input(_float fDeletaTime)
         }
     }
     if (!GetWeaponAttackType() && State.bIsAttacking)
-        m_pAnimator->NearAttackOnCollision();
-
+    {
+        if(!State.bIsPallCarry)
+          m_pAnimator->NearAttackOnCollision();
+    }
+      
     MoveAction(fDeletaTime);
     PlayerMoveView(fDeletaTime);
     ChangeAction(fDeletaTime);
@@ -329,6 +333,7 @@ void CPlayer::ChangeAction(_float fDeltaTime)
 
     if (CPlayerStateMachine::MOVE_ACTION::CROUCH >= State.eMove_State)
     {
+
 #pragma region JUMP_INPUT
         if (!State.bIsAttacking)
         {
@@ -400,6 +405,24 @@ void CPlayer::ChangeAction(_float fDeltaTime)
         }
 #pragma endregion
 
+#pragma region TEXT_GRAB
+        if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_T))
+        {
+            if (!State.bIsPallCarry)
+            {
+                //이거 펠던지기 전까지 펠캐리상태
+                if (m_pNearPellBase)
+                {
+                    m_pNearPellBase->ChangePellCarry(m_pAnimator->GetLeftHandSocket());
+
+                    m_pPlayerFSM->SetPallCarry(true);
+                    m_pPlayerFSM->ChangeState(TEXT("UpperLayer"), TEXT("Grab"));
+                    m_bIsAnimLoop = false;
+                }
+            }
+        }
+#pragma endregion
+
 #pragma region PLAYER_ATTACK & Create Acrchiteture
         if (m_pPlayerSlotAcrchiteture->IsPreView())
         {
@@ -446,7 +469,19 @@ void CPlayer::ChangeAction(_float fDeltaTime)
                 if (m_pGameInstance->KeyPressed(KEY_INPUT::MOUSE, 0))
                 {
                     if (!State.bIsAttacking)
+                    {
                         IsAttack = true;
+
+                        if (State.bIsPallCarry)
+                        {
+                            _float3 vDir = {};
+                            m_pPlayerFSM->SetPallCarry(false);
+                            XMStoreFloat3(&vDir, m_pTransformCom->GetLookVector());
+                            m_pNearPellBase->PellLaunched(vDir, 5.f);
+                            m_pNearPellBase = nullptr;
+                        }
+                    }
+                       
                 }
             }
 
@@ -455,7 +490,6 @@ void CPlayer::ChangeAction(_float fDeltaTime)
                 m_pPlayerFSM->PlayerStateReset(TEXT("CombatLayer"));
                 m_pPlayerFSM->SetAttack(true);
                 m_pAnimator->ChangeWeaponState(ENUM_CLASS(CPlayerWeaponSlot::WEAPON_STATE::ATTACK));
-                //m_pAnimator->ShootProjecttileObject();
                 m_bIsAnimLoop = false;
             }
         }
@@ -483,6 +517,17 @@ void CPlayer::ChangeAction(_float fDeltaTime)
 #pragma region PELL CREATE
         if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_E))
         {
+            auto pPellBase = CPlayerManager::GetInstance()->GetSelectPellInfomation();
+            if (PELL_STORAGE_STATE::PARTNER_PELL == pPellBase->GetPellInfo().ePellStorageState)
+            {
+                if (m_pNearPellBase == pPellBase)
+                {
+                    m_pPlayerFSM->SetPallCarry(false);
+                    m_pNearPellBase->ResetCarryState();
+                    m_pNearPellBase = nullptr;
+                }
+            }
+
             CPlayerManager::GetInstance()->SpawnSelectPell();
         }
 #pragma endregion
@@ -661,6 +706,14 @@ void CPlayer::UpdatePlayerAction(_float fDeletaTime)
             }
         }
     }
+    else if (CPlayerStateMachine::MOVE_ACTION::GRAB == State.eMove_State)
+    {
+        if (IsFinishedAnimationAction())
+        {
+            m_pPlayerFSM->ChangeState(TEXT("UpperLayer"), TEXT("Default"));
+            m_bIsAnimLoop = true;
+        }
+    }
 }
 
 void CPlayer::UpdateJump(_float fDeletaTime)
@@ -759,6 +812,29 @@ void CPlayer::SetArchitecture(const ITEM_DESC* pItemDesc)
 void CPlayer::SetNearArchitecture(CArchitecture* pArchitecture)
 {
     m_pNearArchitecture = pArchitecture;
+}
+
+void CPlayer::SetNearPell(CPellBase* pPellBase, _float fDistance)
+{
+    auto pPlayerState = m_pPlayerFSM->GetState();
+
+    if (pPlayerState.bIsPallCarry)
+        return;
+
+    //가까이 있는 펠이라도 보고있는 펠로 할 예정
+    if (m_pNearPellBase)
+    {
+        _float3 vPellPos = m_pNearPellBase->GetTransform()->GetPosition();
+        _float3 vPlayerPos = m_pTransformCom->GetPosition();
+
+        _float fNearPellDistance = XMVectorGetX(XMVector3Length(XMLoadFloat3(&vPlayerPos) - XMLoadFloat3(&vPellPos)));
+        if (fNearPellDistance > fDistance)
+            m_pNearPellBase = pPellBase;
+    }
+    else
+    {
+        m_pNearPellBase = pPellBase;
+    }
 }
 
 _uInt CPlayer::GetNaviMeshCell()

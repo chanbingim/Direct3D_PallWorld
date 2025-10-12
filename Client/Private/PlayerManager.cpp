@@ -548,6 +548,11 @@ void CPlayerManager::SetNearArchitecture(CArchitecture* pArchitecture)
 	m_pCurrentPlayer->SetNearArchitecture(pArchitecture);
 }
 
+void CPlayerManager::SetNearPell(CPellBase* pPellBase, _float fDistance)
+{
+	m_pCurrentPlayer->SetNearPell(pPellBase, fDistance);
+}
+
 _bool CPlayerManager::IsPlayerAnimming()
 {
 	CPlayerStateMachine::PLAYER_STATE playerState;

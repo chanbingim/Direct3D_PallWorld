@@ -114,7 +114,8 @@ void CBedCat::Priority_Update(_float fDeletaTime)
         }
     }
 
-    m_pNevigation->ComputeHeight(m_pTransformCom, false);
+    if(CPellStateMachine::MOVE_ACTION::CARRY > State.eMove_State)
+        m_pNevigation->ComputeHeight(m_pTransformCom, false);
     m_pCollision->UpdateColiision(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
 }
 
@@ -270,6 +271,10 @@ void CBedCat::OverlapEvent(_float3 vDir, CGameObject* pHitObject)
             m_pPellFsm->CombatStateReset();
             m_pPellFsm->ChangeState(TEXT("Body_Layer"), TEXT("Idle"));
         }
+    }
+    else
+    {
+        __super::OverlapEvent(vDir, pHitObject);
     }
 }
 

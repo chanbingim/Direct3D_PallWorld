@@ -208,6 +208,10 @@
     <ClInclude Include="..\public\NpcTalkState.h" />
     <ClInclude Include="..\public\PalBed.h" />
     <ClInclude Include="..\public\PalBox.h" />
+    <ClInclude Include="..\public\PellBoxManager.h" />
+    <ClInclude Include="..\public\PellCarryState.h" />
+    <ClInclude Include="..\public\PellStateLaunched.h" />
+    <ClInclude Include="..\public\PlayerGrabState.h" />
     <ClInclude Include="..\public\PlayerSlotArchitecture.h" />
     <ClInclude Include="..\public\PlayerWorkState.h" />
     <ClInclude Include="..\public\PreivewModelBody.h" />
@@ -457,6 +461,10 @@
     <ClCompile Include="..\private\NpcTalkState.cpp" />
     <ClCompile Include="..\private\PalBed.cpp" />
     <ClCompile Include="..\private\PalBox.cpp" />
+    <ClCompile Include="..\private\PellBoxManager.cpp" />
+    <ClCompile Include="..\private\PellCarryState.cpp" />
+    <ClCompile Include="..\private\PellStateLaunched.cpp" />
+    <ClCompile Include="..\private\PlayerGrabState.cpp" />
     <ClCompile Include="..\private\PlayerSlotArchitecture.cpp" />
     <ClCompile Include="..\private\PlayerWorkState.cpp" />
     <ClCompile Include="..\private\PreivewModelBody.cpp" />

@@ -5,7 +5,7 @@
 #include "ClimbState.h"
 #include "JumpState.h"
 #include "PlayerIdleState.h"
-
+#include "PlayerGrabState.h"
 #pragma endregion
 
 CPlayerUpperLayer::CPlayerUpperLayer()
@@ -41,6 +41,9 @@ HRESULT CPlayerUpperLayer::ADD_UpperState()
         return E_FAIL;
 
     if (FAILED(AddState(TEXT("Jump"), CJumpState::Create("Jump"))))
+        return E_FAIL;
+
+    if (FAILED(AddState(TEXT("Grab"), CPlayerGrabState::Create("Grab"))))
         return E_FAIL;
 
     return S_OK;

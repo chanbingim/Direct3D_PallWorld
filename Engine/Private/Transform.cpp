@@ -113,6 +113,21 @@ void CTransform::SetRotation(_float3 vRotation)
     }
 }
 
+void CTransform::SetRotation(_vector vRotation)
+{
+    _float3		vScale = GetScale();
+
+    _matrix IdentiyMat = XMMatrixIdentity();
+    _vector SacleVec = XMLoadFloat3(&vScale);
+
+    _matrix QuternionMat = XMMatrixRotationQuaternion(vRotation);
+    for (_uInt i = 0; i < EnumToInt(WORLDSTATE::POSITION); ++i)
+    {
+        auto vNewRow = IdentiyMat.r[i] * SacleVec.m128_f32[i];
+        XMStoreFloat4(reinterpret_cast<_float4*>(&m_WorldMat.m[i]), XMVector3TransformNormal(vNewRow, QuternionMat));
+    }
+}
+
 _float4x4& CTransform::GetWorldMat()
 {
     if (m_bHasParent)

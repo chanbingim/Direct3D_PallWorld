@@ -103,7 +103,13 @@ _string CPlayerStateMachine::GetStateFullName()
         if (MOVE_ACTION::DEFAULT == m_StateData.eMove_State && MOVE_CHILD_ACTION::IDLE == m_StateData.eMove_Child_State)
         {
             if (m_StateData.bIsAttacking)
-                FullName = "Attack";
+            {
+                if (m_StateData.bIsPallCarry)
+                    FullName = "Throw";
+                else
+                    FullName = "Attack";
+            }
+                
 
             if (COMBAT_ACTION::ATTACK == m_StateData.eCombat_State)
             {
@@ -114,7 +120,7 @@ _string CPlayerStateMachine::GetStateFullName()
             }
         }
 
-        if (m_StateData.bIsAiming)
+        if (!m_StateData.bIsPallCarry && m_StateData.bIsAiming)
         {
             if (MOVE_CHILD_ACTION::IDLE != m_StateData.eMove_Child_State)
             {
@@ -148,9 +154,15 @@ _string CPlayerStateMachine::GetStateFullName()
                     FullName += "_Aim";
             }
         }
-        const char* WeaponName = GetWeaponName(m_StateData.iWeaponType);
-        if (WeaponName)
-            FullName += WeaponName;
+
+        if (!m_StateData.bIsPallCarry)
+        {
+            const char* WeaponName = GetWeaponName(m_StateData.iWeaponType);
+            if (WeaponName)
+                FullName += WeaponName;
+        }
+        else
+            FullName += "_PalCarry";
     }
     else
         FullName = NoneCombatStateName;

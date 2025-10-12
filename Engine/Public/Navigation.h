@@ -68,6 +68,9 @@ public:
 
 	_bool							IsInNaviMesh(_float3 vPos, _float fOffset, _float* pOut);
 	void							ChangeNaviMeshIndex(_uInt iIndex) { m_iCurrentCellIndex = iIndex; }
+
+	_vector							GetCurrentCellNoraml();
+
 #ifdef _DEBUG
 public:
 	HRESULT							Export(const char* FilePath);

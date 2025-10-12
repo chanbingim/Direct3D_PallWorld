@@ -571,6 +571,11 @@ _bool CNavigation::IsInNaviMesh(_float3 vPos, _float fOffset, _float* pOut)
 	return false;
 }
 
+_vector CNavigation::GetCurrentCellNoraml()
+{
+	return m_Cells[m_iCurrentCellIndex]->ComputeNormal();
+}
+
 NAVI_TRIANGLE CNavigation::CreateSuperTriangle(_float3 vMin, _float3 vMax)
 {
 	_float dx = vMax.x - vMin.x;

@@ -345,4 +345,6 @@ void CGamePlayHUD::Free()
 
 	for (auto pair : m_PreviewUIs)
 		Safe_Release(pair.second);
+
+	Safe_Release(m_pBossHealthbar);
 }

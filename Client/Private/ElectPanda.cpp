@@ -58,6 +58,7 @@ void CElectPanda::Priority_Update(_float fDeletaTime)
     __super::Priority_Update(fDeletaTime);
     PellPlayFSM(fDeletaTime);
 
+    const CPellStateMachine::PELL_STATE& State = m_pPellFsm->GetState();
     /* if (m_pRecovery->GetRecovering())
          m_PellInfo.CurStemina += m_pRecovery->Update(fDeletaTime);
      else
@@ -65,7 +66,6 @@ void CElectPanda::Priority_Update(_float fDeletaTime)
 
     if (PELL_STORAGE_STATE::PARTNER_PELL != m_PellInfo.ePellStorageState)
     {
-        const CPellStateMachine::PELL_STATE& State = m_pPellFsm->GetState();
         _vector vPos{}, vDir{}, vMovePoint;
         if (CPellStateMachine::COMBAT_ACTION::END == State.eCombat_State)
         {
@@ -93,7 +93,9 @@ void CElectPanda::Priority_Update(_float fDeletaTime)
         }
     }
 
-    m_pNevigation->ComputeHeight(m_pTransformCom, false);
+    if (CPellStateMachine::MOVE_ACTION::CARRY > State.eMove_State)
+        m_pNevigation->ComputeHeight(m_pTransformCom, false);
+
     m_pCollision->UpdateColiision(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
 
 }
@@ -250,6 +252,10 @@ void CElectPanda::OverlapEvent(_float3 vDir, CGameObject* pHitObject)
     if (State.bIsAttacking)
     {
       
+    }
+    else
+    {
+        __super::OverlapEvent(vDir, pHitObject);
     }
 }
 

@@ -22,6 +22,7 @@ public :
 	void						SetPosition(_float3 vPosition);
 	void						SetScale(_float3 vScale);
 	void						SetRotation(_float3 vRotation);
+	void						SetRotation(_vector vRotation);
 
 	_float4x4&					GetWorldMat();
 	_float4x4&					GetInvWorldMat();

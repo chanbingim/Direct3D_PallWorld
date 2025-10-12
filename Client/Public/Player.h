@@ -21,6 +21,7 @@ class CPlayerCamera;
 class CTerrainManager;
 class CPlayerSlotArchitecture;
 class CArchitecture;
+class CPellBase;
 
 class CPlayer : public CContainerObject
 {
@@ -50,6 +51,7 @@ public:
 
 	void									SetArchitecture(const ITEM_DESC* pItemDesc);
 	void									SetNearArchitecture(CArchitecture* pArchitecture);
+	void									SetNearPell(CPellBase* pPellBase, _float fDistance);
 
 	_uInt									GetNaviMeshCell();
 	virtual		void						Damage(void* pArg, CActor* pDamagedActor) override;
@@ -67,6 +69,8 @@ private :
 	CPlayerSlotArchitecture*				m_pPlayerSlotAcrchiteture = nullptr;
 
 	CArchitecture*							m_pNearArchitecture = nullptr;
+	
+	CPellBase*								m_pNearPellBase = nullptr;
 
 	// 플레이어의 현재 방향
 	_bool									m_bIsAnimLoop = true;

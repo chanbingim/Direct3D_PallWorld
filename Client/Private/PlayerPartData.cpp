@@ -133,6 +133,11 @@ void CPlayerPartData::RoatationPitchSpine(_float fPitchAngle)
         XMMatrixRotationQuaternion(XMQuaternionRotationRollPitchYaw(0.f, 0.f, -fPitchAngle)));
 }
 
+const _float4x4* CPlayerPartData::GetLeftHandSocket()
+{
+    return m_pLeftHandSocket;
+}
+
 HRESULT CPlayerPartData::ShootProjecttileObject()
 {
     return static_cast<CPlayerWeaponSlot *>(m_pWeaponSocket[0])->ShootProjecttileObject();
@@ -184,7 +189,9 @@ HRESULT CPlayerPartData::ADD_AnimParts()
     SlotDesc.UseSocketMatrixFlag = 0b00000001;
     m_pWeaponSocketMatrix[0] = GetBoneMatrix("weapon_r");
     SlotDesc.SocketMatrix = m_pWeaponSocketMatrix[0];
-    SlotDesc.pLeftSocket = GetBoneMatrix("weapon_l");
+
+    m_pLeftHandSocket = GetBoneMatrix("weapon_l");
+    SlotDesc.pLeftSocket = m_pLeftHandSocket;
     SlotDesc.iSlotIndex = 0;
 
     m_pWeaponSocket[0] = static_cast<CPlayerWeaponSlot*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_WeaponSot"), &SlotDesc));

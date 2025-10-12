@@ -46,6 +46,12 @@ HRESULT CPellBody::Render()
     return S_OK;
 }
 
+void CPellBody::SetAttachSocket(const _float4x4* pSocket, _char SocketFlag)
+{
+    m_UseSocketMatrixFlag = SocketFlag;
+    m_SocketMatrix = pSocket;
+}
+
 void CPellBody::PellPlayAnimation(const char* szAnimName, _bool bIsLoop)
 {
     if (szAnimName)

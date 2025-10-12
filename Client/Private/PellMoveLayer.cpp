@@ -5,6 +5,8 @@
 #include "PellPatrolState.h"
 #include "PellResetState.h"
 #include "PellWorkState.h"
+#include "PellCarryState.h"
+#include "PellStateLaunched.h"
 #pragma endregion
 
 
@@ -46,6 +48,12 @@ HRESULT CPellMoveLayer::ADD_MoveState()
         return E_FAIL;
 
     if (FAILED(AddState(TEXT("Work"), CPellWorkState::Create("Work"))))
+        return E_FAIL;
+
+    if (FAILED(AddState(TEXT("Carry"), CPellCarryState::Create("Carry"))))
+        return E_FAIL;
+
+    if (FAILED(AddState(TEXT("Launched"), CPellStateLaunched::Create("Launched"))))
         return E_FAIL;
 
     return S_OK;

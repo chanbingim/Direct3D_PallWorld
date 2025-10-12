@@ -8,7 +8,7 @@ class CPlayerStateMachine final : public CFiniteStateMachine
 {
 public:
 	// 상체 및 하체 이동에 대한 상태 구현
-	enum class MOVE_ACTION { DEFAULT,  CROUCH, CLIMB, JUMP, END };
+	enum class MOVE_ACTION { DEFAULT,  CROUCH, CLIMB, JUMP, GRAB, END };
 	enum class MOVE_CHILD_ACTION { WALK, IDLE, JOG, SPRINT, END };
 
 	//전투 상태 및 비 전투 상태에 대한 Layer 구조
@@ -21,6 +21,7 @@ public:
 		_bool				bIsAiming;
 		_bool				bIsAttacking;
 		_bool				bIsCreateAble;
+		_bool				bIsPallCarry;
 
 		DIRECTION			eDireaction;
 		_uInt				iWeaponType;
@@ -52,6 +53,7 @@ public:
 	void								SetWeapon(_uInt	iWeapon) { m_StateData.iWeaponType = iWeapon; }
 	void								SetAttack(_bool	bFlag) { m_StateData.bIsAttacking = bFlag; }
 	void								SetCreateFlag(_bool	bFlag) { m_StateData.bIsCreateAble = bFlag; }
+	void								SetPallCarry(_bool	bFlag) { m_StateData.bIsPallCarry = bFlag; }
 
 	void								SetDireaction(DIRECTION eType) { m_StateData.eDireaction = eType; }
 

@@ -48,6 +48,16 @@ public:
 	void									ChangePellTeam(PELL_TEAM eTeam);
 	PELL_TEAM								GetPellTeam() { return m_eTeam; }
 
+#pragma region Pal Carry
+	void									ChangePellCarry(const _float4x4* pSocketMatrix);
+	void									ResetCarryState();
+	void									PellLaunched(_float3 vDir, _float ThorwSpeed);
+#pragma endregion
+
+	
+	void									AttachSocket(const _float4x4* pSocket, const _char SocketFlag) const;
+	const CPellBody*						GetPellBody() const { return m_pPellBody; }
+
 #pragma region Friendly Team Function
 	void									SpawnPellFriendly();
 #pragma endregion
@@ -93,6 +103,8 @@ protected :
 	HRESULT									ADD_PellInfoUI();
 	// 전투를 위한 전투 기능
 	virtual		void						CombatAction(_float fDeletaTime, CGameObject* pTarget);
+	virtual		void						OverlapEvent(_float3 vDir, CGameObject* pHitObject);
+
 	_bool									PellPlayFSM(_float fDeletaTime);
 	void									StartMoveAction(const _float3 vEndPos);
 
@@ -100,10 +112,16 @@ private :
 	// 이거 펠 파츠오브젝트 세팅부터 하고 불러야함 매번 코드짜서 넣어주기 귀찮아서
 	// 공통으로 묶어둔거라 파츠오브젝트 세팅을 안하고 부를경우 파츠오브젝트 크기를 못받아서 터짐
 	void									PellChiceAction(_float fDeletaTime);
+	void									UpdateTeamAction(_float fDeletaTime);
+
 	void									PellTackingAction(_float fDeletaTime);
+#pragma region Frendly
 	// 아군일떄
 	void									ActionFrendly(_float fDeletaTime);
-
+	
+	void									UpdateFrendlyAction(_float fDeletaTime);
+#pragma endregion
+	
 #pragma region Netural
 	// 야생 몬스터 일떄
 	void									ActionNeutral(_float fDeletaTime);

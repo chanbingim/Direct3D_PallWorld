@@ -78,6 +78,7 @@ public :
 
 	void					SelectArchitecture(_uInt iTechIndex);
 	void					SetNearArchitecture(CArchitecture* pArchitecture);
+	void					SetNearPell(CPellBase* pPellBase, _float fDistance);
 
 	_bool					IsPlayerAnimming();
 #pragma endregion
@@ -120,6 +121,7 @@ private :
 
 	//소유할수 있는 펠의 개수
 	_uInt								m_iNumMaxOwnPell = {};
+
 	// 현재 어떤 펠이 선택되어 있는지
 	_Int								m_iSelectPellIndex = {};
 #pragma endregion

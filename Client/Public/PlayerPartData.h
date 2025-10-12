@@ -35,6 +35,7 @@ public:
 	void									NearAttackOnCollision();
 	void									RoatationPitchSpine(_float fPitchAngle);
 
+	const _float4x4*						GetLeftHandSocket();
 
 private:
 	CPlayerBody*							m_pPlayerBody = nullptr;
@@ -44,6 +45,7 @@ private:
 	const _float4x4*						m_pWeaponSocketMatrix[3];
 	_float4x4*								m_pSpineOffsetMatrix = nullptr;
 
+	const _float4x4*						m_pLeftHandSocket = nullptr;
 
 	_bool									m_bIsFinished = false;
 	_bool									m_SplitAnimation = false;

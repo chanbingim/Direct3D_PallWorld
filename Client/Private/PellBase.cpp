@@ -19,6 +19,11 @@
 #include "Player.h"
 #pragma endregion
 
+#pragma region State
+#include "PellCarryState.h"
+#include "PellStateLaunched.h"
+#pragma endregion
+
 #include "PalSpher.h"
 #include "ProjectileObject.h"
 #include "CombatComponent.h"
@@ -67,6 +72,7 @@ void CPellBase::Priority_Update(_float fDeletaTime)
 
 void CPellBase::Update(_float fDeletaTime)
 {
+    m_pPellFsm->Update(fDeletaTime);
     __super::Update(fDeletaTime);
 
     if (VISIBILITY::VISIBLE == m_pNeturalPellUI->GetVisibility())
@@ -105,6 +111,7 @@ const _bool CPellBase::GetFinisehdAnimation() const
 
 void CPellBase::Damage(void* pArg, CActor* pDamagedActor)
 {
+    auto PellState = m_pPellFsm->GetState();
     if (nullptr == pArg)
     {
         auto HitPalSpher = dynamic_cast<CPalSpher*>(pDamagedActor);
@@ -142,10 +149,16 @@ void CPellBase::Damage(void* pArg, CActor* pDamagedActor)
             if (0 >= m_PellInfo.CurHealth)
             {
                 m_bIsLoop = false;
+                if (CPellStateMachine::MOVE_ACTION::CARRY == PellState.eMove_State)
+                    ResetCarryState();
+
                 m_pPellFsm->ChangeState(TEXT("CombatLayer"), TEXT("Dead"));
             }
             else
             {
+                if (CPellStateMachine::MOVE_ACTION::CARRY == PellState.eMove_State)
+                    return;
+
                 if (m_pPellBody)
                     m_pPellBody->ResetPellCurrentAnimation();
 
@@ -183,6 +196,42 @@ void CPellBase::ChangePellTeam(PELL_TEAM eTeam)
     }
 }
 
+void CPellBase::ChangePellCarry(const _float4x4* pSocketMatrix)
+{
+    CPellCarryState::PELL_CARRY_DESC PellCarryDesc = {};
+    PellCarryDesc.pActPell = this;
+    PellCarryDesc.pSoketMat = pSocketMatrix;
+    PellCarryDesc.pPellCollision = m_pCollision;
+
+    m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Carry"), &PellCarryDesc);
+    m_pPellFsm->CombatStateReset();
+}
+
+void CPellBase::ResetCarryState()
+{
+    m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Idle"));
+
+    m_pPellBody->SetRotation({});
+    m_pPellFsm->CombatStateReset();
+}
+
+void CPellBase::PellLaunched(_float3 vDir, _float ThorwSpeed)
+{
+    CPellStateLaunched::PELL_STATE_LAUNCHED_DESC PellLaunchedDesc = {};
+    PellLaunchedDesc.pActPell = this;
+    PellLaunchedDesc.fMoveSpeed = ThorwSpeed;
+    PellLaunchedDesc.vDir = vDir;
+    PellLaunchedDesc.pNavigation = m_pNevigation;
+
+    m_pPellBody->SetRotation({ 0.f, 0.f, 0.f });
+    m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Launched"), &PellLaunchedDesc);
+}
+
+void CPellBase::AttachSocket(const _float4x4* pSocket, const _char SocketFlag) const
+{
+    m_pPellBody->SetAttachSocket(pSocket, SocketFlag);
+}
+
 void CPellBase::SpawnPellFriendly()
 {
     if (PELL_STORAGE_STATE::PLAYER_INVEN == m_PellInfo.ePellStorageState)
@@ -218,6 +267,34 @@ HRESULT CPellBase::SetUpDefaultPellData()
 
 void CPellBase::CombatAction(_float fDeletaTime, CGameObject* pTarget)
 {
+}
+
+void CPellBase::OverlapEvent(_float3 vDir, CGameObject* pHitObject)
+{
+    auto PellState = m_pPellFsm->GetState();
+    if (CPellStateMachine::MOVE_ACTION::LAUNCHED == PellState.eMove_State)
+    {
+        auto pPlayer = CPlayerManager::GetInstance()->GetCurrentPlayer();
+        auto pParnet = pHitObject->GetParent();
+        // 로켓런처로 쐈으면 데미지,  아니라면 그냥 던져서 맞으면 데미지같은거 주지말자
+        // 현재 플레이어가 Hit 된게 아니라면 멈추자
+        if(pHitObject != pPlayer && pParnet != pPlayer)
+            m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Idle"));
+    }
+
+   /* if (CPellStateMachine::MOVE_ACTION::LAUNCHED == PellState.eMove_State)
+    {
+        _float3 vPellPos{}, vPlanePoint{};
+        vPlanePoint = vPellPos = m_pTransformCom->GetPosition();
+        vPlanePoint.y = m_pNevigation->ComputeHeight(m_pTransformCom);
+        _vector vCalDir = XMLoadFloat3(&vPellPos) - XMLoadFloat3(&vPlanePoint);
+        _vector vCellNoraml = m_pNevigation->GetCurrentCellNoraml();
+
+        _float fScalar = XMVectorGetX(XMVector3Dot(vCellNoraml, vCalDir));
+
+        if(0 > fScalar)
+            m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Idle"));
+    }*/
 }
 
 HRESULT CPellBase::ADD_PellInfoUI()
@@ -280,7 +357,7 @@ _bool CPellBase::PellPlayFSM(_float fDeletaTime)
         }
     }
 
-    m_pPellFsm->Update(fDeletaTime);
+  
     if(CPellStateMachine::COMBAT_ACTION::END == State.eCombat_State)
         m_bIsLoop = m_pPellFsm->GetLayerAnimLoop(TEXT("BodyLayer"));
     else
@@ -307,6 +384,8 @@ void CPellBase::PellChiceAction(_float fDeletaTime)
 
 void CPellBase::PellTackingAction(_float fDeletaTime)
 {
+    UpdateTeamAction(fDeletaTime);
+
     const CPellStateMachine::PELL_STATE& State = m_pPellFsm->GetState();
     if (CPellStateMachine::COMBAT_ACTION::DEAD == State.eCombat_State)
     {
@@ -446,6 +525,10 @@ void CPellBase::StartMoveAction(const _float3 vEndPos)
 void CPellBase::ActionFrendly(_float fDeletaTime)
 {
     const CPellStateMachine::PELL_STATE& State = m_pPellFsm->GetState();
+
+    if (CPellStateMachine::MOVE_ACTION::CARRY == State.eMove_State)
+        return;
+
     if (false == State.bIsCombat)
     {
         // 전투 중이 아니라면 펠은 플레이어와 일정거리이상 멀어지면 이동한다.
@@ -475,6 +558,33 @@ void CPellBase::ActionFrendly(_float fDeletaTime)
                 m_pCombatCom->Update(fDeletaTime);
             }
         }
+    }
+}
+
+void CPellBase::UpdateFrendlyAction(_float fDeletaTime)
+{
+    auto pellState = m_pPellFsm->GetState();
+    if (CPellStateMachine::MOVE_ACTION::CARRY > pellState.eMove_State)
+    {
+        _float3 vPellPos = m_pTransformCom->GetPosition();
+        _vector vPlayerPos = m_pGameInstance->GetPlayerState(WORLDSTATE::POSITION);
+
+        _float fDistance = XMVectorGetX(XMVector3Length(vPlayerPos - XMLoadFloat3(&vPellPos)));
+        CPlayerManager::GetInstance()->SetNearPell(this, fDistance);
+    }
+}
+
+void CPellBase::UpdateTeamAction(_float fDeletaTime)
+{
+    switch (m_eTeam)
+    {
+    case PELL_TEAM::FRENDLY:
+        UpdateFrendlyAction(fDeletaTime);
+        break;
+    case PELL_TEAM::NEUTRAL:
+        break;
+    case PELL_TEAM::ENEMY:
+        break;
     }
 }
 
