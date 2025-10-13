@@ -6,6 +6,7 @@
 #include "InGameMenu.h"
 #include "CreateMenu.h"
 #include "DiallogUI.h"
+#include "PalBoxUserInterface.h"
 #include "BossHealthBar.h"
 #include "WorkBenchCreateUI.h"
 
@@ -164,6 +165,8 @@ HRESULT CGamePlayHUD::ADD_UserInterface()
 		return E_FAIL;
 	m_pBossHealthbar->SetVisibility(VISIBILITY::HIDDEN);
 
+#pragma region PopUp
+
 #pragma region In Game Menu
 	Desc.vScale = { g_iWinSizeX * 0.8f , g_iWinSizeY * 0.85f , 1.f };
 	Desc.vPosition = { g_iHalfWinSizeX, g_iWinSizeY * 0.55f, 0.f };
@@ -207,6 +210,21 @@ HRESULT CGamePlayHUD::ADD_UserInterface()
 	Safe_AddRef(pDiallog);
 	m_PopupUIs.emplace(3, pDiallog);
 #pragma endregion
+
+#pragma region PalBox UI
+	Desc.vScale = {  };
+	Desc.vPosition = { };
+	CUserInterface* pPalBoxUI = nullptr;
+	if (FAILED(__super::Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_PalBoxUserInterface"), TEXT("PalBox_UI"), &Desc, (CUserInterface**)&pPalBoxUI)))
+		return E_FAIL;
+
+	Safe_AddRef(pPalBoxUI);
+	m_PopupUIs.emplace(4, pPalBoxUI);
+#pragma endregion
+
+#pragma endregion
+
+
 	
 	return S_OK;
 }
@@ -266,6 +284,18 @@ void CGamePlayHUD::UIKeyInput()
 		else
 		{
 			UnActivePopUpUserInterface(1);
+		}
+	}
+
+	if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_J))
+	{
+		if (VISIBILITY::HIDDEN == m_PopupUIs.find(4)->second->GetVisibility())
+		{
+			ActivePopUpUserInterface(4);
+		}
+		else
+		{
+			UnActivePopUpUserInterface(4);
 		}
 	}
 

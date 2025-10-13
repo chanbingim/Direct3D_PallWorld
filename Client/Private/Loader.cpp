@@ -109,6 +109,10 @@
 #include "PellInfoFrame.h"
 #include "TypeIcon.h"
 
+#pragma region PalBoxUI
+#include "PalBoxUserInterface.h"
+#pragma endregion
+
 #pragma region WORKBENCH
 #include "WorkBenchCreateUI.h"
 #include "CreateToolTipUI.h"
@@ -1218,6 +1222,13 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_DialLogUI"), CDiallogUI::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 #pragma endregion
+
+#pragma region PalBoxUI
+	/* GAME_OBJECT_PalBoxUI */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_PalBoxUserInterface"), CPalBoxUserInterface::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
 
 	m_strMessage = TEXT("로딩이 완료되었습니다..");
 

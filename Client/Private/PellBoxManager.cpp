@@ -123,12 +123,12 @@ void CPellBoxManager::Remove_WorkPalList(CPellBase* pPellBase)
 	m_pSelectPalBox->Remove_WorkPalList(pPellBase);
 }
 
-CPellBase* CPellBoxManager::Load_WorkPalList(_uInt iStoreID, PELL_INFO* pOutPalInfo)
+void CPellBoxManager::Load_WorkPalList(_uInt iStoreID, PELL_INFO* pOutPalInfo)
 {
 	if (nullptr == m_pSelectPalBox)
-		return nullptr;
+		return;
 
-	return m_pSelectPalBox->Load_WorkPalList(iStoreID, pOutPalInfo);
+	m_pSelectPalBox->Load_WorkPalList(iStoreID, pOutPalInfo);
 }
 
 void CPellBoxManager::SwapPalBox(_uInt iSlotType, _uInt iToSlotIndex, _uInt iFromSlotIndex)

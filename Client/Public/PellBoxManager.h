@@ -52,8 +52,7 @@ public :
 
 	// 내가 원하는 작업중인 펠리스트에서 제거한다..
 	void						Remove_WorkPalList(CPellBase* pPellBase);
-
-	CPellBase*					Load_WorkPalList(_uInt iStoreID, PELL_INFO* pOutPalInfo);
+	void						Load_WorkPalList(_uInt iStoreID, PELL_INFO* pOutPalInfo);
 #pragma endregion
 
 	void						SwapPalBox(_uInt iSlotType, _uInt iToSlotIndex, _uInt iFromSlotIndex);

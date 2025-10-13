@@ -1,6 +1,8 @@
 #pragma once
 #include "Client_Define.h"
 #include "Client_Struct.h"
+
+#include "PellStructData.h"
 #include "ItemStruct.h"
 #include "Base.h"
 
@@ -100,7 +102,7 @@ public :
 	void					SpawnSelectPell();
 
 	//인벤토리 안에서 스왑할때
-	HRESULT					SwapInventroyItem(_uInt FromSlotNumber, _uInt ToSlotNumber);
+	HRESULT					SwapInventroyPal(_uInt FromSlotNumber, _uInt ToSlotNumber);
 
 	_uInt					GetCurrentSelectPellSlotIndex() { return m_iSelectPellIndex; }
 #pragma endregion

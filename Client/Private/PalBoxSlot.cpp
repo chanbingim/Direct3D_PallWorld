@@ -48,6 +48,10 @@ void CPalBoxSlot::Update(_float fDeletaTime)
 
 void CPalBoxSlot::Late_Update(_float fDeletaTime)
 {
+    if(m_pPalInfo)
+        m_pSlotIcon->SetTexture(m_pPalInfo->pPellIconTexture);
+
+    m_pGameInstance->Add_RenderGroup(RENDER::SCREEN_UI, this);
 }
 
 HRESULT CPalBoxSlot::Render()
@@ -94,7 +98,7 @@ void CPalBoxSlot::SwapSlot(CPalBoxSlot* From)
         switch (m_ePalSlotType)
         {
         case PAL_SLOT_TYPE::INVEN:
-            CPlayerManager::GetInstance()->SwapInventroyItem(iFromSlotNumber, m_iSlotNumber);
+            CPlayerManager::GetInstance()->SwapInventroyPal(iFromSlotNumber, m_iSlotNumber);
             break;
         case PAL_SLOT_TYPE::BOX:
         case PAL_SLOT_TYPE::WORK:
@@ -192,7 +196,7 @@ HRESULT CPalBoxSlot::ADD_Components()
 
     m_pSlotIcon = CItemSlotIcon::Create(m_pGraphic_Device, m_pDeviceContext);
     m_pSlotIcon->Initialize(&pItemIconDesc);
-    m_pSlotIcon->SetZOrder(4);
+    m_pSlotIcon->SetZOrder(m_iZOrder + 1);
 
     return S_OK;
 }

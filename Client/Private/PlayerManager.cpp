@@ -615,7 +615,7 @@ HRESULT CPlayerManager::ADDPellList(const PELL_INFO& PellInfo, _Int iInvenSlotID
 	PellDesc.PellInfo.ePellStorageState = PELL_STORAGE_STATE::PLAYER_INVEN;
 	auto pBase = m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, iCurLevelID, PellDesc.PellInfo.szPrototyeName, &PellDesc);
 	if (nullptr == pBase)
-		return;
+		return E_FAIL;
 
 	m_pGameInstance->Add_GameObject_ToLayer(iCurLevelID, TEXT("Layer_GamePlay_Pell"), static_cast<CGameObject *>(pBase));
 	m_pOwnerPells[iInvenSlotID] = static_cast<CPellBase*>(pBase);
@@ -671,6 +671,12 @@ void CPlayerManager::SpawnSelectPell()
 	CPellBase* pSelectPell = m_pOwnerPells[m_iSelectPellIndex];
 	if(pSelectPell)
 		pSelectPell->SpawnPellFriendly();
+}
+
+HRESULT CPlayerManager::SwapInventroyPal(_uInt FromSlotNumber, _uInt ToSlotNumber)
+{
+	swap(m_pOwnerPells[FromSlotNumber], m_pOwnerPells[ToSlotNumber]);
+	return S_OK;
 }
 #pragma endregion
 

@@ -288,7 +288,7 @@ void CPalBox::Remove_WorkPalList(CPellBase* pPellBase)
     if (iter == m_SpawnPells.end())
         return;
 
-    StorePalBox(pPellBase->GetPellInfo());
+    StorePalBox(pPellBase->GetPellInfo(), -1);
     m_SpawnPells.erase(iter);
 }
 

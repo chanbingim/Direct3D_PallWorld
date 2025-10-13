@@ -4,13 +4,14 @@
 
 NS_BEGIN(Client)
 class CItemSlotIcon;
+class CTitleUI;
 
 class CPalBoxSlot : public CBackGround
 {
 public :
 	enum class PAL_SLOT_TYPE { BOX, INVEN, WORK, END };
 
-	typedef struct PalBoxDesc
+	typedef struct PalBoxDesc : public GAMEOBJECT_DESC
 	{
 		PAL_SLOT_TYPE				ePalSlotType;
 
