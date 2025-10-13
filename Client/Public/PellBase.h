@@ -20,6 +20,13 @@ class CPellBody;
 class CPellBase : public CContainerObject
 {
 public :
+	typedef struct PellBaseDesc : public GAMEOBJECT_DESC
+	{
+		_bool						bIsPellData;
+		PELL_INFO					PellInfo;
+	}PELL_BASE_DESC;
+
+public :
 	enum class PELL_TEAM	{ FRENDLY, NEUTRAL, ENEMY, END };
 
 protected:
@@ -99,7 +106,7 @@ protected :
 	_float3									m_vTargetPoint = { -1.f, -1.f, -1.f};
 
 protected :
-	HRESULT									SetUpDefaultPellData();
+	HRESULT									SetUpDefaultPellData(_bool bIsFlag, const PELL_INFO& Pellinfo);
 	HRESULT									ADD_PellInfoUI();
 	// 전투를 위한 전투 기능
 	virtual		void						CombatAction(_float fDeletaTime, CGameObject* pTarget);

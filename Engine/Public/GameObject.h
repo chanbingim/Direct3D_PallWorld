@@ -39,10 +39,10 @@ public :
 
 	// ·£´õ
 	virtual		HRESULT						Render();
+	virtual		_bool						IsDead() { return m_IsDead; }
 
 	CComponent*								Find_Component(const _wstring& ComponentTag);
 
-	_bool									IsDead() { return m_IsDead; }
 	void									SetDead(_bool bflag);
 
 	CTransform*								GetTransform() const { return m_pTransformCom; }

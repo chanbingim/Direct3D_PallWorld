@@ -74,6 +74,7 @@ using namespace DirectX;
 #include "Engine_Math.h"
 
 #include <dinput.h>
+#include <d3d11sdklayers.h>
 
 #ifdef _DEBUG
 

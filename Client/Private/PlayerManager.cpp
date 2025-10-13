@@ -602,6 +602,26 @@ HRESULT CPlayerManager::ADDOwnerPellList(CPellBase* pPellBase)
 	return S_OK;
 }
 
+HRESULT CPlayerManager::ADDPellList(const PELL_INFO& PellInfo, _Int iInvenSlotID)
+{
+	// 생성해서 넘기자 
+	_uInt iCurLevelID = m_pGameInstance->GetCurrentLevel()->GetLevelID();
+	CPellBase::PELL_BASE_DESC PellDesc = {};
+	PellDesc.vScale = { 1.f, 1.f, 1.f };
+	PellDesc.vPosition = m_pCurrentPlayer->GetTransform()->GetPosition();
+
+	PellDesc.bIsPellData = true;
+	PellDesc.PellInfo = PellInfo;
+	PellDesc.PellInfo.ePellStorageState = PELL_STORAGE_STATE::PLAYER_INVEN;
+	auto pBase = m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, iCurLevelID, PellDesc.PellInfo.szPrototyeName, &PellDesc);
+	if (nullptr == pBase)
+		return;
+
+	m_pGameInstance->Add_GameObject_ToLayer(iCurLevelID, TEXT("Layer_GamePlay_Pell"), static_cast<CGameObject *>(pBase));
+	m_pOwnerPells[iInvenSlotID] = static_cast<CPellBase*>(pBase);
+	return S_OK;
+}
+
 const CPellBase* CPlayerManager::GetSelectPellInfomation()
 {
 	return m_pOwnerPells[m_iSelectPellIndex];
@@ -610,6 +630,15 @@ const CPellBase* CPlayerManager::GetSelectPellInfomation()
 const CPellBase* CPlayerManager::GetPellInfomation(_uInt iIndex)
 {
 	return m_pOwnerPells[iIndex];
+}
+
+void CPlayerManager::LoadPellInfomation(_uInt iIndex, PELL_INFO* pOutPellInfo)
+{
+	CPellBase* pPellBase = m_pOwnerPells[iIndex];
+	*pOutPellInfo = pPellBase->GetPellInfo();
+
+	pPellBase->SetDead(true);
+	m_pOwnerPells[iIndex] = nullptr;
 }
 
 void CPlayerManager::UpdateSelectPellIndex(_uInt vDir)

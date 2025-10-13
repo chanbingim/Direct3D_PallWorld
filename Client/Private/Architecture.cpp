@@ -4,15 +4,16 @@
 #include "ItemManager.h"
 
 #include "PlayerManager.h"
+#include "PellBoxManager.h"
 #include "ActionAbleUI.h"
 
 CArchitecture::CArchitecture(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
-	CNoneAnimMesh(pDevice, pContext)
+	CWorkAbleObject(pDevice, pContext)
 {
 }
 
 CArchitecture::CArchitecture(const CArchitecture& rhs) :
-	CNoneAnimMesh(rhs),
+	CWorkAbleObject(rhs),
 	m_ItemID(rhs.m_ItemID),
 	m_pArchitectureInfo(rhs.m_pArchitectureInfo)
 {
@@ -33,12 +34,15 @@ HRESULT CArchitecture::Initialize(void* pArg)
 
 	CActionAbleUI::ACTION_ABLE_DESC ActionDesc = {};
 	ActionDesc.pOwner = this;
-	ActionDesc.vAwayPosition = {0.5f, 0.3f, 0.f};
+	ActionDesc.vScale = {50.f, 20.f, 0.f};
+	ActionDesc.vAwayPosition = {10.f, -30.f, 0.f};
 
 	m_pActionUI = CActionAbleUI::Create(m_pGraphic_Device, m_pDeviceContext);
 	if(FAILED(m_pActionUI->Initialize(&ActionDesc)))
 		return E_FAIL;
 
+	m_fCurHealth = m_pArchitectureInfo.TypeDesc.ArchitectureDesc.fMaxHealth;
+	CPellBoxManager::GetInstance()->Add_JobListObject(m_eWorkType, this);
 	return S_OK;
 }
 
@@ -81,10 +85,11 @@ void CArchitecture::Update(_float fDeletaTime)
 		_vector vCalCamereaPos = m_pGameInstance->GetCameraState(WORLDSTATE::POSITION);
 		_vector vCalCamereaLook = m_pGameInstance->GetCameraState(WORLDSTATE::LOOK);
 		
+		_float fLength = XMVectorGetX(XMVector3Length(XMLoadFloat3(&vArchitecturePos) - vCalCamereaPos));
 		_vector vCameraToArchDir = XMVector3Normalize(XMLoadFloat3(&vArchitecturePos) - vCalCamereaPos);
 		_float fRad = acosf(XMVectorGetX(XMVector3Dot(vCameraToArchDir, vCalCamereaLook)));
 
-		if (fRad <= XM_PIDIV4)
+		if (fRad <= XM_PIDIV4 && fLength <= 3.f)
 		{
 			CPlayerManager::GetInstance()->SetNearArchitecture(this);
 			m_pActionUI->Update(fDeletaTime);
@@ -152,6 +157,35 @@ void CArchitecture::HitOverlapFunction(_float3 vDir, CGameObject* pHitActor)
 		if (0 > vDist)
 			pHitActor->ADDPosition(vDir * vDist);
 	}
+}
+
+void CArchitecture::Damage(void* pArg, CActor* pDamagedActor)
+{
+	if (false == m_pArchitectureInfo.TypeDesc.ArchitectureDesc.bIsDaamge)
+		return;
+
+	DEFAULT_DAMAGE_DESC* pDamageDesc = static_cast<DEFAULT_DAMAGE_DESC*>(pArg);
+	if (pDamageDesc)
+	{
+		m_fCurHealth -= pDamageDesc->fDmaged;
+		if (0 >= m_fCurHealth)
+			DeadFunction();
+		else
+		{
+			//여기서 애니메이션 처리
+			//있다면
+
+		}
+	}
+}
+
+HRESULT CArchitecture::DeadFunction()
+{
+	if (PELL_WORK_TYPE::END != m_eWorkType)
+		CPellBoxManager::GetInstance()->Remove_JobListObject(m_eWorkType, this);
+
+	m_IsDead = true;
+	return S_OK;
 }
 
 CGameObject* CArchitecture::Clone(void* pArg)

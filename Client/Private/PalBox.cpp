@@ -1,6 +1,13 @@
 #include "PalBox.h"
 
 #include "GameInstance.h"
+#include "Level.h"
+
+#include "PellBase.h"
+#include "WorkAbleObject.h"
+#include "PellBoxManager.h"
+
+#include "PalBoxSlot.h"
 
 CPalBox::CPalBox(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CArchitecture(pDevice, pContext)
@@ -32,6 +39,25 @@ HRESULT CPalBox::Initialize(void* pArg)
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
+    m_fAreaRadius = 30.f;
+    list<CGameObject*> EmptyList = {};
+    for (_uInt i = 0; i < ENUM_CLASS(PELL_WORK_TYPE::END); ++i)
+        m_JobList.emplace(PELL_WORK_TYPE(i), EmptyList);
+
+    auto pPellBoxManager = CPellBoxManager::GetInstance();
+    _uInt iCurLevel = m_pGameInstance->GetCurrentLevel()->GetLevelID();
+    auto WorkAbleLayer = m_pGameInstance->GetAllObejctToLayer(iCurLevel, TEXT("Layer_GamePlay_WorkAbleObject"));
+    for (auto pWorkAbleObject : (*WorkAbleLayer))
+    {
+        _float3 vWorkAbleObjectPos = pWorkAbleObject->GetTransform()->GetPosition();
+        _float3 vPalBoxPos = m_pTransformCom->GetPosition();
+
+        _float  fLenght = XMVectorGetX(XMVector3Length(XMLoadFloat3(&vPalBoxPos) - XMLoadFloat3(&vWorkAbleObjectPos)));
+        if (fLenght <= m_fAreaRadius)
+            Add_JobListObject(static_cast<CWorkAbleObject*>(pWorkAbleObject)->GetWorkAbleType(), pWorkAbleObject);
+    }
+
+    pPellBoxManager->Add_PalBox(this);
     m_pDebugSphere->UpdateColiision(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
     m_pHitBoxCollision->UpdateColiision(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
     return S_OK;
@@ -79,6 +105,205 @@ HRESULT CPalBox::Render()
 void CPalBox::ArchitectureAction()
 {
 
+}
+
+void CPalBox::Add_JobListObject(PELL_WORK_TYPE eWorkType, CGameObject* pObject)
+{
+    auto pair = m_JobList.find(eWorkType);
+    if (pair == m_JobList.end())
+        return;
+
+    auto& ObjectList = pair->second;
+    auto iter = find(ObjectList.begin(), ObjectList.end(), pObject);
+    if (iter == ObjectList.end())
+    {
+        Safe_AddRef(pObject);
+        ObjectList.push_back(pObject);
+    }
+}
+
+void CPalBox::Remove_JobListObject(PELL_WORK_TYPE eWorkType, CGameObject* pObject)
+{
+    auto pair = m_JobList.find(eWorkType);
+    if (pair == m_JobList.end())
+        return;
+
+    auto ObjectList = pair->second;
+    auto iter = find(ObjectList.begin(), ObjectList.end(), pObject);
+    if (iter == ObjectList.end())
+        return;
+
+    Safe_Release(*iter);
+    ObjectList.erase(iter);
+}
+
+void CPalBox::StorePalBox(const PELL_INFO& PellInfo, _Int iStoreID)
+{
+    _uInt iInfoIndex = {};
+    if (-1 != iStoreID)
+    {
+        m_BoxInPellInfo[iStoreID].first = PellInfo;
+        m_BoxInPellInfo[iStoreID].second = true;
+    }
+    else
+    {
+        auto iter = find_if(m_BoxInPellInfo.begin(), m_BoxInPellInfo.end(), [&](auto& pair)->_bool
+            {
+                if (false == pair.second)
+                    return true;
+
+                iInfoIndex++;
+                return false;
+            });
+
+        if (iter == m_BoxInPellInfo.end())
+            return;
+
+        iter->first = PellInfo;
+        iter->second = true;
+    }
+    return;
+}
+
+const PELL_INFO* CPalBox::GetPalBoxInfo(_uInt iStoreID)
+{
+    if (-1 == iStoreID)
+        return nullptr;
+    else
+    {
+        if (m_BoxInPellInfo[iStoreID].second)
+        {
+            return &m_BoxInPellInfo[iStoreID].first;
+        }
+        else
+            return nullptr;
+    }
+    return nullptr;
+}
+
+HRESULT CPalBox::LoadPalBox(_uInt iStoreID, PELL_INFO* pOutPalInfo)
+{
+    if (0 > iStoreID || m_BoxInPellInfo.size() <= iStoreID)
+        return E_FAIL;
+
+    if (m_BoxInPellInfo[iStoreID].second)
+    {
+        memcpy(pOutPalInfo, &m_BoxInPellInfo[iStoreID].first, sizeof(PAL_NETWORK_DATA));
+        pOutPalInfo->NickName = m_BoxInPellInfo[iStoreID].first.NickName;
+        pOutPalInfo->pPellIconTexture = m_BoxInPellInfo[iStoreID].first.pPellIconTexture;
+        pOutPalInfo->DefaultSkill = m_BoxInPellInfo[iStoreID].first.DefaultSkill;
+        m_BoxInPellInfo[iStoreID].second = false;
+    }
+    else
+        return E_FAIL;
+
+    return S_OK;
+}
+
+void CPalBox::Add_WorkPalList(_uInt iStoreID)
+{
+    // 생성해서 넘기자 
+    // 위치는 지금 선택된 PalBox의 위치에서
+    _uInt iCurLevelID = m_pGameInstance->GetCurrentLevel()->GetLevelID();
+    CPellBase::PELL_BASE_DESC PellDesc = {};
+    PellDesc.vScale = { 1.f, 1.f, 1.f };
+
+    _float3 vPalPosition = GetTransform()->GetPosition();
+    vPalPosition.x += m_pGameInstance->Random(1.f, 4.f);
+    vPalPosition.y += m_pGameInstance->Random(1.f, 4.f);
+    PellDesc.vPosition = vPalPosition;
+
+    PellDesc.bIsPellData = true;
+    if (FAILED(LoadPalBox(iStoreID, &PellDesc.PellInfo)))
+        return;
+
+    PellDesc.PellInfo.ePellStorageState = PELL_STORAGE_STATE::WORLD;
+    auto pBase = m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, iCurLevelID, PellDesc.PellInfo.szPrototyeName, &PellDesc);
+    if (nullptr == pBase)
+        return;
+    m_pGameInstance->Add_GameObject_ToLayer(iCurLevelID, TEXT("Layer_GamePlay_Pell"), static_cast<CGameObject*>(pBase));
+
+    CPellBase* pPellBase = static_cast<CPellBase*>(pBase);
+    _uInt iIndex = {};
+    auto iter = find_if(m_SpawnPells.begin(), m_SpawnPells.end(), [&](CGameObject* pObject)->_bool
+        {
+            if (nullptr == pObject)
+                return true;
+
+            iIndex++;
+            return false;
+        });
+
+    if (iter == m_SpawnPells.end() || m_iMaxSpawnPell <= iIndex)
+        return;
+
+    (*iter) = pPellBase;
+}
+
+void CPalBox::Add_WorkPalList(const PELL_INFO& PellInfo, _Int WorkSlotID)
+{
+    // 생성해서 넘기자 
+  // 위치는 지금 선택된 PalBox의 위치에서
+    _uInt iCurLevelID = m_pGameInstance->GetCurrentLevel()->GetLevelID();
+    CPellBase::PELL_BASE_DESC PellDesc = {};
+    PellDesc.vScale = { 1.f, 1.f, 1.f };
+
+    _float3 vPalPosition = GetTransform()->GetPosition();
+    vPalPosition.x += m_pGameInstance->Random(1.f, 4.f);
+    vPalPosition.y += m_pGameInstance->Random(1.f, 4.f);
+    PellDesc.vPosition = vPalPosition;
+
+    PellDesc.bIsPellData = true;
+    PellDesc.PellInfo = PellInfo;
+    PellDesc.PellInfo.ePellStorageState = PELL_STORAGE_STATE::WORLD;
+    auto pBase = m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, iCurLevelID, PellDesc.PellInfo.szPrototyeName, &PellDesc);
+    if (nullptr == pBase)
+        return;
+    m_pGameInstance->Add_GameObject_ToLayer(iCurLevelID, TEXT("Layer_GamePlay_Pell"), static_cast<CGameObject*>(pBase));
+    m_SpawnPells[WorkSlotID] = static_cast<CPellBase *>(pBase);
+
+}
+
+const PELL_INFO* CPalBox::GetWorkPalInfo(_uInt iWorkIndex)
+{
+    return nullptr;
+}
+
+void CPalBox::Load_WorkPalList(_uInt iStoreID, PELL_INFO* pOutPalInfo)
+{
+    auto iter = m_SpawnPells.begin();
+    for (_uInt i = 0; i < iStoreID; ++i)
+        iter++;
+
+    CPellBase* pFindPal = *iter;
+    m_SpawnPells.erase(iter);
+
+    *pOutPalInfo = pFindPal->GetPellInfo();
+    pFindPal->IsDead();
+}
+
+void CPalBox::Remove_WorkPalList(CPellBase* pPellBase)
+{
+    auto iter = find(m_SpawnPells.begin(), m_SpawnPells.end(), pPellBase);
+    if (iter == m_SpawnPells.end())
+        return;
+
+    StorePalBox(pPellBase->GetPellInfo());
+    m_SpawnPells.erase(iter);
+}
+
+void CPalBox::SwapPalBox(_uInt iSlotType, _uInt iToSlotIndex, _uInt iFromSlotIndex)
+{
+    CPalBoxSlot::PAL_SLOT_TYPE SlotType = CPalBoxSlot::PAL_SLOT_TYPE(iSlotType);
+    switch (SlotType)
+    {
+    case CPalBoxSlot::PAL_SLOT_TYPE::BOX:
+        swap(m_BoxInPellInfo[iFromSlotIndex], m_BoxInPellInfo[iToSlotIndex]);
+        break;
+    case CPalBoxSlot::PAL_SLOT_TYPE::WORK:
+        swap(m_SpawnPells[iFromSlotIndex], m_SpawnPells[iToSlotIndex]);
+        break;
+    }
 }
 
 void CPalBox::HitOverlapFunction(_float3 vDir, CGameObject* pHitActor)
@@ -145,6 +370,10 @@ CGameObject* CPalBox::Clone(void* pArg)
 void CPalBox::Free()
 {
     __super::Free();
+
+    for (auto pPellBase : m_SpawnPells)
+        Safe_Release(pPellBase);
+    m_SpawnPells.clear();
 
 #ifdef _DEBUG
     Safe_Release(m_pDebugSphere);

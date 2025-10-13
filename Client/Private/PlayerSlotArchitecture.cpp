@@ -124,7 +124,7 @@ void CPlayerSlotArchitecture::CreateSlotObject()
     ArchitectureDesc.vScale = { 1.f,1.f,1.f };
 
     ArchitectureDesc.vPosition = *reinterpret_cast<_float3*>(&m_CombinedWorldMatrix.m[3]);
-    m_pGameInstance->Add_GameObject_ToLayer(iCurLevel, TEXT("GamePlay_BuildObject_Layer"),
+    m_pGameInstance->Add_GameObject_ToLayer(iCurLevel, TEXT("Layer_GamePlay_WorkAbleObject"),
         static_cast<CGameObject *>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, iCurLevel, m_pItemDesc->TypeDesc.ArchitectureDesc.ArchitecturePrototpyeName, &ArchitectureDesc)));
 }
 

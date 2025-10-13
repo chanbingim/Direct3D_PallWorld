@@ -3,10 +3,6 @@
 #include "BackGround.h"
 #include "ItemStruct.h"
 
-NS_BEGIN(Engine)
-class CTexture;
-NS_END
-
 NS_BEGIN(Client)
 
 class CItemSlotIcon;

@@ -89,6 +89,8 @@ HRESULT CRenderTagetManager::End_MRT()
 	// End를 호출하여 기존 백버퍼의 값으로 되돌리는 역할을 한다.
 	ID3D11RenderTargetView* pRenderTargets[8] = { m_pBackBufferRTV };
 
+
+
 	m_pContext->OMSetRenderTargets(8, pRenderTargets, m_pOriginalDSV);
 
 	Safe_Release(m_pBackBufferRTV);

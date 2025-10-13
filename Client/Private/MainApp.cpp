@@ -14,6 +14,7 @@
 #include "TerrainManager.h"
 #include "PellManager.h"
 #include "PellSkillManager.h"
+#include "PellBoxManager.h"
 #include "TechManager.h"
 #pragma endregion
 
@@ -44,13 +45,20 @@ HRESULT CMainApp::Initialize_MainApp()
 	if (FAILED(SetUp_InGameFont()))
 		return E_FAIL;
 
-#pragma region ItemManager
-	CItemManager::GetInstance()->Initialize(m_pGraphic_Device, m_pDevice_Context, "a");
+#pragma region PellManger
+	CPellManager::GetInstance()->Initialize(m_pGraphic_Device, m_pDevice_Context, "../Bin/Resources/DataFile/Pal/PalData.csv");
+#pragma endregion
 
+#pragma region ItemManager
+	CItemManager::GetInstance()->Initialize(m_pGraphic_Device, m_pDevice_Context);
 #pragma endregion
 
 #pragma region TechManager
 	CTechManager::GetInstance()->Initialize("../Bin/Resources/DataFile/BuildObject/BuildObject.csv");
+#pragma endregion
+
+#pragma region PellBoxManager
+	CPellBoxManager::GetInstance()->Initialize_Manager();
 #pragma endregion
 
 #ifdef _DEBUG
@@ -355,6 +363,7 @@ void CMainApp::Free()
 #endif // __DEBUG
 	
 	CPlayerManager::DestroyInstance();
+	CPellBoxManager::DestroyInstance();
 	CItemManager::DestroyInstance();
 	CPellManager::DestroyInstance();
 	CTerrainManager::DestroyInstance();

@@ -13,6 +13,7 @@ public :
 	typedef struct ActionAbleDesc
 	{
 		CActor*						pOwner;
+		_float3						vScale;
 		_float3						vAwayPosition;
 	}ACTION_ABLE_DESC;
 

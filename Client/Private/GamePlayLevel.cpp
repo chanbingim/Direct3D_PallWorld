@@ -10,6 +10,8 @@
 #include "PellManager.h"
 #include "Light.h"
 
+#include "PellBase.h"
+
 CGamePlayLevel::CGamePlayLevel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, _uInt _iID) :
 	CLevel(pDevice, pContext, _iID)
 {
@@ -47,7 +49,9 @@ HRESULT CGamePlayLevel::Initialize()
 	if (FAILED(ADD_EnviornmentLayer(TEXT("Layer_GamePlay_Enviorment"))))
 		return E_FAIL;
 
-	CPellManager::GetInstance()->Initialize(m_pGraphic_Device, m_pDeviceContext);
+	if (FAILED(ADD_WorkAbleLayer(TEXT("Layer_GamePlay_WorkAbleObject"))))
+		return E_FAIL;
+	
 	if (FAILED(ADD_PellLayer(TEXT("Layer_GamePlay_Pell"))))
 		return E_FAIL;
 
@@ -135,12 +139,17 @@ HRESULT CGamePlayLevel::ADD_EnviornmentLayer(const _wstring& LayerName)
 		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
 		return E_FAIL;
 
+	return S_OK;
+}
+
+HRESULT CGamePlayLevel::ADD_WorkAbleLayer(const _wstring& LayerName)
+{
 	CEnviormnent::ENVIORMNENT_DESC EnviDesc = {};
 	EnviDesc.vScale = { 1.f, 1.f,1.f };
 	for (_uInt i = 0; i < 10; i++)
 	{
 		EnviDesc.iModelIndex = m_pGameInstance->Random(0.f, 2.f);
-		
+
 		EnviDesc.vPosition = { -84.f, 14.f, 515.f + 50 * i };
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Rock"),
 			ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &EnviDesc)))
@@ -176,9 +185,9 @@ HRESULT CGamePlayLevel::ADD_PlayerLayer(const _wstring& LayerName)
 
 HRESULT CGamePlayLevel::ADD_PellLayer(const _wstring& LayerName)
 {
-	CGameObject::GAMEOBJECT_DESC Desc;
-	ZeroMemory(&Desc, sizeof(CGameObject::GAMEOBJECT_DESC));
+	CPellBase::PELL_BASE_DESC Desc = {};
 
+	Desc.bIsPellData = false;
 	for (_uInt i = 0; i < 10; ++i)
 	{
 		wsprintf(Desc.ObjectTag, TEXT("Bed Cat"));

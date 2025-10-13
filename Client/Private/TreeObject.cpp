@@ -20,6 +20,7 @@ HRESULT CTreeObject::Initalize_Prototype()
     if (FAILED(__super::Initalize_Prototype()))
         return E_FAIL;
 
+    m_eWorkType = PELL_WORK_TYPE::TREE_GATHER;
     return S_OK;
 }
 

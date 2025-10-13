@@ -1,5 +1,5 @@
 #pragma once
-#include "NoneAnimMesh.h"
+#include "WorkAbleObject.h"
 #include "ItemStruct.h"
 
 NS_BEGIN(Engine)
@@ -9,7 +9,7 @@ NS_END
 NS_BEGIN(Client)
 class CItemInfoUI;
 
-class CItemObject final : public CNoneAnimMesh
+class CItemObject final : public CWorkAbleObject
 {
 public :
 	typedef struct ItemObjectDesc : GAMEOBJECT_DESC
@@ -36,7 +36,6 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 	virtual		void						Damage(void* pArg, CActor* pDamagedActor);
-
 
 private :
 	const		ITEM_DESC*					m_ItemDesc;

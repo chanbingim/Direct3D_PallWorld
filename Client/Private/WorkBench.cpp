@@ -24,6 +24,7 @@ HRESULT CWorkBench::Initalize_Prototype()
     if (FAILED(__super::Initalize_Prototype()))
         return E_FAIL;
 
+    m_eWorkType = PELL_WORK_TYPE::COMMONE_WORK;
     m_MakeItemList.push_back(1);
     m_MakeItemList.push_back(2);
     m_MakeItemList.push_back(3);

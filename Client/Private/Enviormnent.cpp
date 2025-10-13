@@ -7,15 +7,16 @@
 #include "ItemManager.h"
 #include "DropComponent.h"
 
+#include "PellBoxManager.h"
 #include "Client_Struct.h"
 
 CEnviormnent::CEnviormnent(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
-    CNoneAnimMesh(pDevice, pContext)
+    CWorkAbleObject(pDevice, pContext)
 {
 }
 
 CEnviormnent::CEnviormnent(const CEnviormnent& rhs) :
-    CNoneAnimMesh(rhs)
+    CWorkAbleObject(rhs)
 {
 }
 
@@ -32,6 +33,7 @@ HRESULT CEnviormnent::Initialize(void* pArg)
     if(FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
+    CPellBoxManager::GetInstance()->Add_JobListObject(m_eWorkType, this);
     return S_OK;
 }
 
@@ -77,7 +79,7 @@ HRESULT CEnviormnent::DeadFunction()
                 for (_uInt i = 0; i < LoopCount; ++i)
                 {
                     //여기서 월드 아이템 생성
-                    m_pGameInstance->Add_GameObject_ToLayer(iLevelIndex, TEXT("GameLevel_Layer_Item"),
+                    m_pGameInstance->Add_GameObject_ToLayer(iLevelIndex, TEXT("Layer_GamePlay_WorkAbleObject"),
                         static_cast<CGameObject *>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, iLevelIndex, TEXT("Prototype_GameObject_ItemObject"), &ObjectDesc)));
 
                 }
@@ -86,6 +88,8 @@ HRESULT CEnviormnent::DeadFunction()
     
     }
 
+    if (PELL_WORK_TYPE::END != m_eWorkType)
+        CPellBoxManager::GetInstance()->Remove_JobListObject(m_eWorkType, this);
     m_IsDead = true;
     return S_OK;
 }

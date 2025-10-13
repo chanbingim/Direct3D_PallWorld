@@ -18,21 +18,21 @@ private :
 
 public :
 	void									Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const char* szFilePath = "");
-	const PELL_INFO*						FindPellData(_uInt iID);
+	_bool									FindPellData(_uInt iID, PELL_INFO* pPellInfo);
 
 private :
 	ID3D11Device*							m_pDevice = nullptr; 
 	ID3D11DeviceContext*					m_pContext = nullptr;
 
 	unordered_map<_uInt, CTexture*>			m_PellIcons;
-	unordered_map<_uInt, PELL_INFO>			m_PellDatas;
+	unordered_map<_uInt, PAL_NETWORK_DATA>	m_PellDatas;
 
 private :
 	HRESULT									LoadCSVPellData(const char* szFilePath);
 	const CTexture*							CreateTexture(_uInt iID, const WCHAR* szFilePath);
 
 public :
-	virtual void				Free() override;
+	virtual void							Free() override;
 
 };
 NS_END

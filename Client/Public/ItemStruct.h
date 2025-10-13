@@ -39,6 +39,10 @@ namespace Client
 	{
 		// 보여줘야 한다면 사용할 변수들
 		WCHAR				ArchitecturePrototpyeName[MAX_PATH];
+
+		_bool				bIsDaamge;
+		_uInt				fMaxHealth;
+
 		_float				fCompleteTime;
 		_uInt				iWorkPartner;
 		_uInt				iCellTypes;

@@ -86,14 +86,21 @@ public :
 #pragma region PELL INVEN
 	//펠을 추가하기위한 클래스
 	HRESULT					ADDOwnerPellList(CPellBase* pPellBase);
+	HRESULT					ADDPellList(const PELL_INFO& PellInfo, _Int iInvenSlotID = -1);
 
 	const CPellBase*		GetSelectPellInfomation();
+
 	const CPellBase*		GetPellInfomation(_uInt iIndex);
+	void					LoadPellInfomation(_uInt iIndex, PELL_INFO*	pOutPellInfo);
 
 	// 0번 가운데 -1 왼쪽 1 오른쪽
 	void					UpdateSelectPellIndex(_uInt vDir);
 	void					GetLeftRightSelectIndex(_Int* pLeftIndex, _Int* pSelectIndex, _Int* pRightIndex);
+
 	void					SpawnSelectPell();
+
+	//인벤토리 안에서 스왑할때
+	HRESULT					SwapInventroyItem(_uInt FromSlotNumber, _uInt ToSlotNumber);
 
 	_uInt					GetCurrentSelectPellSlotIndex() { return m_iSelectPellIndex; }
 #pragma endregion

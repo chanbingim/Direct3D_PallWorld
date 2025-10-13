@@ -1,5 +1,5 @@
 #pragma once
-#include "NoneAnimMesh.h"
+#include "WorkAbleObject.h"
 
 NS_BEGIN(Engine)
 class CCollision;
@@ -8,10 +8,10 @@ NS_END
 NS_BEGIN(Client)
 class CDropComponent;
 
-class CEnviormnent abstract : public CNoneAnimMesh
+class CEnviormnent abstract : public CWorkAbleObject
 {
 public :
-	enum class ENVIORNMENT_TYPE {TREE, ROCK, PELLSTONE, END};
+	enum class ENVIORNMENT_TYPE { TREE, ROCK, PELLSTONE, END};
 	
 	typedef struct Enviornment_Dsec : GAMEOBJECT_DESC
 	{
@@ -36,20 +36,18 @@ public:
 
 	// ·£´õ
 	virtual		HRESULT						Render() override;
-	
-	virtual		HRESULT						DeadFunction();
-	
 	virtual		void						Damage(void* pArg, CActor* pDamagedActor);
 
-protected :
-	virtual		HRESULT						HitBeginFunction(_float3 vDir, CGameObject* pGameObject);
-	virtual		HRESULT						HitOverlapFunction(_float3 vDir, CGameObject* pGameObject);
-
-protected :
+protected:
 	CCollision*								m_pCollision = nullptr;
 	CDropComponent*							m_pDropComponent = nullptr;
 
 	_float									m_fHealth = {};
+
+protected :
+	virtual		HRESULT						HitBeginFunction(_float3 vDir, CGameObject* pGameObject);
+	virtual		HRESULT						HitOverlapFunction(_float3 vDir, CGameObject* pGameObject);
+	virtual		HRESULT						DeadFunction() override;
 
 public:
 	virtual		CGameObject*				Clone(void* pArg) override;

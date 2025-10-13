@@ -53,7 +53,8 @@ HRESULT CPellBase::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
-    if (FAILED(SetUpDefaultPellData()))
+    PELL_BASE_DESC* pPellDesc = static_cast<PELL_BASE_DESC*>(pArg);
+    if (FAILED(SetUpDefaultPellData(pPellDesc->bIsPellData, pPellDesc->PellInfo)))
         return E_FAIL;
 
     m_PellInfo.iLevel = 1;
@@ -251,17 +252,23 @@ void CPellBase::SpawnPellFriendly()
         m_PellInfo.ePellStorageState = PELL_STORAGE_STATE::PLAYER_INVEN;
 }
 
-HRESULT CPellBase::SetUpDefaultPellData()
+HRESULT CPellBase::SetUpDefaultPellData(_bool bIsFlag, const PELL_INFO& Pellinfo)
 {
-    auto DefaultData = CPellManager::GetInstance()->FindPellData(m_PellID);
-    if (nullptr != DefaultData)
+    _bool bResult = false;
+    if (bIsFlag)
     {
-        m_PellInfo = *DefaultData;
+        bResult = bIsFlag;
+        m_PellInfo = Pellinfo;
+    }
+    else
+        bResult = CPellManager::GetInstance()->FindPellData(m_PellID, &m_PellInfo);
+
+    if (bResult)
+    {
         m_PellInfo.CurHealth = m_PellInfo.MaxHealth;
         m_PellInfo.CurHunger = m_PellInfo.MaxHunger;
         m_PellInfo.CurStemina = m_PellInfo.MaxStemina;
     }
-
     return S_OK;
 }
 

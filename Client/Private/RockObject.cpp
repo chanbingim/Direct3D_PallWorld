@@ -20,6 +20,7 @@ HRESULT CRockObject::Initalize_Prototype()
     if (FAILED(__super::Initalize_Prototype()))
         return E_FAIL;
 
+    m_eWorkType = PELL_WORK_TYPE::MINING;
     return S_OK;
 }
 

@@ -1,5 +1,6 @@
 #pragma once
-#include "NoneAnimMesh.h"
+
+#include "WorkAbleObject.h"
 #include "ItemStruct.h"
 
 NS_BEGIN(Engine)
@@ -9,7 +10,7 @@ NS_END
 NS_BEGIN(Client)
 class CActionAbleUI;
 
-class CArchitecture : public CNoneAnimMesh
+class CArchitecture : public CWorkAbleObject
 {
 protected:
 	CArchitecture(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -32,14 +33,14 @@ public:
 	
 	_bool									IsBuildFinished() const { return m_bIsCompleted; }
 
-
-
 	void									PlusWorkSpeed(_float fWorkSpeed);
 	void									SubWorkSpeed(_float fWorkSpeed);
 
 protected:
 	_uInt									m_ItemID = {};
+
 	ITEM_DESC								m_pArchitectureInfo = {};
+	_float									m_fCurHealth = {};
 
 	//OBB 박스가 달려있을거임
 	CCollision*								m_pHitBoxCollision = nullptr;
@@ -57,6 +58,9 @@ protected:
 protected :
 	virtual HRESULT							Apply_ConstantShaderResources(_uInt iMeshIndex);
 	virtual void							HitOverlapFunction(_float3 vDir, CGameObject* pHitActor);
+	virtual	void							Damage(void* pArg, CActor* pDamagedActor) override;
+
+	virtual	HRESULT							DeadFunction() override;
 
 public:
 	virtual			CGameObject*			Clone(void* pArg) override;

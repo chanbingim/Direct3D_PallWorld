@@ -8,18 +8,19 @@
 #include "ItemInfoUI.h"
 
 CItemObject::CItemObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
-    CNoneAnimMesh(pDevice, pContext)
+    CWorkAbleObject(pDevice, pContext)
 {
 }
 
 CItemObject::CItemObject(const CItemObject& rhs) :
-    CNoneAnimMesh(rhs)
+    CWorkAbleObject(rhs)
 {
 
 }
 
 HRESULT CItemObject::Initalize_Prototype()
 {
+    m_eWorkType = PELL_WORK_TYPE::TRANSPORT;
     return S_OK;
 }
 
