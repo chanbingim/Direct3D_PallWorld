@@ -291,14 +291,14 @@ void CPlayer::PlayerMoveView(_float fDeletaTime)
     LONG MoveMouseX = m_pGameInstance->GetMouseAxis(0);
     LONG MoveMouseY = m_pGameInstance->GetMouseAxis(1);
 
-    if (-10 > MoveMouseX)
+    if (-20 > MoveMouseX)
     {
         if (State.bIsAiming)
             m_pTransformCom->Turn(m_pTransformCom->GetUpVector(), fDeletaTime, XMConvertToRadians(-90.f));
         else
             m_pPlayerCamera->ADDRevolutionRotation(-90.f, fDeletaTime);
     }
-    else if (10 < MoveMouseX)
+    else if (20 < MoveMouseX)
     {
         if(State.bIsAiming)
             m_pTransformCom->Turn(m_pTransformCom->GetUpVector(), fDeletaTime, XMConvertToRadians(90.f));
@@ -306,9 +306,9 @@ void CPlayer::PlayerMoveView(_float fDeletaTime)
             m_pPlayerCamera->ADDRevolutionRotation(90.f, fDeletaTime);
     }
 
-    if (-10 > MoveMouseY)
+    if (-20 > MoveMouseY)
         m_pPlayerCamera->ADDPitchRotation(-90.f, fDeletaTime);
-    else if (10 < MoveMouseY)
+    else if (20 < MoveMouseY)
         m_pPlayerCamera->ADDPitchRotation(90.f, fDeletaTime);
 
     _float spineRotAngle = {};
@@ -514,21 +514,48 @@ void CPlayer::ChangeAction(_float fDeltaTime)
        
 #pragma endregion
 
-#pragma region PELL CREATE
+#pragma region SWAP PalSelect 
+        if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_1))
+            CPlayerManager::GetInstance()->UpdateSelectPellIndex(1);
+
+        if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_3))
+            CPlayerManager::GetInstance()->UpdateSelectPellIndex(-1);
+#pragma endregion
+
+#pragma region Preview Rotate
+        if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_Q))
+        {
+            if (m_pPlayerSlotAcrchiteture->IsPreView())
+                m_pPlayerSlotAcrchiteture->TurnArchitectrueSlot(XMConvertToRadians(180.f), fDeltaTime);
+        }
+
         if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_E))
         {
-            auto pPellBase = CPlayerManager::GetInstance()->GetSelectPellInfomation();
-            if (PELL_STORAGE_STATE::PARTNER_PELL == pPellBase->GetPellInfo().ePellStorageState)
+#pragma region PELL CREATE
+            if (false == m_pPlayerSlotAcrchiteture->IsPreView())
             {
-                if (m_pNearPellBase == pPellBase)
+                auto pPellBase = CPlayerManager::GetInstance()->GetSelectPellInfomation();
+                if (nullptr != pPellBase)
                 {
-                    m_pPlayerFSM->SetPallCarry(false);
-                    m_pNearPellBase->ResetCarryState();
-                    m_pNearPellBase = nullptr;
+                    if (PELL_STORAGE_STATE::PARTNER_PELL == pPellBase->GetPellInfo().ePellStorageState)
+                    {
+                        if (m_pNearPellBase == pPellBase)
+                        {
+                            m_pPlayerFSM->SetPallCarry(false);
+                            m_pNearPellBase->ResetCarryState();
+                            m_pNearPellBase = nullptr;
+                        }
+                        CPlayerManager::GetInstance()->SpawnSelectPell();
+                    }
                 }
             }
+#pragma endregion
+        }
 
-            CPlayerManager::GetInstance()->SpawnSelectPell();
+        if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_E))
+        {
+            if (m_pPlayerSlotAcrchiteture->IsPreView())
+                m_pPlayerSlotAcrchiteture->TurnArchitectrueSlot(XMConvertToRadians(- 180.f), fDeltaTime);
         }
 #pragma endregion
 
@@ -742,7 +769,6 @@ void CPlayer::CameraDirLookAt()
     _float3 PlayerPoistion = m_pTransformCom->GetPosition();
     _vector vPos = XMLoadFloat3(&PlayerPoistion);
     vCameraLook.m128_f32[1] = 0.f;
-
     m_pTransformCom->LookAt(vPos + vCameraLook);
 }
 
@@ -816,6 +842,8 @@ void CPlayer::SetNearArchitecture(CArchitecture* pArchitecture)
 
 void CPlayer::SetNearPell(CPellBase* pPellBase, _float fDistance)
 {
+
+
     auto pPlayerState = m_pPlayerFSM->GetState();
 
     if (pPlayerState.bIsPallCarry)
@@ -824,12 +852,17 @@ void CPlayer::SetNearPell(CPellBase* pPellBase, _float fDistance)
     //가까이 있는 펠이라도 보고있는 펠로 할 예정
     if (m_pNearPellBase)
     {
-        _float3 vPellPos = m_pNearPellBase->GetTransform()->GetPosition();
-        _float3 vPlayerPos = m_pTransformCom->GetPosition();
+        if (m_pNearPellBase->IsDead())
+            m_pNearPellBase = nullptr;
+        else
+        {
+            _float3 vPellPos = m_pNearPellBase->GetTransform()->GetPosition();
+            _float3 vPlayerPos = m_pTransformCom->GetPosition();
 
-        _float fNearPellDistance = XMVectorGetX(XMVector3Length(XMLoadFloat3(&vPlayerPos) - XMLoadFloat3(&vPellPos)));
-        if (fNearPellDistance > fDistance)
-            m_pNearPellBase = pPellBase;
+            _float fNearPellDistance = XMVectorGetX(XMVector3Length(XMLoadFloat3(&vPlayerPos) - XMLoadFloat3(&vPellPos)));
+            if (fNearPellDistance > fDistance)
+                m_pNearPellBase = pPellBase;
+        }
     }
     else
     {

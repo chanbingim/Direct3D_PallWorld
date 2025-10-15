@@ -40,7 +40,7 @@ public :
 	const PELL_INFO*			GetPalBoxInfo(_uInt iStoreID);
 	
 	// 특정 번호 ID에 맞는 펠을 꺼내서 반환
-	HRESULT						LoadPalBox(_uInt iStoreID, PELL_INFO* pOutPalInfo);
+	_bool						LoadPalBox(_uInt iStoreID, PELL_INFO* pOutPalInfo);
 
 #pragma endregion
 	
@@ -52,7 +52,7 @@ public :
 
 	// 내가 원하는 작업중인 펠리스트에서 제거한다..
 	void						Remove_WorkPalList(CPellBase* pPellBase);
-	void						Load_WorkPalList(_uInt iStoreID, PELL_INFO* pOutPalInfo);
+	_bool						Load_WorkPalList(_uInt iStoreID, PELL_INFO* pOutPalInfo);
 #pragma endregion
 
 	void						SwapPalBox(_uInt iSlotType, _uInt iToSlotIndex, _uInt iFromSlotIndex);
@@ -68,10 +68,6 @@ private :
 	// 내가 우리집안에 꺼내 놓은 펠들은 여기 셀만 탐색가능
 	list<CPalBox*>							m_PalBoxList = {};
 	CPalBox*								m_pSelectPalBox = nullptr;
-
-	
-
-
 
 public :
 	virtual		void			Free()	override;

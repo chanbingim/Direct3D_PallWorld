@@ -22,6 +22,7 @@
 #pragma region State
 #include "PellCarryState.h"
 #include "PellStateLaunched.h"
+#include "PellWorkState.h"
 #pragma endregion
 
 #include "PalSpher.h"
@@ -57,8 +58,11 @@ HRESULT CPellBase::Initialize(void* pArg)
     if (FAILED(SetUpDefaultPellData(pPellDesc->bIsPellData, pPellDesc->PellInfo)))
         return E_FAIL;
 
-    m_PellInfo.iLevel = 1;
-    m_PellInfo.ePellStorageState = PELL_STORAGE_STATE::WORLD;
+    if (false == pPellDesc->bIsPellData)
+    {
+        m_PellInfo.iLevel = 1;
+        m_PellInfo.ePellStorageState = PELL_STORAGE_STATE::WORLD;
+    }
     return S_OK;
 }
 
@@ -178,16 +182,11 @@ void CPellBase::Damage(void* pArg, CActor* pDamagedActor)
 void CPellBase::ChangePellTeam(PELL_TEAM eTeam)
 {
     m_eTeam = eTeam;
-
-    m_pPellFsm->ResetLayer(TEXT("CombatLayer"));
     m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Idle"));
     m_pCombatCom->ResetCombatComponent();
 
     switch (m_eTeam)
     {
-    case Client::CPellBase::PELL_TEAM::FRENDLY:
-        m_PellInfo.ePellStorageState = PELL_STORAGE_STATE::PLAYER_INVEN;
-        break;
     case Client::CPellBase::PELL_TEAM::NEUTRAL:
         m_PellInfo.ePellStorageState = PELL_STORAGE_STATE::WORLD;
         break;
@@ -197,6 +196,46 @@ void CPellBase::ChangePellTeam(PELL_TEAM eTeam)
     }
 }
 
+void CPellBase::ChangePellStorageType(PELL_STORAGE_STATE eStorageType)
+{
+    m_PellInfo.ePellStorageState = eStorageType;
+}
+
+#pragma region Work State
+void CPellBase::ChangePellWork(CGameObject* pWorkObject)
+{
+    auto State = m_pPellFsm->GetState();
+    if (State.bIsCombat || CPellStateMachine::MOVE_ACTION::WORK == State.eMove_State)
+        return;
+
+    CPellWorkState::PELL_WORK_STATE_DESC WorkStateDesc = {};
+    WorkStateDesc.pActPell = this;
+    WorkStateDesc.pTargetObject = pWorkObject;
+    m_pTargetObject = pWorkObject;
+    WorkStateDesc.pNavigation = m_pNevigation;
+    WorkStateDesc.WorkEndFunc = [&]() { ResetWorkSate(); };
+
+    m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Work"), &WorkStateDesc);
+}
+
+_bool CPellBase::bIsWorkAble() const
+{
+    auto State = m_pPellFsm->GetState();
+    if (State.bIsCombat 
+        || CPellStateMachine::MOVE_ACTION::WORK == State.eMove_State
+        || CPellStateMachine::MOVE_ACTION::CARRY == State.eMove_State)
+        return false;
+
+    return true;
+}
+
+void CPellBase::ResetWorkSate()
+{
+    m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Idle"));
+}
+#pragma endregion
+
+#pragma region Carry State
 void CPellBase::ChangePellCarry(const _float4x4* pSocketMatrix)
 {
     CPellCarryState::PELL_CARRY_DESC PellCarryDesc = {};
@@ -227,6 +266,7 @@ void CPellBase::PellLaunched(_float3 vDir, _float ThorwSpeed)
     m_pPellBody->SetRotation({ 0.f, 0.f, 0.f });
     m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Launched"), &PellLaunchedDesc);
 }
+#pragma endregion
 
 void CPellBase::AttachSocket(const _float4x4* pSocket, const _char SocketFlag) const
 {
@@ -288,20 +328,13 @@ void CPellBase::OverlapEvent(_float3 vDir, CGameObject* pHitObject)
         if(pHitObject != pPlayer && pParnet != pPlayer)
             m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Idle"));
     }
-
-   /* if (CPellStateMachine::MOVE_ACTION::LAUNCHED == PellState.eMove_State)
+    else if (CPellStateMachine::MOVE_ACTION::WORK == PellState.eMove_State)
     {
-        _float3 vPellPos{}, vPlanePoint{};
-        vPlanePoint = vPellPos = m_pTransformCom->GetPosition();
-        vPlanePoint.y = m_pNevigation->ComputeHeight(m_pTransformCom);
-        _vector vCalDir = XMLoadFloat3(&vPellPos) - XMLoadFloat3(&vPlanePoint);
-        _vector vCellNoraml = m_pNevigation->GetCurrentCellNoraml();
-
-        _float fScalar = XMVectorGetX(XMVector3Dot(vCellNoraml, vCalDir));
-
-        if(0 > fScalar)
-            m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Idle"));
-    }*/
+        if (pHitObject == m_pTargetObject)
+        {
+            m_pPellFsm->NextStatePhase(TEXT("BodyLayer"));
+        }
+    }
 }
 
 HRESULT CPellBase::ADD_PellInfoUI()
@@ -545,12 +578,15 @@ void CPellBase::ActionFrendly(_float fDeletaTime)
          //기본적으로 플레이어를 따라다니게 변경
         if (PELL_STORAGE_STATE::WORLD == m_PellInfo.ePellStorageState)
         {
-            //여기서 작업 및 이동 로직을 구현해야함
-            _float3 vEndPoint = m_pTransformCom->GetPosition();
-            vEndPoint.x += m_pGameInstance->Random(-10.f, 10.f);
-            vEndPoint.z += m_pGameInstance->Random(-10.f, 10.f);
+            if (CPellStateMachine::MOVE_ACTION::DEFAULT == State.eMove_State)
+            {
+                //여기서 작업 및 이동 로직을 구현해야함
+                _float3 vEndPoint = m_pTransformCom->GetPosition();
+                vEndPoint.x += m_pGameInstance->Random(-10.f, 10.f);
+                vEndPoint.z += m_pGameInstance->Random(-10.f, 10.f);
 
-            StartMoveAction(vEndPoint);
+                StartMoveAction(vEndPoint);
+            }
         }
     }
     else

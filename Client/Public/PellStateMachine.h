@@ -11,14 +11,9 @@ NS_BEGIN(Client)
 class CPellStateMachine : public CFiniteStateMachine
 {
 public:
-	enum class MOVE_ACTION { DEFAULT, PATROL, RESET, WOKR, CARRY, LAUNCHED, END };
+	enum class MOVE_ACTION { DEFAULT, PATROL, RESET, WORK, CARRY, LAUNCHED, END };
 	//전투 상태 및 비 전투 상태에 대한 Layer 구조
 	enum class COMBAT_ACTION { ATTACK,  HIT, STUN, DEAD, END };
-
-	typedef		struct	PellFSM_Desc : public FSM_DESC
-	{
-		CContainerObject*		pOwner;
-	}PELLFSM_DESC;
 
 	typedef		struct  Pell_State 
 	{
@@ -60,9 +55,7 @@ public:
 	void								CombatStateReset();
 
 private:
-	CContainerObject*					m_pOwner = nullptr;
 	PELL_STATE							m_StateData = {};
-
 	_bool								m_AnimationLoop = true;
 
 private :

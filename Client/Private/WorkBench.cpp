@@ -56,6 +56,7 @@ void CWorkBench::Update(_float fDeletaTime)
 
     //여기서 플레이어랑 멀어지면 UI 제거
     //이건 일단 UI 보고
+    UpdateActionUI(fDeletaTime);
     if (m_bIsAction)
     {
         _float3 vWorkBenchPos = m_pTransformCom->GetPosition();
@@ -113,8 +114,6 @@ void CWorkBench::ArchitectureAction()
         WorkBenchCreateDesc.szTitleName = TEXT("원시적인 작업대");
 
         pWorkPopupUI->SetViewItemList(&WorkBenchCreateDesc);
-
-
         pGamePlayHUD->ActivePopUpUserInterface(2);
         m_bIsAction = true;
     }

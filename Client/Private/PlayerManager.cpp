@@ -398,10 +398,14 @@ HRESULT CPlayerManager::SwapInventroyItem(EUQIP_TYPE eFromEquipType, _uInt FromS
 
 			if (FromSlotItemInfo->ItemType == ItemInfoPair->second[ToSlotNumber]->GetItemData().ItemType)
 			{
-				_uInt FomeSlotItemIndex = m_InvenSlots[FromSlotNumber].second.iItemID;
-				m_InvenSlots[FromSlotNumber].second = { ItemInfoPair->second[ToSlotNumber]->GetItemData().iItemNum, 1 };
-				_Int itemID = BindEquipSlot(eToEquipType, ToSlotNumber, FomeSlotItemIndex);
-				
+				if (FromSlotItemInfo->TypeDesc.EuqipDesc.Equip_Type == ItemInfoPair->second[FromSlotNumber]->GetItemData().TypeDesc.EuqipDesc.Equip_Type)
+				{
+					_uInt FomeSlotItemIndex = m_InvenSlots[FromSlotNumber].second.iItemID;
+					m_InvenSlots[FromSlotNumber].second = { ItemInfoPair->second[ToSlotNumber]->GetItemData().iItemNum, 1 };
+					_Int itemID = BindEquipSlot(eToEquipType, ToSlotNumber, FomeSlotItemIndex);
+				}
+				else
+					return E_FAIL;
 			}
 			else
 				return E_FAIL;
@@ -426,16 +430,21 @@ HRESULT CPlayerManager::SwapInventroyItem(EUQIP_TYPE eFromEquipType, _uInt FromS
 
 		if (m_InvenSlots[ToSlotNumber].first)
 		{
-			auto ToSlotItemInfo = CItemManager::GetInstance()->GetItemInfo(m_InvenSlots[FromSlotNumber].second.iItemID);
+			auto ToSlotItemInfo = CItemManager::GetInstance()->GetItemInfo(m_InvenSlots[ToSlotNumber].second.iItemID);
 			if (nullptr == ToSlotItemInfo)
 				return E_FAIL;
 
 			if (ToSlotItemInfo->ItemType == ItemInfoPair->second[FromSlotNumber]->GetItemData().ItemType)
 			{
-				_uInt toSlotItemIndex = m_InvenSlots[ToSlotNumber].second.iItemID;
-				m_InvenSlots[ToSlotNumber].second = { ItemInfoPair->second[FromSlotNumber]->GetItemData().iItemNum, 1 };
-			
-				_Int itemID = BindEquipSlot(eFromEquipType, FromSlotNumber, toSlotItemIndex);
+				if (ToSlotItemInfo->TypeDesc.EuqipDesc.Equip_Type == ItemInfoPair->second[FromSlotNumber]->GetItemData().TypeDesc.EuqipDesc.Equip_Type)
+				{
+					_uInt toSlotItemIndex = m_InvenSlots[ToSlotNumber].second.iItemID;
+					m_InvenSlots[ToSlotNumber].second = { ItemInfoPair->second[FromSlotNumber]->GetItemData().iItemNum, 1 };
+
+					_Int itemID = BindEquipSlot(eFromEquipType, FromSlotNumber, toSlotItemIndex);
+				}
+				else
+					return E_FAIL;
 			}
 			else
 				return E_FAIL;
@@ -594,6 +603,7 @@ HRESULT CPlayerManager::ADDOwnerPellList(CPellBase* pPellBase)
 	if (CPellBase::PELL_TEAM::NEUTRAL == pPellBase->GetPellTeam())
 	{
 		pPellBase->ChangePellTeam(CPellBase::PELL_TEAM::FRENDLY);
+		pPellBase->ChangePellStorageType(PELL_STORAGE_STATE::PLAYER_INVEN);
 		*iter = pPellBase;
 	}
 	else
@@ -632,19 +642,30 @@ const CPellBase* CPlayerManager::GetPellInfomation(_uInt iIndex)
 	return m_pOwnerPells[iIndex];
 }
 
-void CPlayerManager::LoadPellInfomation(_uInt iIndex, PELL_INFO* pOutPellInfo)
+_bool CPlayerManager::LoadPellInfomation(_uInt iIndex, PELL_INFO* pOutPellInfo)
 {
 	CPellBase* pPellBase = m_pOwnerPells[iIndex];
-	*pOutPellInfo = pPellBase->GetPellInfo();
-
-	pPellBase->SetDead(true);
-	m_pOwnerPells[iIndex] = nullptr;
+	if (pPellBase)
+	{
+		*pOutPellInfo = pPellBase->GetPellInfo();
+		pPellBase->SetDead(true);
+		m_pOwnerPells[iIndex] = nullptr;
+		return true;
+	}
+	else
+		return false;
 }
 
-void CPlayerManager::UpdateSelectPellIndex(_uInt vDir)
+void CPlayerManager::UpdateSelectPellIndex(_Int vDir)
 {
-	m_iSelectPellIndex += vDir;
+	if (m_pOwnerPells[m_iSelectPellIndex])
+	{
+		auto PreOwnerPell = m_pOwnerPells[m_iSelectPellIndex]->GetPellInfo();
+		if (PELL_STORAGE_STATE::PARTNER_PELL == PreOwnerPell.ePellStorageState)
+			m_pOwnerPells[m_iSelectPellIndex]->SpawnPellFriendly();
+	}
 
+	m_iSelectPellIndex += vDir;
 	if (0 > m_iSelectPellIndex)
 		m_iSelectPellIndex = m_iNumMaxOwnPell - 1;
 	else if (m_iNumMaxOwnPell <= m_iSelectPellIndex)

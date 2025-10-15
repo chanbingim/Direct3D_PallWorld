@@ -48,6 +48,7 @@ void CPlayer_Interface::Update(_float fDeletaTime)
 {
 	auto PlayerInfo = CPlayerManager::GetInstance()->GetPlayerData();
 
+	m_pHpBar->SetHealthBar(PlayerInfo.CurHealth, PlayerInfo.MaxHealth);
 	m_pHugerBar->SetPercent(PlayerInfo.CurHunger / PlayerInfo.MaxHunger);
 	m_pGuardBar->SetPercent(_float(PlayerInfo.ShieldPoint / PlayerInfo.ShieldPoint));
 

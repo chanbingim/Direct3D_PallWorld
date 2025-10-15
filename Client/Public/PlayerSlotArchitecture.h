@@ -40,6 +40,8 @@ public:
 	_bool									IsPreView();
 	void									CreateSlotObject();
 
+	void									TurnArchitectrueSlot(_float fTrunAngle, _float fTimeDeleta);
+
 protected:
 	virtual     HRESULT						Bind_ShaderResources();
 	virtual     HRESULT						Apply_ConstantShaderResources(_uInt iMeshIndex);
@@ -53,6 +55,7 @@ private :
 	_float3									m_vMoveAmount = {};
 
 	_bool									m_bIsCreateAble = false;
+	_float									m_fRotateYAngle = {};
 	
 
 private :

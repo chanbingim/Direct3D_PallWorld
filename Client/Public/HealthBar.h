@@ -25,8 +25,11 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
+	void									SetHealthBar(_float fCurHealth, _float fMaxHealth);
+
 private :
 	CFontComponent*							m_pFontCom = nullptr;
+
 	_float2									m_vFontPos = {};
 	_wstring								m_szFontText = {};
 

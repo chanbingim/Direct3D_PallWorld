@@ -194,6 +194,7 @@
     <ClInclude Include="..\public\GrassMommothBody.h" />
     <ClInclude Include="..\public\GreenMommoth.h" />
     <ClInclude Include="..\public\HungerBar.h" />
+    <ClInclude Include="..\public\MiningObject.h" />
     <ClInclude Include="..\public\Npc.h" />
     <ClInclude Include="..\public\IngredientCountView.h" />
     <ClInclude Include="..\public\IngredientList.h" />
@@ -212,6 +213,7 @@
     <ClInclude Include="..\public\PalBoxSlot.h" />
     <ClInclude Include="..\public\PalBoxUserInterface.h" />
     <ClInclude Include="..\public\PalInvenListUI.h" />
+    <ClInclude Include="..\public\PalInvenSlot.h" />
     <ClInclude Include="..\public\PellBoxManager.h" />
     <ClInclude Include="..\public\PellCarryState.h" />
     <ClInclude Include="..\public\PellStateLaunched.h" />
@@ -413,6 +415,7 @@
     <ClInclude Include="..\public\WorkBench.h" />
     <ClInclude Include="..\public\WorkBenchCreateUI.h" />
     <ClInclude Include="..\public\WorkBenchSlotView.h" />
+    <ClInclude Include="..\public\WorkComponent.h" />
     <ClInclude Include="..\public\WorkPalListUI.h" />
     <ClInclude Include="..\public\WorkPercentBar.h" />
     <ClInclude Include="..\public\WorkPercnet.h" />
@@ -441,6 +444,7 @@
     <ClCompile Include="..\private\GrassMommothBody.cpp" />
     <ClCompile Include="..\private\GreenMommoth.cpp" />
     <ClCompile Include="..\private\HungerBar.cpp" />
+    <ClCompile Include="..\private\MiningObject.cpp" />
     <ClCompile Include="..\private\Npc.cpp" />
     <ClCompile Include="..\private\IngredientCountView.cpp" />
     <ClCompile Include="..\private\IngredientList.cpp" />
@@ -471,6 +475,7 @@
     <ClCompile Include="..\private\PalBoxSlot.cpp" />
     <ClCompile Include="..\private\PalBoxUserInterface.cpp" />
     <ClCompile Include="..\private\PalInvenListUI.cpp" />
+    <ClCompile Include="..\private\PalInvenSlot.cpp" />
     <ClCompile Include="..\private\PellBoxManager.cpp" />
     <ClCompile Include="..\private\PellCarryState.cpp" />
     <ClCompile Include="..\private\PellStateLaunched.cpp" />
@@ -664,6 +669,7 @@
     <ClCompile Include="..\private\WorkBench.cpp" />
     <ClCompile Include="..\private\WorkBenchCreateUI.cpp" />
     <ClCompile Include="..\private\WorkBenchSlotView.cpp" />
+    <ClCompile Include="..\private\WorkComponent.cpp" />
     <ClCompile Include="..\private\WorkPalListUI.cpp" />
     <ClCompile Include="..\private\WorkPercentBar.cpp" />
     <ClCompile Include="..\private\WorkPercnet.cpp" />

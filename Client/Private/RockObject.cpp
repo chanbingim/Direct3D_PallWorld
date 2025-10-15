@@ -6,12 +6,12 @@
 #include "DropComponent.h"
 
 CRockObject::CRockObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
-    CEnviormnent(pDevice, pContext)
+    CMiningObject(pDevice, pContext)
 {
 }
 
 CRockObject::CRockObject(const CRockObject& rhs) :
-    CEnviormnent(rhs)
+    CMiningObject(rhs)
 {
 }
 
@@ -49,6 +49,7 @@ void CRockObject::Priority_Update(_float fDeletaTime)
 
 void CRockObject::Update(_float fDeletaTime)
 {
+    __super::Update(fDeletaTime);
 }
 
 void CRockObject::Late_Update(_float fDeletaTime)
@@ -108,12 +109,21 @@ HRESULT CRockObject::ADD_Components(_uInt iModelIndex)
     // 근데 이거 돌마다 다른데 이거도 뭐 데이터값으로 하자s
     COBBCollision::OBB_COLLISION_DESC OBBDesc = {};
     OBBDesc.pOwner = this;
-    if(2 == iModelIndex)
-        OBBDesc.vExtents = {1.f, 1.f, 1.f};
-    else if(1 == iModelIndex)
+    if (2 == iModelIndex)
+    {
         OBBDesc.vExtents = { 1.f, 1.f, 1.f };
+        m_fCompleteTime = 3.f;
+    }
+    else if(1 == iModelIndex)
+    {
+        OBBDesc.vExtents = { 1.f, 1.f, 1.f };
+        m_fCompleteTime = 3.f;
+    }
     else if (0 == iModelIndex)
+    {
         OBBDesc.vExtents = { 1.5f, 2.3f, 2.5f };
+        m_fCompleteTime = 5.f;
+    }
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionOBB"), TEXT("Collision_Com"), (CComponent**)&m_pCollision, &OBBDesc)))
         return E_FAIL;

@@ -83,8 +83,8 @@ void CPlayerCamera::Late_Update(_float fDeletaTime)
 
         CombinedMatrix = XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()) * ParentMatrix;
     }
-    XMStoreFloat4x4(&m_CombinedMatrix, CombinedMatrix);
 
+    XMStoreFloat4x4(&m_CombinedMatrix, CombinedMatrix);
     XMStoreFloat4x4(&m_InvCombinedMatrix, XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_CombinedMatrix)));
     XMStoreFloat4x4(&m_ProjMat, XMMatrixPerspectiveFovLH(m_fFov, m_fAspect, m_fNear, m_fFar));
 
@@ -138,6 +138,13 @@ void CPlayerCamera::SetChangeCameraMode(CAMERA_MODE eMode)
     {
         m_AccPitchAngle = 0.f;
         SetRotation({ 0.f, 0.f, 0.f });
+    }
+    else
+    {
+        _vector vLook = m_pParent->GetTransform()->GetLookVector();
+        _float3 vCameraPos = m_pTransformCom->GetPosition();
+
+        m_pTransformCom->LookAt(XMLoadFloat3(&vCameraPos) + vLook);
     }
 
     m_bIsLerp = true;

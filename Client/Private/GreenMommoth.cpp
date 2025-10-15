@@ -237,7 +237,7 @@ HRESULT CGreenMommoth::ADD_PartObjects()
 
 HRESULT CGreenMommoth::Setup_PellFsm()
 {
-    CPellStateMachine::PELLFSM_DESC FSMDesc = {};
+    CPellStateMachine::FSM_DESC FSMDesc = {};
     FSMDesc.iLayerSize = 2;
     FSMDesc.pOwner = this;
 

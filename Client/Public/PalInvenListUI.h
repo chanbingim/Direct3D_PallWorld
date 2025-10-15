@@ -2,7 +2,7 @@
 #include "BackGround.h"
 
 NS_BEGIN(Client)
-class CPalBoxSlot;
+class CPalInvenSlot;
 class CTitleUI;
 
 class CPalInvenListUI : public CBackGround
@@ -26,7 +26,7 @@ private :
 	CTitleUI*								m_pTitleUI = {};
 
 	_float2									m_SlotCount = {};
-	vector<CPalBoxSlot*>					m_Slots = {};
+	vector<CPalInvenSlot*>					m_Slots = {};
 
 private:
 	HRESULT									ADD_Components();

@@ -6,12 +6,12 @@
 #include "DropComponent.h"
 
 CPellRock::CPellRock(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
-    CEnviormnent(pDevice, pContext)
+    CMiningObject(pDevice, pContext)
 {
 }
 
 CPellRock::CPellRock(const CPellRock& rhs) :
-    CEnviormnent(rhs)
+    CMiningObject(rhs)
 {
 }
 
@@ -50,6 +50,7 @@ void CPellRock::Priority_Update(_float fDeletaTime)
 
 void CPellRock::Update(_float fDeletaTime)
 {
+    __super::Update(fDeletaTime);
 }
 
 void CPellRock::Late_Update(_float fDeletaTime)

@@ -5,11 +5,13 @@
 
 NS_BEGIN(Engine)
 class CNavigation;
+class CGameObject;
 class CGameInstance;
 NS_END
 
 NS_BEGIN(Client)
 class CPellBase;
+class CWorkComponent;
 class CPellBoxManager;
 
 class CPellWorkState : public CState
@@ -18,7 +20,10 @@ public :
 	typedef struct PellWorkStateDesc
 	{
 		const CPellBase*				pActPell;
+		CGameObject*					pTargetObject;
 		CNavigation*					pNavigation;
+
+		function<void()>				WorkEndFunc;
 	}PELL_WORK_STATE_DESC;
 
 private:
@@ -26,31 +31,29 @@ private:
 	virtual ~CPellWorkState() = default;
 
 public:
-	virtual void OnStateEnter(void* pArg = nullptr) override;
-	virtual void OnStateExcution(_float fDeletaTime, void* pArg = nullptr) override;
-	virtual void OnStateExit(void* pArg = nullptr) override;
+	HRESULT						Initialize(CPellBase* pOwner);
+	virtual void				OnStateEnter(void* pArg = nullptr) override;
+	virtual void				OnStateExcution(_float fDeletaTime, void* pArg = nullptr) override;
+	virtual void				OnStateExit(void* pArg = nullptr) override;
 
 private :
 	CGameInstance*				m_pGameInstance = nullptr;
 	CPellBoxManager*			m_pPellBoxManager = nullptr;
-
 	const CPellBase*			m_pActPell = nullptr;
+
+	CWorkComponent*				m_pWorkComponent = nullptr;
+	CGameObject*				m_pJobTarget = nullptr;
 	CNavigation*				m_pNavigation = nullptr;
 
+	function<void()>			m_WorkEndFunc = nullptr;
 	PELL_WORK_TYPE				m_eWorkType = {};
-	_bool						m_bIsGoToWork = false;
 
+	_bool						m_bNext = false;
 private :
 	void						UpdateWorkName();
 
-	// 이건 그냥 작업을 선택하고 이동하는 과정이라 보면됨
-	void						GoToWork();
-
-	// 가장 가까운 작업을 우순선위로 한다.
-	void						PellWork();
-
 public:
-	static CPellWorkState*		Create(const char* szStateName);
+	static CPellWorkState*		Create(const char* szStateName, CPellBase* pOwner);
 	virtual void				Free() override;
 };
 NS_END

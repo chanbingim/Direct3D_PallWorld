@@ -33,7 +33,7 @@ HRESULT CItemSlotIcon::Initialize(void* pArg)
 
     ITEM_SLOT_ICON_DESC* pItemIconDesc = static_cast<ITEM_SLOT_ICON_DESC*>(pArg);
     m_pParentTransform = pItemIconDesc->pParentTransform;
-
+    m_vOffset = pItemIconDesc->vOffset;
     return S_OK;
 }
 
@@ -44,7 +44,10 @@ void CItemSlotIcon::Update(_float fDeletaTime)
 
 void CItemSlotIcon::Late_Update(_float fDeletaTime)
 {
-    m_pTransformCom->SetPosition(m_pParentTransform->GetPosition());
+    _float3 vCombinedPos = {};
+    _float3 vIconPos = m_pParentTransform->GetPosition();
+    XMStoreFloat3(&vCombinedPos, XMLoadFloat3(&vIconPos) + XMLoadFloat3(&m_vOffset));
+    m_pTransformCom->SetPosition(vCombinedPos);
     if (m_pItemIcon)
         m_pGameInstance->Add_RenderGroup(RENDER::SCREEN_UI, this);
 }

@@ -1,8 +1,8 @@
 #pragma once
-#include "Enviormnent.h"
+#include "MiningObject.h"
 
 NS_BEGIN(Client)
-class CRockObject : public CEnviormnent
+class CRockObject : public CMiningObject
 {
 protected:
 	CRockObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

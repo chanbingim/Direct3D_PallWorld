@@ -18,7 +18,7 @@ enum class PELL_STORAGE_STATE { WORLD, PARTNER_PELL, PLAYER_AREA, PLAYER_INVEN, 
 typedef struct PalCopyData : public CHARACTER_DESC
 {
 	_uInt						iPellID;
-	char						szPellName[MAX_PATH];
+	WCHAR						szPellName[MAX_PATH];
 	WCHAR						szPrototyeName[MAX_PATH];
 
 	_float						fPellAttackRange;
@@ -36,7 +36,7 @@ typedef struct PalCopyData : public CHARACTER_DESC
 
 typedef struct PellInfo : public PAL_NETWORK_DATA
 {
-	_string						NickName;
+	_wstring					NickName;
 	const CTexture*				pPellIconTexture;
 
 	PELL_SKILL_DATA				DefaultSkill;

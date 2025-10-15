@@ -1,2 +1,40 @@
-﻿  PalBoxUserInterface.cpp
-  Direct11_FrameWork.vcxproj -> C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe
+﻿FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ButtonShader.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\MouseShader.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ShaderFiles\MutipleBlend.hlsl(79,5-41): warning X3206: implicit truncation of vector type
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\MutipleBlend.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ProgressBar.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\SelectTriShader.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\TestShader.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_AnimMesh.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_InstnaceMesh.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ShaderFiles\VTX_Mesh.hlsl(118,22-32): warning X3578: Output value 'PS_ModelPreview' is not completely initialized
+C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ShaderFiles\VTX_Mesh.hlsl(126,21-42): warning X3578: Output value 'PS_ModelCreate' is not completely initialized
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_Mesh.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_NorTex.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\WorldUI.cso
+  Loader.cpp
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\Loader.cpp(715,35): warning C4244: '=': 'float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\Loader.cpp(731,35): warning C4244: '=': 'float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Direct11_FrameWork.vcxproj -> C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe

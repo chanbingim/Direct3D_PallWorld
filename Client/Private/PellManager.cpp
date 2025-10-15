@@ -117,7 +117,7 @@ HRESULT CPellManager::LoadCSVPellData(const char* szFilePath)
         Desc.WorkSpeed = atoi(LoadData[i++].c_str());
 
         Desc.iPellID = atoi(LoadData[i++].c_str());
-        strcpy_s(Desc.szPellName, MAX_PATH, LoadData[i++].c_str());
+        CStringHelper::ConvertUTFToWide(LoadData[i++].c_str(), Desc.szPellName);
         CStringHelper::ConvertUTFToWide(LoadData[i++].c_str(), ConvertName);
         CStringHelper::ConvertUTFToWide(LoadData[i++].c_str(), Desc.szPrototyeName);
         

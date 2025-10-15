@@ -15,7 +15,7 @@ public :
 	typedef struct ItemSlotIconDesc : GAMEOBJECT_DESC
 	{
 		const CTransform*		pParentTransform;
-
+		_float3					vOffset;
 	}ITEM_SLOT_ICON_DESC;
 
 private:
@@ -44,6 +44,8 @@ private:
 	const		CTexture*					m_pItemIcon = nullptr;
 	CShader*								m_pShaderCom = nullptr;
 	CVIBuffer*								m_pVIBufferCom = nullptr;
+
+	_float3									m_vOffset = {};
 
 private:
 	HRESULT									ADD_Components();

@@ -2,7 +2,7 @@
 
 #include "GameInstance.h"
 
-#include "PalBoxSlot.h"
+#include "PalInvenSlot.h"
 #include "TitleUI.h"
 
 CPalInvenListUI::CPalInvenListUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
@@ -42,14 +42,14 @@ HRESULT CPalInvenListUI::Initialize(void* pArg)
 
 void CPalInvenListUI::Update(_float fDeletaTime)
 {
+    m_pTitleUI->Update(fDeletaTime);
     for (auto pSlot : m_Slots)
         pSlot->Update(fDeletaTime);
-
-
 }
 
 void CPalInvenListUI::Late_Update(_float fDeletaTime)
 {
+    m_pTitleUI->Late_Update(fDeletaTime);
     for (auto pSlot : m_Slots)
         pSlot->Late_Update(fDeletaTime);
 
@@ -86,25 +86,25 @@ HRESULT CPalInvenListUI::ADD_Childs()
     CTitleUI::TITLE_UI_DESC TitleDesc = {};
     TitleDesc.pParent = this;
     TitleDesc.vScale = { vScale.x, 20.f, 0.f };
-    TitleDesc.vPosition = { 0.f, -vScale.y + TitleDesc.vScale.y * 0.5f, 0.f };
-    TitleDesc.szTitleName = TEXT("¹Ú½º");
+    TitleDesc.vPosition = { 0.f, -vScale.y * 0.5f + TitleDesc.vScale.y, 0.f };
+    TitleDesc.szTitleName = TEXT("º¸À¯ Æç");
 
     m_pTitleUI = static_cast<CTitleUI*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Base_Title_UI"), &TitleDesc));
     m_pTitleUI->SetZOrder(m_iZOrder + 1);
     ADD_Child(m_pTitleUI);
 
-    CPalBoxSlot::PAL_BOX_DESC PalBoxSlotDesc = {};
+    CPalInvenSlot::PAL_BOX_DESC PalBoxSlotDesc = {};
     PalBoxSlotDesc.pParent = this;
-    PalBoxSlotDesc.vScale = { 120.f, 60.f, 0.f };
-    PalBoxSlotDesc.ePalSlotType = CPalBoxSlot::PAL_SLOT_TYPE::INVEN;
+    PalBoxSlotDesc.vScale = { vScale.x - 10.f, 70.f, 0.f };
+    PalBoxSlotDesc.ePalSlotType = CPalInvenSlot::PAL_SLOT_TYPE::INVEN;
 
     m_SlotCount = { 6, 0 };
-    _float3 vParentScale = m_pTransformCom->GetScale();
-    _float3 vStartPos = { (_float)m_UISize.left + 60 , (_float)m_UISize.top + 110, 0.f };
+    
+    _float3 vStartPos = {  0.f, -vScale.y * 0.5f + PalBoxSlotDesc.vScale.y + 10.f, 0.f };
     for (_uInt i = 0; i < m_SlotCount.x; ++i)
     {
-        PalBoxSlotDesc.vPosition.x = vStartPos.y + (PalBoxSlotDesc.vScale.y + 10);
-        CPalBoxSlot* pPalBoxSlot = CPalBoxSlot::Create(m_pGraphic_Device, m_pDeviceContext);
+        PalBoxSlotDesc.vPosition.y = vStartPos.y + (PalBoxSlotDesc.vScale.y + 10) * i;
+        CPalInvenSlot* pPalBoxSlot = CPalInvenSlot::Create(m_pGraphic_Device, m_pDeviceContext);
         if (nullptr == pPalBoxSlot)
             return E_FAIL;
 

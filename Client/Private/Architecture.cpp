@@ -35,7 +35,7 @@ HRESULT CArchitecture::Initialize(void* pArg)
 	CActionAbleUI::ACTION_ABLE_DESC ActionDesc = {};
 	ActionDesc.pOwner = this;
 	ActionDesc.vScale = {50.f, 20.f, 0.f};
-	ActionDesc.vAwayPosition = {10.f, -30.f, 0.f};
+	ActionDesc.vAwayPosition = {10.f, -70.f, 0.f};
 
 	m_pActionUI = CActionAbleUI::Create(m_pGraphic_Device, m_pDeviceContext);
 	if(FAILED(m_pActionUI->Initialize(&ActionDesc)))
@@ -64,6 +64,7 @@ void CArchitecture::Update(_float fDeletaTime)
 		if (m_fAccComplteTime  >= m_pArchitectureInfo.TypeDesc.ArchitectureDesc.fCompleteTime )
 		{
 			m_bIsCompleted = true;
+			CPellBoxManager::GetInstance()->Remove_JobListObject(m_eWorkType, this);
 		}
 		else
 		{
@@ -74,25 +75,6 @@ void CArchitecture::Update(_float fDeletaTime)
 				m_fMaxHeight = BoundBox.Extents.y;
 				m_fMaxHeight = m_fMaxHeight * (m_fAccComplteTime / m_pArchitectureInfo.TypeDesc.ArchitectureDesc.fCompleteTime * 30.f);
 			}
-		}
-	}
-
-	_float3 vArchitecturePos = m_pTransformCom->GetPosition();
-	_vector vPlayerPos = m_pGameInstance->GetPlayerState(WORLDSTATE::POSITION);
-	_float fLength = XMVectorGetX(XMVector3Length(XMLoadFloat3(&vArchitecturePos) - vPlayerPos));
-	if (m_fActionDistance <= fLength)
-	{
-		_vector vCalCamereaPos = m_pGameInstance->GetCameraState(WORLDSTATE::POSITION);
-		_vector vCalCamereaLook = m_pGameInstance->GetCameraState(WORLDSTATE::LOOK);
-		
-		_float fLength = XMVectorGetX(XMVector3Length(XMLoadFloat3(&vArchitecturePos) - vCalCamereaPos));
-		_vector vCameraToArchDir = XMVector3Normalize(XMLoadFloat3(&vArchitecturePos) - vCalCamereaPos);
-		_float fRad = acosf(XMVectorGetX(XMVector3Dot(vCameraToArchDir, vCalCamereaLook)));
-
-		if (fRad <= XM_PIDIV4 && fLength <= 3.f)
-		{
-			CPlayerManager::GetInstance()->SetNearArchitecture(this);
-			m_pActionUI->Update(fDeletaTime);
 		}
 	}
 }
@@ -186,6 +168,28 @@ HRESULT CArchitecture::DeadFunction()
 
 	m_IsDead = true;
 	return S_OK;
+}
+
+void CArchitecture::UpdateActionUI(_float fDeletaTime)
+{
+	_float3 vArchitecturePos = m_pTransformCom->GetPosition();
+	_vector vPlayerPos = m_pGameInstance->GetPlayerState(WORLDSTATE::POSITION);
+	_float fLength = XMVectorGetX(XMVector3Length(XMLoadFloat3(&vArchitecturePos) - vPlayerPos));
+	if (m_fActionDistance <= fLength)
+	{
+		_vector vCalCamereaPos = m_pGameInstance->GetCameraState(WORLDSTATE::POSITION);
+		_vector vCalCamereaLook = m_pGameInstance->GetCameraState(WORLDSTATE::LOOK);
+
+		_float fLength = XMVectorGetX(XMVector3Length(XMLoadFloat3(&vArchitecturePos) - vCalCamereaPos));
+		_vector vCameraToArchDir = XMVector3Normalize(XMLoadFloat3(&vArchitecturePos) - vCalCamereaPos);
+		_float fRad = acosf(XMVectorGetX(XMVector3Dot(vCameraToArchDir, vCalCamereaLook)));
+
+		if (fRad <= XM_PIDIV4 && fLength <= 3.f)
+		{
+			CPlayerManager::GetInstance()->SetNearArchitecture(this);
+			m_pActionUI->Update(fDeletaTime);
+		}
+	}
 }
 
 CGameObject* CArchitecture::Clone(void* pArg)

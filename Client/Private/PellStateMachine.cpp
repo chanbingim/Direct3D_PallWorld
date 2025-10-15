@@ -20,9 +20,6 @@ HRESULT CPellStateMachine::Initialize(void* pArg)
 {
     __super::Initialize(pArg);
 
-    PELLFSM_DESC* pDesc = static_cast<PELLFSM_DESC*>(pArg);
-    m_pOwner = pDesc->pOwner;
-
     if (FAILED(ADD_StateLayer()))
         return E_FAIL;
 

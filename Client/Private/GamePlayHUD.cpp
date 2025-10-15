@@ -223,8 +223,6 @@ HRESULT CGamePlayHUD::ADD_UserInterface()
 #pragma endregion
 
 #pragma endregion
-
-
 	
 	return S_OK;
 }
@@ -263,15 +261,16 @@ HRESULT CGamePlayHUD::ADD_PreviewUserInterface()
 
 void CGamePlayHUD::UIKeyInput()
 {
-	if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_I))
+	if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_ESCAPE))
 	{
-		if (VISIBILITY::HIDDEN == m_pInGameMenu->GetVisibility())
-		{
-			ActivePopUpUserInterface(0);
-		}
+		if(m_Visible)
+			UnActiveAllPopUp();
 		else
 		{
-			UnActivePopUpUserInterface(0);
+			if (VISIBILITY::HIDDEN == m_pInGameMenu->GetVisibility())
+			{
+				ActivePopUpUserInterface(0);
+			}
 		}
 	}
 
@@ -296,22 +295,6 @@ void CGamePlayHUD::UIKeyInput()
 		else
 		{
 			UnActivePopUpUserInterface(4);
-		}
-	}
-
-	if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_C))
-	{
-		if (VISIBILITY::HIDDEN == m_PopupUIs.find(3)->second->GetVisibility())
-		{
-			ActivePopUpUserInterface(3);
-			
-			auto pDiallog = static_cast<CDiallogUI *>(m_PopupUIs.find(3)->second);
-			pDiallog->SetDiallogText(TEXT("안녕 하세요 반갑습니다. 테스트 테스트"));
-		
-		}
-		else
-		{
-			UnActivePopUpUserInterface(3);
 		}
 	}
 }
@@ -375,6 +358,4 @@ void CGamePlayHUD::Free()
 
 	for (auto pair : m_PreviewUIs)
 		Safe_Release(pair.second);
-
-	Safe_Release(m_pBossHealthbar);
 }

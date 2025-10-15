@@ -71,9 +71,9 @@ void CPellCharacterIcon::SetSelectPellIndex(_uInt iNumSelectPellIndex)
 {
     auto PellInfo = CPlayerManager::GetInstance()->GetPellInfomation(iNumSelectPellIndex);
     if (nullptr == PellInfo)
-        return;
-
-    m_pTexture = PellInfo->GetPellInfo().pPellIconTexture;
+        m_pTexture = nullptr;
+    else
+        m_pTexture = PellInfo->GetPellInfo().pPellIconTexture;
 }
 
 HRESULT CPellCharacterIcon::ADD_Components()

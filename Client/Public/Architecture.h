@@ -59,8 +59,10 @@ protected :
 	virtual HRESULT							Apply_ConstantShaderResources(_uInt iMeshIndex);
 	virtual void							HitOverlapFunction(_float3 vDir, CGameObject* pHitActor);
 	virtual	void							Damage(void* pArg, CActor* pDamagedActor) override;
-
 	virtual	HRESULT							DeadFunction() override;
+
+	void									UpdateActionUI(_float fDeletaTime);
+
 
 public:
 	virtual			CGameObject*			Clone(void* pArg) override;

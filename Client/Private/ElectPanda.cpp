@@ -49,7 +49,6 @@ HRESULT CElectPanda::Initialize(void* pArg)
         return E_FAIL;
 
     m_eTeam = PELL_TEAM::NEUTRAL;
-
     return S_OK;
 }
 
@@ -209,9 +208,7 @@ HRESULT CElectPanda::ADD_Components()
     auto OriginNav = static_cast<CNavigation*>((*Object)->Find_Component(TEXT("NaviMesh_Com")));
     CNavigation::NAVIGATION_DESC Desc = {};
     _float3 vPos = m_pTransformCom->GetPosition();
-    Desc.iCurrentCellIndex = (int)m_pGameInstance->Random(50.f, 100.f);
-
-    m_pTransformCom->SetPosition(OriginNav->CellCenterPos(Desc.iCurrentCellIndex));
+    Desc.iCurrentCellIndex = OriginNav->Find_Cell(XMLoadFloat3(&vPos));
     m_pNevigation = static_cast<CNavigation*>(OriginNav->Clone(&Desc));
 
     Safe_AddRef(m_pNevigation);
@@ -235,7 +232,7 @@ HRESULT CElectPanda::ADD_PartObjects()
 
 HRESULT CElectPanda::Setup_PellFsm()
 {
-    CPellStateMachine::PELLFSM_DESC FSMDesc = {};
+    CPellStateMachine::FSM_DESC FSMDesc = {};
     FSMDesc.iLayerSize = 2;
     FSMDesc.pOwner = this;
 

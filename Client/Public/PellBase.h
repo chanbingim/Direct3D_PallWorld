@@ -55,12 +55,19 @@ public:
 	void									ChangePellTeam(PELL_TEAM eTeam);
 	PELL_TEAM								GetPellTeam() { return m_eTeam; }
 
+	void									ChangePellStorageType(PELL_STORAGE_STATE eStorageType);
+
+#pragma region Work State
+	void									ChangePellWork(CGameObject*	pWorkObject);
+	_bool									bIsWorkAble() const;
+	void									ResetWorkSate();
+#pragma endregion
+
 #pragma region Pal Carry
 	void									ChangePellCarry(const _float4x4* pSocketMatrix);
 	void									ResetCarryState();
 	void									PellLaunched(_float3 vDir, _float ThorwSpeed);
 #pragma endregion
-
 	
 	void									AttachSocket(const _float4x4* pSocket, const _char SocketFlag) const;
 	const CPellBody*						GetPellBody() const { return m_pPellBody; }
@@ -79,6 +86,8 @@ protected :
 	_bool									m_bIsAction = false;
 	
 	_float									m_fAccActionTime = 0;
+
+	CGameObject*							m_pTargetObject = nullptr;
 	CPellStateMachine*						m_pPellFsm = nullptr;
 	CChaseComponent*						m_pChase = nullptr;
 

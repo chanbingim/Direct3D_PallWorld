@@ -87,7 +87,7 @@ HRESULT CPalBoxListUI::ADD_Childs()
     CTitleUI::TITLE_UI_DESC TitleDesc = {};
     TitleDesc.pParent = this;
     TitleDesc.vScale = { vScale.x, 20.f, 0.f };
-    TitleDesc.vPosition = { 0.f, -vScale.y + TitleDesc.vScale.y * 0.5f, 0.f };
+    TitleDesc.vPosition = { 0.f, -vScale.y * 0.5f + TitleDesc.vScale.y, 0.f };
     TitleDesc.szTitleName = TEXT("¹Ú½º");
 
     m_pTitleUI = static_cast<CTitleUI*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Base_Title_UI"), &TitleDesc));
@@ -101,12 +101,13 @@ HRESULT CPalBoxListUI::ADD_Childs()
 
     m_SlotCount = {6, 5};
     _float3 vParentScale = m_pTransformCom->GetScale();
-    _float3 vStartPos = { (_float)m_UISize.left + 60 , (_float)m_UISize.top + 110, 0.f };
+    _float3 vStartPos = { -vScale.x * 0.5f + 50 , -vScale.y * 0.5f + TitleDesc.vScale.y + 50, 0.f };
     for (_uInt i = 0; i < m_SlotCount.y; ++i)
     {
         for (_uInt j = 0; j < m_SlotCount.x; ++j)
         {
             PalBoxSlotDesc.vPosition.x = vStartPos.x + (PalBoxSlotDesc.vScale.x + 10) * j;
+            PalBoxSlotDesc.vPosition.y = vStartPos.y + (PalBoxSlotDesc.vScale.y + 10) * i;
             CPalBoxSlot* pPalBoxSlot = CPalBoxSlot::Create(m_pGraphic_Device, m_pDeviceContext);
             if (nullptr == pPalBoxSlot)
                 return E_FAIL;

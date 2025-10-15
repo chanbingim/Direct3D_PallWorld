@@ -43,6 +43,8 @@ void CDefenceWallWood::Priority_Update(_float fDeletaTime)
 
 void CDefenceWallWood::Update(_float fDeletaTime)
 {
+    __super::Update(fDeletaTime);
+
     _float3 vArchitecturePos = m_pTransformCom->GetPosition();
     _vector vPlayerPos = m_pGameInstance->GetPlayerState(WORLDSTATE::POSITION);
     _float fLength = XMVectorGetX(XMVector3Length(XMLoadFloat3(&vArchitecturePos) - vPlayerPos));
@@ -108,7 +110,7 @@ HRESULT CDefenceWallWood::ADD_Components()
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionOBB"), TEXT("Collision_Com"), (CComponent**)&m_pHitBoxCollision, &OBBDesc)))
         return E_FAIL;
-    m_pHitBoxCollision->BindBeginOverlapEvent([this](_float3 vDir, CGameObject* pHitActor) { HitOverlapFunction(vDir, pHitActor); });
+    m_pHitBoxCollision->BindOverlappingEvent([this](_float3 vDir, CGameObject* pHitActor) { HitOverlapFunction(vDir, pHitActor); });
 
     // NonAnimShader
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Mesh"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))

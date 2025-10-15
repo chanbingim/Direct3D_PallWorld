@@ -43,10 +43,6 @@ void CPlayerSlotArchitecture::Update(_float fDeletaTime)
 {
     _matrix ParentMat = XMLoadFloat4x4(&m_pParent->GetTransform()->GetWorldMat());
 
-    ParentMat.r[0] = XMVectorSet(1.f, 0.f, 0.f, 0.f);
-    ParentMat.r[1] = XMVectorSet(0.f, 1.f, 0.f, 0.f);
-    ParentMat.r[2] = XMVectorSet(0.f, 0.f, 1.f, 0.f);
-
     XMStoreFloat4x4(&m_CombinedWorldMatrix,
         XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()) * ParentMat);
     _float3 vPosition = *reinterpret_cast<_float3*>(&m_CombinedWorldMatrix.m[3]);
@@ -121,11 +117,22 @@ void CPlayerSlotArchitecture::CreateSlotObject()
     // 셀정보도 여기서 넘겨주기
     _uInt iCurLevel = ENUM_CLASS(LEVEL::GAMEPLAY);
     CArchitecture::GAMEOBJECT_DESC ArchitectureDesc = {};
-    ArchitectureDesc.vScale = { 1.f,1.f,1.f };
-
+    ArchitectureDesc.vScale = { 1.f, 1.f, 1.f };
+    ArchitectureDesc.vRotation = { 0.f,  m_fRotateYAngle + XM_PIDIV2, 0.f };
     ArchitectureDesc.vPosition = *reinterpret_cast<_float3*>(&m_CombinedWorldMatrix.m[3]);
     m_pGameInstance->Add_GameObject_ToLayer(iCurLevel, TEXT("Layer_GamePlay_WorkAbleObject"),
         static_cast<CGameObject *>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, iCurLevel, m_pItemDesc->TypeDesc.ArchitectureDesc.ArchitecturePrototpyeName, &ArchitectureDesc)));
+}
+
+void CPlayerSlotArchitecture::TurnArchitectrueSlot(_float fTrunAngle, _float fTimeDeleta)
+{
+    m_fRotateYAngle += fTrunAngle * fTimeDeleta;
+    if (0 > m_fRotateYAngle)
+        m_fRotateYAngle += XM_2PI;
+    else if (m_fRotateYAngle > XM_2PI)
+        m_fRotateYAngle -= XM_2PI;
+
+    m_pTransformCom->Turn(m_pTransformCom->GetUpVector(), fTrunAngle, fTimeDeleta);
 }
 
 HRESULT CPlayerSlotArchitecture::Bind_ShaderResources()

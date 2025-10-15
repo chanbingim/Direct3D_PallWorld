@@ -49,15 +49,15 @@ void CNpc::Update(_float fDeletaTime)
 
     if (NPC_TEAM::FRENDLY == m_eTeam)
     {
-        _float3 vArchitecturePos = m_pTransformCom->GetPosition();
+        _float3 vNpcPos = m_pTransformCom->GetPosition();
         _vector vPlayerPos = m_pGameInstance->GetPlayerState(WORLDSTATE::POSITION);
-        _float fLength = XMVectorGetX(XMVector3Length(XMLoadFloat3(&vArchitecturePos) - vPlayerPos));
+        _float fLength = XMVectorGetX(XMVector3Length(XMLoadFloat3(&vNpcPos) - vPlayerPos));
         if (m_fActionDistance <= fLength)
         {
             _vector vCalCamereaPos = m_pGameInstance->GetCameraState(WORLDSTATE::POSITION);
             _vector vCalCamereaLook = m_pGameInstance->GetCameraState(WORLDSTATE::LOOK);
 
-            _vector vCameraToArchDir = XMVector3Normalize(XMLoadFloat3(&vArchitecturePos) - vCalCamereaPos);
+            _vector vCameraToArchDir = XMVector3Normalize(XMLoadFloat3(&vNpcPos) - vCalCamereaPos);
             _float fRad = acosf(XMVectorGetX(XMVector3Dot(vCameraToArchDir, vCalCamereaLook)));
 
             if (fRad <= XM_PIDIV4)

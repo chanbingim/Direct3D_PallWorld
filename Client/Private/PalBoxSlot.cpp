@@ -36,6 +36,9 @@ HRESULT CPalBoxSlot::Initialize(void* pArg)
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
+    PAL_BOX_DESC* pPalSlotDesc = static_cast<PAL_BOX_DESC*>(pArg);
+    m_ePalSlotType = pPalSlotDesc->ePalSlotType;
+
     m_eType = OBJECT_TYPE::STATIC;
     m_bIsMouseEvent = true;
     return S_OK;
@@ -44,13 +47,34 @@ HRESULT CPalBoxSlot::Initialize(void* pArg)
 void CPalBoxSlot::Update(_float fDeletaTime)
 {
     __super::Update(fDeletaTime);
+
+    switch (m_ePalSlotType)
+    {
+    case PAL_SLOT_TYPE::INVEN:
+    {
+        auto pPellBase = CPlayerManager::GetInstance()->GetPellInfomation(m_iSlotNumber);
+        if (pPellBase)
+            m_pPalInfo = &pPellBase->GetPellInfo();
+        else
+            m_pPalInfo = nullptr;
+    }
+    break;
+    case PAL_SLOT_TYPE::BOX:
+        m_pPalInfo = CPellBoxManager::GetInstance()->GetPalBoxInfo(m_iSlotNumber);
+        break;
+    case PAL_SLOT_TYPE::WORK:
+        m_pPalInfo = CPellBoxManager::GetInstance()->GetWorkPalInfo(m_iSlotNumber);
+        break;
+    }
 }
 
 void CPalBoxSlot::Late_Update(_float fDeletaTime)
 {
-    if(m_pPalInfo)
+    if (m_pPalInfo)
+    {
         m_pSlotIcon->SetTexture(m_pPalInfo->pPellIconTexture);
-
+        m_pSlotIcon->Late_Update(fDeletaTime);
+    }
     m_pGameInstance->Add_RenderGroup(RENDER::SCREEN_UI, this);
 }
 
@@ -68,27 +92,12 @@ HRESULT CPalBoxSlot::Render()
 void CPalBoxSlot::SetPalSlotNumber(_uInt iSlotNumber)
 {
     m_iSlotNumber = iSlotNumber;
-    switch (m_ePalSlotType)
-    {
-    case PAL_SLOT_TYPE::INVEN:
-    {
-        auto pPellBase = CPlayerManager::GetInstance()->GetPellInfomation(m_iSlotNumber);
-        if (pPellBase)
-            m_pPalInfo = &pPellBase->GetPellInfo();
-    }
-    break;
-    case PAL_SLOT_TYPE::BOX:
-        m_pPalInfo = CPellBoxManager::GetInstance()->GetPalBoxInfo(m_iSlotNumber);
-        break;
-    case PAL_SLOT_TYPE::WORK:
-        m_pPalInfo = CPellBoxManager::GetInstance()->GetWorkPalInfo(m_iSlotNumber);
-        break;
-    }
+   
 }
 
 void CPalBoxSlot::SwapSlot(CPalBoxSlot* From)
 {
-    if (nullptr == From->GetSlotPalInfo() || nullptr == m_pPalInfo)
+    if (nullptr == From->GetSlotPalInfo())
         return;
 
     const PAL_SLOT_TYPE FromType = From->GetPalSlotType();
@@ -108,34 +117,42 @@ void CPalBoxSlot::SwapSlot(CPalBoxSlot* From)
     }
     else
     {
+        _bool     bIsFromData{}, bIsToData{};
         PELL_INFO FromPalInfo{}, ToPalInfo{};
-        LoadSlotPalInfo(m_ePalSlotType, m_iSlotNumber, &ToPalInfo);
-        LoadSlotPalInfo(FromType, iFromSlotNumber, &FromPalInfo);
 
-        switch (m_ePalSlotType)
+        bIsToData = LoadSlotPalInfo(m_ePalSlotType, m_iSlotNumber, &ToPalInfo);
+        bIsFromData = LoadSlotPalInfo(FromType, iFromSlotNumber, &FromPalInfo);
+
+        if (bIsFromData)
         {
-        case PAL_SLOT_TYPE::INVEN:
-            CPlayerManager::GetInstance()->ADDPellList(FromPalInfo, m_iSlotNumber);
-            break;
-        case PAL_SLOT_TYPE::BOX:
-            CPellBoxManager::GetInstance()->StorePalBox(FromPalInfo, m_iSlotNumber);
-            break;
-        case PAL_SLOT_TYPE::WORK:
-            CPellBoxManager::GetInstance()->Add_WorkPalList(FromPalInfo, m_iSlotNumber);
-            break;
+            switch (m_ePalSlotType)
+            {
+            case PAL_SLOT_TYPE::INVEN:
+                CPlayerManager::GetInstance()->ADDPellList(FromPalInfo, m_iSlotNumber);
+                break;
+            case PAL_SLOT_TYPE::BOX:
+                CPellBoxManager::GetInstance()->StorePalBox(FromPalInfo, m_iSlotNumber);
+                break;
+            case PAL_SLOT_TYPE::WORK:
+                CPellBoxManager::GetInstance()->Add_WorkPalList(FromPalInfo, m_iSlotNumber);
+                break;
+            }
         }
 
-        switch (FromType)
+        if (bIsToData)
         {
-        case PAL_SLOT_TYPE::INVEN:
-            CPlayerManager::GetInstance()->ADDPellList(ToPalInfo, iFromSlotNumber);
-            break;
-        case PAL_SLOT_TYPE::BOX:
-            CPellBoxManager::GetInstance()->StorePalBox(ToPalInfo, iFromSlotNumber);
-            break;
-        case PAL_SLOT_TYPE::WORK:
-            CPellBoxManager::GetInstance()->Add_WorkPalList(ToPalInfo, iFromSlotNumber);
-            break;
+            switch (FromType)
+            {
+            case PAL_SLOT_TYPE::INVEN:
+                CPlayerManager::GetInstance()->ADDPellList(ToPalInfo, iFromSlotNumber);
+                break;
+            case PAL_SLOT_TYPE::BOX:
+                CPellBoxManager::GetInstance()->StorePalBox(ToPalInfo, iFromSlotNumber);
+                break;
+            case PAL_SLOT_TYPE::WORK:
+                CPellBoxManager::GetInstance()->Add_WorkPalList(ToPalInfo, iFromSlotNumber);
+                break;
+            }
         }
     }
 }
@@ -154,6 +171,7 @@ void CPalBoxSlot::MouseHoverExit()
 
 void CPalBoxSlot::MouseButtonDwon()
 {
+    m_pGameInstance->SetMouseFocus(this);
 }
 
 void CPalBoxSlot::MouseButtonPressed()
@@ -180,7 +198,7 @@ HRESULT CPalBoxSlot::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
         return E_FAIL;
 
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Slot_Base_Texture"), TEXT("Texture_Com"), (CComponent**)&m_pTextureCom)))
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_PalSlot_Base_Texture"), TEXT("Texture_Com"), (CComponent**)&m_pTextureCom)))
         return E_FAIL;
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
@@ -201,21 +219,22 @@ HRESULT CPalBoxSlot::ADD_Components()
     return S_OK;
 }
 
-void CPalBoxSlot::LoadSlotPalInfo(PAL_SLOT_TYPE eSlotType, _uInt SlotNumber, PELL_INFO* pOutPellInfo)
+_bool CPalBoxSlot::LoadSlotPalInfo(PAL_SLOT_TYPE eSlotType, _uInt SlotNumber, PELL_INFO* pOutPellInfo)
 {
+    _bool bFlag = false;
     switch (eSlotType)
     {
     case PAL_SLOT_TYPE::INVEN:
-        CPlayerManager::GetInstance()->LoadPellInfomation(SlotNumber, pOutPellInfo);
+        bFlag = CPlayerManager::GetInstance()->LoadPellInfomation(SlotNumber, pOutPellInfo);
         break;
     case PAL_SLOT_TYPE::BOX:
-        CPellBoxManager::GetInstance()->LoadPalBox(m_iSlotNumber, pOutPellInfo);
+        bFlag = CPellBoxManager::GetInstance()->LoadPalBox(SlotNumber, pOutPellInfo);
         break;
     case PAL_SLOT_TYPE::WORK:
-        CPellBoxManager::GetInstance()->Load_WorkPalList(m_iSlotNumber, pOutPellInfo);
+        bFlag = CPellBoxManager::GetInstance()->Load_WorkPalList(SlotNumber, pOutPellInfo);
         break;
     }
-
+    return bFlag;
 }
 
 CPalBoxSlot* CPalBoxSlot::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

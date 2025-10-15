@@ -1,6 +1,7 @@
 #include "PellBoxManager.h"
 
 #include "GameInstance.h"
+#include "GamePlayHUD.h"
 #include "Level.h"
 
 #include "PellBase.h"
@@ -63,8 +64,16 @@ void CPellBoxManager::Remove_JobListObject(PELL_WORK_TYPE eWorkType, CGameObject
 
 void CPellBoxManager::ShowPalBoxUserInterface(CPalBox* pPalBox)
 {
-	//이건 UI 표현을 위한 데이터
+	auto pLevelHUD = m_pGameInstance->GetCurrentLevel()->GetHUD();
+	if (nullptr == pLevelHUD)
+		return;
+
+	CGamePlayHUD* pGamePlayHUD = static_cast<CGamePlayHUD*>(pLevelHUD);
 	m_pSelectPalBox = pPalBox;
+	if (nullptr == m_pSelectPalBox)
+		pGamePlayHUD->UnActivePopUpUserInterface(4);
+	else
+		pGamePlayHUD->ActivePopUpUserInterface(4);
 }
 
 void CPellBoxManager::StorePalBox(const PELL_INFO& PellInfo, _Int iStoreID)
@@ -83,10 +92,10 @@ const PELL_INFO* CPellBoxManager::GetPalBoxInfo(_uInt iStoreID)
 	return m_pSelectPalBox->GetPalBoxInfo(iStoreID);
 }
 
-HRESULT CPellBoxManager::LoadPalBox(_uInt iStoreID, PELL_INFO* pOutPalInfo)
+_bool CPellBoxManager::LoadPalBox(_uInt iStoreID, PELL_INFO* pOutPalInfo)
 {
 	if (nullptr == m_pSelectPalBox)
-		return E_FAIL;
+		return false;
 
 	return m_pSelectPalBox->LoadPalBox(iStoreID, pOutPalInfo);
 }
@@ -123,12 +132,12 @@ void CPellBoxManager::Remove_WorkPalList(CPellBase* pPellBase)
 	m_pSelectPalBox->Remove_WorkPalList(pPellBase);
 }
 
-void CPellBoxManager::Load_WorkPalList(_uInt iStoreID, PELL_INFO* pOutPalInfo)
+_bool CPellBoxManager::Load_WorkPalList(_uInt iStoreID, PELL_INFO* pOutPalInfo)
 {
 	if (nullptr == m_pSelectPalBox)
-		return;
+		return false;
 
-	m_pSelectPalBox->Load_WorkPalList(iStoreID, pOutPalInfo);
+	return m_pSelectPalBox->Load_WorkPalList(iStoreID, pOutPalInfo);
 }
 
 void CPellBoxManager::SwapPalBox(_uInt iSlotType, _uInt iToSlotIndex, _uInt iFromSlotIndex)

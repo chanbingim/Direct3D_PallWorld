@@ -33,6 +33,7 @@ HRESULT CFemalePeople_1::Initialize(void* pArg)
     if (FAILED(ADD_PartObjects()))
         return E_FAIL;
 
+    m_fActionDistance = 10.f;
     m_eTeam = NPC_TEAM::FRENDLY;
     return S_OK;
 }

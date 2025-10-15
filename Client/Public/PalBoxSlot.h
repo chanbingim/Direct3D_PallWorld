@@ -17,7 +17,7 @@ public :
 
 	}PAL_BOX_DESC;
 
-private:
+protected :
 	CPalBoxSlot(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CPalBoxSlot(const CPalBoxSlot& rhs);
 	virtual ~CPalBoxSlot() = default;
@@ -50,17 +50,16 @@ protected:
 	virtual		void						MouseButtonPressed();
 	virtual		void						MouseButtonUp();
 
-private:
-	_uInt									m_iSlotNumber = {};
-	const PELL_INFO*						m_pPalInfo = {};
+protected:
 	CItemSlotIcon*							m_pSlotIcon = nullptr;
+	const PELL_INFO*						m_pPalInfo = {};
 
+	_uInt									m_iSlotNumber = {};
 	PAL_SLOT_TYPE							m_ePalSlotType = {};
 
 private:
 	HRESULT									ADD_Components();
-
-	void									LoadSlotPalInfo(PAL_SLOT_TYPE eSlotType, _uInt SlotNumber, PELL_INFO* pOutPellInfo);
+	_bool									LoadSlotPalInfo(PAL_SLOT_TYPE eSlotType, _uInt SlotNumber, PELL_INFO* pOutPellInfo);
 
 
 public:

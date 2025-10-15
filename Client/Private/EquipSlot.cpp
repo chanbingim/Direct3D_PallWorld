@@ -154,6 +154,7 @@ HRESULT CEquipSlot::ADD_Components()
     CItemSlotIcon::ITEM_SLOT_ICON_DESC pItemIconDesc = {};
     pItemIconDesc.pParent = this;
     pItemIconDesc.pParentTransform = m_pTransformCom;
+    pItemIconDesc.vOffset = {0, 0, 0};
     pItemIconDesc.vScale = m_pTransformCom->GetScale();
     pItemIconDesc.vScale.x -= 10.f;
     pItemIconDesc.vScale.y -= 10.f;

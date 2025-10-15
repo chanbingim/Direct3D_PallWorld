@@ -1,5 +1,7 @@
 #include "PellMoveLayer.h"
 
+#include "PellBase.h"
+
 #pragma region State
 #include "PellIdleState.h"
 #include "PellPatrolState.h"
@@ -21,11 +23,11 @@ CPellMoveLayer::CPellMoveLayer(const CPellMoveLayer& rhs)
 HRESULT CPellMoveLayer::Initialize(void* pArg, _uInt iStateSize)
 {
     __super::Initialize(pArg, iStateSize);
-    if (FAILED(ADD_MoveState()))
-        return E_FAIL;
-
     PELL_LAYER_DESC* pPellLayerDesc = static_cast<PELL_LAYER_DESC*>(pArg);
     m_pOwner = pPellLayerDesc->pOwner;
+
+    if (FAILED(ADD_MoveState()))
+        return E_FAIL;
 
     return S_OK;
 }
@@ -47,7 +49,7 @@ HRESULT CPellMoveLayer::ADD_MoveState()
     if (FAILED(AddState(TEXT("Rest"), CPellResetState::Create("Rest"))))
         return E_FAIL;
 
-    if (FAILED(AddState(TEXT("Work"), CPellWorkState::Create("Work"))))
+    if (FAILED(AddState(TEXT("Work"), CPellWorkState::Create("Work", static_cast<CPellBase *>(m_pOwner)))))
         return E_FAIL;
 
     if (FAILED(AddState(TEXT("Carry"), CPellCarryState::Create("Carry"))))

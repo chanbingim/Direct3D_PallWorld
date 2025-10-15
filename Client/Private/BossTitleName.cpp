@@ -102,4 +102,5 @@ void CBossTitleName::Free()
     __super::Free();
 
     Safe_Release(m_pFontCom);
+    Safe_Release(m_pTypeIcon);
 }

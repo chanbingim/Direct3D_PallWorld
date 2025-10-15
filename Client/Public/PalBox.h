@@ -47,7 +47,7 @@ public:
 	const PELL_INFO*			GetPalBoxInfo(_uInt iStoreID);
 
 	// 특정 번호 ID에 맞는 펠을 꺼내서 반환
-	HRESULT						LoadPalBox(_uInt iStoreID, PELL_INFO* pOutPalInfo);
+	_bool						LoadPalBox(_uInt iStoreID, PELL_INFO* pOutPalInfo);
 
 #pragma endregion
 
@@ -58,7 +58,7 @@ public:
 	const PELL_INFO*			GetWorkPalInfo(_uInt iWorkIndex);
 
 	// 내가 원하는 작업중인 펠리스트에서 제거한다..
-	void						Load_WorkPalList(_uInt iStoreID, PELL_INFO* pOutPalInfo);
+	_bool						Load_WorkPalList(_uInt iStoreID, PELL_INFO* pOutPalInfo);
 
 	// 내가 원하는 작업중인 펠리스트에서 제거한다..
 	void						Remove_WorkPalList(CPellBase* pPellBase);
@@ -68,12 +68,17 @@ public:
 	void						SwapPalBox(_uInt iSlotType, _uInt iToSlotIndex, _uInt iFromSlotIndex);
 #pragma endregion
 
+#pragma region WorkPal Action Select
+	void									 UpdateWorkPalAction(_float fDeletaTime);
+#pragma endregion
+
 protected :
 	virtual void							HitOverlapFunction(_float3 vDir, CGameObject* pHitActor) override;
 
 private :
 	_float													m_fAreaRadius = {};
-	
+	_bool													m_bIsUIActive = false;
+
 	// 펠박스가 자기 기준으로 안쪽에있는 오브젝트를 보관하고있자
 	unordered_map<PELL_WORK_TYPE, list<CGameObject*>>		m_JobList = {};
 

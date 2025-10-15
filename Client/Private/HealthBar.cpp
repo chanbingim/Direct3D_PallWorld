@@ -40,11 +40,7 @@ HRESULT CHealthBar::Initialize(void* pArg)
 
 void CHealthBar::Update(_float fDeletaTime)
 {
-    auto PlayerInfo = CPlayerManager::GetInstance()->GetPlayerData();
-    m_fPercent = PlayerInfo.CurHealth / PlayerInfo.MaxHealth;
-    m_szFontText = to_wstring((_uInt)PlayerInfo.CurHealth);
-    m_szFontText += TEXT("/");
-    m_szFontText += to_wstring((_uInt)PlayerInfo.MaxHealth);
+   
 }
 
 void CHealthBar::Late_Update(_float fDeletaTime)
@@ -64,8 +60,17 @@ HRESULT CHealthBar::Render()
     m_pTextureCom->SetTexture(0, 1);
     m_pVIBufferCom->Render_VIBuffer();
 
-    m_pFontCom->Render(m_szFontText.c_str(), { 0.f, 0.f, 0.f, 1.f });
+    if(0.f < m_fPercent)
+        m_pFontCom->Render(m_szFontText.c_str(), { 0.f, 0.f, 0.f, 1.f });
     return S_OK;
+}
+
+void CHealthBar::SetHealthBar(_float fCurHealth, _float fMaxHealth)
+{
+    m_fPercent = fCurHealth / fMaxHealth;
+    m_szFontText = to_wstring((_uInt)fCurHealth);
+    m_szFontText += TEXT("/");
+    m_szFontText += to_wstring((_uInt)fMaxHealth);
 }
 
 HRESULT CHealthBar::ADD_Components()
@@ -118,4 +123,6 @@ CGameObject* CHealthBar::Clone(void* pArg)
 void CHealthBar::Free()
 {
     __super::Free();
+
+    Safe_Release(m_pFontCom);
 }

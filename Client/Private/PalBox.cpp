@@ -3,6 +3,9 @@
 #include "GameInstance.h"
 #include "Level.h"
 
+#include "GamePlayHUD.h"
+#include "Level.h"
+
 #include "PellBase.h"
 #include "WorkAbleObject.h"
 #include "PellBoxManager.h"
@@ -39,10 +42,20 @@ HRESULT CPalBox::Initialize(void* pArg)
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
+    m_iMaxBoxInPell = 30;
+    m_iMaxSpawnPell = 10;
+
     m_fAreaRadius = 30.f;
     list<CGameObject*> EmptyList = {};
     for (_uInt i = 0; i < ENUM_CLASS(PELL_WORK_TYPE::END); ++i)
         m_JobList.emplace(PELL_WORK_TYPE(i), EmptyList);
+
+    /* 펠박스 안에 넣을수 있는 펠의 수*/
+    PELL_INFO EmptyInfo = {};
+    m_BoxInPellInfo.resize(m_iMaxBoxInPell, make_pair(EmptyInfo, false));
+
+    /* 거점에서 일할수있는 펠의수*/
+    m_SpawnPells.resize(m_iMaxSpawnPell, nullptr);
 
     auto pPellBoxManager = CPellBoxManager::GetInstance();
     _uInt iCurLevel = m_pGameInstance->GetCurrentLevel()->GetLevelID();
@@ -70,6 +83,9 @@ void CPalBox::Priority_Update(_float fDeletaTime)
 void CPalBox::Update(_float fDeletaTime)
 {
     __super::Update(fDeletaTime);
+
+    UpdateActionUI(fDeletaTime);
+    UpdateWorkPalAction(fDeletaTime);
 }
 
 void CPalBox::Late_Update(_float fDeletaTime)
@@ -104,7 +120,7 @@ HRESULT CPalBox::Render()
 
 void CPalBox::ArchitectureAction()
 {
-
+    CPellBoxManager::GetInstance()->ShowPalBoxUserInterface(this);
 }
 
 void CPalBox::Add_JobListObject(PELL_WORK_TYPE eWorkType, CGameObject* pObject)
@@ -181,10 +197,10 @@ const PELL_INFO* CPalBox::GetPalBoxInfo(_uInt iStoreID)
     return nullptr;
 }
 
-HRESULT CPalBox::LoadPalBox(_uInt iStoreID, PELL_INFO* pOutPalInfo)
+_bool CPalBox::LoadPalBox(_uInt iStoreID, PELL_INFO* pOutPalInfo)
 {
     if (0 > iStoreID || m_BoxInPellInfo.size() <= iStoreID)
-        return E_FAIL;
+        return false;
 
     if (m_BoxInPellInfo[iStoreID].second)
     {
@@ -195,9 +211,9 @@ HRESULT CPalBox::LoadPalBox(_uInt iStoreID, PELL_INFO* pOutPalInfo)
         m_BoxInPellInfo[iStoreID].second = false;
     }
     else
-        return E_FAIL;
+        return false;
 
-    return S_OK;
+    return true;
 }
 
 void CPalBox::Add_WorkPalList(_uInt iStoreID)
@@ -214,7 +230,7 @@ void CPalBox::Add_WorkPalList(_uInt iStoreID)
     PellDesc.vPosition = vPalPosition;
 
     PellDesc.bIsPellData = true;
-    if (FAILED(LoadPalBox(iStoreID, &PellDesc.PellInfo)))
+    if (false == LoadPalBox(iStoreID, &PellDesc.PellInfo))
         return;
 
     PellDesc.PellInfo.ePellStorageState = PELL_STORAGE_STATE::WORLD;
@@ -261,25 +277,33 @@ void CPalBox::Add_WorkPalList(const PELL_INFO& PellInfo, _Int WorkSlotID)
         return;
     m_pGameInstance->Add_GameObject_ToLayer(iCurLevelID, TEXT("Layer_GamePlay_Pell"), static_cast<CGameObject*>(pBase));
     m_SpawnPells[WorkSlotID] = static_cast<CPellBase *>(pBase);
-
+    m_SpawnPells[WorkSlotID]->ChangePellTeam(CPellBase::PELL_TEAM::FRENDLY);
 }
 
 const PELL_INFO* CPalBox::GetWorkPalInfo(_uInt iWorkIndex)
 {
+    if (nullptr != m_SpawnPells[iWorkIndex])
+        return &m_SpawnPells[iWorkIndex]->GetPellInfo();
+
     return nullptr;
 }
 
-void CPalBox::Load_WorkPalList(_uInt iStoreID, PELL_INFO* pOutPalInfo)
+_bool CPalBox::Load_WorkPalList(_uInt iStoreID, PELL_INFO* pOutPalInfo)
 {
     auto iter = m_SpawnPells.begin();
     for (_uInt i = 0; i < iStoreID; ++i)
         iter++;
 
-    CPellBase* pFindPal = *iter;
-    m_SpawnPells.erase(iter);
+    if (nullptr != *iter)
+    {
+        *pOutPalInfo = (*iter)->GetPellInfo();
+        (*iter)->SetDead(true);
+        *iter = nullptr;
+    }
+    else
+        return false;
 
-    *pOutPalInfo = pFindPal->GetPellInfo();
-    pFindPal->IsDead();
+    return true;
 }
 
 void CPalBox::Remove_WorkPalList(CPellBase* pPellBase)
@@ -303,6 +327,44 @@ void CPalBox::SwapPalBox(_uInt iSlotType, _uInt iToSlotIndex, _uInt iFromSlotInd
     case CPalBoxSlot::PAL_SLOT_TYPE::WORK:
         swap(m_SpawnPells[iFromSlotIndex], m_SpawnPells[iToSlotIndex]);
         break;
+    }
+}
+
+void CPalBox::UpdateWorkPalAction(_float fDeletaTime)
+{
+    for (auto pWorkPal : m_SpawnPells)
+    {
+        if (nullptr == pWorkPal)
+            continue;
+
+        auto PalInfo = pWorkPal->GetPellInfo();
+        PELL_WORK_TYPE eWorkType = PalInfo.eWorkType;
+        
+        if (false == pWorkPal->bIsWorkAble())
+            continue;
+
+        auto Jobpair = m_JobList.find(eWorkType);
+        if (Jobpair == m_JobList.end())
+            continue;
+
+        _float3 vWorkPalPos = pWorkPal->GetTransform()->GetPosition();
+        _vector vWorPalPos = XMLoadFloat3(&vWorkPalPos);
+        Jobpair->second.sort([&](CGameObject* pSrc, CGameObject* pDest)
+            {
+                _float3 pSrcPosition = pSrc->GetTransform()->GetPosition();
+                _float SrcDist = XMVectorGetX(XMVector3Length(XMLoadFloat3(&pSrcPosition) - vWorPalPos));
+
+                _float3 pDestPosition = pDest->GetTransform()->GetPosition();
+                _float DestDist = XMVectorGetX(XMVector3Length(XMLoadFloat3(&pDestPosition) - vWorPalPos));
+
+                return SrcDist < DestDist;
+            });
+
+        if (0 < Jobpair->second.size())
+        {
+            pWorkPal->ChangePellWork(Jobpair->second.front());
+            Jobpair->second.pop_front();
+        }
     }
 }
 

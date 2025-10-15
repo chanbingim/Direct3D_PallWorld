@@ -168,4 +168,5 @@ void CBossHealthBar::Free()
 
 	Safe_Release(m_pMaxHealthFontCom);
 	Safe_Release(m_pHealthFontCom);
+	Safe_Release(m_pBossName);
 }

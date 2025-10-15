@@ -132,13 +132,9 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
     m_pTimer_Manager->Get_TimeDelta(TEXT("Collision_Loop"));
 #endif // _DEBUG
 
-    if (false == m_bIsPause)
-        m_pCollisionManager->Compute_Collision();
-
+    m_pCollisionManager->Compute_Collision();
     m_pObject_Manager->Clear_DeadObject();
-
     m_pLevel_Manager->Update(Time);
-
 }
 
 HRESULT CGameInstance::Draw()

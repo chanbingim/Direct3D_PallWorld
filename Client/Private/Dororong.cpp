@@ -226,7 +226,7 @@ HRESULT CDororong::ADD_Components()
     auto OriginNav = static_cast<CNavigation*>((*Object)->Find_Component(TEXT("NaviMesh_Com")));
     CNavigation::NAVIGATION_DESC Desc = {};
     _float3 vPos = m_pTransformCom->GetPosition();
-    Desc.iCurrentCellIndex = (int)m_pGameInstance->Random(150, 200.f);
+    Desc.iCurrentCellIndex = OriginNav->Find_Cell(XMLoadFloat3(&vPos));
 
     m_pTransformCom->SetPosition(OriginNav->CellCenterPos(Desc.iCurrentCellIndex));
     m_pNevigation = static_cast<CNavigation*>(OriginNav->Clone(&Desc));
@@ -252,7 +252,7 @@ HRESULT CDororong::ADD_PartObjects()
 
 HRESULT CDororong::Setup_PellFsm()
 {
-    CPellStateMachine::PELLFSM_DESC FSMDesc = {};
+    CPellStateMachine::FSM_DESC FSMDesc = {};
     FSMDesc.iLayerSize = 2;
     FSMDesc.pOwner = this;
 

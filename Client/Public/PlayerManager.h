@@ -93,10 +93,10 @@ public :
 	const CPellBase*		GetSelectPellInfomation();
 
 	const CPellBase*		GetPellInfomation(_uInt iIndex);
-	void					LoadPellInfomation(_uInt iIndex, PELL_INFO*	pOutPellInfo);
+	_bool					LoadPellInfomation(_uInt iIndex, PELL_INFO*	pOutPellInfo);
 
 	// 0번 가운데 -1 왼쪽 1 오른쪽
-	void					UpdateSelectPellIndex(_uInt vDir);
+	void					UpdateSelectPellIndex(_Int vDir);
 	void					GetLeftRightSelectIndex(_Int* pLeftIndex, _Int* pSelectIndex, _Int* pRightIndex);
 
 	void					SpawnSelectPell();

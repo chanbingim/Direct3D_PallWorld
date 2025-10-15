@@ -86,6 +86,7 @@
 #include "Recovery.h"
 #include "DropComponent.h"
 #include "AiSenceComponent.h"
+#include "WorkComponent.h"
 #pragma endregion
 
 #pragma region UI
@@ -386,7 +387,23 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 #pragma endregion
 
+#pragma endregion
 
+#pragma region PalSlotTexture
+	/* GamePlay_PalSlot_Texture_Inven */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_PalSlot_Inven_Texture"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/Slot/PalSlot/Inven/BackGround%d.png"), 2))))
+		return E_FAIL;
+
+	/* GamePlay_PalSlot_Texture_Inven_Frame */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_PalSlot_Inven_Frame"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/Slot/PalSlot/Inven/T_prt_pal_base_frame.png"), 1))))
+		return E_FAIL;
+
+	/* GamePlay_PalSlot_Texture_Base */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_PalSlot_Base_Texture"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/Slot/PalSlot/Base/T_prt_pal_ct_base.png"), 1))))
+		return E_FAIL;
 #pragma endregion
 
 #pragma region PLAYER_INFO_TEXTURE
@@ -491,6 +508,14 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region Action UI Texture
+	/* GamePlay_Pell_PellInfoUI_BackGround_Texture */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_ActionUI_BackGround_Tex"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/BackGround/ActionBase.png"), 1))))
+		return E_FAIL;
+#pragma endregion
+
+
 #pragma region CrossHair
 	/* GamePlay_CrossHair_DefualtType_Texture */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_CrossHair_Defualt"),
@@ -542,28 +567,28 @@ HRESULT CLoader::Loading_For_GamePlay()
 	PreModelMat = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.f));
 	/* VIBuffer  PAL BOX  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_PalBox"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BuildObject/PalBox/PalBox.fbx", PreModelMat))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BuildObject/PalBox/PalBox.dat"))))
 		return E_FAIL;
 
 	/* VIBuffer  PAL BED  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_PalBed"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BuildObject/PalBed/PalBed.fbx", PreModelMat))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BuildObject/PalBed/PalBed.dat"))))
 		return E_FAIL;
 
 	/* VIBuffer  WORK BENCH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_WorkBench"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BuildObject/WorkBench/WorkBench.fbx", PreModelMat))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BuildObject/WorkBench/WorkBench.dat"))))
 		return E_FAIL;
 
 #pragma region BuildObject Wood
 	/* VIBuffer  Wood Wall  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_WoodWall"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BuildObject/Wood/Wall/WoodWall.fbx", PreModelMat))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BuildObject/Wood/Wall/WoodWall.dat"))))
 		return E_FAIL;
 
 	/* VIBuffer  Wood Door  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_WoodDoor"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BuildObject/Wood/Door/Door_Wood.fbx", PreModelMat))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BuildObject/Wood/Door/Door_Wood.dat"))))
 		return E_FAIL;
 
 	/* VIBuffer  Defence Wood Wall  Component */
@@ -581,7 +606,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma region PEOPLE 1
 	/* VIBuffer  FEMLAE PeoPle1  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Female_People_1"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/NPC/Female/People1/FemalePeople.fbx", PreModelMat))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/NPC/Female/People1/FemalePeople.dat", PreModelMat))))
 		return E_FAIL;
 #pragma endregion
 
@@ -812,6 +837,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* GamePlay_Component_Ai_Secne_Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GamePlay_Component_AiSence"), CAiSenceComponent::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GamePlay_Component_Work_Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GamePlay_Component_Work"), CWorkComponent::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 #pragma endregion
 

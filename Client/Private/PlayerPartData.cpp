@@ -231,7 +231,6 @@ HRESULT CPlayerPartData::Insert_AnimKeyFrameFunction()
 {
     m_pVIBufferCom->Bind_KeyFrameFunction("Attack_Bow", 1, [this]() { ShootProjecttileObject(); });
     m_pVIBufferCom->Bind_KeyFrameFunction("Attack_Throw", 4, [this]() { ShootProjecttileObject(); });
-    //m_pVIBufferCom->Bind_KeyFrameFunction("Throw_PalCarry", 12, [this]() { ShootProjecttileObject(); });
 
     return S_OK;
 }

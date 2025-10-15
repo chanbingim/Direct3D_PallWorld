@@ -1,8 +1,8 @@
 #pragma once
-#include "Enviormnent.h"
+#include "MiningObject.h"
 
 NS_BEGIN(Client)
-class CPellRock : public CEnviormnent
+class CPellRock : public CMiningObject
 {
 protected:
 	CPellRock(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

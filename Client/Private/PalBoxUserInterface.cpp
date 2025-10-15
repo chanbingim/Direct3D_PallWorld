@@ -25,13 +25,14 @@ HRESULT CPalBoxUserInterface::Initalize_Prototype()
 
 HRESULT CPalBoxUserInterface::Initialize(void* pArg)
 {
+    m_iZOrder = 3;
+
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
     if (FAILED(ADD_Childs()))
         return E_FAIL;
-
-    m_iZOrder = 3;
+    
     return S_OK;
 }
 
@@ -69,21 +70,21 @@ HRESULT CPalBoxUserInterface::ADD_Childs()
     CGameObject::GAMEOBJECT_DESC pObjectDesc = {};
 
     pObjectDesc.vScale = { 400, 400.f, 0.f };
-    pObjectDesc.vPosition = { g_iHalfWinSizeX,  g_iHalfWinSizeY -pObjectDesc.vScale.y * 0.5f, 0.f };
+    pObjectDesc.vPosition = { g_iHalfWinSizeX,  g_iHalfWinSizeY - 100, 0.f };
     m_pPalBoxList = CPalBoxListUI::Create(m_pGraphic_Device, m_pDeviceContext);
     m_pPalBoxList->SetZOrder(m_iZOrder + 1);
     if (FAILED(m_pPalBoxList->Initialize(&pObjectDesc)))
         return E_FAIL;
 
-    pObjectDesc.vScale = {400, 130.f, 0.f};
-    pObjectDesc.vPosition = { g_iHalfWinSizeX -(pObjectDesc.vPosition.x *0.5f + pObjectDesc.vScale.x * 0.5f + 10.f), pObjectDesc.vPosition.y, 0.f};
+    pObjectDesc.vScale = { 300, 490.f, 0.f };
+    pObjectDesc.vPosition = {pObjectDesc.vScale.y * 0.5f + 35.f, g_iHalfWinSizeY - 50.f, 0.f};
     m_pPalInvenList = CPalInvenListUI::Create(m_pGraphic_Device, m_pDeviceContext);
     m_pPalInvenList->SetZOrder(m_iZOrder + 1);
     if (FAILED(m_pPalInvenList->Initialize(&pObjectDesc)))
         return E_FAIL;
 
-    pObjectDesc.vScale = { 200, 500.f, 0.f };
-    pObjectDesc.vPosition = { g_iHalfWinSizeX,  g_iHalfWinSizeY + pObjectDesc.vScale.y * 0.5f + pObjectDesc.vScale.y * 0.5f, 0.f };
+    pObjectDesc.vScale = { 400, 180.f, 0.f };
+    pObjectDesc.vPosition = { g_iHalfWinSizeX,  g_iHalfWinSizeY + 170, 0.f };
     m_pWorkPalList = CWorkPalListUI::Create(m_pGraphic_Device, m_pDeviceContext);
     m_pWorkPalList->SetZOrder(m_iZOrder + 1);
     if (FAILED(m_pWorkPalList->Initialize(&pObjectDesc)))
