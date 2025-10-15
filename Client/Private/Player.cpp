@@ -108,7 +108,12 @@ void CPlayer::Update(_float fDeletaTime)
 void CPlayer::Late_Update(_float fDeletaTime)
 {
     __super::Late_Update(fDeletaTime);
-   
+
+    CPlayerStateMachine::PLAYER_STATE State = m_pPlayerFSM->GetState();
+  
+
+ 
+
     m_pGameInstance->ADD_CollisionList(m_pCollision);
     m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
 }
@@ -403,6 +408,12 @@ void CPlayer::ChangeAction(_float fDeltaTime)
                 }
             }
         }
+        else
+        {
+            if (CPlayerStateMachine::COMBAT_ACTION::END == State.eCombat_State)
+                m_pNearArchitecture = nullptr;
+        }
+          
 #pragma endregion
 
 #pragma region TEXT_GRAB
@@ -420,6 +431,11 @@ void CPlayer::ChangeAction(_float fDeltaTime)
                     m_bIsAnimLoop = false;
                 }
             }
+        }
+        else
+        {
+            if (m_pNearPellBase && false == State.bIsPallCarry)
+                m_pNearPellBase = nullptr;
         }
 #pragma endregion
 
@@ -786,7 +802,7 @@ _bool CPlayer::IsResetNoneCombat()
             m_pNearArchitecture->SubWorkSpeed(m_pCharacterInfo->WorkSpeed);
             m_pNearArchitecture = nullptr;
         }
-           
+
         return true;
     }
      
@@ -842,10 +858,7 @@ void CPlayer::SetNearArchitecture(CArchitecture* pArchitecture)
 
 void CPlayer::SetNearPell(CPellBase* pPellBase, _float fDistance)
 {
-
-
     auto pPlayerState = m_pPlayerFSM->GetState();
-
     if (pPlayerState.bIsPallCarry)
         return;
 

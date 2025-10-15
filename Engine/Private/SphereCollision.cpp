@@ -85,7 +85,7 @@ _bool CSphereCollision::RayIntersect(COLLISION_TYPE eType, CCollision* pTarget, 
 	_vector CalCulationTargetPosition = XMLoadFloat3(&TargetPosition);
 	_vector vDireaction = XMVector3Normalize(CalCulationTargetPosition - CalCulationOwnerPosition);
 
-	_float fDistance = {};
+	_float fDistance = { -1 };
 	switch (eType)
 	{
 	case COLLISION_TYPE::BOX:

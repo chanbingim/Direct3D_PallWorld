@@ -41,6 +41,7 @@ HRESULT CArchitecture::Initialize(void* pArg)
 	if(FAILED(m_pActionUI->Initialize(&ActionDesc)))
 		return E_FAIL;
 
+	m_fActionDistance = 10.f;
 	m_fCurHealth = m_pArchitectureInfo.TypeDesc.ArchitectureDesc.fMaxHealth;
 	CPellBoxManager::GetInstance()->Add_JobListObject(m_eWorkType, this);
 	return S_OK;
@@ -172,19 +173,13 @@ HRESULT CArchitecture::DeadFunction()
 
 void CArchitecture::UpdateActionUI(_float fDeletaTime)
 {
-	_float3 vArchitecturePos = m_pTransformCom->GetPosition();
-	_vector vPlayerPos = m_pGameInstance->GetPlayerState(WORLDSTATE::POSITION);
-	_float fLength = XMVectorGetX(XMVector3Length(XMLoadFloat3(&vArchitecturePos) - vPlayerPos));
-	if (m_fActionDistance <= fLength)
+	_vector vCalCamereaPos = m_pGameInstance->GetCameraState(WORLDSTATE::POSITION);
+	_vector vCalCamereaLook = m_pGameInstance->GetCameraState(WORLDSTATE::LOOK);
+
+	CCollision::DEFAULT_HIT_DESC	RayHitDesc = {};
+	if (m_pHitBoxCollision->RayHit(vCalCamereaPos, vCalCamereaLook, RayHitDesc))
 	{
-		_vector vCalCamereaPos = m_pGameInstance->GetCameraState(WORLDSTATE::POSITION);
-		_vector vCalCamereaLook = m_pGameInstance->GetCameraState(WORLDSTATE::LOOK);
-
-		_float fLength = XMVectorGetX(XMVector3Length(XMLoadFloat3(&vArchitecturePos) - vCalCamereaPos));
-		_vector vCameraToArchDir = XMVector3Normalize(XMLoadFloat3(&vArchitecturePos) - vCalCamereaPos);
-		_float fRad = acosf(XMVectorGetX(XMVector3Dot(vCameraToArchDir, vCalCamereaLook)));
-
-		if (fRad <= XM_PIDIV4 && fLength <= 3.f)
+		if (RayHitDesc.vfDistance < m_fActionDistance)
 		{
 			CPlayerManager::GetInstance()->SetNearArchitecture(this);
 			m_pActionUI->Update(fDeletaTime);

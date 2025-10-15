@@ -88,8 +88,8 @@ _bool COBBCollision::RayIntersect(COLLISION_TYPE eType, CCollision* pTarget, DEF
     _vector CalCulationTargetPosition = XMLoadFloat3(&TargetPosition);
     _vector vDireaction = XMVector3Normalize(CalCulationTargetPosition - CalCulationOwnerPosition);
 
-    _float fDistance = {};
-    switch (eType)
+    _float fDistance = { -1 };
+    switch (eType) 
     {
     case COLLISION_TYPE::BOX:
         bIsHit = m_OrienteBox->Intersects(CalCulationOwnerPosition, vDireaction, fDistance);

@@ -21,7 +21,7 @@ HRESULT CNpcStateMachine::Initialize(void* pArg)
         return E_FAIL;
 
     SettingNpcState();
-    ChangeState(TEXT("Diallog_Layer"), TEXT("Idle"));
+    ChangeState(TEXT("Dialog_Layer"), TEXT("Idle"));
 
 
     return S_OK;
@@ -56,7 +56,7 @@ _bool CNpcStateMachine::ChangeState(const _wstring& LayerTag, const _wstring& St
 _string CNpcStateMachine::GetStateFullName()
 {
     _string StateName = {};
-    auto pLayer = FindLayer(TEXT("Diallog_Layer"));
+    auto pLayer = FindLayer(TEXT("Dialog_Layer"));
     if (nullptr == pLayer)
         return "";
 
@@ -86,7 +86,7 @@ void CNpcStateMachine::NpcStateReset(const _wstring& LayerTag)
 
 HRESULT CNpcStateMachine::ADD_NpcLayer()
 {
-    if (FAILED(__super::AddLayer(TEXT("Diallog_Layer"), CDialogLayer::Create(nullptr, ENUM_CLASS(NPC_DIALOG_ACTION::END)))))
+    if (FAILED(__super::AddLayer(TEXT("Dialog_Layer"), CDialogLayer::Create(nullptr, ENUM_CLASS(NPC_DIALOG_ACTION::END)))))
         return E_FAIL;
 
     return S_OK;

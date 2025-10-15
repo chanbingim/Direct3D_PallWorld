@@ -49,29 +49,25 @@ void CNpc::Update(_float fDeletaTime)
 
     if (NPC_TEAM::FRENDLY == m_eTeam)
     {
-        _float3 vNpcPos = m_pTransformCom->GetPosition();
-        _vector vPlayerPos = m_pGameInstance->GetPlayerState(WORLDSTATE::POSITION);
-        _float fLength = XMVectorGetX(XMVector3Length(XMLoadFloat3(&vNpcPos) - vPlayerPos));
-        if (m_fActionDistance <= fLength)
+        _vector vCalCamereaPos = m_pGameInstance->GetCameraState(WORLDSTATE::POSITION);
+        _vector vCalCamereaLook = m_pGameInstance->GetCameraState(WORLDSTATE::LOOK);
+        CCollision::DEFAULT_HIT_DESC	RayHitDesc = {};
+        if (m_pCollision->RayHit(vCalCamereaPos, vCalCamereaLook, RayHitDesc))
         {
-            _vector vCalCamereaPos = m_pGameInstance->GetCameraState(WORLDSTATE::POSITION);
-            _vector vCalCamereaLook = m_pGameInstance->GetCameraState(WORLDSTATE::LOOK);
-
-            _vector vCameraToArchDir = XMVector3Normalize(XMLoadFloat3(&vNpcPos) - vCalCamereaPos);
-            _float fRad = acosf(XMVectorGetX(XMVector3Dot(vCameraToArchDir, vCalCamereaLook)));
-
-            if (fRad <= XM_PIDIV4)
+            if (RayHitDesc.vfDistance < m_fActionDistance)
             {
-                //m_pActionUI->Update(fDeletaTime);
                 if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_F))
                 {
                     // 여기서 스크립트 보여주기
+                    // 카메라 매니저 보여주고
+                    // Npc의 대화 스크립트 로직을 통해서 관리
                     // NPC랑 대화할때 카메라 무브랑 Idle 모션으로 보여주기
-                    CGamePlayHUD* pGamePlayHUD = static_cast<CGamePlayHUD*>(m_pGameInstance->GetCurrentHUD());
-                    pGamePlayHUD->ActivePopUpUserInterface(3);
-
-                    CDiallogUI* pDiallog = static_cast<CDiallogUI*>(pGamePlayHUD->GetPopUpUserInterface(3));
-                    pDiallog->SetDiallogText(TEXT("NPC와 상호작용 중 테스트 테스트"));
+                    m_pNpcFsm->ChangeState(TEXT("Dialog_Layer"), TEXT("Talking"));
+                    //CGamePlayHUD* pGamePlayHUD = static_cast<CGamePlayHUD*>(m_pGameInstance->GetCurrentHUD());
+                    //pGamePlayHUD->ActivePopUpUserInterface(3);
+                    //
+                    //CDiallogUI* pDiallog = static_cast<CDiallogUI*>(pGamePlayHUD->GetPopUpUserInterface(3));
+                    //pDiallog->SetDiallogText(TEXT("NPC와 상호작용 중 테스트 테스트"));
                 }
             }
         }
