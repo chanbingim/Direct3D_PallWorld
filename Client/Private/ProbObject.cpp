@@ -1,5 +1,7 @@
 #include "ProbObject.h"
 
+#include "GameInstance.h"
+
 CProbObject::CProbObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CNoneAnimMesh(pDevice, pContext)
 {

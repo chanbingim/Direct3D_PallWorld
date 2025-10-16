@@ -77,6 +77,17 @@
 #include "SmallGrass.h"
 #include "DefaultGrass.h"
 #include "Flower.h"
+
+#include "ViliageCurchObject.h"
+#include "ViliageHouseObject.h"
+#include "ViliageMarketObject.h"
+#include "FastTravelObject.h"
+#pragma endregion
+
+#pragma region FUNRNITURE
+#include "BedFurniture.h"
+#include "TableFurniture.h"
+#include "TouchLamp.h"
 #pragma endregion
 
 #pragma region ITEM
@@ -598,6 +609,24 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region FURNITURE
+	/* VIBuffer  TORCH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Torch_Stand"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BuildObject/Furniture/Torch_Stand/TorchStand.fbx", PreModelMat))))
+		return E_FAIL;
+
+	/* VIBuffer  BED PRIMITIVE  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_BedFurniture"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BuildObject/Furniture/Bed_Primitive/BedPrimitive.fbx", PreModelMat))))
+		return E_FAIL;
+
+	/* VIBuffer  TABLE  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Table"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BuildObject/Furniture/Table/Table.fbx", PreModelMat))))
+		return E_FAIL;
+#pragma endregion
+
+
 #pragma endregion
 
 #pragma region NPC
@@ -709,6 +738,18 @@ HRESULT CLoader::Loading_For_GamePlay()
 	//	return E_FAIL;
 #pragma endregion
 
+#pragma region Clothes
+/* VIBuffer  Clothes2 MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Grass"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/SmallGrass/small_Grass.fbx"))))
+		return E_FAIL;
+
+	/* VIBuffer  Clothes2 MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Flower"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Flower/Flower.fbx"))))
+		return E_FAIL;
+#pragma endregion
+
 #pragma region EnviornMent
 
 #pragma region SMALL Grass InstanceBuffer
@@ -760,15 +801,29 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
-	/* VIBuffer  Clothes2 MESH  Component */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Grass"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/SmallGrass/small_Grass.fbx"))))
+#pragma region Viliage
+	/* VIBuffer  Viliage House1 Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_ViliageHouse1"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Viliage/House/House1/House1.fbx", PreModelMat))))
 		return E_FAIL;
 
-	/* VIBuffer  Clothes2 MESH  Component */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Flower"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Flower/Flower.fbx"))))
+	/* VIBuffer Viliage Church Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_ViliageChurch"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Viliage/Church/Church.fbx", PreModelMat))))
 		return E_FAIL;
+
+	/* VIBuffer  Viliage Market Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_ViliageMarket"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Viliage/Market/Market.fbx", PreModelMat))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region Fast Travel
+	/* VIBuffer  Viliage Market Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_FastTravel"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/FastTravel/FastTravel.fbx", PreModelMat))))
+		return E_FAIL;
+#pragma endregion
 
 #pragma region ROCK
 	/* EnviornMent Rock MESH  Component */
@@ -992,6 +1047,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region Instance Prob
 #pragma region Small Grass
 	/* GAME_OBJECT_SmallGrass */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Environment_SmallGrass"),
@@ -1010,6 +1066,24 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* GAME_OBJECT_DefaultGrass */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Environment_Default_Grass"),
 		CDefaultGrass::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+#pragma endregion
+
+#pragma region Viliage Prob
+	/* GAME_OBJECT_Viliage_House */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Environment_Viliage_House"),
+		CViliageHouseObject::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_Viliage_Curch */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Environment_Viliage_Church"),
+		CViliageCurchObject::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_Viliage_Market */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Environment_Viliage_Market"),
+		CViliageMarketObject::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 #pragma endregion
 
@@ -1204,6 +1278,21 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* GAME_OBJECT_WorkBench */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_WorkBench"), CWorkBench::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
+#pragma region Furniture
+	/* GAME_OBJECT_BedFurniture */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_BedFurniture"), CBedFurniture::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_TorchLamp */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_TorchLamp"), CTouchLamp::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_TableFurniture */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_TableFurniture"), CTableFurniture::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
 
 #pragma region WOOD
 	/* GAME_OBJECT_DefenceWoodWall */

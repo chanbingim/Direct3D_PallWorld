@@ -947,14 +947,23 @@
     <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\Curch">
       <UniqueIdentifier>{29a52fc1-f873-45fc-9982-3745ff6d1389}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\TouchLamp">
-      <UniqueIdentifier>{078f268c-1667-476a-b342-b260479eb3f5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\House\ViliageHouse">
       <UniqueIdentifier>{4a4acbaf-22d4-4b8c-9449-2587c23d503e}</UniqueIdentifier>
     </Filter>
     <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\House\Apart">
       <UniqueIdentifier>{1c6f40dd-9ad4-4c16-b352-783e6a2cff61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Furniture">
+      <UniqueIdentifier>{89eb54b5-8924-4901-9f17-f8c0ad3e8a46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Furniture\Table">
+      <UniqueIdentifier>{5f5b992b-3a8f-4f21-a07b-008e19fa1351}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Furniture\Bed">
+      <UniqueIdentifier>{e31eb5f1-2ff8-4464-a69f-a1a6c5107a00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Furniture\TouchLamp">
+      <UniqueIdentifier>{078f268c-1667-476a-b342-b260479eb3f5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1751,7 +1760,7 @@
       <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\FastTravel</Filter>
     </ClInclude>
     <ClInclude Include="..\public\TouchLamp.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\TouchLamp</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Furniture\TouchLamp</Filter>
     </ClInclude>
     <ClInclude Include="..\public\ViliageHouseObject.h">
       <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\House\ViliageHouse</Filter>
@@ -1761,6 +1770,12 @@
     </ClInclude>
     <ClInclude Include="..\public\IMG_EffectTool.h">
       <Filter>ImGui\UI\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\BedFurniture.h">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Furniture\Bed</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TableFurniture.h">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Furniture\Table</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2534,7 +2549,7 @@
       <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\FastTravel</Filter>
     </ClCompile>
     <ClCompile Include="..\private\TouchLamp.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\TouchLamp</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Furniture\TouchLamp</Filter>
     </ClCompile>
     <ClCompile Include="..\private\ViliageHouseObject.cpp">
       <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\House\ViliageHouse</Filter>
@@ -2544,6 +2559,12 @@
     </ClCompile>
     <ClCompile Include="..\private\IMG_EffectTool.cpp">
       <Filter>ImGui\UI\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BedFurniture.cpp">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Furniture\Bed</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TableFurniture.cpp">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Furniture\Table</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

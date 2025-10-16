@@ -30,7 +30,7 @@ HRESULT CDefaultGrass::Initialize(void* pArg)
 	if (FAILED(__super::Bind_ShaderResources()))
 		return E_FAIL;
 
-	RecomputeInstanceModelHeight();
+	RefreshComputeHeight();
 	return S_OK;
 }
 

@@ -30,8 +30,8 @@ HRESULT CFlower::Initialize(void* pArg)
     if (FAILED(__super::Bind_ShaderResources()))
         return E_FAIL;
 
-    RecomputeInstanceModelHeight();
-        return S_OK;
+    RefreshComputeHeight();
+    return S_OK;
 }
 
 void CFlower::Priority_Update(_float fDeletaTime)

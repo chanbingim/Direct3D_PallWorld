@@ -72,10 +72,6 @@ void CInstanceModel::RefreshComputeHeight()
     m_pVIBufferCom->UnLock();
 }
 
-void CInstanceModel::RefreshComputeHeight()
-{
-}
-
 HRESULT CInstanceModel::Bind_ShaderResources()
 {
     if (nullptr == m_pShaderCom)
