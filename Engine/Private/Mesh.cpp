@@ -478,6 +478,9 @@ HRESULT CMesh::Ready_VertexBuffer_For_NonAnim(const aiMesh* pAIMesh, _matrix Pre
 		memcpy(&pVtxMeshs[i].vTangent, &pAIMesh->mTangents[i], sizeof(_float3));
 		XMStoreFloat3(&pVtxMeshs[i].vTangent, XMVector3Normalize(XMVector3TransformNormal(XMLoadFloat3(&pVtxMeshs[i].vTangent), PreTransformMatrix)));
 
+		memcpy(&pVtxMeshs[i].vBinormal, &pAIMesh->mBitangents[i], sizeof(_float3));
+		XMStoreFloat3(&pVtxMeshs[i].vBinormal, XMVector3Normalize(XMVector3TransformNormal(XMLoadFloat3(&pVtxMeshs[i].vBinormal), PreTransformMatrix)));
+
 		memcpy(&pVtxMeshs[i].vTexcoord, &pAIMesh->mTextureCoords[0][i], sizeof(_float2));
 	}
 	InitialVBData.pSysMem = pVtxMeshs;
@@ -508,8 +511,11 @@ HRESULT CMesh::Ready_VertexBuffer_For_Anim(const CModel* pModel, const aiMesh* p
 	for (_uInt i = 0; i < m_iNumVertices; ++i)
 	{
 		memcpy(&pVtxAnimMeshs[i].vPosition, &pAIMesh->mVertices[i], sizeof(_float3));
+		m_pVertices[i] = pVtxAnimMeshs[i].vPosition;
+
 		memcpy(&pVtxAnimMeshs[i].vNormal, &pAIMesh->mNormals[i], sizeof(_float3));
 		memcpy(&pVtxAnimMeshs[i].vTangent, &pAIMesh->mTangents[i], sizeof(_float3));
+		memcpy(&pVtxAnimMeshs[i].vBinormal, &pAIMesh->mBitangents[i], sizeof(_float3));
 		memcpy(&pVtxAnimMeshs[i].vTexcoord, &pAIMesh->mTextureCoords[0][i], sizeof(_float2));
 	}
 
@@ -633,6 +639,10 @@ HRESULT CMesh::Ready_VertexBuffer_For_NonAnim(void* MeshDesc, _matrix PreTransfo
 
 		memcpy(&pVtxMeshs[iIndex].vTangent, &vertex.vTangent, sizeof(_float3));
 		XMStoreFloat3(&pVtxMeshs[iIndex].vTangent, XMVector3TransformCoord(XMLoadFloat3(&pVtxMeshs[iIndex].vTangent), PreTransformMatrix));
+
+		memcpy(&pVtxMeshs[iIndex].vBinormal, &vertex.vBinormal, sizeof(_float3));
+		XMStoreFloat3(&pVtxMeshs[iIndex].vBinormal, XMVector3Normalize(XMVector3TransformNormal(XMLoadFloat3(&pVtxMeshs[iIndex].vBinormal), PreTransformMatrix)));
+
 		memcpy(&pVtxMeshs[iIndex].vTexcoord, &vertex.vTexcoord, sizeof(_float2));
 		iIndex++;
 	}
@@ -688,6 +698,7 @@ HRESULT CMesh::Ready_VertexBuffer_For_Anim(void* MeshDesc)
 		memcpy(&pVtxMeshs[iIndex].vNormal, &vertex.vNormal, sizeof(_float3));
 		memcpy(&pVtxMeshs[iIndex].vTangent, &vertex.vTangent, sizeof(_float3));
 		memcpy(&pVtxMeshs[iIndex].vTexcoord, &vertex.vTexcoord, sizeof(_float2));
+		memcpy(&pVtxMeshs[iIndex].vBinormal, &vertex.vBinormal, sizeof(_float2));
 		memcpy(&pVtxMeshs[iIndex].vBlendIndex, &vertex.vBlendIndex, sizeof(XMUINT4));
 		memcpy(&pVtxMeshs[iIndex].vBlendWeight, &vertex.vBlendWeight, sizeof(_float4));
 		iIndex++;

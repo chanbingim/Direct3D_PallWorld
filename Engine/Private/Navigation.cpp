@@ -147,12 +147,7 @@ _Int CNavigation::Find_Cell(_vector vPos)
 	_Int		iNeighborIndex = { -1 };
 	for (auto& pCell : m_Cells)
 	{
-		pCell->IsCellIn(vPos, &iNeighborIndex);
-
-		if (-1 == iNeighborIndex)
-			continue;
-
-		if (m_Cells[iNeighborIndex]->IsCellIn(vLocalPos, &iNeighborIndex))
+		if (pCell->IsCellIn(vLocalPos, &iNeighborIndex))
 			return pCell->GetCellIndex();
 	}
 
@@ -602,11 +597,14 @@ HRESULT CNavigation::ReadNaviMeshDataFile(const char* szFilePath)
 	{
 		file >> NaviMeshTriCount;
 		_float3 Point[ENUM_CLASS(NAVI_POINT::END)] = {};
-		for (_uInt i = 0; i < NaviMeshTriCount; ++i)
+		for (_uInt i = 0; i < NaviMeshTriCount;)
 		{
 			file >> Point[ENUM_CLASS(NAVI_POINT::A)].x >> Point[ENUM_CLASS(NAVI_POINT::A)].y >> Point[ENUM_CLASS(NAVI_POINT::A)].z;
+			++i;
 			file >> Point[ENUM_CLASS(NAVI_POINT::B)].x >> Point[ENUM_CLASS(NAVI_POINT::B)].y >> Point[ENUM_CLASS(NAVI_POINT::B)].z;
+			++i;
 			file >> Point[ENUM_CLASS(NAVI_POINT::C)].x >> Point[ENUM_CLASS(NAVI_POINT::C)].y >> Point[ENUM_CLASS(NAVI_POINT::C)].z;
+			++i;
 
 			_bool bIsAdd = true;
 			for (auto iter : ReadFileData)

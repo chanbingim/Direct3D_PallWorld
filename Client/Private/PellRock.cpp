@@ -35,9 +35,7 @@ HRESULT CPellRock::Initialize(void* pArg)
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
-    auto pNaviMesh = CTerrainManager::GetInstance()->GetNavimesh();
-    pNaviMesh->ComputeHeight(m_pTransformCom, true);
-
+    RefreshComputeHeight();
     m_pDropComponent->Insert_ItemIndex(13, 100);
     m_pCollision->UpdateColiision(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
 

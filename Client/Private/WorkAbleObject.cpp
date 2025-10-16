@@ -1,5 +1,7 @@
 #include "WorkAbleObject.h"
 
+#include "GameInstance.h"
+
 CWorkAbleObject::CWorkAbleObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CNoneAnimMesh(pDevice, pContext)
 {
@@ -43,6 +45,8 @@ HRESULT CWorkAbleObject::Render()
 {
     return S_OK;
 }
+
+
 
 HRESULT CWorkAbleObject::DeadFunction()
 {

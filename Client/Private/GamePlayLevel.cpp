@@ -128,14 +128,19 @@ HRESULT CGamePlayLevel::ADD_EnviornmentLayer(const _wstring& LayerName)
 {
 	CGameObject::GAMEOBJECT_DESC Desc = {};
 	Desc.vScale = { 1.f, 1.f, 1.f };
-	Desc.vPosition = { 100.f, -64.f, 890.f };
+	Desc.vPosition = { -1500.f, -64.f, 500.f };
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Environment_SmallGrass"),
 		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
 		return E_FAIL;
 
-	Desc.vPosition = { 100.f, 14.f, 900.f };
+	Desc.vPosition = { -1000.f, 14.f, 500.f };
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Environment_Flower"),
+		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
+		return E_FAIL;
+
+	Desc.vPosition = { -1300.f, -64.f, 500.f };
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Environment_Default_Grass"),
 		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
 		return E_FAIL;
 
@@ -192,7 +197,7 @@ HRESULT CGamePlayLevel::ADD_PellLayer(const _wstring& LayerName)
 	{
 		wsprintf(Desc.ObjectTag, TEXT("Bed Cat"));
 		Desc.vScale = { 1.f, 1.f, 1.f };
-		Desc.vPosition = { m_pGameInstance->Random(-70.f, -100.f), 1.f, m_pGameInstance->Random(700, 800.f) };
+		Desc.vPosition = { m_pGameInstance->Random(-1100.f, -1200.f), 1.f, m_pGameInstance->Random(-100, 100.f) };
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_BedCat"),
 			ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
 			return E_FAIL;
@@ -201,7 +206,7 @@ HRESULT CGamePlayLevel::ADD_PellLayer(const _wstring& LayerName)
 	for (_uInt i = 0; i < 10; ++i)
 	{
 		wsprintf(Desc.ObjectTag, TEXT("Drorong"));
-		Desc.vPosition = { m_pGameInstance->Random(-70.f, -100.f), 1.f, m_pGameInstance->Random(700, 800.f) };
+		Desc.vPosition = { m_pGameInstance->Random(-1100.f, -1200.), 1.f, m_pGameInstance->Random(-100, 100.f) };
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Drorong"),
 			ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
 			return E_FAIL;
@@ -210,7 +215,7 @@ HRESULT CGamePlayLevel::ADD_PellLayer(const _wstring& LayerName)
 	for (_uInt i = 0; i < 10; ++i)
 	{
 		wsprintf(Desc.ObjectTag, TEXT("ElectricPanda"));
-		Desc.vPosition = { m_pGameInstance->Random(-70.f, -100.f), 1.f, m_pGameInstance->Random(700, 800.f) };
+		Desc.vPosition = { m_pGameInstance->Random(-1100.f, -1200.), 1.f, m_pGameInstance->Random(-100, 100.f) };
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ElectricPanda"),
 			ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
 			return E_FAIL;

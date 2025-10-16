@@ -95,6 +95,11 @@ HRESULT CDefaultMap::Apply_ConstantShaderResources(_uInt iMeshIndex)
     if (pResourceVeiw)
         m_pSRVEffect->SetResource(pResourceVeiw);
 
+    ID3D11ShaderResourceView* pNormalRSV = {};
+    m_pVIBufferCom->GetMeshResource(iMeshIndex, aiTextureType_NORMALS, 0, &pNormalRSV);
+    if (pNormalRSV)
+        m_pShaderCom->Bind_SRV("g_NormalTexture", pNormalRSV);
+
     return S_OK;
 }
 

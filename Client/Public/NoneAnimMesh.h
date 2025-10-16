@@ -27,6 +27,7 @@ public:
 
 	// ·£´õ
 	virtual		HRESULT						Render() override;
+	virtual void							RefreshComputeHeight();
 
 protected:
 	virtual		HRESULT						Bind_ShaderResources() override;

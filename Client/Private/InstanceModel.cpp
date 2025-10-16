@@ -1,6 +1,7 @@
 #include "InstanceModel.h"
 
 #include "GameInstance.h"
+#include "TerrainManager.h"
 
 CInstanceModel::CInstanceModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CGameObject(pDevice, pContext)
@@ -42,6 +43,39 @@ HRESULT CInstanceModel::Render()
     return E_NOTIMPL;
 }
 
+void CInstanceModel::RefreshComputeHeight()
+{
+    D3D11_MAPPED_SUBRESOURCE SubResource = {};
+    auto pNaviMesh = CTerrainManager::GetInstance()->GetNavimesh();
+    _matrix vWorldMat = XMLoadFloat4x4(&m_pTransformCom->GetWorldMat());
+
+    _uInt iNumInstance = m_pVIBufferCom->GetNumInstance();
+    m_pVIBufferCom->Lock(&SubResource);;
+    VTX_INSTANCE_DEFAULT_DESC* pVertices = static_cast<VTX_INSTANCE_DEFAULT_DESC*>(SubResource.pData);
+    if (pVertices)
+    {
+        for (_uInt i = 0; i < iNumInstance; i++)
+        {
+            _float3 vHeightPos = { pVertices[i].vPosition.x,
+                                   pVertices[i].vPosition.y,
+                                   pVertices[i].vPosition.z };
+
+            XMStoreFloat3(&vHeightPos, XMVector3TransformCoord(XMLoadFloat3(&vHeightPos), vWorldMat));
+
+            pNaviMesh->ComputeHeight(&vHeightPos);
+            pVertices[i].vPosition.x = vHeightPos.x;
+            pVertices[i].vPosition.y = vHeightPos.y;
+            pVertices[i].vPosition.z = vHeightPos.z;
+        }
+    }
+
+    m_pVIBufferCom->UnLock();
+}
+
+void CInstanceModel::RefreshComputeHeight()
+{
+}
+
 HRESULT CInstanceModel::Bind_ShaderResources()
 {
     if (nullptr == m_pShaderCom)
@@ -66,6 +100,10 @@ HRESULT CInstanceModel::Apply_ConstantShaderResources(_uInt iMeshIndex)
     if (pResourceVeiw)
         m_pSRVEffect->SetResource(pResourceVeiw);
 
+    ID3D11ShaderResourceView* pNormalRSV = {};
+    m_pVIBufferCom->GetMeshResource(iMeshIndex, aiTextureType_NORMALS, 0, &pNormalRSV);
+    if (pNormalRSV)
+        m_pShaderCom->Bind_SRV("g_NormalTexture", pNormalRSV);
     return S_OK;
 }
 

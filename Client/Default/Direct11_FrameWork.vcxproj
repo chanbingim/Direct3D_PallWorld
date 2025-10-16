@@ -178,6 +178,7 @@
     <ClInclude Include="..\public\BossTitleName.h" />
     <ClInclude Include="..\public\ButtonArrow.h" />
     <ClInclude Include="..\public\ButtonFlare.h" />
+    <ClInclude Include="..\public\DefaultGrass.h" />
     <ClInclude Include="..\public\DefenceWallWood.h" />
     <ClInclude Include="..\public\ClimbState.h" />
     <ClInclude Include="..\public\CombatComponent.h" />
@@ -189,11 +190,13 @@
     <ClInclude Include="..\public\EletricBullet.h" />
     <ClInclude Include="..\public\EventButton.h" />
     <ClInclude Include="..\public\FarmGround.h" />
+    <ClInclude Include="..\public\FastTravelObject.h" />
     <ClInclude Include="..\public\FemalePeopleBody_1.h" />
     <ClInclude Include="..\public\FemalePeople_1.h" />
     <ClInclude Include="..\public\GrassMommothBody.h" />
     <ClInclude Include="..\public\GreenMommoth.h" />
     <ClInclude Include="..\public\HungerBar.h" />
+    <ClInclude Include="..\public\IMG_EffectTool.h" />
     <ClInclude Include="..\public\MiningObject.h" />
     <ClInclude Include="..\public\Npc.h" />
     <ClInclude Include="..\public\IngredientCountView.h" />
@@ -223,6 +226,7 @@
     <ClInclude Include="..\public\PreivewModelBody.h" />
     <ClInclude Include="..\public\PreviewModel.h" />
     <ClInclude Include="..\public\PreviewModelWeapon.h" />
+    <ClInclude Include="..\public\ProbObject.h" />
     <ClInclude Include="..\public\SelectTriangle.h" />
     <ClInclude Include="..\public\SelectUI.h" />
     <ClInclude Include="..\public\TechCategoryUI.h" />
@@ -401,8 +405,13 @@
     <ClInclude Include="..\public\TechTabIcon.h" />
     <ClInclude Include="..\public\Terrain.h" />
     <ClInclude Include="..\public\TerrainManager.h" />
+    <ClInclude Include="..\public\TouchLamp.h" />
     <ClInclude Include="..\public\TreeObject.h" />
     <ClInclude Include="..\public\TypeIcon.h" />
+    <ClInclude Include="..\public\ViliageApartment.h" />
+    <ClInclude Include="..\public\ViliageCurchObject.h" />
+    <ClInclude Include="..\public\ViliageHouseObject.h" />
+    <ClInclude Include="..\public\ViliageMarketObject.h" />
     <ClInclude Include="..\public\WeaponQuickSlot.h" />
     <ClInclude Include="..\Public\WeaponQuickSlotCount.h" />
     <ClInclude Include="..\Public\WeaponQuickSlotName.h" />
@@ -434,16 +443,19 @@
     <ClCompile Include="..\private\BossTitleName.cpp" />
     <ClCompile Include="..\private\ButtonArrow.cpp" />
     <ClCompile Include="..\private\ButtonFlare.cpp" />
+    <ClCompile Include="..\private\DefaultGrass.cpp" />
     <ClCompile Include="..\private\DefenceWallWood.cpp" />
     <ClCompile Include="..\private\DefenceBossComponent.cpp" />
     <ClCompile Include="..\private\DiallogUI.cpp" />
     <ClCompile Include="..\private\DialogLayer.cpp" />
     <ClCompile Include="..\private\FarmGround.cpp" />
+    <ClCompile Include="..\private\FastTravelObject.cpp" />
     <ClCompile Include="..\private\FemalePeopleBody_1.cpp" />
     <ClCompile Include="..\private\FemalePeople_1.cpp" />
     <ClCompile Include="..\private\GrassMommothBody.cpp" />
     <ClCompile Include="..\private\GreenMommoth.cpp" />
     <ClCompile Include="..\private\HungerBar.cpp" />
+    <ClCompile Include="..\private\IMG_EffectTool.cpp" />
     <ClCompile Include="..\private\MiningObject.cpp" />
     <ClCompile Include="..\private\Npc.cpp" />
     <ClCompile Include="..\private\IngredientCountView.cpp" />
@@ -485,6 +497,7 @@
     <ClCompile Include="..\private\PreivewModelBody.cpp" />
     <ClCompile Include="..\private\PreviewModel.cpp" />
     <ClCompile Include="..\private\PreviewModelWeapon.cpp" />
+    <ClCompile Include="..\private\ProbObject.cpp" />
     <ClCompile Include="..\private\SelectTriangle.cpp" />
     <ClCompile Include="..\private\SelectUI.cpp" />
     <ClCompile Include="..\private\TechCategoryUI.cpp" />
@@ -600,6 +613,7 @@
     <ClCompile Include="..\private\TechSlotTitleBar.cpp" />
     <ClCompile Include="..\private\TechTabIcon.cpp" />
     <ClCompile Include="..\private\TerrainManager.cpp" />
+    <ClCompile Include="..\private\TouchLamp.cpp" />
     <ClCompile Include="..\private\TreeObject.cpp" />
     <ClCompile Include="..\private\DebugApp.cpp" />
     <ClCompile Include="..\private\DefaultEntity.cpp" />
@@ -657,6 +671,9 @@
     <ClCompile Include="..\private\SlotBase.cpp" />
     <ClCompile Include="..\private\Terrain.cpp" />
     <ClCompile Include="..\private\TypeIcon.cpp" />
+    <ClCompile Include="..\private\ViliageCurchObject.cpp" />
+    <ClCompile Include="..\private\ViliageHouseObject.cpp" />
+    <ClCompile Include="..\private\ViliageMarketObject.cpp" />
     <ClCompile Include="..\private\WeaponQuickSlot.cpp" />
     <ClCompile Include="..\Private\WeaponQuickSlotCount.cpp" />
     <ClCompile Include="..\Private\WeaponQuickSlotName.cpp" />
@@ -675,6 +692,7 @@
     <ClCompile Include="..\private\WorkPercnet.cpp" />
     <ClCompile Include="..\private\Yeti.cpp" />
     <ClCompile Include="..\private\YetiBody.cpp" />
+    <ClCompile Include="..\public\ViliageApartment.cpp" />
     <ClCompile Include="CWorkBenchCountView.cpp" />
     <ClCompile Include="Direct11_FrameWork.cpp" />
   </ItemGroup>

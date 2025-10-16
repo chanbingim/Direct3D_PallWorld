@@ -1,7 +1,7 @@
 #include "RockObject.h"
 
 #include "GameInstance.h"
-#include "TerrainManager.h"
+
 
 #include "DropComponent.h"
 
@@ -36,8 +36,7 @@ HRESULT CRockObject::Initialize(void* pArg)
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
-    auto pNaviMesh = CTerrainManager::GetInstance()->GetNavimesh();
-    pNaviMesh->ComputeHeight(m_pTransformCom, true);
+    RefreshComputeHeight();
     m_pCollision->UpdateColiision(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
     m_pDropComponent->Insert_ItemIndex(12, 100);
     return S_OK;

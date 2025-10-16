@@ -15,6 +15,7 @@ struct VS_IN
     float3 vPosition : POSITION;
     float3 vNormal : NORMAL;
     float3 vTangent : TANGENT;
+    float3 vBINormal : BINORMAL;
     float2 vTexcoord : TEXCOORD0;
     
     uint4 vBlendIndex : BLENDINDEX;
@@ -24,7 +25,9 @@ struct VS_IN
 struct VS_OUT
 {
     float4 vPosition : SV_POSITION;
-    float4 vNormal : NORMAL;
+    float3 vNormal : NORMAL;
+    float3 vTangent : TANGENT;
+    float3 vBINormal : BINORMAL;
     float2 vTexcoord : TEXCOORD0;
     float4 vWorldPos : TEXCOORD1;
     float4 vProjPos : TEXCOORD2;
@@ -50,7 +53,9 @@ VS_OUT VS_MAIN(VS_IN In)
     matWVP = mul(matWV, g_ProjMatrix);
     
     Out.vPosition = mul(vPosition, matWVP);
-    Out.vNormal = normalize(mul(vector(In.vNormal, 0.f), g_WorldMatrix));
+    Out.vNormal = normalize(mul(vector(In.vNormal, 0.f), g_WorldMatrix)).xyz;
+    Out.vTangent = normalize(mul(vector(In.vTangent, 0.f), g_WorldMatrix)).xyz;
+    Out.vBINormal = normalize(mul(vector(In.vBINormal, 0.f), g_WorldMatrix)).xyz;
     Out.vTexcoord = In.vTexcoord;
     Out.vWorldPos = mul(vPosition, g_WorldMatrix);
     Out.vProjPos = Out.vPosition;
@@ -64,7 +69,9 @@ VS_OUT VS_MAIN(VS_IN In)
 struct PS_IN
 {
     float4 vPosition : SV_POSITION;
-    float4 vNormal : NORMAL;
+    float3 vNormal : NORMAL;
+    float3 vTangent : TANGENT;
+    float3 vBINormal : BINORMAL;
     float2 vTexcoord : TEXCOORD0;
     float4 vWorldPos : TEXCOORD1;
     float4 vProjPos : TEXCOORD2;
@@ -86,9 +93,12 @@ PS_OUT PS_MAIN(PS_IN In)
     if (vMtrlDiffuse.a < 0.4f)
         discard;
     
-   
+    vector vNoramlTexture = g_NormalTexture.Sample(DefaultSampler, In.vTexcoord);
+    float3x3 TangentSpaceMat = float3x3(In.vTangent, In.vBINormal * -1, In.vNormal);
+    float3 vNormal = mul(vNoramlTexture.xyz * 2.f -1.f, TangentSpaceMat);
+    
     Out.vColor = vMtrlDiffuse;
-    Out.vNormal = float4(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
+    Out.vNormal = float4(vNormal * 0.5f + 0.5f, 0.f);
     Out.vDepth = float4(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1000.0f, 0.0f, 0.0f);
     
     return Out;

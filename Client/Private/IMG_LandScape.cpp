@@ -5,6 +5,9 @@
 #include "Terrain.h"
 #include "Level.h"
 
+#include "InstanceModel.h"
+#include "WorkAbleObject.h"
+
 const char* CIMG_LandScape::szBrushMode[ENUM_CLASS(BRUSH_MODE::END)] = {
        "SELECT_TERRIAN", "EDIT_ENVIORNMENT", "ADD_HEGIHT", "EDIT_NAVIMESH" };
 
@@ -63,6 +66,12 @@ void CIMG_LandScape::Update(_float fDeletaTime)
         {
             //여기서 어떤 곳에다가 저장할지 결정한다음 저장
             CreateHeightMapToPng();
+        }
+
+        if (ImGui::Button("Refesh Hegiht"))
+        {
+            //여기서 어떤 곳에다가 저장할지 결정한다음 저장
+            RefreshHegihtAllProbObject();
         }
     }
     ImGui::End();
@@ -163,6 +172,18 @@ void CIMG_LandScape::CreateHeightMapToPng()
         auto VITerrian = static_cast<CVIBuffer_Terrain *>(Object->Find_Component(TEXT("VIBuffer_Com")));
         VITerrian->ExportHeightMap(FilePath);
     }
+}
+
+void CIMG_LandScape::RefreshHegihtAllProbObject()
+{
+    auto CurLevel = m_pGameInstance->GetCurrentLevel()->GetLevelID();
+    const list<CGameObject*>* EnvObject = m_pGameInstance->GetAllObejctToLayer(CurLevel, TEXT("Layer_GamePlay_Enviorment"));
+    for (auto Object : *EnvObject)
+        static_cast<CInstanceModel *>(Object)->RefreshComputeHeight();
+
+    const list<CGameObject*>* WorkAbleObject = m_pGameInstance->GetAllObejctToLayer(CurLevel, TEXT("Layer_GamePlay_WorkAbleObject"));
+    for (auto Object : *WorkAbleObject)
+        static_cast<CWorkAbleObject*>(Object)->RefreshComputeHeight();
 }
 
 CIMG_LandScape* CIMG_LandScape::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

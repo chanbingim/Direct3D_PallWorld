@@ -29,6 +29,7 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
+	void									RefreshComputeHeight();
 protected:
 	virtual		HRESULT						Bind_ShaderResources() override;
 	virtual		HRESULT						Apply_ConstantShaderResources(_uInt iMeshIndex);

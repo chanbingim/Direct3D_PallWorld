@@ -2,7 +2,6 @@
 #include "Architecture.h"
 
 NS_BEGIN(Client)
-
 class CWorkBench final : public CArchitecture
 {
 protected:

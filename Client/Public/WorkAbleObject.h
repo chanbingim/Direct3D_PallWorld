@@ -25,6 +25,7 @@ public:
 	virtual		HRESULT						Render() override;
 	PELL_WORK_TYPE							GetWorkAbleType() const { return m_eWorkType; }
 
+
 protected:
 	PELL_WORK_TYPE							m_eWorkType = {};
 

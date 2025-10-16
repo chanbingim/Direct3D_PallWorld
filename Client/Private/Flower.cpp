@@ -30,32 +30,8 @@ HRESULT CFlower::Initialize(void* pArg)
     if (FAILED(__super::Bind_ShaderResources()))
         return E_FAIL;
 
-    auto pNaviMesh = CTerrainManager::GetInstance()->GetNavimesh();
-
-    D3D11_MAPPED_SUBRESOURCE SubResource = {};
-
-    _float3 vPos = m_pTransformCom->GetPosition();
-    _uInt iNumInstance = m_pVIBufferCom->GetNumInstance();
-    m_pVIBufferCom->Lock(&SubResource);;
-    VTX_INSTANCE_DEFAULT_DESC* pVertices = static_cast<VTX_INSTANCE_DEFAULT_DESC*>(SubResource.pData);
-    if (pVertices)
-    {
-        for (_uInt i = 0; i < iNumInstance; i++)
-        {
-         
-            _float3 vHeightPos = { pVertices[i].vPosition.x + vPos.x,
-                                   pVertices[i].vPosition.y + vPos.y,
-                                   pVertices[i].vPosition.z + vPos.z };
-            pNaviMesh->ComputeHeight(&vHeightPos);
-            pVertices[i].vPosition.x = vHeightPos.x;
-            pVertices[i].vPosition.y = vHeightPos.y;
-            pVertices[i].vPosition.z = vHeightPos.z;
-        }
-    }
-
-    m_pVIBufferCom->UnLock();
-
-    return S_OK;
+    RecomputeInstanceModelHeight();
+        return S_OK;
 }
 
 void CFlower::Priority_Update(_float fDeletaTime)

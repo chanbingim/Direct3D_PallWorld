@@ -443,23 +443,11 @@
     <Filter Include="03. Objects\MeshObject\NonAnimMesh\SpawnBox">
       <UniqueIdentifier>{f9522881-9436-429b-9608-2e1e551754f3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Objects\MeshObject\InstanceModel">
-      <UniqueIdentifier>{ab62ec51-7349-4805-814b-abdcfabdd9e3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\InstanceModel\Grass">
-      <UniqueIdentifier>{0c74b82e-5f92-4abd-8947-24a3468de4e0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\InstanceModel\Grass\Grass00">
-      <UniqueIdentifier>{19b6f41f-4d5f-437d-b24c-a9526f53c4b7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Shader\Instance">
       <UniqueIdentifier>{cf32d5e7-85a6-49c6-a3d9-e36d10c657d9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Shader\Instance\ModelIsntance">
       <UniqueIdentifier>{29fa91c1-cf1a-4fa7-9df7-dd4969bfbe7c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\InstanceModel\Flower">
-      <UniqueIdentifier>{f81aa0f8-b9eb-41f3-9ad1-7ff10df359aa}</UniqueIdentifier>
     </Filter>
     <Filter Include="06. Component\ObjectAnimComonent">
       <UniqueIdentifier>{c695f6b4-2dfb-4591-ba27-b1ed2c0e5c34}</UniqueIdentifier>
@@ -916,6 +904,57 @@
     </Filter>
     <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Environment\MiningObject\Rock">
       <UniqueIdentifier>{f5755349-c20b-4be4-b672-987f4e02cef2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Effect">
+      <UniqueIdentifier>{2385cb58-5702-4c65-8fd2-55b495c5d646}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Effect\Mesh Effect">
+      <UniqueIdentifier>{32e2a4e1-6856-445c-9c92-acad3f221b72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Effect\Sprite Effect">
+      <UniqueIdentifier>{6d5f3057-2fc2-4442-8b4f-796d1a563420}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment">
+      <UniqueIdentifier>{352c36ed-33af-4a89-8341-c4c35adbf73f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel">
+      <UniqueIdentifier>{ab62ec51-7349-4805-814b-abdcfabdd9e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Grass">
+      <UniqueIdentifier>{0c74b82e-5f92-4abd-8947-24a3468de4e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Grass\Grass00">
+      <UniqueIdentifier>{19b6f41f-4d5f-437d-b24c-a9526f53c4b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Grass\Grass01">
+      <UniqueIdentifier>{054386c4-b6cb-4a56-be3d-811f9bbe6915}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Flower">
+      <UniqueIdentifier>{f81aa0f8-b9eb-41f3-9ad1-7ff10df359aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel">
+      <UniqueIdentifier>{7b4321f5-1f70-473e-95ab-28810d5f08d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\FastTravel">
+      <UniqueIdentifier>{41972222-1974-433e-b80f-6f9532dbf4e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\House">
+      <UniqueIdentifier>{2227ecc4-7c2e-4910-bfaf-890bae0498d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\Market">
+      <UniqueIdentifier>{1de0eba1-7665-49a3-9a7d-5d3d92367dd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\Curch">
+      <UniqueIdentifier>{29a52fc1-f873-45fc-9982-3745ff6d1389}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\TouchLamp">
+      <UniqueIdentifier>{078f268c-1667-476a-b342-b260479eb3f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\House\ViliageHouse">
+      <UniqueIdentifier>{4a4acbaf-22d4-4b8c-9449-2587c23d503e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\House\Apart">
+      <UniqueIdentifier>{1c6f40dd-9ad4-4c16-b352-783e6a2cff61}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1427,13 +1466,13 @@
       <Filter>04. DataManager\Object\Item</Filter>
     </ClInclude>
     <ClInclude Include="..\public\SmallGrass.h">
-      <Filter>03. Objects\MeshObject\InstanceModel\Grass\Grass00</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Grass\Grass00</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Flower.h">
-      <Filter>03. Objects\MeshObject\InstanceModel\Flower</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Flower</Filter>
     </ClInclude>
     <ClInclude Include="..\public\InstanceModel.h">
-      <Filter>03. Objects\MeshObject\InstanceModel</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel</Filter>
     </ClInclude>
     <ClInclude Include="..\public\ItemObject.h">
       <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Item\DropItem</Filter>
@@ -1695,6 +1734,33 @@
     </ClInclude>
     <ClInclude Include="..\public\MiningObject.h">
       <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Environment\MiningObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\DefaultGrass.h">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Grass\Grass01</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ProbObject.h">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ViliageMarketObject.h">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\Market</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ViliageCurchObject.h">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\Curch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\FastTravelObject.h">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\FastTravel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TouchLamp.h">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\TouchLamp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ViliageHouseObject.h">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\House\ViliageHouse</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ViliageApartment.h">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\House\Apart</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\IMG_EffectTool.h">
+      <Filter>ImGui\UI\Particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2189,13 +2255,13 @@
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\ItemQuickSlot\Font\Name</Filter>
     </ClCompile>
     <ClCompile Include="..\private\SmallGrass.cpp">
-      <Filter>03. Objects\MeshObject\InstanceModel\Grass\Grass00</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Grass\Grass00</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Flower.cpp">
-      <Filter>03. Objects\MeshObject\InstanceModel\Flower</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Flower</Filter>
     </ClCompile>
     <ClCompile Include="..\private\InstanceModel.cpp">
-      <Filter>03. Objects\MeshObject\InstanceModel</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel</Filter>
     </ClCompile>
     <ClCompile Include="..\private\ItemObject.cpp">
       <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Item\DropItem</Filter>
@@ -2451,6 +2517,33 @@
     </ClCompile>
     <ClCompile Include="..\private\MiningObject.cpp">
       <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Environment\MiningObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\DefaultGrass.cpp">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Grass\Grass01</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ProbObject.cpp">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ViliageMarketObject.cpp">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\Market</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ViliageCurchObject.cpp">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\Curch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\FastTravelObject.cpp">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\FastTravel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TouchLamp.cpp">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\TouchLamp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ViliageHouseObject.cpp">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\House\ViliageHouse</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public\ViliageApartment.cpp">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\House\Apart</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\IMG_EffectTool.cpp">
+      <Filter>ImGui\UI\Particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
