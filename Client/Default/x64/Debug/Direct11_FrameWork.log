@@ -1,179 +1,26 @@
 ﻿FXC : warning X4717: Effects deprecated for D3DCompiler_47
   
-  compilation object save succeeded; see C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\MouseShader.cso
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\MouseShader.cso
 FXC : warning X4717: Effects deprecated for D3DCompiler_47
-C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\ShaderFiles\MutipleBlend.hlsl(79,5-41): warning X3206: implicit truncation of vector type
+C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ShaderFiles\MutipleBlend.hlsl(79,5-41): warning X3206: implicit truncation of vector type
   
-  compilation object save succeeded; see C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\MutipleBlend.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\ProgressBar.cso
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\MutipleBlend.cso
 FXC : warning X4717: Effects deprecated for D3DCompiler_47
   
-  compilation object save succeeded; see C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\TestShader.cso
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ProgressBar.cso
 FXC : warning X4717: Effects deprecated for D3DCompiler_47
   
-  compilation object save succeeded; see C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\VTX_AnimMesh.cso
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\TestShader.cso
 FXC : warning X4717: Effects deprecated for D3DCompiler_47
   
-  compilation object save succeeded; see C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\VTX_Mesh.cso
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_AnimMesh.cso
 FXC : warning X4717: Effects deprecated for D3DCompiler_47
   
-  compilation object save succeeded; see C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Bin\VTX_NorTex.cso
-  AimInterface.cpp
-  BackGround.cpp
-  BattlePell.cpp
-  BedCat.cpp
-  BedCatBody.cpp
-  ClimbState.cpp
-  DefaultMap.cpp
-C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\DefaultMap.cpp(106,116): warning C4244: '인수': 'Engine::_uInt'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\DefaultMap.cpp(109,116): warning C4244: '인수': 'Engine::_uInt'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\DefaultMap.cpp(112,116): warning C4244: '인수': 'Engine::_uInt'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\DefaultMap.cpp(152,98): warning C4244: '인수': 'Engine::_uInt'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\DefaultMap.cpp(235,34): warning C4244: '=': 'Engine::_uInt'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  DropComponent.cpp
-  ItemQuickSlot.cpp
-  NeturalPellInfo.cpp
-  NeturalTypeIcon.cpp
-  PellManager.cpp
-  PellAttackState.cpp
-  PellCombatLayer.cpp
-  PellHitState.cpp
-  PellIdleState.cpp
-  PellMoveLayer.cpp
-  PellPatrolState.cpp
-  PellResetState.cpp
-  PellStateMachine.cpp
-  코드를 생성하고 있습니다...
-  컴파일하고 있습니다...
-  PellWorkState.cpp
-  PlayerCombatLayer.cpp
-  CrouchState.cpp
-  DororongBody.cpp
-  ElectricPandaBody.cpp
-  FlowerLabbitBody.cpp
-  FrogBody.cpp
-  HedgehogBody.cpp
-  HerorongBody.cpp
-  ImgViewModel.cpp
-  IMG_ModelConvert.cpp
-  ItemManager.cpp
-  JumpState.cpp
-  PlayerItemSlot.cpp
-  PlayerNoneCombatLayer.cpp
-  PalSpher.cpp
-  PlayerAttackState.cpp
-  PlayerLowerLayer.cpp
-  PlayerManager.cpp
-  PlayerPartData.cpp
-  코드를 생성하고 있습니다...
-  컴파일하고 있습니다...
-  PlayerCamera.cpp
-  PlayerChildIdleState.cpp
-  PlayerJog.cpp
-  PellBody.cpp
-  Button.cpp
-  ButtonFrame.cpp
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_Mesh.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_NorTex.cso
   Camera.cpp
-  Category.cpp
-  CharacterView.cpp
-  Compass.cpp
-  CompassPoint.cpp
-  EditorLevel.cpp
-  Enviormnent.cpp
-  Equipment.cpp
-  EquipSlot.cpp
-  FlowerRabbit.cpp
-  Frog.cpp
-  Hedgehog.cpp
-  Herorong.cpp
-  InvenSlider.cpp
-  코드를 생성하고 있습니다...
-  컴파일하고 있습니다...
-  InvenSliderButton.cpp
-  Inventory.cpp
-  ItemSlot.cpp
-  NoneAnimMesh.cpp
-  PellRock.cpp
-  PlayerIdleState.cpp
-  PlayerSprint.cpp
-  PlayerStateMachine.cpp
-  PlayerBody.cpp
-  PlayerUpperLayer.cpp
-  PlayerView.cpp
-  PlayerWalkState.cpp
-  PlayerWeaponSlot.cpp
-  Recovery.cpp
-  SkyBox.cpp
-  SlotImage.cpp
-  TerrainManager.cpp
-C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\private\TerrainManager.cpp(80,63): warning C4244: '=': 'float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  TreeObject.cpp
-  DebugApp.cpp
-  DefaultEntity.cpp
-  코드를 생성하고 있습니다...
-  컴파일하고 있습니다...
-  Dororong.cpp
-  ElectPanda.cpp
-  GameOption.cpp
-  GamePlayHUD.cpp
-  GamePlayLevel.cpp
-  GuardBar.cpp
-  HealthBar.cpp
-  HealthIcon.cpp
-  HungerIcon.cpp
-  ImgManager.cpp
-  imgui.cpp
-  ImgUIBase.cpp
-  imgui_demo.cpp
-  imgui_draw.cpp
-  imgui_impl_dx11.cpp
-  imgui_impl_win32.cpp
-  imgui_tables.cpp
-  imgui_widgets.cpp
-  IMG_Component.cpp
-  IMG_Content.cpp
-  코드를 생성하고 있습니다...
-  컴파일하고 있습니다...
-  IMG_Create.cpp
-  IMG_Hierarchy.cpp
-  IMG_Inspector.cpp
-  IMG_LandScape.cpp
-  IMG_Profiler.cpp
-  IMG_Transform.cpp
-  IMG_Viewport.cpp
-  InGameMenu.cpp
-  ItemBase.cpp
   Loader.cpp
-  LoadingHUD.cpp
-  LoadingIcon.cpp
-  LoadingLevel.cpp
-  LoadingUI.cpp
-  LogoLevel.cpp
-  Logo_GameEdit_But.cpp
-  Logo_GameQuit_But.cpp
-  Logo_GameStart_But.cpp
-  Logo_HUD.cpp
-  Logo_Menu.cpp
   코드를 생성하고 있습니다...
-  컴파일하고 있습니다...
-  MainApp.cpp
-  OptionButton.cpp
-  PellBase.cpp
-  PellInfo.cpp
-  PellInfoFrame.cpp
-  PellLogo.cpp
-  Player.cpp
-  Player_Interface.cpp
-  RockObject.cpp
-  SlotBase.cpp
-  Terrain.cpp
-  TypeIcon.cpp
-  WeaponQuickSlot.cpp
-  Yeti.cpp
-  YetiBody.cpp
-  PellHealthBar.cpp
-  Direct11_FrameWork.cpp
-  코드를 생성하고 있습니다...
-C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\PellHealthBar.cpp : fatal  error C1090: PDB API를 호출하지 못했습니다. 오류 코드 '3': C:\Users\gimch\Document\Unreal_AnimatedShot-main\Direct3D_PallWorld\Client\Default\x64\Debug\vc143.pdb
+  Direct11_FrameWork.vcxproj -> C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe

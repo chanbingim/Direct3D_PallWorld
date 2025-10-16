@@ -84,28 +84,15 @@ void CCamera::Input_KeyBoard(_float fDeletaTime)
 		ADDPosition(vRight * -m_fSpeed * fDeletaTime);
 	}
 
-	if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_Q))
+	_long		MouseMove = {};
+	if (MouseMove = m_pGameInstance->GetMouseAxis(0))
 	{
-		// 시계방향 회전
-		ADDRotation(m_pTransformCom->GetUpVector(), m_fRotSpeed, fDeletaTime);
+		m_pTransformCom->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f),  MouseMove * m_fMouseSensor, fDeletaTime);
 	}
 
-	if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_E))
+	if (MouseMove = m_pGameInstance->GetMouseAxis(1))
 	{
-		//반시계 방향 회전
-		ADDRotation(m_pTransformCom->GetUpVector(), -m_fRotSpeed, fDeletaTime);
-	}
-
-	if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_W))
-	{
-		// 시계방향 회전
-		ADDRotation(m_pTransformCom->GetRightVector(), m_fRotSpeed, fDeletaTime);
-	}
-
-	if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_S))
-	{
-		//반시계 방향 회전
-		ADDRotation(m_pTransformCom->GetRightVector(), -m_fRotSpeed, fDeletaTime);
+		m_pTransformCom->Turn(m_pTransformCom->GetRightVector(), MouseMove * m_fMouseSensor, fDeletaTime);
 	}
 }
 

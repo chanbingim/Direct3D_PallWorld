@@ -26,6 +26,8 @@ public :
 private :
 	_float							m_fSpeed = 50.f;
 	_float							m_fRotSpeed = 5.f;
+	_float							m_fMouseSensor = 0.1f;
+
 private :
 	void							Input_KeyBoard(_float fDeletaTime);
 
