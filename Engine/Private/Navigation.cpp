@@ -330,6 +330,16 @@ HRESULT CNavigation::Render(_float4 vColor, _bool DarwCurCell)
 	return S_OK;
 }
 
+void CNavigation::Import(const char* FilePath)
+{
+	m_Triangles.clear();
+	for (auto& iter : m_Cells)
+		Safe_Release(iter);
+	m_Cells.clear();
+
+	ReadNaviMeshDataFile(FilePath);
+}
+
 _float3 CNavigation::DrawTriangle(_vector vPos, _float Radius)
 {
 	_float3 vPoint = { -1, -1, -1};
@@ -563,6 +573,15 @@ _vector CNavigation::GetCurrentCellNoraml()
 	return m_Cells[m_iCurrentCellIndex]->ComputeNormal();
 }
 
+void CNavigation::RefreshNavigation(const _char* pNavigationDataFiles)
+{
+	for (auto pCell : m_Cells)
+		Safe_Release(pCell);
+
+
+	ReadNaviMeshDataFile(pNavigationDataFiles);
+}
+
 NAVI_TRIANGLE CNavigation::CreateSuperTriangle(_float3 vMin, _float3 vMax)
 {
 	_float dx = vMax.x - vMin.x;
@@ -601,7 +620,7 @@ HRESULT CNavigation::ReadNaviMeshDataFile(const char* szFilePath)
 			_bool bIsAdd = true;
 			for (auto iter : ReadFileData)
 			{
-				Navi_Triangle NewTriangle = Navi_Triangle(Point[0], Point[1] , Point[2]);
+				Navi_Triangle NewTriangle = Navi_Triangle(Point[0], Point[1], Point[2]);
 				if (iter == NewTriangle)
 				{
 					bIsAdd = false;
@@ -609,7 +628,7 @@ HRESULT CNavigation::ReadNaviMeshDataFile(const char* szFilePath)
 				}
 			}
 
-			if(bIsAdd)
+			if (bIsAdd)
 				ReadFileData.emplace_back(Point[ENUM_CLASS(NAVI_POINT::A)], Point[ENUM_CLASS(NAVI_POINT::B)], Point[ENUM_CLASS(NAVI_POINT::C)]);
 		}
 	}

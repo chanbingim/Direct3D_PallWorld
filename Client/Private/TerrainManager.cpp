@@ -96,6 +96,12 @@ CNavigation* CTerrainManager::GetNavimesh()
     return static_cast<CNavigation*>(m_DefaultMap->Find_Component(TEXT("NaviMesh_Com")));
 }
 
+void CTerrainManager::GetAllNaviMeshTriangle(list<NAVI_TRIANGLE>* pOut)
+{
+    auto pNavi = GetNavimesh();
+    *pOut = pNavi->GetNaviMeshTriangleList();
+}
+
 void CTerrainManager::Free()
 {
     Safe_Release(m_DefaultMap);

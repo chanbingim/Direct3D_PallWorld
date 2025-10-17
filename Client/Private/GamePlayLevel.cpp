@@ -39,28 +39,6 @@ HRESULT CGamePlayLevel::Initialize()
 	if (FAILED(ADD_SkyLayer(TEXT("Layer_GamePlay_SKY"))))
 		return E_FAIL;
 
-	CPlayerManager::PLAYER_MANAGER_DESC PlayerDesc;
-	PlayerDesc.iMaxInvenWeight = 1000;
-	PlayerDesc.iNumInvenMaxSlot = 60;
-	CPlayerManager::GetInstance()->Initialize(&PlayerDesc);
-	if (FAILED(ADD_PlayerLayer(TEXT("Layer_GamePlay_Player"))))
-		return E_FAIL;
-
-	if (FAILED(ADD_EnviornmentLayer(TEXT("Layer_GamePlay_Enviorment"))))
-		return E_FAIL;
-
-	if (FAILED(ADD_WorkAbleLayer(TEXT("Layer_GamePlay_WorkAbleObject"))))
-		return E_FAIL;
-	
-	if (FAILED(ADD_PellLayer(TEXT("Layer_GamePlay_Pell"))))
-		return E_FAIL;
-
-	if (FAILED(ADD_NpcLayer(TEXT("Layer_GamePlay_Npc"))))
-		return E_FAIL;
-
-	if (FAILED(Setting_GamePlayHUD()))
-		return E_FAIL;
-
 	m_pGameInstance->ShowInGameMouse(VISIBILITY::HIDDEN);
 
 	return S_OK;

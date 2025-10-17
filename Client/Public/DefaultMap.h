@@ -56,6 +56,8 @@ private:
 	void									UpdateCullList();
 
 #ifdef _DEBUG
+	void									PickingNavimesh();
+	void									PickingPoint();
 	void									SelectRenderPlane(_uInt i);
 #endif // _DEBUG
 

@@ -77,6 +77,15 @@ void CIMG_Hierarchy::Update(_float fDeletaTime)
             }
         }
 
+        ImGui::Checkbox("Move PickingPos", &m_bIsMovePickingPos);
+        if (m_bIsMovePickingPos)
+        {
+            _float3 vPos = CImgManager::GetInstance()->GetPickingPoint();
+            auto SelectObjects = m_pImgManager->GetSelectObjects();
+            for (auto& iter : *SelectObjects)
+                iter->GetTransform()->SetPosition(vPos);
+        }
+
         ImGui::End();
     }
 }

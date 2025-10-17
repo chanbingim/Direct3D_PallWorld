@@ -34,7 +34,6 @@ void CIMG_Transform::Bind_Data(CGameObject* pOwner, CComponent* pComponent)
     if (m_pOwner)
     {
         m_vPostion = m_pOwner->GetTransform()->GetPosition();
-        m_vRotation = m_pOwner->GetTransform()->GetRotation();
         m_vSacle = m_pOwner->GetTransform()->GetScale();
     }
 }

@@ -26,6 +26,7 @@ private :
 	list<CGameObject*>				m_pParentNodes = {};
 	ImGuiTreeNodeFlags				m_TreeNodeFlag = {};
 
+	_bool							m_bIsMovePickingPos = {};
 	_char							m_szName[MAX_PATH] = {};
 
 private :

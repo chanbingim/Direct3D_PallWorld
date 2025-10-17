@@ -42,25 +42,6 @@ HRESULT CMainApp::Initialize_MainApp()
 	if (FAILED(SetUp_MouseTexture()))
 		return E_FAIL;
 
-	if (FAILED(SetUp_InGameFont()))
-		return E_FAIL;
-
-#pragma region PellManger
-	CPellManager::GetInstance()->Initialize(m_pGraphic_Device, m_pDevice_Context, "../Bin/Resources/DataFile/Pal/PalData.csv");
-#pragma endregion
-
-#pragma region ItemManager
-	CItemManager::GetInstance()->Initialize(m_pGraphic_Device, m_pDevice_Context);
-#pragma endregion
-
-#pragma region TechManager
-	CTechManager::GetInstance()->Initialize("../Bin/Resources/DataFile/BuildObject/BuildObject.csv");
-#pragma endregion
-
-#pragma region PellBoxManager
-	CPellBoxManager::GetInstance()->Initialize_Manager();
-#pragma endregion
-
 #ifdef _DEBUG
 	if (FAILED(SetUp_DebugWindow()))
 		return E_FAIL;
@@ -79,10 +60,7 @@ void CMainApp::Run(_float fDeletaTime)
 	Render();
 
 #ifdef _DEBUG
-	if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_5))
-		m_pGameInstance->Set_RenderResource(0);
-	else
-		m_pGameInstance->Set_RenderResource(1);
+	m_pGameInstance->Set_RenderResource(1);
 	m_pDebugApp->Run(fDeletaTime);
 #endif // _DEBUG
 }
@@ -291,7 +269,7 @@ HRESULT CMainApp::SetUp_MouseTexture()
 		TEXT("Prototype_Component_VIBuffer_Rect"), TEXT("VIBuffer_Com"), nullptr)))
 		return E_FAIL;
 
-	ShowCursor(false);
+	//ShowCursor(false);
 	return S_OK;
 }
 

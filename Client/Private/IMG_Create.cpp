@@ -28,10 +28,8 @@ void CIMG_Create::Update(_float fDeletaTime)
         DrawCreateCategory();
         ImGui::SameLine();
         DrawPrototypes();
-
-        ImGui::End();
     }
-
+    ImGui::End();
 }
 
 void CIMG_Create::DrawCreateCategory()

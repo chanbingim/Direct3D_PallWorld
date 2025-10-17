@@ -34,6 +34,7 @@ void CIMG_LandScape::Update(_float fDeletaTime)
 {
     if (ImGui::Begin("LandScape"))
     {
+        ImGui::Checkbox("NaviMesh Picking", &m_bPickingNavimesh);
         ImGui::SetNextItemWidth(400);
         if (ImGui::Button("PreFab_View"))
             m_bIsPrefabBursh = !m_bIsPrefabBursh;
@@ -71,6 +72,11 @@ void CIMG_LandScape::Update(_float fDeletaTime)
         DrawPrefabBrush();
 }
 
+_bool CIMG_LandScape::GetbIsNaviMeshPicking()
+{
+    return m_bPickingNavimesh;
+}
+
 void CIMG_LandScape::DrawTileCount()
 {
     ImGui::SetNextItemWidth(100);
@@ -82,6 +88,11 @@ void CIMG_LandScape::DrawTileCount()
     ImGui::InputInt("##TileCountY", &m_tileCount[1], 0);
     ImGui::SameLine();
     ImGui::Text("Tile Count");
+}
+
+void CIMG_LandScape::LoadNewNaviMesh()
+{
+
 }
 
 void CIMG_LandScape::GenerateTerrian()
@@ -147,6 +158,12 @@ void CIMG_LandScape::DrawPrefabBrush()
         if (ImGui::Button("SAVE_NAVI_MESH_FILE"))
         {
             Save_NaviMesh();
+        }
+
+        ImGui::InputText("LoadNavgationiPath", m_szNaviPath, MAX_PATH);
+        if (ImGui::Button("LOAD_NAVI_MESH_FILE"))
+        {
+            CTerrainManager::GetInstance()->GetNavimesh()->Import(m_szNaviPath);
         }
 
     }

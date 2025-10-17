@@ -33,7 +33,7 @@ HRESULT CImgManager::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCon
     if (FAILED(Setting_Img_UI(pDevice, pContext)))
         return E_FAIL;
 
-
+   
     return S_OK;
 }
 
@@ -60,8 +60,8 @@ void CImgManager::Update(_float fDeletaTime)
 
             pair.second->Update(fDeletaTime);
         }
-        ImGui::End();
     }
+    ImGui::End();
 }
 
 void CImgManager::Render_Begin()
@@ -138,6 +138,11 @@ CImgUIBase* CImgManager::Find_ImgUserInterface(const WCHAR* szUITag)
     if (pair == m_ImgUIMap.end())
         return nullptr;
     return pair->second;
+}
+
+void CImgManager::SetPickingPoint(_float3 vPickingPoint)
+{
+    m_MousePickingPoint = vPickingPoint;
 }
 
 HRESULT CImgManager::Default_Setting(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

@@ -21,6 +21,7 @@ public:
 	virtual void					Update(_float fDeletaTime) override;
 	BRUSH_MODE						GetBurshMode() { return m_eBrushMode; }
 	_uInt							GetBurshSize() { return m_iBrushSize; }
+	_bool							GetbIsNaviMeshPicking();
 
 private :
 	_uInt							m_QuadPow = {};
@@ -31,6 +32,7 @@ private :
 
 	// 지형 픽킹을 위한 데이터
 	_bool							m_bIsPrefabBursh = false;
+	_bool							m_bPickingNavimesh = false;
 
 	_char							m_szBushModeName[MAX_PATH] = {};
 	BRUSH_MODE						m_eBrushMode = {};
@@ -40,10 +42,11 @@ private :
 	_char							m_szLayerName[MAX_PATH] = {};
 
 	// 네비메시 저장및 삭제 새로만들기
-
+	_char							m_szNaviPath[MAX_PATH] = {};
 
 private :
 	void							DrawTileCount();
+	void							LoadNewNaviMesh();
 	void							GenerateTerrian();
 	void							DrawPrefabBrush();
 	void							CreateHeightMapToPng();

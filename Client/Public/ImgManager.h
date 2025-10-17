@@ -36,8 +36,13 @@ public :
 	HRESULT							ADD_IMG_UserInterface(const _wstring szTag, CImgUIBase* pUserInterface);
 	CImgUIBase*						Find_ImgUserInterface(const WCHAR* szUITag);
 
+	void							SetPickingPoint(_float3 vPickingPoint);
+	_float3							GetPickingPoint() { return m_MousePickingPoint; }
+
 private :
 	// Img gui를 여기다가 만들어서 보관하고 그걸 통해서 제어
+	_float3									m_MousePickingPoint = {};
+
 	unordered_map<_wstring, CImgUIBase*>	m_ImgUIMap = {};
 	ImGuiWindowFlags						m_ImGuiWindowFlags = {};
 	list<CGameObject*>						m_SelectList = {};

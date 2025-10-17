@@ -51,110 +51,20 @@ void CDefaultMap::Priority_Update(_float fDeletaTime)
 
 void CDefaultMap::Update(_float fDeletaTime)
 {
-    _uInt iPickMeshIndex = {};
-    _float3 vOut = {};
+   
 
     //UpdateCullList();
 
 #ifdef _DEBUG
-    if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_F11))
-        m_bViewMesh = !m_bViewMesh;
+    auto EditorUI = CImgManager::GetInstance()->Find_ImgUserInterface(TEXT("LandScape"));
+    CIMG_LandScape* Img_LandScape = dynamic_cast<CIMG_LandScape*>(EditorUI);
 
-    if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_F5))
-        m_iDrawTriCount = 0;
-
-    if (m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 0))
+    if (Img_LandScape->GetbIsNaviMeshPicking())
     {
-        if (m_pVIBufferCom->IsPicking(m_pTransformCom, &vOut, &iPickMeshIndex))
-        {
-            //에디터용 코드
-            auto EditorUI = CImgManager::GetInstance()->Find_ImgUserInterface(TEXT("LandScape"));
-            CIMG_LandScape* Img_LandScape = dynamic_cast<CIMG_LandScape*>(EditorUI);
-            if (Img_LandScape)
-            {
-                switch (Img_LandScape->GetBurshMode())
-                {
-                case CIMG_LandScape::BRUSH_MODE::SELECT_TERRIAN:
-                    SelectRenderPlane(iPickMeshIndex);
-                    break;
-                case CIMG_LandScape::BRUSH_MODE::EDIT_NAVIMESH:
-                    break;
-                case CIMG_LandScape::BRUSH_MODE::EDIT_ENVIORNMENT:
-
-                    break;
-                }
-            }
-        }
+        PickingNavimesh();
+        
     }
-    if (m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 1))
-    {
-        if (m_pVIBufferCom->IsPicking(m_pTransformCom, &vOut, &iPickMeshIndex))
-        {
-            //에디터용 코드
-            auto EditorUI = CImgManager::GetInstance()->Find_ImgUserInterface(TEXT("LandScape"));
-            CIMG_LandScape* Img_LandScape = dynamic_cast<CIMG_LandScape*>(EditorUI);
-            if (Img_LandScape)
-            {
-                _float3 vPosition = {};
-                switch (Img_LandScape->GetBurshMode())
-                {
-                case CIMG_LandScape::BRUSH_MODE::EDIT_NAVIMESH:
-                {
-                    switch (m_iDrawTriCount)
-                    {
-                    case 0 :
-                        vPosition = m_pNavigationCom->DrawTriangle(XMLoadFloat3(&vOut), Img_LandScape->GetBurshSize());
-                        break;
-                    case 1:
-                        vPosition = m_pNavigationCom->DrawTriangle(XMLoadFloat3(&vOut), Img_LandScape->GetBurshSize());
-                        break;
-                    case 2:
-                        vPosition = m_pNavigationCom->DrawTriangle(XMLoadFloat3(&vOut), Img_LandScape->GetBurshSize());
-                        break;
-                    }
-
-                    if (m_iDrawTriCount < 3)
-                    {
-                        if (vPosition.x == -1)
-                            m_CrateTriangle[m_iDrawTriCount] = vOut;
-                        else
-                            m_CrateTriangle[m_iDrawTriCount] = vPosition;
-                        m_iDrawTriCount++;
-                    }
-                    
-                }
-                    break;
-                }
-            }
-
-            if (2 < m_iDrawTriCount)
-            {
-                auto new_Triangle = NAVI_TRIANGLE(m_CrateTriangle[0], m_CrateTriangle[1], m_CrateTriangle[2]);
-                m_pNavigationCom->InsertTriangle(new_Triangle);
-                ZeroMemory(&m_CrateTriangle, sizeof(_float3) * 3);
-                m_iDrawTriCount = 0;
-            }
-               
-        }
-    }
-    if (m_pGameInstance->KeyPressed(KEY_INPUT::MOUSE, 0))
-    {
-        if (m_pVIBufferCom->IsPicking(m_pTransformCom, &vOut, &iPickMeshIndex))
-        {
-            //에디터용 코드
-            auto EditorUI = CImgManager::GetInstance()->Find_ImgUserInterface(TEXT("LandScape"));
-            CIMG_LandScape* Img_LandScape = dynamic_cast<CIMG_LandScape*>(EditorUI);
-            if (Img_LandScape)
-            {
-                switch (Img_LandScape->GetBurshMode())
-                {
-                case CIMG_LandScape::BRUSH_MODE::EDIT_NAVIMESH:
-                    m_pNavigationCom->RemoveCell(XMLoadFloat3(&vOut), Img_LandScape->GetBurshSize());
-                    break;
-                }
-            }
-        }
-    }
+   
 #endif // _DEBUG
 }
 
@@ -201,6 +111,11 @@ HRESULT CDefaultMap::Apply_ConstantShaderResources(_uInt iMeshIndex)
     m_pVIBufferCom->GetMeshResource(iMeshIndex, aiTextureType_DIFFUSE, 0, &pResourceVeiw);
     if (pResourceVeiw)
         m_pSRVEffect->SetResource(pResourceVeiw);
+
+    ID3D11ShaderResourceView* pNormalResourceVeiw = {};
+    m_pVIBufferCom->GetMeshResource(iMeshIndex, aiTextureType_NORMALS, 0, &pNormalResourceVeiw);
+    if (pNormalResourceVeiw)
+        m_pShaderCom->Bind_SRV("g_NormalTexture", pNormalResourceVeiw);
 
     return S_OK;
 }
@@ -249,6 +164,123 @@ void CDefaultMap::GetAllNaviMeshTriangle(list<NAVI_TRIANGLE>* pOut)
     for (_uInt i = 0; i < m_iTerrainCnt; ++i)
         pOut->insert(pOut->end(), m_pNavigationCom->GetNaviMeshTriangleList().begin(),
                                   m_pNavigationCom->GetNaviMeshTriangleList().end());
+}
+
+void CDefaultMap::PickingNavimesh()
+{
+    _uInt iPickMeshIndex = {};
+    _float3 vOut = {};
+    if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_F11))
+        m_bViewMesh = !m_bViewMesh;
+
+    if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_F5))
+        m_iDrawTriCount = 0;
+
+    if (m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 0))
+    {
+        if (m_pVIBufferCom->IsPicking(m_pTransformCom, &vOut, &iPickMeshIndex))
+        {
+            //에디터용 코드
+            auto EditorUI = CImgManager::GetInstance()->Find_ImgUserInterface(TEXT("LandScape"));
+            CIMG_LandScape* Img_LandScape = dynamic_cast<CIMG_LandScape*>(EditorUI);
+            if (Img_LandScape)
+            {
+                switch (Img_LandScape->GetBurshMode())
+                {
+                case CIMG_LandScape::BRUSH_MODE::SELECT_TERRIAN:
+                    SelectRenderPlane(iPickMeshIndex);
+                    break;
+                case CIMG_LandScape::BRUSH_MODE::EDIT_NAVIMESH:
+                    break;
+                case CIMG_LandScape::BRUSH_MODE::EDIT_ENVIORNMENT:
+
+                    break;
+                }
+            }
+        }
+    }
+    if (m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 1))
+    {
+        if (m_pVIBufferCom->IsPicking(m_pTransformCom, &vOut, &iPickMeshIndex))
+        {
+            //에디터용 코드
+            auto EditorUI = CImgManager::GetInstance()->Find_ImgUserInterface(TEXT("LandScape"));
+            CIMG_LandScape* Img_LandScape = dynamic_cast<CIMG_LandScape*>(EditorUI);
+            if (Img_LandScape)
+            {
+                _float3 vPosition = {};
+                switch (Img_LandScape->GetBurshMode())
+                {
+                case CIMG_LandScape::BRUSH_MODE::EDIT_NAVIMESH:
+                {
+                    switch (m_iDrawTriCount)
+                    {
+                    case 0:
+                        vPosition = m_pNavigationCom->DrawTriangle(XMLoadFloat3(&vOut), Img_LandScape->GetBurshSize());
+                        break;
+                    case 1:
+                        vPosition = m_pNavigationCom->DrawTriangle(XMLoadFloat3(&vOut), Img_LandScape->GetBurshSize());
+                        break;
+                    case 2:
+                        vPosition = m_pNavigationCom->DrawTriangle(XMLoadFloat3(&vOut), Img_LandScape->GetBurshSize());
+                        break;
+                    }
+
+                    if (m_iDrawTriCount < 3)
+                    {
+                        if (vPosition.x == -1)
+                            m_CrateTriangle[m_iDrawTriCount] = vOut;
+                        else
+                            m_CrateTriangle[m_iDrawTriCount] = vPosition;
+                        m_iDrawTriCount++;
+                    }
+
+                }
+                break;
+                }
+            }
+
+            if (2 < m_iDrawTriCount)
+            {
+                auto new_Triangle = NAVI_TRIANGLE(m_CrateTriangle[0], m_CrateTriangle[1], m_CrateTriangle[2]);
+                m_pNavigationCom->InsertTriangle(new_Triangle);
+                ZeroMemory(&m_CrateTriangle, sizeof(_float3) * 3);
+                m_iDrawTriCount = 0;
+            }
+
+        }
+    }
+    if (m_pGameInstance->KeyPressed(KEY_INPUT::MOUSE, 0))
+    {
+        if (m_pVIBufferCom->IsPicking(m_pTransformCom, &vOut, &iPickMeshIndex))
+        {
+            //에디터용 코드
+            auto EditorUI = CImgManager::GetInstance()->Find_ImgUserInterface(TEXT("LandScape"));
+            CIMG_LandScape* Img_LandScape = dynamic_cast<CIMG_LandScape*>(EditorUI);
+            if (Img_LandScape)
+            {
+                switch (Img_LandScape->GetBurshMode())
+                {
+                case CIMG_LandScape::BRUSH_MODE::EDIT_NAVIMESH:
+                    m_pNavigationCom->RemoveCell(XMLoadFloat3(&vOut), Img_LandScape->GetBurshSize());
+                    break;
+                }
+            }
+        }
+    }
+}
+
+void CDefaultMap::PickingPoint()
+{
+    _uInt iPickMeshIndex = {};
+    _float3 vOut = {};
+    if (m_pGameInstance->KeyPressed(KEY_INPUT::MOUSE, 0))
+    {
+        if (m_pVIBufferCom->IsPicking(m_pTransformCom, &vOut, &iPickMeshIndex))
+        {
+            CImgManager::GetInstance()->SetPickingPoint(vOut);
+        }
+    }
 }
 
 void CDefaultMap::SelectRenderPlane(_uInt i)

@@ -216,18 +216,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             }
         }
         break;
-    case WM_ACTIVATE:
-    {
-        DWORD state = LOWORD(wParam);
-        if (state == WA_ACTIVE || state == WA_CLICKACTIVE)
-        {
-            while (ShowCursor(false) >= 0) {}
-            g_GameWindowFocus = true;
-        }
-        else if (state == WA_INACTIVE)
-            g_GameWindowFocus = false;
-    }
-    break;
     case WM_PAINT:
         {
             PAINTSTRUCT ps;
@@ -323,7 +311,6 @@ BOOL InitInstance_Debug(HINSTANCE hInstance, int nCmdShow)
 LRESULT CALLBACK WndProc_Debug(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam);
-
     switch (message)
     {
     case WM_COMMAND:
@@ -340,16 +327,6 @@ LRESULT CALLBACK WndProc_Debug(HWND hWnd, UINT message, WPARAM wParam, LPARAM lP
             break;
         default:
             return DefWindowProc(hWnd, message, wParam, lParam);
-        }
-    }
-    break;
-    case WM_ACTIVATE:
-    {
-        DWORD state = LOWORD(wParam);
-        if (state == WA_ACTIVE || state == WA_CLICKACTIVE)
-        {
-            while (ShowCursor(true) <= 0) {}
-            g_GameWindowFocus = false;
         }
     }
     break;

@@ -45,13 +45,8 @@ private:
 	virtual ~CNavigation() = default;
 
 public:
-<<<<<<< HEAD
-	virtual HRESULT					Initialize_Prototype(const _tchar* pNavigationDataFiles);
-	virtual HRESULT					Initialize_Prototype(const CModel* pMapModel);
-=======
 	virtual HRESULT					Initialize_Prototype(const char* pNavigationDataFilePath);
-	virtual HRESULT					Initialize_Prototype(const CModel* pMapModel, _uInt iMeshNum);
->>>>>>> Develop
+	virtual HRESULT					Initialize_Prototype(const CModel* pMapModel);
 	virtual HRESULT					Initialize(void* pArg);
 
 	void							Update(_matrix WorldMatrix);
@@ -67,20 +62,19 @@ public:
 	_Int							GetCurrentCellIndex() { return m_iCurrentCellIndex; }
 
 	void							ComputePathfindingAStar(_float3 vStartPoint, _float3 vTargetPoint, list<_float3>* PathList);
-	
 	//보이어 왓슨 알고리즘 구현부
 	void							Bowyer_WatsonAlgorithm(const CModel* pMapModel, _uInt iMeshNum);
-
 	_bool							IsInNaviMesh(_float3 vPos, _float fOffset, _float* pOut);
 	void							ChangeNaviMeshIndex(_uInt iIndex) { m_iCurrentCellIndex = iIndex; }
 
 	_vector							GetCurrentCellNoraml();
+	void							RefreshNavigation(const _char* pNavigationDataFiles);
 
 #ifdef _DEBUG
 public:
 	HRESULT							Export(const char* FilePath);
 	HRESULT							Render(_float4 vColor, _bool DarwCurCell = false);
-
+	void							Import(const char* FilePath);
 	list<NAVI_TRIANGLE>&			GetNaviMeshTriangleList() { return m_Triangles; }
 
 
@@ -130,13 +124,9 @@ private:
 	HRESULT							ReadNaviMeshDataFile(const char* szFilePath);
 
 public:
-<<<<<<< HEAD
-	static CNavigation*				Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pNavigationDataFiles);
+	static CNavigation*				Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _char* pNavigationDataFiles);
 	static CNavigation*				Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const CModel* pModel);
-=======
-	static CNavigation*				Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const char* pNavigationDataFilePath);
-	static CNavigation*				Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const CModel* pModel, _uInt iNumMesh);
->>>>>>> Develop
+
 
 	virtual CComponent*				Clone(void* pArg) override;
 	virtual void					Free() override;
