@@ -44,6 +44,7 @@ HRESULT CVIBuffer_Model_Instance::Initialize_Prototype(const INSTANCE_DESC* pIns
 	m_pInstanceVertices = new VTX_INSTANCE_DEFAULT_DESC[m_iNumInstance];
 	ZeroMemory(m_pInstanceVertices, sizeof(VTX_INSTANCE_DEFAULT_DESC) * m_iNumInstance);
 
+	m_vBoxSize = pDesc->vSize;
 	for (size_t i = 0; i < m_iNumInstance; i++)
 	{
 		_float			fScale = m_pGameInstance->Random(pDesc->vSize.x, pDesc->vSize.y);

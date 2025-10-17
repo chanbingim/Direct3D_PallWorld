@@ -58,6 +58,7 @@ HRESULT CDefaultGrass::Render()
 		m_pVIBufferCom->Render_VIBuffer(i);
 	}
 
+	m_pBoundBox->Render();
 	return S_OK;
 }
 
@@ -65,6 +66,13 @@ HRESULT CDefaultGrass::ADD_Components()
 {
 	// ¸ðµ¨ Á¤º¸
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Instance_DefaultGrass"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
+		return E_FAIL;
+
+	CBoxCollision::BOX_COLLISION_DESC BoxColDesc = {};
+	BoxColDesc.pOwner = this;
+	BoxColDesc.Extents = m_pVIBufferCom->GetInstanceModelBoundSize();
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionBox"), TEXT("Collision_Com"), (CComponent**)&m_pBoundBox), &BoxColDesc))
 		return E_FAIL;
 
 	// NonAnimShader

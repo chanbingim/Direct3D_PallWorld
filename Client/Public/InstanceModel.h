@@ -5,6 +5,7 @@
 
 NS_BEGIN(Engine)
 class CShader;
+class CCollision;
 class CVIBuffer_Model_Instance;
 NS_END
 
@@ -37,6 +38,7 @@ protected:
 protected:
 	CVIBuffer_Model_Instance*				m_pVIBufferCom = nullptr;
 
+	CCollision*								m_pBoundBox = nullptr;
 	CShader*								m_pShaderCom = nullptr;
 	ID3DX11EffectShaderResourceVariable*	m_pSRVEffect = nullptr;
 

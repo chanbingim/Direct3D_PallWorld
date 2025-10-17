@@ -8,7 +8,10 @@ class CIMG_LandScape : public CImgUIBase
 {
 public :
 	enum class BRUSH_MODE { SELECT_TERRIAN, EDIT_ENVIORNMENT, ADD_HEGIHT, EDIT_NAVIMESH, END };
+	enum class OBJECT_TYPE { PROB, WORKOBJECT, INSTANCE_PROB, END };
+
 	static const char* szBrushMode[ENUM_CLASS(BRUSH_MODE::END)];
+	static const char* szProbType[ENUM_CLASS(OBJECT_TYPE::END)];
 
 private:
 	CIMG_LandScape(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -37,9 +40,12 @@ private :
 	_char							m_szBushModeName[MAX_PATH] = {};
 	BRUSH_MODE						m_eBrushMode = {};
 	_Int							m_iBrushSize = {};
-	_Int							m_iPrefabIndex = {};
-	_char							m_szPrafeName[MAX_PATH] = {};
-	_char							m_szLayerName[MAX_PATH] = {};
+
+	// 어떤 레이어의 오브젝트를 갱신할까
+	const _char*					m_RefreshType = "";
+	_char							m_szRefreshLayerName[MAX_PATH] = {};
+	_char							m_szRefreshType[MAX_PATH] = {};
+	OBJECT_TYPE						m_RefreshObjectType = {};
 
 	// 네비메시 저장및 삭제 새로만들기
 	_char							m_szNaviPath[MAX_PATH] = {};

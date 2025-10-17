@@ -12,6 +12,7 @@ CVIBuffer_Instance::CVIBuffer_Instance(const CVIBuffer_Instance& Prototype) :
 	, m_iInstanceStride{ Prototype.m_iInstanceStride }
 	, m_iNumInstance{ Prototype.m_iNumInstance }
 	, m_iNumIndexPerInstance{ Prototype.m_iNumIndexPerInstance }
+	, m_vBoxSize{ Prototype.m_vBoxSize }
 {
 }
 
@@ -44,6 +45,11 @@ void CVIBuffer_Instance::Lock(D3D11_MAPPED_SUBRESOURCE* pSubResource)
 void CVIBuffer_Instance::UnLock()
 {
 	m_pContext->Unmap(m_pVBInstance, 0);
+}
+
+_float3 CVIBuffer_Instance::GetInstanceModelBoundSize()
+{
+	return m_vBoxSize;
 }
 
 void CVIBuffer_Instance::Bind_Resource()

@@ -5,9 +5,16 @@
 #include "Terrain.h"
 #include "Level.h"
 
-const char* CIMG_LandScape::szBrushMode[ENUM_CLASS(BRUSH_MODE::END)] = {
-       "SELECT_TERRIAN", "EDIT_ENVIORNMENT", "ADD_HEGIHT", "EDIT_NAVIMESH" };
+#include "NoneAnimMesh.h"
+#include "InstanceModel.h"
 
+#include "StringHelper.h"
+
+const char* CIMG_LandScape::szBrushMode[ENUM_CLASS(BRUSH_MODE::END)] = { 
+    "SELECT_TERRIAN", "EDIT_ENVIORNMENT", "ADD_HEGIHT", "EDIT_NAVIMESH" };
+
+const char* CIMG_LandScape::szProbType[ENUM_CLASS(OBJECT_TYPE::END)] = {
+    "PROB", "WORK_OBJECT", "INSTNACE_PROB" };
 
 CIMG_LandScape::CIMG_LandScape(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CImgUIBase(pDevice, pContext)
@@ -64,6 +71,48 @@ void CIMG_LandScape::Update(_float fDeletaTime)
         {
             //여기서 어떤 곳에다가 저장할지 결정한다음 저장
             CreateHeightMapToPng();
+        }
+
+        ImGui::InputText("LoadNavgationiPath", m_szRefreshLayerName, MAX_PATH);
+        if (ImGui::BeginCombo("Refresh_Object", m_RefreshType))
+        {
+            for (int i = 0; i < ENUM_CLASS(OBJECT_TYPE::END); ++i)
+            {
+                if (ImGui::Selectable(szProbType[i], false))
+                {
+                    strcpy_s(m_szRefreshType, szProbType[i]);
+                    m_RefreshObjectType = OBJECT_TYPE(i);
+                }
+            }
+            ImGui::EndCombo();
+        }
+
+        if (ImGui::Button("Refresh  Height Layer Prob"))
+        {
+            WCHAR   LayerName[MAX_PATH] = {};
+            CStringHelper::ConvertUTFToWide(m_szRefreshLayerName, LayerName);
+
+            //여기서 어떤 곳에다가 저장할지 결정한다음 저장
+            _uInt   iCurLevel = m_pGameInstance->GetCurrentLevel()->GetLevelID();
+            auto    LayerObjects = m_pGameInstance->GetAllObejctToLayer(iCurLevel, LayerName);
+
+            if (LayerObjects)
+            {
+                for (auto pObject : *LayerObjects)
+                {
+                    switch (m_RefreshObjectType)
+                    {
+                    case CIMG_LandScape::OBJECT_TYPE::PROB:
+                    case CIMG_LandScape::OBJECT_TYPE::WORKOBJECT:
+                        static_cast<CNoneAnimMesh*>(pObject)->RefreshComputeHeight();
+                        break;
+
+                    case CIMG_LandScape::OBJECT_TYPE::INSTANCE_PROB:
+                        static_cast<CInstanceModel*>(pObject)->RefreshComputeHeight();
+                        break;
+                    }
+                }
+            }
         }
     }
     ImGui::End();
@@ -149,16 +198,8 @@ void CIMG_LandScape::DrawPrefabBrush()
             ImGui::EndCombo();
         }
 
-        ImGui::SetNextItemWidth(50.f);
-        ImGui::InputInt("PreFab_Index", &m_iPrefabIndex, 0);
-
-        ImGui::InputText("CreatePreFabPrototypeName", m_szPrafeName, MAX_PATH);
-        ImGui::InputText("CreatePreFabLayerName", m_szLayerName, MAX_PATH);
-
         if (ImGui::Button("SAVE_NAVI_MESH_FILE"))
-        {
             Save_NaviMesh();
-        }
 
         ImGui::InputText("LoadNavgationiPath", m_szNaviPath, MAX_PATH);
         if (ImGui::Button("LOAD_NAVI_MESH_FILE"))

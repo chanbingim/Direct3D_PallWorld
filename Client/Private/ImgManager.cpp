@@ -327,7 +327,9 @@ HRESULT CImgManager::LoadObject(const char* FilePath)
     {
         CGameObject::GAMEOBJECT_DESC Desc = {};
         Desc.vScale = iter.vScale;
-        Desc.vRotation = iter.vRotation;
+        Desc.vRotation = { XMConvertToRadians(iter.vRotation.x),
+                           XMConvertToRadians(iter.vRotation.y), 
+                           XMConvertToRadians(iter.vRotation.z) };
         Desc.vPosition = iter.vPosition;
 
         CStringHelper::ConvertUTFToWide(iter.PrototypeName, szPrototypeName);
