@@ -15,10 +15,10 @@ HRESULT CStateLayer::Initialize(void* pArg, _uInt iStateSize)
     return S_OK;
 }
 
-void CStateLayer::Update(_float DeltaTime, void* pArg)
+void CStateLayer::Update(_float DeltaTime)
 {
     if (m_pCurState)
-        m_pCurState->OnStateExcution(DeltaTime, pArg);
+        m_pCurState->OnStateExcution();
 }
 
 HRESULT CStateLayer::AddState(const _wstring& StateTag, CState* pNewState)
@@ -58,7 +58,7 @@ const char* CStateLayer::GetCurStateName()
     return m_pCurState->GetStateName();
 }
 
-HRESULT CStateLayer::ChangeState(const _wstring& StateTag, void* pArg)
+HRESULT CStateLayer::ChangeState(const _wstring& StateTag)
 {
     pair<CState*, _Int> pNextState = FindState(StateTag);
     if (m_pCurState == pNextState.first)
@@ -68,12 +68,12 @@ HRESULT CStateLayer::ChangeState(const _wstring& StateTag, void* pArg)
         m_iCurStateIndex = pNextState.second;
         if(m_pCurState)
             m_pCurState->OnStateExit();
-        pNextState.first->OnStateEnter(pArg);
+        pNextState.first->OnStateEnter();
 
         m_pCurState = pNextState.first;
     }
     return S_OK;
- }
+}
 
 _uInt CStateLayer::StateNextPhase()
 {
@@ -96,16 +96,6 @@ void CStateLayer::ResetLayer()
         m_pCurState->OnStateExit();
         m_pCurState = nullptr;
     }
-}
-
-const _bool CStateLayer::GetCurrentStateAnimLoop()
-{
-    return m_pCurState->GetStateAnimLoop();
-}
-
-const _bool CStateLayer::GetCurrentStateLastPhase()
-{
-    return m_pCurState->GetLastPahse();
 }
 
 pair<CState*, _Int> CStateLayer::FindState(const _wstring& StateTag)

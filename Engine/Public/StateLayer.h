@@ -13,7 +13,7 @@ protected:
 
 public:
 	virtual		HRESULT							Initialize(void* pArg, _uInt iStateSize);
-	virtual		void							Update(_float DeltaTime, void* pArg);
+	virtual		void							Update(_float DeltaTime);
 
 	HRESULT										AddState(const _wstring& StateTag, CState* pNewState);
 	_Int										GetStateNum(const _wstring& StateTag);
@@ -21,22 +21,17 @@ public:
 	_Int										GetCurrentStateNum();
 	const char*									GetCurStateName();
 
-	HRESULT										ChangeState(const _wstring& StateTag, void* pArg);
+	HRESULT										ChangeState(const _wstring& StateTag);
 	_uInt										StateNextPhase();
 	_uInt										GetCurStatePhase();
 
 	void										ResetLayer();
-
-	const _bool									GetCurrentStateAnimLoop();
-	const _bool									GetCurrentStateLastPhase();
 
 protected:
 	unordered_map<_wstring, _uInt>				m_StatesHasMap;
 	vector<CState*>								m_States;
 
 	_uInt										m_iCurStateIndex = {};
-
-	_bool										m_bStateAnimLoop = true;
 	CState*										m_pCurState = nullptr;
 
 protected:

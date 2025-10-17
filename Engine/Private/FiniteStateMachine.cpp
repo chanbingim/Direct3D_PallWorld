@@ -22,12 +22,12 @@ HRESULT CFiniteStateMachine::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CFiniteStateMachine::Update(_float DeltaTime, void* pArg)
+void CFiniteStateMachine::Update(_float DeltaTime)
 {
 	for (auto& iter : m_StateLayers)
 	{
 		if (iter)
-			iter->Update(DeltaTime, pArg);
+			iter->Update(DeltaTime);
 	}
 }
 
@@ -62,33 +62,6 @@ void CFiniteStateMachine::ResetLayer(const _wstring& LayerTag)
 		return;
 
 	m_StateLayers[iter->second]->ResetLayer();
-}
-
-_uInt CFiniteStateMachine::NextStatePhase(const _wstring& LayerTag)
-{
-	auto pLayer = FindLayer(LayerTag);
-	if (nullptr == pLayer)
-		return -1;
-
-	return pLayer->StateNextPhase();
-}
-
-_uInt CFiniteStateMachine::GetStatePhase(const _wstring& LayerTag)
-{
-	auto pLayer = FindLayer(LayerTag);
-	if (nullptr == pLayer)
-		return -1;
-
-	return pLayer->GetCurStatePhase();
-}
-
-const _bool CFiniteStateMachine::GetLayerAnimLoop(const _wstring& LayerTag)
-{
-	auto pLayer = FindLayer(LayerTag);
-	if (nullptr == pLayer)
-		return true;
-
-	return pLayer->GetCurrentStateAnimLoop();
 }
 
 CStateLayer* CFiniteStateMachine::FindLayer(const _wstring& LayerTag)

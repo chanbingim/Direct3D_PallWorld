@@ -24,17 +24,16 @@ CNavigation::CNavigation(const CNavigation& rhs) :
 	Safe_AddRef(m_pShaderCom);
 }
 
-HRESULT CNavigation::Initialize_Prototype(const char* pNavigationDataFilePath)
+HRESULT CNavigation::Initialize_Prototype(const _tchar* pNavigationDataFiles)
 {
-	ReadNaviMeshDataFile(pNavigationDataFilePath);
 
 #ifdef _DEBUG
-	m_pShaderCom = CShader::Create(m_pDevice, m_pContext, VTX_POINT::Elements, VTX_POINT::iNumElements, TEXT("../Bin/ShaderFiles/Shader_Cell.hlsl"));
+	m_pShaderCom = CShader::Create(m_pDevice, m_pContext, VTX_COL::Elements, VTX_COL::iNumElements, TEXT("../Bin/ShaderFiles/Shader_Cell.hlsl"));
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
 	BindSahderResource();
 #endif
-	SetUpNeighbors();
+
 	return S_OK;
 }
 
@@ -43,7 +42,7 @@ HRESULT CNavigation::Initialize_Prototype(const CModel* pMapModel)
 	//Bowyer_WatsonAlgorithm(pMapModel, iMeshNum);
 
 #ifdef _DEBUG
-	m_pShaderCom = CShader::Create(m_pDevice, m_pContext, VTX_POINT::Elements, VTX_POINT::iNumElements, TEXT("../Bin/ShaderFiles/Shader_Cell.hlsl"));
+	m_pShaderCom = CShader::Create(m_pDevice, m_pContext, VTX_COL::Elements, VTX_COL::iNumElements, TEXT("../Bin/ShaderFiles/Shader_Cell.hlsl"));
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
 #endif
@@ -98,46 +97,14 @@ _bool CNavigation::IsMove(_vector vPosition)
 	return false;
 }
 
-_float CNavigation::ComputeHeight(CTransform* pTransform)
+void CNavigation::ComputeHeight(CTransform* pTransform)
 {
 	_float3		vPos = pTransform->GetPosition();
 	_vector		vLocalPos = XMVector3TransformCoord(XMLoadFloat3(&vPos), XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_WorldMatrix)));
-
-	if (-1 == m_iCurrentCellIndex)
-		return -1;
-
 	_float		fHeight = m_Cells[m_iCurrentCellIndex]->ComputeHeight(vLocalPos);
-	return fHeight;
-}
-
-void CNavigation::ComputeHeight(CTransform* pTransform, _bool bIsFindCell)
-{
-	_float3		vPos = pTransform->GetPosition();
-	_vector		vLocalPos = XMVector3TransformCoord(XMLoadFloat3(&vPos), XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_WorldMatrix)));
-	
-	_uInt iIndex = m_iCurrentCellIndex;
-	if (bIsFindCell)
-		iIndex = Find_Cell(vLocalPos);
-	if (-1 == iIndex)
-		return;
-
-	_float		fHeight = m_Cells[iIndex]->ComputeHeight(vLocalPos);
 
 	vPos.y = fHeight;
 	pTransform->SetPosition(vPos);
-}
-
-void CNavigation::ComputeHeight(_float3* pPosition)
-{
-	_float3		vPos = *pPosition;
-	_vector		vLocalPos = XMVector3TransformCoord(XMLoadFloat3(&vPos), XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_WorldMatrix)));
-	_uInt iIndex = Find_Cell(vLocalPos);
-
-	if (-1 == iIndex)
-		return;
-
-	_float		fHeight = m_Cells[iIndex]->ComputeHeight(vLocalPos);
-	pPosition->y = fHeight;
 }
 
 _Int CNavigation::Find_Cell(_vector vPos)
@@ -147,7 +114,12 @@ _Int CNavigation::Find_Cell(_vector vPos)
 	_Int		iNeighborIndex = { -1 };
 	for (auto& pCell : m_Cells)
 	{
-		if (pCell->IsCellIn(vLocalPos, &iNeighborIndex))
+		pCell->IsCellIn(vPos, &iNeighborIndex);
+
+		if (-1 == iNeighborIndex)
+			continue;
+
+		if (m_Cells[iNeighborIndex]->IsCellIn(vLocalPos, &iNeighborIndex))
 			return pCell->GetCellIndex();
 	}
 
@@ -170,9 +142,6 @@ _Int CNavigation::Find_CellEdge(_vector vPos)
 
 _float3 CNavigation::CellCenterPos(_uInt iCellIndex)
 {
-	if (m_Cells.size() <= iCellIndex || 0 > iCellIndex)
-		return { 0.f ,0.f, 0.f };
-
 	_vector		vLocalPos = XMVector3TransformCoord(m_Cells[iCellIndex]->GetCellCenterPoint(), XMLoadFloat4x4(&m_WorldMatrix));
 	_float3 vPos;
 	XMStoreFloat3(&vPos, vLocalPos);
@@ -558,11 +527,6 @@ _bool CNavigation::IsInNaviMesh(_float3 vPos, _float fOffset, _float* pOut)
 	return false;
 }
 
-_vector CNavigation::GetCurrentCellNoraml()
-{
-	return m_Cells[m_iCurrentCellIndex]->ComputeNormal();
-}
-
 NAVI_TRIANGLE CNavigation::CreateSuperTriangle(_float3 vMin, _float3 vMax)
 {
 	_float dx = vMax.x - vMin.x;
@@ -573,83 +537,6 @@ NAVI_TRIANGLE CNavigation::CreateSuperTriangle(_float3 vMin, _float3 vMax)
 	_float3 vPointC = { vMin.x - dx, 0.f, vMin.z - dz };
 
 	return NAVI_TRIANGLE(vPointA, vPointB, vPointC);
-}
-
-HRESULT CNavigation::ReadNaviMeshDataFile(const char* szFilePath)
-{
-	_uInt NaviMeshTriCount = {};
-	list<NAVI_TRIANGLE> ReadFileData = {};
-
-	//파일 입출력 열어서 저장
-	ios_base::openmode flag;
-	flag = ios::in;
-	ifstream file(szFilePath, flag);
-
-	if (file.is_open())
-	{
-		file >> NaviMeshTriCount;
-		_float3 Point[ENUM_CLASS(NAVI_POINT::END)] = {};
-		for (_uInt i = 0; i < NaviMeshTriCount;)
-		{
-			file >> Point[ENUM_CLASS(NAVI_POINT::A)].x >> Point[ENUM_CLASS(NAVI_POINT::A)].y >> Point[ENUM_CLASS(NAVI_POINT::A)].z;
-			++i;
-			file >> Point[ENUM_CLASS(NAVI_POINT::B)].x >> Point[ENUM_CLASS(NAVI_POINT::B)].y >> Point[ENUM_CLASS(NAVI_POINT::B)].z;
-			++i;
-			file >> Point[ENUM_CLASS(NAVI_POINT::C)].x >> Point[ENUM_CLASS(NAVI_POINT::C)].y >> Point[ENUM_CLASS(NAVI_POINT::C)].z;
-			++i;
-
-			_bool bIsAdd = true;
-			for (auto iter : ReadFileData)
-			{
-				Navi_Triangle NewTriangle = Navi_Triangle(Point[0], Point[1] , Point[2]);
-				if (iter == NewTriangle)
-				{
-					bIsAdd = false;
-					break;
-				}
-			}
-
-			if(bIsAdd)
-				ReadFileData.emplace_back(Point[ENUM_CLASS(NAVI_POINT::A)], Point[ENUM_CLASS(NAVI_POINT::B)], Point[ENUM_CLASS(NAVI_POINT::C)]);
-		}
-	}
-	else
-		return E_FAIL;
-	file.close();
-
-
-	for (auto& iter : ReadFileData)
-	{
-		_float3 vPoints[ENUM_CLASS(NAVI_POINT::END)] = {};
-		_vector PointA = XMLoadFloat3(&iter.A);
-		_vector PointB = XMLoadFloat3(&iter.B);
-		_vector PointC = XMLoadFloat3(&iter.C);
-		_vector vCross = XMVector3Cross(PointB - PointA, PointC - PointA);
-
-		if (XMVector3Equal(PointA, PointB) || XMVector3Equal(PointA, PointC) || XMVector3Equal(PointB, PointC))
-			continue;
-
-		if (0 < XMVectorGetY(vCross))
-		{
-			vPoints[0] = iter.A;
-			vPoints[1] = iter.B;
-			vPoints[2] = iter.C;
-		}
-		else
-		{
-			vPoints[0] = iter.A;
-			vPoints[1] = iter.C;
-			vPoints[2] = iter.B;
-		}
-
-		CCell* pCell = CCell::Create(m_pDevice, m_pContext, (_uInt)m_Cells.size(), 0, vPoints);
-		if (nullptr == pCell)
-			return E_FAIL;
-
-		m_Cells.push_back(pCell);
-	}
-
-	return S_OK;
 }
 
 void CNavigation::BindSahderResource()
@@ -788,10 +675,10 @@ void CNavigation::SimpleFunnelAlgorithm(_vector vStartPoint, list<_float3>* Path
 	}
 }
 
-CNavigation* CNavigation::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _char* pNavigationDataFilePath)
+CNavigation* CNavigation::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pNavigationDataFiles)
 {
 	CNavigation* pNavigation = new CNavigation(pDevice, pContext);
-	if (FAILED(pNavigation->Initialize_Prototype(pNavigationDataFilePath)))
+	if (FAILED(pNavigation->Initialize_Prototype(pNavigationDataFiles)))
 	{
 		Safe_Release(pNavigation);
 		MSG_BOX("CREATE FAIL : NAVIGATION");

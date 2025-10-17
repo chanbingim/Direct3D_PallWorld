@@ -17,7 +17,6 @@ WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름�
 HWND                g_hWnd;
 HINSTANCE			g_hInstance;
 bool				g_GameWindowFocus;
-bool				g_bUIFocus;
 
 #ifdef _DEBUG
 HWND                g_hWnd_Debug;

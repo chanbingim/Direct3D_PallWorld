@@ -15,7 +15,7 @@ void CPlayerAttackState::OnStateEnter(void* pArg)
 	m_szStateName = "AttackCharge";
 }
 
-void CPlayerAttackState::OnStateExcution(_float fDeletaTime, void* pArg)
+void CPlayerAttackState::OnStateExcution(void* pArg)
 {
 	ChangeStateName();
 }

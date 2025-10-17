@@ -22,15 +22,7 @@ public:
 
 	// ·£´õ
 	virtual		HRESULT						Render() override;
-
-	void									SetAttachSocket(const _float4x4* pSocket, _char SocketFlag);
-
 	void									PellPlayAnimation(const char* szAnimName, _bool bIsLoop = true);
-	void									ResetPellCurrentAnimation();
-	_bool									FinishedAnimation();
-
-protected :
-	_bool									m_bIsAnimFinished = false;
 
 
 public:

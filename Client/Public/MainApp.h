@@ -42,7 +42,6 @@ private :
 	HRESULT		SetUp_StaticComponents();
 	HRESULT		SetUp_CameraSetting();
 	HRESULT		SetUp_MouseTexture();
-	HRESULT		SetUp_InGameFont();
 
 	HRESULT		SetUp_DebugWindow();
 

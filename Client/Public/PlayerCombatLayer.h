@@ -12,7 +12,7 @@ private:
 
 public:
 	virtual		HRESULT							Initialize(void* pArg, _uInt iStateSize) override;
-	virtual		void							Update(_float DeltaTime, void* pArg) override;
+	virtual		void							Update(_float DeltaTime) override;
 
 private:
 	HRESULT										ADD_CombatState();

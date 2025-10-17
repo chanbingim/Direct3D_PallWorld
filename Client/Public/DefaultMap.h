@@ -30,6 +30,14 @@ public:
 
 	// ·£´õ
 	virtual		HRESULT						Render();
+	CNavigation*							FindOnTerrian(_float3 vPosition);
+
+#ifdef _DEBUG
+	void									GetAllNaviMeshTriangle(list<NAVI_TRIANGLE>* pOut);
+	_bool									m_bViewMesh = true;
+	_uInt									m_iDrawTriCount = 0;
+	_float3									m_CrateTriangle[3] = {};
+#endif // _DEBUG
 
 protected:
 	virtual		HRESULT						Bind_ShaderResources() override;
@@ -40,13 +48,8 @@ private:
 	_uInt									m_iTerrainCnt = {};
 
 	list<_uInt>								m_MapRenderIndex = {};
-<<<<<<< HEAD
 	CNavigation*							m_pNavigationCom = { };
 
-=======
-	//vector<CNavigation*>					m_pNavigationCom = { };
-	CNavigation*							m_pNavigationCom = nullptr;
->>>>>>> Develop
 private:
 	HRESULT									ADD_Components();
 

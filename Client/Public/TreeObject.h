@@ -21,12 +21,9 @@ public:
 
 	// ·£´õ
 	virtual		HRESULT						Render() override;
-	virtual		HRESULT						DeadFunction() override;
-	virtual		HRESULT						HitBeginFunction(_float3 vDir, CGameObject* pGameObject) override;
-	virtual		void						Damage(void* pArg, CActor* pDamagedActor);
 
 private:
-	HRESULT									ADD_Components(_uInt iModelIndex);
+	HRESULT									ADD_Components();
 
 public:
 	static			CTreeObject*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

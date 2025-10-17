@@ -1,13 +1,12 @@
 #include "DefualtStates.hlsli"
 
 matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
+Texture2D g_DiffuseTexture;
 
-Texture2D       g_DiffuseTexture;
-Texture2D       g_NormalTexture;
-Texture2D       g_SpecularTexture;
-
-vector          g_vColor;
-float           g_fMaxHeight;
+sampler sampler0 = sampler_state
+{
+    filter = MIN_MAG_MIP_LINEAR;
+};
 
 /* 정점 쉐이더 : */
 /* 정점에 대한 셰이딩 == 정점에 필요한 연산을 수행한다 == 정점의 상태변환(월드, 뷰, 투영) + 추가변환 */
@@ -17,19 +16,13 @@ struct VS_IN
     float3 vPosition : POSITION;
     float3 vNormal : NORMAL;
     float3 vTangent : TANGENT;
-    float3 vBINormal : BINORMAL;
     float2 vTexcoord : TEXCOORD0;
 };
 
 struct VS_OUT
 {
     float4 vPosition : SV_POSITION;
-    float3 vNormal : NORMAL;
-    float3 vTangent : TANGENT;
-    float3 vBINormal : BINORMAL;
     float2 vTexcoord : TEXCOORD0;
-    float4 vWorldPos : TEXCOORD1;
-    float4 vProjPos : TEXCOORD2;
 };
 
 VS_OUT VS_MAIN(VS_IN In)
@@ -45,39 +38,10 @@ VS_OUT VS_MAIN(VS_IN In)
     
     Out.vPosition = mul(vector(In.vPosition, 1.f), matWVP);
     Out.vTexcoord = In.vTexcoord;
-    Out.vNormal = normalize(mul(vector(In.vNormal, 0.f), g_WorldMatrix)).xyz;
-    Out.vTangent = normalize(mul(vector(In.vTangent, 0.f), g_WorldMatrix)).xyz;
-    Out.vBINormal = normalize(mul(vector(In.vBINormal, 0.f), g_WorldMatrix)).xyz;
-    Out.vWorldPos = mul(vector(In.vPosition, 1.f), g_WorldMatrix);
-    Out.vProjPos = Out.vPosition;
-    
+
     return Out;
 }
 
-struct VS_Model_Create_OUT
-{
-    float4 vPosition : SV_POSITION;
-    float2 vTexcoord : TEXCOORD0;
-    float3 vLocalPosition : TEXCOORD1;
-};
-
-VS_Model_Create_OUT VS_ModelCreate(VS_IN In)
-{
-    VS_Model_Create_OUT Out; 
-    
-    /* In.vPosition * 월드 * 뷰 * 투영 */    
-    //float4x4 == matrix
-    matrix matWV, matWVP;
-    
-    matWV = mul(g_WorldMatrix, g_ViewMatrix);
-    matWVP = mul(matWV, g_ProjMatrix);
-    
-    Out.vPosition = mul(vector(In.vPosition, 1.f), matWVP);
-    Out.vTexcoord = In.vTexcoord;
-    Out.vLocalPosition = In.vPosition;
-    
-    return Out;
-}
 /* 출력된 정점 위치벡터의 w값으로 모든 성분을 나눈다 -> 투영스페이스로 변환 */ 
 /* 정점의 위치에 대해서 뷰포트 변환을 수행한다 */ 
 /* 정점의 모든 정보를 보간하여 픽셀을 만든다. -> 래스터라이즈 */ 
@@ -85,69 +49,25 @@ VS_Model_Create_OUT VS_ModelCreate(VS_IN In)
 struct PS_IN
 {
     float4 vPosition : SV_POSITION;
-    float3 vNormal : NORMAL;
-    float3 vTangent : TANGENT;
-    float3 vBINormal : BINORMAL;
     float2 vTexcoord : TEXCOORD0;
-    float4 vWorldPos : TEXCOORD1;
-    float4 vProjPos : TEXCOORD2;
-};
-
-struct PS_ModelCreateIn
-{
-    float4 vPosition : SV_POSITION;
-    float2 vTexcoord : TEXCOORD0;
-    float3 vLocalPosition : TEXCOORD1;
 };
 
 struct PS_OUT
 {
-    float4 vDiffuse : SV_TARGET0;
-    float4 vNormal : SV_TARGET1;
-  //  float4 vSpecular : SV_TARGET2;
-    float4 vDepth : SV_TARGET3;
+    float4 vColor : SV_TARGET0;
 };
 
 PS_OUT PS_MAIN(PS_IN In)
 {
     PS_OUT Out;
     
-    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
-    if (vMtrlDiffuse.a < 0.4f)
+    Out.vColor = g_DiffuseTexture.Sample(sampler0, In.vTexcoord);
+    if(Out.vColor.a < 0.3f)
         discard;
-        
-    vector vNoramlTexture = g_NormalTexture.Sample(DefaultSampler, In.vTexcoord);
-    float3x3 TangentSpaceMat = float3x3(In.vTangent, In.vBINormal * -1, In.vNormal);
-    float3 vNormal = mul(vNoramlTexture.xyz * 2.f - 1.f, TangentSpaceMat);
     
-    Out.vDiffuse = vMtrlDiffuse;
-    Out.vNormal = float4(vNormal.xyz * 0.5f + 0.5f, 0.f);
-    Out.vDepth = float4(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1000.0f, 0.0f, 0.0f);
     return Out;
 }
 
-PS_OUT PS_ModelPreview(PS_IN In)
-{
-    PS_OUT Out;
-    
-    Out.vDiffuse = g_vColor;
-    return Out;
-}
-
-PS_OUT PS_ModelCreate(PS_ModelCreateIn In)
-{
-    PS_OUT Out;
-    
-    Out.vDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
-    if (Out.vDiffuse.a < 0.3f)
-        discard;
-    
-    //바운딩 박스에서 높이값을 넘겨주자
-    if (g_fMaxHeight <= In.vLocalPosition.y)
-        Out.vDiffuse = float4(0.f, 0.f, 1.f, 1.f);
-    
-    return Out;
-}
 
 technique11 Tech
 {
@@ -158,29 +78,6 @@ technique11 Tech
         SetBlendState(BS_None, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_MAIN();
-        GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_MAIN();
-    }
-
-    pass ModelPreview
-    {
-        SetRasterizerState(RS_Default);
-        SetDepthStencilState(DSS_Default, 0);
-        SetBlendState(BS_None, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
-
-        VertexShader = compile vs_5_0 VS_MAIN();
-        GeometryShader = NULL;
-        PixelShader = compile ps_5_0 PS_ModelPreview();
-    }
-
-    pass ModelCreate
-    {
-        SetRasterizerState(RS_Default);
-        SetDepthStencilState(DSS_Default, 0);
-        SetBlendState(BS_None, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
-
-        VertexShader = compile vs_5_0 VS_ModelCreate();
-        GeometryShader = NULL;
-        PixelShader = compile ps_5_0 PS_ModelCreate();
     }
 }

@@ -5,7 +5,6 @@
 CFlowerRabbit::CFlowerRabbit(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext) :
     CPellBase(pGraphic_Device, pDeviceContext)
 {
-    m_PellID = 3;
 }
 
 CFlowerRabbit::CFlowerRabbit(const CFlowerRabbit& rhs) :

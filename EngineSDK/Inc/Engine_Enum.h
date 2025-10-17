@@ -8,13 +8,11 @@ namespace Engine
 	enum class MODEL_TYPE	{ ANIM, NONANIM, END };
 	enum class VISIBILITY	{ VISIBLE, HIDDEN, END };
 	enum class WORLDSTATE	{ RIGHT, UP, LOOK, POSITION, END };
-	enum class CAMERA_INFO	{ CAMERA_FOV, CAMERA_FAR, CAMERA_NEAR, END};
 	enum class OBJECT_ID	{ GAMEOBJECT, COMPONENT, END };
 
 	enum class RENDER {
 		PRIORITY,
 		NONBLEND,
-		NONLIGHT,
 		BLEND,
 		WORLD_UI, SCREEN_UI, END
 	};
@@ -24,7 +22,7 @@ namespace Engine
 	enum class COLLISION_TYPE	{ BOX, SPHERE, OBB, END };
 	enum class LIGHT_TYPE		{ POINT = 1, SPOT, DIRECATION, END };
 
-	enum class MAT_STATE		{ VIEW, PROJECTION, ORTHROGRAPHIC,END };
+	enum class MAT_STATE		{ VIEW, PROJECTION, END };
 	enum class AXIS				{ HORIZONTAL, VERTICAL, END };
 	enum class LIGHT			{ DIRECTION, POINT, SOPT, END };
 

@@ -91,9 +91,14 @@ HRESULT CTerrainManager::CreateTerrian(void* pArg)
     return S_OK;
 }
 
-CNavigation* CTerrainManager::GetNavimesh()
+CNavigation* CTerrainManager::FindOnTerrian(_float3 vPosition)
 {
-    return static_cast<CNavigation*>(m_DefaultMap->Find_Component(TEXT("NaviMesh_Com")));
+    return m_DefaultMap->FindOnTerrian(vPosition);
+}
+
+void CTerrainManager::GetAllNaviMeshTriangle(list<NAVI_TRIANGLE>* pOut)
+{
+    m_DefaultMap->GetAllNaviMeshTriangle(pOut);
 }
 
 void CTerrainManager::Free()

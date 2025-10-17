@@ -202,19 +202,6 @@ _Int CModel::GetBoneIndex(const char* szBoneName) const
 	return iBoneIndex;
 }
 
-_float4x4* CModel::GetTransformationOffsetMatrixPtr(const char* szBoneName)
-{
-	auto iter = find_if(m_Bones.begin(), m_Bones.end(), [&](CBone* pBone)
-		{
-			return pBone->CompareName(szBoneName);
-		});
-
-	if (iter == m_Bones.end())
-		return nullptr;
-
-	return (*iter)->GetTransformationOffsetMatrixPtr();
-}
-
 _float4x4* CModel::GetBoneMatrices(_uInt iMeshIndex)
 {
 	return m_Meshes[iMeshIndex]->GetMeshBoneMatrices(m_Bones);
@@ -272,12 +259,6 @@ _bool CModel::PlayAnimation(_uInt iAnimLayerIndex, _uInt iCurrentAnimIndex, _flo
 	return Finished;
 }
 
-_bool CModel::ResetAnimation(_uInt iAnimLayerIndex)
-{
-	m_Animations[m_CurrentAnimIndexs[iAnimLayerIndex]]->ResetAnimation();
-	return true;
-}
-
 
 void CModel::BindParentAnim(CModel* DstData)
 {
@@ -292,16 +273,6 @@ void CModel::BindParentAnim(CModel* DstData)
 
 		m_Bones[i]->UpdateCombinedTransformationMatrix(m_Bones, XMLoadFloat4x4(&m_PreTransformMatrix));
 	}
-}
-
-void CModel::Bind_KeyFrameFunction(const char* szName, _uInt iKeyFrame, function<void()> function)
-{
-	_uInt iIndex = GetNumAnimation(szName);
-
-	if (iIndex >= (_uInt)m_Animations.size())
-		return;
-
-	m_Animations[iIndex]->Bind_KeyFrameFunction(iKeyFrame, function);
 }
 
 const char* CModel::GetAnimationName(_uInt iIndex)
@@ -513,7 +484,7 @@ void CModel::ExportMappingData(CModel* DstData, unordered_map<_string, pair<_Int
 
 _bool CModel::IsPicking(CTransform* pTransform, _float3* pOut, _uInt* OutiNumIndex)
 {
-	for (_uInt i = 0; i < m_iNumMeshes; ++i)
+	for (auto i = 0; i < m_iNumMeshes; ++i)
 	{
 		if (m_Meshes[i]->IsPicking(pTransform, pOut))
 		{
@@ -525,38 +496,12 @@ _bool CModel::IsPicking(CTransform* pTransform, _float3* pOut, _uInt* OutiNumInd
 	return false;
 }
 
-_bool CModel::IsPicking(CTransform* pTransform, _float3& vOut, _float3& vOutNormal)
-{
-	for (_uInt i = 0; i < m_iNumMeshes; ++i)
-	{
-		if (m_Meshes[i]->IsPicking(pTransform, vOut, vOutNormal))
-			return true;
-	}
-	return false;
-}
-
 _bool CModel::IsPicking(_vector vRayOrizin, _vector vRayDir, CTransform* pTransform, _float3* pOut)
 {
-	for (_uInt i = 0; i < m_iNumMeshes; ++i)
+	for (auto i = 0; i < m_iNumMeshes; ++i)
 		return m_Meshes[i]->IsPicking(vRayOrizin, vRayDir, pTransform, pOut);
 
 	return false;
-}
-
-ID3D11Buffer* CModel::GetMeshVertexBuffer(_uInt iMeshIndex, _uInt* pOutVertexStride)
-{
-	if (0 > iMeshIndex || m_iNumMeshes <= iMeshIndex)
-		return nullptr;
-
-	return m_Meshes[iMeshIndex]->GetVertexBuffer(pOutVertexStride);
-}
-
-ID3D11Buffer* CModel::GetMeshIndexBuffer(_uInt iMeshIndex, DXGI_FORMAT* eFormat, _uInt* pIndices)
-{
-	if (0 > iMeshIndex || m_iNumMeshes <= iMeshIndex)
-		return nullptr;
-
-	return m_Meshes[iMeshIndex]->GetIndexBuffer(eFormat, pIndices);
 }
 
 void CModel::ExportNonAnim(void* pArg)

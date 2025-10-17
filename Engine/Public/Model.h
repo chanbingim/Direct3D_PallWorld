@@ -33,17 +33,13 @@ public :
 	// Model의 뼈에대한 함수
 	_Int						GetBoneIndex(const char* szBoneName) const;
 	_uInt						GetNumBones() const  { return m_iNumBones; }
-	_float4x4*					GetTransformationOffsetMatrixPtr(const char* szBoneName);
-
 	_float4x4*					GetBoneMatrices(_uInt iMeshIndex);
 	const _float4x4*			GetCombinedTransformationMatrixPtr(const char* szBoneName) const;
 
 	//모델 애니메이션 관련 함수
 	_uInt						GetNumAnimations() { return m_iNumAnimations; }
 	_bool						PlayAnimation(_uInt iAnimLayerIndex, _uInt iCurrentAnimIndex, _float fDeletaTime, _float fAnimSpeed = 10.f, _bool bIsLoop = true, const char* BoneName = "Root Node", const char* EndBoneName = "");
-	_bool						ResetAnimation(_uInt iAnimLayerIndex);
 	void						BindParentAnim(CModel* DstData);
-	void						Bind_KeyFrameFunction(const char* szName, _uInt iKeyFrame, function<void()> function);
 
 	const char*					GetAnimationName(_uInt iIndex);
 	_Int						GetNumAnimation(const char* szName);
@@ -52,12 +48,8 @@ public :
 	void						ExportMappingData(CModel* DstData, unordered_map<_string, pair<_Int, _Int>>* pOut);
 
 	_bool						IsPicking(CTransform* pTransform, _float3* pOut, _uInt* OutiNumIndex);
-	_bool						IsPicking(CTransform* pTransform, _float3& vOut, _float3& vOutNormal);
-
 	_bool						IsPicking(_vector vRayOrizin, _vector vRayDir, CTransform* pTransform, _float3* pOut);
 
-	ID3D11Buffer*				GetMeshVertexBuffer(_uInt iMeshIndex, _uInt* pOutVertexStride);
-	ID3D11Buffer*				GetMeshIndexBuffer(_uInt iMeshIndex, DXGI_FORMAT* eFormat, _uInt* pIndices);
 private :
 	// Assimp Lib
 #ifdef _DEBUG

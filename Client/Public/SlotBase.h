@@ -1,18 +1,18 @@
 #pragma once
 
 #include "BackGround.h"
-#include "ItemStruct.h"
+
+NS_BEGIN(Engine)
+class CTexture;
+NS_END
 
 NS_BEGIN(Client)
-
-class CItemSlotIcon;
-class CPlayerManager;
-class CItemManager;
+class CSlotImage;
 
 class CSlotBase : public CBackGround
 {
 public :
-	enum class SLOT_TYPE { EQUIP, ITEM, TECH, QUICKSLOT, END};
+	enum class SLOT_TYPE { EQUIP, ITEM, QUICKSLOT, END};
 
 protected:
 	CSlotBase(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, SLOT_TYPE eType);
@@ -29,14 +29,8 @@ public:
 	// 랜더
 	virtual		HRESULT						Render() override;
 
-	const	SLOT_TYPE&						GetSlotType() { return m_eSlotType; }
-
-	void									SetSlotNumber(_uInt iSlotNum) { m_iSlotNumber = iSlotNum; }
-	_uInt									GetSlotNumber() { return m_iSlotNumber; }
-	const ITEM_DESC*						GetSlotItemInfo() { return m_pItemDesc; }
-
 protected :
-	virtual		void						SwapSlot(CSlotBase* From);
+	virtual		void						SwapSlot(CSlotBase* To);
 	virtual		void						UseSlot(void* pArg);
 
 	virtual		void						MouseHoverEnter();
@@ -48,16 +42,13 @@ protected :
 	virtual		void						MouseButtonUp();
 
 protected :
+	CSlotImage*								m_pSlotImage = nullptr;
+
 	SLOT_TYPE								m_eSlotType = {};
-
-	// 아이템 정보에대한 변수
-
-	_uInt									m_iSlotNumber = {};
-	const ITEM_DESC*						m_pItemDesc = {};
-
-	CItemSlotIcon*							m_pSlotIcon = nullptr;
-	CPlayerManager*							m_pPlayerManager = nullptr;
-	CItemManager*							m_pItemManager = nullptr;
+	_uInt									m_iItemID = {};
+		
+private :
+	HRESULT									CreateSlotImage();
 
 public:
 	virtual		CGameObject*				Clone(void* pArg) override;

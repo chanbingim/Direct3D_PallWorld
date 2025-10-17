@@ -34,11 +34,11 @@ private:
 	_uInt									m_iSlotIndex = {};
 
 	vector<CItemSlot*>						m_pItemSlot = {};
-	list<CItemSlot*>						m_pViewItemSlot = {};
+	deque<CItemSlot*>						m_pViewItemSlot = {};
 
-	_float									m_fRowSpacing = {};
 	/* 구성 요소 */
 	CInvenSlider*							m_pIvenSlider = nullptr;
+
 	LPD3D11EFFECTVECTORVARIABLE				m_pInven_Color = {};
 
 private:

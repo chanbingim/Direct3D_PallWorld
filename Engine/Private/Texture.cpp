@@ -45,7 +45,7 @@ HRESULT CTexture::Initialize_Prototype(const WCHAR* szFilePath, _uInt TextureCnt
     return S_OK;
 }
 
-void CTexture::SetTexture(_uInt SlotNum, _uInt TexNum) const
+void CTexture::SetTexture(_uInt SlotNum, _uInt TexNum)
 {
     if (TexNum >= m_pSRVvec.size() || 0 > TexNum)
         return;
@@ -53,7 +53,7 @@ void CTexture::SetTexture(_uInt SlotNum, _uInt TexNum) const
     m_pContext->PSSetShaderResources(SlotNum, 1, &m_pSRVvec[TexNum]);
 }
 
-ID3D11ShaderResourceView* CTexture::GetTexture(size_t iTextureIndex) const
+ID3D11ShaderResourceView* CTexture::GetTexture(size_t iTextureIndex)
 {
     if (iTextureIndex > m_pSRVvec.size() || 0 > iTextureIndex)
         return nullptr;

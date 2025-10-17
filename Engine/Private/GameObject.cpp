@@ -117,6 +117,10 @@ CComponent* CGameObject::Find_Component(const _wstring& ComponentTag)
 void CGameObject::SetDead(_bool bflag)
 {
 	m_IsDead = bflag;
+	for (auto& iter : m_pChildList)
+	{
+		iter->SetDead(true);
+	}
 }
 
 void CGameObject::SetParent(CGameObject* pParent)

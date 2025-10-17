@@ -2,11 +2,10 @@
 #include "PlayerItemSlot.h"
 
 NS_BEGIN(Engine)
-class COBBCollision;
+class CBoxCollision;
 NS_END
 
 NS_BEGIN(Client)
-class CProjectileSlot;
 
 class CPlayerWeaponSlot : public CPlayerItemSlot
 {
@@ -33,21 +32,14 @@ public :
 
 	// ·£´õ
 	virtual		HRESULT						Render() override;
-	HRESULT									ShootProjecttileObject();
-	void									NearAttackOnCollision();
 
 private :
 	_bool									m_LeftFlag = false;
 	const _float4x4*						m_pLeftSocket = nullptr;
-
-	CProjectileSlot*						m_pProjectileSlot = nullptr;
-	COBBCollision*							m_pCollision[2] = { nullptr, nullptr };
+	CBoxCollision*							m_pCollision[2] = { nullptr, nullptr };
 
 private :
 	HRESULT									ADD_Components();
-
-private :
-	void									HitBegin(_float3 vDir, CGameObject* pHitActor);
 
 public :
 	static			CPlayerWeaponSlot*		Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

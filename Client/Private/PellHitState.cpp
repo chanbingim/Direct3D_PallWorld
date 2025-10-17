@@ -7,12 +7,10 @@ CPellHitState::CPellHitState(const char* szStateName) :
 
 void CPellHitState::OnStateEnter(void* pArg)
 {
-	m_bStateAnimLoop = false;
 }
 
-void CPellHitState::OnStateExcution(_float fDeletaTime, void* pArg)
+void CPellHitState::OnStateExcution(void* pArg)
 {
-
 }
 
 void CPellHitState::OnStateExit(void* pArg)

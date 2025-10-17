@@ -106,6 +106,18 @@
     <Filter Include="Utility\Object\PartObject">
       <UniqueIdentifier>{6ed40050-0b7a-4907-91db-7e734f5092d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utility\StateMachine">
+      <UniqueIdentifier>{6aa12991-8d10-4624-b8c8-206dc57d733f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\StateMachine\FSM">
+      <UniqueIdentifier>{44fcd9f9-3289-4775-8c69-d674e801dda0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\StateMachine\Layer">
+      <UniqueIdentifier>{ffc4d072-daa5-47d0-a8b2-9f8d43aecb1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\StateMachine\State">
+      <UniqueIdentifier>{22105f21-9be3-44ac-b73c-9325aa478734}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Utility\Light">
       <UniqueIdentifier>{24bc391a-da14-40a5-9a44-828e192f7523}</UniqueIdentifier>
     </Filter>
@@ -130,6 +142,12 @@
     <Filter Include="Utility\Object\Layer">
       <UniqueIdentifier>{949710dc-196d-4ae1-a02d-863d8e050b7c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utility\Font">
+      <UniqueIdentifier>{c60d7ee0-3594-4f00-8bc4-15b7610ba731}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Font\Manager">
+      <UniqueIdentifier>{aec8849a-076c-4765-9a08-7b1272bb8d6a}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Utility\Components">
       <UniqueIdentifier>{62dda0d7-cb1f-4bd3-b3ec-4e18adae7dc8}</UniqueIdentifier>
     </Filter>
@@ -150,9 +168,6 @@
     </Filter>
     <Filter Include="Utility\Components\VIBuffer\Cube">
       <UniqueIdentifier>{65c9fbc7-3eb4-47e3-8f27-8fbaa2df15c6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\VIBuffer\Instancing">
-      <UniqueIdentifier>{47450dd1-06ab-413a-8c0d-3a1445d785c6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Utility\Components\Collision">
       <UniqueIdentifier>{3879b983-fdcd-4913-9dda-01d6dfc35514}</UniqueIdentifier>
@@ -214,50 +229,8 @@
     <Filter Include="Utility\Components\Navigation\Cell">
       <UniqueIdentifier>{b5f42fa6-0ae3-4e80-ac48-73edf1e7e3d5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utility\Components\Font">
-      <UniqueIdentifier>{ad0527fd-95da-433e-93a6-a8e440a6130f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\Font\Manager">
-      <UniqueIdentifier>{aec8849a-076c-4765-9a08-7b1272bb8d6a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\Font\Manager\Font">
-      <UniqueIdentifier>{c60d7ee0-3594-4f00-8bc4-15b7610ba731}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\VIBuffer\Instancing\Model">
-      <UniqueIdentifier>{cd53e3e8-ce0a-438f-b062-3765b19e2d8d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\VIBuffer\Instancing\Rect">
-      <UniqueIdentifier>{3d6a3fb0-f9e4-4b04-8ee9-15c8e7e16a13}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\VIBuffer\Instancing\point">
-      <UniqueIdentifier>{bc3db905-58a7-43a5-8f45-119372d7339a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\VIBuffer\Instancing\Cube">
-      <UniqueIdentifier>{0f9a8a4a-1f33-45a6-b037-c439c10ba658}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\VIBuffer\VIPoint">
-      <UniqueIdentifier>{70f9c8fd-11df-4826-8f56-cb07b0e6796d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\Font\World">
-      <UniqueIdentifier>{7b1ba767-4aa2-47d5-9ec3-1618aa46ced0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\Font\Screen">
-      <UniqueIdentifier>{723d866b-3392-45c4-8630-18d49ed57e8c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\RenerTarget">
-      <UniqueIdentifier>{b810e2b3-a3ff-4ad4-8f1f-5414f6a5b923}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\RenerTarget\Manager">
-      <UniqueIdentifier>{0e12fea0-9b81-40bf-8e31-abc963a7be24}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\StateMachine">
-      <UniqueIdentifier>{291ff957-cd06-468e-bcc4-3bff8c478d10}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\StateMachine\Layer">
-      <UniqueIdentifier>{dbca9e1e-3811-4321-8366-d409c2371a56}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\StateMachine\Layer\State">
-      <UniqueIdentifier>{2abcef8c-f757-4b5e-8d4c-c107cfbd8bfa}</UniqueIdentifier>
+    <Filter Include="Utility\Components\VIBuffer\Instancing">
+      <UniqueIdentifier>{47450dd1-06ab-413a-8c0d-3a1445d785c6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -372,6 +345,9 @@
     <ClCompile Include="..\private\Viewer.cpp">
       <Filter>Utility\HeadUpDisplay\UserInterface\Viewer</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\CustomFont.cpp">
+      <Filter>Utility\Font</Filter>
+    </ClCompile>
     <ClCompile Include="..\Private\EditorCamera.cpp">
       <Filter>Utility\Object\EditorObject\EditorCamera</Filter>
     </ClCompile>
@@ -411,13 +387,22 @@
     <ClCompile Include="..\private\PartObject.cpp">
       <Filter>Utility\Object\PartObject</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\StateLayer.cpp">
+      <Filter>Utility\StateMachine\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\FiniteStateMachine.cpp">
+      <Filter>Utility\StateMachine\FSM</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\State.cpp">
+      <Filter>Utility\StateMachine\State</Filter>
+    </ClCompile>
     <ClCompile Include="..\private\Light.cpp">
       <Filter>Utility\Light</Filter>
     </ClCompile>
     <ClCompile Include="..\private\LightManager.cpp">
       <Filter>Utility\Light\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\ChaseComponent.cpp">
+    <ClCompile Include="..\private\Chase.cpp">
       <Filter>Utility\Components\Chase</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Navigation.cpp">
@@ -442,43 +427,7 @@
       <Filter>Utility\Components\Collision\Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\private\FontManager.cpp">
-      <Filter>Utility\Components\Font\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\CustomFont.cpp">
-      <Filter>Utility\Components\Font\Manager\Font</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\VIBuffer_Point_Instance.cpp">
-      <Filter>Utility\Components\VIBuffer\Instancing\point</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\VIBuffer_Instance.cpp">
-      <Filter>Utility\Components\VIBuffer\Instancing</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\VIBuffer_Model_Instance.cpp">
-      <Filter>Utility\Components\VIBuffer\Instancing\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\VIBuffer_Point.cpp">
-      <Filter>Utility\Components\VIBuffer\VIPoint</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\FontComponent.cpp">
-      <Filter>Utility\Components\Font\Screen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\WorldFontComponent.cpp">
-      <Filter>Utility\Components\Font\World</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\RenderTagetManager.cpp">
-      <Filter>Utility\RenerTarget\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\RenderTarget.cpp">
-      <Filter>Utility\RenerTarget</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\FiniteStateMachine.cpp">
-      <Filter>Utility\StateMachine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\State.cpp">
-      <Filter>Utility\StateMachine\Layer\State</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\StateLayer.cpp">
-      <Filter>Utility\StateMachine\Layer</Filter>
+      <Filter>Utility\Font\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -623,6 +572,9 @@
     <ClInclude Include="..\public\Viewer.h">
       <Filter>Utility\HeadUpDisplay\UserInterface\Viewer</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\CustomFont.h">
+      <Filter>Utility\Font</Filter>
+    </ClInclude>
     <ClInclude Include="..\Public\EditorCamera.h">
       <Filter>Utility\Object\EditorObject\EditorCamera</Filter>
     </ClInclude>
@@ -659,13 +611,22 @@
     <ClInclude Include="..\public\PartObject.h">
       <Filter>Utility\Object\PartObject</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\StateLayer.h">
+      <Filter>Utility\StateMachine\Layer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\FiniteStateMachine.h">
+      <Filter>Utility\StateMachine\FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\State.h">
+      <Filter>Utility\StateMachine\State</Filter>
+    </ClInclude>
     <ClInclude Include="..\public\Light.h">
       <Filter>Utility\Light</Filter>
     </ClInclude>
     <ClInclude Include="..\public\LightManager.h">
       <Filter>Utility\Light\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\ChaseComponent.h">
+    <ClInclude Include="..\public\Chase.h">
       <Filter>Utility\Components\Chase</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Navigation.h">
@@ -705,43 +666,7 @@
       <Filter>Utility\Components\Collision\Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\public\FontManager.h">
-      <Filter>Utility\Components\Font\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\CustomFont.h">
-      <Filter>Utility\Components\Font\Manager\Font</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\VIBuffer_Point_Instance.h">
-      <Filter>Utility\Components\VIBuffer\Instancing\point</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\VIBuffer_Instance.h">
-      <Filter>Utility\Components\VIBuffer\Instancing</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\VIBuffer_Model_Instance.h">
-      <Filter>Utility\Components\VIBuffer\Instancing\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\VIBuffer_Point.h">
-      <Filter>Utility\Components\VIBuffer\VIPoint</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\FontComponent.h">
-      <Filter>Utility\Components\Font\Screen</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\WorldFontComponent.h">
-      <Filter>Utility\Components\Font\World</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\RenderTagetManager.h">
-      <Filter>Utility\RenerTarget\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\RenderTarget.h">
-      <Filter>Utility\RenerTarget</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\FiniteStateMachine.h">
-      <Filter>Utility\StateMachine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\State.h">
-      <Filter>Utility\StateMachine\Layer\State</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\StateLayer.h">
-      <Filter>Utility\StateMachine\Layer</Filter>
+      <Filter>Utility\Font\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -749,9 +674,6 @@
       <Filter>ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\SkyMeshDefault.hlsl">
-      <Filter>ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl">
       <Filter>ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>

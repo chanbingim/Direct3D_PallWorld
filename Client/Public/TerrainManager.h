@@ -33,7 +33,11 @@ public :
 	void							Initialize(void* pArg);
 
 	HRESULT							CreateTerrian(void* pArg);
-	CNavigation*					GetNavimesh();
+	CNavigation*					FindOnTerrian(_float3 vPosition);
+
+#ifdef _DEBUG
+	void							GetAllNaviMeshTriangle(list<NAVI_TRIANGLE>* pOut);
+#endif // _DEBUG
 
 	// 여기다가 이제 쿼드 트리형태로 셀 가져오는거
 	// 건설 가능한 지형인지 탐색 등 구현할 예정

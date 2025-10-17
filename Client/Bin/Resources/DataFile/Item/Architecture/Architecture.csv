@@ -1,7 +1,0 @@
-아이템 번호,아이템 이름,아이템 아이콘 프로토타입,모델의 프로토타입,타입,애니메이션모델,애니메이션 재생,모델 프로토타입,제작시간,도움줄수있는 녀석들,변경할 셀 타입
-20,PalBox,../Bin/Resources/Textures/UI/InGameUI/BuildObjectIcon/T_icon_buildObject_PalBoxV2.png,Prototype_Component_VIBuffer_PalBox,3,0,0,Prototype_GameObject_PalBox,10,0,0
-21,WorkBench,../Bin/Resources/Textures/UI/InGameUI/BuildObjectIcon/T_icon_buildObject_WorkBench.png,Prototype_Component_VIBuffer_WorkBench,3,0,0,Prototype_GameObject_WorkBench,20,1,0
-22,PalBed,../Bin/Resources/Textures/UI/InGameUI/BuildObjectIcon/T_icon_buildObject_MedicalPalBed_02.png,Prototype_Component_VIBuffer_PalBed,3,0,0,Prototype_GameObject_PalBed,60,1,0
-23,DefenceWoodWall,../Bin/Resources/Textures/UI/InGameUI/BuildObjectIcon/T_icon_buildObject_DefenseWall_Wood.png,Prototype_Component_VIBuffer_DefenceWoodWall,3,0,0,Prototype_GameObject_DefenceWoodWall,60,1,0
-24,WoodWall,../Bin/Resources/Textures/UI/InGameUI/BuildObjectIcon/T_icon_buildObject_Wood_Wall_V2.png,Prototype_Component_VIBuffer_WoodWall,3,0,0,Prototype_GameObject_WoodWall,60,1,0
-25,WoodDoor,../Bin/Resources/Textures/UI/InGameUI/BuildObjectIcon/T_icon_buildObject_Wood_DoorWall.png,Prototype_Component_VIBuffer_WoodDoor,3,0,0,Prototype_GameObject_WoodDoor,60,1,0

@@ -47,7 +47,7 @@ void CAimInterface::Update(_float fDeletaTime)
 
 void CAimInterface::Late_Update(_float fDeletaTime)
 {
-    if(CPlayerManager::GetInstance()->IsPlayerAnimming())
+    if(CPlayerManager::GetInstance()->IsAimState())
         m_pGameInstance->Add_RenderGroup(RENDER::SCREEN_UI, this);
 }
 

@@ -23,9 +23,6 @@ public:
 	virtual		HRESULT						Render();
 	virtual		void						Damage(void* pArg, CActor* pDamagedActor);
 
-protected :
-	_bool									m_bIsLoop = true;
-
 public:
 	virtual			CGameObject*			Clone(void* pArg);
 	virtual			void					Free() override;

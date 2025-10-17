@@ -30,6 +30,7 @@ HRESULT CPipeline::Initalize()
 
 void CPipeline::Update(_float fDeletaTime)
 {
+	
 }
 
 void CPipeline::SetMatrix(MAT_STATE eState, _float4x4 Matrix)
@@ -64,11 +65,6 @@ void CPipeline::SetPostBuffer(_uInt iIndex, ID3D11ShaderResourceView* pTex)
 void CPipeline::SetPlayerWorldMatrix(_float4x4 Matrix)
 {
 	m_PlayerWorldMat = Matrix;
-}
-
-void CPipeline::SetCameraInfo(const _float4& pCmaeraInfo)
-{
-	m_CameraInfo = pCmaeraInfo;
 }
 
 ID3D11ShaderResourceView* CPipeline::GetPostBuffer(_uInt iIndex)

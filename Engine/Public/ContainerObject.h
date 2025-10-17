@@ -25,10 +25,9 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
-	void									SetAnimIndex(_uInt iIndex, _float fAnimSpeed);
+	void									SetAnimIndex(_uInt iIndex);
 	CPartObject*							FindPartObject(const _wstring& PartObjectTag);
 	const 	unordered_map<_wstring, CPartObject*>* GetAllPartObejcts() { return &m_PartObjects; }
-
 
 protected:
 	unordered_map<_wstring, CPartObject*>	m_PartObjects;

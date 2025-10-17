@@ -1,8 +1,8 @@
 #pragma once
-#include "MiningObject.h"
+#include "Enviormnent.h"
 
 NS_BEGIN(Client)
-class CRockObject : public CMiningObject
+class CRockObject : public CEnviormnent
 {
 protected:
 	CRockObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -21,9 +21,6 @@ public:
 
 	// ·£´õ
 	virtual		HRESULT						Render() override;
-	virtual		HRESULT						DeadFunction() override;
-	virtual		HRESULT						HitBeginFunction(_float3 vDir, CGameObject* pGameObject) override;
-	virtual		void						Damage(void* pArg, CActor* pDamagedActor);
 
 private:
 	HRESULT									ADD_Components(_uInt iModelIndex);

@@ -2,7 +2,6 @@
 
 matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 Texture2D g_Texture : register(t0);
-vector g_vColor = {1.f,1.f,1.f,1.f };
 
 sampler sampler0 = sampler_state
 {
@@ -96,23 +95,7 @@ PS_OUT PS_MAIN2(PS_IN In)
     
     float4 vNewColor = g_Texture.Sample(sampler0, In.vTexcoord);
    
-    Out.vColor = float4(vNewColor.rgb, vNewColor.a);
-    return Out;
-}
-
-/* 픽셀 쉐이더 : 픽셀의 최종적인 색을 결정하낟. */
-PS_OUT PS_MixColorAlphaBlend(PS_IN In)
-{
-    PS_OUT Out;
-    
-    float4 vNewColor = g_Texture.Sample(sampler0, In.vTexcoord);
-    
-    // discard 명령어를 통해서 안그려지게 할수있음
-    // return 같은거임
-    if (vNewColor.a < 0.1f)
-        discard;
-    
-    Out.vColor = float4(vNewColor.xyz * g_vColor.xyz, vNewColor.a);
+    Out.vColor = float4(vNewColor.rgb * vNewColor.a, vNewColor.a);
     return Out;
 }
 
@@ -125,51 +108,26 @@ technique11 Tech
         SetBlendState(BS_None, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_MAIN();
-        GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_MAIN();
     }
 
     pass Pass1
     {
         SetRasterizerState(RS_Default);
-        SetDepthStencilState(DSS_None, 0);
+        SetDepthStencilState(DSS_Default, 0);
         SetBlendState(BS_None, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_MAIN();
-        GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_MAIN1();
     }
 
     pass Alpha_Blend
     {
         SetRasterizerState(RS_Default);
-        SetDepthStencilState(DSS_None, 0);
-        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
-
-        VertexShader = compile vs_5_0 VS_MAIN();
-        GeometryShader = NULL;
-        PixelShader = compile ps_5_0 PS_MAIN2();
-    }
-
-    pass AlphaTest_World
-    {
-        SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_Default, 0);
-        SetBlendState(BS_None, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
-
-        VertexShader = compile vs_5_0 VS_MAIN();
-        GeometryShader = NULL;
-        PixelShader = compile ps_5_0 PS_MAIN1();
-    }
-
-    pass MixColorAlphaBlend
-    {
-        SetRasterizerState(RS_Default);
-        SetDepthStencilState(DSS_None, 0);
         SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_MAIN();
-        GeometryShader = NULL;
-        PixelShader = compile ps_5_0 PS_MixColorAlphaBlend();
+        PixelShader = compile ps_5_0 PS_MAIN2();
     }
 }

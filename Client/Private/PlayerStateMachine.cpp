@@ -31,12 +31,12 @@ HRESULT CPlayerStateMachine::Initialize(void* pArg)
     return S_OK;
 }
 
-void CPlayerStateMachine::Update(_float DeltaTime, void* pArg)
+void CPlayerStateMachine::Update(_float DeltaTime)
 {
-    __super::Update(DeltaTime, pArg);
+    __super::Update(DeltaTime);
 }
 
-_bool CPlayerStateMachine::ChangeState(const _wstring& LayerTag, const _wstring& StateTag, void* pArg)
+_bool CPlayerStateMachine::ChangeState(const _wstring& LayerTag, const _wstring& StateTag)
 {
     auto pLayer = FindLayer(LayerTag);
     if (nullptr == pLayer)
@@ -51,7 +51,7 @@ _bool CPlayerStateMachine::ChangeState(const _wstring& LayerTag, const _wstring&
         break;
     }
 
-    if(FAILED(pLayer->ChangeState(StateTag, pArg)))
+    if(FAILED(pLayer->ChangeState(StateTag)))
         return false;
 
     _uInt iStateIndex = pLayer->GetCurrentStateNum();
@@ -67,9 +67,6 @@ _bool CPlayerStateMachine::ChangeState(const _wstring& LayerTag, const _wstring&
     case 2:
         m_StateData.eCombat_State = COMBAT_ACTION(iStateIndex);
         break;
-    case 3:
-        m_StateData.eNone_Combat_State = NONE_COBAT_ACTION(iStateIndex);
-        break;
     }
     return true;
 }
@@ -79,93 +76,74 @@ _string CPlayerStateMachine::GetStateFullName()
     _string FullName = {};
     auto UpperLayer = FindLayer(TEXT("UpperLayer"));
     auto LowerLayer = FindLayer(TEXT("LowerLayer"));
-    auto NoneCombatLayer = FindLayer(TEXT("None_Combat_Layer"));
 
     const char* TopStateName = UpperLayer->GetCurStateName();
     const char* LowStateName = LowerLayer->GetCurStateName();
-    const char* NoneCombatStateName = NoneCombatLayer->GetCurStateName();
 
-    if (NONE_COBAT_ACTION::END == m_StateData.eNone_Combat_State)
+    if (MOVE_ACTION::DEFAULT != m_StateData.eMove_State)
     {
-        if (MOVE_ACTION::DEFAULT != m_StateData.eMove_State)
+        FullName += TopStateName;
+
+        if (MOVE_ACTION::JUMP > m_StateData.eMove_State)
         {
-            FullName += TopStateName;
-
-            if (MOVE_ACTION::JUMP > m_StateData.eMove_State)
-            {
-                FullName += "_";
-                FullName += LowStateName;
-            }
+            FullName += "_";
+            FullName += LowStateName;
         }
-        else
-            FullName = LowStateName;
-
-        if (MOVE_ACTION::DEFAULT == m_StateData.eMove_State && MOVE_CHILD_ACTION::IDLE == m_StateData.eMove_Child_State)
-        {
-            if (m_StateData.bIsAttacking)
-            {
-                if (m_StateData.bIsPallCarry)
-                    FullName = "Throw";
-                else
-                    FullName = "Attack";
-            }
-                
-
-            if (COMBAT_ACTION::ATTACK == m_StateData.eCombat_State)
-            {
-                auto CombatLayer = FindLayer(TEXT("CombatLayer"));
-                const char* CombatStateName = CombatLayer->GetCurStateName();
-                if (CombatStateName)
-                    FullName = CombatStateName;
-            }
-        }
-
-        if (!m_StateData.bIsPallCarry && m_StateData.bIsAiming)
-        {
-            if (MOVE_CHILD_ACTION::IDLE != m_StateData.eMove_Child_State)
-            {
-                switch (m_StateData.eDireaction)
-                {
-                case DIRECTION::FRONT:
-                {
-                    if (MOVE_ACTION::CLIMB == m_StateData.eMove_State)
-                        FullName += "_Up";
-                    else
-                        FullName += "_Fwd";
-                }
-                break;
-                case DIRECTION::LEFT:
-                    FullName += "_Left";
-                    break;
-                case DIRECTION::RIGHT:
-                    FullName += "_Right";
-                    break;
-                case DIRECTION::BACK:
-                {
-                    if (MOVE_ACTION::CLIMB == m_StateData.eMove_State)
-                        FullName += "_Down";
-                    else
-                        FullName += "_Bwd";
-                }
-                break;
-                }
-
-                if (m_StateData.bIsAiming)
-                    FullName += "_Aim";
-            }
-        }
-
-        if (!m_StateData.bIsPallCarry)
-        {
-            const char* WeaponName = GetWeaponName(m_StateData.iWeaponType);
-            if (WeaponName)
-                FullName += WeaponName;
-        }
-        else
-            FullName += "_PalCarry";
     }
     else
-        FullName = NoneCombatStateName;
+        FullName = LowStateName;
+
+    if (MOVE_ACTION::DEFAULT == m_StateData.eMove_State && MOVE_CHILD_ACTION::IDLE == m_StateData.eMove_Child_State)
+    {
+        if (m_StateData.bIsAttacking)
+            FullName = "Attack";
+
+        if (COMBAT_ACTION::ATTACK == m_StateData.eCombat_State)
+        {
+            auto CombatLayer = FindLayer(TEXT("CombatLayer"));
+            const char* CombatStateName = CombatLayer->GetCurStateName();
+            if (CombatStateName)
+                FullName = CombatStateName;
+        }
+    }
+
+    if (m_StateData.bIsAiming)
+    {
+        if (MOVE_CHILD_ACTION::IDLE != m_StateData.eMove_Child_State)
+        {
+            switch (m_StateData.eDireaction)
+            {
+            case DIRECTION::FRONT:
+            {
+                if (MOVE_ACTION::CLIMB == m_StateData.eMove_State)
+                    FullName += "_Up";
+                else
+                    FullName += "_Fwd";
+            }
+            break;
+            case DIRECTION::LEFT:
+                FullName += "_Left";
+                break;
+            case DIRECTION::RIGHT:
+                FullName += "_Right";
+                break;
+            case DIRECTION::BACK:
+            {
+                if (MOVE_ACTION::CLIMB == m_StateData.eMove_State)
+                    FullName += "_Down";
+                else
+                    FullName += "_Bwd";
+            }
+                break;
+            }
+
+            if (m_StateData.bIsAiming)
+                FullName += "_Aim";
+        }
+    }
+    const char* WeaponName = GetWeaponName(m_StateData.iWeaponType);
+    if (WeaponName)
+        FullName += WeaponName;
    
     return FullName;
 }
@@ -176,7 +154,6 @@ _string CPlayerStateMachine::GetLayerAimStateName()
     auto UpperLayer = FindLayer(TEXT("UpperLayer"));
     auto LowerLayer = FindLayer(TEXT("LowerLayer"));
     auto CombatLayer = FindLayer(TEXT("CombatLayer"));
- 
 
     const char* TopStateName = UpperLayer->GetCurStateName();
     const char* LowStateName = "Idle";
@@ -196,6 +173,12 @@ _string CPlayerStateMachine::GetLayerAimStateName()
     else
         FullName = LowStateName;
 
+    if (COMBAT_ACTION::ATTACK == m_StateData.eCombat_State)
+    {
+        if (CombatStateName)
+            FullName = CombatStateName;
+    }
+
     if (m_StateData.bIsAttacking)
         FullName = "Attack";
 
@@ -206,13 +189,22 @@ _string CPlayerStateMachine::GetLayerAimStateName()
     return FullName;
 }
 
-_bool CPlayerStateMachine::GetLayerLastPhase(const _wstring& LayerTag)
+_uInt CPlayerStateMachine::NextStatePhase(const _wstring& LayerTag)
 {
     auto pLayer = FindLayer(LayerTag);
     if (nullptr == pLayer)
-        return false;
+        return -1;
 
-    return pLayer->GetCurrentStateLastPhase();
+    return pLayer->StateNextPhase();
+}
+
+_uInt CPlayerStateMachine::GetStatePhase(const _wstring& LayerTag)
+{
+    auto pLayer = FindLayer(LayerTag);
+    if (nullptr == pLayer)
+        return -1;
+
+    return pLayer->GetCurStatePhase();
 }
 
 void CPlayerStateMachine::PlayerStateReset(const _wstring& LayerTag)
@@ -239,7 +231,7 @@ void CPlayerStateMachine::PlayerStateReset(const _wstring& LayerTag)
         m_StateData.eNone_Combat_State = NONE_COBAT_ACTION::END;
         break;
     }
-    ResetLayer(LayerTag);
+    ResetLayer(TEXT("CombatLayer"));
 }
 
 HRESULT CPlayerStateMachine::ADD_PlayerLayer()
@@ -253,8 +245,6 @@ HRESULT CPlayerStateMachine::ADD_PlayerLayer()
     if (FAILED(__super::AddLayer(TEXT("CombatLayer"), CPlayerCombatLayer::Create(nullptr, ENUM_CLASS(COMBAT_ACTION::END)))))
         return E_FAIL;
 
-    if (FAILED(__super::AddLayer(TEXT("None_Combat_Layer"), CPlayerNoneCombatLayer::Create(nullptr, ENUM_CLASS(NONE_COBAT_ACTION::END)))))
-        return E_FAIL;
     return S_OK;
 }
 

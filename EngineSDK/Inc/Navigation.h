@@ -45,26 +45,18 @@ private:
 	virtual ~CNavigation() = default;
 
 public:
-<<<<<<< HEAD
 	virtual HRESULT					Initialize_Prototype(const _tchar* pNavigationDataFiles);
 	virtual HRESULT					Initialize_Prototype(const CModel* pMapModel);
-=======
-	virtual HRESULT					Initialize_Prototype(const char* pNavigationDataFilePath);
-	virtual HRESULT					Initialize_Prototype(const CModel* pMapModel, _uInt iMeshNum);
->>>>>>> Develop
 	virtual HRESULT					Initialize(void* pArg);
 
 	void							Update(_matrix WorldMatrix);
 	_bool							IsMove(_vector vPosition);
 
-	_float							ComputeHeight(CTransform* pTransform);
-	void							ComputeHeight(CTransform* pTransform, _bool bIsFindCell);
-	void							ComputeHeight(_float3* pPosition);
-
+	void							ComputeHeight(CTransform* pTransform);
 	_Int							Find_Cell(_vector vPos);
 	_Int							Find_CellEdge(_vector vPos);
 	_float3							CellCenterPos(_uInt iCellIndex);
-	_Int							GetCurrentCellIndex() { return m_iCurrentCellIndex; }
+
 
 	void							ComputePathfindingAStar(_float3 vStartPoint, _float3 vTargetPoint, list<_float3>* PathList);
 	
@@ -72,9 +64,6 @@ public:
 	void							Bowyer_WatsonAlgorithm(const CModel* pMapModel, _uInt iMeshNum);
 
 	_bool							IsInNaviMesh(_float3 vPos, _float fOffset, _float* pOut);
-	void							ChangeNaviMeshIndex(_uInt iIndex) { m_iCurrentCellIndex = iIndex; }
-
-	_vector							GetCurrentCellNoraml();
 
 #ifdef _DEBUG
 public:
@@ -127,16 +116,10 @@ private:
 	void							SimpleFunnelAlgorithm(_vector vStartPoint, list<_float3>* PathList);
 
 	NAVI_TRIANGLE					CreateSuperTriangle(_float3 vMin, _float3 vMax);
-	HRESULT							ReadNaviMeshDataFile(const char* szFilePath);
 
 public:
-<<<<<<< HEAD
 	static CNavigation*				Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pNavigationDataFiles);
 	static CNavigation*				Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const CModel* pModel);
-=======
-	static CNavigation*				Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const char* pNavigationDataFilePath);
-	static CNavigation*				Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const CModel* pModel, _uInt iNumMesh);
->>>>>>> Develop
 
 	virtual CComponent*				Clone(void* pArg) override;
 	virtual void					Free() override;

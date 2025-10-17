@@ -6,36 +6,23 @@ class CGameObject;
 
 class ENGINE_DLL CCollision abstract : public CComponent 
 {
-public:
+public :
 	typedef struct CollisionDesc
 	{
-		CGameObject* pOwner;
+		CGameObject*			pOwner;
 		_float3					vCneter;
 	}COLLISION_DESC;
 
-	typedef struct DefaultHitDesc
-	{
-		_float3					vHitPoint;
-		_float					vfDistance;
-		_float3					vDireaction;
-		_float3					vNormal;
-	}DEFAULT_HIT_DESC;
-
-protected:
+protected :
 	CCollision(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CCollision(const CCollision& rhs);
 	virtual ~CCollision() = default;
 
-public:
+public :
 	virtual HRESULT			Initialize_Prototype();
 	virtual HRESULT			Initialize(void* pArg);
 	virtual void			UpdateColiision(_matrix WorldMatrix);
-	
 	virtual _bool			Intersect(COLLISION_TYPE eType, CCollision* pTarget) = 0;
-	virtual _bool			RayIntersect(COLLISION_TYPE eType, CCollision* pTarget, DEFAULT_HIT_DESC& OutDesc) { return false; }
-	virtual _bool			RayHit(_vector vOrizin, _vector vDiraction, DEFAULT_HIT_DESC& OutDesc);
-	
-	
 	virtual void			Render(_vector vColor = {1.f, 0.f, 0.f, 1.f});
 
 	void					BindBeginOverlapEvent(function<void(_float3 vDir, CGameObject* pHitActor)> BeginEvent);
@@ -44,7 +31,6 @@ public:
 
 	void					ADD_HitObejct(CGameObject* pObject);
 	void					ADD_IgnoreObejct(size_t typeID);
-	void					ADD_OnlyHitObject(size_t typeID);
 
 	void					CallFunction();
 
@@ -54,13 +40,10 @@ public:
 protected:
 	COLLISION_TYPE				m_CollisionType = {};
 	CGameObject*				m_pOwner = nullptr;
-	_bool						m_bIsOnlyHitCollision = false;
 	_bool						m_bIsHit = false;
 	
 	list<CGameObject*>			m_OldHitList = {};
 	list<CGameObject*>			m_HitList = {};
-
-	size_t						m_bIsOnlyHitActorHashCode = {};
 	set<size_t>					m_IgnoreObject;
 	
 

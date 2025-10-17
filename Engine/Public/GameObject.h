@@ -39,13 +39,13 @@ public :
 
 	// 랜더
 	virtual		HRESULT						Render();
-	virtual		_bool						IsDead() { return m_IsDead; }
 
 	CComponent*								Find_Component(const _wstring& ComponentTag);
 
+	_bool									IsDead() { return m_IsDead; }
 	void									SetDead(_bool bflag);
 
-	CTransform*								GetTransform() const { return m_pTransformCom; }
+	CTransform*								GetTransform() { return m_pTransformCom; }
 
 	CGameObject*							GetParent() { return m_pParent; }
 	void									SetParent(CGameObject* pParent);
@@ -67,6 +67,7 @@ public :
 	void									SetVisibility(VISIBILITY eVisible);
 	const VISIBILITY&						GetVisibility();
 	
+
 #ifdef _DEBUG
 	virtual void							ExportData(void* pArg);
 #endif // _DEBUG
@@ -102,9 +103,6 @@ protected:
 protected :
 	virtual     HRESULT						Bind_ShaderResources();
 	virtual     HRESULT						Apply_ConstantShaderResources();
-
-	
-
 
 	//컴포넌트 추가 및 찾기
 	HRESULT									Add_Component(_uInt iLevelIndex, const _wstring& _PrototypeTag, const _wstring& ComponentTag, CComponent** ppOut, void* pArg = nullptr);

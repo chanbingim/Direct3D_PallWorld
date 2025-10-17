@@ -2,14 +2,15 @@
 #include "SlotBase.h"
 
 NS_BEGIN(Client)
-
 class CEquipSlot : public CSlotBase
 {
 public :
-	typedef struct EquipSlotDesc : public GAMEOBJECT_DESC
+	enum class EQUIP_TYPE {WEAPON, HEAD, BODY, SHIELD, GLIDER, ACCESSORY, FOOD, END};
+
+	typedef struct EquipSlotDesc
 	{
-		EUQIP_TYPE			eSlotType;
-		_uInt				iNumberSlot;
+
+
 	}EQUIP_SLOT_DESC;
 
 private :
@@ -27,10 +28,8 @@ public :
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
-	const		EUQIP_TYPE&					GetSlotType() { return m_eEquipSlotType; }
-
 protected:
-	virtual		void						SwapSlot(CSlotBase* From);
+	virtual		void						SwapSlot(CSlotBase* To);
 	virtual		void						UseSlot(void* pArg);
 
 	virtual		void						MouseHoverEnter();
@@ -42,7 +41,7 @@ protected:
 	virtual		void						MouseButtonUp();
 
 private :
-	EUQIP_TYPE								m_eEquipSlotType = { EUQIP_TYPE::END };
+	EQUIP_TYPE								m_eEquipSlotType = { EQUIP_TYPE::END };
 
 private :
 	HRESULT									ADD_Components();

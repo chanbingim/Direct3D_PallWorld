@@ -1,7 +1,5 @@
 #include "PlayerNoneCombatLayer.h"
 
-#include "PlayerWorkState.h"
-
 CPlayerNoneCombatLayer::CPlayerNoneCombatLayer() 
 {
 }
@@ -19,16 +17,13 @@ HRESULT CPlayerNoneCombatLayer::Initialize(void* pArg, _uInt iStateSize)
     return S_OK;
 }
 
-void CPlayerNoneCombatLayer::Update(_float DeltaTime, void* pArg)
+void CPlayerNoneCombatLayer::Update(_float DeltaTime)
 {
-    __super::Update(DeltaTime, pArg);
+    __super::Update(DeltaTime);
 }
 
 HRESULT CPlayerNoneCombatLayer::ADD_CombatState()
 {
-    if (FAILED(AddState(TEXT("Create"), CPlayerWorkState::Create("Work"))))
-        return E_FAIL;
-
     return S_OK;
 }
 

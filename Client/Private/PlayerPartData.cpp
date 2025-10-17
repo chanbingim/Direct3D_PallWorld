@@ -32,16 +32,14 @@ HRESULT CPlayerPartData::Initialize(void* pArg)
     if (FAILED(ADD_Components()))
         return E_FAIL;
 
-    if (FAILED(Insert_AnimKeyFrameFunction()))
-        return E_FAIL;
-
     if (FAILED(ADD_ChildObject()))
         return E_FAIL;
 
     if (FAILED(__super::Bind_ShaderResources()))
         return E_FAIL;
 
-    m_pSpineOffsetMatrix = m_pVIBufferCom->GetTransformationOffsetMatrixPtr("spine_01");
+
+
     return S_OK;
 }
 
@@ -60,11 +58,11 @@ void CPlayerPartData::Update(_float fDeletaTime)
         // 여기서 특정 상태일때 애니메이션을 또하나 재생한다.
         // 애니메이션을 두개 재생하고 바디에게 넘겨줄때 바디는 두개의 데이터를 받아서
         // 상체 하체를 분할해서 애니메이션을 재생한다.
-        m_pVIBufferCom->PlayAnimation(1, m_iAnimIndex, fDeletaTime, m_fAnimSpeed, true);
-        m_bIsFinished = m_pVIBufferCom->PlayAnimation(0, m_UpperBodyIndex, fDeletaTime, 10.f, m_bIsAnimLoop, "spine_02");
+        m_pVIBufferCom->PlayAnimation(0, m_iAnimIndex, fDeletaTime, 10.f, true);
+        m_bIsFinished = m_pVIBufferCom->PlayAnimation(1, m_UpperBodyIndex, fDeletaTime, 10.f, m_bIsAnimLoop, "spine_01");
     }
 
-    m_pPlayerBody->UpdateAnimation(m_pVIBufferCom);
+    m_pPlayerBody->Update(fDeletaTime);
     for (_uInt i = 0; i < 3; ++i)
         m_pWeaponSocket[i]->Update(fDeletaTime);
 }
@@ -117,30 +115,9 @@ void CPlayerPartData::ChangeSocketFlag(_char bitFlag)
     m_pPlayerBody->SetSocketFlag(bitFlag);
 }
 
-void CPlayerPartData::ChangeWeaponState(_uInt iWeaponState, _bool bIsAnimLoop)
+void CPlayerPartData::ChangeWeaponState(_uInt iWeaponState)
 {
-    m_pWeaponSocket[0]->ChangeWeaponState(CPlayerWeaponSlot::WEAPON_STATE(iWeaponState), bIsAnimLoop);
-}
-
-void CPlayerPartData::NearAttackOnCollision()
-{
-    static_cast<CPlayerWeaponSlot *>(m_pWeaponSocket[0])->NearAttackOnCollision();
-}
-
-void CPlayerPartData::RoatationPitchSpine(_float fPitchAngle)
-{
-    XMStoreFloat4x4(m_pSpineOffsetMatrix, 
-        XMMatrixRotationQuaternion(XMQuaternionRotationRollPitchYaw(0.f, 0.f, -fPitchAngle)));
-}
-
-const _float4x4* CPlayerPartData::GetLeftHandSocket()
-{
-    return m_pLeftHandSocket;
-}
-
-HRESULT CPlayerPartData::ShootProjecttileObject()
-{
-    return static_cast<CPlayerWeaponSlot *>(m_pWeaponSocket[0])->ShootProjecttileObject();
+    m_pWeaponSocket[0]->ChangeWeaponState(CPlayerWeaponSlot::WEAPON_STATE(iWeaponState));
 }
 
 HRESULT CPlayerPartData::ADD_Components()
@@ -187,11 +164,9 @@ HRESULT CPlayerPartData::ADD_AnimParts()
     SlotDesc.vRotation = { XMConvertToRadians(90.f), 0.f,  XMConvertToRadians(180.f) };
     SlotDesc.vPosition = { 0.01f, 0.f, 0.f };
     SlotDesc.UseSocketMatrixFlag = 0b00000001;
-    m_pWeaponSocketMatrix[0] = GetBoneMatrix("weapon_r");
+    m_pWeaponSocketMatrix[0] = m_pPlayerBody->GetBoneMatrix("weapon_r");
     SlotDesc.SocketMatrix = m_pWeaponSocketMatrix[0];
-
-    m_pLeftHandSocket = GetBoneMatrix("weapon_l");
-    SlotDesc.pLeftSocket = m_pLeftHandSocket;
+    SlotDesc.pLeftSocket = m_pPlayerBody->GetBoneMatrix("weapon_l");
     SlotDesc.iSlotIndex = 0;
 
     m_pWeaponSocket[0] = static_cast<CPlayerWeaponSlot*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_WeaponSot"), &SlotDesc));
@@ -223,14 +198,6 @@ HRESULT CPlayerPartData::ADD_AnimParts()
     m_pWeaponSocket[2] = static_cast<CPlayerItemSlot*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_BackItemSlot"), &ItemSlotDesc));
     __super::ADD_Child(m_pWeaponSocket[2]);
 #pragma endregion
-
-    return S_OK;
-}
-
-HRESULT CPlayerPartData::Insert_AnimKeyFrameFunction()
-{
-    m_pVIBufferCom->Bind_KeyFrameFunction("Attack_Bow", 1, [this]() { ShootProjecttileObject(); });
-    m_pVIBufferCom->Bind_KeyFrameFunction("Attack_Throw", 4, [this]() { ShootProjecttileObject(); });
 
     return S_OK;
 }

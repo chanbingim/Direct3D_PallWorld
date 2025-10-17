@@ -9,7 +9,7 @@ void CPlayerJogState::OnStateEnter(void* pArg)
 {
 }
 
-void CPlayerJogState::OnStateExcution(_float fDeletaTime, void* pArg)
+void CPlayerJogState::OnStateExcution(void* pArg)
 {
 }
 

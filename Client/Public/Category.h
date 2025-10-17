@@ -2,21 +2,15 @@
 
 #include "BackGround.h"
 
-NS_BEGIN(Engine)
-class CFontComponent;
-NS_END
-
 NS_BEGIN(Client)
-class CSelectTriangle;
-class CButtonFlare;
+class CSelectTri;
 
 class CCategory final : public CBackGround
 {
 public :
 	typedef struct CateGroy_Desc : CBackGround::GAMEOBJECT_DESC
 	{
-		const WCHAR*			szButtonName;
-		_uInt					Type;
+		_uInt		Type;
 	}CATEGROY_DESC;
 
 private:
@@ -40,32 +34,20 @@ public:
 	void									Bind_ClickEvent(function<void(_uInt Index)> Func);
 
 protected :
-	virtual		HRESULT						Apply_ConstantShaderResources();
-
 	virtual		void						MouseHoverEnter();
 	virtual		void						MouseHoverExit();
 
 	virtual		void						MouseButtonDwon();
 
 private :
-	_float									m_fAlpha = {};
-	_float									m_StartU = {};
-
 	_uInt									m_ButtonType = {};
 	_bool									m_bIsActive = false;
 
-	_float2									m_vFontPoint = {};
-	_wstring								m_FontText = {};
-
-	CSelectTriangle*						m_pSelectTri = nullptr;
-	CButtonFlare*							m_pButtonFlare = nullptr;
-
-	CFontComponent*							m_pFontCom = nullptr;
 	function<void(_uInt Index)>				m_ClickedFunc = nullptr;
 
 private:
 	HRESULT									ADD_Components();
-	HRESULT									ADD_Childs();
+	
 
 public:
 	static			CCategory*				Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);

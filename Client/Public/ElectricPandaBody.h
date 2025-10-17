@@ -22,13 +22,8 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
-private :
-	const _float4x4*						m_HandMatrix = nullptr;
-
 private:
 	HRESULT									ADD_Components();
-	HRESULT									ShootProjecttileObject();
-
 
 public:
 	static			CElectricPandaBody*		Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

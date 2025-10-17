@@ -33,8 +33,6 @@ public:
 
 	_float2									GetViewPos();
 	const		RECT&						GetRectSize();
-	_float2									GetScreenPos();
-
 protected :
 	_float4x4								m_ViewMatrix = {};
 	_float4x4								m_ProjMatrix = {};
@@ -61,10 +59,10 @@ protected :
 	virtual     HRESULT						Apply_ConstantShaderResources() override;
 
 	_bool									IsHover() { return m_bIsHover; }
-	void									UpdateRectSize();
 
 private :
 	void									OverlapEvent();
+	void									UpdateRectSize();
 
 public:
 	virtual			CGameObject*			Clone(void* pArg);

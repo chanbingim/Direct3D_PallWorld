@@ -40,9 +40,6 @@ public :
 	_vector					GetCellCenterPoint();
 	void					GetNeighborIndex(_Int* ppNeighborIndex);
 
-	_vector					ComputeNormal();
-
-
 	const PORTAL_DESC*		GetPortal(_Int iNeighborIndex);
 #ifdef _DEBUG
 	void					Render();

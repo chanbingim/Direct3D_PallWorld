@@ -25,10 +25,8 @@ private :
 
 	// 오브젝트 및 환경 오브젝트
 	HRESULT					ADD_EnviornmentLayer(const _wstring& LayerName);
-	HRESULT					ADD_WorkAbleLayer(const _wstring& LayerName);
 	HRESULT					ADD_PlayerLayer(const _wstring& LayerName);
 	HRESULT					ADD_PellLayer(const _wstring& LayerName);
-	HRESULT					ADD_NpcLayer(const _wstring& LayerName);
 
 	HRESULT					Setting_GamePlayHUD();
 

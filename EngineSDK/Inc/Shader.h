@@ -14,14 +14,6 @@ public :
 	HRESULT						Initialize_Prototype(const D3D11_INPUT_ELEMENT_DESC* pElementDesc, const _uInt iElementCnt, const WCHAR* szShaderFilePath);
 	virtual HRESULT				Initialize(void* pArg);
 
-public:
-	HRESULT						Bind_RawValue(const _char* pConstantName, const void* pData, _uInt iLength);
-	HRESULT						Bind_Matrix(const _char* pConstantName, const _float4x4* pMatrix);
-	HRESULT						Bind_Matrices(const _char* pConstantName, const _float4x4* pMatrix, _uInt iNumMatrices);
-
-	HRESULT						Bind_SRV(const _char* pConstantName, ID3D11ShaderResourceView* pSRV);
-
-public:
 	ID3DX11EffectVariable*		GetVariable(const _string& ValueName);
 	void						Update_Shader(_uInt ipassIndex);
 
@@ -29,6 +21,7 @@ private :
 	vector<ID3D11InputLayout*>		m_pInputLayOutVec = {};
 	LPD3D11EFFECT					m_pEffect = nullptr;
 	LPD3D11EFFECTTECHNIQUE			m_pTech = nullptr;
+
 	_uInt							m_PaseesCnt = {};
 
 private :

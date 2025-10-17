@@ -9,7 +9,7 @@ void CClimbState::OnStateEnter(void* pArg)
 {
 }
 
-void CClimbState::OnStateExcution(_float fDeletaTime, void* pArg)
+void CClimbState::OnStateExcution(void* pArg)
 {
 }
 

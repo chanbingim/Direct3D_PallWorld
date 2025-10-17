@@ -1,22 +1,19 @@
 #pragma once
 #include "Engine_Defines.h"
-#include "Item_Defines.h"
 
 namespace Client
 {
-	enum class ITEM_TYPE { EQUIPMENT, CONSUM, ETC, BUILDOBJECT, END };
-	enum class WEAPON	 { MELEE, AXE, BOW, GUN, THROW, NONE, END };
-	enum class EUQIP_TYPE { WEAPON, PROJECTILE, HEAD, BODY, SHIELD, GLIDER, ACCESSORY, FOOD, END };
+	enum class ITEM_TYPE { EQUIPMENT, CONSUM, ETC, END };
+	enum class WEAPON	 { MELEE, BOW, GUN, AXE, THROW, NONE, END };
+	enum class EUQIP_TYPE { WEAPON, ARMOR, END };
 
 	typedef struct EuqipItemDesc
 	{
-		// 무기의 UI Icon 정보를 가진녀석
-		WCHAR				ProjectilePrototpyeName[MAX_PATH];
 		_uInt				iAtkPoint;
-		_float				iDurability;
+		_uInt				iGuardPoint;
+		_uInt				iHealthPoint;
 		_bool				bIsLeftSocket;
 		_bool				bIsChargeAble;
-		_Int				iProjectileItemIndex;
 
 		//충돌체 정보
 		_float3				vCenter;
@@ -28,31 +25,15 @@ namespace Client
 
 	typedef struct ConsumeItemDesc
 	{
-		// 보여줘야 한다면 사용할 변수들
-		_bool				bIsLeftSocket;
-
 		_uInt				iEffectType;
 		_uInt				iRecoveryPoint;
+		_bool				bIsStateEffectHeal;
 	}CONSUME_ITEM_DESC;
-
-	typedef struct ArchitectureDesc
-	{
-		// 보여줘야 한다면 사용할 변수들
-		WCHAR				ArchitecturePrototpyeName[MAX_PATH];
-
-		_bool				bIsDaamge;
-		_uInt				fMaxHealth;
-
-		_float				fCompleteTime;
-		_uInt				iWorkPartner;
-		_uInt				iCellTypes;
-	}ARCHITECTURE_ITEM_DESC;
 
 	typedef union ItemTypeDesc
 	{
-		CONSUME_ITEM_DESC		ConsumDesc;
-		EUQIP_ITEM_DESC			EuqipDesc;
-		ARCHITECTURE_ITEM_DESC	ArchitectureDesc;
+		CONSUME_ITEM_DESC ConsumDesc;
+		EUQIP_ITEM_DESC	  EuqipDesc;
 
 	}ITME_TYPE_DESC;
 
@@ -62,8 +43,11 @@ namespace Client
 
 		WCHAR					szItemName[MAX_PATH] = {};
 
+		// 무기의 UI Icon 정보를 가진녀석
+		WCHAR					szItemIconPath[MAX_PATH] = {};
+
 		//무기의 모델정보를 가진 녀석
-		WCHAR					szItemModelPath[MAX_PATH] = {}; 
+		WCHAR					szItemModelPath[MAX_PATH] = {};
 
 		ITEM_TYPE				ItemType = {};
 

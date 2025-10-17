@@ -86,6 +86,15 @@
     <Filter Include="02. HUD\LoadingHUD\Loding\LoadingIcon">
       <UniqueIdentifier>{0cc53d01-6581-4621-aa8a-4de42774d988}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. HUD\Base_UI\Slot">
+      <UniqueIdentifier>{dda198e7-53c1-4992-b347-330b02475e0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu">
+      <UniqueIdentifier>{55b0673f-b6d0-44b7-8654-f3ddd5f4e266}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\Category">
+      <UniqueIdentifier>{d4b702e7-82c7-4f33-bac2-b24389e6a785}</UniqueIdentifier>
+    </Filter>
     <Filter Include="05. Animation">
       <UniqueIdentifier>{582431db-41fb-49ca-9f3f-7096df282a69}</UniqueIdentifier>
     </Filter>
@@ -94,6 +103,12 @@
     </Filter>
     <Filter Include="05. Animation\SpriteAnim\UI">
       <UniqueIdentifier>{f15475ff-2ad1-431f-867c-d9a0d84d8437}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\GameOption">
+      <UniqueIdentifier>{99db55cb-5a58-4128-b781-3ad5843e1349}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\GameOption\OptionButton">
+      <UniqueIdentifier>{62b8fab3-340b-41b8-a65e-4ac6ad17713e}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. HUD\Base_UI\Button">
       <UniqueIdentifier>{0382ff48-bd51-41be-ac44-f5759d95835a}</UniqueIdentifier>
@@ -154,6 +169,36 @@
     </Filter>
     <Filter Include="ImGui\UI\FbxConvertWindow">
       <UniqueIdentifier>{1e87102c-bf0a-463c-8a92-3843837b9580}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView">
+      <UniqueIdentifier>{2882eddc-c641-4e5a-8427-fc0164b0a171}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory">
+      <UniqueIdentifier>{7b258e60-e33f-4721-a215-d52a3638cb9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Equip">
+      <UniqueIdentifier>{e9dcb392-6905-47db-95bb-6da6d6257708}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Equip\EquipSlot">
+      <UniqueIdentifier>{1eec638c-52d5-4c62-8bbd-8eefe7c4c015}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\Base_UI\Slot\SlotImage">
+      <UniqueIdentifier>{03141a7f-0927-41e5-a027-7ba1e12f24a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Equip\View">
+      <UniqueIdentifier>{cf5f169d-b649-4319-978b-cd1ac3a5cb3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\WeightBar">
+      <UniqueIdentifier>{549c5a4b-06dc-49ac-aa06-e139a23dd551}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\ItemSlot">
+      <UniqueIdentifier>{7aced7b8-5b81-48fa-be25-3149666bac74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\InvenSlider">
+      <UniqueIdentifier>{3a0aa367-8eed-4b53-b25e-44c6a9e030fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\InvenSlider\InvenSliderBut">
+      <UniqueIdentifier>{cef864c3-6a7d-41ce-8182-7581e7d75e3b}</UniqueIdentifier>
     </Filter>
     <Filter Include="03. Objects\MeshObject">
       <UniqueIdentifier>{37a3ab22-7f30-497a-8cdb-8f7990bccad0}</UniqueIdentifier>
@@ -230,6 +275,24 @@
     <Filter Include="03. Objects\MeshObject\NonAnimMesh">
       <UniqueIdentifier>{0663d4a3-e5a5-401c-8c2c-76c9bcf5abf9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Static_Object">
+      <UniqueIdentifier>{1f27bf68-169c-4b34-b0ba-e3ee98244a80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Static_Object\Item">
+      <UniqueIdentifier>{0baf81af-0ee3-4bde-a5a1-1e8ccc6736f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Static_Object\Environment">
+      <UniqueIdentifier>{ef036d91-8c05-4584-8d98-22e0307a40b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Static_Object\Environment\Rock">
+      <UniqueIdentifier>{f5755349-c20b-4be4-b672-987f4e02cef2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Static_Object\Environment\Tree">
+      <UniqueIdentifier>{1fa4a3de-545c-47c2-ab1b-3a1177afcb7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Static_Object\Environment\PellRock">
+      <UniqueIdentifier>{1eb38c84-68eb-4d9a-8f5e-de086f43a8e1}</UniqueIdentifier>
+    </Filter>
     <Filter Include="03. Objects\MeshObject\NonAnimMesh\Terrian">
       <UniqueIdentifier>{782d235a-43b0-4167-bebb-1c6ac68b5985}</UniqueIdentifier>
     </Filter>
@@ -250,6 +313,9 @@
     </Filter>
     <Filter Include="03. Objects\MeshObject\AnimMesh\Object">
       <UniqueIdentifier>{af29c8a7-989e-4faa-bb33-f4179a7b6ff2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Object\PalSpher">
+      <UniqueIdentifier>{d26c2173-5ae5-46ff-ba42-dbf19240cc46}</UniqueIdentifier>
     </Filter>
     <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\CombatLayer">
       <UniqueIdentifier>{56644265-6cc8-4a53-8fc3-5b610b247ef5}</UniqueIdentifier>
@@ -280,6 +346,12 @@
     </Filter>
     <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Pell\Container\Herorong\HerorongBody">
       <UniqueIdentifier>{2f3ad9fe-4a17-4765-89cf-4704882a25e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Pell\Container\BedCat">
+      <UniqueIdentifier>{8a306134-5a11-4b99-a6c4-02cf81a51830}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Pell\Container\BedCat\BedCatBody">
+      <UniqueIdentifier>{b86c748a-d560-4d3c-8989-e8190545b760}</UniqueIdentifier>
     </Filter>
     <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Pell\Container\Dororong">
       <UniqueIdentifier>{4bd2b4eb-717a-4b2c-8a47-87fa2fc04cfb}</UniqueIdentifier>
@@ -371,6 +443,51 @@
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Pell\NaturalPellInfo\HealthBar">
       <UniqueIdentifier>{39312cab-0af0-4a7a-94c2-76b279542b18}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player">
+      <UniqueIdentifier>{d5058853-0462-4279-a28f-50ff035bd64e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface">
+      <UniqueIdentifier>{7c68cba6-3ec9-4f81-92c5-07d2e57d7b26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\HealthBar">
+      <UniqueIdentifier>{6e6d8958-9654-45ca-a0c8-83ba942ce7f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\HealthBar\HealthIcon">
+      <UniqueIdentifier>{8a07cd76-da19-4ef7-b9f1-fa44aab114a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\HealthBar\HungerIcon">
+      <UniqueIdentifier>{967ea44e-4ca4-4f3a-a81e-0dd037410106}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\GuardBar">
+      <UniqueIdentifier>{86108b2b-9c78-4cf1-9a88-d21659edfb6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell">
+      <UniqueIdentifier>{a172a63c-7406-4259-9c36-50c1c7e8ddaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell\PellInfo">
+      <UniqueIdentifier>{c19ab426-7ee2-47e3-89a3-845c4f3127e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell\Frame">
+      <UniqueIdentifier>{49421187-1beb-4f99-b55d-963ca3b8695b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Compass">
+      <UniqueIdentifier>{af4c12df-4c2b-40cc-abe8-4ab7d979e5ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Compass\CompassPoint">
+      <UniqueIdentifier>{6adcd3cb-233c-4e57-a3dc-b058496d870b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Aim">
+      <UniqueIdentifier>{bcb12343-7f9b-459c-8f34-23f2358722ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\TypeIcon">
+      <UniqueIdentifier>{decad20f-aa06-4cec-b67d-6aac2a0b0b82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\WeaponSlot">
+      <UniqueIdentifier>{28fca465-a137-47fc-8566-376793ec3317}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\ItemQuickSlot">
+      <UniqueIdentifier>{a86b77f1-80dc-419c-9392-479f39212d43}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Pell\NaturalPellInfo\PellIcon">
       <UniqueIdentifier>{afe32fa3-f418-44bd-b465-e6506c764afa}</UniqueIdentifier>
     </Filter>
@@ -388,582 +505,6 @@
     </Filter>
     <Filter Include="06. Component\DropComponent">
       <UniqueIdentifier>{0ddefa74-e7f7-4c76-a7de-94cdf11ba563}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\CombatLayer\State\Dead">
-      <UniqueIdentifier>{5b558892-ea63-41e9-9cd0-dd90b54631e9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="06. Component\CombatComponent">
-      <UniqueIdentifier>{b51db162-6d09-49dc-b67c-2fffa04e85ef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04. DataManager\Character\Pell\Struct\Skill">
-      <UniqueIdentifier>{d7d05c45-0928-4047-a5fe-0ec8e30eccfa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04. DataManager\Character\Pell\Struct\PellInfo">
-      <UniqueIdentifier>{6b0da5d1-bef2-4ed5-8276-4319ffd1ad8b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04. DataManager\Character\Pell\Manager">
-      <UniqueIdentifier>{5d45d88f-ef69-46ca-8fa4-3b683869eb62}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04. DataManager\Character\Pell\Manager\Info">
-      <UniqueIdentifier>{a8f6db8d-fe70-4f09-8200-4f73d2a8e2b8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04. DataManager\Character\Pell\Manager\Skill">
-      <UniqueIdentifier>{bac06f91-e2e0-438c-8552-1eb13538fc51}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Object\ProjecttileObject">
-      <UniqueIdentifier>{b164e9b4-abed-400a-8d80-61184e06c3ac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Object\ProjecttileObject\PalSpher">
-      <UniqueIdentifier>{d26c2173-5ae5-46ff-ba42-dbf19240cc46}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Object\ProjecttileObject\Arrow">
-      <UniqueIdentifier>{6b60ccbf-3f22-43fe-a655-6576a4e62cf7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerItemSlot\ProjectileSlot">
-      <UniqueIdentifier>{a54c22c4-45d4-457d-8a94-05d55492fbb2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\CombatLayer\State\Hit">
-      <UniqueIdentifier>{cdae9773-a904-46d8-b6de-6f80c56fe081}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PallSpherUI">
-      <UniqueIdentifier>{11e18a3c-5fbf-474e-88a0-aca917ccf6bc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PallSpherUI\PercentBar">
-      <UniqueIdentifier>{9581766e-83e8-4273-b82f-4f8fea01fbba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\CombatLayer\State\Dead">
-      <UniqueIdentifier>{e0673d7d-d994-4f0a-b9c0-2f5bdb16fe9f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shader\Geomerty">
-      <UniqueIdentifier>{096bc5b8-f3b3-4a9f-a829-f815754a20fd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\CombatLayer\State\Stun">
-      <UniqueIdentifier>{da9e8c38-8f21-4b1d-92a8-a790d7907aaf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\SpawnBox">
-      <UniqueIdentifier>{f9522881-9436-429b-9608-2e1e551754f3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shader\Instance">
-      <UniqueIdentifier>{cf32d5e7-85a6-49c6-a3d9-e36d10c657d9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shader\Instance\ModelIsntance">
-      <UniqueIdentifier>{29fa91c1-cf1a-4fa7-9df7-dd4969bfbe7c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="06. Component\ObjectAnimComonent">
-      <UniqueIdentifier>{c695f6b4-2dfb-4591-ba27-b1ed2c0e5c34}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="06. Component\ObjectAnimComonent\ObjectAnim">
-      <UniqueIdentifier>{b4306d5f-213f-446c-bdd3-373643197acd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Item">
-      <UniqueIdentifier>{005e1530-0bee-4ef1-a8a8-2ad210182889}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Item\ItemInfoUI">
-      <UniqueIdentifier>{5ea1bc62-cdeb-454c-a6d9-c947d0f7c5eb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04. DataManager\Object\Tech">
-      <UniqueIdentifier>{b144b754-cb66-4f56-938e-f3849d903c8f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04. DataManager\Object\Tech\Manager">
-      <UniqueIdentifier>{0c5f0e44-41f1-4c9d-b584-ba7542b009d1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\DragIcon">
-      <UniqueIdentifier>{480de8f0-32d2-47e4-9bc8-1c8bffe7d52b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\SelectUI">
-      <UniqueIdentifier>{384db897-81d8-4c8c-8a13-99415acb9058}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\Architecture">
-      <UniqueIdentifier>{45ba8e11-6419-449c-b515-6d544e93bea0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\NoneCombatLayer\State">
-      <UniqueIdentifier>{f79419a2-e9f6-4762-b132-a84f12736f69}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\NoneCombatLayer\State\Work">
-      <UniqueIdentifier>{d565aba1-7f5f-45e4-9821-eddcce175ae5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Object\ProjecttileObject\ElectricBullet">
-      <UniqueIdentifier>{84c8b48e-a5fd-4af1-9f26-a44c576e7f07}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Pell\Container\BedCat">
-      <UniqueIdentifier>{8a306134-5a11-4b99-a6c4-02cf81a51830}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Pell\Container\BedCat\BedCatBody">
-      <UniqueIdentifier>{b86c748a-d560-4d3c-8989-e8190545b760}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI">
-      <UniqueIdentifier>{3bc6b10f-a6f9-4a09-8446-084edc05daa5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\WorkBench">
-      <UniqueIdentifier>{e5fa80da-5a48-4ca3-9fd8-1d36f32a0813}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI">
-      <UniqueIdentifier>{d5058853-0462-4279-a28f-50ff035bd64e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface">
-      <UniqueIdentifier>{7c68cba6-3ec9-4f81-92c5-07d2e57d7b26}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\GuardBar">
-      <UniqueIdentifier>{86108b2b-9c78-4cf1-9a88-d21659edfb6b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\BattlePell">
-      <UniqueIdentifier>{a172a63c-7406-4259-9c36-50c1c7e8ddaf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\BattlePell\PellInfo">
-      <UniqueIdentifier>{c19ab426-7ee2-47e3-89a3-845c4f3127e7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\BattlePell\PellInfo\Font">
-      <UniqueIdentifier>{256dc4bd-9895-4e7b-ba11-9c382c5c8a89}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\BattlePell\PellInfo\Font\Name">
-      <UniqueIdentifier>{a40ea602-4d7d-44bc-b8cd-ae9611763e1d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\BattlePell\PellInfo\Font\HeathBar">
-      <UniqueIdentifier>{e572eb6e-2399-44f9-bdb3-506436c6234d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\BattlePell\Frame">
-      <UniqueIdentifier>{49421187-1beb-4f99-b55d-963ca3b8695b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\BattlePell\PellCharacIcon">
-      <UniqueIdentifier>{9fc2cc71-7e46-403f-a125-5e295c21861c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\WeaponSlot">
-      <UniqueIdentifier>{28fca465-a137-47fc-8566-376793ec3317}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\WeaponSlot\Font">
-      <UniqueIdentifier>{600924a3-1a7e-465b-83f3-c6726fc94a99}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\WeaponSlot\Font\Name">
-      <UniqueIdentifier>{2433e14e-7fec-4a54-a433-8d6bbca7fef7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\WeaponSlot\Font\ProjectileCount">
-      <UniqueIdentifier>{40343e6a-c645-4660-8cbc-0ba02262d872}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\WeaponSlot\WeaponIcon">
-      <UniqueIdentifier>{0ff06e55-2675-4233-9347-68219dd9cf40}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\ItemQuickSlot">
-      <UniqueIdentifier>{a86b77f1-80dc-419c-9392-479f39212d43}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\ItemQuickSlot\Font">
-      <UniqueIdentifier>{2c130b7c-840a-4372-8634-b6e33afc907c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\ItemQuickSlot\Font\Count">
-      <UniqueIdentifier>{253e25ab-f30a-4040-ae43-5bf7ecb3b25e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\ItemQuickSlot\Font\Name">
-      <UniqueIdentifier>{54203ba9-dd71-4267-94db-434b0f4ae187}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\ItemQuickSlot\ItemIcon">
-      <UniqueIdentifier>{1c4a51d4-5aca-4f5b-8945-082ca1844a92}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\KeyIcon">
-      <UniqueIdentifier>{27d310e7-0ee1-43c8-b702-50100933f868}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Compass">
-      <UniqueIdentifier>{af4c12df-4c2b-40cc-abe8-4ab7d979e5ae}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Compass\CompassPoint">
-      <UniqueIdentifier>{6adcd3cb-233c-4e57-a3dc-b058496d870b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Aim">
-      <UniqueIdentifier>{bcb12343-7f9b-459c-8f34-23f2358722ea}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\CreateMenu">
-      <UniqueIdentifier>{d1ca51b3-ec65-4c66-a698-179df184d50c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\CreateMenu\Category">
-      <UniqueIdentifier>{6e07942e-6b8e-4267-b0bb-e230509bda8b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\CreateMenu\Category\TabIcon">
-      <UniqueIdentifier>{b78e3283-1ca3-44c4-b5a7-e9f1312a2cba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\CreateMenu\TechSelectView">
-      <UniqueIdentifier>{ee44471d-d65e-4c26-966a-d78de8839939}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\CreateMenu\TechSelectView\SelecPretViewIcon">
-      <UniqueIdentifier>{68afbf32-44bd-4e75-ac20-35e08280ded6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\CreateMenu\TechSelectView\SelecPretViewIcon\Font">
-      <UniqueIdentifier>{98afe9a8-6d67-41d2-9ed2-42763b4452d9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\CreateMenu\TechSelectView\TechSelectViewSlot">
-      <UniqueIdentifier>{4b00d1cc-7a42-4cfb-a6d3-3b4940331f38}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\CreateMenu\TechSelectView\TechSelectViewSlot\SlotFont">
-      <UniqueIdentifier>{8a423342-e1e4-44ff-bb17-bdd25e0f7951}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu">
-      <UniqueIdentifier>{55b0673f-b6d0-44b7-8654-f3ddd5f4e266}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\Category">
-      <UniqueIdentifier>{d4b702e7-82c7-4f33-bac2-b24389e6a785}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\GameOption">
-      <UniqueIdentifier>{99db55cb-5a58-4128-b781-3ad5843e1349}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\GameOption\OptionButton">
-      <UniqueIdentifier>{62b8fab3-340b-41b8-a65e-4ac6ad17713e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\CharacterView">
-      <UniqueIdentifier>{2882eddc-c641-4e5a-8427-fc0164b0a171}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\CharacterView\Inventory">
-      <UniqueIdentifier>{7b258e60-e33f-4721-a215-d52a3638cb9b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\CharacterView\Inventory\WeightBar">
-      <UniqueIdentifier>{549c5a4b-06dc-49ac-aa06-e139a23dd551}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\CharacterView\Inventory\ItemSlot">
-      <UniqueIdentifier>{7aced7b8-5b81-48fa-be25-3149666bac74}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\CharacterView\Inventory\InvenSlider">
-      <UniqueIdentifier>{3a0aa367-8eed-4b53-b25e-44c6a9e030fe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\CharacterView\Inventory\InvenSlider\InvenSliderBut">
-      <UniqueIdentifier>{cef864c3-6a7d-41ce-8182-7581e7d75e3b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\CharacterView\Equip">
-      <UniqueIdentifier>{e9dcb392-6905-47db-95bb-6da6d6257708}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\CharacterView\Equip\EquipSlot">
-      <UniqueIdentifier>{1eec638c-52d5-4c62-8bbd-8eefe7c4c015}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\CharacterView\Equip\View">
-      <UniqueIdentifier>{cf5f169d-b649-4319-978b-cd1ac3a5cb3e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu">
-      <UniqueIdentifier>{2496bf12-a15d-4f3e-ab3a-25826cdd24ae}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu\TiltelBar">
-      <UniqueIdentifier>{195595a5-8b27-4147-92dc-37edee69e48c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu\PointBar">
-      <UniqueIdentifier>{70a52495-be05-4e4a-bfa5-8e8a501d4572}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu\TechnologyView">
-      <UniqueIdentifier>{f5b5afdb-9c8e-4734-b532-7e663db04c7a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine">
-      <UniqueIdentifier>{f9b0b9cf-0781-4dc9-992d-78a1e7481f43}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\LevelSlotIcon">
-      <UniqueIdentifier>{39226273-cc35-4d61-8067-e5978291297e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\TechSlot">
-      <UniqueIdentifier>{3d1b32aa-8395-495c-b5d6-9e809f5e1d1d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\TechSlot\Font">
-      <UniqueIdentifier>{778ffaad-d458-4fc0-b339-3d53f7fd57aa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\TechSlot\Font\TitleBar">
-      <UniqueIdentifier>{f285ae86-1c71-4230-8d9c-0b984ae89113}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\TechSlot\Font\NameBar">
-      <UniqueIdentifier>{5c31785a-650e-4479-b2ca-d796a7552fcc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\EventButton">
-      <UniqueIdentifier>{ef45c818-b0b9-45db-bf67-6db4b211bbe1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\WorkBench\CountView">
-      <UniqueIdentifier>{6a38e35b-4466-4e09-81aa-791bd05ef583}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\Base_UI\TitleBar">
-      <UniqueIdentifier>{9c188387-cd15-4476-9913-fb2f06b8bf11}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Item\ItemToolTip">
-      <UniqueIdentifier>{5cb77098-e3c7-4f67-a5e7-de8b674248e2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\CreateTooltip">
-      <UniqueIdentifier>{75d1d080-795b-4421-9145-74b2987633b8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\CreateTooltip\IngredientList">
-      <UniqueIdentifier>{cf6bac03-955e-4f45-9bc0-772e2e94c779}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\Base_UI\Ingredient">
-      <UniqueIdentifier>{0be34fa1-6712-4545-b9b1-e613273c4a94}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\Base_UI\Ingredient\IngredientCount">
-      <UniqueIdentifier>{4df6b480-c6f3-4242-a284-5e2efbaa746d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\WorkBench\CountView\ButtonArrow">
-      <UniqueIdentifier>{bba513ba-1c57-45e4-87db-4d321bf3e468}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\WorkBench\SlotList">
-      <UniqueIdentifier>{11be6bc0-34ce-47b6-b36a-45f3f2c6c85b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\WorkBench\SlotList\Slot">
-      <UniqueIdentifier>{fc48e8db-dfad-48a3-b667-616968149b10}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Diallog">
-      <UniqueIdentifier>{5dd28c55-f5b9-4114-8dde-fd1b1ac3b48e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ImGui\UI\Particle">
-      <UniqueIdentifier>{bfd34e60-4e71-43d1-960c-73823d906f42}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\CreatePercent">
-      <UniqueIdentifier>{76bfff86-5577-4071-9c8b-482a1a7775c1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\ActionAbleUI">
-      <UniqueIdentifier>{2023d8bb-8943-4576-98a0-4f43400c1632}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\CreatePercent\PercentBar">
-      <UniqueIdentifier>{dff0ba7a-3a4b-4a5b-88df-3747c9111d52}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\Category\SelectTri">
-      <UniqueIdentifier>{e5df95bc-9cc6-4c46-932a-92d920277f23}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shader\Button">
-      <UniqueIdentifier>{1b3301f6-75e5-42a5-bf15-424f2f55c01e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shader\Button\Tri">
-      <UniqueIdentifier>{db2bc343-726b-407e-8102-d37aa9a95c88}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\Category\Flare">
-      <UniqueIdentifier>{a8e550de-8833-4e64-8582-323aa3d8d7c1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\CharacterViewModel">
-      <UniqueIdentifier>{1f2994b0-4b47-437a-9b76-7ec5f0c5428e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\CharacterViewModel\Body">
-      <UniqueIdentifier>{b93936c2-27f9-4dbf-a72f-1cfa9f96f20d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\CharacterViewModel\Weapon">
-      <UniqueIdentifier>{bc0c7256-7d5d-45a2-aaa5-472921f80903}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\NPC">
-      <UniqueIdentifier>{08dacff1-b8a4-4158-802d-b4fea4ba451c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\NPC\Female">
-      <UniqueIdentifier>{d2d2548a-6100-4651-954c-0ccfc204d5c6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\NPC\Female\People1">
-      <UniqueIdentifier>{84ae1511-d8ae-44db-9893-2d2e1871c153}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm">
-      <UniqueIdentifier>{8ef3d0ad-d38e-4e71-8225-8b52c5d82683}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm\State">
-      <UniqueIdentifier>{c43dab41-4c77-45c1-bf6d-70ccac2652b0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm\State\DialogLayer">
-      <UniqueIdentifier>{8d3478e7-0927-4dfb-bbe2-644f1c05fa00}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm\State\DialogLayer\Listen">
-      <UniqueIdentifier>{38a8b330-85c5-4816-872d-1564dd381fa4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm\State\DialogLayer\Talk">
-      <UniqueIdentifier>{f03f7495-6717-4e24-acb7-6df3c74e83cf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\NPC\NpcBody">
-      <UniqueIdentifier>{ba557d90-0bce-478c-a9d2-962a6d680289}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\NPC\Female\People1\Body">
-      <UniqueIdentifier>{ea62e79b-21f0-416a-a738-15e6cc3e8e01}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm\State\DialogLayer\Idle">
-      <UniqueIdentifier>{65da30d7-40b7-4b26-b03c-6da32dc6632c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Pell\Boss">
-      <UniqueIdentifier>{40291cb1-421a-4edc-994f-d4caf48cf15f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Pell\Boss\GreenMommoth">
-      <UniqueIdentifier>{61676698-1d0e-4101-8d69-70a7dc5c9e4b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Pell\Boss\GreenMommoth\Body">
-      <UniqueIdentifier>{a46bc03f-a7e9-494d-b915-e8b9cf50dab3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="06. Component\DefenceBossComponent">
-      <UniqueIdentifier>{3b15f2a8-5794-422f-a1b7-9e92580300d5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="06. Component\AiSenceComponent">
-      <UniqueIdentifier>{8199be52-423a-4df7-bf2f-24ef2734a35e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Boss">
-      <UniqueIdentifier>{9f37c35f-3a1b-4fab-9c36-e62961809016}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\Base_UI\TypeIcon">
-      <UniqueIdentifier>{decad20f-aa06-4cec-b67d-6aac2a0b0b82}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Boss\BossHealthBar">
-      <UniqueIdentifier>{69b6079f-a0ee-4ce5-a3b2-7839347b139e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Boss\BossTitleName">
-      <UniqueIdentifier>{5ece4b3e-c5a6-47fb-a49b-dd0a999c5c46}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\MoveLayer\State\Carry">
-      <UniqueIdentifier>{2fb67c86-e71e-4dac-bacb-1ce65a6a13ab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\UpperLayer\State\Grab">
-      <UniqueIdentifier>{f30856a2-f6b9-4b31-9742-63813e17c995}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\MoveLayer\State\flyState">
-      <UniqueIdentifier>{99a9e438-f70c-46a9-b10a-e33fab5a7b4f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\MoveLayer\State\Launched">
-      <UniqueIdentifier>{eb981022-6ac6-4494-9bd3-85d1e0758c3e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04. DataManager\PellBoxManager">
-      <UniqueIdentifier>{fc342024-b43b-41a3-bffe-3a9be921043f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject">
-      <UniqueIdentifier>{1f27bf68-169c-4b34-b0ba-e3ee98244a80}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Item">
-      <UniqueIdentifier>{0baf81af-0ee3-4bde-a5a1-1e8ccc6736f0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Item\DropItem">
-      <UniqueIdentifier>{3ee645c3-e3a7-427b-98fe-653a2a1312c9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Environment">
-      <UniqueIdentifier>{ef036d91-8c05-4584-8d98-22e0307a40b2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Environment\Tree">
-      <UniqueIdentifier>{1fa4a3de-545c-47c2-ab1b-3a1177afcb7c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture">
-      <UniqueIdentifier>{23e544a7-a1fc-4914-9326-676a0d62ba1e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork">
-      <UniqueIdentifier>{66d6958a-530c-4d0f-a2bf-5a813b1dfad5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\WorkBench">
-      <UniqueIdentifier>{e2e73dae-89ed-4b8f-b238-3f6386010a70}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\Cook">
-      <UniqueIdentifier>{638e378e-14fa-436e-8f07-245ee9197e35}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\Farm">
-      <UniqueIdentifier>{6e237ee0-f11a-407a-acad-d7317bc15078}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\PalBoxUI">
-      <UniqueIdentifier>{202b3b0c-f5e4-44c4-b03c-522489052d13}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\PalBoxUI\PalInven">
-      <UniqueIdentifier>{893a258d-0202-4dea-8e34-b71b53d7e3f2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\PalBoxUI\PalBoxPell">
-      <UniqueIdentifier>{baea16d8-3dfb-4048-8b40-2e0ef8f56d14}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\PalBoxUI\WorkPell">
-      <UniqueIdentifier>{9ed27e2b-0702-4982-bf25-ce86a8705abb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\PalBoxUI\PalBoxSlot">
-      <UniqueIdentifier>{ca0d436e-9007-4f88-bffc-ac5d7cab31f6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\PalBoxUI\PalInven\PalInvenSlot">
-      <UniqueIdentifier>{a13afc38-1568-4d4f-8069-f8d5637ace7f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\Base_UI\ItemSlot">
-      <UniqueIdentifier>{dda198e7-53c1-4992-b347-330b02475e0e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\Base_UI\ItemSlot\SlotImage">
-      <UniqueIdentifier>{03141a7f-0927-41e5-a027-7ba1e12f24a7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\Base_UI\ItemSlot\ItemIcon">
-      <UniqueIdentifier>{855cd33e-5d80-47d5-acee-6da756e9bd7e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\Base_UI\HealthBar">
-      <UniqueIdentifier>{6e6d8958-9654-45ca-a0c8-83ba942ce7f4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\Base_UI\HealthBar\HealthIcon">
-      <UniqueIdentifier>{8a07cd76-da19-4ef7-b9f1-fa44aab114a0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\Base_UI\HungerBar">
-      <UniqueIdentifier>{a177b2d5-3bcf-4243-b4da-5bf463234317}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\Base_UI\HungerBar\HungerIcon">
-      <UniqueIdentifier>{967ea44e-4ca4-4f3a-a81e-0dd037410106}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="06. Component\WorkComponent">
-      <UniqueIdentifier>{d379f783-b829-4dfd-b7ed-a95683227a30}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\PalBed">
-      <UniqueIdentifier>{fccd6af1-10b2-4a19-a967-d334bf3484f3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\PalBox">
-      <UniqueIdentifier>{ab5f2132-68b8-4071-a1f8-9159698544ce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Wood">
-      <UniqueIdentifier>{3bec65f8-d0b4-417f-9273-b4fa90a2ca3a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Wood\DefenceWall">
-      <UniqueIdentifier>{c3f0393e-119b-4f83-bfb5-96a55c00f533}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Wood\Wall">
-      <UniqueIdentifier>{ebb335e1-c248-48f4-936f-2e85060fd775}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Wood\Door">
-      <UniqueIdentifier>{f535dd07-5d9e-418f-9c95-3c87b2fc3974}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Environment\MiningObject">
-      <UniqueIdentifier>{39a101f0-03bc-486b-a600-6bb66e2ea13a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Environment\MiningObject\PellRock">
-      <UniqueIdentifier>{1eb38c84-68eb-4d9a-8f5e-de086f43a8e1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Environment\MiningObject\Rock">
-      <UniqueIdentifier>{f5755349-c20b-4be4-b672-987f4e02cef2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="07. Effect">
-      <UniqueIdentifier>{2385cb58-5702-4c65-8fd2-55b495c5d646}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="07. Effect\Mesh Effect">
-      <UniqueIdentifier>{32e2a4e1-6856-445c-9c92-acad3f221b72}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="07. Effect\Sprite Effect">
-      <UniqueIdentifier>{6d5f3057-2fc2-4442-8b4f-796d1a563420}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment">
-      <UniqueIdentifier>{352c36ed-33af-4a89-8341-c4c35adbf73f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel">
-      <UniqueIdentifier>{ab62ec51-7349-4805-814b-abdcfabdd9e3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Grass">
-      <UniqueIdentifier>{0c74b82e-5f92-4abd-8947-24a3468de4e0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Grass\Grass00">
-      <UniqueIdentifier>{19b6f41f-4d5f-437d-b24c-a9526f53c4b7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Grass\Grass01">
-      <UniqueIdentifier>{054386c4-b6cb-4a56-be3d-811f9bbe6915}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Flower">
-      <UniqueIdentifier>{f81aa0f8-b9eb-41f3-9ad1-7ff10df359aa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel">
-      <UniqueIdentifier>{7b4321f5-1f70-473e-95ab-28810d5f08d0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\FastTravel">
-      <UniqueIdentifier>{41972222-1974-433e-b80f-6f9532dbf4e6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\House">
-      <UniqueIdentifier>{2227ecc4-7c2e-4910-bfaf-890bae0498d7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\Market">
-      <UniqueIdentifier>{1de0eba1-7665-49a3-9a7d-5d3d92367dd2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\Curch">
-      <UniqueIdentifier>{29a52fc1-f873-45fc-9982-3745ff6d1389}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\House\ViliageHouse">
-      <UniqueIdentifier>{4a4acbaf-22d4-4b8c-9449-2587c23d503e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\House\Apart">
-      <UniqueIdentifier>{1c6f40dd-9ad4-4c16-b352-783e6a2cff61}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Furniture">
-      <UniqueIdentifier>{89eb54b5-8924-4901-9f17-f8c0ad3e8a46}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Furniture\Table">
-      <UniqueIdentifier>{5f5b992b-3a8f-4f21-a07b-008e19fa1351}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Furniture\Bed">
-      <UniqueIdentifier>{e31eb5f1-2ff8-4464-a69f-a1a6c5107a00}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Furniture\TouchLamp">
-      <UniqueIdentifier>{078f268c-1667-476a-b342-b260479eb3f5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1028,40 +569,40 @@
       <Filter>03. Objects\MeshObject\NonAnimMesh\Terrian</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Player_Interface.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Client_Struct.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="..\public\HealthBar.h">
-      <Filter>02. HUD\Base_UI\HealthBar</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\HealthBar</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\HungerIcon.h">
-      <Filter>02. HUD\Base_UI\HungerBar\HungerIcon</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\HealthBar\HungerIcon</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\HealthIcon.h">
-      <Filter>02. HUD\Base_UI\HealthBar\HealthIcon</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\HealthBar\HealthIcon</Filter>
     </ClInclude>
     <ClInclude Include="..\public\GuardBar.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\GuardBar</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\GuardBar</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Compass.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Compass</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Compass</Filter>
     </ClInclude>
     <ClInclude Include="..\public\CompassPoint.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Compass\CompassPoint</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Compass\CompassPoint</Filter>
     </ClInclude>
     <ClInclude Include="..\public\BattlePell.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\BattlePell</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PellInfo.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\BattlePell\PellInfo</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell\PellInfo</Filter>
     </ClInclude>
     <ClInclude Include="..\public\TypeIcon.h">
-      <Filter>02. HUD\Base_UI\TypeIcon</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\TypeIcon</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PellInfoFrame.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\BattlePell\Frame</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell\Frame</Filter>
     </ClInclude>
     <ClInclude Include="..\public\LoadingUI.h">
       <Filter>02. HUD\LoadingHUD\Loding</Filter>
@@ -1073,22 +614,22 @@
       <Filter>02. HUD\LoadingHUD</Filter>
     </ClInclude>
     <ClInclude Include="..\public\SlotBase.h">
-      <Filter>02. HUD\Base_UI\ItemSlot</Filter>
+      <Filter>02. HUD\Base_UI\Slot</Filter>
     </ClInclude>
     <ClInclude Include="..\public\InGameMenu.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Category.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\Category</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\Category</Filter>
     </ClInclude>
     <ClInclude Include="..\public\DefaultEntity.h">
       <Filter>05. Animation\SpriteAnim\UI</Filter>
     </ClInclude>
     <ClInclude Include="..\public\GameOption.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\GameOption</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\GameOption</Filter>
     </ClInclude>
     <ClInclude Include="..\public\OptionButton.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\GameOption\OptionButton</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\GameOption\OptionButton</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Button.h">
       <Filter>02. HUD\Base_UI\Button</Filter>
@@ -1136,7 +677,7 @@
       <Filter>ImGui</Filter>
     </ClInclude>
     <ClInclude Include="..\public\ItemBase.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Item</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Item</Filter>
     </ClInclude>
     <ClInclude Include="..\public\IMG_Inspector.h">
       <Filter>ImGui\UI\Instpector</Filter>
@@ -1175,13 +716,13 @@
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\Container\Dororong</Filter>
     </ClInclude>
     <ClInclude Include="..\public\RockObject.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Environment\MiningObject\Rock</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Environment\Rock</Filter>
     </ClInclude>
     <ClInclude Include="..\public\TreeObject.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Environment\Tree</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Environment\Tree</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PellRock.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Environment\MiningObject\PellRock</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Environment\PellRock</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Frog.h">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\Container\Frog</Filter>
@@ -1205,34 +746,34 @@
       <Filter>01. Levels\EditorLevel</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Inventory.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\CharacterView\Inventory</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Equipment.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\CharacterView\Equip</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Equip</Filter>
     </ClInclude>
     <ClInclude Include="..\public\ItemSlot.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\CharacterView\Inventory\ItemSlot</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\ItemSlot</Filter>
     </ClInclude>
     <ClInclude Include="..\public\EquipSlot.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\CharacterView\Equip\EquipSlot</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Equip\EquipSlot</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PlayerView.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\CharacterView\Equip\View</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Equip\View</Filter>
     </ClInclude>
     <ClInclude Include="..\public\SlotImage.h">
-      <Filter>02. HUD\Base_UI\ItemSlot\SlotImage</Filter>
+      <Filter>02. HUD\Base_UI\Slot\SlotImage</Filter>
     </ClInclude>
     <ClInclude Include="..\public\CharacterView.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\CharacterView</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView</Filter>
     </ClInclude>
     <ClInclude Include="..\public\InvenSlider.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\CharacterView\Inventory\InvenSlider</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\InvenSlider</Filter>
     </ClInclude>
     <ClInclude Include="..\public\InvenSliderButton.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\CharacterView\Inventory\InvenSlider\InvenSliderBut</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\InvenSlider\InvenSliderBut</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Enviormnent.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Environment</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Environment</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PellBody.h">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\Part\Body</Filter>
@@ -1310,7 +851,7 @@
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\UpperLayer</Filter>
     </ClInclude>
     <ClInclude Include="..\public\AimInterface.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Aim</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Aim</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PlayerManager.h">
       <Filter>04. DataManager\Character\Player</Filter>
@@ -1321,8 +862,11 @@
     <ClInclude Include="..\public\NoneAnimMesh.h">
       <Filter>03. Objects\MeshObject\NonAnimMesh</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\ItemStruct.h">
+      <Filter>04. DataManager\Object\Item</Filter>
+    </ClInclude>
     <ClInclude Include="..\public\PalSpher.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Object\ProjecttileObject\PalSpher</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Object\PalSpher</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PlayerAttackState.h">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\CombatLayer\State\Attack</Filter>
@@ -1363,6 +907,12 @@
     <ClInclude Include="..\public\PlayerWeaponSlot.h">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerItemSlot\WeaponSlot</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\PellManager.h">
+      <Filter>04. DataManager\Character\Pell</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PellStructData.h">
+      <Filter>04. DataManager\Character\Pell\Struct</Filter>
+    </ClInclude>
     <ClInclude Include="..\public\Recovery.h">
       <Filter>06. Component\Recovery</Filter>
     </ClInclude>
@@ -1373,10 +923,10 @@
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Pell\NaturalPellInfo\HealthBar</Filter>
     </ClInclude>
     <ClInclude Include="..\public\ItemQuickSlot.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\ItemQuickSlot</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\ItemQuickSlot</Filter>
     </ClInclude>
     <ClInclude Include="..\public\WeaponQuickSlot.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\WeaponSlot</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\WeaponSlot</Filter>
     </ClInclude>
     <ClInclude Include="..\public\NeturalPellInfo.h">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Pell\NaturalPellInfo</Filter>
@@ -1393,390 +943,7 @@
     <ClInclude Include="..\Public\PlayerItemSlot.h">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerItemSlot</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\PellDeadState.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\CombatLayer\State\Dead</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\DropComponent.h">
-      <Filter>06. Component\DropComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\CombatComponent.h">
-      <Filter>06. Component\CombatComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\PellSkillStruct.h">
-      <Filter>04. DataManager\Character\Pell\Struct\Skill</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\PellStructData.h">
-      <Filter>04. DataManager\Character\Pell\Struct\PellInfo</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\PellManager.h">
-      <Filter>04. DataManager\Character\Pell\Manager\Info</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\PellSkillManager.h">
-      <Filter>04. DataManager\Character\Pell\Manager\Skill</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\ProjectileObject.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Object\ProjecttileObject</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\ArrowProjectile.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Object\ProjecttileObject\Arrow</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\ProjectileSlot.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerItemSlot\ProjectileSlot</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\PlayerHitState.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\CombatLayer\State\Hit</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\PlayerDeadState.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\CombatLayer\State\Dead</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\PalSpherUI.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PallSpherUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\PallSpherPercentBar.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PallSpherUI\PercentBar</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\PellCharacterIcon.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\BattlePell\PellCharacIcon</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\PellStateStun.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\CombatLayer\State\Stun</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\SpawnBox.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\SpawnBox</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\WeaponSlotIcon.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\WeaponSlot\WeaponIcon</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\WeaponQuickSlotName.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\WeaponSlot\Font\Name</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\WeaponQuickSlotCount.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\WeaponSlot\Font\ProjectileCount</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\PellInfoNameUI.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\BattlePell\PellInfo\Font\Name</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\PellInfoHealthbar.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\BattlePell\PellInfo\Font\HeathBar</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\KeyIcon.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\KeyIcon</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\ItemQuickSlotCount.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\ItemQuickSlot\Font\Count</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\ItemQuickSlotIcon.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\ItemQuickSlot\ItemIcon</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\ItemQuickSlotName.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\ItemQuickSlot\Font\Name</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\ItemStruct.h">
-      <Filter>04. DataManager\Object\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\SmallGrass.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Grass\Grass00</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Flower.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Flower</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\InstanceModel.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\ItemObject.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Item\DropItem</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\ObjectAnimComponent.h">
-      <Filter>06. Component\ObjectAnimComonent</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\ObjectAnim.h">
-      <Filter>06. Component\ObjectAnimComonent\ObjectAnim</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\ItemInfoUI.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Item\ItemInfoUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\ItemSlotIcon.h">
-      <Filter>02. HUD\Base_UI\ItemSlot\ItemIcon</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\TechnologyMenu.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\TechnologyView.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu\TechnologyView</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\TechnologyTitleBar.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu\TiltelBar</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\TechnologyPointView.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu\PointBar</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\TechSlot.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\TechSlot</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\TechSlotTitleBar.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\TechSlot\Font\TitleBar</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\TechSlotNameBar.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\TechSlot\Font\NameBar</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\TechSlotLine.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\LevelIcon.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\LevelSlotIcon</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\TechManager.h">
-      <Filter>04. DataManager\Object\Tech\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\TechStruct.h">
-      <Filter>04. DataManager\Object\Tech</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\SelectUI.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\SelectUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\EventButton.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\EventButton</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\CreateMenu.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\CreateMenu</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\TechSelectView.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\CreateMenu\TechSelectView</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\TechCategoryUI.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\CreateMenu\Category</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\TechTabIcon.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\CreateMenu\Category\TabIcon</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\TechSelectPreView.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\CreateMenu\TechSelectView\SelecPretViewIcon</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\TechPreViewFont.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\CreateMenu\TechSelectView\SelecPretViewIcon\Font</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\TechListViewSlot.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\CreateMenu\TechSelectView\TechSelectViewSlot</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\TechListSlotFont.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\CreateMenu\TechSelectView\TechSelectViewSlot\SlotFont</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Architecture.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\PalBox.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\PalBox</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Item_Defines.h">
-      <Filter>04. DataManager\Object\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\PlayerSlotArchitecture.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Architecture</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\WorkBench.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\WorkBench</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\PalBed.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\PalBed</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\PlayerWorkState.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\NoneCombatLayer\State\Work</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\EletricBullet.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Object\ProjecttileObject\ElectricBullet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\WorkBenchCreateUI.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\WorkBench</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\TitleUI.h">
-      <Filter>02. HUD\Base_UI\TitleBar</Filter>
-    </ClInclude>
-    <ClInclude Include="CWorkBenchCountView.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\WorkBench\CountView</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\WorkBenchSlot.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\WorkBench\SlotList\Slot</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\ItemTooltip.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Item\ItemToolTip</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\CreateToolTipUI.h">
-      <Filter>02. HUD\GamePlayHUD\CreateTooltip</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\IngredientUI.h">
-      <Filter>02. HUD\Base_UI\Ingredient</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\IngredientCountView.h">
-      <Filter>02. HUD\Base_UI\Ingredient\IngredientCount</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\IngredientList.h">
-      <Filter>02. HUD\GamePlayHUD\CreateTooltip\IngredientList</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\ButtonArrow.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\WorkBench\CountView\ButtonArrow</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\WorkBenchSlotView.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\WorkBench\SlotList</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\DiallogUI.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Diallog</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\ActionAbleUI.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ActionAbleUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\WorkPercnet.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\CreatePercent</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\WorkPercentBar.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\CreatePercent\PercentBar</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\SelectTriangle.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\Category\SelectTri</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\ButtonFlare.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\Category\Flare</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\PreviewModel.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\CharacterViewModel</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\PreivewModelBody.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\CharacterViewModel\Body</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\PreviewModelWeapon.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\CharacterViewModel\Weapon</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Npc.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\NpcStateMachine.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\DialogLayer.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm\State\DialogLayer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\NpcTalkState.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm\State\DialogLayer\Talk</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\NpcListenState.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm\State\DialogLayer\Listen</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\NpcBody.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\NpcBody</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\FemalePeople_1.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\Female\People1</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\FemalePeopleBody_1.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\Female\People1\Body</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\NpcIdleState.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm\State\DialogLayer\Idle</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\GreenMommoth.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\Boss\GreenMommoth</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\GrassMommothBody.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\Boss\GreenMommoth\Body</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\DefenceBossComponent.h">
-      <Filter>06. Component\DefenceBossComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\AiSenceComponent.h">
-      <Filter>06. Component\AiSenceComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\BossHealthBar.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Boss\BossHealthBar</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\BossTitleName.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Boss\BossTitleName</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\DefenceWallWood.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Wood\DefenceWall</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\HungerBar.h">
-      <Filter>02. HUD\Base_UI\HungerBar</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\WoodDoor.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Wood\Door</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\WoodWall.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Wood\Wall</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\FarmGround.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\Farm</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\PellCarryState.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\MoveLayer\State\Carry</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\PlayerGrabState.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\UpperLayer\State\Grab</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\PellStateLaunched.h">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\MoveLayer\State\Launched</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\PellBoxManager.h">
-      <Filter>04. DataManager\PellBoxManager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\PalBoxUserInterface.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\PalBoxUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\WorkAbleObject.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\PalInvenListUI.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\PalBoxUI\PalInven</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\PalBoxListUI.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\PalBoxUI\PalBoxPell</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\WorkPalListUI.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\PalBoxUI\WorkPell</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\PalBoxSlot.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\PalBoxUI\PalBoxSlot</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\PalInvenSlot.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\PalBoxUI\PalInven\PalInvenSlot</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\WorkComponent.h">
-      <Filter>06. Component\WorkComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\MiningObject.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Environment\MiningObject</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\DefaultGrass.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Grass\Grass01</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\ProbObject.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\ViliageMarketObject.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\Market</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\ViliageCurchObject.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\Curch</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\FastTravelObject.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\FastTravel</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\TouchLamp.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Furniture\TouchLamp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\ViliageHouseObject.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\House\ViliageHouse</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\ViliageApartment.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\House\Apart</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\IMG_EffectTool.h">
-      <Filter>ImGui\UI\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\BedFurniture.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Furniture\Bed</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\TableFurniture.h">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Furniture\Table</Filter>
-    </ClInclude>
+    <ClInclude Include="..\public\DropComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -1841,37 +1008,37 @@
       <Filter>03. Objects\MeshObject\NonAnimMesh\Terrian</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Player_Interface.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface</Filter>
     </ClCompile>
     <ClCompile Include="..\private\HealthBar.cpp">
-      <Filter>02. HUD\Base_UI\HealthBar</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\HealthBar</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\HungerIcon.cpp">
-      <Filter>02. HUD\Base_UI\HungerBar\HungerIcon</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\HealthBar\HungerIcon</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\HealthIcon.cpp">
-      <Filter>02. HUD\Base_UI\HealthBar\HealthIcon</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\HealthBar\HealthIcon</Filter>
     </ClCompile>
     <ClCompile Include="..\private\GuardBar.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\GuardBar</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\GuardBar</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Compass.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Compass</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Compass</Filter>
     </ClCompile>
     <ClCompile Include="..\private\CompassPoint.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Compass\CompassPoint</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Compass\CompassPoint</Filter>
     </ClCompile>
     <ClCompile Include="..\private\BattlePell.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\BattlePell</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PellInfo.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\BattlePell\PellInfo</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell\PellInfo</Filter>
     </ClCompile>
     <ClCompile Include="..\private\TypeIcon.cpp">
-      <Filter>02. HUD\Base_UI\TypeIcon</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\TypeIcon</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PellInfoFrame.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\BattlePell\Frame</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\BattlePell\Frame</Filter>
     </ClCompile>
     <ClCompile Include="..\private\LoadingUI.cpp">
       <Filter>02. HUD\LoadingHUD\Loding</Filter>
@@ -1883,22 +1050,22 @@
       <Filter>02. HUD\LoadingHUD</Filter>
     </ClCompile>
     <ClCompile Include="..\private\SlotBase.cpp">
-      <Filter>02. HUD\Base_UI\ItemSlot</Filter>
+      <Filter>02. HUD\Base_UI\Slot</Filter>
     </ClCompile>
     <ClCompile Include="..\private\InGameMenu.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Category.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\Category</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\Category</Filter>
     </ClCompile>
     <ClCompile Include="..\private\DefaultEntity.cpp">
       <Filter>05. Animation\SpriteAnim\UI</Filter>
     </ClCompile>
     <ClCompile Include="..\private\GameOption.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\GameOption</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\GameOption</Filter>
     </ClCompile>
     <ClCompile Include="..\private\OptionButton.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\GameOption\OptionButton</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\GameOption\OptionButton</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Button.cpp">
       <Filter>02. HUD\Base_UI\Button</Filter>
@@ -1946,7 +1113,7 @@
       <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\private\ItemBase.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Item</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Item</Filter>
     </ClCompile>
     <ClCompile Include="..\private\IMG_Inspector.cpp">
       <Filter>ImGui\UI\Instpector</Filter>
@@ -1982,13 +1149,13 @@
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\Container\Dororong</Filter>
     </ClCompile>
     <ClCompile Include="..\private\RockObject.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Environment\MiningObject\Rock</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Environment\Rock</Filter>
     </ClCompile>
     <ClCompile Include="..\private\TreeObject.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Environment\Tree</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Environment\Tree</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PellRock.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Environment\MiningObject\PellRock</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Environment\PellRock</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Frog.cpp">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\Container\Frog</Filter>
@@ -2009,34 +1176,34 @@
       <Filter>01. Levels\EditorLevel</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Inventory.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\CharacterView\Inventory</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Equipment.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\CharacterView\Equip</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Equip</Filter>
     </ClCompile>
     <ClCompile Include="..\private\ItemSlot.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\CharacterView\Inventory\ItemSlot</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\ItemSlot</Filter>
     </ClCompile>
     <ClCompile Include="..\private\EquipSlot.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\CharacterView\Equip\EquipSlot</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Equip\EquipSlot</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PlayerView.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\CharacterView\Equip\View</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Equip\View</Filter>
     </ClCompile>
     <ClCompile Include="..\private\SlotImage.cpp">
-      <Filter>02. HUD\Base_UI\ItemSlot\SlotImage</Filter>
+      <Filter>02. HUD\Base_UI\Slot\SlotImage</Filter>
     </ClCompile>
     <ClCompile Include="..\private\CharacterView.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\CharacterView</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView</Filter>
     </ClCompile>
     <ClCompile Include="..\private\InvenSlider.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\CharacterView\Inventory\InvenSlider</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\InvenSlider</Filter>
     </ClCompile>
     <ClCompile Include="..\private\InvenSliderButton.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\CharacterView\Inventory\InvenSlider\InvenSliderBut</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\InGame_Menu\CharacterView\Inventory\InvenSlider\InvenSliderBut</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Enviormnent.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Environment</Filter>
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Static_Object\Environment</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PellBody.cpp">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\Part\Body</Filter>
@@ -2114,7 +1281,7 @@
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\UpperLayer</Filter>
     </ClCompile>
     <ClCompile Include="..\private\AimInterface.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Aim</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Aim</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PlayerManager.cpp">
       <Filter>04. DataManager\Character\Player</Filter>
@@ -2126,7 +1293,7 @@
       <Filter>03. Objects\MeshObject\NonAnimMesh</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PalSpher.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Object\ProjecttileObject\PalSpher</Filter>
+      <Filter>03. Objects\MeshObject\AnimMesh\Object\PalSpher</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PlayerAttackState.cpp">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\CombatLayer\State\Attack</Filter>
@@ -2167,17 +1334,23 @@
     <ClCompile Include="..\private\PlayerWeaponSlot.cpp">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerItemSlot\WeaponSlot</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\PellManager.cpp">
+      <Filter>04. DataManager\Character\Pell</Filter>
+    </ClCompile>
     <ClCompile Include="..\private\Recovery.cpp">
       <Filter>06. Component\Recovery</Filter>
     </ClCompile>
     <ClCompile Include="..\private\TerrainManager.cpp">
       <Filter>04. DataManager\Object\Terrian</Filter>
     </ClCompile>
+    <ClCompile Include="PellHealthBar.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Pell\NaturalPellInfo\HealthBar</Filter>
+    </ClCompile>
     <ClCompile Include="..\private\ItemQuickSlot.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\ItemQuickSlot</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\ItemQuickSlot</Filter>
     </ClCompile>
     <ClCompile Include="..\private\WeaponQuickSlot.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\WeaponSlot</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Player\Player_Interface\WeaponSlot</Filter>
     </ClCompile>
     <ClCompile Include="..\private\NeturalPellInfo.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Pell\NaturalPellInfo</Filter>
@@ -2194,378 +1367,7 @@
     <ClCompile Include="..\Private\PlayerItemSlot.cpp">
       <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerItemSlot</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\PellDeadState.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\CombatLayer\State\Dead</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\DropComponent.cpp">
-      <Filter>06. Component\DropComponent</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\CombatComponent.cpp">
-      <Filter>06. Component\CombatComponent</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\PellManager.cpp">
-      <Filter>04. DataManager\Character\Pell\Manager\Info</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\PellHealthBar.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Pell\NaturalPellInfo\HealthBar</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\PellSkillManager.cpp">
-      <Filter>04. DataManager\Character\Pell\Manager\Skill</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\ProjectileObject.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Object\ProjecttileObject</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\ArrowProjectile.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Object\ProjecttileObject\Arrow</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\ProjectileSlot.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerItemSlot\ProjectileSlot</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\PlayerHitState.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\CombatLayer\State\Hit</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\PlayerDeadState.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\CombatLayer\State\Dead</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\PalSpherUI.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PallSpherUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\PallSpherPercentBar.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PallSpherUI\PercentBar</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\PellCharacterIcon.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\BattlePell\PellCharacIcon</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\PellStateStun.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\CombatLayer\State\Stun</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\SpawnBox.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\SpawnBox</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\WeaponSlotIcon.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\WeaponSlot\WeaponIcon</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\WeaponQuickSlotName.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\WeaponSlot\Font\Name</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\WeaponQuickSlotCount.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\WeaponSlot\Font\ProjectileCount</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\PellInfoNameUI.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\BattlePell\PellInfo\Font\Name</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\PellInfoHealthbar.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\BattlePell\PellInfo\Font\HeathBar</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\KeyIcon.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\KeyIcon</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\ItemQuickSlotCount.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\ItemQuickSlot\Font\Count</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\ItemQuickSlotIcon.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\ItemQuickSlot\ItemIcon</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\ItemQuickSlotName.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\ItemQuickSlot\Font\Name</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\SmallGrass.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Grass\Grass00</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Flower.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Flower</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\InstanceModel.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\ItemObject.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Item\DropItem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\ObjectAnimComponent.cpp">
-      <Filter>06. Component\ObjectAnimComonent</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\ObjectAnim.cpp">
-      <Filter>06. Component\ObjectAnimComonent\ObjectAnim</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\ItemInfoUI.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Item\ItemInfoUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\ItemSlotIcon.cpp">
-      <Filter>02. HUD\Base_UI\ItemSlot\ItemIcon</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\TechnologyMenu.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\TechnologyView.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu\TechnologyView</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\TechnologyTitleBar.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu\TiltelBar</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\TechnologyPointView.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu\PointBar</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\TechSlot.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\TechSlot</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\TechSlotTitleBar.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\TechSlot\Font\TitleBar</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\TechSlotNameBar.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\TechSlot\Font\NameBar</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\TechSlotLine.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\LevelIcon.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\LevelSlotIcon</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\TechManager.cpp">
-      <Filter>04. DataManager\Object\Tech\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\SelectUI.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\SelectUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\EventButton.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\EventButton</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\CreateMenu.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\CreateMenu</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\TechSelectView.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\CreateMenu\TechSelectView</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\TechCategoryUI.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\CreateMenu\Category</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\TechTabIcon.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\CreateMenu\Category\TabIcon</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\TechSelectPreView.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\CreateMenu\TechSelectView\SelecPretViewIcon</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\TechPreViewFont.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\CreateMenu\TechSelectView\SelecPretViewIcon\Font</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\TechListViewSlot.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\CreateMenu\TechSelectView\TechSelectViewSlot</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\TechListSlotFont.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\CreateMenu\TechSelectView\TechSelectViewSlot\SlotFont</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Architecture.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\PalBox.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\PalBox</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\PlayerSlotArchitecture.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\Architecture</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\WorkBench.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\WorkBench</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\PalBed.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\PalBed</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\PlayerWorkState.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\NoneCombatLayer\State\Work</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\EletricBullet.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Object\ProjecttileObject\ElectricBullet</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\WorkBenchCreateUI.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\WorkBench</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\TitleUI.cpp">
-      <Filter>02. HUD\Base_UI\TitleBar</Filter>
-    </ClCompile>
-    <ClCompile Include="CWorkBenchCountView.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\WorkBench\CountView</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\WorkBenchSlot.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\WorkBench\SlotList\Slot</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\ItemTooltip.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Item\ItemToolTip</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\CreateToolTipUI.cpp">
-      <Filter>02. HUD\GamePlayHUD\CreateTooltip</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\IngredientUI.cpp">
-      <Filter>02. HUD\Base_UI\Ingredient</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\IngredientCountView.cpp">
-      <Filter>02. HUD\Base_UI\Ingredient\IngredientCount</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\IngredientList.cpp">
-      <Filter>02. HUD\GamePlayHUD\CreateTooltip\IngredientList</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\ButtonArrow.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\WorkBench\CountView\ButtonArrow</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\WorkBenchSlotView.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\WorkBench\SlotList</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\DiallogUI.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Diallog</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\ActionAbleUI.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ActionAbleUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\WorkPercnet.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\CreatePercent</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\WorkPercentBar.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\CreatePercent\PercentBar</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\SelectTriangle.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\Category\SelectTri</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\ButtonFlare.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\Category\Flare</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\PreviewModel.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\CharacterViewModel</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\PreivewModelBody.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\CharacterViewModel\Body</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\PreviewModelWeapon.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\CharacterViewModel\Weapon</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Npc.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\NpcStateMachine.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\DialogLayer.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm\State\DialogLayer</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\NpcTalkState.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm\State\DialogLayer\Talk</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\NpcListenState.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm\State\DialogLayer\Listen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\NpcBody.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\NpcBody</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\FemalePeople_1.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\Female\People1</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\FemalePeopleBody_1.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\Female\People1\Body</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\NpcIdleState.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\NPC\NPCFsm\State\DialogLayer\Idle</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\GreenMommoth.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\Boss\GreenMommoth</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\GrassMommothBody.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\Boss\GreenMommoth\Body</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\DefenceBossComponent.cpp">
-      <Filter>06. Component\DefenceBossComponent</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\AiSenceComponent.cpp">
-      <Filter>06. Component\AiSenceComponent</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\BossHealthBar.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Boss\BossHealthBar</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\BossTitleName.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Boss\BossTitleName</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\DefenceWallWood.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Wood\DefenceWall</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\HungerBar.cpp">
-      <Filter>02. HUD\Base_UI\HungerBar</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\WoodDoor.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Wood\Door</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\WoodWall.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Wood\Wall</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\FarmGround.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\Farm</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\PellCarryState.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\MoveLayer\State\Carry</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\PlayerGrabState.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\UpperLayer\State\Grab</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\PellStateLaunched.cpp">
-      <Filter>03. Objects\MeshObject\AnimMesh\Character\Pell\PellStateMachine\MoveLayer\State\Launched</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\PellBoxManager.cpp">
-      <Filter>04. DataManager\PellBoxManager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\PalBoxUserInterface.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\PalBoxUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\WorkAbleObject.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\PalInvenListUI.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\PalBoxUI\PalInven</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\PalBoxListUI.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\PalBoxUI\PalBoxPell</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\WorkPalListUI.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\PalBoxUI\WorkPell</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\PalBoxSlot.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\PalBoxUI\PalBoxSlot</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\PalInvenSlot.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\PalBoxUI\PalInven\PalInvenSlot</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\WorkComponent.cpp">
-      <Filter>06. Component\WorkComponent</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\MiningObject.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Environment\MiningObject</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\DefaultGrass.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Grass\Grass01</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\ProbObject.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\ViliageMarketObject.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\Market</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\ViliageCurchObject.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\Curch</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\FastTravelObject.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\FastTravel</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\TouchLamp.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Furniture\TouchLamp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\ViliageHouseObject.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\House\ViliageHouse</Filter>
-    </ClCompile>
-    <ClCompile Include="..\public\ViliageApartment.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\House\Apart</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\IMG_EffectTool.cpp">
-      <Filter>ImGui\UI\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\BedFurniture.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Furniture\Bed</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\TableFurniture.cpp">
-      <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Furniture\Table</Filter>
-    </ClCompile>
+    <ClCompile Include="..\private\DropComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\TestShader.hlsl">
@@ -2588,18 +1390,6 @@
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\VTX_AnimMesh.hlsl">
       <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\WorldUI.hlsl">
-      <Filter>Shader\Geomerty</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\VTX_InstnaceMesh.hlsl">
-      <Filter>Shader\Instance\ModelIsntance</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\ButtonShader.hlsl">
-      <Filter>Shader\Button</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\SelectTriShader.hlsl">
-      <Filter>Shader\Button\Tri</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

@@ -42,7 +42,7 @@ protected :
 	virtual		HRESULT						Bind_ShaderResources() override;
 	virtual     HRESULT						Apply_ConstantShaderResources() override;
 
-protected :
+private :
 	LPD3D11EFFECTVARIABLE					m_pShader_Percent = nullptr;
 	LPD3D11EFFECTVECTORVARIABLE				m_pShader_Color = nullptr;
 

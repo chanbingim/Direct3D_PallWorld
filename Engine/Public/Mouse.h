@@ -37,9 +37,7 @@ public :
 	_bool						Picking_InLocal(const _float3& vPointA, const _float3& vPointB, const _float3& vPointC, _float3* pOut);
 	void						Compute_LocalRay(const _matrix* InvWorldMatrix);
 
-	void						SetMouseFocus(CUserInterface* pWidget);
-	void						GetMouseFocus(CUserInterface** ppWidget);
-
+	void						SetMouseFocus(CUserInterface* Widget);
 	BOOL						IsFocus(CUserInterface* Widget);
 
 	void						SetDrag(_bool flag);

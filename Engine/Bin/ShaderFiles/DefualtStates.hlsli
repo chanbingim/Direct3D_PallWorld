@@ -1,24 +1,8 @@
-float PI = 3.14159265359f;
-vector g_vMtrlDiffuse = 1.f;
-vector g_vMtrlAmbient = 1.f;
-vector g_vMtrlSpecular = 1.f;
-sampler DefaultSampler = sampler_state
-{
-    filter = MIN_MAG_MIP_LINEAR;
-    AddressU = WRAP;
-    AddressV = WRAP;
-};
 
 RasterizerState RS_Default
 {
     FillMode = Solid;
     CullMode = Back;
-};
-
-RasterizerState RS_Front
-{
-    FillMode = Solid;
-    CullMode = Front;
 };
 
 RasterizerState RS_Wireframe
@@ -47,16 +31,6 @@ DepthStencilState DSS_None
 BlendState BS_None
 {
     BlendEnable[0] = false;
-};
-
-BlendState BS_Blend
-{
-    BlendEnable[0] = true;
-    BlendEnable[1] = true;
-
-    SrcBlend = ONE;
-    DestBlend = ONE;
-    BlendOp = Add;
 };
 
 BlendState BS_AlphaBlend

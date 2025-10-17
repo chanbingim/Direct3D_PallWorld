@@ -47,7 +47,9 @@ private :
 	void							GenerateTerrian();
 	void							DrawPrefabBrush();
 	void							CreateHeightMapToPng();
-	void							RefreshHegihtAllProbObject();
+
+	void							Save_NaviMesh();
+	HRESULT							ExportNaviMeshData(const char* pFilePath, list<NAVI_TRIANGLE>& SaveList);
 
 public:
 	static	CIMG_LandScape*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

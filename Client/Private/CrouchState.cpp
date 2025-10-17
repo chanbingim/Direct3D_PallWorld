@@ -9,7 +9,7 @@ void CCrouchState::OnStateEnter(void* pArg)
 {
 }
 
-void CCrouchState::OnStateExcution(_float fDeletaTime, void* pArg)
+void CCrouchState::OnStateExcution(void* pArg)
 {
 }
 

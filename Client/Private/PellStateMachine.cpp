@@ -20,6 +20,9 @@ HRESULT CPellStateMachine::Initialize(void* pArg)
 {
     __super::Initialize(pArg);
 
+    PELLFSM_DESC* pDesc = static_cast<PELLFSM_DESC*>(pArg);
+    m_pOwner = pDesc->pOwner;
+
     if (FAILED(ADD_StateLayer()))
         return E_FAIL;
 
@@ -31,12 +34,12 @@ HRESULT CPellStateMachine::Initialize(void* pArg)
     return S_OK;
 }
 
-void CPellStateMachine::Update(_float DeltaTime, void* pArg)
+void CPellStateMachine::Update(_float DeltaTime)
 {
-    __super::Update(DeltaTime, pArg);
+    __super::Update(DeltaTime);
 }
 
-_bool CPellStateMachine::ChangeState(const _wstring& LayerTag, const _wstring& StateTag, void* pArg)
+_bool CPellStateMachine::ChangeState(const _wstring& LayerTag, const _wstring& StateTag)
 {
     auto pLayer = FindLayer(LayerTag);
     if (nullptr == pLayer)
@@ -44,7 +47,7 @@ _bool CPellStateMachine::ChangeState(const _wstring& LayerTag, const _wstring& S
 
     _uInt iLayerIndex = GetNumLayer(LayerTag);
 
-    if (FAILED(pLayer->ChangeState(StateTag, pArg)))
+    if (FAILED(pLayer->ChangeState(StateTag)))
         return false;
 
     _uInt iStateIndex = pLayer->GetCurrentStateNum();
@@ -85,15 +88,6 @@ void CPellStateMachine::PellStateReset(const _wstring& LayerTag)
     ResetLayer(LayerTag);
 }
 
-_bool CPellStateMachine::GetLayerLastPhase(const _wstring& LayerTag)
-{
-    auto pLayer = FindLayer(LayerTag);
-    if (nullptr == pLayer)
-        return false;
-
-    return pLayer->GetCurrentStateLastPhase();
-}
-
 _string CPellStateMachine::GetAnimationName()
 {
     _string FullName = {};
@@ -106,29 +100,11 @@ _string CPellStateMachine::GetAnimationName()
     const char* BodyAnimName = BodyLayer->GetCurStateName();
     const char* CombatAnimName = CombatLayer->GetCurStateName();
 
-    if (COMBAT_ACTION::END == m_StateData.eCombat_State )
-    {
-        if(nullptr == BodyAnimName)
-            return "";
+    if (nullptr == BodyAnimName)
+        return "";
 
-        FullName = BodyAnimName;
-    }
-    else
-    {
-        if (nullptr == CombatAnimName)
-            return "";
-
-        FullName = CombatAnimName;
-    }
-   
+    FullName = BodyAnimName;
     return FullName;
-}
-
-void CPellStateMachine::CombatStateReset()
-{
-    m_StateData.eCombat_State = COMBAT_ACTION::END;
-    m_StateData.bIsAttacking = false;
-    ResetLayer(TEXT("CombatLayer"));
 }
 
 HRESULT CPellStateMachine::ADD_StateLayer()

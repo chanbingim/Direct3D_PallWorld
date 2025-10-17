@@ -185,6 +185,7 @@ HRESULT CMesh::Export(void* pOut)
 		}
 	}
 	Safe_Release(StagingBuffer);
+
 	return S_OK;
 }
 
@@ -333,55 +334,6 @@ _bool CMesh::IsPicking(CTransform* pTransform, _float3* pOut)
 	return bIsPicking;
 }
 
-_bool CMesh::IsPicking(CTransform* pTransform, _float3& vOut, _float3& vNormal)
-{
-	_matrix InvWorld = XMLoadFloat4x4(&pTransform->GetInvWorldMat());
-	m_pGameInstance->Compute_LocalRay(&InvWorld);
-
-	ID3D11Buffer* StagingBuffer = nullptr;
-	//버퍼 세팅
-	D3D11_BUFFER_DESC			IndexDesc = {};
-	IndexDesc.ByteWidth = m_iIndexStride * m_iNumIndices;
-	IndexDesc.Usage = D3D11_USAGE_STAGING;
-	IndexDesc.BindFlags = 0;
-	IndexDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
-	IndexDesc.MiscFlags = 0;
-	IndexDesc.StructureByteStride = m_iIndexStride;
-	m_pDevice->CreateBuffer(&IndexDesc, nullptr, &StagingBuffer);
-
-	_bool bIsPicking = false;
-	if (StagingBuffer)
-	{
-		m_pContext->CopyResource(StagingBuffer, m_pIndexBuffer);
-
-		D3D11_MAPPED_SUBRESOURCE IndicesMap;
-		if (S_OK == m_pContext->Map(StagingBuffer, 0, D3D11_MAP_READ, 0, &IndicesMap))
-		{
-			_uInt* pIndices = reinterpret_cast<_uInt*>(IndicesMap.pData);
-			for (_uInt i = 0; i < m_iNumIndices; i += 3)
-			{
-				//하단 삼각형
-				if (true == m_pGameInstance->Picking_InLocal(m_pVertices[pIndices[i]], m_pVertices[pIndices[i + 1]], m_pVertices[pIndices[i + 2]], &vOut))
-				{
-					bIsPicking = true;
-
-					_vector vNoramlAB = XMVector3Normalize((XMLoadFloat3(&m_pVertices[pIndices[i]]) - XMLoadFloat3(&m_pVertices[pIndices[i + 1]])));
-					_vector vNoramlAC = XMVector3Normalize((XMLoadFloat3(&m_pVertices[pIndices[i]]) - XMLoadFloat3(&m_pVertices[pIndices[i + 2]])));
-
-					XMStoreFloat3(&vOut, XMVector3TransformCoord(XMLoadFloat3(&vOut), XMLoadFloat4x4(&pTransform->GetWorldMat())));
-					XMStoreFloat3(&vNormal,XMVector3Normalize(XMVector3Cross(vNoramlAB, vNoramlAC)));
-					break;
-				}
-			}
-
-			m_pContext->Unmap(StagingBuffer, 0);
-		}
-	}
-	Safe_Release(StagingBuffer);
-
-	return bIsPicking;
-}
-
 _bool CMesh::IsPicking(_vector vRayOrizin, _vector vRayDir, CTransform* pTransform, _float3* pOut)
 {
 	_matrix InvWorld = XMLoadFloat4x4(&pTransform->GetInvWorldMat());
@@ -430,23 +382,6 @@ _bool CMesh::IsPicking(_vector vRayOrizin, _vector vRayDir, CTransform* pTransfo
 	return bIsPicking;
 }
 
-ID3D11Buffer* CMesh::GetVertexBuffer(_uInt* pOutVertexStride)
-{
-	*pOutVertexStride = m_iVertexStride;
-
-	Safe_AddRef(m_pVertexBuffer);
-	return m_pVertexBuffer;
-}
-
-ID3D11Buffer* CMesh::GetIndexBuffer(DXGI_FORMAT* eFormat, _uInt* pIndices)
-{
-	*eFormat = m_eIndexFormat;
-	*pIndices = m_iNumIndices;
-
-	Safe_AddRef(m_pIndexBuffer);
-	return m_pIndexBuffer;
-}
-
 HRESULT CMesh::Ready_VertexBuffer_For_NonAnim(const aiMesh* pAIMesh, _matrix PreTransformMatrix)
 {
 	m_iVertexStride = sizeof(VTX_MESH);
@@ -473,13 +408,10 @@ HRESULT CMesh::Ready_VertexBuffer_For_NonAnim(const aiMesh* pAIMesh, _matrix Pre
 		m_pVertices[i] = pVtxMeshs[i].vPosition;
 
 		memcpy(&pVtxMeshs[i].vNormal, &pAIMesh->mNormals[i], sizeof(_float3));
-		XMStoreFloat3(&pVtxMeshs[i].vNormal, XMVector3Normalize(XMVector3TransformNormal(XMLoadFloat3(&pVtxMeshs[i].vNormal), PreTransformMatrix)));
-	
-		memcpy(&pVtxMeshs[i].vTangent, &pAIMesh->mTangents[i], sizeof(_float3));
-		XMStoreFloat3(&pVtxMeshs[i].vTangent, XMVector3Normalize(XMVector3TransformNormal(XMLoadFloat3(&pVtxMeshs[i].vTangent), PreTransformMatrix)));
+		XMStoreFloat3(&pVtxMeshs[i].vNormal, XMVector3TransformCoord(XMLoadFloat3(&pVtxMeshs[i].vNormal), PreTransformMatrix));
 
-		memcpy(&pVtxMeshs[i].vBinormal, &pAIMesh->mBitangents[i], sizeof(_float3));
-		XMStoreFloat3(&pVtxMeshs[i].vBinormal, XMVector3Normalize(XMVector3TransformNormal(XMLoadFloat3(&pVtxMeshs[i].vBinormal), PreTransformMatrix)));
+		memcpy(&pVtxMeshs[i].vTangent, &pAIMesh->mTangents[i], sizeof(_float3));
+		XMStoreFloat3(&pVtxMeshs[i].vTangent, XMVector3TransformCoord(XMLoadFloat3(&pVtxMeshs[i].vTangent), PreTransformMatrix));
 
 		memcpy(&pVtxMeshs[i].vTexcoord, &pAIMesh->mTextureCoords[0][i], sizeof(_float2));
 	}
@@ -511,11 +443,8 @@ HRESULT CMesh::Ready_VertexBuffer_For_Anim(const CModel* pModel, const aiMesh* p
 	for (_uInt i = 0; i < m_iNumVertices; ++i)
 	{
 		memcpy(&pVtxAnimMeshs[i].vPosition, &pAIMesh->mVertices[i], sizeof(_float3));
-		m_pVertices[i] = pVtxAnimMeshs[i].vPosition;
-
 		memcpy(&pVtxAnimMeshs[i].vNormal, &pAIMesh->mNormals[i], sizeof(_float3));
 		memcpy(&pVtxAnimMeshs[i].vTangent, &pAIMesh->mTangents[i], sizeof(_float3));
-		memcpy(&pVtxAnimMeshs[i].vBinormal, &pAIMesh->mBitangents[i], sizeof(_float3));
 		memcpy(&pVtxAnimMeshs[i].vTexcoord, &pAIMesh->mTextureCoords[0][i], sizeof(_float2));
 	}
 
@@ -639,10 +568,6 @@ HRESULT CMesh::Ready_VertexBuffer_For_NonAnim(void* MeshDesc, _matrix PreTransfo
 
 		memcpy(&pVtxMeshs[iIndex].vTangent, &vertex.vTangent, sizeof(_float3));
 		XMStoreFloat3(&pVtxMeshs[iIndex].vTangent, XMVector3TransformCoord(XMLoadFloat3(&pVtxMeshs[iIndex].vTangent), PreTransformMatrix));
-
-		memcpy(&pVtxMeshs[iIndex].vBinormal, &vertex.vBinormal, sizeof(_float3));
-		XMStoreFloat3(&pVtxMeshs[iIndex].vBinormal, XMVector3Normalize(XMVector3TransformNormal(XMLoadFloat3(&pVtxMeshs[iIndex].vBinormal), PreTransformMatrix)));
-
 		memcpy(&pVtxMeshs[iIndex].vTexcoord, &vertex.vTexcoord, sizeof(_float2));
 		iIndex++;
 	}
@@ -698,7 +623,6 @@ HRESULT CMesh::Ready_VertexBuffer_For_Anim(void* MeshDesc)
 		memcpy(&pVtxMeshs[iIndex].vNormal, &vertex.vNormal, sizeof(_float3));
 		memcpy(&pVtxMeshs[iIndex].vTangent, &vertex.vTangent, sizeof(_float3));
 		memcpy(&pVtxMeshs[iIndex].vTexcoord, &vertex.vTexcoord, sizeof(_float2));
-		memcpy(&pVtxMeshs[iIndex].vBinormal, &vertex.vBinormal, sizeof(_float2));
 		memcpy(&pVtxMeshs[iIndex].vBlendIndex, &vertex.vBlendIndex, sizeof(XMUINT4));
 		memcpy(&pVtxMeshs[iIndex].vBlendWeight, &vertex.vBlendWeight, sizeof(_float4));
 		iIndex++;

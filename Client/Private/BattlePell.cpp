@@ -1,10 +1,6 @@
 #include "BattlePell.h"
 
 #include "GameInstance.h"
-#include "PellCharacterIcon.h"
-#include "PlayerManager.h"
-
-
 #include "GamePlayHUD.h"
 
 CBattlePell::CBattlePell(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
@@ -33,6 +29,13 @@ HRESULT CBattlePell::Initialize(void* pArg)
     if (FAILED(ADD_Components()))
         return E_FAIL;
 
+    if (FAILED(ADD_Childs()))
+        return E_FAIL;
+
+    if (FAILED(Bind_ShaderResources()))
+        return E_FAIL;
+
+
     _matrix WorldMatrix = XMLoadFloat4x4(&m_pTransformCom->GetWorldMat());
     _vector vPos = *(reinterpret_cast<_vector*>(&WorldMatrix.r[3]));
 
@@ -44,12 +47,6 @@ HRESULT CBattlePell::Initialize(void* pArg)
     WorldMatrix.r[3] = vPos;
     XMStoreFloat4x4(&m_GroupMat[1], WorldMatrix);
 
-    if (FAILED(ADD_Childs()))
-        return E_FAIL;
-
-    if (FAILED(Bind_ShaderResources()))
-        return E_FAIL;
-
     m_eType = OBJECT_TYPE::STATIC;
 
     return S_OK;
@@ -57,24 +54,12 @@ HRESULT CBattlePell::Initialize(void* pArg)
 
 void CBattlePell::Update(_float fDeletaTime)
 {
-    for (auto i = 0; i < 3; ++i)
-        m_PellCharacterIcon[i]->Update(fDeletaTime);
-
-    _Int iLeftInex{}, iSelectIndex{}, iRightIndex{};
-    CPlayerManager::GetInstance()->GetLeftRightSelectIndex(&iLeftInex, &iSelectIndex, &iRightIndex);
-    m_PellCharacterIcon[0]->SetSelectPellIndex(iLeftInex);
-    m_PellCharacterIcon[1]->SetSelectPellIndex(iSelectIndex);
-    m_PellCharacterIcon[2]->SetSelectPellIndex(iRightIndex);
-
 
 }
 
 void CBattlePell::Late_Update(_float fDeletaTime)
 {
     m_pGameInstance->Add_RenderGroup(RENDER::SCREEN_UI, this);
-
-    for (auto i = 0; i < 3; ++i)
-        m_PellCharacterIcon[i]->Late_Update(fDeletaTime);
 }
 
 HRESULT CBattlePell::Render()
@@ -136,31 +121,6 @@ HRESULT CBattlePell::ADD_Childs()
             return E_FAIL;
     }
 
-    CPellCharacterIcon::PELL_CHARACTER_ICON PellDesc = {};
-    PellDesc.vScale = {50.f, 50.f, 0.f};
-
-    /* Pell Slot Left */
-    PellDesc.pParentMat = &m_GroupMat[0];
-    m_PellCharacterIcon[0] = CPellCharacterIcon::Create(m_pGraphic_Device, m_pDeviceContext);
-    if (nullptr == m_PellCharacterIcon[0])
-        return E_FAIL;
-
-    m_PellCharacterIcon[0]->Initialize(&PellDesc);
-
-    /* Pell Slot Left */
-    PellDesc.pParentMat = &m_pTransformCom->GetWorldMat();
-    m_PellCharacterIcon[1] = CPellCharacterIcon::Create(m_pGraphic_Device, m_pDeviceContext);
-    if (nullptr == m_PellCharacterIcon[1])
-        return E_FAIL;
-    m_PellCharacterIcon[1]->Initialize(&PellDesc);
-   
-    /* Pell Slot Right */
-    PellDesc.pParentMat = &m_GroupMat[1];
-    m_PellCharacterIcon[2] = CPellCharacterIcon::Create(m_pGraphic_Device, m_pDeviceContext);
-    if (nullptr == m_PellCharacterIcon[2])
-        return E_FAIL;
-    m_PellCharacterIcon[2]->Initialize(&PellDesc);
-
     return S_OK;
 }
 
@@ -191,7 +151,4 @@ CGameObject* CBattlePell::Clone(void* pArg)
 void CBattlePell::Free()
 {
     __super::Free();
-
-    for (auto i = 0; i < 3; ++i)
-        Safe_Release(m_PellCharacterIcon[i]);
 }

@@ -2,9 +2,7 @@
 
 #include "GameInstance.h"
 #include "Category.h"
-
 #include "GameOption.h"
-#include "TechnologyMenu.h"
 #include "CharacterView.h"
 
 CInGameMenu::CInGameMenu(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext) :
@@ -47,7 +45,7 @@ HRESULT CInGameMenu::Initialize(void* pArg)
 
 void CInGameMenu::Update(_float fDeletaTime)
 {
-    if (VISIBILITY::HIDDEN == m_eVisible)
+    if (!m_bIsActive)
         return;
 
     for (auto& iter : m_pChildList)
@@ -59,7 +57,7 @@ void CInGameMenu::Update(_float fDeletaTime)
 
 void CInGameMenu::Late_Update(_float fDeletaTime)
 {
-    if (VISIBILITY::HIDDEN == m_eVisible)
+    if (!m_bIsActive)
         return;
 
     m_pGameInstance->Add_RenderGroup(RENDER::SCREEN_UI, this);
@@ -79,6 +77,20 @@ HRESULT CInGameMenu::Render()
     m_pVIBufferCom->Render_VIBuffer();
 
     return S_OK;
+}
+
+void CInGameMenu::SetActive(_bool flag)
+{
+    m_bIsActive = flag;
+  
+    //버튼 애니메이션 초기화후 버튼 애니메이션 재생
+    /*for (auto& iter : m_CategoryButton)
+        iter->SetActive(flag);*/
+}
+
+_bool CInGameMenu::IsActive()
+{
+    return m_bIsActive;
 }
 
 HRESULT CInGameMenu::ADD_Childs()
@@ -108,17 +120,6 @@ HRESULT CInGameMenu::ADD_CategoryButton()
     /* CharacterInfo Button */
     Desc.Type = 0;
     Desc.vPosition = { -CenterX, fButtonPosY, 0.f };
-    Desc.szButtonName = TEXT("Inventory");
-    pCategorybut = CCategory::Create(m_pGraphic_Device, m_pDeviceContext);
-    if (FAILED(pCategorybut->Initialize(&Desc)))
-        return E_FAIL;
-    m_CategoryButton.push_back(pCategorybut);
-    ADD_Child(pCategorybut);
-
-    /* CharacterInfo Button */
-    Desc.Type = 1;
-    Desc.vPosition = { -(CenterX - (ButHalfX * 2.f)), fButtonPosY, 0.f };
-    Desc.szButtonName = TEXT("Technology");
     pCategorybut = CCategory::Create(m_pGraphic_Device, m_pDeviceContext);
     if (FAILED(pCategorybut->Initialize(&Desc)))
         return E_FAIL;
@@ -126,9 +127,8 @@ HRESULT CInGameMenu::ADD_CategoryButton()
     ADD_Child(pCategorybut);
 
     /* Option Button */
-    Desc.Type = 2;
-    Desc.szButtonName = TEXT("Option");
-    Desc.vPosition = { -(CenterX - (ButHalfX * 4.f)), fButtonPosY, 0.f };
+    Desc.Type = 1;
+    Desc.vPosition = { -(CenterX - (ButHalfX * 2.f)), fButtonPosY, 0.f };
     pCategorybut = CCategory::Create(m_pGraphic_Device, m_pDeviceContext);
     if (FAILED(pCategorybut->Initialize(&Desc)))
         return E_FAIL;
@@ -152,10 +152,6 @@ HRESULT CInGameMenu::ADD_Widgets()
     Desc.vScale = m_pTransformCom->GetScale();
     m_pGameOptionUI = CGameOption::Create(m_pGraphic_Device, m_pDeviceContext);
     if (FAILED(m_pGameOptionUI->Initialize(&Desc)))
-        return E_FAIL;
-
-    m_pTechMenuUI = CTechnologyMenu::Create(m_pGraphic_Device, m_pDeviceContext);
-    if (FAILED(m_pTechMenuUI->Initialize(&Desc)))
         return E_FAIL;
 
     m_pCharacterView = CCharacterView::Create(m_pGraphic_Device, m_pDeviceContext);
@@ -195,10 +191,6 @@ void CInGameMenu::SelectCategoryEvent(_uInt iIndex)
         m_pCharacterView->SetVisibility(VISIBILITY::VISIBLE);
         break;
     case 1:
-        m_pSelectWidget = m_pTechMenuUI;
-        m_pTechMenuUI->SetVisibility(VISIBILITY::VISIBLE);
-        break;
-    case 2:
         m_pSelectWidget = m_pGameOptionUI;
         m_pGameOptionUI->SetVisibility(VISIBILITY::VISIBLE);
         break;
@@ -235,6 +227,5 @@ void CInGameMenu::Free()
         Safe_Release(iter);
 
     Safe_Release(m_pGameOptionUI);
-    Safe_Release(m_pTechMenuUI);
     Safe_Release(m_pCharacterView);
 }

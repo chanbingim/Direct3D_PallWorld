@@ -41,8 +41,12 @@ HRESULT CUserInterface::Initialize(void* pArg)
 			m_fPos.x = pObjectDesc->vPosition.x;
 			m_fPos.y = pObjectDesc->vPosition.y;
 
+			SetLocation(pObjectDesc->vPosition);
 			if (pObjectDesc->pParent)
+			{
+				m_pTransformCom->SetPosition(pObjectDesc->vPosition);
 				SetParent(pObjectDesc->pParent);
+			}
 
 			UpdateRectSize();
 		}
@@ -120,14 +124,6 @@ const RECT& CUserInterface::GetRectSize()
 	return m_UISize;
 }
 
-_float2 CUserInterface::GetScreenPos()
-{
-	_float2 vScreenPos = { (_float)(m_UISize.left + (m_UISize.right - m_UISize.left) * 0.5f),
-						   (_float)(m_UISize.top + (m_UISize.bottom - m_UISize.top) * 0.5f)};
-
-	return vScreenPos;
-}
-
 void CUserInterface::MouseHoverEnter()
 {
 
@@ -174,6 +170,9 @@ HRESULT CUserInterface::Apply_ConstantShaderResources()
 
 void CUserInterface::OverlapEvent()
 {
+	if (!m_pGameInstance->IsMouseFocus(this))
+		return;
+	
 	//그다음 얻은 포커스 및 드래그 플래그를 통해서
 	//Pressed 및 Up 반환
 	if (m_pGameInstance->IsMouseDrag())
@@ -186,36 +185,40 @@ void CUserInterface::OverlapEvent()
 
 		if (m_pGameInstance->KeyUp(KEY_INPUT::MOUSE, 0) || m_pGameInstance->KeyUp(KEY_INPUT::MOUSE, 1))
 		{
-			if (m_bIsHover)
-			{
-				MouseButtonUp();
-				m_pGameInstance->SetDrag(false);
-			}
-		}
-	}
-
-	if (PtInRect(&m_UISize, m_pGameInstance->GetMousePoint()))
-	{
-		if (!m_bIsHover)
-		{
-			MouseHoverEnter();
-		}
-
-		m_bIsHover = true;
-		MouseHovering();
-
-		if (m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 0) || m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 1))
-		{
-			//여기서 Drag 밑 포커스 얻기
-			m_pGameInstance->SetDrag(true);
-			MouseButtonDwon();
+			MouseButtonUp();
+			m_pGameInstance->SetDrag(false);
 		}
 	}
 	else
 	{
-		if (m_bIsHover)
+		if (PtInRect(&m_UISize, m_pGameInstance->GetMousePoint()))
 		{
-			MouseHoverExit();
+			if (!m_bIsHover)
+			{
+				MouseHoverEnter();
+				m_pGameInstance->SetMouseFocus(this);
+			}
+
+			m_bIsHover = true;
+			MouseHovering();
+
+			if (m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 0) || m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 1))
+			{
+				//여기서 Drag 밑 포커스 얻기
+				m_pGameInstance->SetDrag(true);
+				MouseButtonDwon();
+			}
+		}
+		else
+		{
+			if (!m_pGameInstance->IsMouseDrag())
+			{
+				if (m_bIsHover)
+				{
+					MouseHoverExit();
+					m_pGameInstance->SetMouseFocus(nullptr);
+				}
+			}
 			m_bIsHover = false;
 		}
 	}
@@ -249,13 +252,17 @@ void CUserInterface::UpdateRectSize()
 	}
 
 	_float3 vScale = m_pTransformCom->GetScale();
-	auto ScreenSize = m_pGameInstance->GetScreenSize();
+
+	D3D11_VIEWPORT       ViewportDesc{};
+	_uInt                iNumViewports = { 1 };
+
+	m_pDeviceContext->RSGetViewports(&iNumViewports, &ViewportDesc);
 
 	_float		RectCenterX = (vParentpos.x + m_fPos.x);
 	_float		RectCenterY = (vParentpos.y + m_fPos.y);
 
-	m_pTransformCom->SetPosition({ RectCenterX - ScreenSize.x * 0.5f,
-								  -RectCenterY + ScreenSize.y * 0.5f, 0.f});
+	m_pTransformCom->SetPosition({RectCenterX - ViewportDesc.Width * 0.5f,
+								  -RectCenterY + ViewportDesc.Height * 0.5f, 0.f});
 
 	m_UISize = {static_cast<long>(RectCenterX - (vScale.x * 0.5f)),
 				static_cast<long>(RectCenterY - (vScale.y * 0.5f)),

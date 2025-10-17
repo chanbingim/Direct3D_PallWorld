@@ -9,7 +9,6 @@ NS_END
 NS_BEGIN(Client)
 class CCategory;
 class CCharacterView;
-class CTechnologyMenu;
 class CGameOption;
 
 class CInGameMenu final : public CBackGround
@@ -29,12 +28,15 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
+	void									SetActive(_bool flag);
+	_bool									IsActive();
+
 private :
+	_bool									m_bIsActive = false;
 	vector<CCategory*>						m_CategoryButton = {};
 
 	CUserInterface*							m_pSelectWidget = nullptr;
 	CGameOption*							m_pGameOptionUI = nullptr;
-	CTechnologyMenu*						m_pTechMenuUI = nullptr;
 	CCharacterView*							m_pCharacterView = nullptr;
 
 private:
