@@ -81,7 +81,7 @@ HRESULT CFastTravelObject::Render()
 HRESULT CFastTravelObject::ADD_Components()
 {
     // 나무 모델 정보
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_PalBox"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_FastTravel"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
         return E_FAIL;
 
     // 콜리전 정보를 넣어서 한다.
