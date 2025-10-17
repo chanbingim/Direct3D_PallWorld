@@ -7,7 +7,7 @@
 NS_BEGIN(Client)
 class CItemBase : public CBase
 {
-private :
+protected :
 	CItemBase(_uInt ItemID);
 	CItemBase(ITEM_DESC& ItemData);
 	virtual ~CItemBase() = default;
@@ -15,7 +15,7 @@ private :
 public :
 	const ITEM_DESC&						GetItemData()  const { return m_ItemDesc; }
 
-private:
+protected:
 	ITEM_DESC								m_ItemDesc;
 
 public:

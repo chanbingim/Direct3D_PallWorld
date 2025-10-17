@@ -46,6 +46,12 @@ HRESULT CPellBody::Render()
     return S_OK;
 }
 
+void CPellBody::SetAttachSocket(const _float4x4* pSocket, _char SocketFlag)
+{
+    m_UseSocketMatrixFlag = SocketFlag;
+    m_SocketMatrix = pSocket;
+}
+
 void CPellBody::PellPlayAnimation(const char* szAnimName, _bool bIsLoop)
 {
     if (szAnimName)
@@ -53,6 +59,16 @@ void CPellBody::PellPlayAnimation(const char* szAnimName, _bool bIsLoop)
         m_iAnimIndex = m_pVIBufferCom->GetNumAnimation(szAnimName);
         m_bIsAnimLoop = bIsLoop;
     }
+}
+
+void CPellBody::ResetPellCurrentAnimation()
+{
+    m_pVIBufferCom->ResetAnimation(0);
+}
+
+_bool CPellBody::FinishedAnimation()
+{
+    return m_bIsAnimFinished;
 }
 
 CGameObject* CPellBody::Clone(void* pArg)

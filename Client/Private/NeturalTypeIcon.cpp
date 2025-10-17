@@ -15,6 +15,9 @@ CNeturalTypeIcon::CNeturalTypeIcon(const CNeturalTypeIcon& rhs) :
 
 HRESULT CNeturalTypeIcon::Initalize_Prototype()
 {
+    if (FAILED(__super::Initalize_Prototype()))
+        return E_FAIL;
+
     return S_OK;
 }
 
@@ -33,7 +36,7 @@ void CNeturalTypeIcon::Update(_float fDeletaTime)
     CNeturalPellInfo* pNeturalPell = dynamic_cast<CNeturalPellInfo*>(m_pParent);
     if (pNeturalPell)
     {
-        _matrix ParentMat = XMLoadFloat4x4(&pNeturalPell->GetCombinedMatrix());
+        _matrix ParentMat = XMLoadFloat4x4(&pNeturalPell->GetTransform()->GetWorldMat());
         for (_uInt i = 0; i < 3; ++i)
             ParentMat.r[i] = XMVector3Normalize(ParentMat.r[i]);
 
@@ -45,21 +48,17 @@ void CNeturalTypeIcon::Update(_float fDeletaTime)
 
 void CNeturalTypeIcon::Late_Update(_float fDeletaTime)
 {
-    m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
+    m_pGameInstance->Add_RenderGroup(RENDER::SCREEN_UI, this);
 }
 
 HRESULT CNeturalTypeIcon::Render()
 {
     Apply_ConstantShaderResources();
-    m_pShaderCom->Update_Shader(1);
+    m_pShaderCom->Update_Shader(3);
 
     //이거 내가 보니까 무조건 먼저 그려지는 녀석이 확정되는거같음 여기서 설정해서 보여줘야할듯
     m_pTextureCom->SetTexture(0, m_iTypeID);
     m_pVIBufferCom->Render_VIBuffer();
-
-    m_pBackGroundTex->SetTexture(0, 0);
-    m_pVIBufferCom->Render_VIBuffer();
-
   
     return S_OK;
 }
@@ -67,8 +66,8 @@ HRESULT CNeturalTypeIcon::Render()
 HRESULT CNeturalTypeIcon::Apply_ConstantShaderResources()
 {
     m_pEMVWorldMat->SetMatrix(reinterpret_cast<const float*>(&m_CombinedMat));
-    m_pEMVViewMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::VIEW)));
-    m_pEMVProjMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION)));
+    m_pEMVViewMat->SetMatrix(reinterpret_cast<const float*>(&m_ViewMatrix));
+    m_pEMVProjMat->SetMatrix(reinterpret_cast<const float*>(&m_ProjMatrix));
 
     return S_OK;
 }

@@ -12,6 +12,10 @@
 #include "ItemManager.h"
 #include "PlayerManager.h"
 #include "TerrainManager.h"
+#include "PellManager.h"
+#include "PellSkillManager.h"
+#include "PellBoxManager.h"
+#include "TechManager.h"
 #pragma endregion
 
 
@@ -38,23 +42,30 @@ HRESULT CMainApp::Initialize_MainApp()
 	if (FAILED(SetUp_MouseTexture()))
 		return E_FAIL;
 
+	if (FAILED(SetUp_InGameFont()))
+		return E_FAIL;
+
+#pragma region PellManger
+	CPellManager::GetInstance()->Initialize(m_pGraphic_Device, m_pDevice_Context, "../Bin/Resources/DataFile/Pal/PalData.csv");
+#pragma endregion
+
+#pragma region ItemManager
+	CItemManager::GetInstance()->Initialize(m_pGraphic_Device, m_pDevice_Context);
+#pragma endregion
+
+#pragma region TechManager
+	CTechManager::GetInstance()->Initialize("../Bin/Resources/DataFile/BuildObject/BuildObject.csv");
+#pragma endregion
+
+#pragma region PellBoxManager
+	CPellBoxManager::GetInstance()->Initialize_Manager();
+#pragma endregion
+
 #ifdef _DEBUG
 	if (FAILED(SetUp_DebugWindow()))
 		return E_FAIL;
 #endif // _DEBUG
 
-
-	//// 와이어프레임 RasterizerState 생성
-	//D3D11_RASTERIZER_DESC desc = {};
-	//desc.FillMode = D3D11_FILL_WIREFRAME; // 와이어프레임 모드
-	//desc.CullMode = D3D11_CULL_BACK;      // 백페이스 컬링
-	//desc.DepthClipEnable = TRUE;
-
-	//ID3D11RasterizerState* pWireframeRS = nullptr;
-	//m_pGraphic_Device->CreateRasterizerState(&desc, &pWireframeRS);
-
-	//// 적용
-	//m_pDevice_Context->RSSetState(pWireframeRS);
 
 	return S_OK;
 }
@@ -184,11 +195,37 @@ HRESULT CMainApp::SetUp_StaticComponents()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_SkyMesh"),
 		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_MESH::Elements, VTX_MESH::iNumElements, TEXT("../Bin/ShaderFiles/SkyMeshDefault.hlsl")))))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_WorldUI"),
+		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_POINT::Elements, VTX_POINT::iNumElements, TEXT("../Bin/ShaderFiles/WorldUI.hlsl")))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_InstanceMesh"),
+		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_MODEL_INSTANCE_DESC::Elements, VTX_MODEL_INSTANCE_DESC::iNumElements, TEXT("../Bin/ShaderFiles/VTX_InstnaceMesh.hlsl")))))
+		return E_FAIL;
+
+#pragma region Button Shader & Select Tri
+	/* Button Shader */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Button"),
+		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_TEX::Elements, VTX_TEX::iNumElements, TEXT("../Bin/ShaderFiles/ButtonShader.hlsl")))))
+		return E_FAIL;
+
+	/* Select Tri Shader */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Select_Tri"),
+		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_TEX::Elements, VTX_TEX::iNumElements, TEXT("../Bin/ShaderFiles/SelectTriShader.hlsl")))))
+		return E_FAIL;
+#pragma endregion
+
+
 #pragma endregion
 
 #pragma region VIBuffer
 	/* VIBuffer  RECT  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"), CVIBuffer_Rect::Create(m_pGraphic_Device, m_pDevice_Context))))
+		return E_FAIL;
+
+	/* VIBuffer  POINT  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Point"), CVIBuffer_Point::Create(m_pGraphic_Device, m_pDevice_Context))))
 		return E_FAIL;
 #pragma endregion
 
@@ -201,17 +238,26 @@ HRESULT CMainApp::SetUp_StaticComponents()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Animation"), CSpriteAnimation::Create(m_pGraphic_Device, m_pDevice_Context))))
 		return E_FAIL;
 
+#pragma region Collision
 	/* BoxCollision Component */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_CoolisionBox"), CBoxCollision::Create(m_pGraphic_Device, m_pDevice_Context))))
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionBox"), CBoxCollision::Create(m_pGraphic_Device, m_pDevice_Context))))
 		return E_FAIL;
 
 	/* SphereCollision Component */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_CoolisionSphere"), CSphereCollision::Create(m_pGraphic_Device, m_pDevice_Context))))
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionSphere"), CSphereCollision::Create(m_pGraphic_Device, m_pDevice_Context))))
 		return E_FAIL;
 
 	/* OBBCollision Component */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_CoolisionOBB"), COBBCollision::Create(m_pGraphic_Device, m_pDevice_Context))))
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionOBB"), COBBCollision::Create(m_pGraphic_Device, m_pDevice_Context))))
 		return E_FAIL;
+#pragma endregion
+
+#pragma region Font Component
+	/* OBBCollision Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_FontComponent"), CFontComponent::Create(m_pGraphic_Device, m_pDevice_Context))))
+		return E_FAIL;
+#pragma endregion
+
 
 #pragma endregion
 
@@ -246,6 +292,29 @@ HRESULT CMainApp::SetUp_MouseTexture()
 		return E_FAIL;
 
 	ShowCursor(false);
+	return S_OK;
+}
+
+HRESULT CMainApp::SetUp_InGameFont()
+{
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("HanSanFont_16"), TEXT("../Bin/Resources/Fonts/Spoqa_Han_Sans_Neo_Medium16.spritefont"))))
+		return E_FAIL;
+
+	if( FAILED(m_pGameInstance->Add_Font(TEXT("HanSanFont_20"), TEXT("../Bin/Resources/Fonts/Spoqa_Han_Sans_Neo_Medium20.spritefont"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("HanSanFont_24"), TEXT("../Bin/Resources/Fonts/Spoqa_Han_Sans_Neo_Medium24.spritefont"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("HanSanFont_32"), TEXT("../Bin/Resources/Fonts/Spoqa_Han_Sans_Neo_Medium32.spritefont"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("HanSanFont_50"), TEXT("../Bin/Resources/Fonts/Spoqa_Han_Sans_Neo_Medium50.spritefont"))))
+		return E_FAIL;
+		
+	if (FAILED(m_pGameInstance->Add_Font(TEXT("HanSanFont_56"), TEXT("../Bin/Resources/Fonts/Spoqa_Han_Sans_Neo_Medium56.spritefont"))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -294,8 +363,12 @@ void CMainApp::Free()
 #endif // __DEBUG
 	
 	CPlayerManager::DestroyInstance();
+	CPellBoxManager::DestroyInstance();
 	CItemManager::DestroyInstance();
+	CPellManager::DestroyInstance();
 	CTerrainManager::DestroyInstance();
+	CPellSkillManager::DestroyInstance();
+	CTechManager::DestroyInstance();
 
 	m_pGameInstance->Release_Engine();
 	Safe_Release(m_pGameInstance);

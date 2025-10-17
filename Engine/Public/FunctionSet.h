@@ -3,6 +3,7 @@
 #include "BaseCamera.h"
 #include "PartObject.h"
 
+#include "ChaseComponent.h"
 #include "Navigation.h"
 #include "ContainerObject.h"
 #include "SpriteAnimation.h"

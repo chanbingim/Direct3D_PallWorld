@@ -21,6 +21,7 @@ HRESULT CBone::Initialize(const aiNode* pAINode, _Int iParentIndex)
     m_InitTransformationMatrix = m_TransformationMatrix;
 
     // 나중을 위한 정보
+    XMStoreFloat4x4(&m_TransformationOffsetMatrix, XMMatrixIdentity());
     XMStoreFloat4x4(&m_CombinedTransformationMatrix, XMMatrixIdentity());
     return S_OK;
 }
@@ -42,6 +43,7 @@ HRESULT CBone::Initialize(void* pArg)
     m_InitTransformationMatrix = m_TransformationMatrix;
 
     // 나중을 위한 정보
+    XMStoreFloat4x4(&m_TransformationOffsetMatrix, XMMatrixIdentity());
     XMStoreFloat4x4(&m_CombinedTransformationMatrix, XMMatrixIdentity());
     return S_OK;
 }
@@ -64,9 +66,14 @@ const _float4x4* CBone::GetCombinedTransformationMatrixPtr()
     return &m_CombinedTransformationMatrix;
 }
 
+_float4x4* CBone::GetTransformationOffsetMatrixPtr()
+{
+    return &m_TransformationOffsetMatrix;
+}
+
 void CBone::SetBoneTransformMatrix(_matrix TransformMat)
 {
-    XMStoreFloat4x4(&m_TransformationMatrix, TransformMat);
+    XMStoreFloat4x4(&m_TransformationMatrix, TransformMat * XMLoadFloat4x4(&m_TransformationOffsetMatrix));
 }
 
 _matrix CBone::GetBoneTransformMatrix()

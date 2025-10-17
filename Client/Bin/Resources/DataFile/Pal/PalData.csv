@@ -1,0 +1,4 @@
+체력,스테미나,배고픔,공격력,작업속도,펠 ID,펠 이름,펠 아이콘 경로,프로토 타입 이름,공격 사거리,반응 속도,걷기 속도,달리기 속도,스킬 번호,작업 타입,펠 타입
+100,100,100,0,2,0,Dororong,../Bin/Resources/Textures/UI/InGameUI/PellCharacter/T_SheepBall_icon_normal.png,Prototype_GameObject_Drorong,50,5,1.5,5,0,0,0
+100,100,100,0,1,1,BedCat,../Bin/Resources/Textures/UI/InGameUI/PellCharacter/T_PinkCat_icon_normal.png,Prototype_GameObject_BedCat,50,6,1.5,5,1,2,0
+100,100,100,0,1,2,ElectPanda,../Bin/Resources/Textures/UI/InGameUI/PellCharacter/T_ElecPanda_icon_normal.png,Prototype_GameObject_ElectricPanda,100,6,1.5,5,2,4,3

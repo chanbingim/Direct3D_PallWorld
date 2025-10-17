@@ -3,6 +3,10 @@
 #include "GameInstance.h"
 #include "GamePlayHUD.h"
 
+#include "TypeIcon.h"
+#include "PlayerManager.h"
+#include "PellBase.h"
+
 CPellInfo::CPellInfo(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) : 
 	CBackGround(pDevice, pContext)
 {
@@ -41,11 +45,18 @@ HRESULT CPellInfo::Initialize(void* pArg)
 
 void CPellInfo::Update(_float fDeletaTime)
 {
+	auto pPellBase = CPlayerManager::GetInstance()->GetSelectPellInfomation();
+	if(pPellBase)
+		m_pTypeIcon->SetData(ENUM_CLASS(pPellBase->GetPellInfo().ePellType));
+
+	m_pTypeIcon->Update(fDeletaTime);
 }
 
 void CPellInfo::Late_Update(_float fDeletaTime)
 {
 	m_pGameInstance->Add_RenderGroup(RENDER::SCREEN_UI, this);
+
+	m_pTypeIcon->Late_Update(fDeletaTime);
 }
 
 HRESULT CPellInfo::Render()
@@ -87,8 +98,7 @@ HRESULT CPellInfo::ADD_Childs()
 
 		//Type Icon
 		Desc.vPosition = { -50.f, 0.f, 0.f };
-		if (FAILED(pInGame_HUD->Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Battle_Pell_TypeUI"), TEXT("TpyeIcon"), &Desc)))
-			return E_FAIL;
+		m_pTypeIcon = static_cast<CTypeIcon *>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Battle_Pell_TypeUI"), &Desc));
 	}
 
 	return S_OK;
@@ -121,4 +131,6 @@ CGameObject* CPellInfo::Clone(void* pArg)
 void CPellInfo::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_pTypeIcon);
 }

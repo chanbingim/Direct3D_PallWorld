@@ -11,7 +11,7 @@ private:
 
 public:
 	virtual void OnStateEnter(void* pArg = nullptr) override;
-	virtual void OnStateExcution(void* pArg = nullptr) override;
+	virtual void OnStateExcution(_float fDeletaTime, void* pArg = nullptr) override;
 	virtual void OnStateExit(void* pArg = nullptr) override;
 
 private :

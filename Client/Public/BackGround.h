@@ -4,7 +4,7 @@
 #include "UserInterface.h"
 
 NS_BEGIN(Engine)
-class CVIBuffer_Rect;
+class CVIBuffer;
 class CTexture;
 class CShader;
 NS_END
@@ -28,7 +28,7 @@ public:
 	virtual		HRESULT						Render() override;
 
 protected:
-	CVIBuffer_Rect*							m_pVIBufferCom = nullptr;
+	CVIBuffer*								m_pVIBufferCom = nullptr;
 	CTexture*								m_pTextureCom = nullptr;
 	CShader*								m_pShaderCom = nullptr;
 

@@ -25,7 +25,11 @@ public :
 	const	char*	GetAnimationName() { return m_szAnimName; }
 
 	void			Export(void* pAnimationDesc);
+
 	void			GetUseBoneIndex(vector<_bool>& BoneList);
+	void			ResetAnimation();
+
+	void			Bind_KeyFrameFunction(_uInt iKeyFrame, function<void()> function);
 
 private :
 	/*  애니 메이션에 대한 정보를 저장한다. */
@@ -40,10 +44,13 @@ private :
 	/* 초당 얼마나 재생되어야하는지 : 재생 속도 */
 	_float						m_fTickPerSecond = {};
 	_uInt						m_iNumChannels = {};
+	_Int						m_iLastCallFunctionIndex = { -1 };
 
-	vector<CChannel*>			m_Channels;
-	vector<_uInt>				m_iChannelIndex;
+	vector<CChannel*>							m_Channels;
+	vector<_uInt>								m_iChannelIndex;
 
+
+	unordered_map<_uInt, function<void()>>		m_KeyFrameCallFunction = {};
 public :
 	static		CAnimation*					Create(const CModel* pModel, const aiAnimation* pAIAnimation, _bool bIsLoop = false);
 	static		CAnimation*					Create(void* pArg);

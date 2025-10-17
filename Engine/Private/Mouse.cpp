@@ -171,13 +171,17 @@ void CMouse::Compute_LocalRay(const _matrix* InvWorldMatrix)
 
     XMStoreFloat3(&m_RayPos[ENUM_CLASS(RAY::LOCAL)], WorldPos);
     XMStoreFloat3(&m_RayDir[ENUM_CLASS(RAY::LOCAL)], WorldDir);
-
-
 }
 
 void CMouse::SetMouseFocus(CUserInterface* Widget)
 {
 	m_pDragSlot = Widget;
+}
+
+void CMouse::GetMouseFocus(CUserInterface** ppWidget)
+{
+	if (m_IsDrag && m_pDragSlot)
+		*ppWidget = m_pDragSlot;
 }
 
 void CMouse::SetDrag(_bool flag)
@@ -219,7 +223,8 @@ POINT& CMouse::GetMousePoint()
 
 _float3 CMouse::GetMouseWorldPoint()
 {
-	return m_pTransformCom->GetPosition();
+	_float3 vPos = m_pTransformCom->GetPosition();
+	return vPos;
 }
 
 CMouse* CMouse::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, HWND hWnd)

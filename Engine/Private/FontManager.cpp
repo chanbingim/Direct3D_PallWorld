@@ -31,6 +31,24 @@ HRESULT CFontManager::Render(const _wstring& FontTag, const _tchar* pText, const
     return pFont->Render(pText, vPosition, vColor);
 }
 
+_vector CFontManager::GetFontBoundBox(const _wstring& FontTag, const WCHAR* pText)
+{
+    CCustomFont* pFont = Find_Font(FontTag);
+    if (nullptr == pFont)
+        return {};
+
+    return pFont->GetFontBoundBox(pText);
+}
+
+void CFontManager::GetSpriteSheet(const _wstring& FontTag, ID3D11ShaderResourceView** pText)
+{
+    CCustomFont* pFont = Find_Font(FontTag);
+    if (nullptr == pFont)
+        return;
+
+    pFont->GetSpriteSheet(pText);
+}
+
 CCustomFont* CFontManager::Find_Font(const _wstring& FontTag)
 {
     auto pair = m_Fonts.find(FontTag);

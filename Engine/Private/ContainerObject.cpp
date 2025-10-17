@@ -53,10 +53,10 @@ HRESULT CContainerObject::Render()
     return S_OK;
 }
 
-void CContainerObject::SetAnimIndex(_uInt iIndex)
+void CContainerObject::SetAnimIndex(_uInt iIndex, _float fAnimSpeed)
 {
     for (auto& Pair : m_PartObjects)
-        Pair.second->SetAnimIndex(iIndex);
+        Pair.second->SetAnimIndex(iIndex, fAnimSpeed);
 }
 
 CPartObject* CContainerObject::FindPartObject(const _wstring& PartObjectTag)

@@ -15,7 +15,7 @@ HRESULT CVIBuffer_Cell::Initialize_Prototype(const _float3* pPoints)
     //정점 배열 개수
     m_iNumVertices = 3;
     //정점 하나의 크기
-    m_iVertexStride = sizeof(VTX_COL);
+    m_iVertexStride = sizeof(VTX_POINT);
     //정점 버퍼의 개수 설정
     m_iNumVertexBuffers = 1;
 
@@ -32,8 +32,8 @@ HRESULT CVIBuffer_Cell::Initialize_Prototype(const _float3* pPoints)
 
 #pragma region VERTEX BUFFER
     //정점 세팅
-    VTX_COL* pVertices = new VTX_COL[m_iNumVertices];
-    ZeroMemory(pVertices, sizeof(VTX_COL) * m_iNumVertices);
+    VTX_POINT* pVertices = new VTX_POINT[m_iNumVertices];
+    ZeroMemory(pVertices, sizeof(VTX_POINT) * m_iNumVertices);
 
     m_pVertices = new _float3[m_iNumVertices];
     ZeroMemory(m_pVertices, sizeof(_float3) * m_iNumVertices);

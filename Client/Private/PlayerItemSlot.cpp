@@ -45,8 +45,8 @@ void CPlayerItemSlot::Priority_Update(_float fDeletaTime)
 
 void CPlayerItemSlot::Update(_float fDeletaTime)
 {
-	m_CurrentEuipItemInfo = CPlayerManager::GetInstance()->GetSlotItemData(m_iSlotIndex);
-	ChangeModelBuffer(CPlayerManager::GetInstance()->GetBackSlotItem(m_iSlotIndex), false);
+	m_CurrentEuipItemInfo = CPlayerManager::GetInstance()->GetSlotItemInfo(EUQIP_TYPE::WEAPON ,m_iSlotIndex);
+	ChangeModelBuffer(CPlayerManager::GetInstance()->GetSlotItemModel(EUQIP_TYPE::WEAPON, m_iSlotIndex), false);
 
 	if (nullptr == m_pVIBufferCom || nullptr == m_CurrentEuipItemInfo)
 		return;
@@ -65,15 +65,15 @@ void CPlayerItemSlot::Update(_float fDeletaTime)
 void CPlayerItemSlot::Late_Update(_float fDeletaTime)
 {
 	UpdateCombinedMatrix();
-	m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
+
+	if (nullptr != m_pVIBufferCom)
+		m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
 }
 
 HRESULT CPlayerItemSlot::Render()
 {
-	if (nullptr == m_pVIBufferCom)
-		return E_FAIL;
-
 	Bind_ShaderResources();
+
 	_uInt iNumMeshes = m_pVIBufferCom->GetNumMeshes();
 	for (_uInt i = 0; i < iNumMeshes; ++i)
 	{
@@ -91,9 +91,10 @@ void CPlayerItemSlot::ChangeModelBuffer(CModel* pModel, _bool bIsAnim)
 	m_pVIBufferCom = pModel;
 }
 
-void CPlayerItemSlot::ChangeWeaponState(WEAPON_STATE eWeaponState)
+void CPlayerItemSlot::ChangeWeaponState(WEAPON_STATE eWeaponState, _bool bIsAnimLoop)
 {
 	m_eState = eWeaponState;
+	m_bIsAnimLoop = bIsAnimLoop;
 }
 
 HRESULT CPlayerItemSlot::Bind_ShaderResources()
@@ -124,9 +125,16 @@ HRESULT CPlayerItemSlot::Apply_ConstantShaderResources(_uInt iMeshIndex)
 	m_pEMVProjMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION)));
 
 	ID3D11ShaderResourceView* pResourceVeiw = {};
+	ID3D11ShaderResourceView* pResourceNormalVeiw = {};
+
 	m_pVIBufferCom->GetMeshResource(iMeshIndex, aiTextureType_DIFFUSE, 0, &pResourceVeiw);
+	m_pVIBufferCom->GetMeshResource(iMeshIndex, aiTextureType_NORMALS, 0, &pResourceNormalVeiw);
+	
 	if (pResourceVeiw)
 		m_pSRVEffect->SetResource(pResourceVeiw);
+
+	if (pResourceNormalVeiw)
+		m_pShaderCom->Bind_SRV("g_NormalTexture", pResourceNormalVeiw);
 
 	if (m_bIsAnimWeapon)
 		m_pBoneMatrixEffect->SetMatrixArray(reinterpret_cast<const float*>(m_pVIBufferCom->GetBoneMatrices(iMeshIndex)), 0, m_pVIBufferCom->GetMeshNumBones(iMeshIndex));
@@ -153,9 +161,11 @@ void CPlayerItemSlot::ChangeAnimWaponAnimationIndex()
 	switch (m_eState)
 	{
 	case Client::CPlayerItemSlot::WEAPON_STATE::CHARGE:
+		m_bIsAnimLoop = false;
 		m_iAnimIndex = 1;
 		break;
 	case Client::CPlayerItemSlot::WEAPON_STATE::CHARGE_LOOP:
+		m_bIsAnimLoop = true;
 		m_iAnimIndex = 2;
 		break;
 	case Client::CPlayerItemSlot::WEAPON_STATE::ATTACK:

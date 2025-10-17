@@ -54,6 +54,55 @@ HRESULT CShader::Initialize(void* pArg)
 	return S_OK;
 }
 
+HRESULT CShader::Bind_RawValue(const _char* pConstantName, const void* pData, _uInt iLength)
+{
+	ID3DX11EffectVariable* pVariable = m_pEffect->GetVariableByName(pConstantName);
+	if (nullptr == pVariable)
+		return E_FAIL;
+
+	return pVariable->SetRawValue(pData, 0, iLength);
+}
+
+HRESULT CShader::Bind_Matrix(const _char* pConstantName, const _float4x4* pMatrix)
+{
+	ID3DX11EffectVariable* pVariable = m_pEffect->GetVariableByName(pConstantName);
+	if (nullptr == pVariable)
+		return E_FAIL;
+
+	ID3DX11EffectMatrixVariable* pMatrixVariable = pVariable->AsMatrix();
+	if (nullptr == pMatrixVariable)
+		return E_FAIL;
+
+	return pMatrixVariable->SetMatrix(reinterpret_cast<const _float*>(pMatrix));
+}
+
+HRESULT CShader::Bind_Matrices(const _char* pConstantName, const _float4x4* pMatrix, _uInt iNumMatrices)
+{
+	ID3DX11EffectVariable* pVariable = m_pEffect->GetVariableByName(pConstantName);
+	if (nullptr == pVariable)
+		return E_FAIL;
+
+	ID3DX11EffectMatrixVariable* pMatrixVariable = pVariable->AsMatrix();
+	if (nullptr == pMatrixVariable)
+		return E_FAIL;
+
+	return pMatrixVariable->SetMatrixArray(reinterpret_cast<const _float*>(pMatrix), 0, iNumMatrices);
+}
+
+HRESULT CShader::Bind_SRV(const _char* pConstantName, ID3D11ShaderResourceView* pSRV)
+{
+	ID3DX11EffectVariable* pVariable = m_pEffect->GetVariableByName(pConstantName);
+	if (nullptr == pVariable)
+		return E_FAIL;
+
+	ID3DX11EffectShaderResourceVariable* pSRVariable = pVariable->AsShaderResource();
+	
+	if (nullptr == pSRVariable)
+		return E_FAIL;
+
+	return pSRVariable->SetResource(pSRV);
+}
+
 ID3DX11EffectVariable* CShader::GetVariable(const _string& ValueName)
 {
 	return m_pEffect->GetVariableByName(ValueName.c_str());

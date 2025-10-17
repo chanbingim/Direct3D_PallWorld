@@ -3,14 +3,14 @@
 #include "GameInstance.h"
 
 CPartObject::CPartObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
-	CGameObject(pDevice, pContext)
+	CActor(pDevice, pContext)
 
 {
 
 }
 
 CPartObject::CPartObject(const CPartObject& rhs) :
-	CGameObject(rhs)
+	CActor(rhs)
 {
 }
 
@@ -60,12 +60,13 @@ HRESULT CPartObject::Render()
 	return S_OK;
 }
 
-void CPartObject::SetAnimIndex(_uInt iIndex, _bool bIsLoop)
+void CPartObject::SetAnimIndex(_uInt iIndex, _float fAnimSpeed, _bool bIsLoop)
 {
 	if (-1 == iIndex)
 		return;
 
 	m_iAnimIndex = iIndex;
+	m_fAnimSpeed = fAnimSpeed;
 	m_bIsAnimLoop = bIsLoop;
 }
 
@@ -109,6 +110,10 @@ HRESULT CPartObject::Apply_ConstantShaderResources(_uInt iMeshIndex)
 	if (pResourceVeiw)
 	    m_pSRVEffect->SetResource(pResourceVeiw);
 	
+	ID3D11ShaderResourceView* pNormalRSV = {};
+    m_pVIBufferCom->GetMeshResource(iMeshIndex, aiTextureType_NORMALS, 0, &pNormalRSV);
+    if (pNormalRSV)
+        m_pShaderCom->Bind_SRV("g_NormalTexture", pNormalRSV);
 	return S_OK;
 }
 

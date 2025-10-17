@@ -1,18 +1,10 @@
 #pragma once
 #include "SlotBase.h"
 
+
 NS_BEGIN(Client)
 class CItemSlot : public CSlotBase
 {
-public:
-	enum class ITEM_TYPE { WEAPON, HEAD, BODY, SHIELD, GLIDER, ACCESSORY, END };
-
-	typedef struct ItemSlotDesc : GAMEOBJECT_DESC
-	{
-
-
-	}ITEM_SLOT_DESC;
-
 private:
 	CItemSlot(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CItemSlot(const CItemSlot& rhs);
@@ -28,8 +20,10 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
+	const ITEM_TYPE&						GetSlotItemType() { return m_eItemSlotType; }
+
 protected:
-	virtual		void						SwapSlot(CSlotBase* To);
+	virtual		void						SwapSlot(CSlotBase* From);
 	virtual		void						UseSlot(void* pArg);
 
 	virtual		void						MouseHoverEnter();
@@ -39,7 +33,7 @@ protected:
 	virtual		void						MouseButtonDwon();
 	virtual		void						MouseButtonPressed();
 	virtual		void						MouseButtonUp();
-
+	
 private:
 	ITEM_TYPE								m_eItemSlotType = { ITEM_TYPE::END };
 

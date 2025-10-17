@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Client_Define.h"
+#include "Client_Struct.h"
+#include "ItemStruct.h"
 #include "ContainerObject.h"
 
 #define P_WALK_SPEED 2.5f
@@ -17,6 +19,9 @@ class CPlayerStateMachine;
 class CPlayerPartData;
 class CPlayerCamera;
 class CTerrainManager;
+class CPlayerSlotArchitecture;
+class CArchitecture;
+class CPellBase;
 
 class CPlayer : public CContainerObject
 {
@@ -41,6 +46,15 @@ public:
 	_bool									IsFinishedAnimationAction();
 	_bool									IsAimingState() const;
 
+	void									SetPlayerData(CHARACTER_DESC* pPlayerInfo);
+	void									GetPlayerState(void* pOut);
+
+	void									SetArchitecture(const ITEM_DESC* pItemDesc);
+	void									SetNearArchitecture(CArchitecture* pArchitecture);
+	void									SetNearPell(CPellBase* pPellBase, _float fDistance);
+
+	_uInt									GetNaviMeshCell();
+	virtual		void						Damage(void* pArg, CActor* pDamagedActor) override;
 
 private :
 	CPlayerCamera*							m_pPlayerCamera = nullptr;
@@ -51,6 +65,13 @@ private :
 	CNavigation*							m_pNevigation = nullptr;
 	CCollision*								m_pCollision = nullptr;
 
+	CHARACTER_DESC*							m_pCharacterInfo = nullptr;
+	CPlayerSlotArchitecture*				m_pPlayerSlotAcrchiteture = nullptr;
+
+	CArchitecture*							m_pNearArchitecture = nullptr;
+	
+	CPellBase*								m_pNearPellBase = nullptr;
+
 	// 플레이어의 현재 방향
 	_bool									m_bIsAnimLoop = true;
 	_bool									m_ViewCamera = false;
@@ -58,7 +79,8 @@ private :
 	_float									m_fMoveSpeed = P_WALK_SPEED;
 
 	// Jump Variable
-	_float									m_fJumpSpeed = 0.35f;
+	_float									m_fAnimSpeed = 10.f;
+	_float									m_fJumpSpeed = 0.5f;
 	_float									m_fLandingPointY = 0;
 
 	_float3									m_PreMovePos;
@@ -81,6 +103,7 @@ private:
 	void									UpdateJump(_float fDeletaTime);
 	void									CameraDirLookAt();
 
+	_bool									IsResetNoneCombat();
 	// 어택의 종류를 체크 하는 함수
 	_bool									GetWeaponAttackType();
 

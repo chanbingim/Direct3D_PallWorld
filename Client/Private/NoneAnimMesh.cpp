@@ -1,6 +1,8 @@
 #include "NoneAnimMesh.h"
 
 #include "GameInstance.h"
+#include "TerrainManager.h"
+
 CNoneAnimMesh::CNoneAnimMesh(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext) :
     CActor(pGraphic_Device, pDeviceContext)
 {
@@ -47,6 +49,12 @@ HRESULT CNoneAnimMesh::Render()
     return S_OK;
 }
 
+void CNoneAnimMesh::RefreshComputeHeight()
+{
+    auto pNaviMesh = CTerrainManager::GetInstance()->GetNavimesh();
+    pNaviMesh->ComputeHeight(m_pTransformCom, true);
+}
+
 HRESULT CNoneAnimMesh::Bind_ShaderResources()
 {
     if (nullptr == m_pShaderCom)
@@ -55,7 +63,7 @@ HRESULT CNoneAnimMesh::Bind_ShaderResources()
     m_pEMVWorldMat = m_pShaderCom->GetVariable("g_WorldMatrix")->AsMatrix();
     m_pEMVViewMat = m_pShaderCom->GetVariable("g_ViewMatrix")->AsMatrix();
     m_pEMVProjMat = m_pShaderCom->GetVariable("g_ProjMatrix")->AsMatrix();
-    m_pSRVEffect = m_pShaderCom->GetVariable("g_Texture")->AsShaderResource();
+    m_pSRVEffect = m_pShaderCom->GetVariable("g_DiffuseTexture")->AsShaderResource();
 
     return S_OK;
 }
@@ -70,6 +78,11 @@ HRESULT CNoneAnimMesh::Apply_ConstantShaderResources(_uInt iMeshIndex)
     m_pVIBufferCom->GetMeshResource(iMeshIndex, aiTextureType_DIFFUSE, 0, &pResourceVeiw);
     if (pResourceVeiw)
         m_pSRVEffect->SetResource(pResourceVeiw);
+    
+    ID3D11ShaderResourceView* pNormalRSV = {};
+    m_pVIBufferCom->GetMeshResource(iMeshIndex, aiTextureType_NORMALS, 0, &pNormalRSV);
+    if (pNormalRSV)
+        m_pShaderCom->Bind_SRV("g_NormalTexture", pNormalRSV);
 
     return S_OK;
 }

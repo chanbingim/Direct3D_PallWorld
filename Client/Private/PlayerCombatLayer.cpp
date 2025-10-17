@@ -1,7 +1,8 @@
 #include "PlayerCombatLayer.h"
+
 #include "PlayerAttackState.h"
-
-
+#include "PlayerHitState.h"
+#include "PlayerDeadState.h"
 
 CPlayerCombatLayer::CPlayerCombatLayer()
 {
@@ -19,14 +20,20 @@ HRESULT CPlayerCombatLayer::Initialize(void* pArg, _uInt iStateSize)
     return S_OK;
 }
 
-void CPlayerCombatLayer::Update(_float DeltaTime)
+void CPlayerCombatLayer::Update(_float DeltaTime, void* pArg)
 {
-    __super::Update(DeltaTime);
+    __super::Update(DeltaTime, pArg);
 }
 
 HRESULT CPlayerCombatLayer::ADD_CombatState()
 {
     if (FAILED(AddState(TEXT("Attack"), CPlayerAttackState::Create("Attack"))))
+        return E_FAIL;
+
+    if (FAILED(AddState(TEXT("Hit"), CPlayerHitState::Create("Damage"))))
+        return E_FAIL;
+
+    if (FAILED(AddState(TEXT("Dead"), CPlayerDeadState::Create("Crawl_Death"))))
         return E_FAIL;
 
     return S_OK;

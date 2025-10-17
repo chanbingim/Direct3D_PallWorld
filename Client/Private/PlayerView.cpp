@@ -2,6 +2,9 @@
 
 #include "GameInstance.h"
 
+#include "PlayerManager.h"
+#include "Player.h"
+
 CPlayerView::CPlayerView(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CViewer(pDevice, pContext)
 {
@@ -31,6 +34,11 @@ HRESULT CPlayerView::Initialize(void* pArg)
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
+    auto pPlayer = CPlayerManager::GetInstance()->GetCurrentPlayer();
+
+    m_pViewObject = pPlayer->FindPartObject(TEXT("Player_Animator"));
+    Safe_AddRef(m_pViewObject);
+
     m_fCameraDistance = 15.f;
 
     m_fPlayerViewFov = 80.f;
@@ -54,7 +62,6 @@ void CPlayerView::Late_Update(_float fDeletaTime)
     
     if (m_pViewObject)
         RenderObejct();
-    
 }
 
 HRESULT CPlayerView::Render()
@@ -100,10 +107,6 @@ void CPlayerView::MouseHovering()
         if (m_fPlayerViewMinMax.y <= m_fPlayerViewFov)
             m_fPlayerViewFov = m_fPlayerViewMinMax.y;
     }
-
-    WCHAR Log[MAX_PATH] = {};
-    wsprintf(Log, TEXT("Mouse Z : %d"), MousePosZ);
-    OutputDebugString(Log);
 
     m_pViewerCamera->SetFov(m_fPlayerViewFov);
 }

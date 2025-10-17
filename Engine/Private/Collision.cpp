@@ -58,6 +58,11 @@ void CCollision::UpdateColiision(_matrix WorldMatrix)
   
 }
 
+_bool CCollision::RayHit(_vector vOrizin, _vector vDiraction, DEFAULT_HIT_DESC& OutDesc)
+{
+    return _bool();
+}
+
 void CCollision::Render(_vector vColor)
 {
     m_pEffect->SetWorld(XMMatrixIdentity());
@@ -98,6 +103,12 @@ void CCollision::ADD_IgnoreObejct(size_t typeID)
     m_IgnoreObject.insert(typeID);
 }
 
+void CCollision::ADD_OnlyHitObject(size_t typeID)
+{
+    m_bIsOnlyHitCollision = true;
+    m_bIsOnlyHitActorHashCode = typeID;
+}
+
 void CCollision::CallFunction()
 {
     list<CGameObject*> ExitObject;
@@ -107,12 +118,12 @@ void CCollision::CallFunction()
         if (iter == m_OldHitList.end())
         {
             if (m_BeginHitFunc)
-                m_BeginHitFunc({}, *iter);
+                m_BeginHitFunc({}, HitObject);
         }
         else
         {
             if (m_OverlapHitFunc)
-                m_OverlapHitFunc({}, *iter);
+                m_OverlapHitFunc({}, HitObject);
         }
     }
 
@@ -122,7 +133,7 @@ void CCollision::CallFunction()
         if (iter == m_HitList.end())
         {
             if (m_EndHitFunc)
-                m_EndHitFunc({}, *iter);
+                m_EndHitFunc({}, OldHitObject);
         }
     }
 

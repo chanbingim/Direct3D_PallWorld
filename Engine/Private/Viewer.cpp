@@ -41,16 +41,7 @@ HRESULT CViewer::Initialize(void* pArg)
 
 void CViewer::Update(_float fDeletaTime)
 {
-    auto iCurLevelID = m_pGameInstance->GetCurrentLevel()->GetLevelID();
-    const list<CGameObject*>* pObjects = m_pGameInstance->GetAllObejctToLayer(iCurLevelID, TEXT("Layer_GamePlay_Player"));
-    
-    SetViewObject(*(*pObjects).begin());
-    _float3 vCameraPos = m_pViewObject->GetTransform()->GetPosition();
-    _vector vUp = XMVector3Normalize(m_pViewObject->GetTransform()->GetUpVector()) * (m_pViewObject->GetTransform()->GetScale().y * 0.5f);
-    _vector vLook = XMVector3Normalize(m_pViewObject->GetTransform()->GetLookVector()) * m_fCameraDistance;
-    
-    XMStoreFloat3(&vCameraPos, XMLoadFloat3(&vCameraPos) + vLook + vUp);
-    SetViewCameraPosition(vCameraPos);
+
 }
 
 void CViewer::Late_Update(_float fDeletaTime)
@@ -185,13 +176,10 @@ void CViewer::RenderObejct()
     _float4x4 m_OldProjMat = m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION);
 
     m_pViewerCamera->Priority_Update(0.0f);
-
     m_pViewObject->Render();
 
     m_pGameInstance->SetMatrix(MAT_STATE::VIEW, m_OldVeiwMat);
     m_pGameInstance->SetMatrix(MAT_STATE::PROJECTION, m_OldProjMat);
-    Safe_Release(m_pViewObject);
-
     m_pGameInstance->Set_RenderResource(0);
 }
 
