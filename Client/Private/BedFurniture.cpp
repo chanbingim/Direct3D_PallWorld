@@ -98,12 +98,26 @@ HRESULT CBedFurniture::ADD_Components()
 
 CBedFurniture* CBedFurniture::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {
-    return nullptr;
+    CBedFurniture* pBedFurniture = new CBedFurniture(pDevice, pContext);
+    if (FAILED(pBedFurniture->Initalize_Prototype()))
+    {
+        Safe_Release(pBedFurniture);
+        MSG_BOX("Create FAIL : BED FURNITURE");
+    }
+
+    return pBedFurniture;
 }
 
 CGameObject* CBedFurniture::Clone(void* pArg)
 {
-    return nullptr;
+    CBedFurniture* pBedFurniture = new CBedFurniture(*this);
+    if (FAILED(pBedFurniture->Initialize(pArg)))
+    {
+        Safe_Release(pBedFurniture);
+        MSG_BOX("CLONE FAIL : BED FURNITURE");
+    }
+
+    return pBedFurniture;
 }
 
 void CBedFurniture::Free()

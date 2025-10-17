@@ -46,7 +46,6 @@ public:
 	_Int									FindCell(_vector vPosition);
 
 #ifdef _DEBUG
-	virtual void							ExportData(void* pArg);
 	virtual void							ExportNaivMeshData(void* pArg);
 #endif // _DEBUG
 

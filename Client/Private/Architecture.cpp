@@ -136,9 +136,13 @@ void CArchitecture::HitOverlapFunction(_float3 vDir, CGameObject* pHitActor)
 
 		_float vDist = {};
 		_float fLength = XMVectorGetX(XMVector3Length(vCalBoundCenter - vCalHitActorPos));
-		pOBBColision->GetBounding().Intersects(vCalHitActorPos, vDir, vDist);
-		if (0 > vDist)
-			pHitActor->ADDPosition(vDir * vDist);
+
+		if (0 < fLength)
+		{
+			pOBBColision->GetBounding().Intersects(vCalHitActorPos, vDir, vDist);
+			if (0 > vDist)
+				pHitActor->ADDPosition(vDir * vDist);
+		}
 	}
 }
 

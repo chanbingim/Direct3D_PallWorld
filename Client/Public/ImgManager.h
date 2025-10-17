@@ -55,10 +55,9 @@ private :
 	void			DarwMenuBar();
 
 	HRESULT			SaveLevel();
-	HRESULT			LoadLevel();
+	HRESULT			LoadObject(const char* FilePath);
 
 	void			SaveFile(const char* FilePath, list<SAVE_LEVEL_DESC>& SaveData);
-	void			LoadFile(_uInt iType);
 
 public :
 	virtual			void			Free() override;

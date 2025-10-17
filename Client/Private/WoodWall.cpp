@@ -86,6 +86,7 @@ HRESULT CWoodWall::ADD_Components()
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionOBB"), TEXT("Collision_Com"), (CComponent**)&m_pHitBoxCollision, &OBBDesc)))
         return E_FAIL;
+    m_pHitBoxCollision->ADD_IgnoreObejct(typeid(this).hash_code());
     m_pHitBoxCollision->BindOverlappingEvent([this](_float3 vDir, CGameObject* pHitActor) { HitOverlapFunction(vDir, pHitActor); });
 
     // NonAnimShader

@@ -42,33 +42,22 @@ void CIMG_Transform::DrawTransformUI()
 {
     if (ImGui::InputFloat3("Position", reinterpret_cast<_float*>(&m_vPostion), "%.3f"))
     {
-        //입력및 포커스가 없을때 수정
-        if (ImGui::IsItemDeactivatedAfterEdit())
-        {
-            m_pOwner->SetLocation(m_vPostion);
-        }
+        m_pOwner->SetLocation(m_vPostion);
     }
     
     if (ImGui::InputFloat3("Rotation", reinterpret_cast<_float*>(&m_vRotation), "%.3f"))
     {
-        //입력및 포커스가 없을때 수정
-        if (ImGui::IsItemDeactivatedAfterEdit())
-        {
-            _float3 vRotation = { XMConvertToRadians(m_vRotation.x),
-                                  XMConvertToRadians(m_vRotation.y),
-                                  XMConvertToRadians(m_vRotation.z)};
+        _float3 vRotation = { XMConvertToRadians(m_vRotation.x),
+                              XMConvertToRadians(m_vRotation.y),
+                              XMConvertToRadians(m_vRotation.z) };
 
-            m_pOwner->SetRotation(vRotation);
-        }
+        m_pOwner->SetRotation(vRotation);
     }
 
     if (ImGui::InputFloat3("Scale", reinterpret_cast<_float*>(&m_vSacle), "%.3f"))
     {
         //입력및 포커스가 없을때 수정
-        if (ImGui::IsItemDeactivatedAfterEdit())
-        {
-            m_pOwner->SetScale(m_vSacle);
-        }
+        m_pOwner->SetScale(m_vSacle);
     }
 }
 

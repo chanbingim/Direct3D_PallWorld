@@ -121,6 +121,7 @@
       <AdditionalIncludeDirectories>../Public/; ../Public/ImGui/; ../../EngineSDK/Inc/;</AdditionalIncludeDirectories>
       <LanguageStandard>Default</LanguageStandard>
       <PreprocessToFile>false</PreprocessToFile>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -148,6 +149,7 @@
       <PreprocessToFile>false</PreprocessToFile>
       <AdditionalIncludeDirectories>../Public/; ../Public/ImGui/; ../../EngineSDK/Inc/;</AdditionalIncludeDirectories>
       <Optimization>MaxSpeed</Optimization>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

@@ -60,10 +60,9 @@ void CDefaultMap::Update(_float fDeletaTime)
     CIMG_LandScape* Img_LandScape = dynamic_cast<CIMG_LandScape*>(EditorUI);
 
     if (Img_LandScape->GetbIsNaviMeshPicking())
-    {
         PickingNavimesh();
-        
-    }
+    else
+        PickingPoint();
    
 #endif // _DEBUG
 }

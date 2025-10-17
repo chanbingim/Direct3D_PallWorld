@@ -125,17 +125,6 @@ _bool CBaseCamera::IsInPoint(_float3& vPos, _float offset)
     return true;
 }
 
-void CBaseCamera::ExportData(void* pArg)
-{
-    __super::ExportData(pArg);
-    SAVE_LEVEL_DESC* Desc = static_cast<SAVE_LEVEL_DESC*>(pArg);
-
-    Desc->ObjectDesc.CameraDesc.CameraType = 0;
-    Desc->ObjectDesc.CameraDesc.fNear = m_fNear;
-    Desc->ObjectDesc.CameraDesc.fFar = m_fFar;
-    Desc->ObjectDesc.CameraDesc.fFov = m_fFov;
-}
-
 void CBaseCamera::Compute_FustomPlane()
 {
     for (size_t i = 0; i < m_FustomPointVec.size(); ++i)

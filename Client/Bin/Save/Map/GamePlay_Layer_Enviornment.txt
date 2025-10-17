@@ -1,0 +1,12 @@
+11
+2 3 3 Prototype_GameObject_Environment_Viliage_Church GamePlay_Layer_Enviornment 0 0.999999 1 0.999999 -0 -180 180 -1844.71 -199.176 234.887 
+2 3 3 Prototype_GameObject_Environment_Viliage_House GamePlay_Layer_Enviornment 0 0.999999 1 0.999999 -0 -180 180 -1835.74 -199.379 292.057 
+2 3 3 Prototype_GameObject_Environment_Viliage_House GamePlay_Layer_Enviornment 0 0.999999 1 0.999999 -0 -180 180 -1866.04 -199.275 286.235 
+2 3 3 Prototype_GameObject_Environment_Viliage_House GamePlay_Layer_Enviornment 0 0.999999 1 0.999999 -0 -180 180 -1859.42 -199.342 301.766 
+2 3 3 Prototype_GameObject_Environment_Viliage_House GamePlay_Layer_Enviornment 0 0.999999 1 0.999999 -0 -180 180 -1846.81 -199.385 305.507 
+2 3 3 Prototype_GameObject_Environment_Viliage_House GamePlay_Layer_Enviornment 0 1 1 1 -0 0 0 -1858.12 -199.233 197.56 
+2 3 3 Prototype_GameObject_Environment_Viliage_House GamePlay_Layer_Enviornment 0 1 1 1 -0 0 0 -1830.78 -199.156 205.561 
+2 3 3 Prototype_GameObject_Environment_Viliage_House GamePlay_Layer_Enviornment 0 1 1 1 -0 0 0 -1839.91 -199.214 193.224 
+2 3 3 Prototype_GameObject_Environment_Viliage_House GamePlay_Layer_Enviornment 0 1 1 1 -0 0 0 -1855.06 -199.357 303.074 
+2 3 3 Prototype_GameObject_Environment_Viliage_House GamePlay_Layer_Enviornment 0 1 1 1 -0 0 0 -1813.99 -199.142 200.255 
+2 3 3 Prototype_GameObject_Environment_Viliage_House GamePlay_Layer_Enviornment 0 1 1 1 -0 0 0 -1803.3 -199.099 207.961 

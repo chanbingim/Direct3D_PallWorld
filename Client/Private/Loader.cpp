@@ -397,6 +397,55 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region SMALL Grass InstanceBuffer
+	CVIBuffer_Model_Instance::MODEL_INSTANCE_DESC InstanceModelDesc = {};
+	InstanceModelDesc.iNumInstance = 3000.f;
+	InstanceModelDesc.vSize = { 1.f, 1.f, 1.f };
+	InstanceModelDesc.vCenter = { 0.f ,0.f, 0.f };
+	InstanceModelDesc.vRange = { 400.f ,0.f, 300.f };
+
+	InstanceModelDesc.pModelFilePath = "../Bin/Resources/Models/Enviornmenet/SmallGrass/small_Grass.fbx";
+	InstanceModelDesc.PreModelMat = PreModelMat;
+	InstanceModelDesc.RetargetFile = "";
+	InstanceModelDesc.iLayerCount = 1;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Instance_SamllGrass"),
+		CVIBuffer_Model_Instance::Create(m_pDevice, m_pContext, &InstanceModelDesc))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region SMALL Grass InstanceBuffer
+	InstanceModelDesc.iNumInstance = 3000.f;
+	InstanceModelDesc.vSize = { 1.f, 1.f, 1.f };
+	InstanceModelDesc.vCenter = { 0.f ,0.f, 0.f };
+	InstanceModelDesc.vRange = { 400.f ,0.f, 300.f };
+
+	InstanceModelDesc.pModelFilePath = "../Bin/Resources/Models/Enviornmenet/Grass/Grass.fbx";
+	InstanceModelDesc.PreModelMat = PreModelMat;
+	InstanceModelDesc.RetargetFile = "";
+	InstanceModelDesc.iLayerCount = 1;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Instance_DefaultGrass"),
+		CVIBuffer_Model_Instance::Create(m_pDevice, m_pContext, &InstanceModelDesc))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region FLOWER InstaceBuffer;
+	InstanceModelDesc.iNumInstance = 3000.f;
+	InstanceModelDesc.vSize = { 1.f, 1.f, 1.f };
+	InstanceModelDesc.vCenter = { 0.f ,0.f, 0.f };
+	InstanceModelDesc.vRange = { 400.f ,0.f, 300.f };
+
+	InstanceModelDesc.pModelFilePath = "../Bin/Resources/Models/Enviornmenet/Flower/Flower.fbx";
+	InstanceModelDesc.PreModelMat = PreModelMat;
+	InstanceModelDesc.RetargetFile = "";
+	InstanceModelDesc.iLayerCount = 1;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Instance_Flower"),
+		CVIBuffer_Model_Instance::Create(m_pDevice, m_pContext, &InstanceModelDesc))))
+		return E_FAIL;
+#pragma endregion
+
 #pragma region FURNITURE
 	/* VIBuffer  TORCH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Torch_Stand"),
@@ -414,6 +463,59 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region Viliage
+	/* VIBuffer  Viliage House1 Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_ViliageHouse1"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Viliage/House/House1/House1.fbx", PreModelMat))))
+		return E_FAIL;
+
+	/* VIBuffer Viliage Church Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_ViliageChurch"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Viliage/Church/Church.fbx", PreModelMat))))
+		return E_FAIL;
+
+	/* VIBuffer  Viliage Market Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_ViliageMarket"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Viliage/Market/Market.fbx", PreModelMat))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region ROCK
+	/* EnviornMent Rock MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Rock_0_Mesh"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Rock/Rock/Rock/Rock02/Rock02.dat"))))
+		return E_FAIL;
+
+	/* EnviornMent Rock3 MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Rock_1_Mesh"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Rock/Rock/Rock/Rock03/Rock03.fbx", PreModelMat))))
+		return E_FAIL;
+
+	/* EnviornMent Rock3 MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Rock_2_Mesh"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Rock/Rock/ClifRock/Clif01/Clif_Rock1.fbx", PreModelMat))))
+		return E_FAIL;
+
+#pragma region PalJium
+	/* EnviornMent PalJium MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_PellJium_Mesh"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Rock/Ore/Paljium.dat"))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma endregion
+
+#pragma region TREE
+	/* EnviornMent Tree0 MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Tree0_Mesh"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Tree/Tree03/b03.dat"))))
+		return E_FAIL;
+
+	/* EnviornMent Tree1 MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Tree1_Mesh"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Tree/Tree04/b04.dat"))))
+		return E_FAIL;
+#pragma endregion
 
 #pragma endregion
 
