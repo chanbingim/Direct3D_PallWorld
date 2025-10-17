@@ -1,6 +1,8 @@
 #include "ElectricPandaBody.h"
 
 #include "GameInstance.h"
+#include "EletricBullet.h"
+
 CElectricPandaBody::CElectricPandaBody(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CPellBody(pDevice, pContext)
 {
@@ -25,10 +27,15 @@ HRESULT CElectricPandaBody::Initialize(void* pArg)
 
     if (FAILED(ADD_Components()))
         return E_FAIL;
-
+     
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
+    m_HandMatrix = GetBoneMatrix("hand_l");
+    m_pVIBufferCom->Bind_KeyFrameFunction("Electric_Shoot_Loop", 10, [this]() { ShootProjecttileObject(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Electric_Shoot_Loop", 13, [this]() { ShootProjecttileObject(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Electric_Shoot_Loop", 16, [this]() { ShootProjecttileObject(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Electric_Shoot_Loop", 19, [this]() { ShootProjecttileObject(); });
     return S_OK;
 }
 
@@ -38,12 +45,12 @@ void CElectricPandaBody::Priority_Update(_float fDeletaTime)
 
 void CElectricPandaBody::Update(_float fDeletaTime)
 {
-    m_pVIBufferCom->PlayAnimation(0, m_iAnimIndex, fDeletaTime);
+    m_bIsAnimFinished = m_pVIBufferCom->PlayAnimation(0, m_iAnimIndex, fDeletaTime, 10.f, m_bIsAnimLoop);
 }
 
 void CElectricPandaBody::Late_Update(_float fDeletaTime)
 {
-    __super::Late_Update(fDeletaTime);
+    UpdateCombinedMatrix();
     m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
 }
 
@@ -68,6 +75,25 @@ HRESULT CElectricPandaBody::ADD_Components()
         return E_FAIL;
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_AnimMesh"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
+        return E_FAIL;
+
+    return S_OK;
+}
+
+HRESULT CElectricPandaBody::ShootProjecttileObject()
+{
+    CProjectileObject::PROJECTILE_DESC ProjectileDesc = {};
+
+    //이함수를 통해서 프로젝타일 위치에 생성해서 날린다.
+
+    ProjectileDesc.vPosition = *reinterpret_cast<const _float3*>(m_HandMatrix->m[3]);
+    ProjectileDesc.vScale = { 1.f, 1.f, 1.f };
+    ProjectileDesc.pAttacker = static_cast<CActor *>(m_pParent);
+    XMStoreFloat3(&ProjectileDesc.vDireaction, m_pTransformCom->GetLookVector());
+    ProjectileDesc.vThrowSpeed = 10.f;
+
+    if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ElectricBall"),
+        ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_GamePlay_Projectile"), &ProjectileDesc)))
         return E_FAIL;
 
     return S_OK;

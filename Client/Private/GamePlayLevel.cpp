@@ -7,6 +7,10 @@
 #include "Enviormnent.h"
 #include "ItemManager.h"
 #include "PlayerManager.h"
+#include "PellManager.h"
+#include "Light.h"
+
+#include "PellBase.h"
 
 CGamePlayLevel::CGamePlayLevel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, _uInt _iID) :
 	CLevel(pDevice, pContext, _iID)
@@ -15,8 +19,15 @@ CGamePlayLevel::CGamePlayLevel(ID3D11Device* pDevice, ID3D11DeviceContext* pCont
 
 HRESULT CGamePlayLevel::Initialize()
 {
-	if (FAILED(Setting_GamePlayHUD()))
-		return E_FAIL;
+	CLight::LIGHT_DESC			LightDesc{};
+
+	LightDesc.eType = LIGHT::DIRECTION;
+	LightDesc.vDiffuse = _float4(1.f, 1.0f, 1.0f, 1.f);
+	LightDesc.vAmbient = _float4(0.2f, 0.2f, 0.2f, 1.f);
+	LightDesc.vSpecular = _float4(1.f, 1.f, 1.f, 1.f);
+	LightDesc.vDirection = _float4(1.f, -1.f, 1.f, 0.f);
+
+	m_pGameInstance->ADDLight(CLight::Create(LightDesc));
 
 	if (FAILED(ADD_CameraLayer(TEXT("Layer_GamePlay_Camera"))))
 		return E_FAIL;
@@ -25,26 +36,32 @@ HRESULT CGamePlayLevel::Initialize()
 		return E_FAIL;
 
 	CTerrainManager::GetInstance()->Initialize(nullptr);
-	/*if (FAILED(ADD_SkyLayer(TEXT("Layer_GamePlay_SKY"))))
-		return E_FAIL;*/
-
-	//if (FAILED(ADD_PlayerLayer(TEXT("Layer_GamePlay_Player"))))
-	//	return E_FAIL;
-
-	/*if (FAILED(ADD_EnviornmentLayer(TEXT("Layer_GamePlay_Enviorment"))))
-		return E_FAIL;*/
-
-	//if (FAILED(ADD_PellLayer(TEXT("Layer_GamePlay_Pell"))))
-	//	return E_FAIL;
-
-	CItemManager::GetInstance()->Initialize();
+	if (FAILED(ADD_SkyLayer(TEXT("Layer_GamePlay_SKY"))))
+		return E_FAIL;
 
 	CPlayerManager::PLAYER_MANAGER_DESC PlayerDesc;
 	PlayerDesc.iMaxInvenWeight = 1000;
-	PlayerDesc.iNumEquipMaxSlot = 4;
 	PlayerDesc.iNumInvenMaxSlot = 60;
 	CPlayerManager::GetInstance()->Initialize(&PlayerDesc);
-	//m_pGameInstance->ShowInGameMouse(VISIBILITY::HIDDEN);
+	if (FAILED(ADD_PlayerLayer(TEXT("Layer_GamePlay_Player"))))
+		return E_FAIL;
+
+	if (FAILED(ADD_EnviornmentLayer(TEXT("Layer_GamePlay_Enviorment"))))
+		return E_FAIL;
+
+	if (FAILED(ADD_WorkAbleLayer(TEXT("Layer_GamePlay_WorkAbleObject"))))
+		return E_FAIL;
+	
+	if (FAILED(ADD_PellLayer(TEXT("Layer_GamePlay_Pell"))))
+		return E_FAIL;
+
+	if (FAILED(ADD_NpcLayer(TEXT("Layer_GamePlay_Npc"))))
+		return E_FAIL;
+
+	if (FAILED(Setting_GamePlayHUD()))
+		return E_FAIL;
+
+	m_pGameInstance->ShowInGameMouse(VISIBILITY::HIDDEN);
 
 	return S_OK;
 }
@@ -109,17 +126,52 @@ HRESULT CGamePlayLevel::ADD_SkyLayer(const _wstring& LayerName)
 
 HRESULT CGamePlayLevel::ADD_EnviornmentLayer(const _wstring& LayerName)
 {
-	CEnviormnent::ENVIORMNENT_DESC Desc;
-	ZeroMemory(&Desc, sizeof(CEnviormnent::ENVIORMNENT_DESC));
+	CGameObject::GAMEOBJECT_DESC Desc = {};
+	Desc.vScale = { 1.f, 1.f, 1.f };
+	Desc.vPosition = { -1500.f, -64.f, 500.f };
 
-	for (_uInt i = 0; i < 8; ++i)
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Environment_SmallGrass"),
+		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
+		return E_FAIL;
+
+	Desc.vPosition = { -1000.f, 14.f, 500.f };
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Environment_Flower"),
+		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
+		return E_FAIL;
+
+	Desc.vPosition = { -1300.f, -64.f, 500.f };
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Environment_Default_Grass"),
+		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CGamePlayLevel::ADD_WorkAbleLayer(const _wstring& LayerName)
+{
+	CEnviormnent::ENVIORMNENT_DESC EnviDesc = {};
+	EnviDesc.vScale = { 1.f, 1.f,1.f };
+	for (_uInt i = 0; i < 10; i++)
 	{
-		wsprintf(Desc.ObjectTag, TEXT("ROCK %d"), i);
-		Desc.iModelIndex = i;
+		EnviDesc.iModelIndex = m_pGameInstance->Random(0.f, 2.f);
+
+		EnviDesc.vPosition = { -84.f, 14.f, 515.f + 50 * i };
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Rock"),
-			ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
+			ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &EnviDesc)))
+			return E_FAIL;
+
+		EnviDesc.iModelIndex = m_pGameInstance->Random(0.f, 1.f);
+		EnviDesc.vPosition = { -114.f, 14.f, 505.f + 50 * i };
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Tree"),
+			ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &EnviDesc)))
+			return E_FAIL;
+
+		EnviDesc.vPosition = { -114.f - 5 * i, 14.f, 495.f + 50 * i };
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_PelJium"),
+			ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &EnviDesc)))
 			return E_FAIL;
 	}
+
 	return S_OK;
 }
 
@@ -138,34 +190,47 @@ HRESULT CGamePlayLevel::ADD_PlayerLayer(const _wstring& LayerName)
 
 HRESULT CGamePlayLevel::ADD_PellLayer(const _wstring& LayerName)
 {
-	CGameObject::GAMEOBJECT_DESC Desc;
-	ZeroMemory(&Desc, sizeof(CGameObject::GAMEOBJECT_DESC));
-	Desc.vScale = { 0.2f, 0.2f, 0.2f };
+	CPellBase::PELL_BASE_DESC Desc = {};
 
-	/*wsprintf(Desc.ObjectTag, TEXT("Bed Cat"));
-	Desc.vPosition = { 7.f, 1.f, 7.f };
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_BedCat"),
-		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
-		return E_FAIL;*/
+	Desc.bIsPellData = false;
+	for (_uInt i = 0; i < 10; ++i)
+	{
+		wsprintf(Desc.ObjectTag, TEXT("Bed Cat"));
+		Desc.vScale = { 1.f, 1.f, 1.f };
+		Desc.vPosition = { m_pGameInstance->Random(-1100.f, -1200.f), 1.f, m_pGameInstance->Random(-100, 100.f) };
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_BedCat"),
+			ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
+			return E_FAIL;
+	}
 
 	for (_uInt i = 0; i < 10; ++i)
 	{
 		wsprintf(Desc.ObjectTag, TEXT("Drorong"));
-		Desc.vScale = { 1.f, 1.f, 1.f };
-		Desc.vPosition = { m_pGameInstance->Random(0, 20.f), 1.f, m_pGameInstance->Random(0, 20.f) };
+		Desc.vPosition = { m_pGameInstance->Random(-1100.f, -1200.), 1.f, m_pGameInstance->Random(-100, 100.f) };
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Drorong"),
 			ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
 			return E_FAIL;
 	}
 	
+	for (_uInt i = 0; i < 10; ++i)
+	{
+		wsprintf(Desc.ObjectTag, TEXT("ElectricPanda"));
+		Desc.vPosition = { m_pGameInstance->Random(-1100.f, -1200.), 1.f, m_pGameInstance->Random(-100, 100.f) };
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ElectricPanda"),
+			ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
+			return E_FAIL;
+	}
 
-	/*wsprintf(Desc.ObjectTag, TEXT("ElectricPanda"));
-	Desc.vScale = { 0.05f, 0.05f, 0.05f };
-	Desc.vPosition = { 20.f, 1.f, 20.f };
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ElectricPanda"),
-		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
-		return E_FAIL;
-
+	for (_uInt i = 0; i < 10; ++i)
+	{
+		wsprintf(Desc.ObjectTag, TEXT("Grass Mommoth"));
+		Desc.vPosition = { m_pGameInstance->Random(-70.f, -100.f), 1.f, m_pGameInstance->Random(700, 800.f) };
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GrassMommoth"),
+			ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
+			return E_FAIL;
+	}
+	
+	/*
 	wsprintf(Desc.ObjectTag, TEXT("Herorong"));
 	Desc.vScale = { 0.05f, 0.05f, 0.05f };
 	Desc.vPosition = { 30.f, 1.f, 30.f };
@@ -193,6 +258,20 @@ HRESULT CGamePlayLevel::ADD_PellLayer(const _wstring& LayerName)
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Yeti"),
 		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
 		return E_FAIL;*/
+	return S_OK;
+}
+
+HRESULT CGamePlayLevel::ADD_NpcLayer(const _wstring& LayerName)
+{
+	CGameObject::GAMEOBJECT_DESC Desc = {};
+	wsprintf(Desc.ObjectTag, TEXT("People_1"));
+
+	Desc.vScale = { 1.f, 1.f, 1.f };
+	Desc.vPosition = { m_pGameInstance->Random(100, 110.f), 1.f, m_pGameInstance->Random(100, 110.f) };
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Female_People_1"),
+		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
+		return E_FAIL;
+
 	return S_OK;
 }
 

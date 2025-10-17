@@ -25,6 +25,16 @@ HRESULT CCustomFont::Render(const _tchar* pText, const _float2& vPosition, _vect
 	return S_OK;
 }
 
+_vector CCustomFont::GetFontBoundBox(const WCHAR* pText)
+{
+	return m_pFont->MeasureString(pText);
+}
+
+void CCustomFont::GetSpriteSheet(ID3D11ShaderResourceView** pTexture)
+{
+	m_pFont->GetSpriteSheet(pTexture);
+}
+
 CCustomFont* CCustomFont::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pFontFilePath)
 {
 	CCustomFont* pFont = new CCustomFont(pDevice, pContext);

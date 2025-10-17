@@ -7,11 +7,23 @@ CJumpState::CJumpState(const char* szStateName) :
 
 void CJumpState::OnStateEnter(void* pArg)
 {
+	if (nullptr == pArg)
+	{
+
+	}
+	else
+	{
+		JUMPSTATE_DESC* pDesc = static_cast<JUMPSTATE_DESC*>(pArg);
+		m_fJumpSpeed = pDesc->fAnimSpeed;
+
+		*m_fJumpSpeed = 0.5f;
+	}
+
 	m_szStateName = "JumpStart";
 	m_iPhaseIndex = 0;
 }
 
-void CJumpState::OnStateExcution(void* pArg)
+void CJumpState::OnStateExcution(_float fDeletaTime, void* pArg)
 {
 	// 애니메이션 진행 위치와 포물선 공식의 힘의 방향에 따라서
 	// 재생할 애니메이션의 이름을 바꿔주자
@@ -20,7 +32,8 @@ void CJumpState::OnStateExcution(void* pArg)
 
 void CJumpState::OnStateExit(void* pArg)
 {
-
+	*m_fJumpSpeed = 0.5f;
+	m_fJumpSpeed = nullptr;
 }
 
 void CJumpState::ChangeStateName()
@@ -46,4 +59,5 @@ CJumpState* CJumpState::Create(const char* szStateName)
 
 void CJumpState::Free()
 {
+
 }

@@ -29,17 +29,12 @@ public:
 	// 랜더
 	virtual		HRESULT						Render() override;
 
-	const		_float4x4&					GetCombinedMatrix() { return m_CombinedMatrix; }
-
 private :
 	CPellBase*								m_pOwner = nullptr;
-	_float4x4								m_CombinedMatrix = {};
+
 	//폰트는 나중에 구해서 적용
 	CPellHealthBar*							m_pHealthBar = nullptr;
 	CNeturalTypeIcon*						 m_pTypeIcon = nullptr;
-
-protected :
-	virtual     HRESULT						Apply_ConstantShaderResources() override;
 
 private :
 	HRESULT									ADD_Components();

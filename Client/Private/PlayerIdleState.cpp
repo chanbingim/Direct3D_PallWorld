@@ -9,7 +9,7 @@ void CPlayerIdleState::OnStateEnter(void* pArg)
 {
 }
 
-void CPlayerIdleState::OnStateExcution(void* pArg)
+void CPlayerIdleState::OnStateExcution(_float fDeletaTime, void* pArg)
 {
 }
 

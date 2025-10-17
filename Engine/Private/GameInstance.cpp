@@ -15,6 +15,7 @@
 #include "LightManager.h"
 #include "FontManager.h"
 #include "CollisionManager.h"
+#include "RenderTagetManager.h"
 #pragma endregion
 
 #include "Level.h"
@@ -50,6 +51,10 @@ HRESULT CGameInstance::Initialize_Engine(void* pArg)
     if (nullptr == m_pLevel_Manager)
         return E_FAIL;
 
+    m_pRenderTargetManager = CRenderTagetManager::Create(*GameSetting->ppDevice, *GameSetting->ppContext);
+    if (nullptr == m_pRenderTargetManager)
+        return E_FAIL;
+    
     m_pRenderer = CRenderer::Create(*GameSetting->ppDevice, *GameSetting->ppContext);
     if (nullptr == m_pRenderer)
         return E_FAIL;
@@ -99,6 +104,9 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
     _float Time = fTimeDelta;
     m_pInput_Manager->UpdateKeyFrame();
 
+    if (m_pInput_Manager->KeyDown(KEY_INPUT::KEYBOARD, DIK_F12))
+        m_pRenderer->ToggleRenderDebug();
+
     m_pMouse->Update(fTimeDelta);
 
     if (m_bIsPause)
@@ -107,14 +115,14 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 #ifdef _DEBUG
     m_pTimer_Manager->Get_TimeDelta(TEXT("PriorityUpdate_Loop"));
 #endif // _DEBUG
-
     m_pObject_Manager->Priority_Update(fTimeDelta);
 
 #ifdef _DEBUG
     m_pTimer_Manager->Get_TimeDelta(TEXT("Update_Loop"));
 #endif // _DEBUG
-    m_pObject_Manager->Update(fTimeDelta);
-   
+    if (false == m_bIsPause)
+        m_pObject_Manager->Update(fTimeDelta);
+
 #ifdef _DEBUG
     m_pTimer_Manager->Get_TimeDelta(TEXT("LateUpdate_Loop"));
 #endif // _DEBUG
@@ -125,11 +133,8 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 #endif // _DEBUG
 
     m_pCollisionManager->Compute_Collision();
-
     m_pObject_Manager->Clear_DeadObject();
-
     m_pLevel_Manager->Update(Time);
-
 }
 
 HRESULT CGameInstance::Draw()
@@ -362,6 +367,11 @@ void CGameInstance::SetMouseFocus(CUserInterface* Widget)
     m_pMouse->SetMouseFocus(Widget);
 }
 
+void CGameInstance::GetMouseFocus(CUserInterface** ppWidget)
+{
+    m_pMouse->GetMouseFocus(ppWidget);
+}
+
 BOOL CGameInstance::IsMouseFocus(CUserInterface* Widget)
 {
     return m_pMouse->IsFocus(Widget);
@@ -418,6 +428,14 @@ void CGameInstance::SetMatrix(MAT_STATE eState, _float4x4 Matrix)
 {
     m_pPipeline->SetMatrix(eState, Matrix);
 }
+void CGameInstance::SetCameraInfo(const _float4& pCmaeraInfo)
+{
+    m_pPipeline->SetCameraInfo(pCmaeraInfo);
+}
+const _float4& CGameInstance::GetCameraINFO()
+{
+    return m_pPipeline->GetCameraINFO();
+}
 const _float4x4& CGameInstance::GetMatrix(MAT_STATE eState)
 {
     return m_pPipeline->GetMatrix(eState);
@@ -462,7 +480,7 @@ void CGameInstance::SetGameMode(GAMEMODE eMode)
 {
     m_eGameMode = eMode;
 }
-void CGameInstance::GetGamePause(_bool bFlag)
+void CGameInstance::SetGamePause(_bool bFlag)
 {
     m_bIsPause = bFlag;
 }
@@ -473,6 +491,18 @@ _float CGameInstance::Random_Normal()
 _float CGameInstance::Random(_float fMin, _float fMax)
 {
     return fMin + Random_Normal() * (fMax - fMin);
+}
+
+_bool CGameInstance::DistanceCulling(_float3 vPos)
+{
+    _vector vCameraPos = GetCameraState(WORLDSTATE::POSITION);
+    _vector vObjectPos = XMLoadFloat3(&vPos);
+
+    _float fDistance = XMVectorGetX(XMVector3Length(vCameraPos - vObjectPos));
+    if (100.f >= fDistance)
+        return true;
+
+    return false;
 }
 
 _float CGameInstance::GetPipeLineLoopTime(const TCHAR* Str)
@@ -492,6 +522,11 @@ const CLight* CGameInstance::GetLight(_uInt iIndex)
     return m_pLightManager->GetLight(iIndex);
 }
 
+HRESULT CGameInstance::Render_Lights(CShader* pShader, CVIBuffer* pVIBuffer)
+{
+    return m_pLightManager->Render_Lights(pShader, pVIBuffer);
+}
+
 #pragma endregion
 
 #pragma region COLLISION_MANAGER
@@ -505,14 +540,63 @@ void CGameInstance::ADD_CollisionList(CCollision* pObject)
 #pragma region FONT MANAGER
 HRESULT CGameInstance::Add_Font(const _wstring& FontTag, const _tchar* pFontFilePath)
 {
-    return E_NOTIMPL;
+    return m_pFontManager->Add_Font(FontTag, pFontFilePath);
 }
 
 HRESULT CGameInstance::Render_Font(const _wstring& FontTag, const _tchar* pText, const _float2& vPosition, _vector vColor)
 {
-    return E_NOTIMPL;
+    return m_pFontManager->Render(FontTag, pText, vPosition, vColor);
 }
 
+_vector CGameInstance::GetFontBoundBox(const _wstring& FontTag, const WCHAR* pText)
+{
+    return m_pFontManager->GetFontBoundBox(FontTag, pText);
+}
+
+void CGameInstance::GetSpriteSheet(const _wstring& FontTag, ID3D11ShaderResourceView** pTexture)
+{
+    m_pFontManager->GetSpriteSheet(FontTag, pTexture);
+}
+#pragma endregion
+
+
+#pragma region RENDER TARGET MANAGER
+HRESULT CGameInstance::Add_RenderTarget(const _wstring& strTargetTag, _uInt iSizeX, _uInt iSizeY, DXGI_FORMAT ePixelFormat, const _float4& vClearColor)
+{
+    return m_pRenderTargetManager->Add_RenderTarget(strTargetTag, iSizeX, iSizeY, ePixelFormat, vClearColor);
+}
+
+HRESULT CGameInstance::Add_MRT(const _wstring& strMRTTag, const _wstring& strTargetTag)
+{
+    return m_pRenderTargetManager->Add_MRT(strMRTTag, strTargetTag);
+}
+
+HRESULT CGameInstance::Begin_MRT(const _wstring& strMRTTag)
+{
+    return m_pRenderTargetManager->Begin_MRT(strMRTTag);
+}
+
+HRESULT CGameInstance::End_MRT()
+{
+    return m_pRenderTargetManager->End_MRT();
+}
+
+HRESULT CGameInstance::Bind_RenderTarget(const _wstring& strTargetTag, CShader* pShader, const _char* pConstantName)
+{
+    return m_pRenderTargetManager->Bind_RenderTarget(strTargetTag, pShader, pConstantName);
+}
+
+#ifdef _DEBUG
+HRESULT CGameInstance::Ready_RenderTargetDebug(const _wstring& strTargetTag, _float fX, _float fY, _float fSizeX, _float fSizeY)
+{
+    return m_pRenderTargetManager->Ready_Debug(strTargetTag, fX, fY, fSizeX, fSizeY);
+}
+
+HRESULT CGameInstance::Render_RenderTargetDebug(const _wstring& strMRTTag, CShader* pShader, CVIBuffer_Rect* pVIBuffer)
+{
+    return m_pRenderTargetManager->Render_Debug(strMRTTag, pShader, pVIBuffer);
+}
+#endif // _DEBUG
 #pragma endregion
 
 void CGameInstance::Release_Engine()
@@ -524,6 +608,7 @@ void CGameInstance::Release_Engine()
     Safe_Release(m_pFontManager);
     Safe_Release(m_pRenderer);
     Safe_Release(m_pPrototype_Manager);
+    Safe_Release(m_pRenderTargetManager);
     Safe_Release(m_pObject_Manager);
     Safe_Release(m_pLevel_Manager);
     Safe_Release(m_pInput_Manager);
@@ -532,7 +617,6 @@ void CGameInstance::Release_Engine()
     Safe_Release(m_pLightManager);
     Safe_Release(m_pPipeline);
     Safe_Release(m_pGraphic_Device);
-
 }
 
 void CGameInstance::Free()

@@ -17,27 +17,27 @@ CTransform::CTransform(const CTransform& rhs) :
 {
 }
 
-_vector CTransform::GetRightVector()
+_vector CTransform::GetRightVector() const
 {
-    return XMLoadFloat4(reinterpret_cast<_float4*>(&m_WorldMat.m[0]));
+    return XMLoadFloat4(reinterpret_cast<const _float4*>(&m_WorldMat.m[0]));
 }
 
-_vector CTransform::GetUpVector()
+_vector CTransform::GetUpVector()  const
 {
-    return XMLoadFloat4(reinterpret_cast<_float4*>(&m_WorldMat.m[1]));
+    return XMLoadFloat4(reinterpret_cast<const _float4*>(&m_WorldMat.m[1]));
 }
 
-_vector CTransform::GetLookVector()
+_vector CTransform::GetLookVector() const
 {
-    return XMLoadFloat4(reinterpret_cast<_float4*>(&m_WorldMat.m[2]));
+    return XMLoadFloat4(reinterpret_cast<const _float4*>(&m_WorldMat.m[2]));
 }
 
-_float3 CTransform::GetPosition()
+_float3 CTransform::GetPosition() const
 {
-    return *reinterpret_cast<_float3*>(&m_WorldMat.m[3]);
+    return *reinterpret_cast<const _float3*>(&m_WorldMat.m[3]);
 }
 
-_float3 CTransform::GetScale()
+_float3 CTransform::GetScale() const
 {
     return _float3( 
         XMVectorGetX(XMVector3Length(GetRightVector())),
@@ -113,6 +113,21 @@ void CTransform::SetRotation(_float3 vRotation)
     }
 }
 
+void CTransform::SetRotation(_vector vRotation)
+{
+    _float3		vScale = GetScale();
+
+    _matrix IdentiyMat = XMMatrixIdentity();
+    _vector SacleVec = XMLoadFloat3(&vScale);
+
+    _matrix QuternionMat = XMMatrixRotationQuaternion(vRotation);
+    for (_uInt i = 0; i < EnumToInt(WORLDSTATE::POSITION); ++i)
+    {
+        auto vNewRow = IdentiyMat.r[i] * SacleVec.m128_f32[i];
+        XMStoreFloat4(reinterpret_cast<_float4*>(&m_WorldMat.m[i]), XMVector3TransformNormal(vNewRow, QuternionMat));
+    }
+}
+
 _float4x4& CTransform::GetWorldMat()
 {
     if (m_bHasParent)
@@ -175,25 +190,25 @@ void CTransform::LerpTurn(_vector vAxis, _vector vAt, _float fSpeed, _float fTim
 {
     _float3     vPos = GetPosition();
     _vector     vCurPos = XMLoadFloat3(&vPos);
-    _vector     vCurLook = XMVector3Normalize(GetLookVector());
-    _vector		vLook = XMVector3Normalize(vAt - vCurPos);
-    
-    _float  fScalar = XMVectorGetX(XMVector3Dot(vCurLook, vLook));
-    if (0.998f <= fScalar)
-    {
-        LookAt(vAt);
-        return;
-    }
+
+    _vector     vLook = GetLookVector();
+    vAt.m128_f32[1] = vLook.m128_f32[1] = vCurPos.m128_f32[1] = 0.f;
+    _vector     vCurNormalLook = XMVector3Normalize(vLook);
+
+    _vector		vNormalLook = XMVector3Normalize(vAt - vCurPos);
+    _float      fScalar = XMVectorGetX(XMVector3Dot(vNormalLook, vCurNormalLook));
+
+    if (0.9f < fScalar)
+        LookAt(XMLoadFloat3(&vPos) + vNormalLook);
     else
     {
-        _float RotationSpeed = fSpeed;
-        if (0 > fScalar)
-            RotationSpeed *= 2; 
+        if (-0.9 > fScalar)
+            fSpeed *= 2.f;
 
-        if (0 > XMVectorGetY(XMVector3Cross(vCurLook, vLook)))
-            Turn(vAxis, -RotationSpeed, fTimeDelta);
+        if (0 > XMVectorGetY(XMVector3Cross(vCurNormalLook, vNormalLook)))
+            Turn(vAxis, -fSpeed, fTimeDelta);
         else
-            Turn(vAxis, RotationSpeed, fTimeDelta);
+            Turn(vAxis, fSpeed, fTimeDelta);
     }
 }
 

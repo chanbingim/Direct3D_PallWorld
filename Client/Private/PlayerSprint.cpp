@@ -9,7 +9,7 @@ void CPlayerSprintState::OnStateEnter(void* pArg)
 {
 }
 
-void CPlayerSprintState::OnStateExcution(void* pArg)
+void CPlayerSprintState::OnStateExcution(_float fDeletaTime, void* pArg)
 {
 }
 

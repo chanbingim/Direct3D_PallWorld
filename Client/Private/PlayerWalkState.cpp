@@ -9,7 +9,7 @@ void CPlayerWalkState::OnStateEnter(void* pArg)
 {
 }
 
-void CPlayerWalkState::OnStateExcution(void* pArg)
+void CPlayerWalkState::OnStateExcution(_float fDeletaTime, void* pArg)
 {
 }
 

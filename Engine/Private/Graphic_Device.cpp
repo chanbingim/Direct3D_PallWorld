@@ -23,6 +23,26 @@ HRESULT CGraphic_Device::Initialize_Grphic(const ENGINE_DESC& Engine_Desc, ID3D1
     *ppDeviceOut = m_pGraphicDevice;
     *ppContextOut = m_pDeviceContext;
 
+#if defined(_DEBUG)
+    ID3D11InfoQueue* pInfoQueue;
+    if (SUCCEEDED(m_pGraphicDevice->QueryInterface(__uuidof(ID3D11InfoQueue), reinterpret_cast<void**>(&pInfoQueue))))
+    {
+        D3D11_MESSAGE_ID hideIDs[] =
+        {
+            D3D11_MESSAGE_ID_DEVICE_PSSETSHADERRESOURCES_HAZARD,
+            D3D11_MESSAGE_ID_DEVICE_OMSETRENDERTARGETS_HAZARD,
+        };
+
+        D3D11_INFO_QUEUE_FILTER filter = {};
+        filter.DenyList.NumIDs = _countof(hideIDs);
+        filter.DenyList.pIDList = hideIDs;
+
+
+        pInfoQueue->AddStorageFilterEntries(&filter);
+    }
+    Safe_Release(pInfoQueue);
+#endif
+
     Safe_AddRef(m_pGraphicDevice);
     Safe_AddRef(m_pDeviceContext);
 
@@ -222,16 +242,18 @@ void CGraphic_Device::Free()
         Safe_Release(iter.pSwapChain);
     }
 
+
+
 #if defined(DEBUG) || defined(_DEBUG)
     ID3D11Debug* d3dDebug;
     HRESULT hr = m_pGraphicDevice->QueryInterface(__uuidof(ID3D11Debug), reinterpret_cast<void**>(&d3dDebug));
     if (SUCCEEDED(hr))
-    {
+    { 
         OutputDebugStringW(L"----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- \r ");
         OutputDebugStringW(L"                                                                    D3D11 Live Object ref Count Checker \r ");
         OutputDebugStringW(L"----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- \r ");
 
-        hr = d3dDebug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
+        hr = d3dDebug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL | D3D11_RLDO_IGNORE_INTERNAL);
 
         OutputDebugStringW(L"----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- \r ");
         OutputDebugStringW(L"                                                                    D3D11 Live Object ref Count Checker END \r ");

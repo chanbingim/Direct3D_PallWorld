@@ -31,7 +31,7 @@ HRESULT CCell::Initialize(_uInt iCellIndex, _uInt iCellProperity, const _float3*
         total += XMLoadFloat3(&m_vTirPoints[i]);
     }
 
-    XMStoreFloat3(&m_fCenter, XMVectorScale(total, 1.0f / 3.0f));
+    XMStoreFloat3(&m_fCenter, total / 3.0f);
 
 #ifdef _DEBUG
     m_pVIBuffer = CVIBuffer_Cell::Create(m_pDevice, m_pContext, vPoints);
@@ -84,8 +84,8 @@ _bool CCell::Compare(_vector vSourPoint, _vector vDestPoint)
         if (true == XMVector3Equal(XMLoadFloat3(&m_vTirPoints[ENUM_CLASS(NAVI_POINT::C)]), vDestPoint))
         {
             _uInt iIndex = ENUM_CLASS(NAVI_LINE::BC);
-            m_Portals[iIndex].vLeftPoint = m_vTirPoints[ENUM_CLASS(NAVI_POINT::C)];
-            m_Portals[iIndex].vRightPoint = m_vTirPoints[ENUM_CLASS(NAVI_POINT::B)];
+            m_Portals[iIndex].vLeftPoint = m_vTirPoints[ENUM_CLASS(NAVI_POINT::B)];
+            m_Portals[iIndex].vRightPoint = m_vTirPoints[ENUM_CLASS(NAVI_POINT::C)];
             return true;
         }
 
@@ -111,8 +111,8 @@ _bool CCell::Compare(_vector vSourPoint, _vector vDestPoint)
         if (true == XMVector3Equal(XMLoadFloat3(&m_vTirPoints[ENUM_CLASS(NAVI_POINT::B)]), vDestPoint))
         {
             _uInt iIndex = ENUM_CLASS(NAVI_LINE::BC);
-            m_Portals[iIndex].vLeftPoint = m_vTirPoints[ENUM_CLASS(NAVI_POINT::C)];
-            m_Portals[iIndex].vRightPoint = m_vTirPoints[ENUM_CLASS(NAVI_POINT::B)];
+            m_Portals[iIndex].vLeftPoint = m_vTirPoints[ENUM_CLASS(NAVI_POINT::B)];
+            m_Portals[iIndex].vRightPoint = m_vTirPoints[ENUM_CLASS(NAVI_POINT::C)];
             return true;
         }
     }
@@ -157,6 +157,16 @@ void CCell::GetNeighborIndex(_Int* pNeighborIndex)
     pNeighborIndex[0] = m_NeighborIndices[ENUM_CLASS(NAVI_LINE::AB)];
     pNeighborIndex[1] = m_NeighborIndices[ENUM_CLASS(NAVI_LINE::BC)];
     pNeighborIndex[2] = m_NeighborIndices[ENUM_CLASS(NAVI_LINE::CA)];
+}
+
+_vector CCell::ComputeNormal()
+{
+    _vector vNormal = XMLoadFloat3(&m_vTirNormals[0]);
+
+    for (_uInt i = 1; i < ENUM_CLASS(NAVI_POINT::END); ++i)
+        vNormal += XMLoadFloat3(&m_vTirNormals[i]);
+
+    return XMVector3Normalize(vNormal / 3);
 }
 
 const PORTAL_DESC* CCell::GetPortal(_Int iNeighborIndex)

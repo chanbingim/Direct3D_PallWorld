@@ -10,7 +10,11 @@ private:
 
 public:
 	HRESULT Initialize(const _tchar* pFontFilePath);
+
 	HRESULT Render(const _tchar* pText, const _float2& vPosition, _vector vColor);
+
+	_vector	GetFontBoundBox(const WCHAR* pText);
+	void	GetSpriteSheet(ID3D11ShaderResourceView** pTexture);
 
 private:
 	ID3D11Device*					m_pDevice = { nullptr };

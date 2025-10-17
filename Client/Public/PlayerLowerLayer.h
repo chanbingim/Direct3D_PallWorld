@@ -12,7 +12,7 @@ private :
 
 public:
 	virtual		HRESULT							Initialize(void* pArg, _uInt iStateSize) override;
-	virtual		void							Update(_float DeltaTime) override;
+	virtual		void							Update(_float DeltaTime, void* pArg) override;
 
 private :
 	HRESULT										ADD_LowerState();

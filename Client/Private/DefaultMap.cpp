@@ -36,10 +36,14 @@ HRESULT CDefaultMap::Initialize(void* pArg)
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
+<<<<<<< HEAD
     for (_uInt i = 0; i < m_iTerrainCnt; ++i)
         m_pNavigationCom->Update(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
 
 
+=======
+    m_pNavigationCom->Update(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
+>>>>>>> Develop
     m_ObejctTag = TEXT("MapObject");
     return S_OK;
 }
@@ -51,9 +55,8 @@ void CDefaultMap::Priority_Update(_float fDeletaTime)
 
 void CDefaultMap::Update(_float fDeletaTime)
 {
-    _uInt iPickMeshIndex = {};
-    _float3 vOut = {};
 
+<<<<<<< HEAD
     //UpdateCullList();
 
 #ifdef _DEBUG
@@ -156,6 +159,8 @@ void CDefaultMap::Update(_float fDeletaTime)
         }
     }
 #endif // _DEBUG
+=======
+>>>>>>> Develop
 }
 
 void CDefaultMap::Late_Update(_float fDeletaTime)
@@ -173,8 +178,13 @@ HRESULT CDefaultMap::Render()
         m_pShaderCom->Update_Shader(0);
         m_pVIBufferCom->Render(i);
     }
+<<<<<<< HEAD
     m_pNavigationCom->Render({ 1.f, 0.f,0.f,1.f });
 
+=======
+
+    m_pNavigationCom->Render({ 1.f, 0.f, 0.f, 1.f });
+>>>>>>> Develop
     return S_OK;
 }
 
@@ -202,6 +212,11 @@ HRESULT CDefaultMap::Apply_ConstantShaderResources(_uInt iMeshIndex)
     if (pResourceVeiw)
         m_pSRVEffect->SetResource(pResourceVeiw);
 
+    ID3D11ShaderResourceView* pNormalRSV = {};
+    m_pVIBufferCom->GetMeshResource(iMeshIndex, aiTextureType_NORMALS, 0, &pNormalRSV);
+    if (pNormalRSV)
+        m_pShaderCom->Bind_SRV("g_NormalTexture", pNormalRSV);
+
     return S_OK;
 }
 
@@ -215,12 +230,17 @@ HRESULT CDefaultMap::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Mesh"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
         return E_FAIL;
 
+<<<<<<< HEAD
     m_iTerrainCnt = m_pVIBufferCom->GetNumMeshes();
     m_pNavigationCom = CNavigation::Create(m_pGraphic_Device, m_pDeviceContext, m_pVIBufferCom);
+=======
+    m_pNavigationCom = CNavigation::Create(m_pGraphic_Device, m_pDeviceContext, "../Bin/Resources/Models/SmallMap/NaviMesh/NaviMesh.dat");
+>>>>>>> Develop
     m_pComponentMap.emplace(TEXT("NaviMesh_Com"), m_pNavigationCom);
     return S_OK;
 }
 
+<<<<<<< HEAD
 CNavigation* CDefaultMap::FindOnTerrian(_float3 vPosition)
 {
     _float OnTerrianIndex = { -1 };
@@ -251,6 +271,8 @@ void CDefaultMap::GetAllNaviMeshTriangle(list<NAVI_TRIANGLE>* pOut)
                                   m_pNavigationCom->GetNaviMeshTriangleList().end());
 }
 
+=======
+>>>>>>> Develop
 void CDefaultMap::SelectRenderPlane(_uInt i)
 {
     auto iter = find(m_MapRenderIndex.begin(), m_MapRenderIndex.end(), i);
@@ -262,7 +284,7 @@ void CDefaultMap::SelectRenderPlane(_uInt i)
 
 void CDefaultMap::UpdateCullList()
 {
-    _float3 vPlayerPos = {};
+   /* _float3 vPlayerPos = {};
     XMStoreFloat3(&vPlayerPos, m_pGameInstance->GetPlayerState(WORLDSTATE::POSITION));
 
     for (_uInt i = 0; i < m_iTerrainCnt; ++i)
@@ -270,7 +292,7 @@ void CDefaultMap::UpdateCullList()
         _float fLength = {};
         if (m_pNavigationCom->IsInNaviMesh(vPlayerPos, 20.f, &fLength))
            m_MapRenderIndex.push_back(i);
-    }
+    }*/
 }
 
 CDefaultMap* CDefaultMap::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -298,5 +320,8 @@ CGameObject* CDefaultMap::Clone(void* pArg)
 void CDefaultMap::Free()
 {
     __super::Free();
+<<<<<<< HEAD
     Safe_Release(m_pNavigationCom);
+=======
+>>>>>>> Develop
 }

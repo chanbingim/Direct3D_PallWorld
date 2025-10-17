@@ -3,6 +3,10 @@
 #include "Client_Define.h"
 #include "ProgressBar.h"
 
+NS_BEGIN(Engine)
+class CFontComponent;
+NS_END
+
 NS_BEGIN(Client)
 class CHealthBar : public CProgressBar
 {
@@ -20,6 +24,14 @@ public:
 	virtual		void						Late_Update(_float fDeletaTime) override;
 	// ·£´õ
 	virtual		HRESULT						Render() override;
+
+	void									SetHealthBar(_float fCurHealth, _float fMaxHealth);
+
+private :
+	CFontComponent*							m_pFontCom = nullptr;
+
+	_float2									m_vFontPos = {};
+	_wstring								m_szFontText = {};
 
 private :
 	HRESULT									ADD_Components();

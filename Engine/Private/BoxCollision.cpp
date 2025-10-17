@@ -2,6 +2,8 @@
 #include "SphereCollision.h"
 #include "OBBCollision.h"
 
+#include "Transform.h"
+
 #include "DebugDraw.h"
 #include "GameObject.h"
 
@@ -54,8 +56,16 @@ _bool CBoxCollision::Intersect(COLLISION_TYPE eType, CCollision* pTarget)
 {
     _bool bIsHit = false;
 
-    if (!IntersectAble(typeid((*pTarget->GetOwner())).hash_code()))
-        return false;
+    if (m_bIsOnlyHitCollision)
+    {
+        if (!(m_bIsOnlyHitActorHashCode == typeid((*pTarget->GetOwner())).hash_code()))
+            return false;
+    }
+    else
+    {
+        if (!IntersectAble(typeid((*pTarget->GetOwner())).hash_code()))
+            return false;
+    }
 
     switch (eType)
     {
@@ -70,6 +80,51 @@ _bool CBoxCollision::Intersect(COLLISION_TYPE eType, CCollision* pTarget)
         break;
     }
 
+    return bIsHit;
+}
+
+_bool CBoxCollision::RayIntersect(COLLISION_TYPE eType, CCollision* pTarget, DEFAULT_HIT_DESC& OutDesc)
+{
+    _bool bIsHit = false;
+
+    _float3 OwnerPosition = m_pOwner->GetTransform()->GetPosition();
+    _float3 TargetPosition = pTarget->GetOwner()->GetTransform()->GetPosition();
+
+    _vector CalCulationOwnerPosition = XMLoadFloat3(&OwnerPosition);
+    _vector CalCulationTargetPosition = XMLoadFloat3(&TargetPosition);
+    _vector vDireaction = XMVector3Normalize(CalCulationTargetPosition - CalCulationOwnerPosition);
+
+    _float fDistance = { -1 };
+    switch (eType)
+    {
+    case COLLISION_TYPE::BOX:
+        bIsHit = m_Bounding->Intersects(CalCulationOwnerPosition, vDireaction, fDistance);
+        break;
+    case COLLISION_TYPE::SPHERE:
+        bIsHit = m_Bounding->Intersects(CalCulationOwnerPosition, vDireaction, fDistance);
+        break;
+    case COLLISION_TYPE::OBB:
+        bIsHit = m_Bounding->Intersects(CalCulationOwnerPosition, vDireaction, fDistance);
+        break;
+    }
+
+    XMStoreFloat3(&OutDesc.vHitPoint, CalCulationOwnerPosition + vDireaction * fDistance);
+    OutDesc.vfDistance = fDistance;
+    XMStoreFloat3(&OutDesc.vDireaction, vDireaction);
+    XMStoreFloat3(&OutDesc.vNormal, XMVector3Normalize(XMLoadFloat3(&OutDesc.vHitPoint) - CalCulationTargetPosition));
+    return bIsHit;
+}
+
+_bool CBoxCollision::RayHit(_vector vOrizin, _vector vDiraction, DEFAULT_HIT_DESC& OutDesc)
+{
+    _bool bIsHit = false;
+    _float fDistance = {};
+    bIsHit = m_Bounding->Intersects(vOrizin, vDiraction, fDistance);
+
+    XMStoreFloat3(&OutDesc.vHitPoint, vOrizin + vDiraction * fDistance);
+    OutDesc.vfDistance = fDistance;
+    XMStoreFloat3(&OutDesc.vDireaction, vDiraction);
+    XMStoreFloat3(&OutDesc.vNormal, XMVector3Normalize(XMLoadFloat3(&OutDesc.vHitPoint) - vOrizin));
     return bIsHit;
 }
 

@@ -70,6 +70,11 @@ _bool CVIBuffer::IsPicking(CTransform* pTransform, _float3* pOut)
     return _bool();
 }
 
+_bool CVIBuffer::IsPicking(CTransform* pTransform, _float3& vOut, _float3& vNormal)
+{
+    return _bool();
+}
+
 _bool CVIBuffer::IsPicking(_vector vRayOrizin, _vector vRayDir, CTransform* pTransform, _float3* pOut)
 {
     return _bool();

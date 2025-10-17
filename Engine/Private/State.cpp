@@ -9,7 +9,7 @@ void CState::OnStateEnter(void* pArg)
 {
 }
 
-void CState::OnStateExcution(void* pArg)
+void CState::OnStateExcution(_float fDeletaTime, void* pArg)
 {
 }
 

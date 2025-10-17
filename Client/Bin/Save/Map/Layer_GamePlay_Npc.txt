@@ -1,0 +1,2 @@
+1
+2 3 3 Prototype_GameObject_Female_People_1 Layer_GamePlay_Npc 0 1 1 1 -0 0 0 -1381.97 -199.282 -98.5206 

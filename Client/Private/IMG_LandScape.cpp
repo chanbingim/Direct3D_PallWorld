@@ -5,6 +5,9 @@
 #include "Terrain.h"
 #include "Level.h"
 
+#include "InstanceModel.h"
+#include "WorkAbleObject.h"
+
 const char* CIMG_LandScape::szBrushMode[ENUM_CLASS(BRUSH_MODE::END)] = {
        "SELECT_TERRIAN", "EDIT_ENVIORNMENT", "ADD_HEGIHT", "EDIT_NAVIMESH" };
 
@@ -63,6 +66,12 @@ void CIMG_LandScape::Update(_float fDeletaTime)
         {
             //여기서 어떤 곳에다가 저장할지 결정한다음 저장
             CreateHeightMapToPng();
+        }
+
+        if (ImGui::Button("Refesh Hegiht"))
+        {
+            //여기서 어떤 곳에다가 저장할지 결정한다음 저장
+            RefreshHegihtAllProbObject();
         }
     }
     ImGui::End();
@@ -144,10 +153,6 @@ void CIMG_LandScape::DrawPrefabBrush()
         ImGui::InputText("CreatePreFabPrototypeName", m_szPrafeName, MAX_PATH);
         ImGui::InputText("CreatePreFabLayerName", m_szLayerName, MAX_PATH);
 
-        if (ImGui::Button("SAVE_NAVI_MESH_FILE"))
-        {
-            Save_NaviMesh();
-        }
 
     }
     ImGui::End();
@@ -169,37 +174,16 @@ void CIMG_LandScape::CreateHeightMapToPng()
     }
 }
 
-void CIMG_LandScape::Save_NaviMesh()
+void CIMG_LandScape::RefreshHegihtAllProbObject()
 {
-    list<NAVI_TRIANGLE> SaveTriangleList = {};
-    CTerrainManager::GetInstance()->GetAllNaviMeshTriangle(&SaveTriangleList);
+    auto CurLevel = m_pGameInstance->GetCurrentLevel()->GetLevelID();
+    const list<CGameObject*>* EnvObject = m_pGameInstance->GetAllObejctToLayer(CurLevel, TEXT("Layer_GamePlay_Enviorment"));
+    for (auto Object : *EnvObject)
+        static_cast<CInstanceModel *>(Object)->RefreshComputeHeight();
 
-    ExportNaviMeshData("../Bin/Save/Map/Navimesh/NaviMesh.dat", SaveTriangleList);
-}
-
-HRESULT CIMG_LandScape::ExportNaviMeshData(const char* pFilePath, list<NAVI_TRIANGLE>& SaveList)
-{
-    //파일 입출력 열어서 저장
-    ios_base::openmode flag;
-    flag = ios::out | ios::trunc;
-    ofstream file(pFilePath, flag);
-
-    if (file.is_open())
-    {
-        _uInt iSaveObjectCnt = (_uInt)SaveList.size();
-        file << iSaveObjectCnt << endl;
-        for (NAVI_TRIANGLE& iter : SaveList)
-        {
-            file << iter.A.x << " " << iter.A.y << " " << iter.A.z << endl;
-            file << iter.B.x << " " << iter.B.y << " " << iter.B.z << endl; 
-            file << iter.C.x << " " << iter.C.y << " " << iter.C.z << endl; 
-        }
-    }
-    else
-        return E_FAIL;
-
-    file.close();
-    return S_OK;
+    const list<CGameObject*>* WorkAbleObject = m_pGameInstance->GetAllObejctToLayer(CurLevel, TEXT("Layer_GamePlay_WorkAbleObject"));
+    for (auto Object : *WorkAbleObject)
+        static_cast<CWorkAbleObject*>(Object)->RefreshComputeHeight();
 }
 
 CIMG_LandScape* CIMG_LandScape::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

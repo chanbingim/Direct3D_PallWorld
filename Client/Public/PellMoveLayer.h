@@ -3,7 +3,7 @@
 #include "StateLayer.h"
 
 NS_BEGIN(Engine)
-class CContainerObject;
+class CActor;
 NS_END
 
 NS_BEGIN(Client)
@@ -12,7 +12,7 @@ class CPellMoveLayer : public CStateLayer
 public :
 	typedef struct PellLayerDesc 
 	{
-		CContainerObject* pOwner;
+		CActor* pOwner;
 	}PELL_LAYER_DESC;
 
 private:
@@ -22,10 +22,10 @@ private:
 
 public:
 	virtual		HRESULT							Initialize(void* pArg, _uInt iStateSize) override;
-	virtual		void							Update(_float DeltaTime) override;
+	virtual		void							Update(_float DeltaTime, void* pArg) override;
 
 private :
-	CContainerObject*						m_pOwner = nullptr;
+	CActor*										m_pOwner = nullptr;
 
 private:
 	HRESULT										ADD_MoveState();

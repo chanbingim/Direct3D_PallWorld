@@ -83,11 +83,12 @@ void CPlayerCamera::Late_Update(_float fDeletaTime)
 
         CombinedMatrix = XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()) * ParentMatrix;
     }
-    XMStoreFloat4x4(&m_CombinedMatrix, CombinedMatrix);
 
+    XMStoreFloat4x4(&m_CombinedMatrix, CombinedMatrix);
     XMStoreFloat4x4(&m_InvCombinedMatrix, XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_CombinedMatrix)));
     XMStoreFloat4x4(&m_ProjMat, XMMatrixPerspectiveFovLH(m_fFov, m_fAspect, m_fNear, m_fFar));
 
+    m_pGameInstance->SetCameraInfo({ m_fFov , m_fFar, m_fNear, 0.f });
     m_pGameInstance->SetMatrix(MAT_STATE::VIEW, m_InvCombinedMatrix);
     m_pGameInstance->SetMatrix(MAT_STATE::PROJECTION, m_ProjMat);
     Compute_FustomPlane();
@@ -113,17 +114,17 @@ void CPlayerCamera::ADDRevolutionRotation(_float Angle, _float DeletaTime)
 void CPlayerCamera::ADDPitchRotation(_float Angle, _float DeletaTime)
 {
     _float rad = XMConvertToRadians(Angle) * DeletaTime;
-    m_AccYawAngle += rad;
+    m_AccPitchAngle += rad;
 
-    m_AccYawAngle = Clamp<_float>(m_AccYawAngle, -XM_PIDIV4, XM_PIDIV4);
-    if (-XM_PIDIV4 >= m_AccYawAngle)
+    m_AccPitchAngle = Clamp<_float>(m_AccPitchAngle, -XM_PIDIV4, XM_PIDIV4);
+    if (-XM_PIDIV4 >= m_AccPitchAngle)
     {
-        m_AccYawAngle = -XM_PIDIV4;
+        m_AccPitchAngle = -XM_PIDIV4;
         Angle = 0.f;
     }
-    else if (XM_PIDIV4 <= m_AccYawAngle)
+    else if (XM_PIDIV4 <= m_AccPitchAngle)
     {
-        m_AccYawAngle = XM_PIDIV4;
+        m_AccPitchAngle = XM_PIDIV4;
         Angle = 0.f;
     }
     m_pTransformCom->Turn(m_pTransformCom->GetRightVector(), XMConvertToRadians(Angle), DeletaTime);
@@ -135,8 +136,15 @@ void CPlayerCamera::SetChangeCameraMode(CAMERA_MODE eMode)
 
     if (CAMERA_MODE::AIMING == m_CameraModel)
     {
-        m_AccYawAngle = 0.f;
+        m_AccPitchAngle = 0.f;
         SetRotation({ 0.f, 0.f, 0.f });
+    }
+    else
+    {
+        _vector vLook = m_pParent->GetTransform()->GetLookVector();
+        _float3 vCameraPos = m_pTransformCom->GetPosition();
+
+        m_pTransformCom->LookAt(XMLoadFloat3(&vCameraPos) + vLook);
     }
 
     m_bIsLerp = true;

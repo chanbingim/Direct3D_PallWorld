@@ -40,6 +40,7 @@ public:
 	void							ADDPitchRotation(_float Angle, _float DeletaTime);
 
 	void							SetChangeCameraMode(CAMERA_MODE eMode);
+	_float							GetPlayerCameraPitch() { return m_AccPitchAngle; }
 
 private:
 	CAMERA_MODE						m_CameraModel = {};
@@ -48,7 +49,7 @@ private:
 	_float2							m_LerpFov = {};
 	_float							m_fStartLerpAngle = {};
 
-	_float							m_AccYawAngle = {};
+	_float							m_AccPitchAngle = {};
 
 	_float4x4						m_CombinedMatrix = {};
 	_float4x4						m_InvCombinedMatrix = {};

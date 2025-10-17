@@ -47,6 +47,7 @@ protected :
 	_float										m_fNear = {};
 
 	_float4x4									m_ProjMat = {};
+	_float4x4									m_OrthGraphicMat = {};
 
 	vector<_float3>								m_FustomPointVec;
 	vector<_vector>								m_FustomWorldPointVec;

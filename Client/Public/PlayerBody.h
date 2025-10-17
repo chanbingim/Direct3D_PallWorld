@@ -3,6 +3,8 @@
 #include "PartObject.h"
 
 NS_BEGIN(Client)
+class CPlayerManager;
+
 class CPlayerBody : public CPartObject
 {
 private :
@@ -22,6 +24,14 @@ public:
 
 	// ·£´õ
 	virtual		HRESULT						Render() override;
+	void									UpdateAnimation(CModel* pVIBuffer);
+
+protected :
+	HRESULT									Apply_ConstantShaderResources(_uInt iMeshIndex);
+
+private :
+	CPlayerManager*							m_pPlayerManager = nullptr;
+	CModel*									m_pClothesBuffer = nullptr;
 
 private :
 	HRESULT									ADD_Components();

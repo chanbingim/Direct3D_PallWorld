@@ -2,7 +2,10 @@
 
 #include "GameInstance.h"
 #include "HealthBar.h"
+#include "HungerBar.h"
 #include "BackGround.h"
+
+#include "PlayerManager.h"
 
 #include "GameData_Manager.h"
 #include "GamePlayHUD.h"
@@ -43,27 +46,12 @@ HRESULT CPlayer_Interface::Initialize(void* pArg)
 
 void CPlayer_Interface::Update(_float fDeletaTime)
 {
-	if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_0))
-	{
-		m_Per += 0.1f;
-		m_pHpBar->SetPercent(m_Per);
+	auto PlayerInfo = CPlayerManager::GetInstance()->GetPlayerData();
 
-	}
-	if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_1))
-	{
-		m_Per -= 0.1f;
-		m_pHpBar->SetPercent(m_Per);
+	m_pHpBar->SetHealthBar(PlayerInfo.CurHealth, PlayerInfo.MaxHealth);
+	m_pHugerBar->SetPercent(PlayerInfo.CurHunger / PlayerInfo.MaxHunger);
+	m_pGuardBar->SetPercent(_float(PlayerInfo.ShieldPoint / PlayerInfo.ShieldPoint));
 
-	}
-
-	m_pHugerBar->SetPercent(1.0f);
-	m_pGuardBar->SetPercent(0.8f);
-
-	/*if (m_pCharacterInfo)
-	{
-		m_pHpBar->SetPercent(m_pCharacterInfo->CurHealth / m_pCharacterInfo->MaxHealth);
-		m_pHugerBar->SetPercent(m_pCharacterInfo->CurHunger / m_pCharacterInfo->MaxHunger);
-	}*/
 }
 
 void CPlayer_Interface::Late_Update(_float fDeletaTime)
@@ -125,7 +113,7 @@ HRESULT CPlayer_Interface::ADD_Childs()
 		//Hunger bar
 		Desc.vPosition = { 50.f, 100.f, 0.f };
 		Desc.vColor = { 250 / 255.f, 124 / 255.f, 35 / 255.f, 1.f };
-		if (FAILED(pInGame_HUD->Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Health_Bar"), TEXT("HungerBar"), &Desc, (CUserInterface**)&m_pHugerBar)))
+		if (FAILED(pInGame_HUD->Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Hunger_Bar"), TEXT("HungerBar"), &Desc, (CUserInterface**)&m_pHugerBar)))
 			return E_FAIL;
 #pragma endregion
 
@@ -136,6 +124,28 @@ HRESULT CPlayer_Interface::ADD_Childs()
 		if (FAILED(pInGame_HUD->Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Battle_Pell_UI"), TEXT("Battle_Pell_UI"), &IconDesc)))
 			return E_FAIL;
 #pragma endregion
+
+#pragma region WEAPON_UI
+		IconDesc.vScale = { 200.f, 65.f, 0.f };
+		//Health Icon
+		IconDesc.vPosition = { g_iWinSizeX * 0.69f + (IconDesc.vScale.x * 0.8f),
+							   IconDesc.vScale.y + 30.f,
+							   0.f };
+		if (FAILED(pInGame_HUD->Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Weapon_QuickSlot"), TEXT("Weapon_Slot_UI"), &IconDesc)))
+			return E_FAIL;
+#pragma endregion
+
+#pragma region ITEM_SLOT_UI
+		IconDesc.vScale = { 100.f, 65.f, 0.f };
+		//Health Icon
+		IconDesc.vPosition = { g_iWinSizeX * 0.63f + ( IconDesc.vScale.x * 0.8f),
+								IconDesc.vScale.y + 30.f,
+								0.f };
+		if (FAILED(pInGame_HUD->Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GM_Item_QuickSlot"), TEXT("Item_Slot_UI"), &IconDesc)))
+			return E_FAIL;
+
+#pragma endregion
+
 	}
 
 	return S_OK;

@@ -24,7 +24,7 @@ void CPellResetState::OnStateEnter(void* pArg)
 
 }
 
-void CPellResetState::OnStateExcution(void* pArg)
+void CPellResetState::OnStateExcution(_float fDeletaTime, void* pArg)
 {
 }
 

@@ -1,6 +1,7 @@
 #include "Inventory.h"
 
 #include "GameInstance.h"
+
 #include "ItemSlot.h"
 #include "InvenSlider.h"
 
@@ -30,51 +31,43 @@ HRESULT CInventory::Initialize(void* pArg)
     if (FAILED(ADD_Components()))
         return E_FAIL;
     
-    m_SlotCount = { 5, 12 };
+    m_SlotCount = { 5, 11 };
     m_SlotSize = 40.f;
+
     if (FAILED(ADD_Childs()))
         return E_FAIL;
 
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
-  
-
     return S_OK;
 }
 
 void CInventory::Update(_float fDeletaTime)
 {
-    m_pViewItemSlot.clear();
     _float3 vStartPos = { (_float)m_SlotViewSize.left, (_float)m_SlotViewSize.top, 0.f };
     _float fOffset = m_pIvenSlider->GetCurPercent() * 100.f;
+    _uInt iRowIndex = (_uInt)((fOffset) / m_SlotSize);
+    _bool bIsReverse = false;
 
-    for (_uInt i = 0; i < (_uInt)m_SlotCount.y; ++i)
+    for (_uInt i = iRowIndex; i < (_uInt)m_SlotCount.y; ++i)
     {
         for (_uInt j = 0; j < (_uInt)m_SlotCount.x; ++j)
         {
             _uInt iIndex = _uInt(i * m_SlotCount.x + j);
             _float2 SlotPos = m_pItemSlot[iIndex]->GetViewPos();
-            SlotPos.y = vStartPos.y + (m_SlotSize + 10) * i + fOffset;
+            SlotPos.y = vStartPos.y - (_uInt)fOffset + (m_SlotSize + 10) * i;
             m_pItemSlot[iIndex]->SetLocation({ SlotPos.x ,SlotPos.y ,0.f });
+
             RECT rc{};
             if (IntersectRect(&rc, &m_SlotViewSize, &m_pItemSlot[iIndex]->GetRectSize()))
-            {
-                m_pItemSlot[iIndex]->Update(fDeletaTime);
                 m_pViewItemSlot.push_back(m_pItemSlot[iIndex]);
-            }
-            else
-            {
-                SlotPos.y -= m_SlotViewSize.bottom;
-                SlotPos.y += vStartPos.y - (m_SlotSize + 10);
-                m_pItemSlot[iIndex]->SetLocation({ SlotPos.x, SlotPos.y, 0.f });
-              
-                if (IntersectRect(&rc, &m_SlotViewSize, &m_pItemSlot[iIndex]->GetRectSize()))
-                    m_pViewItemSlot.push_front(m_pItemSlot[iIndex]);
-            }
         }
     }
 
+    for (auto iter : m_pViewItemSlot)
+        iter->Update(fDeletaTime);
+   
     for (auto iter : m_pChildList)
         iter->Update(fDeletaTime);
 }
@@ -83,22 +76,20 @@ void CInventory::Late_Update(_float fDeletaTime)
 {
     for (auto iter : m_pChildList)
         iter->Late_Update(fDeletaTime);
+
+    for (auto pSlot : m_pViewItemSlot)
+        pSlot->Late_Update(fDeletaTime);
+
 }
 
 HRESULT CInventory::Render()
 {
-    if (FAILED(Apply_ConstantShaderResources()))
-        return E_FAIL;
-
-    m_pShaderCom->Update_Shader(1);
-    m_pTextureCom->SetTexture(0, 0);
-    m_pVIBufferCom->Render_VIBuffer();
-
     for (auto iter : m_pChildList)
         iter->Render();
 
     for (auto pSlot : m_pViewItemSlot)
         pSlot->Render();
+    m_pViewItemSlot.clear();
       
     return S_OK;
 }
@@ -125,15 +116,7 @@ HRESULT CInventory::Apply_ConstantShaderResources()
 
 HRESULT CInventory::ADD_Components()
 {
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
-        return E_FAIL;
-
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_InGameMenu_Category_BackGround"), TEXT("Texture_Com"), (CComponent**)&m_pTextureCom)))
-        return E_FAIL;
-
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_ProgressBar"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
-        return E_FAIL;
-
+ 
     return S_OK;
 }
 
@@ -146,6 +129,8 @@ HRESULT CInventory::ADD_Childs()
     m_SlotViewSize = { m_UISize.left,  SliderRect.top,
                        m_UISize.right, SliderRect.bottom };
 
+    m_fRowSpacing = (SliderRect.bottom - SliderRect.top) / m_SlotCount.y;
+
     if (FAILED(ADD_Slot()))
         return E_FAIL;
 
@@ -154,8 +139,7 @@ HRESULT CInventory::ADD_Childs()
 
 HRESULT CInventory::ADD_Slot()
 {
-    CItemSlot::ITEM_SLOT_DESC Desc;
-    ZeroMemory(&Desc, sizeof(CItemSlot::ITEM_SLOT_DESC));
+    CItemSlot::GAMEOBJECT_DESC Desc = {};
 
     Desc.pParent = nullptr;
     Desc.vScale = { m_SlotSize, m_SlotSize, 0.f };
@@ -174,6 +158,7 @@ HRESULT CInventory::ADD_Slot()
             if (FAILED(pItemSlot->Initialize(&Desc)))
                 return E_FAIL;
 
+            pItemSlot->SetSlotNumber(_uInt(i * m_SlotCount.x + j));
             m_pItemSlot.push_back(pItemSlot);
         }
     }

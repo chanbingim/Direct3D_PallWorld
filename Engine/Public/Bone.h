@@ -15,10 +15,10 @@ public:
 
 	_matrix						GetCombinedTransformationMatrix();
 	const _float4x4*			GetCombinedTransformationMatrixPtr();
+	_float4x4*					GetTransformationOffsetMatrixPtr();
 
 	void						SetBoneTransformMatrix(_matrix TransformMat);
 	_matrix						GetBoneTransformMatrix();
-
 
 	_bool						CompareName(const _char* pBoneName);
 
@@ -32,6 +32,7 @@ public:
 private:
 	_char						m_szName[MAX_PATH] = {};
 
+	_float4x4					m_TransformationOffsetMatrix = {}; // 상태 행렬에다 더해 추가적인 상태를 표현할 행렬
 	_float4x4					m_InitTransformationMatrix = {};
 	_float4x4					m_TransformationMatrix = {}; /* 이 뼈만의 상태변환행렬 */
 	_float4x4					m_CombinedTransformationMatrix = {}; /* m_TransformatinoMatrix * Parent`s m_CombinedTransformationMatrix */

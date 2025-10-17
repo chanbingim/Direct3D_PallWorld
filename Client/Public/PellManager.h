@@ -1,7 +1,11 @@
 #pragma once
-#include "Base.h"
 #include "Client_Define.h"
 #include "PellStructData.h"
+#include "Base.h"
+
+NS_BEGIN(Engine)
+class CTexture;
+NS_END
 
 NS_BEGIN(Client)
 class CPellManager final : public CBase
@@ -13,14 +17,22 @@ private :
 	virtual ~CPellManager() = default;
 
 public :
-	void									Initialize(const char* szFilePath = "");
-	const PELL_SAVE_DATA*					FindPellData(_uInt iID);
+	void									Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const char* szFilePath = "");
+	_bool									FindPellData(_uInt iID, PELL_INFO* pPellInfo);
 
 private :
-	unordered_map<_uInt, PELL_SAVE_DATA>	m_PellDatas;
+	ID3D11Device*							m_pDevice = nullptr; 
+	ID3D11DeviceContext*					m_pContext = nullptr;
+
+	unordered_map<_uInt, CTexture*>			m_PellIcons;
+	unordered_map<_uInt, PAL_NETWORK_DATA>	m_PellDatas;
+
+private :
+	HRESULT									LoadCSVPellData(const char* szFilePath);
+	const CTexture*							CreateTexture(_uInt iID, const WCHAR* szFilePath);
 
 public :
-	virtual void				Free() override;
+	virtual void							Free() override;
 
 };
 NS_END
