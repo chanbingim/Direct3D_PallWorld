@@ -72,7 +72,7 @@ HRESULT CDefaultGrass::ADD_Components()
 	BoxColDesc.pOwner = this;
 	BoxColDesc.Extents = m_pVIBufferCom->GetInstanceModelBoundSize();
 
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionBox"), TEXT("Collision_Com"), (CComponent**)&m_pBoundBox), &BoxColDesc))
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionBox"), TEXT("Collision_Com"), (CComponent**)&m_pBoundBox, &BoxColDesc)))
 		return E_FAIL;
 
 	// NonAnimShader

@@ -17,6 +17,7 @@ HRESULT CMiningObject::Initalize_Prototype()
 	if (FAILED(__super::Initalize_Prototype()))
 		return E_FAIL;
 
+	m_fCompleteTime = 3.0f;
 	return S_OK;
 }
 

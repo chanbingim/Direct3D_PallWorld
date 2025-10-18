@@ -1,3 +1,0 @@
-2
-0 3 3 Prototype_GameObject_Environment_SmallGrass GamePlay_Layer_Enviornment 0 1 1 1 -0 0 0 -464.701 -205.835 -402.919 
-0 3 3 Prototype_GameObject_Environment_SmallGrass GamePlay_Layer_Enviornment 0 1 1 1 -0 0 0 0 0 0 

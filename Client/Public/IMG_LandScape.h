@@ -39,7 +39,7 @@ private :
 
 	_char							m_szBushModeName[MAX_PATH] = {};
 	BRUSH_MODE						m_eBrushMode = {};
-	_Int							m_iBrushSize = {};
+	_float							m_iBrushSize = {};
 
 	// 어떤 레이어의 오브젝트를 갱신할까
 	const _char*					m_RefreshType = "";

@@ -85,10 +85,7 @@ HRESULT CFemalePeople_1::ADD_Components()
     auto Object = m_pGameInstance->GetAllObejctToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_GamePlay_Terrian"))->begin();
     auto OriginNav = static_cast<CNavigation*>((*Object)->Find_Component(TEXT("NaviMesh_Com")));
     CNavigation::NAVIGATION_DESC Desc = {};
-    _float3 vPos = m_pTransformCom->GetPosition();
     Desc.iCurrentCellIndex = 100;
-
-    m_pTransformCom->SetPosition(OriginNav->CellCenterPos(Desc.iCurrentCellIndex));
     m_pNevigation = static_cast<CNavigation*>(OriginNav->Clone(&Desc));
 
     Safe_AddRef(m_pNevigation);

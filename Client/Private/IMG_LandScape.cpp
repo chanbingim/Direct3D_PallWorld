@@ -182,7 +182,7 @@ void CIMG_LandScape::DrawPrefabBrush()
     if (ImGui::Begin("PreFab_Brsuh"))
     {
         ImGui::SetNextItemWidth(150.f);
-        ImGui::InputInt("BrushSize", &m_iBrushSize, 0);
+        ImGui::InputFloat("BrushSize", &m_iBrushSize, 0);
 
         if (ImGui::BeginCombo("BRUSH_MODE", (char *)m_szBushModeName))
         {

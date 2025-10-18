@@ -230,6 +230,7 @@
     <ClInclude Include="..\public\PreviewModel.h" />
     <ClInclude Include="..\public\PreviewModelWeapon.h" />
     <ClInclude Include="..\public\ProbObject.h" />
+    <ClInclude Include="..\public\RockWall.h" />
     <ClInclude Include="..\public\SelectTriangle.h" />
     <ClInclude Include="..\public\SelectUI.h" />
     <ClInclude Include="..\public\TableFurniture.h" />
@@ -503,6 +504,7 @@
     <ClCompile Include="..\private\PreviewModel.cpp" />
     <ClCompile Include="..\private\PreviewModelWeapon.cpp" />
     <ClCompile Include="..\private\ProbObject.cpp" />
+    <ClCompile Include="..\private\RockWall.cpp" />
     <ClCompile Include="..\private\SelectTriangle.cpp" />
     <ClCompile Include="..\private\SelectUI.cpp" />
     <ClCompile Include="..\private\TableFurniture.cpp" />

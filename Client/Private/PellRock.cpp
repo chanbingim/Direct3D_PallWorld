@@ -48,7 +48,6 @@ void CPellRock::Priority_Update(_float fDeletaTime)
 
 void CPellRock::Update(_float fDeletaTime)
 {
-    __super::Update(fDeletaTime);
 }
 
 void CPellRock::Late_Update(_float fDeletaTime)

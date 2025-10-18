@@ -965,6 +965,9 @@
     <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Furniture\TouchLamp">
       <UniqueIdentifier>{078f268c-1667-476a-b342-b260479eb3f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\RockWall">
+      <UniqueIdentifier>{e6981acd-5fa9-4edc-93f4-f6a98d59ba5a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -1777,6 +1780,9 @@
     <ClInclude Include="..\public\TableFurniture.h">
       <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Furniture\Table</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\RockWall.h">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\RockWall</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -2565,6 +2571,9 @@
     </ClCompile>
     <ClCompile Include="..\private\TableFurniture.cpp">
       <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Furniture\Table</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RockWall.cpp">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\RockWall</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

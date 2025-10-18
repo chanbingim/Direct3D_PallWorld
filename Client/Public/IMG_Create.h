@@ -31,7 +31,8 @@ private :
 	char							m_szLayerName[MAX_PATH] = {};
 	_Int							m_iCreateCnt = {};
 
-	_uInt							m_iEnvIndex = {};
+	_Int							m_iEnvIndex = {};
+	_bool							m_bCrateEnv = {};
 
 private :
 	void							DrawCreateCategory();

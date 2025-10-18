@@ -2,6 +2,8 @@
 
 #include "GameInstance.h"
 #include "StringHelper.h"
+
+#include "Enviormnent.h"
 #include "Level.h"
 
 CIMG_Create::CIMG_Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
@@ -94,29 +96,56 @@ void CIMG_Create::DrawPrototypes()
     ImGui::InputText("Tag Name", m_szObjectName, MAX_PATH);
     ImGui::PopItemWidth();
 
+
+    ImGui::InputInt("ObjctIndexNumber", &m_iEnvIndex, 0);
+    ImGui::SameLine();
+    ImGui::Checkbox("Create Environment", &m_bCrateEnv);
+
     //오브젝트 생성 버튼
     if (ImGui::Button("Create##ObjectGenerate", ImVec2(100, 20)))
     {
         //생성하라는 숫자를 통해서 생성하기
         for (_Int i = 0; i < m_iCreateCnt; ++i)
         {
-            //현재 레벨 가져오기
-            _uInt LevelID = m_pGameInstance->GetCurrentLevel()->GetLevelID();
+            if (m_bCrateEnv)
+            {
+                //현재 레벨 가져오기
+                _uInt LevelID = m_pGameInstance->GetCurrentLevel()->GetLevelID();
 
-            WCHAR   szWideProtoType[MAX_PATH] = {};
-            WCHAR   szWideLayerName[MAX_PATH] = {};
-            WCHAR   szWideObjectName[MAX_PATH] = {};
+                WCHAR   szWideProtoType[MAX_PATH] = {};
+                WCHAR   szWideLayerName[MAX_PATH] = {};
+                WCHAR   szWideObjectName[MAX_PATH] = {};
 
-            CStringHelper::ConvertUTFToWide(m_szSelectPrototype, szWideProtoType);
-            CStringHelper::ConvertUTFToWide(m_szLayerName, szWideLayerName);
-            CStringHelper::ConvertUTFToWide(m_szObjectName, szWideObjectName);
+                CStringHelper::ConvertUTFToWide(m_szSelectPrototype, szWideProtoType);
+                CStringHelper::ConvertUTFToWide(m_szLayerName, szWideLayerName);
+                CStringHelper::ConvertUTFToWide(m_szObjectName, szWideObjectName);
 
-            CGameObject::GAMEOBJECT_DESC Desc;
-            ZeroMemory(&Desc, sizeof(CGameObject::GAMEOBJECT_DESC));
-            wsprintf(Desc.ObjectTag, TEXT("%s%d"), szWideObjectName, i);
-            Desc.vScale = { 1.f, 1.f, 1.f };
+                CEnviormnent::ENVIORMNENT_DESC Desc = {};
+                wsprintf(Desc.ObjectTag, TEXT("%s%d"), szWideObjectName, i);
+                Desc.vScale = { 1.f, 1.f, 1.f };
+                Desc.iModelIndex = m_iEnvIndex;
+                m_pGameInstance->Add_GameObject_ToLayer(LevelID, szWideProtoType, LevelID, szWideLayerName, &Desc);
+            }
+            else
+            {
+                //현재 레벨 가져오기
+                _uInt LevelID = m_pGameInstance->GetCurrentLevel()->GetLevelID();
 
-            m_pGameInstance->Add_GameObject_ToLayer(LevelID, szWideProtoType, LevelID, szWideLayerName, &Desc);
+                WCHAR   szWideProtoType[MAX_PATH] = {};
+                WCHAR   szWideLayerName[MAX_PATH] = {};
+                WCHAR   szWideObjectName[MAX_PATH] = {};
+
+                CStringHelper::ConvertUTFToWide(m_szSelectPrototype, szWideProtoType);
+                CStringHelper::ConvertUTFToWide(m_szLayerName, szWideLayerName);
+                CStringHelper::ConvertUTFToWide(m_szObjectName, szWideObjectName);
+
+                CGameObject::GAMEOBJECT_DESC Desc;
+                ZeroMemory(&Desc, sizeof(CGameObject::GAMEOBJECT_DESC));
+                wsprintf(Desc.ObjectTag, TEXT("%s%d"), szWideObjectName, i);
+                Desc.vScale = { 1.f, 1.f, 1.f };
+
+                m_pGameInstance->Add_GameObject_ToLayer(LevelID, szWideProtoType, LevelID, szWideLayerName, &Desc);
+            }
         }
     }
 }

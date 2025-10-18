@@ -1,2 +1,0 @@
-1
-0 3 3 Prototype_GameObject_SkyBox Layer_GamePlay_SKY 0 2 2 2 -0 0 0 -512.399 -134.187 -382.421 

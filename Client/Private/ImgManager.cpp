@@ -234,8 +234,10 @@ void CImgManager::DarwMenuBar()
 
             if (ImGui::MenuItem("Load"))
             {
-                LoadObject("../Bin/Save/Map/GamePlay_Layer_Enviornment.txt");
-                LoadObject("../Bin/Save/Map/GamePlay_Layer_WorkAble.txt");
+                LoadObject("../Bin/Save/Map/GamePlay_Layer_Enviornment.txt", TEXT("Enviornment"));
+                LoadEnvObject("../Bin/Save/Map/GamePlay_Layer_WorkAble.txt", TEXT("Workalbe"));
+                LoadObject("../Bin/Save/Map/GamePlay_Layer_Npc.txt", TEXT("Npc"));
+                LoadObject("../Bin/Save/Map/GamePlay_Layer_Instance_Env.txt", TEXT("Instance_Env"));
             }
 
             ImGui::EndMenu();
@@ -290,46 +292,52 @@ HRESULT CImgManager::SaveLevel()
     return S_OK;
 }
 
-HRESULT CImgManager::LoadObject(const char* FilePath)
+HRESULT CImgManager::LoadObject(const char* FilePath, const WCHAR*  ObjectTag)
 {
-    //파일 입출력 열어서 저장
-    ios_base::openmode flag;
-    flag = ios::in;
-
-    list<SAVE_LEVEL_DESC> LoadList;
-    auto pGameInstance = CGameInstance::GetInstance();
-    ifstream file(FilePath, flag);
-    if (file.is_open())
-    {
-        _uInt iLoadObjectCnt = {};
-        file >> iLoadObjectCnt;
-        for (_uInt i = 0; i < iLoadObjectCnt; ++i)
-        {
-            SAVE_LEVEL_DESC LoadData;
-            file >> LoadData.eType;
-            file >> LoadData.iPrototypeLevelID;
-            file >> LoadData.iSaveLevelID;
-            file >> LoadData.PrototypeName;
-            file >> LoadData.LayerName;
-            file >> LoadData.PrototypeIndex;
-            file >> LoadData.vScale.x >> LoadData.vScale.y >> LoadData.vScale.z;
-            file >> LoadData.vRotation.x >> LoadData.vRotation.y >> LoadData.vRotation.z;
-            file >> LoadData.vPosition.x >> LoadData.vPosition.y >> LoadData.vPosition.z;
-            LoadList.push_back(LoadData);
-        }
-    }
-    file.close();
+    list<SAVE_LEVEL_DESC> LoadList = {};
+    ReadFile(FilePath, LoadList);
 
     WCHAR szPrototypeName[MAX_PATH] = {};
     WCHAR szLayerName[MAX_PATH] = {};
+    auto pGameInstance = CGameInstance::GetInstance();
     _uInt ObejctCnt = {};
     for (auto& iter : LoadList)
     {
         CGameObject::GAMEOBJECT_DESC Desc = {};
+        wsprintf(Desc.ObjectTag, TEXT("%s%d"), ObjectTag, ObejctCnt);
         Desc.vScale = iter.vScale;
-        Desc.vRotation = { XMConvertToRadians(iter.vRotation.x),
-                           XMConvertToRadians(iter.vRotation.y), 
-                           XMConvertToRadians(iter.vRotation.z) };
+        Desc.vRotation = { iter.vRotation.x,
+                           iter.vRotation.y, 
+                           iter.vRotation.z };
+        Desc.vPosition = iter.vPosition;
+
+        CStringHelper::ConvertUTFToWide(iter.PrototypeName, szPrototypeName);
+        CStringHelper::ConvertUTFToWide(iter.LayerName, szLayerName);
+
+        pGameInstance->Add_GameObject_ToLayer(iter.iPrototypeLevelID, szPrototypeName, iter.iSaveLevelID, szLayerName, &Desc);
+        ObejctCnt++;
+    }
+    return S_OK;
+}
+
+HRESULT CImgManager::LoadEnvObject(const char* FilePath, const WCHAR* ObjectTag)
+{
+    list<SAVE_LEVEL_DESC> LoadList = {};
+    ReadFile(FilePath, LoadList);
+
+    WCHAR szPrototypeName[MAX_PATH] = {};
+    WCHAR szLayerName[MAX_PATH] = {};
+    auto pGameInstance = CGameInstance::GetInstance();
+    _uInt ObejctCnt = {};
+    for (auto& iter : LoadList)
+    {
+        CEnviormnent::ENVIORMNENT_DESC Desc = {};
+        wsprintf(Desc.ObjectTag, TEXT("%s%d"), ObjectTag, ObejctCnt);
+        Desc.iModelIndex = iter.eType;
+        Desc.vScale = iter.vScale;
+        Desc.vRotation = { iter.vRotation.x,
+                          iter.vRotation.y,
+                          iter.vRotation.z };
         Desc.vPosition = iter.vPosition;
 
         CStringHelper::ConvertUTFToWide(iter.PrototypeName, szPrototypeName);
@@ -350,7 +358,7 @@ void CImgManager::SaveFile(const char* FilePath, list<SAVE_LEVEL_DESC>& SaveData
 
     if (file.is_open())
     {
-        _uInt iSaveObjectCnt = (_uInt)SaveData.size();
+        _uInt iSaveObjectCnt = (_uInt)SaveData.size() * 3.f;
         file<< iSaveObjectCnt << endl;
         for (SAVE_LEVEL_DESC& iter : SaveData)
         {
@@ -363,6 +371,36 @@ void CImgManager::SaveFile(const char* FilePath, list<SAVE_LEVEL_DESC>& SaveData
         }
     }
 
+    file.close();
+}
+
+void CImgManager::ReadFile(const char* FilePath, list<SAVE_LEVEL_DESC>& pOutList)
+{
+    //파일 입출력 열어서 저장
+    ios_base::openmode flag;
+
+    flag = ios::in;
+
+    ifstream file(FilePath, flag);
+    if (file.is_open())
+    {
+        _uInt iLoadObjectCnt = {};
+        file >> iLoadObjectCnt;
+        for (_uInt i = 0; i < iLoadObjectCnt; ++i)
+        {
+            SAVE_LEVEL_DESC LoadData;
+            file >> LoadData.eType;
+            file >> LoadData.iPrototypeLevelID;
+            file >> LoadData.iSaveLevelID;
+            file >> LoadData.PrototypeName;
+            file >> LoadData.LayerName;
+            file >> LoadData.PrototypeIndex;
+            file >> LoadData.vScale.x >> LoadData.vScale.y >> LoadData.vScale.z;
+            file >> LoadData.vRotation.x >> LoadData.vRotation.y >> LoadData.vRotation.z;
+            file >> LoadData.vPosition.x >> LoadData.vPosition.y >> LoadData.vPosition.z;
+            pOutList.push_back(LoadData);
+        }
+    }
     file.close();
 }
 

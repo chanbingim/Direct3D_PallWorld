@@ -1,264 +1,42 @@
-﻿  BossHealthBar.cpp
-  EditorLevel.cpp
-  HealthIcon.cpp
-  HungerIcon.cpp
-  IMG_ModelConvert.cpp
+﻿FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ButtonShader.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\MouseShader.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ShaderFiles\MutipleBlend.hlsl(79,5-41): warning X3206: implicit truncation of vector type
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\MutipleBlend.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ProgressBar.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\SelectTriShader.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\TestShader.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_AnimMesh.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_InstnaceMesh.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ShaderFiles\VTX_Mesh.hlsl(129,22-32): warning X3578: Output value 'PS_ModelPreview' is not completely initialized
+C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ShaderFiles\VTX_Mesh.hlsl(137,21-42): warning X3578: Output value 'PS_ModelCreate' is not completely initialized
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_Mesh.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_NorTex.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\WorldUI.cso
   ImgManager.cpp
-  ItemQuickSlotCount.cpp
-  ItemQuickSlotIcon.cpp
-  ItemQuickSlotName.cpp
-  Logo_GameEdit_But.cpp
-  Logo_GameQuit_But.cpp
-  PellHealthBar.cpp
-  PlayerItemSlot.cpp
-  SpawnBox.cpp
-  WeaponQuickSlotCount.cpp
-  WeaponQuickSlotName.cpp
-  WeaponSlotIcon.cpp
-  ActionAbleUI.cpp
-  AiSenceComponent.cpp
-  AimInterface.cpp
-  코드를 생성하고 있습니다...
-  컴파일하고 있습니다...
-  Architecture.cpp
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\Architecture.cpp(45,62): warning C4244: '=': 'Engine::_uInt'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  ArrowProjectile.cpp
-  BackGround.cpp
-  BattlePell.cpp
-  BedCat.cpp
-  BedCatBody.cpp
-  BedFurniture.cpp
-  BossTitleName.cpp
-  Button.cpp
-  ButtonFlare.cpp
-  ButtonFrame.cpp
-  Camera.cpp
-  Category.cpp
-  CharacterView.cpp
-  Compass.cpp
-  CompassPoint.cpp
-  CreateMenu.cpp
-  CreateToolTipUI.cpp
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\CreateToolTipUI.cpp(102,69): warning C4244: '=': 'Engine::_uInt'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\CreateToolTipUI.cpp(109,39): warning C4244: '인수': 'Engine::_float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\CreateToolTipUI.cpp(120,45): warning C4244: '인수': 'Engine::_float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  DebugApp.cpp
-  DefaultEntity.cpp
-  코드를 생성하고 있습니다...
-  컴파일하고 있습니다...
-  DefaultGrass.cpp
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\DefaultGrass.cpp(75,6): warning C4002: 함수 같은 매크로 호출 'FAILED'에 대해 인수가 너무 많습니다.
-  DefaultMap.cpp
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\DefaultMap.cpp(149,34): warning C4244: '=': 'Engine::_uInt'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\DefaultMap.cpp(218,116): warning C4244: '인수': 'Engine::_uInt'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\DefaultMap.cpp(221,116): warning C4244: '인수': 'Engine::_uInt'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\DefaultMap.cpp(224,116): warning C4244: '인수': 'Engine::_uInt'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\DefaultMap.cpp(264,98): warning C4244: '인수': 'Engine::_uInt'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  DefenceBossComponent.cpp
-  DefenceWallWood.cpp
-  DiallogUI.cpp
-  Dororong.cpp
-  DororongBody.cpp
-  DropComponent.cpp
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\DropComponent.cpp(30,57): warning C4244: '=': 'Engine::_float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  ElectPanda.cpp
-  ElectricPandaBody.cpp
-  EletricBullet.cpp
-  Enviormnent.cpp
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\Enviormnent.cpp(78,33): warning C4244: '초기화 중': 'float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  EquipSlot.cpp
-  Equipment.cpp
-  EventButton.cpp
-  FarmGround.cpp
-  FastTravelObject.cpp
-  FemalePeopleBody_1.cpp
-  FemalePeople_1.cpp
-  Flower.cpp
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\Flower.cpp(75,9): warning C4002: 함수 같은 매크로 호출 'FAILED'에 대해 인수가 너무 많습니다.
-  코드를 생성하고 있습니다...
-  컴파일하고 있습니다...
-  FlowerLabbitBody.cpp
-  FlowerRabbit.cpp
-  Frog.cpp
-  FrogBody.cpp
-  GameOption.cpp
-  GamePlayHUD.cpp
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\GamePlayHUD.cpp(237,25): warning C4244: '인수': 'float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\GamePlayHUD.cpp(250,30): warning C4244: '인수': 'float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  GamePlayLevel.cpp
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\GamePlayLevel.cpp(134,49): warning C4244: '=': 'Engine::_float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\GamePlayLevel.cpp(141,49): warning C4244: '=': 'Engine::_float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  GrassMommothBody.cpp
-  GreenMommoth.cpp
-  GuardBar.cpp
-  HealthBar.cpp
-  Hedgehog.cpp
-  HedgehogBody.cpp
-  Herorong.cpp
-  HerorongBody.cpp
-  HungerBar.cpp
-  IMG_Create.cpp
-  IMG_Hierarchy.cpp
-  IMG_Inspector.cpp
-  IMG_LandScape.cpp
-  코드를 생성하고 있습니다...
-  컴파일하고 있습니다...
-  IMG_Profiler.cpp
-  IMG_Transform.cpp
-  IMG_Viewport.cpp
-  ImgUIBase.cpp
-  ImgViewModel.cpp
-  InGameMenu.cpp
-  IngredientCountView.cpp
-  IngredientList.cpp
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\IngredientList.cpp(62,24): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-  IngredientUI.cpp
-  InstanceModel.cpp
-  InvenSlider.cpp
-  InvenSliderButton.cpp
-  Inventory.cpp
-  ItemInfoUI.cpp
-  ItemManager.cpp
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\ItemManager.cpp(84,51): warning C4244: '=': 'int'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\ItemManager.cpp(147,60): warning C4244: '=': 'int'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  ItemObject.cpp
-  ItemQuickSlot.cpp
-  ItemSlot.cpp
-  ItemSlotIcon.cpp
-  LevelIcon.cpp
-  코드를 생성하고 있습니다...
-  컴파일하고 있습니다...
-  Loader.cpp
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\Loader.cpp(402,35): warning C4244: '=': 'float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\Loader.cpp(418,35): warning C4244: '=': 'float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\Loader.cpp(434,35): warning C4244: '=': 'float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  LoadingHUD.cpp
-  LoadingIcon.cpp
-  LoadingLevel.cpp
-  LoadingUI.cpp
-  LogoLevel.cpp
-  Logo_GameStart_But.cpp
-  Logo_HUD.cpp
-  Logo_Menu.cpp
-  MainApp.cpp
-  NeturalPellInfo.cpp
-  NeturalTypeIcon.cpp
-  NoneAnimMesh.cpp
-  Npc.cpp
-  NpcBody.cpp
-  NpcStateMachine.cpp
-  NpcTalkState.cpp
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\NpcTalkState.cpp(13,56): warning C4244: '=': 'Engine::_float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  OptionButton.cpp
-  PalBed.cpp
-  PalBox.cpp
-  코드를 생성하고 있습니다...
-  컴파일하고 있습니다...
-  PalBoxListUI.cpp
-  PalBoxSlot.cpp
-  PalInvenListUI.cpp
-  PalInvenSlot.cpp
-  PalSpher.cpp
-  PalSpherUI.cpp
-  PallSpherPercentBar.cpp
-  PellBase.cpp
-  PellBody.cpp
-  PellBoxManager.cpp
-  PellCarryState.cpp
-  PellCharacterIcon.cpp
-  PellInfo.cpp
-  PellInfoFrame.cpp
-  PellLogo.cpp
-  PellManager.cpp
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\PellManager.cpp(112,30): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\PellManager.cpp(113,31): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\PellManager.cpp(114,30): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\PellManager.cpp(116,29): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\PellManager.cpp(117,30): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\PellManager.cpp(124,37): warning C4244: '=': 'int'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\PellManager.cpp(125,33): warning C4244: '=': 'int'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\PellManager.cpp(126,35): warning C4244: '=': 'int'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\PellManager.cpp(127,34): warning C4244: '=': 'int'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  PellPatrolState.cpp
-  PellResetState.cpp
-  PellRock.cpp
-  PellStateLaunched.cpp
-  코드를 생성하고 있습니다...
-  컴파일하고 있습니다...
-  PellWorkState.cpp
-  Player.cpp
-  PlayerBody.cpp
-  PlayerCamera.cpp
-  PlayerManager.cpp
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\PlayerManager.cpp(671,28): warning C4018: '<=': signed 또는 unsigned가 일치하지 않습니다.
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\PlayerManager.cpp(684,23): warning C4018: '<=': signed 또는 unsigned가 일치하지 않습니다.
-  PlayerPartData.cpp
-  PlayerSlotArchitecture.cpp
-  PlayerView.cpp
-  PlayerWeaponSlot.cpp
-  Player_Interface.cpp
-  ProbObject.cpp
-  ProjectileObject.cpp
-  ProjectileSlot.cpp
-  RockObject.cpp
-  SelectTriangle.cpp
-  SelectUI.cpp
-  SkyBox.cpp
-  SlotBase.cpp
-  SlotImage.cpp
-  SmallGrass.cpp
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\SmallGrass.cpp(75,6): warning C4002: 함수 같은 매크로 호출 'FAILED'에 대해 인수가 너무 많습니다.
-  코드를 생성하고 있습니다...
-  컴파일하고 있습니다...
-  TableFurniture.cpp
-  TechCategoryUI.cpp
-  TechListSlotFont.cpp
-  TechListViewSlot.cpp
-  TechPreViewFont.cpp
-  TechSelectPreView.cpp
-  TechSelectView.cpp
-  TechSlot.cpp
-  TechSlotLine.cpp
-  TechSlotNameBar.cpp
-  TechSlotTitleBar.cpp
-  TechTabIcon.cpp
-  TechnologyMenu.cpp
-  TechnologyPointView.cpp
-  TechnologyTitleBar.cpp
-  TechnologyView.cpp
-  Terrain.cpp
-  TerrainManager.cpp
-  TitleUI.cpp
-  TouchLamp.cpp
-  코드를 생성하고 있습니다...
-  컴파일하고 있습니다...
-  TreeObject.cpp
-  TypeIcon.cpp
-  ViliageCurchObject.cpp
-  ViliageHouseObject.cpp
-  ViliageMarketObject.cpp
-  WeaponQuickSlot.cpp
-  WoodDoor.cpp
-  WoodWall.cpp
-  WorkAbleObject.cpp
-  WorkBench.cpp
-  WorkBenchCreateUI.cpp
-  WorkBenchSlot.cpp
-  WorkBenchSlotView.cpp
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\WorkBenchSlotView.cpp(77,23): warning C4244: '초기화 중': 'Engine::_uInt'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\WorkBenchSlotView.cpp(87,21): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\WorkBenchSlotView.cpp(89,22): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\WorkBenchSlotView.cpp(93,44): warning C4244: '인수': 'Engine::_float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  WorkComponent.cpp
-  WorkPalListUI.cpp
-  WorkPercentBar.cpp
-  WorkPercnet.cpp
-  Yeti.cpp
-  YetiBody.cpp
-  ViliageApartment.cpp
-  코드를 생성하고 있습니다...
-  컴파일하고 있습니다...
-  CWorkBenchCountView.cpp
-  Direct11_FrameWork.cpp
-  코드를 생성하고 있습니다...
-  Direct11_FrameWork.vcxproj -> C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe
+C:\Git\GitHub\Direct3D_PallWorld\Client\Public\IMG_LandScape.h(26,38): warning C4244: 'return': 'Engine::_float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 '../Private/ImgManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Git\GitHub\Direct3D_PallWorld\Client\Private\ImgManager.cpp(361,30): warning C4244: '초기화 중': 'float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Direct11_FrameWork.vcxproj -> C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe

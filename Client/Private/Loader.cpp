@@ -37,6 +37,8 @@
 
 #pragma endregion
 
+#include "RockWall.h"
+
 #pragma region SKY_BOX
 #include "SkyBox.h"
 #pragma endregion
@@ -478,12 +480,25 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_ViliageMarket"),
 		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Viliage/Market/Market.fbx", PreModelMat))))
 		return E_FAIL;
+
+	/* VIBuffer  Viliage Market Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_FastTravel"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/FastTravel/FastTravel.fbx", PreModelMat))))
+		return E_FAIL;
 #pragma endregion
+	
+#pragma region Prob Rock
+	/* VIBuffer  Rock Wall Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_ChifRock_00"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Rock/ChifRock/Chif_00/ChifRock.fbx", PreModelMat))))
+		return E_FAIL;
+#pragma endregion
+
 
 #pragma region ROCK
 	/* EnviornMent Rock MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Rock_0_Mesh"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Rock/Rock/Rock/Rock02/Rock02.dat"))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Rock/Rock/Rock/Rock02/Rock02.fbx", PreModelMat))))
 		return E_FAIL;
 
 	/* EnviornMent Rock3 MESH  Component */
@@ -619,6 +634,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* GAME_OBJECT_PellJium */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_PelJium"), CPellRock::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
+	/* GAME_OBJECT_ChifRock_00 */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ChifRock_00"), CRockWall::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 #pragma endregion
 
 #pragma region Instance Prob
@@ -665,32 +684,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 #pragma endregion
 
-#pragma region BUILD OBJECT
-	/* GAME_OBJECT_PalBox */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_PalBox"), CPalBox::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	/* GAME_OBJECT_PalBed */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_PalBed"), CPalBed::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	/* GAME_OBJECT_WorkBench */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_WorkBench"), CWorkBench::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-#pragma region Furniture
-	/* GAME_OBJECT_BedFurniture */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_BedFurniture"), CBedFurniture::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	/* GAME_OBJECT_TorchLamp */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_TorchLamp"), CTouchLamp::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	/* GAME_OBJECT_TableFurniture */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_TableFurniture"), CTableFurniture::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-#pragma endregion
 
 
 #pragma region WOOD
@@ -705,6 +698,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* GAME_OBJECT_WoodDoor */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_WoodDoor"), CWoodDoor::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
+	/* GAME_OBJECT_WoodDoor */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_FastTravel"), CFastTravelObject::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 #pragma endregion
 
 #pragma endregion
@@ -713,14 +710,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* GAME_OBJECT_ItemObject */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ItemObject"), CItemObject::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-#pragma endregion
-
-#pragma region BASE UI
-	
-	/* GAME_OBJECT_Title_UI */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Base_Title_UI"), CTitleUI::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
 #pragma endregion
 
 #pragma region NPC

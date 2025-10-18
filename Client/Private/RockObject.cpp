@@ -48,7 +48,6 @@ void CRockObject::Priority_Update(_float fDeletaTime)
 
 void CRockObject::Update(_float fDeletaTime)
 {
-    __super::Update(fDeletaTime);
 }
 
 void CRockObject::Late_Update(_float fDeletaTime)
@@ -126,9 +125,6 @@ HRESULT CRockObject::ADD_Components(_uInt iModelIndex)
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionOBB"), TEXT("Collision_Com"), (CComponent**)&m_pCollision, &OBBDesc)))
         return E_FAIL;
-
-    m_pCollision->BindBeginOverlapEvent([this](_float3 vDir, CGameObject* pHitActor) { HitBeginFunction(vDir, pHitActor); });
-    m_pCollision->BindOverlappingEvent([this](_float3 vDir, CGameObject* pHitActor) { HitOverlapFunction(vDir, pHitActor); });
 
     // DropComponent
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GamePlay_Component_Drop"), TEXT("Drop_Com"), (CComponent**)&m_pDropComponent)))

@@ -1,2 +1,0 @@
-1
-2 3 3 Prototype_GameObject_Player Layer_GamePlay_Player 0 1 1 1 -0 124.23 180 -1395.19 -200.453 183.7 

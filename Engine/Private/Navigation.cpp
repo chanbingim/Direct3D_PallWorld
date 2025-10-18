@@ -117,7 +117,10 @@ void CNavigation::ComputeHeight(CTransform* pTransform, _bool bIsFindCell)
 	
 	_uInt iIndex = m_iCurrentCellIndex;
 	if (bIsFindCell)
+	{
 		iIndex = Find_Cell(vLocalPos);
+		m_iCurrentCellIndex = iIndex;
+	}
 	if (-1 == iIndex)
 		return;
 
@@ -291,7 +294,7 @@ void CNavigation::ComputePathfindingAStar(_float3 vStartPoint, _float3 vTargetPo
 HRESULT CNavigation::Export(const char* FilePath)
 {
 	vector<CELL_SAVE_STRCUT> pSaveCells;
-	pSaveCells.reserve(m_Cells.size());
+	pSaveCells.reserve(m_Cells.size() * 3);
 	for (auto& iter : m_Cells)
 	{
 		CELL_SAVE_STRCUT Desc;
@@ -617,7 +620,7 @@ HRESULT CNavigation::ReadNaviMeshDataFile(const char* szFilePath)
 			file >> Point[ENUM_CLASS(NAVI_POINT::C)].x >> Point[ENUM_CLASS(NAVI_POINT::C)].y >> Point[ENUM_CLASS(NAVI_POINT::C)].z;
 			++i;
 
-			_bool bIsAdd = true;
+			/*_bool bIsAdd = true;
 			for (auto iter : ReadFileData)
 			{
 				Navi_Triangle NewTriangle = Navi_Triangle(Point[0], Point[1], Point[2]);
@@ -628,7 +631,7 @@ HRESULT CNavigation::ReadNaviMeshDataFile(const char* szFilePath)
 				}
 			}
 
-			if (bIsAdd)
+			if (bIsAdd)*/
 				ReadFileData.emplace_back(Point[ENUM_CLASS(NAVI_POINT::A)], Point[ENUM_CLASS(NAVI_POINT::B)], Point[ENUM_CLASS(NAVI_POINT::C)]);
 		}
 	}
@@ -661,6 +664,7 @@ HRESULT CNavigation::ReadNaviMeshDataFile(const char* szFilePath)
 			vPoints[2] = iter.B;
 		}
 
+		m_Triangles.push_back(NAVI_TRIANGLE(vPoints[0], vPoints[1], vPoints[2]));
 		CCell* pCell = CCell::Create(m_pDevice, m_pContext, (_uInt)m_Cells.size(), 0, vPoints);
 		if (nullptr == pCell)
 			return E_FAIL;

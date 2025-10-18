@@ -61,9 +61,10 @@ void CInstanceModel::RefreshComputeHeight()
                                    pVertices[i].vPosition.z };
 
             XMStoreFloat3(&vHeightPos, XMVector3TransformCoord(XMLoadFloat3(&vHeightPos), vWorldMat));
-
             pNaviMesh->ComputeHeight(&vHeightPos);
-            pVertices[i].vPosition.x = vHeightPos.x;
+
+            XMStoreFloat3(&vHeightPos, XMVector3TransformCoord(XMLoadFloat3(&vHeightPos), XMMatrixInverse(nullptr, vWorldMat)));            pVertices[i].vPosition.x = vHeightPos.x;
+            pVertices[i].vPosition.x= vHeightPos.x;
             pVertices[i].vPosition.y = vHeightPos.y;
             pVertices[i].vPosition.z = vHeightPos.z;
         }
@@ -114,5 +115,6 @@ void CInstanceModel::Free()
     __super::Free();
 
     Safe_Release(m_pVIBufferCom);
+    Safe_Release(m_pBoundBox);
     Safe_Release(m_pShaderCom);
 }
