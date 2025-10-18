@@ -239,9 +239,6 @@
     <Filter Include="04. DataManager\Object">
       <UniqueIdentifier>{58cce91b-50b7-4e96-b63d-1bb4e80f478b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04. DataManager\Object\Terrian">
-      <UniqueIdentifier>{dea0d4c9-b0bd-4a99-8a97-0af2e3c74586}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04. DataManager\Object\Item">
       <UniqueIdentifier>{83597428-03a6-4cd8-ac96-6f359cead475}</UniqueIdentifier>
     </Filter>
@@ -965,6 +962,18 @@
     <Filter Include="03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Furniture\TouchLamp">
       <UniqueIdentifier>{078f268c-1667-476a-b342-b260479eb3f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\Chif">
+      <UniqueIdentifier>{d7b4bc5b-0bba-49e0-b283-434337870199}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\Chif\Rock0">
+      <UniqueIdentifier>{d15792c1-9b78-4ebd-be8b-9b3112a04507}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08.Chunk">
+      <UniqueIdentifier>{dea0d4c9-b0bd-4a99-8a97-0af2e3c74586}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08.Chunk\Manager">
+      <UniqueIdentifier>{8aa9d7c4-3f88-433b-b73d-ee1adf653ec1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -1365,9 +1374,6 @@
     </ClInclude>
     <ClInclude Include="..\public\Recovery.h">
       <Filter>06. Component\Recovery</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\TerrainManager.h">
-      <Filter>04. DataManager\Object\Terrian</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PellHealthBar.h">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Pell\NaturalPellInfo\HealthBar</Filter>
@@ -1777,6 +1783,13 @@
     <ClInclude Include="..\public\TableFurniture.h">
       <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Furniture\Table</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\ChiefRock.h">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\Chif\Rock0</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TerrainManager.h">
+      <Filter>08.Chunk\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Chunk.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -2169,9 +2182,6 @@
     </ClCompile>
     <ClCompile Include="..\private\Recovery.cpp">
       <Filter>06. Component\Recovery</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\TerrainManager.cpp">
-      <Filter>04. DataManager\Object\Terrian</Filter>
     </ClCompile>
     <ClCompile Include="..\private\ItemQuickSlot.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\ItemQuickSlot</Filter>
@@ -2566,6 +2576,13 @@
     <ClCompile Include="..\private\TableFurniture.cpp">
       <Filter>03. Objects\MeshObject\NonAnimMesh\WorkAbleObject\Architecture\CommonWork\Furniture\Table</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\ChiefRock.cpp">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\Chif\Rock0</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TerrainManager.cpp">
+      <Filter>08.Chunk\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Chunk.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\TestShader.hlsl">

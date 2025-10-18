@@ -1,9 +1,12 @@
 #pragma once
 
 #include "Client_Define.h"
+
 #include "Level.h"
+#include "LevelPaserStruct.h"
 
 NS_BEGIN(Client)
+
 class CGamePlayLevel final : public CLevel
 {
 private:
@@ -31,6 +34,14 @@ private :
 	HRESULT					ADD_NpcLayer(const _wstring& LayerName);
 
 	HRESULT					Setting_GamePlayHUD();
+
+	HRESULT					LoadMainArea();
+	HRESULT					LoadPalArea();
+
+	HRESULT					LoadObject(const char* pFilePath, const WCHAR* ObjectTag);
+	HRESULT					LoadEnvObject(const char* pFilePath, const WCHAR* ObjectTag);
+
+	void					ReadMapFile(const char* szFilePath, list<SAVE_LEVEL_DESC>& pOut);
 
 public:
 	static	CGamePlayLevel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, LEVEL eID);

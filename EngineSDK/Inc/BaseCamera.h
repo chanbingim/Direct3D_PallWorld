@@ -35,10 +35,6 @@ public:
 	void										SetFov(_float fAngle);
 	_bool										IsInPoint(_float3& vPos, _float offset);
 	 
-#ifdef _DEBUG
-	virtual void								ExportData(void* pArg);
-#endif // _DEBUG
-
 protected :
 	//카메라 정보
 	_float										m_fFov = {};

@@ -122,6 +122,11 @@ _bool COBBCollision::RayHit(_vector vOrizin, _vector vDiraction, DEFAULT_HIT_DES
     return bIsHit;
 }
 
+ContainmentType COBBCollision::Contains(_vector vPoint)
+{
+    return m_OrienteBox->Contains(vPoint);
+}
+
 void COBBCollision::SetCollision(_float3 vCenter, _float4 vAngle, _float3 vExtents)
 {
     m_OriginOrientBox->Center = vCenter;

@@ -63,6 +63,11 @@ _bool CCollision::RayHit(_vector vOrizin, _vector vDiraction, DEFAULT_HIT_DESC& 
     return _bool();
 }
 
+ContainmentType CCollision::Contains(_vector Point)
+{
+    return ContainmentType();
+}
+
 void CCollision::Render(_vector vColor)
 {
     m_pEffect->SetWorld(XMMatrixIdentity());

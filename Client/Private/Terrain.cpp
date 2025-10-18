@@ -107,23 +107,6 @@ _Int CTerrain::FindCell(_vector vPosition)
 	return m_pNavigationCom->Find_Cell(vPosition);
 }
 
-#ifdef _DEBUG
-void CTerrain::ExportData(void* pArg)
-{
-	__super::ExportData(pArg);
-	SAVE_LEVEL_DESC* Desc = static_cast<SAVE_LEVEL_DESC*>(pArg);
-	Desc->ObjectDesc.TerrianDesc.TerrainType = 0;
-	Desc->ObjectDesc.TerrianDesc.TileCnt = m_pVIBufferCom->GetTerrianSize();
-	CStringHelper::ConvertWideToUTF(szVIBuffer, Desc->ObjectDesc.TerrianDesc.HeightMapCom);
-	CStringHelper::ConvertWideToUTF(L"", Desc->ObjectDesc.TerrianDesc.NaviMeshPath);
-}
-
-void CTerrain::ExportNaivMeshData(void* pArg)
-{
-
-}
-#endif // _DEBUG
-
 HRESULT CTerrain::Apply_ConstantShaderResources()
 {
 	m_pEMVWorldMat->SetMatrix(reinterpret_cast<const float*>(&m_pTransformCom->GetWorldMat()));

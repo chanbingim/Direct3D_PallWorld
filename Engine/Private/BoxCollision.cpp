@@ -128,6 +128,11 @@ _bool CBoxCollision::RayHit(_vector vOrizin, _vector vDiraction, DEFAULT_HIT_DES
     return bIsHit;
 }
 
+ContainmentType CBoxCollision::Contains(_vector vPoint)
+{
+    return m_Bounding->Contains(vPoint);
+}
+
 void CBoxCollision::Render(_vector vColor)
 {
     __super::Render(vColor);

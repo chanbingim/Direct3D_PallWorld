@@ -3,14 +3,17 @@
 #include "GameInstance.h"
 #include "GamePlayHUD.h"
 
-#include "TerrainManager.h"
+#include "Light.h"
+#include "StringHelper.h"
+#include "CsvHelper.h"
+
+#include "PellBase.h"
 #include "Enviormnent.h"
+
+#include "TerrainManager.h"
 #include "ItemManager.h"
 #include "PlayerManager.h"
 #include "PellManager.h"
-#include "Light.h"
-
-#include "PellBase.h"
 
 CGamePlayLevel::CGamePlayLevel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, _uInt _iID) :
 	CLevel(pDevice, pContext, _iID)
@@ -35,7 +38,13 @@ HRESULT CGamePlayLevel::Initialize()
 	if (FAILED(ADD_TerrianLayer(TEXT("Layer_GamePlay_Terrian"))))
 		return E_FAIL;
 
-	CTerrainManager::GetInstance()->Initialize(nullptr);
+	CTerrainManager::GetInstance()->Initialize(m_pGraphic_Device, m_pDeviceContext);
+	if (FAILED(LoadMainArea()))
+		return E_FAIL;
+
+	if (FAILED(LoadPalArea()))
+		return E_FAIL;
+
 	if (FAILED(ADD_SkyLayer(TEXT("Layer_GamePlay_SKY"))))
 		return E_FAIL;
 
@@ -46,17 +55,17 @@ HRESULT CGamePlayLevel::Initialize()
 	if (FAILED(ADD_PlayerLayer(TEXT("Layer_GamePlay_Player"))))
 		return E_FAIL;
 
-	if (FAILED(ADD_EnviornmentLayer(TEXT("Layer_GamePlay_Enviorment"))))
-		return E_FAIL;
+	//if (FAILED(ADD_PellLayer(TEXT("Layer_GamePlay_Pell"))))
+	//	return E_FAIL;
 
-	if (FAILED(ADD_WorkAbleLayer(TEXT("Layer_GamePlay_WorkAbleObject"))))
-		return E_FAIL;
-	
-	if (FAILED(ADD_PellLayer(TEXT("Layer_GamePlay_Pell"))))
-		return E_FAIL;
+	//if (FAILED(ADD_EnviornmentLayer(TEXT("Layer_GamePlay_Enviorment"))))
+	//	return E_FAIL;
 
-	if (FAILED(ADD_NpcLayer(TEXT("Layer_GamePlay_Npc"))))
-		return E_FAIL;
+	//if (FAILED(ADD_WorkAbleLayer(TEXT("Layer_GamePlay_WorkAbleObject"))))
+	//	return E_FAIL;
+
+	//if (FAILED(ADD_NpcLayer(TEXT("Layer_GamePlay_Npc"))))
+	//	return E_FAIL;
 
 	if (FAILED(Setting_GamePlayHUD()))
 		return E_FAIL;
@@ -283,6 +292,115 @@ HRESULT CGamePlayLevel::Setting_GamePlayHUD()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+HRESULT CGamePlayLevel::LoadMainArea()
+{
+	// 먼저 네비 메시를 추가한다.
+	CTerrainManager::GetInstance()->ADD_Navigation(TEXT("MainArea"), "../Bin/Resources/DataFile/Map/Home/NaviMesh.dat");
+
+	// 맵에 깔려있는 기본 오브젝트
+	LoadObject("../Bin/Resources/DataFile/Map/Home/GamePlay_Layer_Enviornment.txt", TEXT("Enviornment"));
+
+	// 인스턴싱된 Prob 오브젝트
+	LoadObject("../Bin/Resources/DataFile/Map/Home/GamePlay_Layer_Instance_Env.txt", TEXT("Instance_Env"));
+
+	// 마을에 상주하는 NPC 데이터
+	LoadObject("../Bin/Resources/DataFile/Map/Home/GamePlay_Layer_Npc", TEXT("Npc"));
+	return S_OK;
+}
+
+HRESULT CGamePlayLevel::LoadPalArea()
+{
+
+	return S_OK;
+}
+
+HRESULT CGamePlayLevel::LoadObject(const char* szFilePath, const WCHAR* ObjectTag)
+{
+	list<SAVE_LEVEL_DESC> LoadList = {};
+	ReadMapFile(szFilePath, LoadList);
+
+	WCHAR szPrototypeName[MAX_PATH] = {};
+	WCHAR szLayerName[MAX_PATH] = {};
+	auto pGameInstance = CGameInstance::GetInstance();
+	_uInt ObejctCnt = {};
+	for (auto& iter : LoadList)
+	{
+		CGameObject::GAMEOBJECT_DESC Desc = {};
+		wsprintf(Desc.ObjectTag, TEXT("%s%d"), ObjectTag, ObejctCnt);
+		Desc.vScale = iter.vScale;
+		Desc.vRotation = { iter.vRotation.x,
+						   iter.vRotation.y,
+						   iter.vRotation.z };
+		Desc.vPosition = iter.vPosition;
+
+		CStringHelper::ConvertUTFToWide(iter.PrototypeName, szPrototypeName);
+		CStringHelper::ConvertUTFToWide(iter.LayerName, szLayerName);
+
+		pGameInstance->Add_GameObject_ToLayer(iter.iPrototypeLevelID, szPrototypeName, iter.iSaveLevelID, szLayerName, &Desc);
+		ObejctCnt++;
+	}
+	return S_OK;
+}
+
+HRESULT CGamePlayLevel::LoadEnvObject(const char* szFilePath, const WCHAR* ObjectTag)
+{
+	list<SAVE_LEVEL_DESC> LoadList = {};
+	ReadMapFile(szFilePath, LoadList);
+
+	WCHAR szPrototypeName[MAX_PATH] = {};
+	WCHAR szLayerName[MAX_PATH] = {};
+	auto pGameInstance = CGameInstance::GetInstance();
+	_uInt ObejctCnt = {};
+	for (auto& iter : LoadList)
+	{
+		CEnviormnent::ENVIORMNENT_DESC Desc = {};
+		wsprintf(Desc.ObjectTag, TEXT("%s%d"), ObjectTag, ObejctCnt);
+		Desc.iModelIndex = iter.eType;
+		Desc.vScale = iter.vScale;
+		Desc.vRotation = { iter.vRotation.x,
+						   iter.vRotation.y,
+						   iter.vRotation.z };
+		Desc.vPosition = iter.vPosition;
+
+		CStringHelper::ConvertUTFToWide(iter.PrototypeName, szPrototypeName);
+		CStringHelper::ConvertUTFToWide(iter.LayerName, szLayerName);
+
+		pGameInstance->Add_GameObject_ToLayer(iter.iPrototypeLevelID, szPrototypeName, iter.iSaveLevelID, szLayerName, &Desc);
+		ObejctCnt++;
+	}
+	return S_OK;
+}
+
+void CGamePlayLevel::ReadMapFile(const char* szFilePath, list<SAVE_LEVEL_DESC>& pOut)
+{
+	//파일 입출력 열어서 저장
+	ios_base::openmode flag;
+
+	flag = ios::in;
+
+	ifstream file(szFilePath, flag);
+	if (file.is_open())
+	{
+		_uInt iLoadObjectCnt = {};
+		file >> iLoadObjectCnt;
+		for (_uInt i = 0; i < iLoadObjectCnt; ++i)
+		{
+			SAVE_LEVEL_DESC LoadData;
+			file >> LoadData.eType;
+			file >> LoadData.iPrototypeLevelID;
+			file >> LoadData.iSaveLevelID;
+			file >> LoadData.PrototypeName;
+			file >> LoadData.LayerName;
+			file >> LoadData.PrototypeIndex;
+			file >> LoadData.vScale.x >> LoadData.vScale.y >> LoadData.vScale.z;
+			file >> LoadData.vRotation.x >> LoadData.vRotation.y >> LoadData.vRotation.z;
+			file >> LoadData.vPosition.x >> LoadData.vPosition.y >> LoadData.vPosition.z;
+			pOut.push_back(LoadData);
+		}
+	}
+	file.close();
 }
 
 CGamePlayLevel* CGamePlayLevel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, LEVEL eID)

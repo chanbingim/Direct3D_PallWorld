@@ -119,6 +119,11 @@ _bool CSphereCollision::RayHit(_vector vOrizin, _vector vDiraction, DEFAULT_HIT_
 	return bIsHit;
 }
 
+ContainmentType CSphereCollision::Contains(_vector vPoint)
+{
+	return m_Bounding->Contains(vPoint);
+}
+
 void CSphereCollision::SetCollision(_float3 vCenter, _float fRadius)
 {
 	m_OriginBounding->Center = vCenter;

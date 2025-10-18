@@ -24,6 +24,7 @@ public:
 	virtual _bool					Intersect(COLLISION_TYPE eType, CCollision* pTarget) override;
 	virtual _bool					RayIntersect(COLLISION_TYPE eType, CCollision* pTarget, DEFAULT_HIT_DESC& OutDesc) override;
 	virtual _bool					RayHit(_vector vOrizin, _vector vDiraction, DEFAULT_HIT_DESC& OutDesc) override;
+	virtual	ContainmentType			Contains(_vector vPoint) override;
 
 #ifdef _DEBUG
 	virtual void					Render(_vector vColor) override;

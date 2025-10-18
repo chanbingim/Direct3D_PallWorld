@@ -34,7 +34,7 @@ public:
 	virtual _bool			Intersect(COLLISION_TYPE eType, CCollision* pTarget) = 0;
 	virtual _bool			RayIntersect(COLLISION_TYPE eType, CCollision* pTarget, DEFAULT_HIT_DESC& OutDesc) { return false; }
 	virtual _bool			RayHit(_vector vOrizin, _vector vDiraction, DEFAULT_HIT_DESC& OutDesc);
-	
+	virtual	ContainmentType	Contains(_vector Point);
 	
 	virtual void			Render(_vector vColor = {1.f, 0.f, 0.f, 1.f});
 

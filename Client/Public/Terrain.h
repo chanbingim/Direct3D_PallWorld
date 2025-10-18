@@ -45,11 +45,6 @@ public:
 	_bool									IsMoveTerrian(_vector vPosition);
 	_Int									FindCell(_vector vPosition);
 
-#ifdef _DEBUG
-	virtual void							ExportData(void* pArg);
-	virtual void							ExportNaivMeshData(void* pArg);
-#endif // _DEBUG
-
 protected :
 	virtual		HRESULT						Bind_ShaderResources() override;
 	virtual		HRESULT						Apply_ConstantShaderResources() override;

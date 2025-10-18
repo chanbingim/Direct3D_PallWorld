@@ -30,22 +30,25 @@ private :
 	virtual ~CTerrainManager() = default;
 
 public :
-	void							Initialize(void* pArg);
-
-	HRESULT							CreateTerrian(void* pArg);
+	void							Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CNavigation*					GetNavimesh();
 
 	// 여기다가 이제 쿼드 트리형태로 셀 가져오는거
 	// 건설 가능한 지형인지 탐색 등 구현할 예정
 	// 나중에 레벨 내에서 테레인 이동을 넣을지도 모름
+	HRESULT							ADD_Navigation(const WCHAR* szMapTag, const char* pFilePath);
+	HRESULT							Remove_Navigation(const WCHAR* szMapTag);
+	CNavigation*					Find_MapNavigation(const WCHAR* szMapTag);
 
 private :
-	_int2							m_TerrianSize = {};
-	_Int							m_TerrianSelectIndex = {};
-	CDefaultMap*					m_DefaultMap;
+	ID3D11Device*						m_pDevice = nullptr;
+	ID3D11DeviceContext*				m_pContext = nullptr;
 
-private :
-	HRESULT							LoadTerrianData(const char* pFileData);
+	_int2								m_TerrianSize = {};
+	_Int								m_TerrianSelectIndex = {};
+
+	CDefaultMap*						m_DefaultMap;
+	map<const _wstring, CNavigation*>	m_pMapNavigation;
 
 public :
 	virtual			void			Free() override;
