@@ -793,6 +793,7 @@ HRESULT CModel::ReadModelFile(void* Data, const char* FilePath)
 				file.read(reinterpret_cast<char*>(&Vertex.vPosition), sizeof(_float3));
 				file.read(reinterpret_cast<char*>(&Vertex.vNormal), sizeof(_float3));
 				file.read(reinterpret_cast<char*>(&Vertex.vTangent), sizeof(_float3));
+				file.read(reinterpret_cast<char*>(&Vertex.vBinormal), sizeof(_float3));
 				file.read(reinterpret_cast<char*>(&Vertex.vTexcoord), sizeof(_float2));
 				MeshDesc.Vertices.push_back(Vertex);
 			}

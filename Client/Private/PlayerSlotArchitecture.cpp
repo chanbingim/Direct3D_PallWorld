@@ -1,7 +1,10 @@
 #include "PlayerSlotArchitecture.h"
 
 #include "GameInstance.h"
+
 #include "TerrainManager.h"
+#include "Chunk.h"
+
 #include "Architecture.h"
 
 CPlayerSlotArchitecture::CPlayerSlotArchitecture(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
@@ -163,29 +166,17 @@ HRESULT CPlayerSlotArchitecture::Apply_ConstantShaderResources(_uInt iMeshIndex)
 
 HRESULT CPlayerSlotArchitecture::ADD_Components(PLAYTER_SLOT_ARCHITECTURE_DESC* pDesc)
 {
-#pragma region NAVI_MESH
-    auto pTerrainManager = CTerrainManager::GetInstance();
-    auto FindNaviMesh = pTerrainManager->GetNavimesh();
-    if (FindNaviMesh)
-    {
-        CNavigation::NAVIGATION_DESC Desc = {};
-
-        _float3 vParentPos = m_pParent->GetTransform()->GetPosition();
-        _vector vCalCulationParentPos = XMLoadFloat3(&vParentPos);
-        _vector vCalCulationParentLook = m_pParent->GetTransform()->GetLookVector();
-
-        Desc.iCurrentCellIndex = pDesc->iParentCellIndex;
-        m_pNavigation = static_cast<CNavigation*>(FindNaviMesh->Clone(&Desc));
-
-        Safe_AddRef(m_pNavigation);
-        m_pComponentMap.emplace(TEXT("NaviMesh_Com"), m_pNavigation);
-    }
-#pragma endregion
+    SettingNavigation();
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Mesh"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
         return E_FAIL;
 
     return S_OK;
+}
+
+void CPlayerSlotArchitecture::SettingNavigation()
+{
+    m_pNavigation = static_cast<CNavigation *>(m_pParent->Find_Component(TEXT("NaviMesh_Com")));
 }
 
 CPlayerSlotArchitecture* CPlayerSlotArchitecture::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -214,6 +205,5 @@ void CPlayerSlotArchitecture::Free()
 {
     __super::Free();
 
-    Safe_Release(m_pNavigation);
     Safe_Release(m_pItemModel);
 }

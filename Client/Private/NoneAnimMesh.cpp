@@ -55,7 +55,7 @@ void CNoneAnimMesh::RefreshComputeHeight()
 
     _float3 vHegithPos = m_pTransformCom->GetPosition();
     pTerrainManager->ComputeHieght(m_pTransformCom, &vHegithPos, true);
-    m_pTransformCom->SetPosition(vHegithPos);
+    //m_pTransformCom->SetPosition(vHegithPos);
 }
 
 HRESULT CNoneAnimMesh::Bind_ShaderResources()

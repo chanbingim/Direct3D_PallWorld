@@ -121,11 +121,8 @@ _bool CNpc::NpcPlayFSM(_float fDeletaTime)
 void CNpc::SettingNavigation()
 {
 #pragma region NAVI_MESH
-    if (nullptr == m_pTerrainManager)
-    {
-        m_pTerrainManager = CTerrainManager::GetInstance();
-        Safe_AddRef(m_pTerrainManager);
-    }
+    m_pTerrainManager = CTerrainManager::GetInstance();
+    Safe_AddRef(m_pTerrainManager);
 
     _float3 vPlayPosition = m_pTransformCom->GetPosition();
     CTerrainManager::CHUNK_DESC ChunkDesc = {};
@@ -133,23 +130,24 @@ void CNpc::SettingNavigation()
     if (ChunkDesc.pChunk)
     {
         auto pOrizinNaviMesh = ChunkDesc.pChunk->GetChunckNavigation();
+        m_szChunkName = ChunkDesc.ChunkName;
 
         CNavigation::NAVIGATION_DESC Desc = {};
         Desc.iCurrentCellIndex = pOrizinNaviMesh->Find_Cell(XMLoadFloat3(&vPlayPosition));
+        Safe_Release(m_pNevigation);
+
         m_pNevigation = static_cast<CNavigation*>(pOrizinNaviMesh->Clone(&Desc));
         Safe_AddRef(m_pNevigation);
 
-        if (m_pNevigation)
+        auto pair = m_pComponentMap.find(TEXT("NaviMesh_Com"));
+        if (pair == m_pComponentMap.end())
         {
-            Safe_Release(m_pNevigation);
-
-            auto pair = m_pComponentMap.find(TEXT("NaviMesh_Com"));
-            Safe_Release(pair->second);
-            pair->second = m_pNevigation;
+            m_pComponentMap.emplace(TEXT("NaviMesh_Com"), m_pNevigation);
         }
         else
         {
-            m_pComponentMap.emplace(TEXT("NaviMesh_Com"), m_pNevigation);
+            Safe_Release(pair->second);
+            pair->second = m_pNevigation;
         }
     }
 #pragma endregion

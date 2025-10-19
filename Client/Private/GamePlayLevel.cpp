@@ -11,6 +11,7 @@
 #include "Enviormnent.h"
 
 #include "TerrainManager.h"
+#include "FastTravelObject.h"
 #include "Chunk.h"
 
 #include "ItemManager.h"
@@ -46,6 +47,7 @@ HRESULT CGamePlayLevel::Initialize()
 
 	if (FAILED(LoadPalArea()))
 		return E_FAIL;
+
 
 	if (FAILED(ADD_SkyLayer(TEXT("Layer_GamePlay_SKY"))))
 		return E_FAIL;
@@ -191,6 +193,7 @@ HRESULT CGamePlayLevel::ADD_PlayerLayer(const _wstring& LayerName)
 	CGameObject::GAMEOBJECT_DESC Desc;
 	ZeroMemory(&Desc, sizeof(CGameObject::GAMEOBJECT_DESC));
 	Desc.vScale = { 1.f, 1.f, 1.f };
+	Desc.vPosition = { 427.137f, -208.607f, -253.069f };
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player"),
 		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
@@ -302,27 +305,130 @@ HRESULT CGamePlayLevel::LoadMainArea()
 	CChunk::CHUNK_DESC ChunkDesc = {};
 	list<SAVE_LEVEL_DESC> pObjectDesc = {};
 	ReadMapFile("../Bin/Resources/DataFile/Map/Home/GamePlay_Layer_Chunk.txt", pObjectDesc);
-	auto pChunkData = pObjectDesc.begin();
-
-	ChunkDesc.vScale = pChunkData->vScale;
-	ChunkDesc.vRotation = pChunkData->vRotation;
-	ChunkDesc.vPosition = pChunkData->vPosition;
+	auto pListData = pObjectDesc.begin();
+	ChunkDesc.vScale = pListData->vScale;
+	ChunkDesc.vRotation = pListData->vRotation;
+	ChunkDesc.vPosition = pListData->vPosition;
 	ChunkDesc.NavigationFilePath = "../Bin/Resources/DataFile/Map/Home/NaviMesh.dat";
 	CTerrainManager::GetInstance()->ADD_Chunk(TEXT("MainArea"), &ChunkDesc);
+	auto DefualtMap = m_pGameInstance->GetAllObejctToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_GamePlay_Terrian"))->front();
+	CTerrainManager::GetInstance()->UpdateChunk(XMLoadFloat4x4(&DefualtMap->GetTransform()->GetWorldMat()));
+
+	pObjectDesc.clear();
+	ReadMapFile("../Bin/Resources/DataFile/Map/Home/GamePlay_Layer_FastTravel.txt", pObjectDesc);
+	pListData = pObjectDesc.begin();
+	CFastTravelObject::GAMEOBJECT_DESC FastTravelDesc = {};
+	FastTravelDesc.vScale = pListData->vScale;
+	FastTravelDesc.vRotation = pListData->vRotation;
+	FastTravelDesc.vPosition = pListData->vPosition;
+	CFastTravelObject* pFastTravel = static_cast<CFastTravelObject *>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_FastTravel"), &FastTravelDesc));
+
+	WCHAR szLayerName[260] = {};
+	CStringHelper::ConvertUTFToWide(pListData->LayerName, szLayerName);
+	m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), szLayerName, pFastTravel);
+	CTerrainManager::GetInstance()->ADD_FastTravel(TEXT("MainArea"), pFastTravel);
 
 	// 맵에 깔려있는 기본 오브젝트
-	LoadObject("../Bin/Resources/DataFile/Map/Home/GamePlay_Layer_Enviornment.txt", TEXT("Enviornment"));
+	if (FAILED(LoadObject("../Bin/Resources/DataFile/Map/Home/GamePlay_Layer_Enviornment.txt", TEXT("Enviornment"))))
+		return E_FAIL;
 
 	// 인스턴싱된 Prob 오브젝트
-	LoadObject("../Bin/Resources/DataFile/Map/Home/GamePlay_Layer_Instance_Env.txt", TEXT("Instance_Env"));
+	if (FAILED(LoadObject("../Bin/Resources/DataFile/Map/Home/GamePlay_Layer_Instance_Env.txt", TEXT("Instance_Env"))))
+		return E_FAIL;
 
 	// 마을에 상주하는 NPC 데이터
-	LoadObject("../Bin/Resources/DataFile/Map/Home/GamePlay_Layer_Npc", TEXT("Npc"));
+	if (FAILED(LoadObject("../Bin/Resources/DataFile/Map/Home/GamePlay_Layer_Npc.txt", TEXT("Npc"))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
 HRESULT CGamePlayLevel::LoadPalArea()
 {
+	auto pTerrainManager = CTerrainManager::GetInstance();
+	CFastTravelObject* pFastTravel = nullptr;
+
+#pragma region Dororong Field
+	// 먼저 네비 메시를 추가한다.
+	CChunk::CHUNK_DESC ChunkDesc = {};
+	list<SAVE_LEVEL_DESC> pObjectDesc = {};
+	ReadMapFile("../Bin/Resources/DataFile/Map/SheepBalStage/GamePlay_Layer_Chunk.txt", pObjectDesc);
+	auto pListData = pObjectDesc.begin();
+
+	ChunkDesc.vScale = pListData->vScale;
+	ChunkDesc.vRotation = pListData->vRotation;
+	ChunkDesc.vPosition = pListData->vPosition;
+	ChunkDesc.NavigationFilePath = "../Bin/Resources/DataFile/Map/SheepBalStage/NaviMesh.dat";
+	pTerrainManager->ADD_Chunk(TEXT("SheepBalField"), &ChunkDesc);
+
+	auto DefualtMap = m_pGameInstance->GetAllObejctToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_GamePlay_Terrian"))->front();
+	pTerrainManager->UpdateChunk(XMLoadFloat4x4(&DefualtMap->GetTransform()->GetWorldMat()));
+
+	pObjectDesc.clear();
+	ReadMapFile("../Bin/Resources/DataFile/Map/SheepBalStage/GamePlay_Layer_FastTravel.txt", pObjectDesc);
+	pListData = pObjectDesc.begin();
+	CFastTravelObject::GAMEOBJECT_DESC FastTravelDesc = {};
+	FastTravelDesc.vScale = pListData->vScale;
+	FastTravelDesc.vRotation = pListData->vRotation;
+	FastTravelDesc.vPosition = pListData->vPosition;
+	pFastTravel = static_cast<CFastTravelObject*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_FastTravel"), &FastTravelDesc));
+
+	WCHAR szLayerName[260] = {};
+	CStringHelper::ConvertUTFToWide(pListData->LayerName, szLayerName);
+	m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), szLayerName, pFastTravel);
+	pTerrainManager->ADD_FastTravel(TEXT("SheepBalField"), pFastTravel);
+
+	// 맵에 깔려있는 기본 오브젝트
+	if (FAILED(LoadObject("../Bin/Resources/DataFile/Map/SheepBalStage/GamePlay_Layer_Enviornment.txt", TEXT("Enviornment"))))
+		return E_FAIL;
+
+	// 인스턴싱된 Prob 오브젝트
+	if (FAILED(LoadObject("../Bin/Resources/DataFile/Map/SheepBalStage/GamePlay_Layer_Instance_Env.txt", TEXT("Instance_Env"))))
+		return E_FAIL;
+
+	// 작업가능한ㄷ Prob 오브젝트
+	if (FAILED(LoadEnvObject("../Bin/Resources/DataFile/Map/SheepBalStage/GamePlay_Layer_WorkAble_Rock.txt", TEXT("Rock"))))
+		return E_FAIL;
+
+#pragma endregion
+
+#pragma region BedCat Field
+	// 먼저 네비 메시를 추가한다.
+	pObjectDesc.clear();
+	ReadMapFile("../Bin/Resources/DataFile/Map/PinkCatStage/GamePlay_Layer_Chunk.txt", pObjectDesc);
+	pListData = pObjectDesc.begin();
+
+	ChunkDesc.vScale = pListData->vScale;
+	ChunkDesc.vRotation = pListData->vRotation;
+	ChunkDesc.vPosition = pListData->vPosition;
+	ChunkDesc.NavigationFilePath = "../Bin/Resources/DataFile/Map/PinkCatStage/NaviMesh.dat";
+	CTerrainManager::GetInstance()->ADD_Chunk(TEXT("PinkCatField"), &ChunkDesc);
+	CTerrainManager::GetInstance()->UpdateChunk(XMLoadFloat4x4(&DefualtMap->GetTransform()->GetWorldMat()));
+
+	pObjectDesc.clear();
+	ReadMapFile("../Bin/Resources/DataFile/Map/PinkCatStage/GamePlay_Layer_FastTravel.txt", pObjectDesc);
+	pListData = pObjectDesc.begin();
+	FastTravelDesc.vScale = pListData->vScale;
+	FastTravelDesc.vRotation = pListData->vRotation;
+	FastTravelDesc.vPosition = pListData->vPosition;
+	pFastTravel = static_cast<CFastTravelObject*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_FastTravel"), &FastTravelDesc));
+	
+	CStringHelper::ConvertUTFToWide(pListData->LayerName, szLayerName);
+	m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), szLayerName, pFastTravel);
+	pTerrainManager->ADD_FastTravel(TEXT("PinkCatField"), pFastTravel);
+
+	// 맵에 깔려있는 기본 오브젝트
+	//if (FAILED(LoadObject("../Bin/Resources/DataFile/Map/PinkCatStage/GamePlay_Layer_Enviornment.txt", TEXT("Enviornment"))))
+	//	return E_FAIL;
+
+	//// 인스턴싱된 Prob 오브젝트
+	//if (FAILED(LoadObject("../Bin/Resources/DataFile/Map/PinkCatStage/GamePlay_Layer_Instance_Env.txt", TEXT("Instance_Env"))))
+	//	return E_FAIL;
+
+	// 작업가능한 녀석들 상주하는 NPC 데이터
+	if (FAILED(LoadEnvObject("../Bin/Resources/DataFile/Map/PinkCatStage/GamePlay_Layer_WorkAlbe_Tree.txt", TEXT("Tree"))))
+		return E_FAIL;
+#pragma endregion
 
 	return S_OK;
 }

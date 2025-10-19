@@ -54,32 +54,32 @@ void CInstanceModel::RefreshComputeHeight()
 
     CNavigation* pNaviMesh = nullptr;
     if (ChunkDesc.pChunk)
-        pNaviMesh = ChunkDesc.pChunk->GetChunckNavigation();
-
-    _matrix vWorldMat = XMLoadFloat4x4(&m_pTransformCom->GetWorldMat());
-
-    _uInt iNumInstance = m_pVIBufferCom->GetNumInstance();
-    m_pVIBufferCom->Lock(&SubResource);;
-    VTX_INSTANCE_DEFAULT_DESC* pVertices = static_cast<VTX_INSTANCE_DEFAULT_DESC*>(SubResource.pData);
-    if (pVertices)
     {
-        for (_uInt i = 0; i < iNumInstance; i++)
+        pNaviMesh = ChunkDesc.pChunk->GetChunckNavigation();
+        _matrix vWorldMat = XMLoadFloat4x4(&m_pTransformCom->GetWorldMat());
+        _uInt iNumInstance = m_pVIBufferCom->GetNumInstance();
+        m_pVIBufferCom->Lock(&SubResource);;
+        VTX_INSTANCE_DEFAULT_DESC* pVertices = static_cast<VTX_INSTANCE_DEFAULT_DESC*>(SubResource.pData);
+        if (pVertices)
         {
-            _float3 vHeightPos = { pVertices[i].vPosition.x,
-                                   pVertices[i].vPosition.y,
-                                   pVertices[i].vPosition.z };
+            for (_uInt i = 0; i < iNumInstance; i++)
+            {
+                _float3 vHeightPos = { pVertices[i].vPosition.x,
+                                       pVertices[i].vPosition.y,
+                                       pVertices[i].vPosition.z };
 
-            XMStoreFloat3(&vHeightPos, XMVector3TransformCoord(XMLoadFloat3(&vHeightPos), vWorldMat));
-            pNaviMesh->ComputeHeight(&vHeightPos);
-            XMStoreFloat3(&vHeightPos, XMVector3TransformCoord(XMLoadFloat3(&vHeightPos), XMMatrixInverse(nullptr, vWorldMat)));
+                XMStoreFloat3(&vHeightPos, XMVector3TransformCoord(XMLoadFloat3(&vHeightPos), vWorldMat));
+                pNaviMesh->ComputeHeight(&vHeightPos);
+                XMStoreFloat3(&vHeightPos, XMVector3TransformCoord(XMLoadFloat3(&vHeightPos), XMMatrixInverse(nullptr, vWorldMat)));
 
-            pVertices[i].vPosition.x = vHeightPos.x;
-            pVertices[i].vPosition.y = vHeightPos.y;
-            pVertices[i].vPosition.z = vHeightPos.z;
+                pVertices[i].vPosition.x = vHeightPos.x;
+                pVertices[i].vPosition.y = vHeightPos.y;
+                pVertices[i].vPosition.z = vHeightPos.z;
+            }
         }
-    }
 
-    m_pVIBufferCom->UnLock();
+        m_pVIBufferCom->UnLock();
+    }
 }
 
 HRESULT CInstanceModel::Bind_ShaderResources()

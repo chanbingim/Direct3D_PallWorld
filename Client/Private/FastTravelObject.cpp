@@ -1,6 +1,7 @@
 #include "FastTravelObject.h"
 
 #include "GameInstance.h"
+#include "GamePlayHUD.h"
 
 CFastTravelObject::CFastTravelObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CProbObject(pDevice, pContext)
@@ -29,6 +30,7 @@ HRESULT CFastTravelObject::Initialize(void* pArg)
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
+    m_pCollision->UpdateColiision(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
     return S_OK;
 }
 
@@ -41,6 +43,7 @@ void CFastTravelObject::Update(_float fDeletaTime)
     _vector vCalCamereaPos = m_pGameInstance->GetCameraState(WORLDSTATE::POSITION);
     _vector vCalCamereaLook = m_pGameInstance->GetCameraState(WORLDSTATE::LOOK);
     CCollision::DEFAULT_HIT_DESC	RayHitDesc = {};
+
     if (m_pCollision->RayHit(vCalCamereaPos, vCalCamereaLook, RayHitDesc))
     {
         if (RayHitDesc.vfDistance < m_fActionDistance)
@@ -48,9 +51,8 @@ void CFastTravelObject::Update(_float fDeletaTime)
             if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_F))
             {
                 //여기서 시간남으면 월드맵 같은거 구현해서 이동할 예정
-
-
-
+                auto pGamePlayHUD = static_cast<CGamePlayHUD *>(m_pGameInstance->GetCurrentHUD());
+                pGamePlayHUD->ActivePopUpUserInterface(5);
             }
         }
     }

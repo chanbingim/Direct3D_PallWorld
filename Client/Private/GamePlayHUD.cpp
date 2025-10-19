@@ -9,6 +9,7 @@
 #include "PalBoxUserInterface.h"
 #include "BossHealthBar.h"
 #include "WorkBenchCreateUI.h"
+#include "FastTravelUI.h"
 
 #pragma region PreViewUI
 #include "SelectUI.h"
@@ -222,6 +223,20 @@ HRESULT CGamePlayHUD::ADD_UserInterface()
 	m_PopupUIs.emplace(4, pPalBoxUI);
 #pragma endregion
 
+#pragma region FastTrevel
+	CUserInterface* pFastTravel = nullptr;
+
+	/* DialLog UI*/
+	Desc.vScale = { g_iWinSizeY * 0.5f , 400.f , 1.f };
+	Desc.vPosition = { g_iHalfWinSizeX, g_iWinSizeY - Desc.vScale.y * 0.5f, 0.f };
+	if (FAILED(__super::Add_UserInterface(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_FastTravel_UI"), TEXT("FastTravel_UI"), &Desc, (CUserInterface**)&pFastTravel)))
+		return E_FAIL;
+
+	pFastTravel->SetVisibility(VISIBILITY::HIDDEN);
+	Safe_AddRef(pFastTravel);
+	m_PopupUIs.emplace(5, pFastTravel);
+#pragma endregion
+
 #pragma endregion
 	
 	return S_OK;
@@ -356,6 +371,6 @@ void CGamePlayHUD::Free()
 	for (auto pair : m_PopupUIs)
 		Safe_Release(pair.second);
 
-	for (auto pair : m_PreviewUIs)
-		Safe_Release(pair.second);
+	//for (auto pair : m_PreviewUIs)
+	//	Safe_Release(pair.second);
 }

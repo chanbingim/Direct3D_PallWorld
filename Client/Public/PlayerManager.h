@@ -104,6 +104,7 @@ public :
 	//인벤토리 안에서 스왑할때
 	HRESULT					SwapInventroyPal(_uInt FromSlotNumber, _uInt ToSlotNumber);
 
+	void					StorePartnerPal();
 	_uInt					GetCurrentSelectPellSlotIndex() { return m_iSelectPellIndex; }
 #pragma endregion
 

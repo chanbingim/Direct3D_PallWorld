@@ -3,23 +3,31 @@
 #include "GameInstance.h"
 
 CChunk::CChunk(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
-    m_pDevice(pDevice),
-    m_pContext(pContext),
-    m_pGameInstance (CGameInstance::GetInstance())
+    CGameObject(pDevice, pContext)
 {
-    Safe_AddRef(m_pDevice);
-    Safe_AddRef(m_pContext);
 }
 
 HRESULT CChunk::Initialize(void* pArg)
 {
-    if (FAILED(Initialize(pArg)))
+    if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
     if (FAILED(ADD_Component(static_cast<CHUNK_DESC *>(pArg))))
         return E_FAIL;
 
-    m_pCollision->UpdateColiision(XMLoadFloat4x4(&m_pTransform->GetWorldMat()));
+    m_pCollision->UpdateColiision(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
+    return S_OK;
+}
+
+void CChunk::Update(_float fDeletaTime)
+{
+    m_pCollision->UpdateColiision(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
+}
+
+HRESULT CChunk::Render()
+{
+    m_pNavigation->Render({ 1.f, 0.f, 0.f, 1.f });
+    m_pCollision->Render();
     return S_OK;
 }
 
@@ -49,7 +57,7 @@ HRESULT CChunk::ADD_Component(CHUNK_DESC* pDesc)
     if (nullptr == m_pCollision)
         return E_FAIL;
 
-    m_pNavigation = CNavigation::Create(m_pDevice, m_pContext, pDesc->NavigationFilePath);
+    m_pNavigation = CNavigation::Create(m_pGraphic_Device, m_pDeviceContext, pDesc->NavigationFilePath);
     if (nullptr == m_pNavigation)
         return E_FAIL;
 
@@ -69,6 +77,8 @@ CChunk* CChunk::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, voi
 
 void CChunk::Free()
 {
-    Safe_Release(m_pDevice);
-    Safe_Release(m_pContext);
+    __super::Free();
+
+    Safe_Release(m_pNavigation);
+    Safe_Release(m_pCollision);
 }

@@ -699,6 +699,17 @@ HRESULT CPlayerManager::SwapInventroyPal(_uInt FromSlotNumber, _uInt ToSlotNumbe
 	swap(m_pOwnerPells[FromSlotNumber], m_pOwnerPells[ToSlotNumber]);
 	return S_OK;
 }
+
+void CPlayerManager::StorePartnerPal()
+{
+	CPellBase* pSelectPell = m_pOwnerPells[m_iSelectPellIndex];
+	if (pSelectPell)
+	{
+		auto palInfo = pSelectPell->GetPellInfo();
+		if (PELL_STORAGE_STATE::PARTNER_PELL == palInfo.ePellStorageState)
+			pSelectPell->SpawnPellFriendly();
+	}
+}
 #pragma endregion
 
 void CPlayerManager::Free()

@@ -1,9 +1,11 @@
 #include "ItemObject.h"
 
 #include "GameInstance.h"
-#include "TerrainManager.h"
-#include "ItemManager.h"
 
+#include "TerrainManager.h"
+#include "Chunk.h"
+
+#include "ItemManager.h"
 #include "PlayerManager.h"
 #include "ItemInfoUI.h"
 
@@ -39,10 +41,7 @@ HRESULT CItemObject::Initialize(void* pArg)
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
-    auto pNaviMesh = CTerrainManager::GetInstance()->GetNavimesh();
-    if (nullptr != pNaviMesh)
-        pNaviMesh->ComputeHeight(m_pTransformCom, true);
-
+    SettingNavigation();
     m_pCollision->UpdateColiision(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
     return S_OK;
 }
@@ -109,6 +108,17 @@ void CItemObject::Damage(void* pArg, CActor* pDamagedActor)
     //여기서 인벤토리로 들어간다.
     CPlayerManager::GetInstance()->AddInventoryItem(m_ItemDesc->iItemNum, m_iItemCount);
     m_IsDead = true;
+}
+
+void CItemObject::SettingNavigation()
+{
+#pragma region NAVI_MESH
+    auto pTerrianManager = CTerrainManager::GetInstance();
+    _float3 vPosition = m_pTransformCom->GetPosition();
+
+    pTerrianManager->ComputeHieght(m_pTransformCom, &vPosition, true);
+    m_pTransformCom->SetPosition(vPosition);
+#pragma endregion
 }
 
 HRESULT CItemObject::ADD_Components()

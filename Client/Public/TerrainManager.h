@@ -9,6 +9,7 @@ NS_END
 
 NS_BEGIN(Client)
 class CChunk;
+class CFastTravelObject;
 
 class CTerrainManager : public CBase
 {
@@ -18,7 +19,6 @@ public :
 	{
 		_wstring			ChunkName;
 		CChunk*				pChunk;
-
 	}CHUNK_DESC;
 
 private :
@@ -27,12 +27,16 @@ private :
 
 public :
 	void							Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	void							UpdateChunk(_matrix WorldMat);
 
 	// 여기다가 이제 쿼드 트리형태로 셀 가져오는거
 	// 건설 가능한 지형인지 탐색 등 구현할 예정
 	// 나중에 레벨 내에서 테레인 이동을 넣을지도 모름
 	HRESULT							ADD_Chunk(const WCHAR* szMapTag, void* pArg);
 	HRESULT							Remove_Chunk(const WCHAR* szMapTag);
+
+	HRESULT							ADD_FastTravel(const WCHAR* szMapTag, CFastTravelObject* pFastTravel);
+	HRESULT							Remove_FastTravel(const WCHAR* szMapTag);
 		
 	_bool							UpdateChunk(const WCHAR* ChunkKey, _float3	vMovePoint);
 
@@ -40,11 +44,17 @@ public :
 	// 이거 위치반환해주는게 제일 깔끔할거같음
 	_bool							ComputeHieght(CTransform* pTransform, _float3* vOutPoint, _bool bIsUpdateCell);
 	void							Find_Chunk(_float3 vPos, CHUNK_DESC*	pOutDesc);
+	_bool							Find_FastTravelTransport(const WCHAR* szMapTag, _float3* vOut);
+
+	void							Render();
+	void							Render(const WCHAR* szMapName);
 
 private :
 	ID3D11Device*						m_pDevice = nullptr;
 	ID3D11DeviceContext*				m_pContext = nullptr;
-	map<const _wstring, CChunk*>		m_pMapNavigation;
+
+	map<const _wstring, CChunk*>				m_pMapNavigation;
+	map<const _wstring, CFastTravelObject*>		m_pMapTransport;
 
 private :
 	CChunk*								Find_MapNavigation(const WCHAR* szMapTag);

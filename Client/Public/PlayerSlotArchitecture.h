@@ -8,6 +8,8 @@ class CNavigation;
 NS_END
 
 NS_BEGIN(Client)
+class CTerrainManager;
+
 class CPlayerSlotArchitecture : public CPartObject
 {
 public :
@@ -41,6 +43,7 @@ public:
 	void									CreateSlotObject();
 
 	void									TurnArchitectrueSlot(_float fTrunAngle, _float fTimeDeleta);
+	void									SettingNavigation();
 
 protected:
 	virtual     HRESULT						Bind_ShaderResources();
@@ -48,6 +51,7 @@ protected:
 
 private :
 	const		ITEM_DESC*					m_pItemDesc = nullptr;
+
 	CNavigation*							m_pNavigation = nullptr;
 	CModel*									m_pItemModel = nullptr;
 

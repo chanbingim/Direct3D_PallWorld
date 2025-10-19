@@ -91,11 +91,10 @@ protected :
 	CGameObject*							m_pTargetObject = nullptr;
 	CPellStateMachine*						m_pPellFsm = nullptr;
 	CChaseComponent*						m_pChase = nullptr;
-	CTerrainManager*						m_pTerrainManager = nullptr;
 
 #pragma region Component
 #pragma region Navigation
-	const WCHAR*							m_pChunkName = {};
+	_wstring								m_szChunkName = {};
 	CTerrainManager*						m_pTerrainManager = nullptr;
 	CNavigation*							m_pNevigation = nullptr;
 #pragma endregion

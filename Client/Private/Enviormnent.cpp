@@ -114,6 +114,9 @@ HRESULT CEnviormnent::HitOverlapFunction(_float3 vDir, CGameObject* pGameObject)
         _vector vCalBoundCenter = XMLoadFloat3(&vBoundCenter);
         _vector vDir = XMVector3Normalize(vCalBoundCenter - vCalHitActorPos);
 
+        if (XMVector3Equal(vDir, XMVectorZero()))
+            return E_FAIL;
+
         _float vDist = {};
         _float fLength = XMVectorGetX(XMVector3Length(vCalBoundCenter - vCalHitActorPos));
         pOBBColision->GetBounding().Intersects(vCalHitActorPos, vDir, vDist);

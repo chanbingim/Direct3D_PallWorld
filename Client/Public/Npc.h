@@ -47,14 +47,16 @@ protected:
 	_bool									m_bIsLoop = true;
 	_bool									m_bIsAction = false;
 
+	_wstring								m_szChunkName = {};
 	CTerrainManager*						m_pTerrainManager = nullptr;
+	CNavigation*							m_pNevigation = nullptr;
+
 	CNpcStateMachine*						m_pNpcFsm = nullptr;
 
 #pragma region Component
 
 #pragma region Collision
 	CCollision*								m_pCollision = nullptr;
-	CNavigation*							m_pNevigation = nullptr;
 	CNpcBody*								m_pNpcBody = nullptr;
 #pragma endregion
 

@@ -1,6 +1,5 @@
 8
 0 3 3 Prototype_GameObject_Environment_Viliage_Church GamePlay_Layer_Enviornment 0 10 10 10 0 0 0 287.436 -208.39 -245.539 
-0 3 3 Prototype_GameObject_FastTravel GamePlay_Layer_Enviornment 0 1 1 1 0 1.5708 0 305.312 -208.277 -245.803 
 0 3 3 Prototype_GameObject_Environment_Viliage_Market GamePlay_Layer_Enviornment 0 1 1 1 0 1.5708 0 406.423 -208.463 -269.323 
 0 3 3 Prototype_GameObject_Environment_Viliage_Market GamePlay_Layer_Enviornment 0 1 1 1 0 1.5708 0 425.475 -208.641 -270.449 
 0 3 3 Prototype_GameObject_Environment_Viliage_House GamePlay_Layer_Enviornment 0 1 1 1 0 0 0 346.401 -208.361 -292.653 

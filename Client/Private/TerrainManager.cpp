@@ -5,6 +5,7 @@
 #include "StringHelper.h"
 
 #include "Chunk.h"
+#include "FastTravelObject.h"
 
 IMPLEMENT_SINGLETON(CTerrainManager);
 
@@ -21,6 +22,13 @@ void CTerrainManager::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
     Safe_AddRef(m_pDevice);
     Safe_AddRef(m_pContext);
 }
+
+void CTerrainManager::UpdateChunk(_matrix WorldMat)
+{
+    for (auto pChunk : m_pMapNavigation)
+        pChunk.second->GetChunckNavigation()->Update(WorldMat);
+}
+
 HRESULT CTerrainManager::ADD_Chunk(const WCHAR* szMapTag, void* pArg)
 {
     auto iter = m_pMapNavigation.find(szMapTag);
@@ -49,6 +57,34 @@ HRESULT CTerrainManager::Remove_Chunk(const WCHAR* szMapTag)
     return S_OK;
 }
 
+HRESULT CTerrainManager::ADD_FastTravel(const WCHAR* szMapTag, CFastTravelObject* pFastTravel)
+{
+    auto iter = m_pMapTransport.find(szMapTag);
+    if (iter == m_pMapTransport.end())
+    {
+        Safe_AddRef(pFastTravel);
+        m_pMapTransport.emplace(szMapTag, pFastTravel);
+    }
+    else
+    {
+        Safe_Release(pFastTravel);
+        return E_FAIL;
+    }
+
+    return S_OK;
+}
+
+HRESULT CTerrainManager::Remove_FastTravel(const WCHAR* szMapTag)
+{
+    auto iter = m_pMapTransport.find(szMapTag);
+    if (iter == m_pMapTransport.end())
+        return E_FAIL;
+
+    Safe_Release(iter->second);
+    m_pMapTransport.erase(iter);
+    return S_OK;
+}
+
 _bool CTerrainManager::UpdateChunk(const WCHAR* ChunkKey, _float3 vMovePoint)
 {
     auto pair = m_pMapNavigation.find(ChunkKey);
@@ -74,13 +110,7 @@ _bool CTerrainManager::ComputeHieght(CTransform* pTransform, _float3* vOutPoint,
     if (nullptr == ChunkData.pChunk)
         return false;
 
-    if (bIsUpdateCell)
-    {
-        _uInt iCurrentCell = ChunkData.pChunk->GetChunckNavigation()->Find_Cell(XMLoadFloat3(&vPosition));
-        ChunkData.pChunk->GetChunckNavigation()->ChangeNaviMeshIndex(iCurrentCell);
-    }
-
-    (*vOutPoint).y = ChunkData.pChunk->GetChunckNavigation()->ComputeHeight(pTransform);
+    ChunkData.pChunk->GetChunckNavigation()->ComputeHeight(pTransform, bIsUpdateCell);
     return true;
 }
 
@@ -100,6 +130,33 @@ void CTerrainManager::Find_Chunk(_float3 vPos, CHUNK_DESC* pOutDesc)
     }
 }
 
+_bool CTerrainManager::Find_FastTravelTransport(const WCHAR* szMapTag, _float3* vOut)
+{
+    auto iter = m_pMapTransport.find(szMapTag);
+    if (iter == m_pMapTransport.end())
+        return false;
+
+    auto vPosition = iter->second->GetTransform()->GetPosition();
+    auto vDir = iter->second->GetTransform()->GetLookVector() * 10.f;
+    XMStoreFloat3(vOut, XMLoadFloat3(&vPosition) + vDir);
+    return true;
+}
+
+void CTerrainManager::Render()
+{
+    for (auto& pair : m_pMapNavigation)
+        pair.second->Render();
+}
+
+void CTerrainManager::Render(const WCHAR* szMapName)
+{
+    auto iter = m_pMapNavigation.find(szMapName);
+    if (iter == m_pMapNavigation.end())
+        return;
+
+    iter->second->Render();
+}
+
 CChunk* CTerrainManager::Find_MapNavigation(const WCHAR* szMapTag)
 {
     auto pair = m_pMapNavigation.find(szMapTag);
@@ -114,6 +171,10 @@ void CTerrainManager::Free()
     for (auto& iter : m_pMapNavigation)
         Safe_Release(iter.second);
     m_pMapNavigation.clear();
+
+    for (auto& iter : m_pMapTransport)
+        Safe_Release(iter.second);
+    m_pMapTransport.clear();
 
     Safe_Release(m_pDevice);
     Safe_Release(m_pContext);

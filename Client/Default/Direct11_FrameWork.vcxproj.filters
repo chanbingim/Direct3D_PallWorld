@@ -470,9 +470,6 @@
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\SelectUI">
       <UniqueIdentifier>{384db897-81d8-4c8c-8a13-99415acb9058}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\Architecture">
-      <UniqueIdentifier>{45ba8e11-6419-449c-b515-6d544e93bea0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\PlayerStateMachine\NoneCombatLayer\State">
       <UniqueIdentifier>{f79419a2-e9f6-4762-b132-a84f12736f69}</UniqueIdentifier>
     </Filter>
@@ -973,6 +970,15 @@
     </Filter>
     <Filter Include="08.Chunk\Manager">
       <UniqueIdentifier>{8aa9d7c4-3f88-433b-b73d-ee1adf653ec1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\Architecture">
+      <UniqueIdentifier>{45ba8e11-6419-449c-b515-6d544e93bea0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\FastTravelUI">
+      <UniqueIdentifier>{66ca5008-5392-4884-9939-e36855a24e00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\FastTravelUI\Button">
+      <UniqueIdentifier>{7347597f-65cc-489f-b9f7-a45e029ab80d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1792,6 +1798,12 @@
     <ClInclude Include="..\public\Chunk.h">
       <Filter>08.Chunk</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\FastTravelUI.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\FastTravelUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\FastTravelButton.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\FastTravelUI\Button</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -2586,6 +2598,12 @@
     </ClCompile>
     <ClCompile Include="..\private\Chunk.cpp">
       <Filter>08.Chunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\FastTravelUI.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\FastTravelUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\FastTravelButton.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\FastTravelUI\Button</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

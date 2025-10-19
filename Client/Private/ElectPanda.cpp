@@ -78,7 +78,7 @@ void CElectPanda::Priority_Update(_float fDeletaTime)
 
                         _float3 vMovePoint = {};
                         XMStoreFloat3(&vMovePoint, vPos + vCalMovePoint);
-                        if (false == m_pTerrainManager->UpdateChunk(m_pChunkName, vMovePoint))
+                        if (false == m_pTerrainManager->UpdateChunk(m_szChunkName.c_str(), vMovePoint))
                             SettingNavigation();
 
                         if (m_pNevigation->IsMove(vPos + vCalMovePoint))

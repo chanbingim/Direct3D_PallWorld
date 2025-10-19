@@ -4,6 +4,7 @@
 #endif // _DEBUG
 
 #include "DefaultMap.h"
+#include "TerrainManager.h"
 
 #include "GameInstance.h"
 
@@ -36,7 +37,6 @@ HRESULT CDefaultMap::Initialize(void* pArg)
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
-    m_pNavigationCom->Update(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
     m_ObejctTag = TEXT("MapObject");
     return S_OK;
 }
@@ -66,8 +66,8 @@ HRESULT CDefaultMap::Render()
         m_pShaderCom->Update_Shader(0);
         m_pVIBufferCom->Render(i);
     }
-
-    m_pNavigationCom->Render({ 1.f, 0.f, 0.f, 1.f });
+    CTerrainManager::GetInstance()->Render();
+    
     return S_OK;
 }
 

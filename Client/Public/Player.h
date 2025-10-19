@@ -53,6 +53,8 @@ public:
 	void									SetNearArchitecture(CArchitecture* pArchitecture);
 	void									SetNearPell(CPellBase* pPellBase, _float fDistance);
 
+	void									TransportPlayer(_float3 vTransportPoint);
+	const _wstring&							GetPlayerOnChunkName() { return m_szChunkName; }
 	_uInt									GetNaviMeshCell();
 	virtual		void						Damage(void* pArg, CActor* pDamagedActor) override;
 
@@ -62,7 +64,7 @@ private :
 	CPlayerPartData*						m_pAnimator = nullptr;
 
 	CTerrainManager*						m_pTerrainManager = nullptr;
-	const WCHAR*							m_iMoveChunkIndex = {};
+	_wstring								m_szChunkName = {};
 	CNavigation*							m_pNevigation = nullptr;
 
 	CCollision*								m_pCollision = nullptr;

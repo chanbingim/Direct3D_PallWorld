@@ -113,9 +113,6 @@ void CPlayer::Late_Update(_float fDeletaTime)
 
     CPlayerStateMachine::PLAYER_STATE State = m_pPlayerFSM->GetState();
   
-
- 
-
     m_pGameInstance->ADD_CollisionList(m_pCollision);
     m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
 }
@@ -123,6 +120,8 @@ void CPlayer::Late_Update(_float fDeletaTime)
 HRESULT CPlayer::Render()
 {
     m_pCollision->Render();
+    m_pNevigation->Render({1.f,0.f,0.f,1.f}, true);
+    //m_pTerrainManager->Render(m_szChunkName.c_str());
     //m_pNevigation->Render({0.f,0.f,1.f,1.f}, true);
     
     return S_OK;
@@ -280,7 +279,7 @@ void CPlayer::MoveAction(_float fDeletaTime)
     {
         _float3 vMovePoint = {};
         XMStoreFloat3(&vMovePoint, vPos + MovePos);
-        if (false == m_pTerrainManager->UpdateChunk(m_iMoveChunkIndex, vMovePoint))
+        if (m_pTerrainManager->UpdateChunk(m_szChunkName.c_str(), vMovePoint))
             SettingNavigation();
 
         if (m_pNevigation)
@@ -820,30 +819,33 @@ void CPlayer::SettingNavigation()
 {
 #pragma region NAVI_MESH
     m_pTerrainManager = CTerrainManager::GetInstance();
-    _float3 vPlayPosition = m_pTransformCom->GetPosition();
+    Safe_AddRef(m_pTerrainManager);
 
+    _float3 vPlayPosition = m_pTransformCom->GetPosition();
     CTerrainManager::CHUNK_DESC ChunkDesc = {};
     m_pTerrainManager->Find_Chunk(vPlayPosition, &ChunkDesc);
     if (ChunkDesc.pChunk)
     {
         auto pOrizinNaviMesh = ChunkDesc.pChunk->GetChunckNavigation();
+        m_szChunkName = ChunkDesc.ChunkName;
 
         CNavigation::NAVIGATION_DESC Desc = {};
         Desc.iCurrentCellIndex = pOrizinNaviMesh->Find_Cell(XMLoadFloat3(&vPlayPosition));
+        Safe_Release(m_pNevigation);
+
         m_pNevigation = static_cast<CNavigation*>(pOrizinNaviMesh->Clone(&Desc));
         Safe_AddRef(m_pNevigation);
 
-        if (m_pNevigation)
+        auto pair = m_pComponentMap.find(TEXT("NaviMesh_Com"));
+        if (pair == m_pComponentMap.end())
         {
-            Safe_Release(m_pNevigation);
-
-            auto pair = m_pComponentMap.find(TEXT("NaviMesh_Com"));
-            Safe_Release(pair->second);
-            pair->second = m_pNevigation;
+            m_pComponentMap.emplace(TEXT("NaviMesh_Com"), m_pNevigation);
         }
         else
         {
-            m_pComponentMap.emplace(TEXT("NaviMesh_Com"), m_pNevigation);
+            Safe_Release(pair->second);
+            pair->second = m_pNevigation;
+            m_pPlayerSlotAcrchiteture->SettingNavigation();
         }
     }
 #pragma endregion
@@ -910,6 +912,16 @@ void CPlayer::SetNearPell(CPellBase* pPellBase, _float fDistance)
     }
 }
 
+void CPlayer::TransportPlayer(_float3 vTransportPoint)
+{
+    //여기서 플레이어가 펠 소환중이면 해제후 이동
+    CPlayerManager::GetInstance()->StorePartnerPal();
+  
+    m_pTransformCom->SetPosition(vTransportPoint);
+    SettingNavigation();
+    m_pNevigation->ComputeHeight(m_pTransformCom);
+}
+
 _uInt CPlayer::GetNaviMeshCell()
 {
     if (nullptr == m_pNevigation)
@@ -973,7 +985,7 @@ void CPlayer::Free()
 
     Safe_Release(m_pPlayerFSM);
     Safe_Release(m_pPlayerCamera);
-    Safe_Release(m_pPlayerSlotAcrchiteture);
+    Safe_Release(m_pTerrainManager);
     Safe_Release(m_pNevigation);
     Safe_Release(m_pCollision);
 }

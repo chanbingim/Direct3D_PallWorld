@@ -58,7 +58,6 @@ HRESULT CNavigation::Initialize(void* pArg)
 		return S_OK;
 
 	NAVIGATION_DESC* pDesc = static_cast<NAVIGATION_DESC*>(pArg);
-
 	m_iCurrentCellIndex = pDesc->iCurrentCellIndex;
 	
 	return S_OK;
@@ -143,11 +142,10 @@ void CNavigation::ComputeHeight(_float3* pPosition)
 _Int CNavigation::Find_Cell(_vector vPos)
 {
 	_vector		vLocalPos = XMVector3TransformCoord(vPos, XMMatrixInverse(nullptr, XMLoadFloat4x4(&m_WorldMatrix)));
-
 	_Int		iNeighborIndex = { -1 };
-	for (auto& pCell : m_Cells)
+	for (auto pCell : m_Cells)
 	{
-		if (pCell->IsCellIn(vLocalPos, &iNeighborIndex))
+		if (pCell->IsCellIn(vPos, &iNeighborIndex))
 			return pCell->GetCellIndex();
 	}
 
@@ -670,7 +668,6 @@ void CNavigation::BindSahderResource()
 
 void CNavigation::ApplyShaderReSource(_float4 vColor)
 {
-
 	m_pEMVViewMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::VIEW)));
 	m_pEMVProjMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION)));
 	m_pEVvColor->SetRawValue(&vColor, 0, sizeof(_float4));

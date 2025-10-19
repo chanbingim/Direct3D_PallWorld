@@ -24,17 +24,15 @@ private :
 
 public :
 	HRESULT							Initialize(void* pArg);
+	virtual		void				Update(_float fDeletaTime);
+	// ·£´õ
+	virtual		HRESULT				Render();
 
 	_bool							IsIn(_float3	vPosition);
 	CNavigation*					GetChunckNavigation();
 
 private :
-	ID3D11Device*					m_pDevice = nullptr;
-	ID3D11DeviceContext*			m_pContext = nullptr;
-	CGameInstance*					m_pGameInstance = nullptr;
-
 	CNavigation*					m_pNavigation = nullptr;
-	CTransform*						m_pTransform = nullptr;
 	CCollision*						m_pCollision = nullptr;
 
 private :

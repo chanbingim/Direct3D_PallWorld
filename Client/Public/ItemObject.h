@@ -50,6 +50,7 @@ private :
 
 private :
 	HRESULT									ADD_Components();
+	void									SettingNavigation();
 	
 public :
 	static		CItemObject*				Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
