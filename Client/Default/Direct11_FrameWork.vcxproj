@@ -181,6 +181,7 @@
     <ClInclude Include="..\public\BossTitleName.h" />
     <ClInclude Include="..\public\ButtonArrow.h" />
     <ClInclude Include="..\public\ButtonFlare.h" />
+    <ClInclude Include="..\public\DebugBoundBox.h" />
     <ClInclude Include="..\public\DefaultGrass.h" />
     <ClInclude Include="..\public\DefenceWallWood.h" />
     <ClInclude Include="..\public\ClimbState.h" />
@@ -449,6 +450,7 @@
     <ClCompile Include="..\private\BossTitleName.cpp" />
     <ClCompile Include="..\private\ButtonArrow.cpp" />
     <ClCompile Include="..\private\ButtonFlare.cpp" />
+    <ClCompile Include="..\private\DebugBoundBox.cpp" />
     <ClCompile Include="..\private\DefaultGrass.cpp" />
     <ClCompile Include="..\private\DefenceWallWood.cpp" />
     <ClCompile Include="..\private\DefenceBossComponent.cpp" />

@@ -968,6 +968,9 @@
     <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\RockWall">
       <UniqueIdentifier>{e6981acd-5fa9-4edc-93f4-f6a98d59ba5a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Objects\Debug">
+      <UniqueIdentifier>{ebe78e22-b686-4c3d-b63b-f2769964f99c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -1783,6 +1786,9 @@
     <ClInclude Include="..\public\RockWall.h">
       <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\RockWall</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\DebugBoundBox.h">
+      <Filter>03. Objects\Debug</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -2574,6 +2580,9 @@
     </ClCompile>
     <ClCompile Include="..\private\RockWall.cpp">
       <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\NonrInstanceModel\RockWall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\DebugBoundBox.cpp">
+      <Filter>03. Objects\Debug</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

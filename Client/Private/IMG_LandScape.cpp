@@ -244,7 +244,7 @@ HRESULT CIMG_LandScape::ExportNaviMeshData(const char* pFilePath, list<NAVI_TRIA
 
     if (file.is_open())
     {
-        _uInt iSaveObjectCnt = (_uInt)SaveList.size();
+        _uInt iSaveObjectCnt = (_uInt)SaveList.size() * 3.f;
         file << iSaveObjectCnt << endl;
         for (NAVI_TRIANGLE& iter : SaveList)
         {

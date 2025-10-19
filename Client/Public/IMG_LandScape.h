@@ -23,7 +23,7 @@ public:
 
 	virtual void					Update(_float fDeletaTime) override;
 	BRUSH_MODE						GetBurshMode() { return m_eBrushMode; }
-	_uInt							GetBurshSize() { return m_iBrushSize; }
+	_float							GetBurshSize() { return m_iBrushSize; }
 	_bool							GetbIsNaviMeshPicking();
 
 private :

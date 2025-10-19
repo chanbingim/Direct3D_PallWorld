@@ -8,6 +8,7 @@ class CVIBuffer_Model_Instance;
 class CModel;
 NS_END
 
+NS_BEGIN(Client)
 class CFlower : public CInstanceModel
 {
 private:
@@ -36,4 +37,4 @@ public:
 	virtual			CGameObject*		Clone(void* pArg) override;
 	virtual			void				Free() override;
 };
-
+NS_END

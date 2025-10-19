@@ -28,6 +28,8 @@
 #include "ItemQuickSlot.h"
 #pragma endregion
 
+#include "DebugBoundBox.h"
+
 #pragma region NPC
 
 #pragma region Female
@@ -730,6 +732,9 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma endregion
 
 #pragma endregion
+	/* GAME_OBJECT_DEBUG_BOX */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_DebugBox"), CDebugBoundBox::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
 
 	m_strMessage = TEXT("로딩이 완료되었습니다..");

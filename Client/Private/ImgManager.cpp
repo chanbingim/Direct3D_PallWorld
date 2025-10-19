@@ -234,6 +234,7 @@ void CImgManager::DarwMenuBar()
 
             if (ImGui::MenuItem("Load"))
             {
+                LoadObject("../Bin/Save/Map/GamePlay_Layer_Chunk.txt", TEXT("Chunk"));
                 LoadObject("../Bin/Save/Map/GamePlay_Layer_Enviornment.txt", TEXT("Enviornment"));
                 LoadEnvObject("../Bin/Save/Map/GamePlay_Layer_WorkAble.txt", TEXT("Workalbe"));
                 LoadObject("../Bin/Save/Map/GamePlay_Layer_Npc.txt", TEXT("Npc"));
@@ -358,7 +359,7 @@ void CImgManager::SaveFile(const char* FilePath, list<SAVE_LEVEL_DESC>& SaveData
 
     if (file.is_open())
     {
-        _uInt iSaveObjectCnt = (_uInt)SaveData.size() * 3.f;
+        _uInt iSaveObjectCnt = (_uInt)SaveData.size();
         file<< iSaveObjectCnt << endl;
         for (SAVE_LEVEL_DESC& iter : SaveData)
         {

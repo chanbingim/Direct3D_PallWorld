@@ -51,7 +51,7 @@ void CFemalePeople_1::Update(_float fDeletaTime)
 {
     m_pNpcBody->PlayAnimation(m_pNpcFsm->GetStateFullName().c_str(), m_bIsLoop);
     __super::Update(fDeletaTime);
-}
+} 
 
 void CFemalePeople_1::Late_Update(_float fDeletaTime)
 {
