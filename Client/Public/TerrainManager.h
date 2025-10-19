@@ -31,8 +31,8 @@ public :
 	// 여기다가 이제 쿼드 트리형태로 셀 가져오는거
 	// 건설 가능한 지형인지 탐색 등 구현할 예정
 	// 나중에 레벨 내에서 테레인 이동을 넣을지도 모름
-	HRESULT							ADD_Navigation(const WCHAR* szMapTag, const char* pFilePath);
-	HRESULT							Remove_Navigation(const WCHAR* szMapTag);
+	HRESULT							ADD_Chunk(const WCHAR* szMapTag, void* pArg);
+	HRESULT							Remove_Chunk(const WCHAR* szMapTag);
 		
 	_bool							UpdateChunk(const WCHAR* ChunkKey, _float3	vMovePoint);
 

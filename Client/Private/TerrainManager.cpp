@@ -21,12 +21,12 @@ void CTerrainManager::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
     Safe_AddRef(m_pDevice);
     Safe_AddRef(m_pContext);
 }
-HRESULT CTerrainManager::ADD_Navigation(const WCHAR* szMapTag, const char* pFilePath)
+HRESULT CTerrainManager::ADD_Chunk(const WCHAR* szMapTag, void* pArg)
 {
     auto iter = m_pMapNavigation.find(szMapTag);
     if (iter == m_pMapNavigation.end())
     {
-        auto pNavigation = CNavigation::Create(m_pDevice, m_pContext, pFilePath);
+        auto pNavigation = CChunk::Create(m_pDevice, m_pContext, pArg);
         if (nullptr == pNavigation)
             return E_FAIL;
 
@@ -38,7 +38,7 @@ HRESULT CTerrainManager::ADD_Navigation(const WCHAR* szMapTag, const char* pFile
     return S_OK;
 }
 
-HRESULT CTerrainManager::Remove_Navigation(const WCHAR* szMapTag)
+HRESULT CTerrainManager::Remove_Chunk(const WCHAR* szMapTag)
 {
     auto iter = m_pMapNavigation.find(szMapTag);
     if (iter == m_pMapNavigation.end())

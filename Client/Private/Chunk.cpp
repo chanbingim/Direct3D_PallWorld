@@ -19,6 +19,7 @@ HRESULT CChunk::Initialize(void* pArg)
     if (FAILED(ADD_Component(static_cast<CHUNK_DESC *>(pArg))))
         return E_FAIL;
 
+    m_pCollision->UpdateColiision(XMLoadFloat4x4(&m_pTransform->GetWorldMat()));
     return S_OK;
 }
 

@@ -11,6 +11,8 @@
 #include "Enviormnent.h"
 
 #include "TerrainManager.h"
+#include "Chunk.h"
+
 #include "ItemManager.h"
 #include "PlayerManager.h"
 #include "PellManager.h"
@@ -297,7 +299,16 @@ HRESULT CGamePlayLevel::Setting_GamePlayHUD()
 HRESULT CGamePlayLevel::LoadMainArea()
 {
 	// 먼저 네비 메시를 추가한다.
-	CTerrainManager::GetInstance()->ADD_Navigation(TEXT("MainArea"), "../Bin/Resources/DataFile/Map/Home/NaviMesh.dat");
+	CChunk::CHUNK_DESC ChunkDesc = {};
+	list<SAVE_LEVEL_DESC> pObjectDesc = {};
+	ReadMapFile("../Bin/Resources/DataFile/Map/Home/GamePlay_Layer_Chunk.txt", pObjectDesc);
+	auto pChunkData = pObjectDesc.begin();
+
+	ChunkDesc.vScale = pChunkData->vScale;
+	ChunkDesc.vRotation = pChunkData->vRotation;
+	ChunkDesc.vPosition = pChunkData->vPosition;
+	ChunkDesc.NavigationFilePath = "../Bin/Resources/DataFile/Map/Home/NaviMesh.dat";
+	CTerrainManager::GetInstance()->ADD_Chunk(TEXT("MainArea"), &ChunkDesc);
 
 	// 맵에 깔려있는 기본 오브젝트
 	LoadObject("../Bin/Resources/DataFile/Map/Home/GamePlay_Layer_Enviornment.txt", TEXT("Enviornment"));
