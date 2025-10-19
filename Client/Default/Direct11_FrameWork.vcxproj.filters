@@ -1789,7 +1789,9 @@
     <ClInclude Include="..\public\TerrainManager.h">
       <Filter>08.Chunk\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Chunk.h" />
+    <ClInclude Include="..\public\Chunk.h">
+      <Filter>08.Chunk</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -2582,7 +2584,9 @@
     <ClCompile Include="..\private\TerrainManager.cpp">
       <Filter>08.Chunk\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Chunk.cpp" />
+    <ClCompile Include="..\private\Chunk.cpp">
+      <Filter>08.Chunk</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\TestShader.hlsl">

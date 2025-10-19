@@ -62,9 +62,10 @@ private :
 	CPlayerPartData*						m_pAnimator = nullptr;
 
 	CTerrainManager*						m_pTerrainManager = nullptr;
+	const WCHAR*							m_iMoveChunkIndex = {};
 	CNavigation*							m_pNevigation = nullptr;
-	CCollision*								m_pCollision = nullptr;
 
+	CCollision*								m_pCollision = nullptr;
 	CHARACTER_DESC*							m_pCharacterInfo = nullptr;
 	CPlayerSlotArchitecture*				m_pPlayerSlotAcrchiteture = nullptr;
 
@@ -106,6 +107,7 @@ private:
 	_bool									IsResetNoneCombat();
 	// 어택의 종류를 체크 하는 함수
 	_bool									GetWeaponAttackType();
+	void									SettingNavigation();
 
 public:
 	static			CPlayer*				Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);

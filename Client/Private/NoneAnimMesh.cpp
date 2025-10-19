@@ -51,8 +51,11 @@ HRESULT CNoneAnimMesh::Render()
 
 void CNoneAnimMesh::RefreshComputeHeight()
 {
-    auto pNaviMesh = CTerrainManager::GetInstance()->GetNavimesh();
-    pNaviMesh->ComputeHeight(m_pTransformCom, true);
+    auto pTerrainManager = CTerrainManager::GetInstance();
+
+    _float3 vHegithPos = m_pTransformCom->GetPosition();
+    pTerrainManager->ComputeHieght(m_pTransformCom, &vHegithPos, true);
+    m_pTransformCom->SetPosition(vHegithPos);
 }
 
 HRESULT CNoneAnimMesh::Bind_ShaderResources()

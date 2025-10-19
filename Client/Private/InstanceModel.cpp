@@ -1,7 +1,9 @@
 #include "InstanceModel.h"
 
 #include "GameInstance.h"
+
 #include "TerrainManager.h"
+#include "Chunk.h"
 
 CInstanceModel::CInstanceModel(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CGameObject(pDevice, pContext)
@@ -46,7 +48,14 @@ HRESULT CInstanceModel::Render()
 void CInstanceModel::RefreshComputeHeight()
 {
     D3D11_MAPPED_SUBRESOURCE SubResource = {};
-    auto pNaviMesh = CTerrainManager::GetInstance()->GetNavimesh();
+
+    CTerrainManager::CHUNK_DESC ChunkDesc = {};
+    CTerrainManager::GetInstance()->Find_Chunk(m_pTransformCom->GetPosition(), &ChunkDesc);
+
+    CNavigation* pNaviMesh = nullptr;
+    if (ChunkDesc.pChunk)
+        pNaviMesh = ChunkDesc.pChunk->GetChunckNavigation();
+
     _matrix vWorldMat = XMLoadFloat4x4(&m_pTransformCom->GetWorldMat());
 
     _uInt iNumInstance = m_pVIBufferCom->GetNumInstance();

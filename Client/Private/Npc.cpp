@@ -3,6 +3,9 @@
 #include "GameInstance.h"
 #include "PellManager.h"
 
+#include "TerrainManager.h"
+#include "Chunk.h"
+
 #pragma region PARTS HEADER
 #include "NpcStateMachine.h"
 #include "NpcBody.h"
@@ -115,6 +118,43 @@ _bool CNpc::NpcPlayFSM(_float fDeletaTime)
     return m_pNpcFsm->GetLayerAnimLoop(TEXT("Dialog_Layer"));
 }
 
+void CNpc::SettingNavigation()
+{
+#pragma region NAVI_MESH
+    if (nullptr == m_pTerrainManager)
+    {
+        m_pTerrainManager = CTerrainManager::GetInstance();
+        Safe_AddRef(m_pTerrainManager);
+    }
+
+    _float3 vPlayPosition = m_pTransformCom->GetPosition();
+    CTerrainManager::CHUNK_DESC ChunkDesc = {};
+    m_pTerrainManager->Find_Chunk(vPlayPosition, &ChunkDesc);
+    if (ChunkDesc.pChunk)
+    {
+        auto pOrizinNaviMesh = ChunkDesc.pChunk->GetChunckNavigation();
+
+        CNavigation::NAVIGATION_DESC Desc = {};
+        Desc.iCurrentCellIndex = pOrizinNaviMesh->Find_Cell(XMLoadFloat3(&vPlayPosition));
+        m_pNevigation = static_cast<CNavigation*>(pOrizinNaviMesh->Clone(&Desc));
+        Safe_AddRef(m_pNevigation);
+
+        if (m_pNevigation)
+        {
+            Safe_Release(m_pNevigation);
+
+            auto pair = m_pComponentMap.find(TEXT("NaviMesh_Com"));
+            Safe_Release(pair->second);
+            pair->second = m_pNevigation;
+        }
+        else
+        {
+            m_pComponentMap.emplace(TEXT("NaviMesh_Com"), m_pNevigation);
+        }
+    }
+#pragma endregion
+}
+
 void CNpc::ShowActionUI()
 {
 }
@@ -131,4 +171,5 @@ void CNpc::Free()
     Safe_Release(m_pNpcFsm);
     Safe_Release(m_pNevigation);
     Safe_Release(m_pCollision);
+    Safe_Release(m_pTerrainManager);
 }

@@ -13,6 +13,7 @@ NS_END
 NS_BEGIN(Client)
 class CCombatComponent;
 class CNeturalPellInfo;
+class CTerrainManager;
 class CPellStateMachine;
 class CRecovery;
 class CPellBody;
@@ -90,12 +91,17 @@ protected :
 	CGameObject*							m_pTargetObject = nullptr;
 	CPellStateMachine*						m_pPellFsm = nullptr;
 	CChaseComponent*						m_pChase = nullptr;
+	CTerrainManager*						m_pTerrainManager = nullptr;
 
 #pragma region Component
+#pragma region Navigation
+	const WCHAR*							m_pChunkName = {};
+	CTerrainManager*						m_pTerrainManager = nullptr;
+	CNavigation*							m_pNevigation = nullptr;
+#pragma endregion
 
 #pragma region Collision
 	CCollision*								m_pCollision = nullptr;
-	CNavigation*							m_pNevigation = nullptr;
 	CPellBody*								m_pPellBody = nullptr;
 	CCombatComponent*						m_pCombatCom = nullptr;
 #pragma endregion
@@ -123,6 +129,8 @@ protected :
 
 	_bool									PellPlayFSM(_float fDeletaTime);
 	void									StartMoveAction(const _float3 vEndPos);
+	void									SettingNavigation();
+
 
 private :
 	// 이거 펠 파츠오브젝트 세팅부터 하고 불러야함 매번 코드짜서 넣어주기 귀찮아서

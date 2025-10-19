@@ -2,6 +2,9 @@
 #include "GameInstance.h"
 #include "PellManager.h"
 
+#include "TerrainManager.h"
+#include "Chunk.h"
+
 #pragma region PARTS HEADER
 #include "PellStateMachine.h"
 #include "NeturalPellInfo.h"
@@ -504,6 +507,11 @@ void CPellBase::PellTackingAction(_float fDeletaTime)
                             m_pChase->ComputeLerpPoint(fDeletaTime, vDir, vOutMovePoint);
                             _vector vMoveDistance = XMLoadFloat3(&vOutMovePoint);
 
+                            _float3 vMovePoint = {};
+                            XMStoreFloat3(&vMovePoint, vMoveDistance + vCalulationPellPos);
+                            if (false == m_pTerrainManager->UpdateChunk(m_pChunkName, vMovePoint))
+                                SettingNavigation();
+
                             if (m_pNevigation->IsMove(vMoveDistance + vCalulationPellPos))
                             {
                                 m_pTransformCom->LerpTurn({ 0.f, 1.f, 0.f, 0.f }, vMoveDistance + vCalulationPellPos, XMConvertToRadians(180.f), fDeletaTime);
@@ -560,6 +568,43 @@ void CPellBase::StartMoveAction(const _float3 vEndPos)
         PatrolDesc.fPellMoveSpeed = &m_fPellMoveSpeed;
         m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Patrol"), &PatrolDesc);
     }
+}
+
+void CPellBase::SettingNavigation()
+{
+#pragma region NAVI_MESH
+    if (nullptr == m_pTerrainManager)
+    {
+        m_pTerrainManager = CTerrainManager::GetInstance();
+        Safe_AddRef(m_pTerrainManager);
+    }
+
+    _float3 vPlayPosition = m_pTransformCom->GetPosition();
+    CTerrainManager::CHUNK_DESC ChunkDesc = {};
+    m_pTerrainManager->Find_Chunk(vPlayPosition, &ChunkDesc);
+    if (ChunkDesc.pChunk)
+    {
+        auto pOrizinNaviMesh = ChunkDesc.pChunk->GetChunckNavigation();
+
+        CNavigation::NAVIGATION_DESC Desc = {};
+        Desc.iCurrentCellIndex = pOrizinNaviMesh->Find_Cell(XMLoadFloat3(&vPlayPosition));
+        m_pNevigation = static_cast<CNavigation*>(pOrizinNaviMesh->Clone(&Desc));
+        Safe_AddRef(m_pNevigation);
+
+        if (m_pNevigation)
+        {
+            Safe_Release(m_pNevigation);
+
+            auto pair = m_pComponentMap.find(TEXT("NaviMesh_Com"));
+            Safe_Release(pair->second);
+            pair->second = m_pNevigation;
+        }
+        else
+        {
+            m_pComponentMap.emplace(TEXT("NaviMesh_Com"), m_pNevigation);
+        }
+    }
+#pragma endregion
 }
 
 void CPellBase::ActionFrendly(_float fDeletaTime)

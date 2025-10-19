@@ -6,6 +6,8 @@
 #include "State.h"
 
 #include "TerrainManager.h"
+#include "Chunk.h"
+
 #include "PlayerPartData.h"
 #include "PlayerWeaponSlot.h"
 #include "PlayerSlotArchitecture.h"
@@ -276,8 +278,16 @@ void CPlayer::MoveAction(_float fDeletaTime)
 
     if (!XMVector3Equal(MovePos, XMVectorZero()))
     {
-        if(m_pNevigation->IsMove(vPos + MovePos))
-            m_pTransformCom->ADD_Position(MovePos);
+        _float3 vMovePoint = {};
+        XMStoreFloat3(&vMovePoint, vPos + MovePos);
+        if (false == m_pTerrainManager->UpdateChunk(m_iMoveChunkIndex, vMovePoint))
+            SettingNavigation();
+
+        if (m_pNevigation)
+        {
+            if (m_pNevigation->IsMove(vPos + MovePos))
+                m_pTransformCom->ADD_Position(MovePos);
+        }
 
         if (State.bIsAttacking && !State.bIsAiming)
         {
@@ -703,23 +713,7 @@ HRESULT CPlayer::ADD_Components()
         return E_FAIL;
 #pragma endregion
 
-#pragma region NAVI_MESH
-    m_pTerrainManager = CTerrainManager::GetInstance();
-    auto FindNaviMesh = m_pTerrainManager->Find_MapNavigation(TEXT("MainArea"));
-    if (FindNaviMesh)
-    {
-        CNavigation::NAVIGATION_DESC Desc = {};
-        _float3 vPos = m_pTransformCom->GetPosition();
-        Desc.iCurrentCellIndex = 50;
-
-        m_pTransformCom->SetPosition(FindNaviMesh->CellCenterPos(Desc.iCurrentCellIndex));
-        m_pNevigation = static_cast<CNavigation*>(FindNaviMesh->Clone(&Desc));
-
-        Safe_AddRef(m_pNevigation);
-        m_pComponentMap.emplace(TEXT("NaviMesh_Com"), m_pNevigation);
-    }
-#pragma endregion
- 
+    SettingNavigation();
     return S_OK;
 }
 
@@ -820,6 +814,39 @@ _bool CPlayer::GetWeaponAttackType()
         return ItemDesc.TypeDesc.EuqipDesc.bIsChargeAble;
 
     return false;
+}
+
+void CPlayer::SettingNavigation()
+{
+#pragma region NAVI_MESH
+    m_pTerrainManager = CTerrainManager::GetInstance();
+    _float3 vPlayPosition = m_pTransformCom->GetPosition();
+
+    CTerrainManager::CHUNK_DESC ChunkDesc = {};
+    m_pTerrainManager->Find_Chunk(vPlayPosition, &ChunkDesc);
+    if (ChunkDesc.pChunk)
+    {
+        auto pOrizinNaviMesh = ChunkDesc.pChunk->GetChunckNavigation();
+
+        CNavigation::NAVIGATION_DESC Desc = {};
+        Desc.iCurrentCellIndex = pOrizinNaviMesh->Find_Cell(XMLoadFloat3(&vPlayPosition));
+        m_pNevigation = static_cast<CNavigation*>(pOrizinNaviMesh->Clone(&Desc));
+        Safe_AddRef(m_pNevigation);
+
+        if (m_pNevigation)
+        {
+            Safe_Release(m_pNevigation);
+
+            auto pair = m_pComponentMap.find(TEXT("NaviMesh_Com"));
+            Safe_Release(pair->second);
+            pair->second = m_pNevigation;
+        }
+        else
+        {
+            m_pComponentMap.emplace(TEXT("NaviMesh_Com"), m_pNevigation);
+        }
+    }
+#pragma endregion
 }
 
 _bool CPlayer::IsFinishedAnimationAction()

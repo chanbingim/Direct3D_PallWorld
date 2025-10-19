@@ -9,6 +9,7 @@ NS_END
 
 NS_BEGIN(Client)
 class CNpcStateMachine;
+class CTerrainManager;
 class CNpcBody;
 
 class CNpc : public CContainerObject
@@ -46,6 +47,7 @@ protected:
 	_bool									m_bIsLoop = true;
 	_bool									m_bIsAction = false;
 
+	CTerrainManager*						m_pTerrainManager = nullptr;
 	CNpcStateMachine*						m_pNpcFsm = nullptr;
 
 #pragma region Component
@@ -61,6 +63,7 @@ protected:
 	HRESULT									ADD_PellInfoUI();
 
 	_bool									NpcPlayFSM(_float fDeletaTime);
+	void									SettingNavigation();
 
 private :
 	// 상호작용이 가능한지

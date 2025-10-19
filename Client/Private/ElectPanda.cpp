@@ -58,15 +58,10 @@ void CElectPanda::Priority_Update(_float fDeletaTime)
     PellPlayFSM(fDeletaTime);
 
     const CPellStateMachine::PELL_STATE& State = m_pPellFsm->GetState();
-    /* if (m_pRecovery->GetRecovering())
-         m_PellInfo.CurStemina += m_pRecovery->Update(fDeletaTime);
-     else
-         m_PellInfo.CurStemina -= 0.1f;*/
-
-    if (PELL_STORAGE_STATE::PARTNER_PELL != m_PellInfo.ePellStorageState)
+    _vector vPos{}, vDir{}, vCalMovePoint;
+    if (CPellStateMachine::COMBAT_ACTION::END == State.eCombat_State)
     {
-        _vector vPos{}, vDir{}, vMovePoint;
-        if (CPellStateMachine::COMBAT_ACTION::END == State.eCombat_State)
+        if (PELL_STORAGE_STATE::PARTNER_PELL != m_PellInfo.ePellStorageState)
         {
             if (CPellStateMachine::MOVE_ACTION::PATROL == State.eMove_State)
             {
@@ -79,12 +74,17 @@ void CElectPanda::Priority_Update(_float fDeletaTime)
                         vPos = XMLoadFloat3(&vCurPos);
                         vPos.m128_f32[1] = 0.f;
                         vDir = XMVector3Normalize(vTarget - vPos);
+                        vCalMovePoint = vDir * m_fPellMoveSpeed * fDeletaTime;
 
-                        vMovePoint = vDir * m_fPellMoveSpeed * fDeletaTime;
-                        if (m_pNevigation->IsMove(vPos + vMovePoint))
+                        _float3 vMovePoint = {};
+                        XMStoreFloat3(&vMovePoint, vPos + vCalMovePoint);
+                        if (false == m_pTerrainManager->UpdateChunk(m_pChunkName, vMovePoint))
+                            SettingNavigation();
+
+                        if (m_pNevigation->IsMove(vPos + vCalMovePoint))
                         {
                             m_pTransformCom->LerpTurn(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMLoadFloat3(&vCurPos) + vDir, XMConvertToRadians(180.f), fDeletaTime);
-                            m_pTransformCom->ADD_Position(vMovePoint);
+                            m_pTransformCom->ADD_Position(vCalMovePoint);
                         }
                     }
                 }
@@ -204,16 +204,7 @@ HRESULT CElectPanda::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Combat"), TEXT("Combat_Com"), (CComponent**)&m_pCombatCom, &CombatDesc)))
         return E_FAIL;
 
-    auto Object = m_pGameInstance->GetAllObejctToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_GamePlay_Terrian"))->begin();
-    auto OriginNav = static_cast<CNavigation*>((*Object)->Find_Component(TEXT("NaviMesh_Com")));
-    CNavigation::NAVIGATION_DESC Desc = {};
-    _float3 vPos = m_pTransformCom->GetPosition();
-    Desc.iCurrentCellIndex = OriginNav->Find_Cell(XMLoadFloat3(&vPos));
-    m_pNevigation = static_cast<CNavigation*>(OriginNav->Clone(&Desc));
-
-    Safe_AddRef(m_pNevigation);
-    m_pComponentMap.emplace(TEXT("NaviMesh_Com"), m_pNevigation);
-
+    SettingNavigation();
     return S_OK;
 }
 

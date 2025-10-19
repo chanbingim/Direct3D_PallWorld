@@ -65,7 +65,7 @@ void CDororong::Priority_Update(_float fDeletaTime)
         m_PellInfo.CurStemina -= 0.1f;*/
 
     const CPellStateMachine::PELL_STATE& State = m_pPellFsm->GetState();
-    _vector vPos{}, vDir{}, vMovePoint;
+    _vector vPos{}, vDir{}, vCalMovePoint;
     if (CPellStateMachine::COMBAT_ACTION::END == State.eCombat_State)
     {
         if (PELL_STORAGE_STATE::PARTNER_PELL != m_PellInfo.ePellStorageState)
@@ -81,12 +81,17 @@ void CDororong::Priority_Update(_float fDeletaTime)
                         vPos = XMLoadFloat3(&vCurPos);
                         vPos.m128_f32[1] = 0.f;
                         vDir = XMVector3Normalize(vTarget - vPos);
+                        vCalMovePoint = vDir * m_fPellMoveSpeed * fDeletaTime;
 
-                        vMovePoint = vDir * m_fPellMoveSpeed * fDeletaTime;
-                        if (m_pNevigation->IsMove(vPos + vMovePoint))
+                        _float3 vMovePoint = {};
+                        XMStoreFloat3(&vMovePoint, vPos + vCalMovePoint);
+                        if (false == m_pTerrainManager->UpdateChunk(m_pChunkName, vMovePoint))
+                            SettingNavigation();
+
+                        if (m_pNevigation->IsMove(vPos + vCalMovePoint))
                         {
                             m_pTransformCom->LerpTurn(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMLoadFloat3(&vCurPos) + vDir, XMConvertToRadians(180.f), fDeletaTime);
-                            m_pTransformCom->ADD_Position(vMovePoint);
+                            m_pTransformCom->ADD_Position(vCalMovePoint);
                         }
                     }
                 }
@@ -103,6 +108,11 @@ void CDororong::Priority_Update(_float fDeletaTime)
             {
                 _float3 ChaseDir, ChaseMovePoint;
                 m_pChase->ComputeLerpPoint(fDeletaTime, ChaseDir, ChaseMovePoint);
+
+                _float3 vMovePoint = {};
+                XMStoreFloat3(&vMovePoint, vPos + XMLoadFloat3(&ChaseMovePoint));
+                if (false == m_pTerrainManager->UpdateChunk(m_pChunkName, vMovePoint))
+                    SettingNavigation();
                 if (m_pNevigation->IsMove(vPos + XMLoadFloat3(&ChaseMovePoint)))
                 {
                     m_pTransformCom->LerpTurn(XMVectorSet(0.f, 1.f, 0.f, 0.f), vPos + XMLoadFloat3(&ChaseMovePoint), XMConvertToRadians(180.f), fDeletaTime);
@@ -222,18 +232,7 @@ HRESULT CDororong::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Combat"), TEXT("Combat_Com"), (CComponent**)&m_pCombatCom, &CombatDesc)))
         return E_FAIL;
 
-    auto Object = m_pGameInstance->GetAllObejctToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_GamePlay_Terrian"))->begin();
-    auto OriginNav = static_cast<CNavigation*>((*Object)->Find_Component(TEXT("NaviMesh_Com")));
-    CNavigation::NAVIGATION_DESC Desc = {};
-    _float3 vPos = m_pTransformCom->GetPosition();
-    Desc.iCurrentCellIndex = OriginNav->Find_Cell(XMLoadFloat3(&vPos));
-
-    m_pTransformCom->SetPosition(OriginNav->CellCenterPos(Desc.iCurrentCellIndex));
-    m_pNevigation = static_cast<CNavigation*>(OriginNav->Clone(&Desc));
-
-    Safe_AddRef(m_pNevigation);
-    m_pComponentMap.emplace(TEXT("NaviMesh_Com"), m_pNevigation);
-
+    SettingNavigation();
     return S_OK;
 }
 
