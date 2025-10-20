@@ -137,6 +137,16 @@ HRESULT CFastTravelUI::ADD_Childs()
     m_pButtons.push_back(pButton);
 #pragma endregion
 
+#pragma region Boss Dungun
+    Desc.szMapName = TEXT("BossField");
+    Desc.szShowFontText = TEXT("보스 던전");
+    Desc.vPosition.y = -fStartPointY + 4 * (Desc.vScale.y + 10.f);
+    pButton = static_cast<CFastTravelButton*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Event_FastTravelButton"), &Desc));
+    pButton->SetZOrder(m_iZOrder + 1);
+    pButton->Bind_ClickEvent([&](const _wstring& MapName) { ButtonClickedEvent(MapName); });
+    m_pButtons.push_back(pButton);
+#pragma endregion
+
     return S_OK;
 }
 

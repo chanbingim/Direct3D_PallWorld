@@ -130,6 +130,15 @@ void CTerrainManager::Find_Chunk(_float3 vPos, CHUNK_DESC* pOutDesc)
     }
 }
 
+CChunk* CTerrainManager::Find_ChunkFromTag(const WCHAR* szMapTag)
+{
+    auto iter = m_pMapNavigation.find(szMapTag);
+    if (iter == m_pMapNavigation.end())
+        return nullptr;
+
+    return iter->second;
+}
+
 _bool CTerrainManager::Find_FastTravelTransport(const WCHAR* szMapTag, _float3* vOut)
 {
     auto iter = m_pMapTransport.find(szMapTag);

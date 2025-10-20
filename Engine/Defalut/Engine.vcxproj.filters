@@ -187,24 +187,6 @@
     <Filter Include="Utility\Components\SpriteAnimation\AnimEntity">
       <UniqueIdentifier>{8050926c-621a-4f0a-8cbc-6a420a7a7669}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utility\Components\Model">
-      <UniqueIdentifier>{ceb4a0ff-ab99-4088-b784-c2eeac24f2ac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\Model\Mesh">
-      <UniqueIdentifier>{8360aece-6f08-464b-8a51-3c6a97af1a69}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\Model\Material">
-      <UniqueIdentifier>{725d0e77-52b4-478a-a14f-30aa4a263782}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\Model\Bone">
-      <UniqueIdentifier>{420f7817-c430-4178-aa2a-7a2e14d15388}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\Model\Animation">
-      <UniqueIdentifier>{54b414e3-5d68-4cb7-b464-e4fe36c0bf9c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utility\Components\Model\Animation\Channel">
-      <UniqueIdentifier>{7e5fc024-8484-41f1-90bf-76137095b8d8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utility\Components\Chase">
       <UniqueIdentifier>{fce4d626-4a6e-4a54-88a8-3f35e80cfcfd}</UniqueIdentifier>
     </Filter>
@@ -258,6 +240,24 @@
     </Filter>
     <Filter Include="Utility\StateMachine\Layer\State">
       <UniqueIdentifier>{2abcef8c-f757-4b5e-8d4c-c107cfbd8bfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Model">
+      <UniqueIdentifier>{ceb4a0ff-ab99-4088-b784-c2eeac24f2ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Model\Mesh">
+      <UniqueIdentifier>{8360aece-6f08-464b-8a51-3c6a97af1a69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Model\Material">
+      <UniqueIdentifier>{725d0e77-52b4-478a-a14f-30aa4a263782}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Model\Bone">
+      <UniqueIdentifier>{420f7817-c430-4178-aa2a-7a2e14d15388}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Model\Animation">
+      <UniqueIdentifier>{54b414e3-5d68-4cb7-b464-e4fe36c0bf9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\Model\Animation\Channel">
+      <UniqueIdentifier>{7e5fc024-8484-41f1-90bf-76137095b8d8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

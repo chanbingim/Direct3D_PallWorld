@@ -59,17 +59,8 @@ HRESULT CGamePlayLevel::Initialize()
 	if (FAILED(ADD_PlayerLayer(TEXT("Layer_GamePlay_Player"))))
 		return E_FAIL;
 
-	//if (FAILED(ADD_PellLayer(TEXT("Layer_GamePlay_Pell"))))
-	//	return E_FAIL;
-
-	//if (FAILED(ADD_EnviornmentLayer(TEXT("Layer_GamePlay_Enviorment"))))
-	//	return E_FAIL;
-
-	//if (FAILED(ADD_WorkAbleLayer(TEXT("Layer_GamePlay_WorkAbleObject"))))
-	//	return E_FAIL;
-
-	//if (FAILED(ADD_NpcLayer(TEXT("Layer_GamePlay_Npc"))))
-	//	return E_FAIL;
+	if (FAILED(ADD_PellLayer(TEXT("Layer_GamePlay_Pell"))))
+		return E_FAIL;
 
 	if (FAILED(Setting_GamePlayHUD()))
 		return E_FAIL;
@@ -207,42 +198,74 @@ HRESULT CGamePlayLevel::ADD_PellLayer(const _wstring& LayerName)
 	CPellBase::PELL_BASE_DESC Desc = {};
 
 	Desc.bIsPellData = false;
-	for (_uInt i = 0; i < 10; ++i)
-	{
-		wsprintf(Desc.ObjectTag, TEXT("Bed Cat"));
-		Desc.vScale = { 1.f, 1.f, 1.f };
-		Desc.vPosition = { m_pGameInstance->Random(-1100.f, -1200.f), 1.f, m_pGameInstance->Random(-100, 100.f) };
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_BedCat"),
-			ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
-			return E_FAIL;
-	}
+	auto pTerrainManager = CTerrainManager::GetInstance();
+
+	CChunk* pChunk = nullptr;
+	pChunk = pTerrainManager->Find_ChunkFromTag(TEXT("SheepBalField"));
+	size_t iNumCells = pChunk->GetChunckNavigation()->GetNumCells();
 
 	for (_uInt i = 0; i < 10; ++i)
 	{
 		wsprintf(Desc.ObjectTag, TEXT("Drorong"));
-		Desc.vPosition = { m_pGameInstance->Random(-1100.f, -1200.), 1.f, m_pGameInstance->Random(-100, 100.f) };
+		Desc.vScale = { 1.f, 1.f, 1.f };
+		size_t CellIndex = m_pGameInstance->Random(0, iNumCells);
+
+		Desc.vPosition = pChunk->GetChunckNavigation()->CellCenterPos(CellIndex);
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Drorong"),
 			ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
 			return E_FAIL;
 	}
-	
-	for (_uInt i = 0; i < 10; ++i)
-	{
-		wsprintf(Desc.ObjectTag, TEXT("ElectricPanda"));
-		Desc.vPosition = { m_pGameInstance->Random(-1100.f, -1200.), 1.f, m_pGameInstance->Random(-100, 100.f) };
-		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ElectricPanda"),
-			ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
-			return E_FAIL;
-	}
+
+#pragma region PinkCat
+	pChunk = pTerrainManager->Find_ChunkFromTag(TEXT("PinkCatField"));
+	iNumCells = pChunk->GetChunckNavigation()->GetNumCells();
 
 	for (_uInt i = 0; i < 10; ++i)
 	{
+		wsprintf(Desc.ObjectTag, TEXT("Bed Cat"));
+		Desc.vScale = { 1.f, 1.f, 1.f };
+		size_t CellIndex = m_pGameInstance->Random(0, iNumCells);
+	
+		Desc.vPosition = pChunk->GetChunckNavigation()->CellCenterPos(CellIndex);
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_BedCat"),
+			ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
+			return E_FAIL;
+	}
+#pragma endregion
+	
+#pragma region ElectricPanda
+	/*pChunk = pTerrainManager->Find_ChunkFromTag(TEXT("SheepBalField"));
+	vChunkCenter = pChunk->GetTransform()->GetPosition();
+	vChunkScale = pChunk->GetTransform()->GetScale();
+	for (_uInt i = 0; i < 10; ++i)
+	{
+		wsprintf(Desc.ObjectTag, TEXT("ElectricPanda"));
+		_float fHalfScaleX = vChunkScale.x * 0.5f;
+		_float fHalfScaleZ = vChunkScale.x * 0.5f;
+		Desc.vPosition = { m_pGameInstance->Random(vChunkCenter.x - fHalfScaleX, vChunkCenter.x + fHalfScaleX), 1.f,
+						   m_pGameInstance->Random(vChunkCenter.z - fHalfScaleZ, vChunkCenter.z + fHalfScaleZ) };
+		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ElectricPanda"),
+			ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
+			return E_FAIL;
+	}*/
+#pragma endregion
+
+#pragma region Boss
+	pChunk = pTerrainManager->Find_ChunkFromTag(TEXT("BossField"));
+	iNumCells = pChunk->GetChunckNavigation()->GetNumCells();
+	for (_uInt i = 0; i < 1; ++i)
+	{
 		wsprintf(Desc.ObjectTag, TEXT("Grass Mommoth"));
-		Desc.vPosition = { m_pGameInstance->Random(-70.f, -100.f), 1.f, m_pGameInstance->Random(700, 800.f) };
+		size_t CellIndex = m_pGameInstance->Random(0, iNumCells);
+
+		Desc.vPosition = pChunk->GetChunckNavigation()->CellCenterPos(CellIndex);
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_GrassMommoth"),
 			ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
 			return E_FAIL;
 	}
+#pragma endregion
+
+
 	
 	/*
 	wsprintf(Desc.ObjectTag, TEXT("Herorong"));
@@ -362,7 +385,7 @@ HRESULT CGamePlayLevel::LoadPalArea()
 	pTerrainManager->ADD_Chunk(TEXT("SheepBalField"), &ChunkDesc);
 
 	auto DefualtMap = m_pGameInstance->GetAllObejctToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_GamePlay_Terrian"))->front();
-	pTerrainManager->UpdateChunk(XMLoadFloat4x4(&DefualtMap->GetTransform()->GetWorldMat()));
+	CTerrainManager::GetInstance()->Find_ChunkFromTag(TEXT("SheepBalField"))->GetChunckNavigation()->Update(XMLoadFloat4x4(&DefualtMap->GetTransform()->GetWorldMat()));
 
 	pObjectDesc.clear();
 	ReadMapFile("../Bin/Resources/DataFile/Map/SheepBalStage/GamePlay_Layer_FastTravel.txt", pObjectDesc);
@@ -378,6 +401,7 @@ HRESULT CGamePlayLevel::LoadPalArea()
 	m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), szLayerName, pFastTravel);
 	pTerrainManager->ADD_FastTravel(TEXT("SheepBalField"), pFastTravel);
 
+	
 	// 맵에 깔려있는 기본 오브젝트
 	if (FAILED(LoadObject("../Bin/Resources/DataFile/Map/SheepBalStage/GamePlay_Layer_Enviornment.txt", TEXT("Enviornment"))))
 		return E_FAIL;
@@ -403,7 +427,7 @@ HRESULT CGamePlayLevel::LoadPalArea()
 	ChunkDesc.vPosition = pListData->vPosition;
 	ChunkDesc.NavigationFilePath = "../Bin/Resources/DataFile/Map/PinkCatStage/NaviMesh.dat";
 	CTerrainManager::GetInstance()->ADD_Chunk(TEXT("PinkCatField"), &ChunkDesc);
-	CTerrainManager::GetInstance()->UpdateChunk(XMLoadFloat4x4(&DefualtMap->GetTransform()->GetWorldMat()));
+	CTerrainManager::GetInstance()->Find_ChunkFromTag(TEXT("PinkCatField"))->GetChunckNavigation()->Update(XMLoadFloat4x4(&DefualtMap->GetTransform()->GetWorldMat()));
 
 	pObjectDesc.clear();
 	ReadMapFile("../Bin/Resources/DataFile/Map/PinkCatStage/GamePlay_Layer_FastTravel.txt", pObjectDesc);
@@ -428,6 +452,47 @@ HRESULT CGamePlayLevel::LoadPalArea()
 	// 작업가능한 녀석들 상주하는 NPC 데이터
 	if (FAILED(LoadEnvObject("../Bin/Resources/DataFile/Map/PinkCatStage/GamePlay_Layer_WorkAlbe_Tree.txt", TEXT("Tree"))))
 		return E_FAIL;
+#pragma endregion
+
+#pragma region Boss Field
+	// 먼저 네비 메시를 추가한다.
+	pObjectDesc.clear();
+	ReadMapFile("../Bin/Resources/DataFile/Map/BossMap/GamePlay_Layer_Chunk.txt", pObjectDesc);
+	pListData = pObjectDesc.begin();
+
+	// 맵에 깔려있는 기본 오브젝트
+	if (FAILED(LoadObject("../Bin/Resources/DataFile/Map/BossMap/GamePlay_Layer_Enviornment.txt", TEXT("Enviornment"))))
+		return E_FAIL;
+
+	ChunkDesc.vScale = pListData->vScale;
+	ChunkDesc.vRotation = pListData->vRotation;
+	ChunkDesc.vPosition = pListData->vPosition;
+	ChunkDesc.NavigationFilePath = "../Bin/Resources/DataFile/Map/BossMap/NaviMesh.dat";
+	CTerrainManager::GetInstance()->ADD_Chunk(TEXT("BossField"), &ChunkDesc);
+	auto BossMap = m_pGameInstance->GetAllObejctToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("GamePlay_Layer_Terrain_Boss"))->front();
+	CTerrainManager::GetInstance()->Find_ChunkFromTag(TEXT("BossField"))->GetChunckNavigation()->Update(XMLoadFloat4x4(&DefualtMap->GetTransform()->GetWorldMat()));
+
+	pObjectDesc.clear();
+	ReadMapFile("../Bin/Resources/DataFile/Map/BossMap/GamePlay_Layer_FastTravel.txt", pObjectDesc);
+	pListData = pObjectDesc.begin();
+	FastTravelDesc.vScale = pListData->vScale;
+	FastTravelDesc.vRotation = pListData->vRotation;
+	FastTravelDesc.vPosition = pListData->vPosition;
+	pFastTravel = static_cast<CFastTravelObject*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_FastTravel"), &FastTravelDesc));
+
+	CStringHelper::ConvertUTFToWide(pListData->LayerName, szLayerName);
+	m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), szLayerName, pFastTravel);
+	pTerrainManager->ADD_FastTravel(TEXT("BossField"), pFastTravel);
+
+	
+
+	//// 인스턴싱된 Prob 오브젝트
+	//if (FAILED(LoadObject("../Bin/Resources/DataFile/Map/PinkCatStage/GamePlay_Layer_Instance_Env.txt", TEXT("Instance_Env"))))
+	//	return E_FAIL;
+
+	//// 작업가능한 녀석들 상주하는 NPC 데이터
+	//if (FAILED(LoadEnvObject("../Bin/Resources/DataFile/Map/BossMap/GamePlay_Layer_WorkAlbe_Tree.txt", TEXT("Tree"))))
+	//	return E_FAIL;
 #pragma endregion
 
 	return S_OK;

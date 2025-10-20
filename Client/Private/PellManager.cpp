@@ -19,13 +19,11 @@ void CPellManager::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pConte
     Safe_AddRef(m_pDevice);
     Safe_AddRef(m_pContext);
 
-    CPellSkillManager::GetInstance()->Initialize("");
+    CPellSkillManager::GetInstance()->Initialize("../Bin/Resources/DataFile/Pal/PalSkill/PalSkill.csv");
     // 파일을 읽어들여 펠 정보를 로드할지 내가 테스용으로 임의의 값으로 사용할지
     // 여기서 결정해서 하는걸로 하자
     if (strcmp(szFilePath, ""))
-    {
         LoadCSVPellData(szFilePath);
-    }
     else
     {
         //// PELL_SAVE_DATA PellDesc;

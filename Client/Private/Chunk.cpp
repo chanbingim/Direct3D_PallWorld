@@ -47,7 +47,7 @@ CNavigation* CChunk::GetChunckNavigation()
 HRESULT CChunk::ADD_Component(CHUNK_DESC* pDesc)
 {
     // 박스의 크기를 랜더링하기위해서 보여줄 범위
-        COBBCollision::OBB_COLLISION_DESC OBBDesc = {};
+    COBBCollision::OBB_COLLISION_DESC OBBDesc = {};
     OBBDesc.pOwner = this;
     _float3 vRoation = pDesc->vRotation;
     OBBDesc.vAngles = { vRoation.x, vRoation.y, vRoation.z, 0.f } ;

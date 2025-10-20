@@ -2,3 +2,4 @@
 100,100,100,0,2,0,Dororong,../Bin/Resources/Textures/UI/InGameUI/PellCharacter/T_SheepBall_icon_normal.png,Prototype_GameObject_Drorong,50,5,1.5,5,0,0,0
 100,100,100,0,1,1,BedCat,../Bin/Resources/Textures/UI/InGameUI/PellCharacter/T_PinkCat_icon_normal.png,Prototype_GameObject_BedCat,50,6,1.5,5,1,2,0
 100,100,100,0,1,2,ElectPanda,../Bin/Resources/Textures/UI/InGameUI/PellCharacter/T_ElecPanda_icon_normal.png,Prototype_GameObject_ElectricPanda,100,6,1.5,5,2,4,3
+1000,1000,1000,200,0,3,GreenMommoth,../Bin/Resources/Textures/UI/InGameUI/PellCharacter/T_GrassMammoth_icon_normal.png,Prototype_GameObject_GreenMommoth,25,10,1.5,5,4,3,4

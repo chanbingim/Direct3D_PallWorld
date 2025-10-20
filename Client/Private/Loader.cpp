@@ -17,7 +17,13 @@
 #pragma region GamePlay Header
 #include "Camera.h"
 #include "Terrain.h"
+
+#pragma region Map
 #include "DefaultMap.h"
+#include "BossMap.h"
+#pragma endregion
+
+
 
 #pragma region PLAYER
 #include "PlayerPartData.h"
@@ -541,9 +547,14 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 #pragma region MAP_MODEL
 	_matrix PreModelMat = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.f)) * XMMatrixTranslation(0, -200.f, 0);	
-	/* VIBuffer  Old_Clothes MESH  Component */
+	/* VIBuffer  Default Map */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_DefaultMap"),
 		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/SmallMap/Map.dat"))))
+		return E_FAIL;
+
+	/* VIBuffer Boss Map */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_BossMap"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BossMap/Map.fbx", PreModelMat))))
 		return E_FAIL;
 #pragma endregion
 
@@ -930,6 +941,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma region MAP_OBJECT
 	/* Map Defualt */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_DefualtMap"), CDefaultMap::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* Map Boss */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_BossMap"), CBossMap::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 #pragma endregion
 

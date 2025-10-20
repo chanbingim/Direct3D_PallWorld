@@ -36,20 +36,7 @@ protected:
 	virtual		HRESULT						Apply_ConstantShaderResources(_uInt iMeshIndex) override;
 
 private:
-	_bool									m_bIsPicking = false;
-	_uInt									m_iTerrainCnt = {};
-
-	list<_uInt>								m_MapRenderIndex = {};
-	//vector<CNavigation*>					m_pNavigationCom = { };
-	CNavigation*							m_pNavigationCom = nullptr;
-private:
 	HRESULT									ADD_Components();
-
-	void									UpdateCullList();
-
-#ifdef _DEBUG
-	void									SelectRenderPlane(_uInt i);
-#endif // _DEBUG
 
 public:
 	static			CDefaultMap*			Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);

@@ -36,13 +36,13 @@ typedef struct PalCopyData : public CHARACTER_DESC
 
 typedef struct PellInfo : public PAL_NETWORK_DATA
 {
-	_wstring					NickName;
-	const CTexture*				pPellIconTexture;
+	_wstring							NickName;
+	const CTexture*						pPellIconTexture;
 
-	PELL_SKILL_DATA				DefaultSkill;
-	vector<PELL_SKILL_DATA>		PartnerSkillList;
+	PAL_SKILL_NETWORK_DATA				DefaultSkill;
+	vector<PAL_SKILL_NETWORK_DATA>		PartnerSkillList;
 
-	PELL_STORAGE_STATE			ePellStorageState;
+	PELL_STORAGE_STATE					ePellStorageState;
 }PELL_INFO;
 
 NS_END

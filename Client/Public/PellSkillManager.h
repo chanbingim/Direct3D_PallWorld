@@ -15,10 +15,10 @@ private:
 
 public:
 	void									Initialize(const char* szFilePath = "");
-	const Pell_Skill_Data*					FindPellData(_uInt iID);
+	const PAL_SKILL_NETWORK_DATA*			FindPellData(_uInt iID);
 
 private:
-	unordered_map<_uInt, Pell_Skill_Data>	m_PellSkillDatas;
+	unordered_map<_uInt, PAL_SKILL_NETWORK_DATA>	m_PellSkillDatas;
 
 private:
 	HRESULT									LoadCSVPellSkillData(const char* szFilePath);

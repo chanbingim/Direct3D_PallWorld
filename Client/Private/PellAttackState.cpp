@@ -21,53 +21,62 @@ void CPellAttackState::OnStateEnter(void* pArg)
         *m_fSkillMovePtr = 0.f;
     }
 
+    switch (m_AttackData.eSkillType)
+    {
+    case PELL_SKILL_TYPE::NORAML_COMBO:
+    case PELL_SKILL_TYPE::SPECIAL_COMBO:
+    case PELL_SKILL_TYPE::SPECIAL:
+        m_iPhaseIndex = 0;
+        m_iLastPhase = 4;
+        break;
+
+    case PELL_SKILL_TYPE::NORMAL :
+        m_iPhaseIndex = 2;
+        m_iLastPhase = 2;
+        break;
+    }
+    
     m_bStateAnimLoop = false;
-    m_iPhaseIndex = 0;
     m_fAccTime = 0.f;
 }
 
 void CPellAttackState::OnStateExcution(_float fDeletaTime, void* pArg)
 {
-    if (m_IsSpaceOut)
-    {
-        // 여기서 거리를 벌리는 행위를 한다.
-
-
-
-    }
+    if (PELL_SKILL_TYPE::SPECIAL_COMBO == m_AttackData.eSkillType)
+        m_szStateName = "FarSkill";
     else
-    {
-        m_szStateName = m_AttackData.SkillName;
-        SkillMotionChange(fDeletaTime);
+        m_szStateName = m_AttackData.szSkillName;
+    SkillMotionChange(fDeletaTime);
 
-        switch (m_iPhaseIndex)
-        {
-        case 0 :
+    switch (m_iPhaseIndex)
+    {
+    case 0:
             m_szStateName += "_Start";
-            break;
-        case 1:
-            m_szStateName += "_StartLoop";
-            break;
-        case 2:
-            if (PELL_SKILL_TYPE::NORAML == m_AttackData.eSkillType)
-            {
-                m_szStateName += "_Loop";
-                *m_fSkillMovePtr = m_AttackData.fSkillMoveSpeed;
-            }
-            else
-                m_szStateName += "_Action";
-            break;
-        case 3:
-        {
+        break;
+    case 1:
+        m_szStateName += "_StartLoop";
+        break;
+    case 2:
+    {
+        if (PELL_SKILL_TYPE::NORAML_COMBO == m_AttackData.eSkillType)
+            m_szStateName += "_Loop";
+        else if(PELL_SKILL_TYPE::SPECIAL_COMBO == m_AttackData.eSkillType)
+            m_szStateName += "_Action";
+            
+        *m_fSkillMovePtr = m_AttackData.fSkillMoveSpeed;
+    }
+    break;
+    case 3:
+    {
+        if (PELL_SKILL_TYPE::SPECIAL_COMBO == m_AttackData.eSkillType)
             m_szStateName += "_ActionLoop";
-            *m_fSkillMovePtr = m_AttackData.fSkillMoveSpeed;
-        }
-            break;
-        case 4:
-            m_szStateName += "_End";
-            *m_fSkillMovePtr = 0;
-            break;
-        }
+        *m_fSkillMovePtr = m_AttackData.fSkillMoveSpeed;
+    }
+    break;
+    case 4:
+        m_szStateName += "_End";
+        *m_fSkillMovePtr = 0;
+        break;
     }
 }
 
@@ -81,7 +90,19 @@ void CPellAttackState::SkillMotionChange(_float fTimeDeleta)
 {
     if (false == m_bStateAnimLoop && m_pActPell->GetFinisehdAnimation())
     {
-        if (PELL_SKILL_TYPE::SPECIAL == m_AttackData.eSkillType)
+        switch (m_AttackData.eSkillType)
+        {
+        case PELL_SKILL_TYPE::NORAML_COMBO:
+        {
+            m_iPhaseIndex += 2;
+            if (2 == m_iPhaseIndex)
+                m_bStateAnimLoop = true;
+            m_DurationTime = m_AttackData.fSkillDurationTime;
+        }
+        break;
+
+        case PELL_SKILL_TYPE::SPECIAL:
+        case PELL_SKILL_TYPE::SPECIAL_COMBO:
         {
             m_iPhaseIndex++;
             if (1 == m_iPhaseIndex || 3 == m_iPhaseIndex)
@@ -93,11 +114,7 @@ void CPellAttackState::SkillMotionChange(_float fTimeDeleta)
                     m_DurationTime = m_AttackData.fSkillDurationTime;
             }
         }
-        else
-        {
-            m_iPhaseIndex += 2;
-            m_bStateAnimLoop = true;
-            m_DurationTime = m_AttackData.fSkillDurationTime;
+        break;
         }
     }
 

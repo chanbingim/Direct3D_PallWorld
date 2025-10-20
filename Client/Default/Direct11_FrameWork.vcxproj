@@ -178,6 +178,7 @@
     <ClInclude Include="..\public\BedCatBody.h" />
     <ClInclude Include="..\public\BedFurniture.h" />
     <ClInclude Include="..\Public\BossHealthBar.h" />
+    <ClInclude Include="..\public\BossMap.h" />
     <ClInclude Include="..\public\BossTitleName.h" />
     <ClInclude Include="..\public\ButtonArrow.h" />
     <ClInclude Include="..\public\ButtonFlare.h" />
@@ -449,6 +450,7 @@
     <ClCompile Include="..\private\AiSenceComponent.cpp" />
     <ClCompile Include="..\private\BedFurniture.cpp" />
     <ClCompile Include="..\Private\BossHealthBar.cpp" />
+    <ClCompile Include="..\private\BossMap.cpp" />
     <ClCompile Include="..\private\BossTitleName.cpp" />
     <ClCompile Include="..\private\ButtonArrow.cpp" />
     <ClCompile Include="..\private\ButtonFlare.cpp" />

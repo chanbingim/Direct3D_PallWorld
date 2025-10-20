@@ -16,8 +16,7 @@ CDefaultMap::CDefaultMap(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 }
 
 CDefaultMap::CDefaultMap(const CDefaultMap& rhs) :
-    CNoneAnimMesh(rhs), 
-    m_iTerrainCnt(rhs.m_iTerrainCnt)
+    CNoneAnimMesh(rhs)
 {
 }
 
@@ -114,28 +113,6 @@ HRESULT CDefaultMap::ADD_Components()
         return E_FAIL;
 
     return S_OK;
-}
-
-void CDefaultMap::SelectRenderPlane(_uInt i)
-{
-    auto iter = find(m_MapRenderIndex.begin(), m_MapRenderIndex.end(), i);
-    if(iter == m_MapRenderIndex.end())
-        m_MapRenderIndex.push_back(i);
-    else
-        m_MapRenderIndex.erase(iter);
-}
-
-void CDefaultMap::UpdateCullList()
-{
-   /* _float3 vPlayerPos = {};
-    XMStoreFloat3(&vPlayerPos, m_pGameInstance->GetPlayerState(WORLDSTATE::POSITION));
-
-    for (_uInt i = 0; i < m_iTerrainCnt; ++i)
-    {
-        _float fLength = {};
-        if (m_pNavigationCom[i]->IsInNaviMesh(vPlayerPos, 20.f, &fLength))
-           m_MapRenderIndex.push_back(i);
-    }*/
 }
 
 CDefaultMap* CDefaultMap::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

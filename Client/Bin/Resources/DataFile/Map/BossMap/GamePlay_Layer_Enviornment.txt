@@ -1,0 +1,2 @@
+1
+0 3 3 Prototype_GameObject_BossMap GamePlay_Layer_Terrain_Boss 0 1 1 1 0 0 0 3000 0 0 

@@ -12,7 +12,7 @@ public :
 	typedef struct PellAttacStatekDesc
 	{
 		const CPellBase*			ActPell;
-		PELL_SKILL_DATA*			AttackData;
+		PAL_SKILL_NETWORK_DATA*		AttackData;
 
 		_float*						fSkillMoveSpeed;
 		_bool						IsSpaceOut;
@@ -32,7 +32,7 @@ private :
 	_float*							m_fSkillMovePtr = nullptr;
 
 	_bool							m_IsSpaceOut;
-	PELL_SKILL_DATA					m_AttackData = {};
+	PAL_SKILL_NETWORK_DATA			m_AttackData = {};
 
 	_float							m_fAccTime = 0.0f;
 	_float							m_DurationTime = {};

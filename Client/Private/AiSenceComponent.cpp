@@ -32,7 +32,15 @@ HRESULT CAiSenceComponent::Initialize(void* pArg)
     if (FAILED(ADD_Components()))
         return E_FAIL;
 
+ 
     return S_OK;
+}
+
+void CAiSenceComponent::UpdatSenceComponent(_float fDeletaTime)
+{
+    _float4x4   vWorldMat = m_pOwner->GetTransform()->GetWorldMat();
+    m_pTargetSearchCol->UpdateColiision(XMLoadFloat4x4(&vWorldMat));
+    m_pGameInstance->ADD_CollisionList(m_pTargetSearchCol);
 }
 
 void CAiSenceComponent::Bind_TargetSearch(function<void(CGameObject*)> SearchFunc)
@@ -55,14 +63,19 @@ void CAiSenceComponent::TargetSearch(_float3 vDir, CGameObject* pHitObject)
     _float3 vHitObejctPos = pHitObject->GetTransform()->GetPosition();
 
     _vector vTargetDir = XMVector3Normalize(XMLoadFloat3(&vHitObejctPos) - XMLoadFloat3(&vOwnerPos));
-    _float fScalar = XMVectorGetX(XMVector3Dot(m_pOwner->GetTransform()->GetLookVector(), vTargetDir));
+    _vector vOwnerLook = m_pOwner->GetTransform()->GetLookVector();
+
+    _float fScalar = XMVectorGetX(XMVector3Dot(vOwnerLook, vTargetDir));
     _float frad = acos(fScalar);
 
-    if (frad < XMConvertToRadians(m_fAiSearchRadius))
+    if (0 < XMVectorGetY(XMVector3Cross(vOwnerLook, vTargetDir)))
     {
-        m_pSearchList.insert(pHitObject);
-        if (m_SearchFunc)
-            m_SearchFunc(pHitObject);
+        if (frad < XMConvertToRadians(m_fAiSearchRadius))
+        {
+            m_pSearchList.insert(pHitObject);
+            if (m_SearchFunc)
+                m_SearchFunc(pHitObject);
+        }
     }
 }
 

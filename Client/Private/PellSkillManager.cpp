@@ -1,5 +1,8 @@
 #include "PellSkillManager.h"
 
+#include "GameInput.h"
+#include "CsvHelper.h"
+
 IMPLEMENT_SINGLETON(CPellSkillManager);
 
 CPellSkillManager::CPellSkillManager()
@@ -10,47 +13,10 @@ void CPellSkillManager::Initialize(const char* szFilePath)
 {
     // 파일을 읽어들여 펠 정보를 로드할지 내가 테스용으로 임의의 값으로 사용할지
     // 여기서 결정해서 하는걸로 하자
-    if (strcmp(szFilePath, ""))
-        LoadCSVPellSkillData(szFilePath);
-    else
-    {
-        // PELL_SAVE_DATA PellDesc;
-        PELL_SKILL_DATA      PellSkillDesc;
-
-        /* Sheep Ball Infomation */
-        PellSkillDesc.SkillName = "Korogaru";
-        PellSkillDesc.fAfterStateDelay = 0.5f;
-        PellSkillDesc.iSkillDamage = 8.f;
-        PellSkillDesc.fSkillMoveSpeed = 7.f;
-        PellSkillDesc.fStartDurationTime = 0.f;
-        PellSkillDesc.fSkillDurationTime = 3.f;
-        PellSkillDesc.eSkillType = PELL_SKILL_TYPE::NORAML;
-
-        m_PellSkillDatas.emplace(0, PellSkillDesc);
-
-        PellSkillDesc.SkillName = "NekoPunch";
-        PellSkillDesc.fAfterStateDelay = 0.5f;
-        PellSkillDesc.iSkillDamage = 8.f;
-        PellSkillDesc.fSkillMoveSpeed = 5.f;
-        PellSkillDesc.fStartDurationTime = 0.f;
-        PellSkillDesc.fSkillDurationTime = 3.f;
-        PellSkillDesc.eSkillType = PELL_SKILL_TYPE::NORAML;
-
-        m_PellSkillDatas.emplace(1, PellSkillDesc);
-
-        PellSkillDesc.SkillName = "Electric_Shot";
-        PellSkillDesc.fAfterStateDelay = 0.5f;
-        PellSkillDesc.iSkillDamage = 20.f;
-        PellSkillDesc.fSkillMoveSpeed = 0.f;
-        PellSkillDesc.fStartDurationTime = 0.f;
-        PellSkillDesc.fSkillDurationTime = 3.f;
-        PellSkillDesc.eSkillType = PELL_SKILL_TYPE::NORAML;
-
-        m_PellSkillDatas.emplace(2, PellSkillDesc);
-    }
+    LoadCSVPellSkillData(szFilePath);
 }
 
-const Pell_Skill_Data* CPellSkillManager::FindPellData(_uInt iID)
+const PAL_SKILL_NETWORK_DATA* CPellSkillManager::FindPellData(_uInt iID)
 {
     auto iter = m_PellSkillDatas.find(iID);
     if (iter == m_PellSkillDatas.end())
@@ -61,7 +27,28 @@ const Pell_Skill_Data* CPellSkillManager::FindPellData(_uInt iID)
 
 HRESULT CPellSkillManager::LoadCSVPellSkillData(const char* szFilePath)
 {
-	return S_OK;
+    vector<_string> LoadData = {};
+    CSV_Read<const char>(szFilePath, LoadData);
+
+    //나중에 여기서 CSV 파서 받아서 연결할거임
+    PAL_SKILL_NETWORK_DATA Desc;
+
+    WCHAR ConvertName[MAX_PATH] = {};
+    for (size_t i = 9; i < LoadData.size();)
+    {
+        Desc.iSkillID = atoi(LoadData[i++].c_str());
+        strcpy_s(Desc.szSkillName, LoadData[i++].c_str());
+
+        Desc.iSkillDelay = atoi(LoadData[i++].c_str());
+        Desc.iSkillDamage = atoi(LoadData[i++].c_str());
+        Desc.fSkillMoveSpeed = atoi(LoadData[i++].c_str());
+        Desc.fStartDurationTime = atoi(LoadData[i++].c_str());
+        Desc.fSkillDurationTime = atoi(LoadData[i++].c_str());
+        Desc.fAfterStateDelay = atoi(LoadData[i++].c_str());
+        Desc.eSkillType = PELL_SKILL_TYPE(atoi(LoadData[i++].c_str()));
+        m_PellSkillDatas.emplace(Desc.iSkillID, Desc);
+    }
+    return S_OK;
 }
 
 void CPellSkillManager::Free()

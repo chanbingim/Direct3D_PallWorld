@@ -63,7 +63,6 @@ void CPlayerWeaponSlot::Update(_float fDeletaTime)
 		}
 
 		m_pCollision[0]->SetCollision(m_CurrentEuipItemInfo->GetItemData().TypeDesc.EuqipDesc.vCenter, { 0.f, 0.f, 0.f, 0.f }, m_CurrentEuipItemInfo->GetItemData().TypeDesc.EuqipDesc.vExtents);
-
 		m_bIsAnimWeapon = ItemData.IsAnimModel;
 		if (m_bIsAnimWeapon)
 		{
@@ -111,7 +110,6 @@ void CPlayerWeaponSlot::Late_Update(_float fDeletaTime)
 	}
 
 	m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
-
 	m_pProjectileSlot->Late_Update(fDeletaTime);
 }
 

@@ -12,7 +12,9 @@
 #include "PellStateMachine.h"
 #include "PellAttackState.h"
 #include "PellPatrolState.h"
+#include "PellSkillManager.h"
 
+#include "FastTravelObject.h"
 #include "PellBody.h"
 
 CGreenMommoth::CGreenMommoth(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
@@ -23,11 +25,14 @@ CGreenMommoth::CGreenMommoth(ID3D11Device* pDevice, ID3D11DeviceContext* pContex
 CGreenMommoth::CGreenMommoth(const CGreenMommoth& rhs) :
     CPellBase(rhs)
 {
-    m_PellID = 4;
+    m_PellID = 3;
 }
 
 HRESULT CGreenMommoth::Initalize_Prototype()
 {
+    if (FAILED(__super::Initalize_Prototype()))
+        return E_FAIL;
+
     return S_OK;
 }
 
@@ -46,17 +51,20 @@ HRESULT CGreenMommoth::Initialize(void* pArg)
         return E_FAIL;
 
     m_eTeam = PELL_TEAM::NEUTRAL;
+
+    m_PellInfo.PartnerSkillList.push_back(*CPellSkillManager::GetInstance()->FindPellData(5));
     return S_OK;
 }
 
 void CGreenMommoth::Priority_Update(_float fDeletaTime)
 {
     CContainerObject::Priority_Update(fDeletaTime);
-
+   
+    m_pCombatCom->UpdateTarget();
+    m_pPellFsm->Update(fDeletaTime);
     auto pTarget = m_pCombatCom->GetCurrentTarget();
     if(pTarget)
     {
-        m_pCombatCom->UpdateTarget();
         if (false == m_pPellFsm->GetState().bIsAttacking)
         {
             m_pCombatCom->Update(fDeletaTime);
@@ -79,7 +87,14 @@ void CGreenMommoth::Priority_Update(_float fDeletaTime)
 
 void CGreenMommoth::Update(_float fDeletaTime)
 {
-    m_pPellBody->PellPlayAnimation(m_pPellFsm->GetAnimationName().c_str(), m_bIsLoop);
+    _bool      bIsAnimLoop = {};
+    if(CPellStateMachine::COMBAT_ACTION::END != m_pPellFsm->GetState().eCombat_State)
+        bIsAnimLoop = m_pPellFsm->GetLayerAnimLoop(TEXT("CombatLayer"));
+    else
+        bIsAnimLoop = m_pPellFsm->GetLayerAnimLoop(TEXT("Body_Layer"));
+   
+    m_pPellBody->PellPlayAnimation(m_pPellFsm->GetAnimationName().c_str(), bIsAnimLoop);
+    m_pAiSenceCom->UpdatSenceComponent(fDeletaTime);
     CContainerObject::Update(fDeletaTime);
 }
 
@@ -116,10 +131,14 @@ void CGreenMommoth::CombatAction(_float fDeletaTime, CGameObject* pTarget)
     {
         CPellAttackState::PELL_ATTACK_STATE_DESC AttackDesc = {};
         AttackDesc.ActPell = this;
-        AttackDesc.AttackData = &m_PellInfo.DefaultSkill;
         AttackDesc.fSkillMoveSpeed = &m_fPellMoveSpeed;
         AttackDesc.IsSpaceOut = false;
         m_bIsAction = true;
+        if (fDistance < 15.f)
+            AttackDesc.AttackData = &m_PellInfo.DefaultSkill;
+        else
+            AttackDesc.AttackData = &m_PellInfo.PartnerSkillList[0];
+        
 
         m_pPellFsm->ChangeState(TEXT("CombatLayer"), TEXT("Attack"), &AttackDesc);
         m_pPellFsm->SetAttack(true);
@@ -173,11 +192,12 @@ HRESULT CGreenMommoth::ADD_Components()
 #pragma region 그린모스 충돌체
     COBBCollision::OBB_COLLISION_DESC ObbDesc = {};
     ObbDesc.pOwner = this;
-    ObbDesc.vExtents = _float3(0.5f, 2.7f, 3.2f);
+    ObbDesc.vExtents = _float3(2.0f, 2.7f, 3.2f);
     ObbDesc.vCneter = _float3(0.f, ObbDesc.vExtents.y * 0.5f, 0.f);
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionOBB"), TEXT("Collision_Com"), (CComponent**)&m_pCollision, &ObbDesc)))
         return E_FAIL;
     m_pCollision->BindBeginOverlapEvent([this](_float3 vDir, CGameObject* pHitActor) { OverlapEvent(vDir, pHitActor); });
+    m_pCollision->ADD_IgnoreObejct(typeid(CFastTravelObject).hash_code());
 #pragma endregion
 
 #pragma region 그린모스 타겟 감지 센서
@@ -207,18 +227,7 @@ HRESULT CGreenMommoth::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Combat"), TEXT("Combat_Com"), (CComponent**)&m_pCombatCom, &CombatDesc)))
         return E_FAIL;
 
-    auto Object = m_pGameInstance->GetAllObejctToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_GamePlay_Terrian"))->begin();
-    auto OriginNav = static_cast<CNavigation*>((*Object)->Find_Component(TEXT("NaviMesh_Com")));
-    CNavigation::NAVIGATION_DESC Desc = {};
-    _float3 vPos = m_pTransformCom->GetPosition();
-    Desc.iCurrentCellIndex = (int)m_pGameInstance->Random(100.f, 150.f);
-
-    m_pTransformCom->SetPosition(OriginNav->CellCenterPos(Desc.iCurrentCellIndex));
-    m_pNevigation = static_cast<CNavigation*>(OriginNav->Clone(&Desc));
-
-    Safe_AddRef(m_pNevigation);
-    m_pComponentMap.emplace(TEXT("NaviMesh_Com"), m_pNevigation);
-
+    SettingNavigation();
     return S_OK;
 }
 

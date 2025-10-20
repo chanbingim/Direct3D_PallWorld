@@ -30,6 +30,8 @@ public:
 	virtual HRESULT						Initialize_Prototype() override;
 	virtual HRESULT						Initialize(void* pArg) override;
 
+	void								UpdatSenceComponent(_float fDeletaTime);
+
 	void								Bind_TargetSearch(function<void(CGameObject*)> SearchFunc);
 	void								Bind_TargetLost(function<void(CGameObject*)> TargetLostFunc);
 

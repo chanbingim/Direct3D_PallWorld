@@ -59,6 +59,7 @@ public:
 	_Int							Find_Cell(_vector vPos);
 	_Int							Find_CellEdge(_vector vPos);
 	_float3							CellCenterPos(_uInt iCellIndex);
+	size_t							GetNumCells() { return m_Cells.size(); };
 	_Int							GetCurrentCellIndex() { return m_iCurrentCellIndex; }
 
 	void							ComputePathfindingAStar(_float3 vStartPoint, _float3 vTargetPoint, list<_float3>* PathList);

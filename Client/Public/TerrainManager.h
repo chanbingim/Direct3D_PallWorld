@@ -44,6 +44,8 @@ public :
 	// 이거 위치반환해주는게 제일 깔끔할거같음
 	_bool							ComputeHieght(CTransform* pTransform, _float3* vOutPoint, _bool bIsUpdateCell);
 	void							Find_Chunk(_float3 vPos, CHUNK_DESC*	pOutDesc);
+	CChunk*							Find_ChunkFromTag(const WCHAR* szMapTag);
+
 	_bool							Find_FastTravelTransport(const WCHAR* szMapTag, _float3* vOut);
 
 	void							Render();

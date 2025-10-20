@@ -44,9 +44,6 @@
     <Filter Include="02. HUD\LogoHUD">
       <UniqueIdentifier>{584aee3d-9f35-4489-9440-b6d8ee8c828f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. HUD\Base_UI">
-      <UniqueIdentifier>{f6b94b2f-5314-4e58-9966-6d24d331d4ae}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. HUD\LogoHUD\Logo_UI">
       <UniqueIdentifier>{3dc0fe13-314c-49e0-8696-aa47fa646656}</UniqueIdentifier>
     </Filter>
@@ -94,12 +91,6 @@
     </Filter>
     <Filter Include="05. Animation\SpriteAnim\UI">
       <UniqueIdentifier>{f15475ff-2ad1-431f-867c-d9a0d84d8437}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\Base_UI\Button">
-      <UniqueIdentifier>{0382ff48-bd51-41be-ac44-f5759d95835a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\Base_UI\Button\Frame">
-      <UniqueIdentifier>{4dc99711-e312-41e2-882a-e1d27017f576}</UniqueIdentifier>
     </Filter>
     <Filter Include="ImGui">
       <UniqueIdentifier>{9a2631af-181d-42e7-b1bd-7221d7bed7d3}</UniqueIdentifier>
@@ -662,9 +653,6 @@
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\WorkBench\CountView">
       <UniqueIdentifier>{6a38e35b-4466-4e09-81aa-791bd05ef583}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. HUD\Base_UI\TitleBar">
-      <UniqueIdentifier>{9c188387-cd15-4476-9913-fb2f06b8bf11}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Item\ItemToolTip">
       <UniqueIdentifier>{5cb77098-e3c7-4f67-a5e7-de8b674248e2}</UniqueIdentifier>
     </Filter>
@@ -673,12 +661,6 @@
     </Filter>
     <Filter Include="02. HUD\GamePlayHUD\CreateTooltip\IngredientList">
       <UniqueIdentifier>{cf6bac03-955e-4f45-9bc0-772e2e94c779}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\Base_UI\Ingredient">
-      <UniqueIdentifier>{0be34fa1-6712-4545-b9b1-e613273c4a94}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\Base_UI\Ingredient\IngredientCount">
-      <UniqueIdentifier>{4df6b480-c6f3-4242-a284-5e2efbaa746d}</UniqueIdentifier>
     </Filter>
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\WorkBench\CountView\ButtonArrow">
       <UniqueIdentifier>{bba513ba-1c57-45e4-87db-4d321bf3e468}</UniqueIdentifier>
@@ -776,9 +758,6 @@
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Boss">
       <UniqueIdentifier>{9f37c35f-3a1b-4fab-9c36-e62961809016}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. HUD\Base_UI\TypeIcon">
-      <UniqueIdentifier>{decad20f-aa06-4cec-b67d-6aac2a0b0b82}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Boss\BossHealthBar">
       <UniqueIdentifier>{69b6079f-a0ee-4ce5-a3b2-7839347b139e}</UniqueIdentifier>
     </Filter>
@@ -847,27 +826,6 @@
     </Filter>
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\PalBoxUI\PalInven\PalInvenSlot">
       <UniqueIdentifier>{a13afc38-1568-4d4f-8069-f8d5637ace7f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\Base_UI\ItemSlot">
-      <UniqueIdentifier>{dda198e7-53c1-4992-b347-330b02475e0e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\Base_UI\ItemSlot\SlotImage">
-      <UniqueIdentifier>{03141a7f-0927-41e5-a027-7ba1e12f24a7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\Base_UI\ItemSlot\ItemIcon">
-      <UniqueIdentifier>{855cd33e-5d80-47d5-acee-6da756e9bd7e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\Base_UI\HealthBar">
-      <UniqueIdentifier>{6e6d8958-9654-45ca-a0c8-83ba942ce7f4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\Base_UI\HealthBar\HealthIcon">
-      <UniqueIdentifier>{8a07cd76-da19-4ef7-b9f1-fa44aab114a0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\Base_UI\HungerBar">
-      <UniqueIdentifier>{a177b2d5-3bcf-4243-b4da-5bf463234317}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. HUD\Base_UI\HungerBar\HungerIcon">
-      <UniqueIdentifier>{967ea44e-4ca4-4f3a-a81e-0dd037410106}</UniqueIdentifier>
     </Filter>
     <Filter Include="06. Component\WorkComponent">
       <UniqueIdentifier>{d379f783-b829-4dfd-b7ed-a95683227a30}</UniqueIdentifier>
@@ -979,6 +937,51 @@
     </Filter>
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\FastTravelUI\Button">
       <UniqueIdentifier>{7347597f-65cc-489f-b9f7-a45e029ab80d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\Base_UI">
+      <UniqueIdentifier>{f6b94b2f-5314-4e58-9966-6d24d331d4ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\Base_UI\Button">
+      <UniqueIdentifier>{0382ff48-bd51-41be-ac44-f5759d95835a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\Base_UI\Button\Frame">
+      <UniqueIdentifier>{4dc99711-e312-41e2-882a-e1d27017f576}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\Base_UI\TitleBar">
+      <UniqueIdentifier>{9c188387-cd15-4476-9913-fb2f06b8bf11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\Base_UI\Ingredient">
+      <UniqueIdentifier>{0be34fa1-6712-4545-b9b1-e613273c4a94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\Base_UI\Ingredient\IngredientCount">
+      <UniqueIdentifier>{4df6b480-c6f3-4242-a284-5e2efbaa746d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\Base_UI\TypeIcon">
+      <UniqueIdentifier>{decad20f-aa06-4cec-b67d-6aac2a0b0b82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\Base_UI\ItemSlot">
+      <UniqueIdentifier>{dda198e7-53c1-4992-b347-330b02475e0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\Base_UI\ItemSlot\SlotImage">
+      <UniqueIdentifier>{03141a7f-0927-41e5-a027-7ba1e12f24a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\Base_UI\ItemSlot\ItemIcon">
+      <UniqueIdentifier>{855cd33e-5d80-47d5-acee-6da756e9bd7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\Base_UI\HealthBar">
+      <UniqueIdentifier>{6e6d8958-9654-45ca-a0c8-83ba942ce7f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\Base_UI\HealthBar\HealthIcon">
+      <UniqueIdentifier>{8a07cd76-da19-4ef7-b9f1-fa44aab114a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\Base_UI\HungerBar">
+      <UniqueIdentifier>{a177b2d5-3bcf-4243-b4da-5bf463234317}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\Base_UI\HungerBar\HungerIcon">
+      <UniqueIdentifier>{967ea44e-4ca4-4f3a-a81e-0dd037410106}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Map\BossStage">
+      <UniqueIdentifier>{764bc23b-c065-440e-9dde-937c608e9239}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1804,6 +1807,9 @@
     <ClInclude Include="..\public\FastTravelButton.h">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\FastTravelUI\Button</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\BossMap.h">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Map\BossStage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -2604,6 +2610,9 @@
     </ClCompile>
     <ClCompile Include="..\private\FastTravelButton.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\FastTravelUI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BossMap.cpp">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Map\BossStage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
