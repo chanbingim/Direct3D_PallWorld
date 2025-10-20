@@ -13,7 +13,7 @@ NS_END
 
 NS_BEGIN(Client)
 class CDefaultMap;
-
+class CBossMap;
 class CTerrainManager : public CBase
 {
 	DECLARE_SINGLETON(CTerrainManager);
@@ -46,7 +46,8 @@ public :
 private :
 	_int2							m_TerrianSize = {};
 	_Int							m_TerrianSelectIndex = {};
-	CDefaultMap*					m_DefaultMap;
+	//CDefaultMap*					m_DefaultMap;
+	CBossMap*						m_DefaultMap;
 
 private :
 	HRESULT							LoadTerrianData(const char* pFileData);

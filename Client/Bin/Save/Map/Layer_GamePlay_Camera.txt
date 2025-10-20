@@ -1,0 +1,2 @@
+1
+0 3 3 Prototype_GameObject_Camera Layer_GamePlay_Camera 0 1.00004 1.00009 1.00008 0 0 0 2982.77 -189.725 -7.82181 

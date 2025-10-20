@@ -38,22 +38,7 @@ void CFastTravelObject::Priority_Update(_float fDeletaTime)
 
 void CFastTravelObject::Update(_float fDeletaTime)
 {
-    _vector vCalCamereaPos = m_pGameInstance->GetCameraState(WORLDSTATE::POSITION);
-    _vector vCalCamereaLook = m_pGameInstance->GetCameraState(WORLDSTATE::LOOK);
-    CCollision::DEFAULT_HIT_DESC	RayHitDesc = {};
-    if (m_pCollision->RayHit(vCalCamereaPos, vCalCamereaLook, RayHitDesc))
-    {
-        if (RayHitDesc.vfDistance < m_fActionDistance)
-        {
-            if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_F))
-            {
-                //여기서 시간남으면 월드맵 같은거 구현해서 이동할 예정
-
-
-
-            }
-        }
-    }
+   
 }
 
 void CFastTravelObject::Late_Update(_float fDeletaTime)

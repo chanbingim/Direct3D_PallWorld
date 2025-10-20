@@ -5,6 +5,7 @@
 #include "GameInstance.h"
 
 #include "DefaultMap.h"
+#include "BossMap.h"
 #include "Terrain.h"
 
 IMPLEMENT_SINGLETON(CTerrainManager);
@@ -21,7 +22,8 @@ void CTerrainManager::Initialize(void* pArg)
     //LoadTerrianData("../Bin/Save/Map/Layer_GamePlay_Terrian.txt");
 
     auto Object = pGameInstance->GetAllObejctToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_GamePlay_Terrian"))->begin();
-    m_DefaultMap = static_cast<CDefaultMap*>(*Object);
+    //m_DefaultMap = static_cast<CDefaultMap*>(*Object);
+    m_DefaultMap = static_cast<CBossMap*>(*Object);
     Safe_AddRef(m_DefaultMap);
 }
 

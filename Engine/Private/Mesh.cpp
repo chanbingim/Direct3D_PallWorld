@@ -316,10 +316,15 @@ _bool CMesh::IsPicking(CTransform* pTransform, _float3* pOut)
 			_uInt* pIndices = reinterpret_cast<_uInt*>(IndicesMap.pData);
 			for (_uInt i = 0; i < m_iNumIndices; i += 3)
 			{
+				_vector Line_AB = XMLoadFloat3(&m_pVertices[pIndices[i + 1]]) - XMLoadFloat3(&m_pVertices[pIndices[i]]);
+				_vector Line_AC = XMLoadFloat3(&m_pVertices[pIndices[i + 2]]) - XMLoadFloat3(&m_pVertices[pIndices[i]]);
+				
 				//ÇÏ´Ü »ï°¢Çü
-				if (true == m_pGameInstance->Picking_InLocal(m_pVertices[pIndices[i]], m_pVertices[pIndices[i+ 1]], m_pVertices[pIndices[i+ 2]], pOut))
+				if (true == m_pGameInstance->Picking_InLocal(m_pVertices[pIndices[i]], m_pVertices[pIndices[i + 1]], m_pVertices[pIndices[i + 2]], pOut))
 				{
-					bIsPicking = true;
+					if (0 < XMVectorGetY(XMVector3Cross(Line_AB, Line_AC)))
+						bIsPicking = true;
+
 					XMStoreFloat3(pOut, XMVector3TransformCoord(XMLoadFloat3(pOut), XMLoadFloat4x4(&pTransform->GetWorldMat())));
 					break;
 				}

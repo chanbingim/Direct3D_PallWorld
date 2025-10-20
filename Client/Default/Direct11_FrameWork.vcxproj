@@ -44,6 +44,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableASAN>true</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -122,6 +123,7 @@
       <LanguageStandard>Default</LanguageStandard>
       <PreprocessToFile>false</PreprocessToFile>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -150,6 +152,7 @@
       <AdditionalIncludeDirectories>../Public/; ../Public/ImGui/; ../../EngineSDK/Inc/;</AdditionalIncludeDirectories>
       <Optimization>MaxSpeed</Optimization>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -178,6 +181,7 @@
     <ClInclude Include="..\public\BedCatBody.h" />
     <ClInclude Include="..\public\BedFurniture.h" />
     <ClInclude Include="..\Public\BossHealthBar.h" />
+    <ClInclude Include="..\public\BossMap.h" />
     <ClInclude Include="..\public\BossTitleName.h" />
     <ClInclude Include="..\public\ButtonArrow.h" />
     <ClInclude Include="..\public\ButtonFlare.h" />
@@ -447,6 +451,7 @@
     <ClCompile Include="..\private\AiSenceComponent.cpp" />
     <ClCompile Include="..\private\BedFurniture.cpp" />
     <ClCompile Include="..\Private\BossHealthBar.cpp" />
+    <ClCompile Include="..\private\BossMap.cpp" />
     <ClCompile Include="..\private\BossTitleName.cpp" />
     <ClCompile Include="..\private\ButtonArrow.cpp" />
     <ClCompile Include="..\private\ButtonFlare.cpp" />

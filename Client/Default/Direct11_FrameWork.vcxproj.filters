@@ -971,6 +971,9 @@
     <Filter Include="03. Objects\Debug">
       <UniqueIdentifier>{ebe78e22-b686-4c3d-b63b-f2769964f99c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Map\BossMap">
+      <UniqueIdentifier>{8b42cd6d-c1b8-49c9-ae49-8ea8cff9e46a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -1789,6 +1792,9 @@
     <ClInclude Include="..\public\DebugBoundBox.h">
       <Filter>03. Objects\Debug</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\BossMap.h">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Map\BossMap</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -2583,6 +2589,9 @@
     </ClCompile>
     <ClCompile Include="..\private\DebugBoundBox.cpp">
       <Filter>03. Objects\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BossMap.cpp">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Map\BossMap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

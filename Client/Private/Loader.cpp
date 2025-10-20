@@ -29,6 +29,7 @@
 #pragma endregion
 
 #include "DebugBoundBox.h"
+#include "BossMap.h"
 
 #pragma region NPC
 
@@ -335,6 +336,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_DefaultMap"),
 		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/SmallMap/Map.fbx", PreModelMat))))
 		return E_FAIL;
+
+	/* VIBuffer  Old_Clothes MESH  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_BossMap"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BossMap/BossMap.fbx", PreModelMat))))
+		return E_FAIL;
 #pragma endregion
 
 #pragma region Clothes
@@ -613,6 +619,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma region MAP_OBJECT
 	/* Map Defualt */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_DefualtMap"), CDefaultMap::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* Map Defualt */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_BossMap"), CBossMap::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 #pragma endregion
 

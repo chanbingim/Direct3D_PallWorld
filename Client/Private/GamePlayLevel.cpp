@@ -82,7 +82,7 @@ HRESULT CGamePlayLevel::ADD_TerrianLayer(const _wstring& LayerName)
 	ZeroMemory(&Desc, sizeof(CGameObject::GAMEOBJECT_DESC));
 	Desc.vScale = { 1.f, 1.f, 1.f };
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_DefualtMap"),
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_BossMap"),
 				ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
 		return E_FAIL;
 

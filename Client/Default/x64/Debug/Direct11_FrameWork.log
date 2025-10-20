@@ -34,5 +34,25 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
 FXC : warning X4717: Effects deprecated for D3DCompiler_47
   
   compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\WorldUI.cso
-  ImgManager.cpp
+  DefaultGrass.cpp
+  GreenMommoth.cpp
+  BedCat.cpp
+  PlayerSlotArchitecture.cpp
+  Flower.cpp
+  InstanceModel.cpp
+  ItemObject.cpp
+  NoneAnimMesh.cpp
+  PellRock.cpp
+  TerrainManager.cpp
+  TreeObject.cpp
+  Dororong.cpp
+  ElectPanda.cpp
+  GamePlayLevel.cpp
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\GamePlayLevel.cpp(134,49): warning C4244: '=': 'Engine::_float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\GamePlayLevel.cpp(141,49): warning C4244: '=': 'Engine::_float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  IMG_LandScape.cpp
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\IMG_LandScape.cpp(247,30): warning C4244: '초기화 중': 'float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  MainApp.cpp
+  Player.cpp
+  코드를 생성하고 있습니다...
   Direct11_FrameWork.vcxproj -> C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe
