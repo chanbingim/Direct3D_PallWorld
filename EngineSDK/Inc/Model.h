@@ -24,7 +24,7 @@ public :
 	_uInt						GetNumVertices(_uInt iMeshIndex) const;
 	void						GetIndices(_uInt iMeshIndex, vector<_uInt>& Indices) const;
 
-	HRESULT						GetMeshResource(_uInt iMeshIndex, aiTextureType eType, _uInt iTextureIndex, ID3D11ShaderResourceView** ppOut);
+	HRESULT						GetMeshResource(_uInt iMeshIndex, _uInt eType, _uInt iTextureIndex, ID3D11ShaderResourceView** ppOut);
 	_uInt						GetMeshNumBones(_uInt iMeshIndex) const;
 	_uInt						GetNumMeshes() const { return m_iNumMeshes; }
 	_matrix						GetBoneTransformation(const char* szBoneName);

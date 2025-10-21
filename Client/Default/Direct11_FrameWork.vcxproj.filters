@@ -860,12 +860,6 @@
     <Filter Include="07. Effect">
       <UniqueIdentifier>{2385cb58-5702-4c65-8fd2-55b495c5d646}</UniqueIdentifier>
     </Filter>
-    <Filter Include="07. Effect\Mesh Effect">
-      <UniqueIdentifier>{32e2a4e1-6856-445c-9c92-acad3f221b72}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="07. Effect\Sprite Effect">
-      <UniqueIdentifier>{6d5f3057-2fc2-4442-8b4f-796d1a563420}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment">
       <UniqueIdentifier>{352c36ed-33af-4a89-8341-c4c35adbf73f}</UniqueIdentifier>
     </Filter>
@@ -982,6 +976,12 @@
     </Filter>
     <Filter Include="03. Objects\MeshObject\NonAnimMesh\Map\BossStage">
       <UniqueIdentifier>{764bc23b-c065-440e-9dde-937c608e9239}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Effect\Mesh Effect">
+      <UniqueIdentifier>{32e2a4e1-6856-445c-9c92-acad3f221b72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Effect\Sprite Effect">
+      <UniqueIdentifier>{6d5f3057-2fc2-4442-8b4f-796d1a563420}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

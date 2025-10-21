@@ -2,7 +2,6 @@
 #include "Actor.h"
 
 NS_BEGIN(Engine)
-
 class CPartObject;
 
 class ENGINE_DLL CContainerObject : public CActor
@@ -25,8 +24,8 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
-	void									SetAnimIndex(_uInt iIndex, _float fAnimSpeed);
-	CPartObject*							FindPartObject(const _wstring& PartObjectTag);
+	void											SetAnimIndex(_uInt iIndex, _float fAnimSpeed);
+	CPartObject*									FindPartObject(const _wstring& PartObjectTag);
 	const 	unordered_map<_wstring, CPartObject*>* GetAllPartObejcts() { return &m_PartObjects; }
 
 

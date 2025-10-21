@@ -116,7 +116,7 @@ HRESULT CMaterial::Initialize(const _char* pModelFilePath, void* MaterialDesc)
     return S_OK;
 }
 
-void CMaterial::SetMaterial(_uInt iMaterialIndex, aiTextureType eType, _uInt iTextureIndex)
+void CMaterial::SetMaterial(_uInt iMaterialIndex, _uInt eType, _uInt iTextureIndex)
 {
     if (0 > iTextureIndex || m_SRVs[eType].size() <= iTextureIndex || 0 > iMaterialIndex || 8 <= iMaterialIndex)
         return;
@@ -124,7 +124,7 @@ void CMaterial::SetMaterial(_uInt iMaterialIndex, aiTextureType eType, _uInt iTe
     m_pContext->PSSetShaderResources(iMaterialIndex, 1, &m_SRVs[eType][iTextureIndex].second);
 }
 
-ID3D11ShaderResourceView* CMaterial::GetMaterial(aiTextureType eType, _uInt iTextureIndex)
+ID3D11ShaderResourceView* CMaterial::GetMaterial(_uInt eType, _uInt iTextureIndex)
 {
     if (0 > iTextureIndex || m_SRVs[eType].size() <= iTextureIndex)
         return nullptr;

@@ -2,6 +2,8 @@
 #ifndef Engine_Define_h__
 #define Engine_Define_h__
 
+#define TEXTURE_TYPE_MAX 27
+
 //WIN
 #include <Windows.h>
 #include <assert.h>

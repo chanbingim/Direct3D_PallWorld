@@ -21,6 +21,7 @@ class CInputManager;
 class CSound_Manager;
 class CLightManager;
 class CLight;
+class CEffectManager;
 class CFontManager;
 class CCollisionManager;
 class CRenderTagetManager;
@@ -222,6 +223,24 @@ public:
 #endif
 #pragma endregion
 
+#pragma region Effect Manager
+	CTexture*								GetTextureResource(const WCHAR* TextureTag);
+	CShader*								GetShaderResource(const WCHAR* ShaderTag);
+	CComponent*								GetModelResource(const WCHAR* ModelTag);
+	CGameObject*							EffectClone_Object(_uInt iEffectType, const WCHAR* szEffectTag, void* pArg = nullptr);
+
+#pragma region _DEBUG
+	HRESULT									ADD_Effects(_uInt iEffectType, const WCHAR* szEffectTag, CGameObject* pEffect);
+	HRESULT									Remove_Effect(_uInt iEffectType, const WCHAR* szEffectTag);
+	
+	map<const _wstring, CTexture*>*			GetALLTextureResource();
+	map<const _wstring, CShader*>*			GetALLShaderResource();
+	map<const _wstring, CComponent*>*		GetALLModelResource();
+	map<const _wstring, CGameObject*>*		GetALLEffects(_uInt iEffectType);
+#pragma endregion
+#pragma endregion
+
+
 private :
 	CGraphic_Device*			m_pGraphic_Device = nullptr;
 	CLevel_Manager*				m_pLevel_Manager = nullptr;
@@ -237,7 +256,8 @@ private :
 	CFontManager*				m_pFontManager = nullptr;
 	CCollisionManager*			m_pCollisionManager = nullptr;
 	CRenderTagetManager*		m_pRenderTargetManager = nullptr;
-
+	CEffectManager*				m_pEffectManager = nullptr;
+	
 	_bool						m_bIsPause = false;
 	GAMEMODE					m_eGameMode = GAMEMODE::GAME;
 	_float2						m_ScreenSize = {};

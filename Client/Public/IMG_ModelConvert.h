@@ -46,7 +46,6 @@ private :
 	HRESULT									ADD_ModelViewCameraLayer();
 	HRESULT									ADD_ModelViewLayer();
 
-
 	void									UpdateCurrentModelList();
 	void									DrawConvertUI();
 	void									UpdateSelect();

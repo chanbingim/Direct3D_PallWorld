@@ -51,8 +51,8 @@ void CIMG_Inspector::Update(_float fDeletaTime)
                pair.second.first->Update(fDeletaTime);
             }
         }
-        ImGui::End();
     }
+    ImGui::End();
 }
 
 HRESULT CIMG_Inspector::Default_Setting()

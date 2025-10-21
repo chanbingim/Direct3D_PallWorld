@@ -259,6 +259,21 @@
     <Filter Include="Utility\Components\Model\Animation\Channel">
       <UniqueIdentifier>{7e5fc024-8484-41f1-90bf-76137095b8d8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utility\Eeffect">
+      <UniqueIdentifier>{2a792715-0dde-4dc5-acee-e48f1df96640}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Eeffect\PartObject">
+      <UniqueIdentifier>{fa295033-64b7-49ad-b30f-c496cc777855}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Eeffect\Struct_Base">
+      <UniqueIdentifier>{aa5729cf-83a5-4174-ba66-88f306660652}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Eeffect\Manager">
+      <UniqueIdentifier>{5e462200-9aa6-4a4a-845b-c5a0f33541e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShaderFiles\Effect">
+      <UniqueIdentifier>{9d285381-70da-4c87-b6e6-09503f4dbaec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Graphic_Device.cpp">
@@ -479,6 +494,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\StateLayer.cpp">
       <Filter>Utility\StateMachine\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EffectContatiner.cpp">
+      <Filter>Utility\Eeffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EffectPartObject.cpp">
+      <Filter>Utility\Eeffect\PartObject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\EffectManager.cpp">
+      <Filter>Utility\Eeffect\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -743,6 +767,18 @@
     <ClInclude Include="..\Public\StateLayer.h">
       <Filter>Utility\StateMachine\Layer</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\EffectContatiner.h">
+      <Filter>Utility\Eeffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EffectPartObject.h">
+      <Filter>Utility\Eeffect\PartObject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EffectStruct.h">
+      <Filter>Utility\Eeffect\Struct_Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\EffectManager.h">
+      <Filter>Utility\Eeffect\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Cell.hlsl">
@@ -753,6 +789,12 @@
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl">
       <Filter>ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Effect_Mesh.hlsl">
+      <Filter>ShaderFiles\Effect</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Effect_Rect.hlsl">
+      <Filter>ShaderFiles\Effect</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

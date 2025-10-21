@@ -20,6 +20,7 @@
 #include "IMG_Content.h"
 #include "IMG_Create.h"
 #include "IMG_ModelConvert.h"
+#include "IMG_EffectTool.h"
 #pragma endregion
 
 
@@ -209,6 +210,9 @@ HRESULT CImgManager::Setting_Img_UI(ID3D11Device* pDevice, ID3D11DeviceContext* 
         return E_FAIL;
 
     if (FAILED(ADD_IMG_UserInterface(TEXT("IMG_ModelConvertView"), CIMG_ModelConvert::Create(pDevice, pContext))))
+        return E_FAIL;
+
+    if (FAILED(ADD_IMG_UserInterface(TEXT("IMG_EffectEditorView"), CIMG_EffectTool::Create(pDevice, pContext))))
         return E_FAIL;
 
     return S_OK;

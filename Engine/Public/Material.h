@@ -13,8 +13,8 @@ public :
 	HRESULT							Initialize(const _char* pModelFilePath, const aiMaterial* pAIMaterial);
 	HRESULT							Initialize(const _char* pModelFilePath, void* MaterialDesc);
 	
-	void							SetMaterial(_uInt iMaterialIndex, aiTextureType eType, _uInt iTextureIndex);
-	ID3D11ShaderResourceView*		GetMaterial(aiTextureType eType, _uInt iTextureIndex);
+	void							SetMaterial(_uInt iMaterialIndex, _uInt eType, _uInt iTextureIndex);
+	ID3D11ShaderResourceView*		GetMaterial(_uInt eType, _uInt iTextureIndex);
 
 	HRESULT							Export(void* pOut);
 
@@ -25,7 +25,7 @@ private :
 	char							m_MatrialName[MAX_PATH] = {};
 
 #ifdef _DEBUG
-	vector<pair<_wstring ,ID3D11ShaderResourceView*>>		m_SRVs[AI_TEXTURE_TYPE_MAX];
+	vector<pair<_wstring ,ID3D11ShaderResourceView*>>		m_SRVs[TEXTURE_TYPE_MAX];
 #elif
 	vector<ID3D11ShaderResourceView*>*		m_SRVs;
 #endif // _DEBUG

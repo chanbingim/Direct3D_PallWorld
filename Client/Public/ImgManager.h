@@ -30,11 +30,11 @@ public:
 	void							ADD_SelectObject(CGameObject* SelectObj);
 	void							Remove_SelectObject(CGameObject* SelectObj);
 
-	const list<CGameObject*>* GetSelectObjects();
+	const list<CGameObject*>*		GetSelectObjects();
 	void							ClearAllSelectObjects();
 
 	HRESULT							ADD_IMG_UserInterface(const _wstring szTag, CImgUIBase* pUserInterface);
-	CImgUIBase* Find_ImgUserInterface(const WCHAR* szUITag);
+	CImgUIBase*						Find_ImgUserInterface(const WCHAR* szUITag);
 
 	void							SetPickingPoint(_float3 vPickingPoint);
 	_float3							GetPickingPoint() { return m_MousePickingPoint; }

@@ -14,6 +14,7 @@
 #include "Pipeline.h"
 #include "LightManager.h"
 #include "FontManager.h"
+#include "EffectManager.h"
 #include "CollisionManager.h"
 #include "RenderTagetManager.h"
 #pragma endregion
@@ -81,6 +82,10 @@ HRESULT CGameInstance::Initialize_Engine(void* pArg)
 
     m_pFontManager = CFontManager::Create(*GameSetting->ppDevice, *GameSetting->ppContext);
     if (nullptr == m_pFontManager)
+        return E_FAIL;
+
+    m_pEffectManager = CEffectManager::Create(*GameSetting->ppDevice, *GameSetting->ppContext);
+    if (nullptr == m_pEffectManager)
         return E_FAIL;
 
     m_pCollisionManager = CCollisionManager::Create();
@@ -596,8 +601,63 @@ HRESULT CGameInstance::Render_RenderTargetDebug(const _wstring& strMRTTag, CShad
 {
     return m_pRenderTargetManager->Render_Debug(strMRTTag, pShader, pVIBuffer);
 }
+
 #endif // _DEBUG
 #pragma endregion
+
+#pragma region Effect Manager
+CTexture* CGameInstance::GetTextureResource(const WCHAR* TextureTag)
+{
+    return m_pEffectManager->GetTextureResource(TextureTag);
+}
+
+CShader* CGameInstance::GetShaderResource(const WCHAR* ShaderTag)
+{
+    return m_pEffectManager->GetShaderResource(ShaderTag);
+}
+
+CComponent* CGameInstance::GetModelResource(const WCHAR* ModelTag)
+{
+    return m_pEffectManager->GetModelResource(ModelTag);
+}
+
+CGameObject* CGameInstance::EffectClone_Object(_uInt iEffectType, const WCHAR* szEffectTag, void* pArg)
+{
+    return m_pEffectManager->Clone_Object(CEffectManager::EFFECT_TYPE(iEffectType), szEffectTag, pArg);
+}
+
+HRESULT CGameInstance::ADD_Effects(_uInt iEffectType, const WCHAR* szEffectTag, CGameObject* pEffect)
+{
+    return m_pEffectManager->ADD_Effects(CEffectManager::EFFECT_TYPE(iEffectType), szEffectTag, pEffect);
+}
+
+HRESULT CGameInstance::Remove_Effect(_uInt iEffectType, const WCHAR* szEffectTag)
+{
+    return m_pEffectManager->Remove_Effect(CEffectManager::EFFECT_TYPE(iEffectType), szEffectTag);
+}
+
+#pragma region _DEBUG
+map<const _wstring, CTexture*>* CGameInstance::GetALLTextureResource()
+{
+    return m_pEffectManager->GetALLTextureResource();
+}
+
+map<const _wstring, CShader*>* CGameInstance::GetALLShaderResource()
+{
+    return m_pEffectManager->GetALLShaderResource();
+}
+
+map<const _wstring, CComponent*>* CGameInstance::GetALLModelResource()
+{
+    return m_pEffectManager->GetALLModelResource();
+}
+map<const _wstring, CGameObject*>* CGameInstance::GetALLEffects(_uInt iEffectType)
+{
+    return m_pEffectManager->GetALLEffects(CEffectManager::EFFECT_TYPE(iEffectType));
+}
+#pragma endregion
+#pragma endregion
+
 
 void CGameInstance::Release_Engine()
 {
@@ -615,6 +675,7 @@ void CGameInstance::Release_Engine()
     Safe_Release(m_pSound_Manager);
     Safe_Release(m_pMouse);
     Safe_Release(m_pLightManager);
+    Safe_Release(m_pEffectManager);
     Safe_Release(m_pPipeline);
     Safe_Release(m_pGraphic_Device);
 }

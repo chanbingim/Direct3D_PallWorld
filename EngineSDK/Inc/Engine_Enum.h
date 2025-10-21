@@ -11,6 +11,35 @@ namespace Engine
 	enum class CAMERA_INFO	{ CAMERA_FOV, CAMERA_FAR, CAMERA_NEAR, END};
 	enum class OBJECT_ID	{ GAMEOBJECT, COMPONENT, END };
 
+	enum class TEXTURE_TYPE {
+		NONE = 0,
+		DIFFUSE = 1,
+		SPECULAR = 2,
+		AMBIENT = 3,
+		EMISSIVE = 4,
+		HEIGHT = 5,
+		NORMAL = 6,
+		SHININESS = 7,
+		OPACITY = 8,
+		LIGHTMAP = 10,
+		REFLECTION = 11,
+		BASE_COLOR = 12,
+		NORMAL_CAMERA = 13,
+		EMISSION_COLOR = 14,
+		METALNESS = 15,
+		ROUGHNESS = 16,
+		OCCLUSION = 17,
+	};
+
+	enum class EFFECT_TEXTURE_TYPE {
+		DIFFUSE = 0,
+		NORMAL = 1,
+		NOISE = 2,
+		MASK = 3,
+		END
+	};
+
+
 	enum class RENDER {
 		PRIORITY,
 		NONBLEND,

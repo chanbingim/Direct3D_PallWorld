@@ -146,7 +146,7 @@ void CModel::GetIndices(_uInt iMeshIndex, vector<_uInt>& Indices) const
 	m_Meshes[iMeshIndex]->GetIndices(Indices);
 }
 
-HRESULT CModel::GetMeshResource(_uInt iMeshIndex, aiTextureType eType, _uInt iTextureIndex, ID3D11ShaderResourceView** ppOut)
+HRESULT CModel::GetMeshResource(_uInt iMeshIndex, _uInt eType, _uInt iTextureIndex, ID3D11ShaderResourceView** ppOut)
 {
 	if (m_iNumMeshes <= iMeshIndex || 0 > iMeshIndex || m_Meshes.size() <= iMeshIndex)
 		return E_FAIL;

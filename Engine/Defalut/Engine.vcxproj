@@ -183,6 +183,10 @@ popd</Command>
     <ClInclude Include="..\Public\DebugDraw.h" />
     <ClInclude Include="..\Public\EditorCamera.h" />
     <ClInclude Include="..\public\CustomFont.h" />
+    <ClInclude Include="..\Public\EffectContatiner.h" />
+    <ClInclude Include="..\public\EffectManager.h" />
+    <ClInclude Include="..\Public\EffectPartObject.h" />
+    <ClInclude Include="..\Public\EffectStruct.h" />
     <ClInclude Include="..\Public\FiniteStateMachine.h" />
     <ClInclude Include="..\public\FontComponent.h" />
     <ClInclude Include="..\public\FontManager.h" />
@@ -272,6 +276,9 @@ popd</Command>
     <ClCompile Include="..\Private\DebugDraw.cpp" />
     <ClCompile Include="..\Private\EditorCamera.cpp" />
     <ClCompile Include="..\private\CustomFont.cpp" />
+    <ClCompile Include="..\Private\EffectContatiner.cpp" />
+    <ClCompile Include="..\private\EffectManager.cpp" />
+    <ClCompile Include="..\Private\EffectPartObject.cpp" />
     <ClCompile Include="..\Private\FiniteStateMachine.cpp" />
     <ClCompile Include="..\private\FontComponent.cpp" />
     <ClCompile Include="..\private\FontManager.cpp" />
@@ -327,6 +334,8 @@ popd</Command>
     <ClCompile Include="..\private\WorldFontComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="..\Bin\ShaderFiles\Effect_Mesh.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Effect_Rect.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Cell.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Deferred.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\SkyMeshDefault.hlsl" />

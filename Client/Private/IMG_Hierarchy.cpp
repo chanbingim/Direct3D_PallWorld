@@ -76,9 +76,8 @@ void CIMG_Hierarchy::Update(_float fDeletaTime)
                 }
             }
         }
-
-        ImGui::End();
     }
+    ImGui::End();
 }
 
 void CIMG_Hierarchy::Update_ParentNodes()

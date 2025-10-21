@@ -46,7 +46,7 @@ void CIMG_ModelConvert::Update(_float fDeletaTime)
 
 			m_pViewModel->Update(fDeletaTime);
 			m_pViewModel->Late_Update(fDeletaTime);
-			m_pViewModel->Render();
+			//m_pViewModel->Render();
 		}
 	}
 	ImGui::End();

@@ -11,7 +11,6 @@
 const char* CIMG_LandScape::szBrushMode[ENUM_CLASS(BRUSH_MODE::END)] = {
        "SELECT_TERRIAN", "EDIT_ENVIORNMENT", "ADD_HEGIHT", "EDIT_NAVIMESH" };
 
-
 CIMG_LandScape::CIMG_LandScape(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CImgUIBase(pDevice, pContext)
 {
