@@ -14,6 +14,8 @@ CEffectContatiner::CEffectContatiner(ID3D11Device* pDevice, ID3D11DeviceContext*
 CEffectContatiner::CEffectContatiner(const CEffectContatiner& rhs) :
 	CGameObject(rhs)
 {
+	for(auto&iter : rhs.m_PartObjects)
+		m_PartObjects.emplace(iter.first, nullptr);
 }
 
 HRESULT CEffectContatiner::Initalize_Prototype()
@@ -39,6 +41,13 @@ HRESULT CEffectContatiner::Initialize(void* pArg)
 
 void CEffectContatiner::Priority_Update(_float fDeletaTime)
 {
+	auto iter = m_PartObjects.begin();
+	if (iter != m_PartObjects.end())
+	{
+		if (nullptr == m_PartObjects.begin()->second)
+			Bind_PartObject();
+	}
+
 	for (auto& Pair : m_PartObjects)
 		Pair.second->Priority_Update(fDeletaTime);
 }
@@ -92,6 +101,9 @@ void CEffectContatiner::ExportData(void* pArg)
 	ofstream file(SaveDesc->szFilePath, flag);
 	if (file.is_open())
 	{
+		CStringHelper::ConvertWideToUTF(m_ObejctTag.c_str(), ConvertPath);
+		file << ConvertPath << endl;
+		file << m_PartObjects.size() << endl;
 		for (auto& pEffectPart : m_PartObjects)
 		{
 			CStringHelper::ConvertWideToUTF(pEffectPart.first.c_str(), ConvertPath);
@@ -126,12 +138,33 @@ HRESULT CEffectContatiner::ReadFileData(const char* szFilePath)
 	{
 		file >> ResoucePath;
 		CStringHelper::ConvertUTFToWide(ResoucePath, ConvertPath);
-		m_PartObjects.emplace(ConvertPath, nullptr);
+		m_ObejctTag = ConvertPath;
+			
+		_Int iNumPartObject = {};
+		file >> iNumPartObject;
+		
+		for (_Int i = 0; i < iNumPartObject; ++i)
+		{
+			file >> ResoucePath;
+			CStringHelper::ConvertUTFToWide(ResoucePath, ConvertPath);
+			m_PartObjects.emplace(ConvertPath, nullptr);
+		}
 	}
 	else
 		return E_FAIL;
 
 	file.close();
+	return S_OK;
+}
+
+HRESULT CEffectContatiner::Bind_PartObject()
+{
+	for (auto& iter : m_PartObjects)
+	{
+		auto pPartObject = m_pGameInstance->EffectClone_Object(ENUM_CLASS(CEffectManager::EFFECT_TYPE::PART_OBJECT), iter.first.c_str(), nullptr);
+		iter.second = pPartObject;
+	}
+
 	return S_OK;
 }
 
@@ -171,6 +204,7 @@ CGameObject* CEffectContatiner::Clone(void* pArg)
 void CEffectContatiner::Free()
 {
 	__super::Free();
+
 	for (auto& Pair : m_PartObjects)
 		Safe_Release(Pair.second);
 

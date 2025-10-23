@@ -40,6 +40,7 @@ private:
 
 private :
 	HRESULT									Setup_PellFsm();
+	
 
 	void									TargetSearchBegin(CGameObject* pSearchObject);
 	void									TargetLost(CGameObject* pSearchObject);

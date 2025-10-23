@@ -22,8 +22,16 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
+private :
+	_float									m_ProjectileSocketDistance = {};
+
 private:
 	HRESULT									ADD_Components();
+	HRESULT									Insert_AnimKeyFrameFunction();
+
+private :
+	void									EarthquakeEvent();
+	void									FarSkillEvent();
 
 public:
 	static			CGrassMommothBody*		Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

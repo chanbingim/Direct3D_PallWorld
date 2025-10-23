@@ -8,7 +8,13 @@ Texture2D       g_NoiseTexture;
 Texture2D       g_MaskTexture;
 
 vector          g_vColor;
+bool            g_bReverse;
+int             g_DistionType;
+int             g_MaskType;
+
+float           g_fLifeTime;
 float           g_fLifeAccTime;
+float           g_fNoiseStLength;
 float2          g_fDistotionAccTime;
 
 /* 정점 쉐이더 : */
@@ -46,7 +52,12 @@ VS_OUT VS_Default(VS_IN In)
     matWVP = mul(matWV, g_ProjMatrix);
     
     Out.vPosition = mul(vector(In.vPosition, 1.f), matWVP);
-    Out.vTexcoord = In.vTexcoord;
+        
+    if (g_bReverse)
+        Out.vTexcoord = -1 * In.vTexcoord;
+    else
+        Out.vTexcoord = In.vTexcoord;
+  
     Out.vNormal = normalize(mul(vector(In.vNormal, 0.f), g_WorldMatrix)).xyz;
     //Out.vTangent = normalize(mul(vector(In.vTangent, 0.f), g_WorldMatrix)).xyz;
     //Out.vBINormal = normalize(mul(vector(In.vBINormal, 0.f), g_WorldMatrix)).xyz;
@@ -84,27 +95,69 @@ struct PS_OUT
 PS_OUT PS_Default(PS_IN In)
 {
     PS_OUT Out;
+    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
+    float2 vTexcoord = In.vTexcoord;
     
-    float2 vTexCoord = In.vTexcoord + g_fDistotionAccTime;
-    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, vTexCoord);
-    vector vMaskTexture = g_MaskTexture.Sample(DefaultSampler, vTexCoord);
-    //float3x3 TangentSpaceMat = float3x3(In.vTangent, In.vBINormal * -1, In.vNormal);
-    //float3 vNormal = mul(vNoramlTexture.xyz * 2.f - 1.f, TangentSpaceMat);
-    
-    vMtrlDiffuse.a *= vMaskTexture.r;
-    vector vColor = (vMtrlDiffuse + g_vColor) * vMaskTexture;
-    if (vColor.a < 0.3f)
+    float fMask = g_MaskTexture.Sample(DefaultSampler, vTexcoord).r;
+    if (vMtrlDiffuse.a * fMask < 0.3)
         discard;
-    Out.vDiffuse = vColor;
     
-    // Out.vNormal = float4(vNormal.xyz * 0.5f + 0.5f, 0.f);
-    // Out.vDepth = float4(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1000.0f, 0.0f, 0.0f);
+    switch(g_MaskType)
+    {
+        case 0 :
+            Out.vDiffuse = (vMtrlDiffuse + g_vColor) * fMask;
+        break;
+        case 1:
+            Out.vDiffuse = (vMtrlDiffuse * g_vColor) * fMask;
+        break;
+
+    }
+  
+    return Out;
+}
+
+
+PS_OUT PS_Distotion(PS_IN In)
+{
+    PS_OUT Out;
+    
+    float2 vTexcoord = In.vTexcoord + g_fDistotionAccTime / g_fLifeTime;
+    vector vNoiseTexture = g_NoiseTexture.Sample(DefaultSampler, vTexcoord);
+    
+    switch (g_DistionType)
+    {
+        // 극좌표 왜곡
+        case 1:
+        {
+            vTexcoord = vNoiseTexture.rg - 0.5f * g_fNoiseStLength;
+            vTexcoord += In.vTexcoord;
+        }
+            break;
+        
+    }
+        
+    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, vTexcoord);
+    float fMask = g_MaskTexture.Sample(DefaultSampler, vTexcoord).r;
+    
+    if (vMtrlDiffuse.a * fMask < 0.3)
+        discard;
+    
+    switch (g_MaskType)
+    {
+        case 0:
+            Out.vDiffuse = (vMtrlDiffuse + g_vColor) * fMask;
+            break;
+        case 1:
+            Out.vDiffuse = (vMtrlDiffuse * g_vColor) * fMask;
+            break;
+    }
+    
     return Out;
 }
 
 technique11 Tech
 {
-    pass Default
+    pass Additive
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_Default, 0);
@@ -115,14 +168,14 @@ technique11 Tech
         PixelShader = compile ps_5_0 PS_Default();
     }
 
-    pass AlphaBlend
+    pass Distotion
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_Default, 0);
-        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        SetBlendState(BS_None, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_Default();
         GeometryShader = NULL;
-        PixelShader = compile ps_5_0 PS_Default();
+        PixelShader = compile ps_5_0 PS_Distotion();
     }
 }

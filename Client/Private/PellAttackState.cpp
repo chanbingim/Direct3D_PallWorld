@@ -123,7 +123,8 @@ void CPellAttackState::SkillMotionChange(_float fTimeDeleta)
         m_fAccTime += fTimeDeleta;
         if (m_fAccTime >= m_DurationTime)
         {
-            if (PELL_SKILL_TYPE::SPECIAL == m_AttackData.eSkillType)
+            if (PELL_SKILL_TYPE::SPECIAL == m_AttackData.eSkillType || 
+                PELL_SKILL_TYPE::SPECIAL_COMBO == m_AttackData.eSkillType)
                 m_iPhaseIndex++;
             else
                 m_iPhaseIndex += 2;

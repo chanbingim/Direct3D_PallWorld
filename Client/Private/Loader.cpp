@@ -23,8 +23,6 @@
 #include "BossMap.h"
 #pragma endregion
 
-
-
 #pragma region PLAYER
 #include "PlayerPartData.h"
 #include "PlayerBody.h"
@@ -131,6 +129,11 @@
 
 #pragma region PalBoxUI
 #include "PalBoxUserInterface.h"
+#pragma endregion
+
+#pragma region SKILL_OBJECT
+#include "GrassStrom.h"
+#include "Earthquake.h"
 #pragma endregion
 
 #pragma region WORKBENCH
@@ -1400,6 +1403,15 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region SKILL_OBEJCT
+	/* GAME_OBJECT_EarthQuake */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Pal_Skill_Earthquake"), CEarthquake::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_GrassStome */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Pal_Skill_GrassStrom"), CGrassStrom::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
 
 	m_strMessage = TEXT("로딩이 완료되었습니다..");
 

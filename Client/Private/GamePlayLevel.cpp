@@ -49,8 +49,8 @@ HRESULT CGamePlayLevel::Initialize()
 		return E_FAIL;
 
 
-	if (FAILED(ADD_SkyLayer(TEXT("Layer_GamePlay_SKY"))))
-		return E_FAIL;
+	//if (FAILED(ADD_SkyLayer(TEXT("Layer_GamePlay_SKY"))))
+	//	return E_FAIL;
 
 	CPlayerManager::PLAYER_MANAGER_DESC PlayerDesc;
 	PlayerDesc.iMaxInvenWeight = 1000;

@@ -23,7 +23,7 @@ public :
 	const char*				GetStateName()		{ return m_szStateName.c_str(); }
 
 	const _bool				GetStateAnimLoop()	{ return m_bStateAnimLoop; }
-	const _bool				GetLastPahse()		{ return m_iLastPhase == m_iPhaseIndex; }
+	const _bool				GetLastPahse()		{ return m_iLastPhase <= m_iPhaseIndex; }
 
 protected :
 	_string					m_szStateName;

@@ -570,8 +570,8 @@ void CPlayer::ChangeAction(_float fDeltaTime)
                             m_pNearPellBase->ResetCarryState();
                             m_pNearPellBase = nullptr;
                         }
-                        CPlayerManager::GetInstance()->SpawnSelectPell();
                     }
+                    CPlayerManager::GetInstance()->SpawnSelectPell();
                 }
             }
 #pragma endregion

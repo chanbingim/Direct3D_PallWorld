@@ -6,7 +6,7 @@ namespace Engine
 	enum class EFFECT_TYPE				{ SPRITE, MESH, END };
 	enum class EFFECT_BELND_MODE		{ DEPTHTEST, APLPHA_BLEND, END };
 
-	enum class EFFECT_DISTOTION_TYPE	{ LERP, END };
+	enum class EFFECT_DISTOTION_TYPE	{ LERP, POLAR, END };
 	enum class EFFECT_MASK_TYPE			{ ADDTIVE, MULTIPLY, DIVIDE, END };
 
 	typedef struct Effect_Network_Desc
@@ -20,6 +20,12 @@ namespace Engine
 		_float3						vRotation;
 		_float3						vScale;
 
+		_bool						bIsLerp;
+		_float3						vEndPosition;
+		_float3						vEndRotation;
+		_float3						vEndScale;
+
+		_bool						bIsReverse;
 		EFFECT_TYPE					eType;
 		EFFECT_BELND_MODE			eBlend_Mode;
 
@@ -30,7 +36,8 @@ namespace Engine
 		WCHAR						NormalTexturePath[MAX_PATH];    // 이펙트 노말 텍스처 프로토타입 이름;
 
 		// 노이즈맵이 있을때 사용
-		_float2						fUvRateTime;                    // 이펙트에서 UV를 이동하여 표현해야할때 사용
+		_float2						fUvRateTime;                   // 이펙트에서 UV를 이동하여 표현해야할때 사용
+		_float						fNoiseStength;
 		EFFECT_DISTOTION_TYPE		eDistotionType;					// 노이즈 맵등을 이용하여 텍스처를 변경할때 UV의 흐름을 결정할 타입
 		WCHAR						DistotionTexturePath[MAX_PATH]; // 이펙트 디스토션 텍스처 프로토타입 이름;
 

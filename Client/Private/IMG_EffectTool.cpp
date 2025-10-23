@@ -12,7 +12,7 @@ const char* CIMG_EffectTool::szShowType[ENUM_CLASS(IMG_EFFECT_SHOW_TYPE::END)] =
 const char* CIMG_EffectTool::szEffectTexType[ENUM_CLASS(IMG_EFFECT_TEXTURE_TYPE::END)] = { "DIFFUSE", "NORMAL", "DISTOTION", "MASK"};
 const char* CIMG_EffectTool::szEffectType[ENUM_CLASS(EFFECT_TYPE::END)] = { "SPRTIE", "MODEL" };
 const char* CIMG_EffectTool::szBlendType[ENUM_CLASS(EFFECT_BELND_MODE::END)] = { "DPETH_TEST", "ALPHA_BLEND" };
-const char* CIMG_EffectTool::szDistotionType[ENUM_CLASS(EFFECT_DISTOTION_TYPE::END)] = { "LERP" };
+const char* CIMG_EffectTool::szDistotionType[ENUM_CLASS(EFFECT_DISTOTION_TYPE::END)] = { "LERP", "POLAR"};
 const char* CIMG_EffectTool::szMaskType[ENUM_CLASS(EFFECT_MASK_TYPE::END)] = { "ADDTIVE", "MULTIPLY", "DIVIDE"};
 
 
@@ -89,20 +89,7 @@ void CIMG_EffectTool::Update(_float fDeletaTime)
 			m_pSelectObject->Late_Update(fDeletaTime);
 		}
 
-		if (ImGui::InputFloat3("EFFECT_POSITION", m_vPosition))
-		{
-			m_EffectDesc.vPosition = { m_vPosition[0], m_vPosition[1], m_vPosition[2] };
-		}
-		if (ImGui::InputFloat3("EFFECT_ROTATION", m_vRotation))
-		{
-			m_EffectDesc.vPosition = {	XMConvertToRadians(m_vRotation[0]),
-										XMConvertToRadians(m_vRotation[1]),
-										XMConvertToRadians(m_vRotation[2]) };
-		}
-		if (ImGui::InputFloat3("EFFECT_SCALE", m_vScale))
-		{
-			m_EffectDesc.vScale = { m_vScale[0], m_vScale[1], m_vScale[2] };
-		}
+	
 
 		if (ImGui::Begin("Effect_Viwer"))
 		{
@@ -158,7 +145,11 @@ void CIMG_EffectTool::Update(_float fDeletaTime)
 						{
 							CStringHelper::ConvertWideToUTF(pair.first.c_str(), m_ConvertChar);
 							if (ImGui::Selectable(m_ConvertChar, false))
-								strcpy_s(m_SelectAddPartEffect, m_ConvertChar);
+							{
+								
+									strcpy_s(m_SelectAddPartEffect, m_ConvertChar);
+							}
+								
 						}
 					}
 					ImGui::EndCombo();
@@ -248,6 +239,9 @@ void CIMG_EffectTool::EffectSelect()
 					{
 						strcpy_s(m_PreVeiwEffectObject, m_ConvertChar);
 						m_pSelectObject = pair.second;
+						auto pPartObject = static_cast<CEffectPartObject*>(m_pSelectObject);
+						m_EffectDesc = pPartObject->GetEffectPartData();
+						
 					}
 				}
 			}
@@ -297,7 +291,7 @@ void CIMG_EffectTool::EffectTextureViewer()
 {
 	if (ImGui::Begin("TEXTURE_VIEWER##EFFECT_TEXTURE_ViEWER"))
 	{
-		// 블랜드 모드
+		
 		if (ImGui::BeginCombo("TEXTURE_TYPE##EFFECT_TEXTURE_TYPE", m_SelectTextureType))
 		{
 			for (auto i = 0; i < ENUM_CLASS(IMG_EFFECT_TEXTURE_TYPE::END); ++i)
@@ -311,6 +305,27 @@ void CIMG_EffectTool::EffectTextureViewer()
 
 			ImGui::EndCombo();
 		}
+
+		// 블랜드 모드
+		if (ImGui::Button("RESET_TEXTURE_NONE"))
+		{
+			switch (m_eEffectTexType)
+			{
+			case Client::CIMG_EffectTool::IMG_EFFECT_TEXTURE_TYPE::DIFFUSE:
+				lstrcpy(m_EffectDesc.DiffuseTexturePath, TEXT("None"));
+				break;
+			case Client::CIMG_EffectTool::IMG_EFFECT_TEXTURE_TYPE::NORMAL:
+				lstrcpy(m_EffectDesc.NormalTexturePath, TEXT("None"));
+				break;
+			case Client::CIMG_EffectTool::IMG_EFFECT_TEXTURE_TYPE::DISTOTION:
+				lstrcpy(m_EffectDesc.DistotionTexturePath, TEXT("None"));
+				break;
+			case Client::CIMG_EffectTool::IMG_EFFECT_TEXTURE_TYPE::MASK:
+				lstrcpy(m_EffectDesc.MaskTexturePath, TEXT("None"));
+				break;
+			}
+		}
+
 
 		auto AllDiffuseTexture = m_pGameInstance->GetALLTextureResource();
 		_uInt iTexIndex = 0;
@@ -353,6 +368,41 @@ void CIMG_EffectTool::EffectTextureViewer()
 
 void CIMG_EffectTool::EffectDataEditor()
 {
+#pragma region Transform
+	if (ImGui::InputFloat3("EFFECT_POSITION", m_vPosition))
+	{
+		m_EffectDesc.vPosition = { m_vPosition[0], m_vPosition[1], m_vPosition[2] };
+	}
+	if (ImGui::InputFloat3("EFFECT_ROTATION", m_vRotation))
+	{
+		m_EffectDesc.vPosition = { XMConvertToRadians(m_vRotation[0]),
+									XMConvertToRadians(m_vRotation[1]),
+									XMConvertToRadians(m_vRotation[2]) };
+	}
+	if (ImGui::InputFloat3("EFFECT_SCALE", m_vScale))
+	{
+		m_EffectDesc.vScale = { m_vScale[0], m_vScale[1], m_vScale[2] };
+	}
+#pragma endregion
+
+#pragma region Lerp
+	ImGui::Checkbox("EFFECT_LERF_TRANSFORM", &m_EffectDesc.bIsLerp);
+	if (ImGui::InputFloat3("EFFECT_LERP_END_POSITION", m_vLerpEndPosition))
+	{
+		m_EffectDesc.vEndPosition = { m_vLerpEndPosition[0], m_vLerpEndPosition[1], m_vLerpEndPosition[2] };
+	}
+	if (ImGui::InputFloat3("EFFECT_LERP_END_ROTATION", m_vLerpEndRotation))
+	{
+		m_EffectDesc.vEndPosition = { XMConvertToRadians(m_vLerpEndRotation[0]),
+									  XMConvertToRadians(m_vLerpEndRotation[1]),
+									  XMConvertToRadians(m_vLerpEndRotation[2]) };
+	}
+	if (ImGui::InputFloat3("EFFECT_LERP_END_SCALE", m_vLerpEndScale))
+	{
+		m_EffectDesc.vEndScale = { m_vLerpEndScale[0], m_vLerpEndScale[1], m_vLerpEndScale[2] };
+	}
+#pragma endregion
+
 	//이펙트 타입
 	if (ImGui::BeginCombo("TYPE##EFFECT_TYPE", m_SelectType))
 	{
@@ -427,6 +477,8 @@ void CIMG_EffectTool::EffectDataEditor()
 	CStringHelper::ConvertWideToUTF(m_EffectDesc.NormalTexturePath, m_ConvertChar);
 	ImGui::Text(m_ConvertChar);
 
+	ImGui::DragFloat("NoiseStrength##EFFECT_NOSIE_STRENGTH", &m_EffectDesc.fNoiseStength, 0.01, -1.0f, 1.0f);
+
 	if (ImGui::DragFloat2("UV_Rate_Time##EFFECT_NOSIE_SPEED", m_UVRatetime, 0.01, -1.0f, 1.0f))
 	{
 		m_EffectDesc.fUvRateTime = { m_UVRatetime[0], m_UVRatetime[1] };
@@ -449,6 +501,7 @@ void CIMG_EffectTool::EffectDataEditor()
 	CStringHelper::ConvertWideToUTF(m_EffectDesc.DistotionTexturePath, m_ConvertChar);
 	ImGui::Text(m_ConvertChar);
 
+	ImGui::Checkbox("REVERSE_MASK_TEXTURE##EFFECT_REVERSE_MASK_TEX", &m_EffectDesc.bIsReverse);
 	// 블랜드 모드
 	if (ImGui::BeginCombo("MASK_MODE##EFFECT_MASK_MODE", m_SelectMaskMode))
 	{
@@ -486,4 +539,6 @@ CIMG_EffectTool* CIMG_EffectTool::Create(ID3D11Device* pDevice, ID3D11DeviceCont
 void CIMG_EffectTool::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_pModelCamera);
 }

@@ -35,5 +35,6 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   
   compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\WorldUI.cso
   IMG_EffectTool.cpp
-C:\Git\GitHub\Direct3D_PallWorld\Client\private\IMG_EffectTool.cpp(430,74): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\IMG_EffectTool.cpp(480,88): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\IMG_EffectTool.cpp(482,74): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
   Direct11_FrameWork.vcxproj -> C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe

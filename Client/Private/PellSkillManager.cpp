@@ -34,7 +34,7 @@ HRESULT CPellSkillManager::LoadCSVPellSkillData(const char* szFilePath)
     PAL_SKILL_NETWORK_DATA Desc;
 
     WCHAR ConvertName[MAX_PATH] = {};
-    for (size_t i = 9; i < LoadData.size();)
+    for (size_t i = 12; i < LoadData.size();)
     {
         Desc.iSkillID = atoi(LoadData[i++].c_str());
         strcpy_s(Desc.szSkillName, LoadData[i++].c_str());
@@ -45,6 +45,9 @@ HRESULT CPellSkillManager::LoadCSVPellSkillData(const char* szFilePath)
         Desc.fStartDurationTime = atoi(LoadData[i++].c_str());
         Desc.fSkillDurationTime = atoi(LoadData[i++].c_str());
         Desc.fAfterStateDelay = atoi(LoadData[i++].c_str());
+        Desc.bIsProjectTile = atoi(LoadData[i++].c_str());
+        Desc.eSkillDamageType = PELL_SKILL_DAMAGE_TYPE(atoi(LoadData[i++].c_str()));
+        Desc.fTickDamageTime = atoi(LoadData[i++].c_str());
         Desc.eSkillType = PELL_SKILL_TYPE(atoi(LoadData[i++].c_str()));
         m_PellSkillDatas.emplace(Desc.iSkillID, Desc);
     }

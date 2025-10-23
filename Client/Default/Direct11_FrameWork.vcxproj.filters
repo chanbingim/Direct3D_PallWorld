@@ -983,6 +983,15 @@
     <Filter Include="07. Effect\Sprite Effect">
       <UniqueIdentifier>{6d5f3057-2fc2-4442-8b4f-796d1a563420}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Objects\Skill">
+      <UniqueIdentifier>{b8eb154d-e72c-4868-a650-2eadaf31d613}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\Skill\EarthQuake">
+      <UniqueIdentifier>{99baa60f-a770-4937-b606-9f543f1416cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\Skill\GrassStrom">
+      <UniqueIdentifier>{191b8e9f-3aab-488d-8049-238e9b53a62c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -1810,6 +1819,15 @@
     <ClInclude Include="..\public\BossMap.h">
       <Filter>03. Objects\MeshObject\NonAnimMesh\Map\BossStage</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Earthquake.h">
+      <Filter>03. Objects\Skill\EarthQuake</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\GrassStrom.h">
+      <Filter>03. Objects\Skill\GrassStrom</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\SkillObjectBase.h">
+      <Filter>03. Objects\Skill</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -2613,6 +2631,15 @@
     </ClCompile>
     <ClCompile Include="..\private\BossMap.cpp">
       <Filter>03. Objects\MeshObject\NonAnimMesh\Map\BossStage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Earthquake.cpp">
+      <Filter>03. Objects\Skill\EarthQuake</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\GrassStrom.cpp">
+      <Filter>03. Objects\Skill\GrassStrom</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\SkillObjectBase.cpp">
+      <Filter>03. Objects\Skill</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

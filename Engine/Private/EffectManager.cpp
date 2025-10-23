@@ -33,6 +33,8 @@ HRESULT CEffectManager::Initalize()
 
 	if (FAILED(LoadContainerEffect()))
 		return E_FAIL;
+
+	return S_OK;
 }
 
 CTexture* CEffectManager::GetTextureResource(const WCHAR* TextureTag)
@@ -256,6 +258,8 @@ CEffectManager* CEffectManager::Create(ID3D11Device* pDevice, ID3D11DeviceContex
 
 void CEffectManager::Free()
 {
+	__super::Free();
+
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
 
@@ -271,7 +275,7 @@ void CEffectManager::Free()
 		Safe_Release(pair.second);
 	m_pVIBuffers.clear();
 
-	for (_uInt i = 0; i < 2; ++i)
+	for (_uInt i = 0; i < ENUM_CLASS(EFFECT_TYPE::END); ++i)
 	{
 		for (auto& pair : m_pEffects[i])
 			Safe_Release(pair.second);

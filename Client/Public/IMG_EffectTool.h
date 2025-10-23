@@ -71,6 +71,10 @@ private:
 	_float										m_vRotation[3] = {};
 	_float										m_vScale[3] = {};
 
+	_float										m_vLerpEndPosition[3] = {};
+	_float										m_vLerpEndRotation[3] = {};
+	_float										m_vLerpEndScale[3] = {};
+
 
 private:
 	HRESULT										ADD_ModelViewCameraLayer();

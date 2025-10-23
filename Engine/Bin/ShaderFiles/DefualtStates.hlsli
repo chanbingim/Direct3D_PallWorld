@@ -9,6 +9,21 @@ sampler DefaultSampler = sampler_state
     AddressV = WRAP;
 };
 
+sampler ClampSampler = sampler_state
+{
+    filter = MIN_MAG_MIP_LINEAR;
+    AddressU = CLAMP;
+    AddressV = CLAMP;
+};
+
+sampler MirrorSampler = sampler_state
+{
+    filter = MIN_MAG_MIP_LINEAR;
+    AddressU = MIRROR;
+    AddressV = MIRROR;
+};
+
+
 RasterizerState RS_Default
 {
     FillMode = Solid;

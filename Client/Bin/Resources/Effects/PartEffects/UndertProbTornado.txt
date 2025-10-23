@@ -1,0 +1,21 @@
+Under_Tornado
+0 0 0 
+-0 0 0 
+8 5 8 
+1
+0
+1
+0
+T_Splash.png
+None
+1 0
+1
+0
+T_Default_Noise05.png
+0
+0
+T_Wind01.png
+Effect_Model_Shader
+SphereTrail.fbx
+1 1 1 1
+1

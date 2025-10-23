@@ -37,8 +37,6 @@ public:
 	void													Remove_EffectPartObject(const WCHAR* EffectPartTag);
 	virtual void											ExportData(void* pArg) override;
 #endif // _DEBUG
-
-
 	CGameObject*											FindPartObject(const WCHAR* szTag);
 	const 	unordered_map<_wstring, CGameObject*>*			GetAllPartObejcts() { return &m_PartObjects; }
 
@@ -48,6 +46,7 @@ protected:
 
 protected :
 	HRESULT													ReadFileData(const char* szFilePath);
+	HRESULT													Bind_PartObject();
 
 public:
 	static			CEffectContatiner*						Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
