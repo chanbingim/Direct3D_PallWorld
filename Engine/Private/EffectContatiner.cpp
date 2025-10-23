@@ -36,17 +36,19 @@ HRESULT CEffectContatiner::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	return S_OK;
-}
-
-void CEffectContatiner::Priority_Update(_float fDeletaTime)
-{
 	auto iter = m_PartObjects.begin();
 	if (iter != m_PartObjects.end())
 	{
 		if (nullptr == m_PartObjects.begin()->second)
 			Bind_PartObject();
 	}
+
+	return S_OK;
+}
+
+void CEffectContatiner::Priority_Update(_float fDeletaTime)
+{
+	
 
 	for (auto& Pair : m_PartObjects)
 		Pair.second->Priority_Update(fDeletaTime);
@@ -60,6 +62,7 @@ void CEffectContatiner::Update(_float fDeletaTime)
 
 void CEffectContatiner::Late_Update(_float fDeletaTime)
 {
+	ComputeCombinedMatrix();
 	for (auto& Pair : m_PartObjects)
 		Pair.second->Late_Update(fDeletaTime);
 }
@@ -162,10 +165,25 @@ HRESULT CEffectContatiner::Bind_PartObject()
 	for (auto& iter : m_PartObjects)
 	{
 		auto pPartObject = m_pGameInstance->EffectClone_Object(ENUM_CLASS(CEffectManager::EFFECT_TYPE::PART_OBJECT), iter.first.c_str(), nullptr);
+		pPartObject->SetParent(this);
 		iter.second = pPartObject;
 	}
 
 	return S_OK;
+}
+
+void CEffectContatiner::ComputeCombinedMatrix()
+{
+	if (m_pParent)
+	{
+		_matrix ParentWorldMat = XMLoadFloat4x4(&m_pParent->GetTransform()->GetWorldMat());
+		for (_uInt i = 0; i < 3; i++)
+			ParentWorldMat.r[i] = XMVector3Normalize(ParentWorldMat.r[i]);
+
+		XMStoreFloat4x4(&m_CombinedMatrix, XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()) * ParentWorldMat);
+	}
+	else
+		m_CombinedMatrix = m_pTransformCom->GetWorldMat();
 }
 
 CEffectContatiner* CEffectContatiner::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -193,7 +211,7 @@ CEffectContatiner* CEffectContatiner::Create(ID3D11Device* pDevice, ID3D11Device
 CGameObject* CEffectContatiner::Clone(void* pArg)
 {
 	CEffectContatiner* pEffectPartObject = new CEffectContatiner(*this);
-	if (FAILED(pEffectPartObject->Initalize_Prototype()))
+	if (FAILED(pEffectPartObject->Initialize(pArg)))
 	{
 		Safe_Release(pEffectPartObject);
 		MSG_BOX("CREAT FAIL : EFFECT PARTOBJECT");

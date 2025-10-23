@@ -1,0 +1,25 @@
+Electirc_Ball_Part3
+0 0 0 
+-0 0 0 
+0.8 0.8 0.8 
+0
+0 0 0 
+0 0 0 
+0 0 0 
+1
+0
+1
+0
+T_Thunder01.png
+
+0.19 -0.2
+0
+1
+T_Default_Noise05.png
+0
+0
+T_Nhance_WinterForest_Snow_Diffuse.png
+Effect_Model_Shader
+Sphere.fbx
+0.0901961 0.254902 1 1
+1

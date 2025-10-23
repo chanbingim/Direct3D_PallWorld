@@ -86,7 +86,7 @@ HRESULT CGrassMommothBody::ADD_Components()
 HRESULT CGrassMommothBody::Insert_AnimKeyFrameFunction()
 {
     m_pVIBufferCom->Bind_KeyFrameFunction("Earthquake", 56, [this]() { EarthquakeEvent(); });
-    m_pVIBufferCom->Bind_KeyFrameFunction("FarSkill_ActionLoop", 11, [this]() { FarSkillEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("FarSkill_ActionLoop", 3, [this]() { FarSkillEvent(); });
 
     return S_OK;
 }

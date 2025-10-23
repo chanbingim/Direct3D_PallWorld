@@ -4,7 +4,6 @@
 #include "PellSkillStruct.h"
 
 NS_BEGIN(Engine)
-class CEffectContatiner;
 class CCollision;
 NS_END
 
@@ -46,7 +45,7 @@ protected:
 	_bool									m_bIsHitTick = {};
 
 	CCollision*								m_pCollision = nullptr;
-	list<CEffectContatiner*>				m_pSkillEffects = {};
+	list<CGameObject*>						m_pSkillEffects = {};
 
 private :
 	virtual			void					HitOverlapEvent(_float3 vDir, CGameObject* pHitObject);

@@ -1,0 +1,25 @@
+Electirc_Ball_Part2
+0 0 0 
+-0 0 0 
+1 1 1 
+0
+0 0 0 
+0 0 0 
+0 0 0 
+1
+0
+1
+0
+T_Aura01.png
+
+0.03 0.59
+0
+0
+
+0
+0
+T_Thunder06.png
+Effect_Model_Shader
+Sphere.fbx
+1 0.988235 1 1
+1

@@ -32,6 +32,7 @@ public:
 	// ·£´õ
 	virtual		HRESULT										Render() override;
 
+	const _float4x4*										GetCombinedMatPtr() { return &m_CombinedMatrix; }
 #ifdef _DEBUG
 	void													ADD_EffectPartObject(const wstring& EffectPartTag, void* pArg);
 	void													Remove_EffectPartObject(const WCHAR* EffectPartTag);
@@ -41,12 +42,17 @@ public:
 	const 	unordered_map<_wstring, CGameObject*>*			GetAllPartObejcts() { return &m_PartObjects; }
 
 protected:
-	const _float4x4*										m_SocketMatrix = nullptr;
 	unordered_map<_wstring, CGameObject*>					m_PartObjects;
 
 protected :
 	HRESULT													ReadFileData(const char* szFilePath);
 	HRESULT													Bind_PartObject();
+
+private :
+	_float4x4												m_CombinedMatrix = {};
+
+private :
+	void													ComputeCombinedMatrix();
 
 public:
 	static			CEffectContatiner*						Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

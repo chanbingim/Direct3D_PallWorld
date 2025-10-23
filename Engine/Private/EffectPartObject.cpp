@@ -1,6 +1,7 @@
 #include "EffectPartObject.h"
 
 #include "GameInstance.h"
+#include "EffectContatiner.h"
 #include "StringHelper.h"
 
 CEffectPartObject::CEffectPartObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
@@ -180,14 +181,14 @@ void CEffectPartObject::ExportData(void* pArg)
 
         _float3 vRotation = m_pTransformCom->GetRotation();
         file << vRotation.x << " " << vRotation.y << " " << vRotation.z << " " << endl;
+        
+        _float3 vScale = m_pTransformCom->GetScale();
+        file << vScale.x << " " << vScale.y << " " << vScale.z << " " << endl;
 
         file << m_EffectData.bIsLerp << endl;
         file << m_EffectData.vEndPosition.x << " " << m_EffectData.vEndPosition.y << " " << m_EffectData.vEndPosition.z << " " << endl;
         file << m_EffectData.vEndRotation.x << " " << m_EffectData.vEndRotation.y << " " << m_EffectData.vEndRotation.z << " " << endl;
         file << m_EffectData.vEndScale.x << " " << m_EffectData.vEndScale.y << " " << m_EffectData.vEndScale.z << " " << endl;
-
-        _float3 vScale = m_pTransformCom->GetScale();
-        file << vScale.x << " " << vScale.y << " " << vScale.z << " " << endl;
 
         file << ENUM_CLASS(m_EffectData.eType) << endl;
         file << ENUM_CLASS(m_EffectData.eBlend_Mode) << endl;
@@ -288,7 +289,7 @@ void CEffectPartObject::UpdateCombinedMatrix()
 {
     if (m_pParent)
     {
-        _matrix vParentMatrix = XMLoadFloat4x4(&m_pParent->GetTransform()->GetWorldMat());
+        _matrix vParentMatrix = XMLoadFloat4x4(static_cast<CEffectContatiner*>(m_pParent)->GetCombinedMatPtr());
         XMStoreFloat4x4(&m_CombinedWorldMatrix, XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()) * vParentMatrix);
     }
     else
