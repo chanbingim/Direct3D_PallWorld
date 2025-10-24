@@ -131,7 +131,7 @@ void CRenderer::Render()
     Render_Blend();
     DrawPosTex();
 
-   // Render_ScreenUI();
+    Render_ScreenUI();
 
 #ifdef _DEBUG
     if(m_bIsShowRenderTarget)

@@ -69,17 +69,17 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     }
     g_hInstance = hInstance;
 
-#ifdef _DEBUG
-    MyRegisterClass_Debug(g_hInstance_Debug);
-
-    // 애플리케이션 초기화를 수행합니다:
-    if (!InitInstance_Debug(g_hInstance_Debug, nCmdShow))
-    {
-        return FALSE;
-    }
-    g_hInstance_Debug = hInstance;
-
-#endif // _DEBUG
+//#ifdef _DEBUG
+//    MyRegisterClass_Debug(g_hInstance_Debug);
+//
+//    // 애플리케이션 초기화를 수행합니다:
+//    if (!InitInstance_Debug(g_hInstance_Debug, nCmdShow))
+//    {
+//        return FALSE;
+//    }
+//    g_hInstance_Debug = hInstance;
+//
+//#endif // _DEBUG
 
     //1. 초기화
     CMainApp* game = CMainApp::Create();
