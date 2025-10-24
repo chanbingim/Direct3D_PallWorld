@@ -78,9 +78,20 @@ inline float2 SliceUV(float2 vBaseUV, float fRatio, float2 vSliceCount)
 {
     float2 vOut = vBaseUV;
     
-    float2 vSliceIndex = { 1 / vSliceCount.x, 1 / vSliceCount.y };
-    vOut.x = fRatio % vSliceIndex.x;
-    vOut.y = fRatio / vSliceIndex.x;
+    float2 vSliceSize = 1.0 / vSliceCount;
+    
+    // 전체 슬라이스 개수
+    float totalSlices = vSliceCount.x * vSliceCount.y;
+
+    // 현재 슬라이스 인덱스 (0 ~ totalSlices-1)
+    float fFrame = floor(fRatio * totalSlices);
+    
+      // 슬라이스 위치 (x, y)
+    float sliceX = fmod(fFrame, vSliceCount.x);
+    float sliceY = floor(fFrame / vSliceCount.x);
+
+    vOut.x = (vBaseUV.x * vSliceSize.x) + (sliceX * vSliceSize.x);
+    vOut.y = (vBaseUV.y * vSliceSize.y) + (sliceY * vSliceSize.y);
     
     return vOut;
 }
@@ -93,7 +104,7 @@ inline float ComputeAlpha(float4 vBaseColor, float fTime, int iType, float2 vTex
     {
         case 0 :
             {
-                float flength = length(vTexcrood - float2(0.f, 0.f));
+                float flength = length(vTexcrood - float2(0.5f, 0.5f));
                 if (fTime <= flength)
                     vBaseColor.a = 0.f;
             }
@@ -101,9 +112,9 @@ inline float ComputeAlpha(float4 vBaseColor, float fTime, int iType, float2 vTex
         
         case 1:
             {
-                vBaseColor = -0.5f;
-                float flength = length(vTexcrood - float2(0.f, 0.f));
-                if (fTime <= flength)
+                vTexcrood -= 0.5f;
+                float flength = length(vTexcrood);
+                if (fTime >= flength)
                     vBaseColor.a = 0.f;
             }
             break;
@@ -112,6 +123,6 @@ inline float ComputeAlpha(float4 vBaseColor, float fTime, int iType, float2 vTex
             break;
     }
     
-    vOut = vBaseColor;
+    vOut = vBaseColor.a;
     return vOut;
 }

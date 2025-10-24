@@ -1,39 +1,4 @@
-﻿FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ButtonShader.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\MouseShader.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ShaderFiles\MutipleBlend.hlsl(79,5-41): warning X3206: implicit truncation of vector type
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\MutipleBlend.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ProgressBar.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\SelectTriShader.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\TestShader.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_AnimMesh.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_InstnaceMesh.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ShaderFiles\VTX_Mesh.hlsl(129,22-32): warning X3578: Output value 'PS_ModelPreview' is not completely initialized
-C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ShaderFiles\VTX_Mesh.hlsl(137,21-42): warning X3578: Output value 'PS_ModelCreate' is not completely initialized
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_Mesh.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_NorTex.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\WorldUI.cso
-  imgui.cpp
-  imgui_draw.cpp
-  Direct11_FrameWork.vcxproj -> C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe
+﻿  IMG_EffectTool.cpp
+C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\IMG_EffectTool.cpp(496,88): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\private\IMG_EffectTool.cpp(498,74): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+  Direct11_FrameWork.vcxproj -> C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe

@@ -24,7 +24,7 @@ HRESULT CRenderer::Initialize()
 
     /* ÈÄÃ³¸® ½¦ÀÌµùÀ» À§ÇÑ ·»´õÅ¸°ÙµéÀ» ÁØºñÇÏ³®. */
     /* Target_Diffuse */
-    if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Diffuse"), Viewport.Width, Viewport.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.0f, 0.f, 0.f, 0.f))))
+    if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Diffuse"), Viewport.Width, Viewport.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.0f, 0.f, 0.f, 1.f))))
         return E_FAIL;
 
     /* Target_Normal */
@@ -44,7 +44,7 @@ HRESULT CRenderer::Initialize()
         return E_FAIL;
 
     /* Target_Blur */
-    if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Blur"), Viewport.Width, Viewport.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.0f, 0.0f, 1.0f, 1.0f))))
+    if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Blur"), Viewport.Width, Viewport.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.0f, 0.0f, 0.0f, 0.0f))))
         return E_FAIL;
 
     /* Target_Blur_X */
@@ -98,7 +98,7 @@ HRESULT CRenderer::Initialize()
         return E_FAIL;
     if (FAILED(m_pGameInstance->Ready_RenderTargetDebug(TEXT("Target_Shade"), 450.0f, 150.0f, 300.f, 300.f)))
         return E_FAIL;
-    if (FAILED(m_pGameInstance->Ready_RenderTargetDebug(TEXT("Target_Specular"), 450.0f, 450.0f, 300.f, 300.f)))
+    if (FAILED(m_pGameInstance->Ready_RenderTargetDebug(TEXT("Target_Blur"), 450.0f, 450.0f, 300.f, 300.f)))
         return E_FAIL;
 #endif
 

@@ -284,7 +284,7 @@ void CIMG_EffectTool::EffectViewer()
 	// 랜더 타겟을 이용해 내가 원하는 시점에서 보게끔
 	ImVec2 DrawSize = ImGui::GetContentRegionAvail();
 	_uInt iRenderTargetNum = m_pGameInstance->GetRenderTargetNum();
-	ImGui::Image(m_pGameInstance->Get_RenderTargetSRV(TEXT("Target_Blur")), DrawSize, { 0, 0 }, { 1, 1 }, { 1, 1, 1, 1 }, {0, 0, 0, 1});
+	ImGui::Image(m_pGameInstance->Get_RenderTargetSRV(TEXT("Target_Blur")), DrawSize);
 }
 
 void CIMG_EffectTool::EffectTextureViewer()

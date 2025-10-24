@@ -78,7 +78,7 @@ void CEffectPartObject::Update(_float fDeletaTime)
 
     if (m_EffectData.bIsLerp)
     {
-        if (0 <= m_EffectData.fLifeTime)
+        if (0 == m_EffectData.fLifeTime)
             return;
 
         _float fRatio = m_fLifeAccTime / m_EffectData.fLifeTime;
@@ -102,7 +102,7 @@ void CEffectPartObject::Late_Update(_float fDeletaTime)
     UpdateCombinedMatrix();
     
     if (m_pShaderCom && m_pVIBufferCom)
-        m_pGameInstance->Add_RenderGroup(RENDER::BLUR, this);
+        m_pGameInstance->Add_RenderGroup(RENDER::NONLIGHT, this);
 }
 
 HRESULT CEffectPartObject::Render()
@@ -128,7 +128,7 @@ HRESULT CEffectPartObject::Render()
     {
         auto pVIBuffer = static_cast<CVIBuffer_Rect*>(m_pVIBufferCom);
         Apply_ConstantShaderResources();
-        m_pShaderCom->Update_Shader(0);
+        m_pShaderCom->Update_Shader(ShaderIndex);
         pVIBuffer->Render_VIBuffer();
     }
 
@@ -257,6 +257,7 @@ HRESULT CEffectPartObject::Apply_ConstantShaderResources()
     m_pShaderCom->Bind_RawValue("g_bIsLerp", &m_EffectData.bIsLerp, sizeof(_bool));
     m_pShaderCom->Bind_RawValue("g_vColor", &m_EffectData.vColor, sizeof(_float4));
     m_pShaderCom->Bind_RawValue("g_fLifeTime", &m_EffectData.fLifeTime, sizeof(_float));
+    m_pShaderCom->Bind_RawValue("g_vSlice", &m_EffectData.vSlice, sizeof(_float2));
     m_pShaderCom->Bind_RawValue("g_DistionType", &m_EffectData.eDistotionType, sizeof(_uInt));
     m_pShaderCom->Bind_RawValue("g_AlphaLerpType", &m_EffectData.eAlphaType, sizeof(_uInt));
     m_pShaderCom->Bind_RawValue("g_MaskType", &m_EffectData.eMaskType, sizeof(_uInt));

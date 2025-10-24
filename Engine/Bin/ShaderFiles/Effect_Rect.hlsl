@@ -93,7 +93,7 @@ PS_OUT PS_Distotion(PS_IN In)
     vTexcoord = ComputeUV(vNoiseTexture.rg, true, 0, 0) * g_fNoiseStLength;
     
     vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, vTexcoord);
-    vMtrlDiffuse = ComputeColor(vMtrlDiffuse, g_vColor, g_MaskType);
+    vMtrlDiffuse = ComputeColor(vMtrlDiffuse, g_vColor, 1);
     
     float fMask = g_MaskTexture.Sample(DefaultSampler, vTexcoord).r;
     vMtrlDiffuse.a *= fMask;
@@ -119,16 +119,16 @@ PS_OUT PS_Distotion(PS_IN In)
 PS_OUT PS_SpriteDefault(PS_IN In)
 {
     PS_OUT Out;
-    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
-    vMtrlDiffuse = ComputeColor(vMtrlDiffuse, g_vColor, g_MaskType);
     
     float2 vMaskTexCoord = In.vTexcoord;
     if(1 == g_MaskType)
     {
-        float2 vSliceIndex = { 1 / g_vSlice.x, 1 / g_vSlice.y };
-        vMaskTexCoord = SliceUV(vMaskTexCoord, g_fLifeAccTime / g_fLifeTime, vSliceIndex);
+        vMaskTexCoord = SliceUV(vMaskTexCoord, g_fLifeAccTime / g_fLifeTime, g_vSlice);
     }
    
+    vector vMtrlDiffuse = g_DiffuseTexture.Sample(ClampSampler, vMaskTexCoord);
+    vMtrlDiffuse = ComputeColor(vMtrlDiffuse, g_vColor, 1);
+    
     float fMask = g_MaskTexture.Sample(DefaultSampler, vMaskTexCoord).r;
     vMtrlDiffuse.a *= fMask;
     
@@ -172,7 +172,7 @@ technique11 Tech
     pass Additive
     {
         SetRasterizerState(RS_Default);
-        SetDepthStencilState(DSS_Effect, 0);
+        SetDepthStencilState(DSS_Default, 0);
         SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_Default();
