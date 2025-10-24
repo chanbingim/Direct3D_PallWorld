@@ -1,0 +1,27 @@
+1
+0 0 0 
+0 0 0
+1 1 1
+1
+0 0 0 
+0 0 0 
+2 2 2 
+0
+0
+1
+0.6
+T_Burst01.png
+None
+0 0
+-0.43
+0
+None
+0
+0
+0 0
+1
+T_Hit_03.png
+Effect_VIRect_Shader
+VI_Rect
+0.903979 0.931373 0 1
+1

@@ -342,6 +342,7 @@ popd</Command>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Bin\ShaderFiles\DefualtStates.hlsli" />
+    <None Include="..\Bin\ShaderFiles\EffectDefualtHeader.hlsli" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

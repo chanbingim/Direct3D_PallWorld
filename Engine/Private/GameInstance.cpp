@@ -117,6 +117,7 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
     if (m_bIsPause)
         fTimeDelta = 0.f;
 
+   
 #ifdef _DEBUG
     m_pTimer_Manager->Get_TimeDelta(TEXT("PriorityUpdate_Loop"));
 #endif // _DEBUG
@@ -584,6 +585,11 @@ HRESULT CGameInstance::Begin_MRT(const _wstring& strMRTTag)
 HRESULT CGameInstance::End_MRT()
 {
     return m_pRenderTargetManager->End_MRT();
+}
+
+ID3D11ShaderResourceView* CGameInstance::Get_RenderTargetSRV(const _wstring& strMRTTag)
+{
+    return m_pRenderTargetManager->GetRenderTargetRSV(strMRTTag);
 }
 
 HRESULT CGameInstance::Bind_RenderTarget(const _wstring& strTargetTag, CShader* pShader, const _char* pConstantName)

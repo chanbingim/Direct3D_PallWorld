@@ -983,14 +983,23 @@
     <Filter Include="07. Effect\Sprite Effect">
       <UniqueIdentifier>{6d5f3057-2fc2-4442-8b4f-796d1a563420}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Objects\Skill">
+    <Filter Include="07. Effect\Mesh Effect\Skill">
       <UniqueIdentifier>{b8eb154d-e72c-4868-a650-2eadaf31d613}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Objects\Skill\EarthQuake">
+    <Filter Include="07. Effect\Mesh Effect\Skill\EarthQuake">
       <UniqueIdentifier>{99baa60f-a770-4937-b606-9f543f1416cb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Objects\Skill\GrassStrom">
+    <Filter Include="07. Effect\Mesh Effect\Skill\GrassStrom">
       <UniqueIdentifier>{191b8e9f-3aab-488d-8049-238e9b53a62c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Effect\Mesh Effect\Skill\ElectricBall">
+      <UniqueIdentifier>{e03941ac-ba4c-48af-bdb0-9c173fc45617}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Effect\Sprite Effect\Trail">
+      <UniqueIdentifier>{98ec4144-ca71-4491-b8ca-cfe262d8e388}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Effect\Sprite Effect\Hit">
+      <UniqueIdentifier>{8192b194-f47b-4902-ac80-37f7d2f460e4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1820,13 +1829,25 @@
       <Filter>03. Objects\MeshObject\NonAnimMesh\Map\BossStage</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Earthquake.h">
-      <Filter>03. Objects\Skill\EarthQuake</Filter>
+      <Filter>07. Effect\Mesh Effect\Skill\EarthQuake</Filter>
     </ClInclude>
     <ClInclude Include="..\public\GrassStrom.h">
-      <Filter>03. Objects\Skill\GrassStrom</Filter>
+      <Filter>07. Effect\Mesh Effect\Skill\GrassStrom</Filter>
     </ClInclude>
     <ClInclude Include="..\public\SkillObjectBase.h">
-      <Filter>03. Objects\Skill</Filter>
+      <Filter>07. Effect\Mesh Effect\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ElectricBall.h">
+      <Filter>07. Effect\Mesh Effect\Skill\ElectricBall</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TrailEffect.h">
+      <Filter>07. Effect\Sprite Effect\Trail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\HitEffect.h">
+      <Filter>07. Effect\Sprite Effect\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\SpriteEffect.h">
+      <Filter>07. Effect\Sprite Effect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2633,13 +2654,25 @@
       <Filter>03. Objects\MeshObject\NonAnimMesh\Map\BossStage</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Earthquake.cpp">
-      <Filter>03. Objects\Skill\EarthQuake</Filter>
+      <Filter>07. Effect\Mesh Effect\Skill\EarthQuake</Filter>
     </ClCompile>
     <ClCompile Include="..\private\GrassStrom.cpp">
-      <Filter>03. Objects\Skill\GrassStrom</Filter>
+      <Filter>07. Effect\Mesh Effect\Skill\GrassStrom</Filter>
     </ClCompile>
     <ClCompile Include="..\private\SkillObjectBase.cpp">
-      <Filter>03. Objects\Skill</Filter>
+      <Filter>07. Effect\Mesh Effect\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ElectricBall.cpp">
+      <Filter>07. Effect\Mesh Effect\Skill\ElectricBall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TrailEffect.cpp">
+      <Filter>07. Effect\Sprite Effect\Trail</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\HitEffect.cpp">
+      <Filter>07. Effect\Sprite Effect\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\SpriteEffect.cpp">
+      <Filter>07. Effect\Sprite Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

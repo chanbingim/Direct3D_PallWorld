@@ -13,7 +13,9 @@ const char* CIMG_EffectTool::szEffectTexType[ENUM_CLASS(IMG_EFFECT_TEXTURE_TYPE:
 const char* CIMG_EffectTool::szEffectType[ENUM_CLASS(EFFECT_TYPE::END)] = { "SPRTIE", "MODEL" };
 const char* CIMG_EffectTool::szBlendType[ENUM_CLASS(EFFECT_BELND_MODE::END)] = { "DPETH_TEST", "ALPHA_BLEND" };
 const char* CIMG_EffectTool::szDistotionType[ENUM_CLASS(EFFECT_DISTOTION_TYPE::END)] = { "LERP", "POLAR"};
-const char* CIMG_EffectTool::szMaskType[ENUM_CLASS(EFFECT_MASK_TYPE::END)] = { "ADDTIVE", "MULTIPLY", "DIVIDE"};
+const char* CIMG_EffectTool::szMaskMixType[ENUM_CLASS(EFFECT_MASK_TYPE::END)] = { "ADDTIVE", "MULTIPLY" };
+const char* CIMG_EffectTool::szMaskType[ENUM_CLASS(EFFECT_MASK_MIX_TYPE::END)] = { "DEFAULT", "SLICE" };
+const char* CIMG_EffectTool::szAlphaLerpType[ENUM_CLASS(EFFECT_MASK_MIX_TYPE::END)] = { "DEFAULT", "CENTER" };
 
 
 CIMG_EffectTool::CIMG_EffectTool(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
@@ -29,6 +31,8 @@ HRESULT CIMG_EffectTool::Prototype_Initialize()
 	lstrcpy(m_EffectDesc.NormalTexturePath, TEXT("None"));
 	lstrcpy(m_EffectDesc.DistotionTexturePath, TEXT("None"));
 	lstrcpy(m_EffectDesc.MaskTexturePath, TEXT("None"));
+
+
 	return S_OK;
 }
 
@@ -88,8 +92,6 @@ void CIMG_EffectTool::Update(_float fDeletaTime)
 			m_pSelectObject->Update(fDeletaTime);
 			m_pSelectObject->Late_Update(fDeletaTime);
 		}
-
-	
 
 		if (ImGui::Begin("Effect_Viwer"))
 		{
@@ -281,10 +283,8 @@ void CIMG_EffectTool::EffectViewer()
 {
 	// 랜더 타겟을 이용해 내가 원하는 시점에서 보게끔
 	ImVec2 DrawSize = ImGui::GetContentRegionAvail();
-
-	ID3D11ShaderResourceView* pView = nullptr;
 	_uInt iRenderTargetNum = m_pGameInstance->GetRenderTargetNum();
-	ImGui::Image(m_pGameInstance->GetPostBuffer(iRenderTargetNum), DrawSize);
+	ImGui::Image(m_pGameInstance->Get_RenderTargetSRV(TEXT("Target_Blur")), DrawSize, { 0, 0 }, { 1, 1 }, { 1, 1, 1, 1 }, {0, 0, 0, 1});
 }
 
 void CIMG_EffectTool::EffectTextureViewer()
@@ -401,6 +401,22 @@ void CIMG_EffectTool::EffectDataEditor()
 	{
 		m_EffectDesc.vEndScale = { m_vLerpEndScale[0], m_vLerpEndScale[1], m_vLerpEndScale[2] };
 	}
+
+	// 블랜드 모드
+	if (ImGui::BeginCombo("ALPHA_LERP_MODE##EFFECT_ALPHA_LERP_MODE", m_szAlphaLerp))
+	{
+		for (auto i = 0; i < ENUM_CLASS(EFFECT_DISTOTION_TYPE::END); ++i)
+		{
+			if (ImGui::Selectable(szAlphaLerpType[i], false))
+			{
+				strcpy_s(m_szAlphaLerp, szAlphaLerpType[i]);
+				m_EffectDesc.eAlphaType = ALPHA_LERP_TYPE(i);
+			}
+		}
+
+		ImGui::EndCombo();
+	}
+
 #pragma endregion
 
 	//이펙트 타입
@@ -502,7 +518,6 @@ void CIMG_EffectTool::EffectDataEditor()
 	ImGui::Text(m_ConvertChar);
 
 	ImGui::Checkbox("REVERSE_MASK_TEXTURE##EFFECT_REVERSE_MASK_TEX", &m_EffectDesc.bIsReverse);
-	// 블랜드 모드
 	if (ImGui::BeginCombo("MASK_MODE##EFFECT_MASK_MODE", m_SelectMaskMode))
 	{
 		for (auto i = 0; i < ENUM_CLASS(EFFECT_MASK_TYPE::END); ++i)
@@ -511,6 +526,27 @@ void CIMG_EffectTool::EffectDataEditor()
 			{
 				strcpy_s(m_SelectMaskMode, szMaskType[i]);
 				m_EffectDesc.eMaskType = EFFECT_MASK_TYPE(i);
+			}
+		}
+
+		ImGui::EndCombo();
+	}
+
+	if(ImGui::InputFloat2("Mask_Slice_Count", m_vSlice))
+	{
+		m_EffectDesc.vSlice = { m_vSlice[0], m_vSlice[1] };
+	}
+
+
+	// 블랜드 모드
+	if (ImGui::BeginCombo("MASK_MIX_MIX_MODE##EFFECT_MASK_MODE", m_SelectMaskMixMode))
+	{
+		for (auto i = 0; i < ENUM_CLASS(EFFECT_MASK_MIX_TYPE::END); ++i)
+		{
+			if (ImGui::Selectable(szMaskMixType[i], false))
+			{
+				strcpy_s(m_SelectMaskMixMode, szMaskMixType[i]);
+				m_EffectDesc.eMaskMixType = EFFECT_MASK_MIX_TYPE(i);
 			}
 		}
 

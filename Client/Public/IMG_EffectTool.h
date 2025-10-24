@@ -22,6 +22,8 @@ public :
 	static const char*		szBlendType[ENUM_CLASS(EFFECT_BELND_MODE::END)];
 	static const char*		szDistotionType[ENUM_CLASS(EFFECT_DISTOTION_TYPE::END)];
 	static const char*		szMaskType[ENUM_CLASS(EFFECT_MASK_TYPE::END)];
+	static const char*		szMaskMixType[ENUM_CLASS(EFFECT_MASK_MIX_TYPE::END)];
+	static const char*		szAlphaLerpType[ENUM_CLASS(ALPHA_LERP_TYPE::END)];
 
 private:
 	CIMG_EffectTool(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -37,32 +39,34 @@ public:
 private:
 	CEditorCamera*								m_pModelCamera = nullptr;
 	IMG_EFFECT_SHOW_TYPE						m_eShowType = {};
-	char										m_CreateEffectName[MAX_PATH] = {};
-	char										m_SaveFilePath[MAX_PATH] = {};
-	char										m_PreVeiwEffectObject[MAX_PATH] = {};
-	char										m_SelectShowType[24] = {};
+	char										m_CreateEffectName[MAX_PATH] = { "None" };
+	char										m_SaveFilePath[MAX_PATH] = { "None" };
+	char										m_PreVeiwEffectObject[MAX_PATH] = { "None" };
+	char										m_SelectShowType[24] = { "None" };
 
 	list<pair<_wstring, CEffectContatiner*>>	m_ShowEffectObject = {};
 	list<pair<_wstring, CEffectPartObject*>>	m_ShowEffectPartObject = {};
 	CGameObject*								m_pSelectObject = nullptr;
-
-	char										m_SelectAddPartEffect[MAX_PATH] = {};
-	char										m_SelectObejctName[MAX_PATH] = {};
-	char										m_showObejctName[MAX_PATH] = {};
+	char										m_SelectAddPartEffect[MAX_PATH] = { "None" };
+	char										m_SelectObejctName[MAX_PATH] = { "None" };
+	char										m_showObejctName[MAX_PATH] = { "None" };
 
 	EFFECT_NETWORK_DESC							m_EffectDesc = {};
 	IMG_EFFECT_TEXTURE_TYPE						m_eEffectTexType = {};
-	char										m_SelectTextureType[24] = {};
+	char										m_SelectTextureType[24] = { "None" };
 
-	char										m_SelectType[24] = {};
-	char										m_ShaderSelect[MAX_PATH] = {};
-	char										m_ModelSelect[MAX_PATH] = {};
+	char										m_szAlphaLerp[24] = { "None" };
 
-	char										m_SelectBlendMode[24] = {};
-	char										m_SelectDistotionMode[24] = {};
-	char										m_SelectMaskMode[24] = {};
+	char										m_SelectType[24] = { "None" };
+	char										m_ShaderSelect[MAX_PATH] = {"None"};
+	char										m_ModelSelect[MAX_PATH] = { "None" };
 
-	char										m_ConvertChar[MAX_PATH] = {};
+	char										m_SelectBlendMode[24] = { "None" };
+	char										m_SelectDistotionMode[24] = { "None" };
+	char										m_SelectMaskMode[24] = { "None" };
+	char										m_SelectMaskMixMode[24] = { "None" };
+
+	char										m_ConvertChar[MAX_PATH] = { "None" };
 
 	_float										m_UVRatetime[2] = {};
 	_float										m_vColor[4] = {};
@@ -74,6 +78,7 @@ private:
 	_float										m_vLerpEndPosition[3] = {};
 	_float										m_vLerpEndRotation[3] = {};
 	_float										m_vLerpEndScale[3] = {};
+	_float										m_vSlice[2];
 
 
 private:

@@ -81,7 +81,6 @@ void CDebugApp::Render()
 #ifdef _DEBUG
     m_pImgManager->Render_Begin();
 #endif
-    m_pGameInstance->DrawRender();
 
 #ifdef _DEBUG
     m_pImgManager->Render_End();

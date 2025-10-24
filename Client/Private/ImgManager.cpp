@@ -45,9 +45,9 @@ void CImgManager::Update(_float fDeletaTime)
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
 
-    ImGuiViewport* viewport = ImGui::GetMainViewport();
-    ImGui::SetNextWindowPos(viewport->Pos);
-    ImGui::SetNextWindowSize(viewport->Size);
+    //ImGuiViewport* viewport = ImGui::GetMainViewport();
+    //ImGui::SetNextWindowPos(viewport->Pos);
+    //ImGui::SetNextWindowSize(viewport->Size);
 
     if (ImGui::Begin("Edit Window", nullptr, m_ImGuiWindowFlags))
     {

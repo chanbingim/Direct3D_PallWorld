@@ -1,20 +1,31 @@
 #include "DefualtStates.hlsli"
+#include "EffectDefualtHeader.hlsli"
 
 matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
-Texture2D   g_DiffuseTexture;
-Texture2D   g_NormalTexture;
-Texture2D   g_NoiseTexture;
-Texture2D   g_MaskTexture;
+Texture2D       g_DiffuseTexture;
+Texture2D       g_NormalTexture;
+Texture2D       g_NoiseTexture;
+Texture2D       g_MaskTexture;
 
-vector      g_vColor;
-float       g_fLifeAccTime;
-float2      g_fDistotionAccTime;
+vector          g_vColor;
+bool            g_bReverse;
+int             g_DistionType;
+
+bool            g_bIsLerp;
+int             g_AlphaLerpType;
+int             g_MaskType;
+int             g_MaskMixType;
+
+float           g_fLifeTime;
+float2          g_vSlice;
+float           g_fLifeAccTime;
+float           g_fNoiseStLength;
+float2          g_fDistotionAccTime;
 
 struct VS_IN
 {
     float3 vPosition : POSITION;
-    float3 vNormal : NORMAL;
     float2 vTexcoord : TEXCOORD0;
 };
 
@@ -53,44 +64,123 @@ struct PS_IN
 
 struct PS_OUT
 {
-    float4 vColor : SV_TARGET0;
+    float4 vDiffuse : SV_TARGET0;
 };
-
-
 
 /* 픽셀 쉐이더 : 픽셀의 최종적인 색을 결정하낟. */
 PS_OUT PS_Default(PS_IN In)
 {
     PS_OUT Out;
+    float4 vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
+    vMtrlDiffuse = ComputeColor(vMtrlDiffuse, g_vColor, 1);
     
-    float2 vTexCoord = In.vTexcoord + g_fDistotionAccTime;
-    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, vTexCoord);
-    vector vMaskTexture = g_MaskTexture.Sample(DefaultSampler, vTexCoord);
+   float fMask = g_MaskTexture.Sample(DefaultSampler, In.vTexcoord).r;
+   vMtrlDiffuse.a *= fMask;
+   if (g_bIsLerp)
+       vMtrlDiffuse.a = ComputeAlpha(vMtrlDiffuse, g_fLifeAccTime / g_fLifeTime, g_AlphaLerpType, In.vTexcoord);
     
-    vMtrlDiffuse.a *= vMaskTexture.r;
-    vector vColor = (vMtrlDiffuse + g_vColor) * vMaskTexture;
-    if (vColor.a < 0.3f)
-        discard;
-    
-    Out.vColor = vColor;
+    Out.vDiffuse = vMtrlDiffuse;
     return Out;
 }
 
+PS_OUT PS_Distotion(PS_IN In)
+{
+    PS_OUT Out;
+    
+    float2 vTexcoord = In.vTexcoord + g_fDistotionAccTime / g_fLifeTime;
+    
+    vector vNoiseTexture = g_NoiseTexture.Sample(DefaultSampler, vTexcoord);
+    vTexcoord = ComputeUV(vNoiseTexture.rg, true, 0, 0) * g_fNoiseStLength;
+    
+    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, vTexcoord);
+    vMtrlDiffuse = ComputeColor(vMtrlDiffuse, g_vColor, g_MaskType);
+    
+    float fMask = g_MaskTexture.Sample(DefaultSampler, vTexcoord).r;
+    vMtrlDiffuse.a *= fMask;
+    
+    if (g_bIsLerp)
+        vMtrlDiffuse.a = ComputeAlpha(vMtrlDiffuse, g_fLifeAccTime / g_fLifeTime, g_AlphaLerpType, vTexcoord);
+    
+    Out.vDiffuse = vMtrlDiffuse;
+    return Out;
+}
+
+//=========================================
+//   _____ _____  _____ _____ _ _______   |
+//  / ____|  __ \|  __ \_   _| |__   __|  |
+// | (___ | |__) | |__) || | | |  | |     |
+//  \___ \|  ___/|  ___/ | | | |  | |     |
+//  ____) | |    | |    _| |_| |  | |     |
+// |_____/|_|    |_|   |_____|_|  |_|     |
+//=========================================
+//      S P R I T E   E F F E C T         |
+//=========================================
+
+PS_OUT PS_SpriteDefault(PS_IN In)
+{
+    PS_OUT Out;
+    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
+    vMtrlDiffuse = ComputeColor(vMtrlDiffuse, g_vColor, g_MaskType);
+    
+    float2 vMaskTexCoord = In.vTexcoord;
+    if(1 == g_MaskType)
+    {
+        float2 vSliceIndex = { 1 / g_vSlice.x, 1 / g_vSlice.y };
+        vMaskTexCoord = SliceUV(vMaskTexCoord, g_fLifeAccTime / g_fLifeTime, vSliceIndex);
+    }
+   
+    float fMask = g_MaskTexture.Sample(DefaultSampler, vMaskTexCoord).r;
+    vMtrlDiffuse.a *= fMask;
+    
+    if (g_bIsLerp)
+        vMtrlDiffuse.a = ComputeAlpha(vMtrlDiffuse, g_fLifeAccTime / g_fLifeTime, g_AlphaLerpType, In.vTexcoord);
+    
+    Out.vDiffuse = vMtrlDiffuse;
+    return Out;
+}
+
+PS_OUT PS_SpriteDistotion(PS_IN In)
+{
+    PS_OUT Out;
+    float2 vTexcoord = In.vTexcoord + g_fDistotionAccTime / g_fLifeTime;
+    
+    vector vNoiseTexture = g_NoiseTexture.Sample(DefaultSampler, vTexcoord);
+    vTexcoord = ComputeUV(vNoiseTexture.rg, true, 0, 0) * g_fNoiseStLength;
+    
+    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, vTexcoord);
+    vMtrlDiffuse = ComputeColor(vMtrlDiffuse, g_vColor, g_MaskType);
+    
+    float2 vMaskTexCoord = vTexcoord;
+    if (1 == g_MaskType)
+    {
+        float2 vSliceIndex = { 1 / g_vSlice.x, 1 / g_vSlice.y };
+        vMaskTexCoord = SliceUV(vMaskTexCoord, g_fLifeAccTime / g_fLifeTime, vSliceIndex);
+    }
+    
+    float fMask = g_MaskTexture.Sample(DefaultSampler, vTexcoord).r;
+    vMtrlDiffuse.a *= fMask;
+    
+    if (g_bIsLerp)
+        vMtrlDiffuse.a = ComputeAlpha(vMtrlDiffuse, g_fLifeAccTime / g_fLifeTime, g_AlphaLerpType, vTexcoord);
+    
+    Out.vDiffuse = vMtrlDiffuse;
+    return Out;
+}
 
 technique11 Tech
 {
-    pass Default
+    pass Additive
     {
         SetRasterizerState(RS_Default);
-        SetDepthStencilState(DSS_Default, 0);
-        SetBlendState(BS_None, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        SetDepthStencilState(DSS_Effect, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_Default();
         GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_Default();
     }
 
-    pass AlphaBlend
+    pass Distotion
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_Default, 0);
@@ -98,6 +188,28 @@ technique11 Tech
 
         VertexShader = compile vs_5_0 VS_Default();
         GeometryShader = NULL;
-        PixelShader = compile ps_5_0 PS_Default();
+        PixelShader = compile ps_5_0 PS_Distotion();
+    }
+
+    pass SpriteAddtive
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_Default();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_SpriteDefault();
+    }
+
+    pass SpriteDistotion
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_Default();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_SpriteDistotion();
     }
 }

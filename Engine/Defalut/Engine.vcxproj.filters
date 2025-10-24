@@ -801,5 +801,8 @@
     <None Include="..\Bin\ShaderFiles\DefualtStates.hlsli">
       <Filter>ShaderFiles</Filter>
     </None>
+    <None Include="..\Bin\ShaderFiles\EffectDefualtHeader.hlsli">
+      <Filter>ShaderFiles\Effect</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -19,6 +19,8 @@ public:
 
 #ifdef _DEBUG
 public:
+	ID3D11ShaderResourceView*	GetRenderTargetRSV(const _wstring& strTargetTag);
+
 	HRESULT						Ready_Debug(const _wstring& strTargetTag, _float fX, _float fY, _float fSizeX, _float fSizeY);
 	HRESULT						Render_Debug(const _wstring& strMRTTag, class CShader* pShader, class CVIBuffer_Rect* pVIBuffer);
 #endif

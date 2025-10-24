@@ -19,6 +19,7 @@ Texture2D g_NormalTexture;
 Texture2D g_DiffuseTexture;
 Texture2D g_ShadeTexture;
 Texture2D g_DepthTexture;
+Texture2D g_BlurTexture;
 Texture2D g_SpecularTexture;
 
 struct VS_IN
@@ -164,8 +165,9 @@ PS_OUT_BACKBUFFER PS_MAIN_COMBINED(PS_IN In)
     vector vShade = g_ShadeTexture.Sample(DefaultSampler, In.vTexcoord);
     
     vector vSpecular = g_SpecularTexture.Sample(DefaultSampler, In.vTexcoord);
+    vector vBlur = g_BlurTexture.Sample(ClampSampler, In.vTexcoord);
     
-    Out.vBackBuffer = vDiffuse * vShade; // + vSpecular;
+    Out.vBackBuffer = vDiffuse * vShade + vBlur; // + vSpecular;
     
     return Out;
 }

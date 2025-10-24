@@ -18,6 +18,8 @@ None
 T_Default_Noise512.png
 0
 0
+0 0
+0
 T_Wind04.png
 Effect_Model_Shader
 Cy_06.fbx

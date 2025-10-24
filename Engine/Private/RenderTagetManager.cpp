@@ -113,6 +113,14 @@ HRESULT CRenderTagetManager::Bind_RenderTarget(const _wstring& strTargetTag, CSh
 }
 
 #ifdef _DEBUG
+ID3D11ShaderResourceView* CRenderTagetManager::GetRenderTargetRSV(const _wstring& strTargetTag)
+{
+	CRenderTarget* pRenderTarget = Find_RenderTarget(strTargetTag);
+	if (nullptr == pRenderTarget)
+		return nullptr;
+
+	return pRenderTarget->GetRSV();
+}
 HRESULT CRenderTagetManager::Ready_Debug(const _wstring& strTargetTag, _float fX, _float fY, _float fSizeX, _float fSizeY)
 {
 	CRenderTarget* pRenderTarget = Find_RenderTarget(strTargetTag);

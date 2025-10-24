@@ -52,6 +52,7 @@ private:
 	void								Render_LightAcc();
 	void								Render_Combined();
 	void								Render_NonLight();
+	void								Render_Blur();
 
 	void								Render_WorldUI();
 	void								Render_Blend();

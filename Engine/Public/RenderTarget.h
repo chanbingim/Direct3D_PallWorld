@@ -16,7 +16,9 @@ public:
 public:
 	HRESULT					Initialize(_uInt iSizeX, _uInt iSizeY, DXGI_FORMAT ePixelFormat, const _float4& vClearColor);
 	HRESULT					Bind_ShaderResource(class CShader* pShader, const _char* pConstantName);
-	void					Clear();
+
+	ID3D11ShaderResourceView*	GetRSV() { return m_pSRV; }
+	void						Clear();
 
 #ifdef _DEBUG
 public:

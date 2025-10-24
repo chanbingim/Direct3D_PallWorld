@@ -43,6 +43,14 @@ HRESULT CRenderer::Initialize()
     if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Specular"), Viewport.Width, Viewport.Height, DXGI_FORMAT_R16G16B16A16_UNORM, _float4(0.0f, 0.f, 0.f, 0.f))))
         return E_FAIL;
 
+    /* Target_Blur */
+    if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Blur"), Viewport.Width, Viewport.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.0f, 0.0f, 1.0f, 1.0f))))
+        return E_FAIL;
+
+    /* Target_Blur_X */
+    if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Blur_X"), Viewport.Width, Viewport.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.0f, 0.0f, 0.0f, 0.0f))))
+        return E_FAIL;
+
     /* Target_Mtrl_Specular */
     if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Mtrl_Specular"), Viewport.Width, Viewport.Height, DXGI_FORMAT_R16G16B16A16_UNORM, _float4(0.0f, 0.f, 0.f, 0.f))))
         return E_FAIL;
@@ -63,6 +71,13 @@ HRESULT CRenderer::Initialize()
     if (FAILED(m_pGameInstance->Add_MRT(TEXT("MRT_LightAcc"), TEXT("Target_Specular"))))
         return E_FAIL;
 
+    /* MRT_Blur */
+    if (FAILED(m_pGameInstance->Add_MRT(TEXT("MRT_Blur"), TEXT("Target_Blur"))))
+        return E_FAIL;
+
+    /* MRT_Blur_X */
+    if (FAILED(m_pGameInstance->Add_MRT(TEXT("MRT_Blur_X"), TEXT("Target_Blur_X"))))
+        return E_FAIL;
 
     m_pShader = CShader::Create(m_pDevice, m_pContext, VTX_TEX::Elements, VTX_TEX::iNumElements, TEXT("../Bin/ShaderFiles/Shader_Deferred.hlsl"));
     if (nullptr == m_pShader)
@@ -106,15 +121,17 @@ void CRenderer::Render()
     Render_Priority();
 
     Render_NonBlend();
+
     Render_LightAcc();
+    Render_Blur();
     Render_Combined();
     Render_NonLight();
-
+ 
     Render_WorldUI();
     Render_Blend();
     DrawPosTex();
 
-    Render_ScreenUI();
+   // Render_ScreenUI();
 
 #ifdef _DEBUG
     if(m_bIsShowRenderTarget)
@@ -211,6 +228,8 @@ void CRenderer::Render_Combined()
         return;
     if (FAILED(m_pGameInstance->Bind_RenderTarget(TEXT("Target_Specular"), m_pShader, "g_SpecularTexture")))
         return;
+    if (FAILED(m_pGameInstance->Bind_RenderTarget(TEXT("Target_Blur"), m_pShader, "g_BlurTexture")))
+        return;
 
     m_pShader->Update_Shader(3);
     m_pVIBuffer->Render_VIBuffer();
@@ -228,6 +247,44 @@ void CRenderer::Render_NonLight()
 
     m_RenderObjects[ENUM_CLASS(RENDER::NONLIGHT)].clear();
 
+}
+
+void CRenderer::Render_Blur()
+{
+    if (FAILED(m_pGameInstance->Begin_MRT(TEXT("MRT_Blur"))))
+        return;
+
+    for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDER::BLUR)])
+    {
+        if (nullptr != pRenderObject)
+            pRenderObject->Render();
+
+        Safe_Release(pRenderObject);
+    }
+
+    m_RenderObjects[ENUM_CLASS(RENDER::BLUR)].clear();
+
+    if (FAILED(m_pGameInstance->End_MRT()))
+        return;
+
+   /* if (FAILED(m_pGameInstance->Begin_MRT(TEXT("MRT_Blur_X"))))
+        return;
+
+    m_pShader->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix);
+    m_pShader->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix);
+    m_pShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix);
+
+    if (FAILED(m_pGameInstance->Bind_RenderTarget(TEXT("Target_Blur"), m_pShader, "g_BlurTexture")))
+        return;*/
+
+   // m_pShader->Begin(4);
+
+   //   m_pVIBuffer->Bind_Resources();
+
+   // m_pVIBuffer->Render();
+
+   // if (FAILED(m_pGameInstance->End_MRT()))
+   //     return;
 }
 
 void CRenderer::Render_WorldUI()
@@ -320,7 +377,7 @@ void CRenderer::Render_Debug()
     /* 렌더타겟을 디버그로 직교투영을 통해 그려라. */
     if (FAILED(m_pGameInstance->Render_RenderTargetDebug(TEXT("MRT_GameObjects"), m_pShader, m_pVIBuffer)))
         return;
-    if (FAILED(m_pGameInstance->Render_RenderTargetDebug(TEXT("MRT_LightAcc"), m_pShader, m_pVIBuffer)))
+    if (FAILED(m_pGameInstance->Render_RenderTargetDebug(TEXT("MRT_Blur"), m_pShader, m_pVIBuffer)))
         return;
 }
 #endif // _DEBUG

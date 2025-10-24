@@ -44,6 +44,7 @@ namespace Engine
 		PRIORITY,
 		NONBLEND,
 		NONLIGHT,
+		BLUR,
 		BLEND,
 		WORLD_UI, SCREEN_UI, END
 	};

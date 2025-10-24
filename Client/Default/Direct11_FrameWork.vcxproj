@@ -123,6 +123,7 @@
       <AdditionalIncludeDirectories>../Public/; ../Public/ImGui/; ../../EngineSDK/Inc/;</AdditionalIncludeDirectories>
       <LanguageStandard>Default</LanguageStandard>
       <PreprocessToFile>false</PreprocessToFile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -194,6 +195,7 @@
     <ClInclude Include="..\public\DiallogUI.h" />
     <ClInclude Include="..\public\DialogLayer.h" />
     <ClInclude Include="..\public\Earthquake.h" />
+    <ClInclude Include="..\public\ElectricBall.h" />
     <ClInclude Include="..\public\EletricBullet.h" />
     <ClInclude Include="..\public\EventButton.h" />
     <ClInclude Include="..\public\FarmGround.h" />
@@ -205,6 +207,7 @@
     <ClInclude Include="..\public\GrassMommothBody.h" />
     <ClInclude Include="..\public\GrassStrom.h" />
     <ClInclude Include="..\public\GreenMommoth.h" />
+    <ClInclude Include="..\public\HitEffect.h" />
     <ClInclude Include="..\public\HungerBar.h" />
     <ClInclude Include="..\public\IMG_EffectTool.h" />
     <ClInclude Include="..\public\MiningObject.h" />
@@ -240,6 +243,7 @@
     <ClInclude Include="..\public\SelectTriangle.h" />
     <ClInclude Include="..\public\SelectUI.h" />
     <ClInclude Include="..\public\SkillObjectBase.h" />
+    <ClInclude Include="..\public\SpriteEffect.h" />
     <ClInclude Include="..\public\TableFurniture.h" />
     <ClInclude Include="..\public\TechCategoryUI.h" />
     <ClInclude Include="..\public\TechListSlotFont.h" />
@@ -418,6 +422,7 @@
     <ClInclude Include="..\public\Terrain.h" />
     <ClInclude Include="..\public\TerrainManager.h" />
     <ClInclude Include="..\public\TouchLamp.h" />
+    <ClInclude Include="..\public\TrailEffect.h" />
     <ClInclude Include="..\public\TreeObject.h" />
     <ClInclude Include="..\public\TypeIcon.h" />
     <ClInclude Include="..\public\ViliageApartment.h" />
@@ -465,6 +470,7 @@
     <ClCompile Include="..\private\DiallogUI.cpp" />
     <ClCompile Include="..\private\DialogLayer.cpp" />
     <ClCompile Include="..\private\Earthquake.cpp" />
+    <ClCompile Include="..\private\ElectricBall.cpp" />
     <ClCompile Include="..\private\FarmGround.cpp" />
     <ClCompile Include="..\private\FastTravelButton.cpp" />
     <ClCompile Include="..\private\FastTravelObject.cpp" />
@@ -474,6 +480,7 @@
     <ClCompile Include="..\private\GrassMommothBody.cpp" />
     <ClCompile Include="..\private\GrassStrom.cpp" />
     <ClCompile Include="..\private\GreenMommoth.cpp" />
+    <ClCompile Include="..\private\HitEffect.cpp" />
     <ClCompile Include="..\private\HungerBar.cpp" />
     <ClCompile Include="..\private\IMG_EffectTool.cpp" />
     <ClCompile Include="..\private\MiningObject.cpp" />
@@ -521,6 +528,7 @@
     <ClCompile Include="..\private\SelectTriangle.cpp" />
     <ClCompile Include="..\private\SelectUI.cpp" />
     <ClCompile Include="..\private\SkillObjectBase.cpp" />
+    <ClCompile Include="..\private\SpriteEffect.cpp" />
     <ClCompile Include="..\private\TableFurniture.cpp" />
     <ClCompile Include="..\private\TechCategoryUI.cpp" />
     <ClCompile Include="..\private\TechListSlotFont.cpp" />
@@ -636,6 +644,7 @@
     <ClCompile Include="..\private\TechTabIcon.cpp" />
     <ClCompile Include="..\private\TerrainManager.cpp" />
     <ClCompile Include="..\private\TouchLamp.cpp" />
+    <ClCompile Include="..\private\TrailEffect.cpp" />
     <ClCompile Include="..\private\TreeObject.cpp" />
     <ClCompile Include="..\private\DebugApp.cpp" />
     <ClCompile Include="..\private\DefaultEntity.cpp" />

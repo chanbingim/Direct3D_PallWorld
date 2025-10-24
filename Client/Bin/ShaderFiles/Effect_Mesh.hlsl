@@ -1,4 +1,5 @@
 #include "DefualtStates.hlsli"
+#include "EffectDefualtHeader.hlsli"
 
 matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
@@ -11,8 +12,12 @@ vector          g_vColor;
 bool            g_bReverse;
 int             g_DistionType;
 int             g_MaskType;
+int             g_MaskMixType;
 
+bool            g_bIsLerp;
+int             g_AlphaLerpType;
 float           g_fLifeTime;
+float2          g_vSlice;
 float           g_fLifeAccTime;
 float           g_fNoiseStLength;
 float2          g_fDistotionAccTime;
@@ -33,11 +38,7 @@ struct VS_OUT
 {
     float4 vPosition : SV_POSITION;
     float3 vNormal : NORMAL;
-    //float3 vTangent : TANGENT;
-    //float3 vBINormal : BINORMAL;
     float2 vTexcoord : TEXCOORD0;
-    //float4 vWorldPos : TEXCOORD1;
-    //float4 vProjPos : TEXCOORD2;
 };
 
 VS_OUT VS_Default(VS_IN In)
@@ -59,11 +60,6 @@ VS_OUT VS_Default(VS_IN In)
         Out.vTexcoord = In.vTexcoord;
   
     Out.vNormal = normalize(mul(vector(In.vNormal, 0.f), g_WorldMatrix)).xyz;
-    //Out.vTangent = normalize(mul(vector(In.vTangent, 0.f), g_WorldMatrix)).xyz;
-    //Out.vBINormal = normalize(mul(vector(In.vBINormal, 0.f), g_WorldMatrix)).xyz;
-    //Out.vWorldPos = mul(vector(In.vPosition, 1.f), g_WorldMatrix);
-    //Out.vProjPos = Out.vPosition;
-    
     return Out;
 }
 
@@ -71,48 +67,27 @@ struct PS_IN
 {
     float4 vPosition : SV_POSITION;
     float3 vNormal : NORMAL;
-    //float3 vTangent : TANGENT;
-    //float3 vBINormal : BINORMAL;
     float2 vTexcoord : TEXCOORD0;
-    //float4 vWorldPos : TEXCOORD1;
-    //float4 vProjPos : TEXCOORD2;
-};
-
-struct PS_ModelCreateIn
-{
-    float4 vPosition : SV_POSITION;
-    float2 vTexcoord : TEXCOORD0;
-    float3 vLocalPosition : TEXCOORD1;
 };
 
 struct PS_OUT
 {
     float4 vDiffuse : SV_TARGET0;
-    //float4 vNormal : SV_TARGET1;
-    //float4 vDepth : SV_TARGET3;
 };
 
 PS_OUT PS_Default(PS_IN In)
 {
     PS_OUT Out;
     vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
-    float2 vTexcoord = In.vTexcoord;
+    vMtrlDiffuse = ComputeColor(vMtrlDiffuse, g_vColor, 1);
     
-    float fMask = g_MaskTexture.Sample(DefaultSampler, vTexcoord).r;
-    if (vMtrlDiffuse.a * fMask < 0.3)
-        discard;
+    float fMask = g_MaskTexture.Sample(DefaultSampler, In.vTexcoord).r;
+    vMtrlDiffuse.a *= fMask;
+        
+    if (g_bIsLerp)
+        vMtrlDiffuse.a = ComputeAlpha(vMtrlDiffuse, g_fLifeAccTime / g_fLifeTime, g_AlphaLerpType, In.vTexcoord);
     
-    switch(g_MaskType)
-    {
-        case 0 :
-            Out.vDiffuse = (vMtrlDiffuse + g_vColor) * fMask;
-        break;
-        case 1:
-            Out.vDiffuse = (vMtrlDiffuse * g_vColor) * fMask;
-        break;
-
-    }
-  
+    Out.vDiffuse = vMtrlDiffuse;
     return Out;
 }
 
@@ -124,34 +99,68 @@ PS_OUT PS_Distotion(PS_IN In)
     float2 vTexcoord = In.vTexcoord + g_fDistotionAccTime / g_fLifeTime;
     vector vNoiseTexture = g_NoiseTexture.Sample(DefaultSampler, vTexcoord);
     
-    switch (g_DistionType)
-    {
-        // 극좌표 왜곡
-        case 1:
-        {
-            vTexcoord = vNoiseTexture.rg - 0.5f * g_fNoiseStLength;
-            vTexcoord += In.vTexcoord;
-        }
-            break;
-        
-    }
-        
+    vTexcoord = ComputeUV(vNoiseTexture.rg, true, 0, 0);
     vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, vTexcoord);
+    vMtrlDiffuse = ComputeColor(vMtrlDiffuse, g_vColor, 1);
+    
     float fMask = g_MaskTexture.Sample(DefaultSampler, vTexcoord).r;
+    vMtrlDiffuse.a *= fMask;
     
-    if (vMtrlDiffuse.a * fMask < 0.3)
-        discard;
+    if(g_bIsLerp)
+        vMtrlDiffuse.a = ComputeAlpha(vMtrlDiffuse, g_fLifeAccTime / g_fLifeTime, g_AlphaLerpType, vTexcoord);
     
-    switch (g_MaskType)
+    Out.vDiffuse = vMtrlDiffuse;
+    return Out;
+}
+
+PS_OUT PS_SpriteDefault(PS_IN In)
+{
+    PS_OUT Out;
+    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
+    vMtrlDiffuse = ComputeColor(vMtrlDiffuse, g_vColor, g_MaskType);
+    
+    float2 vMaskTexCoord = In.vTexcoord;
+    if (1 == g_MaskType)
     {
-        case 0:
-            Out.vDiffuse = (vMtrlDiffuse + g_vColor) * fMask;
-            break;
-        case 1:
-            Out.vDiffuse = (vMtrlDiffuse * g_vColor) * fMask;
-            break;
+        float2 vSliceIndex = { 1 / g_vSlice.x, 1 / g_vSlice.y };
+        vMaskTexCoord = SliceUV(vMaskTexCoord, g_fLifeAccTime / g_fLifeTime, vSliceIndex);
+    }
+   
+    float fMask = g_MaskTexture.Sample(DefaultSampler, vMaskTexCoord).r;
+    vMtrlDiffuse.a *= fMask;
+    
+    if (g_bIsLerp)
+        vMtrlDiffuse.a = ComputeAlpha(vMtrlDiffuse, g_fLifeAccTime / g_fLifeTime, g_AlphaLerpType, In.vTexcoord);
+    
+    Out.vDiffuse = vMtrlDiffuse;
+    return Out;
+}
+
+PS_OUT PS_SpriteDistotion(PS_IN In)
+{
+    PS_OUT Out;
+    float2 vTexcoord = In.vTexcoord + g_fDistotionAccTime / g_fLifeTime;
+    
+    vector vNoiseTexture = g_NoiseTexture.Sample(DefaultSampler, vTexcoord);
+    vTexcoord = ComputeUV(vNoiseTexture.rg, true, 0, 0) * g_fNoiseStLength;
+    
+    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, vTexcoord);
+    vMtrlDiffuse = ComputeColor(vMtrlDiffuse, g_vColor, g_MaskType);
+    
+    float2 vMaskTexCoord = vTexcoord;
+    if (1 == g_MaskType)
+    {
+        float2 vSliceIndex = { 1 / g_vSlice.x, 1 / g_vSlice.y };
+        vMaskTexCoord = SliceUV(vMaskTexCoord, g_fLifeAccTime / g_fLifeTime, vSliceIndex);
     }
     
+    float fMask = g_MaskTexture.Sample(DefaultSampler, vTexcoord).r;
+    vMtrlDiffuse.a *= fMask;
+    
+    if (g_bIsLerp)
+        vMtrlDiffuse.a = ComputeAlpha(vMtrlDiffuse, g_fLifeAccTime / g_fLifeTime, g_AlphaLerpType, vTexcoord);
+    
+    Out.vDiffuse = vMtrlDiffuse;
     return Out;
 }
 
@@ -161,7 +170,7 @@ technique11 Tech
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_Default, 0);
-        SetBlendState(BS_None, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_Default();
         GeometryShader = NULL;
@@ -172,10 +181,32 @@ technique11 Tech
     {
         SetRasterizerState(RS_Default);
         SetDepthStencilState(DSS_Default, 0);
-        SetBlendState(BS_None, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_Default();
         GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_Distotion();
+    }
+
+    pass SpriteAddtive
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_Default();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_SpriteDefault();
+    }
+
+    pass SpriteDistotion
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+
+        VertexShader = compile vs_5_0 VS_Default();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_SpriteDistotion();
     }
 }

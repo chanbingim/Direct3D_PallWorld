@@ -18,6 +18,8 @@ None
 T_Noise02.png
 0
 0
+0 0
+0
 T_Trail05.png
 Effect_Model_Shader
 Tornado1.fbx

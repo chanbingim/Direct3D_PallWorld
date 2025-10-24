@@ -28,8 +28,7 @@ HRESULT CEffectPartObject::Initalize_Prototype(const char* pFilePath)
         return E_FAIL;
 
     if (FAILED(ReadFileData(pFilePath)))
-        return E_FAIL;
-
+        return E_FAIL; 
     return S_OK;
 }
 
@@ -79,6 +78,9 @@ void CEffectPartObject::Update(_float fDeletaTime)
 
     if (m_EffectData.bIsLerp)
     {
+        if (0 <= m_EffectData.fLifeTime)
+            return;
+
         _float fRatio = m_fLifeAccTime / m_EffectData.fLifeTime;
         _vector vStartPos = XMLoadFloat3(&m_EffectData.vPosition);
         _vector vEndPos = XMLoadFloat3(&m_EffectData.vEndPosition);
@@ -99,13 +101,15 @@ void CEffectPartObject::Late_Update(_float fDeletaTime)
 {
     UpdateCombinedMatrix();
     
-    if(m_pShaderCom && m_pVIBufferCom)
-        m_pGameInstance->Add_RenderGroup(RENDER::NONLIGHT, this);
+    if (m_pShaderCom && m_pVIBufferCom)
+        m_pGameInstance->Add_RenderGroup(RENDER::BLUR, this);
 }
 
 HRESULT CEffectPartObject::Render()
 {
     _uInt ShaderIndex = {};
+    ShaderIndex = 2 * ENUM_CLASS(m_EffectData.eMaskType);
+
     if (lstrcmp(TEXT("None"), m_EffectData.DistotionTexturePath))
         ShaderIndex += 1;
 
@@ -122,9 +126,9 @@ HRESULT CEffectPartObject::Render()
     }
     else if(EFFECT_TYPE::SPRITE == m_EffectData.eType)
     {
-        auto pVIBuffer = static_cast<CVIBuffer*>(m_pVIBufferCom);
+        auto pVIBuffer = static_cast<CVIBuffer_Rect*>(m_pVIBufferCom);
         Apply_ConstantShaderResources();
-        m_pShaderCom->Update_Shader(ShaderIndex);
+        m_pShaderCom->Update_Shader(0);
         pVIBuffer->Render_VIBuffer();
     }
 
@@ -189,6 +193,7 @@ void CEffectPartObject::ExportData(void* pArg)
         file << m_EffectData.vEndPosition.x << " " << m_EffectData.vEndPosition.y << " " << m_EffectData.vEndPosition.z << " " << endl;
         file << m_EffectData.vEndRotation.x << " " << m_EffectData.vEndRotation.y << " " << m_EffectData.vEndRotation.z << " " << endl;
         file << m_EffectData.vEndScale.x << " " << m_EffectData.vEndScale.y << " " << m_EffectData.vEndScale.z << " " << endl;
+        file << ENUM_CLASS(m_EffectData.eAlphaType) << endl;
 
         file << ENUM_CLASS(m_EffectData.eType) << endl;
         file << ENUM_CLASS(m_EffectData.eBlend_Mode) << endl;
@@ -209,6 +214,9 @@ void CEffectPartObject::ExportData(void* pArg)
 
         file << m_EffectData.bIsReverse << endl;
         file << ENUM_CLASS(m_EffectData.eMaskType) << endl;
+        file << m_EffectData.vSlice.x << " " << m_EffectData.vSlice.y << endl;
+
+        file << ENUM_CLASS(m_EffectData.eMaskMixType) << endl;
         CStringHelper::ConvertWideToUTF(m_EffectData.MaskTexturePath, ConvertPath);
         file << ConvertPath << endl;
 
@@ -246,9 +254,11 @@ HRESULT CEffectPartObject::Apply_ConstantShaderResources()
         m_pShaderCom->Bind_SRV("g_MaskTexture", m_pTextures[ENUM_CLASS(EFFECT_TEXTURE_TYPE::MASK)]->GetTexture(0));
 
     m_pShaderCom->Bind_RawValue("g_bReverse", &m_EffectData.bIsReverse, sizeof(_bool));
+    m_pShaderCom->Bind_RawValue("g_bIsLerp", &m_EffectData.bIsLerp, sizeof(_bool));
     m_pShaderCom->Bind_RawValue("g_vColor", &m_EffectData.vColor, sizeof(_float4));
     m_pShaderCom->Bind_RawValue("g_fLifeTime", &m_EffectData.fLifeTime, sizeof(_float));
     m_pShaderCom->Bind_RawValue("g_DistionType", &m_EffectData.eDistotionType, sizeof(_uInt));
+    m_pShaderCom->Bind_RawValue("g_AlphaLerpType", &m_EffectData.eAlphaType, sizeof(_uInt));
     m_pShaderCom->Bind_RawValue("g_MaskType", &m_EffectData.eMaskType, sizeof(_uInt));
     m_pShaderCom->Bind_RawValue("g_fLifeAccTime", &m_fLifeAccTime, sizeof(_float));
     m_pShaderCom->Bind_RawValue("g_fNoiseStLength", &m_EffectData.fNoiseStength, sizeof(_float));
@@ -275,7 +285,10 @@ HRESULT CEffectPartObject::Apply_ConstantShaderResources(_uInt iMeshIndex)
         m_pShaderCom->Bind_SRV("g_MaskTexture", m_pTextures[ENUM_CLASS(EFFECT_TEXTURE_TYPE::MASK)]->GetTexture(0));
 
     m_pShaderCom->Bind_RawValue("g_bReverse", &m_EffectData.bIsReverse, sizeof(_bool));
+    m_pShaderCom->Bind_RawValue("g_bIsLerp", &m_EffectData.bIsLerp, sizeof(_bool));
+    m_pShaderCom->Bind_RawValue("g_AlphaLerpType", &m_EffectData.eAlphaType, sizeof(_uInt));
     m_pShaderCom->Bind_RawValue("g_fLifeTime", &m_EffectData.fLifeTime, sizeof(_float));
+    m_pShaderCom->Bind_RawValue("g_vSlice", &m_EffectData.vSlice, sizeof(_float2));
     m_pShaderCom->Bind_RawValue("g_vColor", &m_EffectData.vColor, sizeof(_float4));
     m_pShaderCom->Bind_RawValue("g_DistionType", &m_EffectData.eDistotionType, sizeof(_uInt));
     m_pShaderCom->Bind_RawValue("g_MaskType", &m_EffectData.eMaskType, sizeof(_uInt));
@@ -302,6 +315,8 @@ HRESULT CEffectPartObject::ReadFileData(const char* pFilePath)
     flag = ios::in;
 
     char     ResoucePath[MAX_PATH] = {};
+    _uInt iType = {};
+
     ifstream file(pFilePath, flag);
     if (file.is_open())
     {
@@ -317,8 +332,9 @@ HRESULT CEffectPartObject::ReadFileData(const char* pFilePath)
         file >> m_EffectData.vEndPosition.x >> m_EffectData.vEndPosition.y >> m_EffectData.vEndPosition.z;
         file >> m_EffectData.vEndRotation.x >> m_EffectData.vEndRotation.y >> m_EffectData.vEndRotation.z;
         file >> m_EffectData.vEndScale.x >> m_EffectData.vEndScale.y >> m_EffectData.vEndScale.z;
-
-        _uInt iType = {};
+        file >> iType;
+        m_EffectData.eAlphaType = ALPHA_LERP_TYPE(iType);
+      
         file >> iType;
         m_EffectData.eType = EFFECT_TYPE(iType);
 
@@ -344,6 +360,10 @@ HRESULT CEffectPartObject::ReadFileData(const char* pFilePath)
         file >> m_EffectData.bIsReverse;
         file >> iType;
         m_EffectData.eMaskType = EFFECT_MASK_TYPE(iType);
+        file >> m_EffectData.vSlice.x >> m_EffectData.vSlice.y;
+
+        file >> iType;
+        m_EffectData.eMaskMixType = EFFECT_MASK_MIX_TYPE(iType);
 
         file >> ResoucePath;
         CStringHelper::ConvertUTFToWide(ResoucePath, m_EffectData.MaskTexturePath);

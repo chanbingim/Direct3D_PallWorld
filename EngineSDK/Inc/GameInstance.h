@@ -214,6 +214,7 @@ public :
 	HRESULT						Begin_MRT(const _wstring& strMRTTag);
 	HRESULT						End_MRT();
 
+	ID3D11ShaderResourceView*	Get_RenderTargetSRV(const _wstring& strMRTTag);
 	HRESULT						Bind_RenderTarget(const _wstring& strTargetTag, class CShader* pShader, const _char* pConstantName);
 
 #ifdef _DEBUG

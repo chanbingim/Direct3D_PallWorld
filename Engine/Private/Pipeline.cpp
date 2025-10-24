@@ -22,14 +22,14 @@ CPipeline::CPipeline(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 
 HRESULT CPipeline::Initalize()
 {
-	if (FAILED(SettingPipeTextures()))
-		return E_FAIL;
-
+	SettingPipeTextures();
 	return S_OK;
 }
 
 void CPipeline::Update(_float fDeletaTime)
 {
+	
+
 }
 
 void CPipeline::SetMatrix(MAT_STATE eState, _float4x4 Matrix)
@@ -101,7 +101,6 @@ HRESULT CPipeline::SettingPipeTextures()
 	//backbuffer가 랜더타겟용도로 사용되었기때문에 둘이 같은 값으로 세팅해준다.
 	//나중에 이데이터를 랜더타겟으로 사용할지도 모름
 	m_PostDesc.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
-
 	/* 텍스처 생성 */
 	m_PipeTextures.reserve(8);
 	for (int i = 0; i < 8; ++i)

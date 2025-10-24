@@ -149,7 +149,7 @@ HRESULT CGraphic_Device::Initialize_SwapChain(const ENGINE_DESC& Engine_Desc, ID
     SwapChain_Desc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
     SwapChain_Desc.SampleDesc.Count = 1;
     SwapChain_Desc.SampleDesc.Quality = 0;
-    SwapChain_Desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+    SwapChain_Desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT | D3D11_BIND_SHADER_RESOURCE;
     SwapChain_Desc.BufferCount = 1;
     SwapChain_Desc.OutputWindow = Engine_Desc.hWnd;
     SwapChain_Desc.Windowed = Engine_Desc.bIsWindowed;

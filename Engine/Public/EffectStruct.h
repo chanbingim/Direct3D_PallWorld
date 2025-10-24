@@ -7,7 +7,9 @@ namespace Engine
 	enum class EFFECT_BELND_MODE		{ DEPTHTEST, APLPHA_BLEND, END };
 
 	enum class EFFECT_DISTOTION_TYPE	{ LERP, POLAR, END };
-	enum class EFFECT_MASK_TYPE			{ ADDTIVE, MULTIPLY, DIVIDE, END };
+	enum class EFFECT_MASK_TYPE			{ DEFAULT, SLICING, END };
+	enum class EFFECT_MASK_MIX_TYPE		{ ADDTIVE, MULTIPLY, END };
+	enum class ALPHA_LERP_TYPE			{ DEFAULT, CENTER, END };
 
 	typedef struct Effect_Network_Desc
 	{
@@ -24,6 +26,7 @@ namespace Engine
 		_float3						vEndPosition;
 		_float3						vEndRotation;
 		_float3						vEndScale;
+		ALPHA_LERP_TYPE				eAlphaType;
 
 		_bool						bIsReverse;
 		EFFECT_TYPE					eType;
@@ -32,18 +35,21 @@ namespace Engine
 		_float						fLifeTime; //이펙트 생명시간
 		_float						fRateTime; //이펙트 진행 시간
 
-		WCHAR						DiffuseTexturePath[MAX_PATH];   // 이펙트 디퓨즈 텍스처 프로토타입 이름
-		WCHAR						NormalTexturePath[MAX_PATH];    // 이펙트 노말 텍스처 프로토타입 이름;
+		WCHAR						DiffuseTexturePath[MAX_PATH] = TEXT("None");   // 이펙트 디퓨즈 텍스처 프로토타입 이름
+		WCHAR						NormalTexturePath[MAX_PATH] = TEXT("None");   // 이펙트 노말 텍스처 프로토타입 이름;
 
 		// 노이즈맵이 있을때 사용
 		_float2						fUvRateTime;                   // 이펙트에서 UV를 이동하여 표현해야할때 사용
 		_float						fNoiseStength;
 		EFFECT_DISTOTION_TYPE		eDistotionType;					// 노이즈 맵등을 이용하여 텍스처를 변경할때 UV의 흐름을 결정할 타입
-		WCHAR						DistotionTexturePath[MAX_PATH]; // 이펙트 디스토션 텍스처 프로토타입 이름;
+		WCHAR						DistotionTexturePath[MAX_PATH] = TEXT("None");  // 이펙트 디스토션 텍스처 프로토타입 이름;
 
 		// 마스킹을 위한 텍스처
-		EFFECT_MASK_TYPE			eMaskType;						// 이펙트 마스킹 타입
-		WCHAR						MaskTexturePath[MAX_PATH];      // 이펙트 마스킹 텍스처 프로토타입 이름
+		EFFECT_MASK_TYPE			eMaskType;
+		_float2						vSlice;							// 마스크를 슬라이스 해서 표현한다.
+
+		EFFECT_MASK_MIX_TYPE		eMaskMixType;						// 이펙트 마스킹 타입
+		WCHAR						MaskTexturePath[MAX_PATH] = TEXT("None");      // 이펙트 마스킹 텍스처 프로토타입 이름
 
 		WCHAR						ShaderTag[MAX_PATH];      // 이펙트 마스킹 텍스처 프로토타입 이름
 		WCHAR						ModelTag[MAX_PATH];      // 이펙트 마스킹 텍스처 프로토타입 이름
