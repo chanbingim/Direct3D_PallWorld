@@ -1001,6 +1001,12 @@
     <Filter Include="07. Effect\Sprite Effect\Hit">
       <UniqueIdentifier>{8192b194-f47b-4902-ac80-37f7d2f460e4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader\ComputeShader">
+      <UniqueIdentifier>{7f8d0067-8dee-4187-8526-5f3f9102c284}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\ComputeShader\Trail">
+      <UniqueIdentifier>{68872233-4b52-4992-9d84-329316472afb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -2708,6 +2714,9 @@
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\SelectTriShader.hlsl">
       <Filter>Shader\Button\Tri</Filter>
+    </FxCompile>
+    <FxCompile Include="TrailComputeShader.hlsl">
+      <Filter>Shader\ComputeShader\Trail</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
