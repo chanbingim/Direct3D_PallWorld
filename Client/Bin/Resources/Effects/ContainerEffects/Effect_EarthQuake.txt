@@ -1,0 +1,4 @@
+Effect_EarthQuake
+2
+EarthQuake_Part1
+EarthQuake_Part2

@@ -35,7 +35,7 @@ HRESULT CElectricBall::Initialize(void* pArg)
     CEffectContatiner::GAMEOBJECT_DESC Desc = {};
     Desc.pParent = this;
     Desc.vScale = { 1.f, 1.f, 1.f };
-    auto pGameObject = m_pGameInstance->EffectClone_Object(1, TEXT("Effect_ElectricBall"), &Desc);
+    auto pGameObject = m_pGameInstance->EffectClone_Object(1, TEXT("Effect_Electric_Ball"), &Desc);
     m_pSkillEffects.push_back(pGameObject);
 
     return S_OK;

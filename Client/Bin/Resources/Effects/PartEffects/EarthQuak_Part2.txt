@@ -1,0 +1,31 @@
+EarthQuake_Part2
+0 0 0 
+-0 0 0 
+1 1 1 
+1
+0 0 0 
+0 0 0 
+4 1 4 
+2
+1
+0
+1
+0.8
+T_Cloud_00.png
+None
+1 0
+1
+0
+T_Cloud_00.png
+0
+0
+0 0
+0
+T_Circle17.png
+Effect_Model_Shader
+Ring.fbx
+1
+1
+T_Noise41.png
+1 0 0 1
+0

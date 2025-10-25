@@ -15,7 +15,6 @@ const char* CIMG_EffectTool::szBlendType[ENUM_CLASS(EFFECT_BELND_MODE::END)] = {
 const char* CIMG_EffectTool::szDistotionType[ENUM_CLASS(EFFECT_DISTOTION_TYPE::END)] = { "LERP", "POLAR"};
 const char* CIMG_EffectTool::szMaskMixType[ENUM_CLASS(EFFECT_MASK_TYPE::END)] = { "ADDTIVE", "MULTIPLY" };
 const char* CIMG_EffectTool::szMaskType[ENUM_CLASS(EFFECT_MASK_MIX_TYPE::END)] = { "DEFAULT", "SLICE" };
-const char* CIMG_EffectTool::szAlphaLerpType[ENUM_CLASS(EFFECT_MASK_MIX_TYPE::END)] = { "DEFAULT", "CENTER" };
 
 
 CIMG_EffectTool::CIMG_EffectTool(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
@@ -402,20 +401,7 @@ void CIMG_EffectTool::EffectDataEditor()
 		m_EffectDesc.vEndScale = { m_vLerpEndScale[0], m_vLerpEndScale[1], m_vLerpEndScale[2] };
 	}
 
-	// 블랜드 모드
-	if (ImGui::BeginCombo("ALPHA_LERP_MODE##EFFECT_ALPHA_LERP_MODE", m_szAlphaLerp))
-	{
-		for (auto i = 0; i < ENUM_CLASS(EFFECT_DISTOTION_TYPE::END); ++i)
-		{
-			if (ImGui::Selectable(szAlphaLerpType[i], false))
-			{
-				strcpy_s(m_szAlphaLerp, szAlphaLerpType[i]);
-				m_EffectDesc.eAlphaType = ALPHA_LERP_TYPE(i);
-			}
-		}
-
-		ImGui::EndCombo();
-	}
+	
 
 #pragma endregion
 

@@ -1,6 +1,10 @@
 #include "Earthquake.h"
 
 #include "GameInstance.h"
+#include "EffectContatiner.h"
+
+#include "Player.h"
+#include "PellBase.h"
 
 CEarthquake::CEarthquake(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CSkillObjectBase(pDevice, pContext)
@@ -28,15 +32,49 @@ HRESULT CEarthquake::Initialize(void* pArg)
 
     if (FAILED(ADD_Components()))
         return E_FAIL;
+    
+    CEffectContatiner::GAMEOBJECT_DESC Desc = {};
+    Desc.pParent = this;
+    Desc.vScale = { 1.f, 1.f, 1.f };
+    auto pGameObject = m_pGameInstance->EffectClone_Object(1, TEXT("Effect_EarthQuake"), &Desc);
+    
+    m_vSpeed = 0.8f;
+    m_fAccTime = 0.f;
+    m_fTotalTime = 1.7f;
+
+    m_vStartScale = { 1.f, 1.f, 1.f };
+    m_vEndScale = { 7.f, 1.f, 7.f };
+    m_pSkillEffects.push_back(pGameObject);
 
     return S_OK;
 }
 
 void CEarthquake::Priority_Update(_float fDeletaTime)
 {
-    // 이거 Lerp라서 내가 받아서 해보자
-    
     __super::Priority_Update(fDeletaTime);
+
+    m_fAccTime += fDeletaTime * m_vSpeed;
+    _vector vStartScale = XMLoadFloat3(&m_vStartScale);
+    _vector vEndScale = XMLoadFloat3(&m_vEndScale);
+
+    if (m_fAccTime >= m_fTotalTime)
+    {
+        if (!m_bIsLerpEnd)
+        {
+            for (auto pEffect : m_pSkillEffects)
+                static_cast<CEffectContatiner*>(pEffect)->EffectDead([&]() { Effect_Dead(); });
+
+            m_bIsLerpEnd = true;
+        }
+    }
+    else
+    {
+        _float3 vLerpScale = {};
+       _vector vCalLerpScale =  XMVectorLerp(vStartScale, vEndScale, m_fAccTime / m_fTotalTime);
+
+       XMStoreFloat3(&vLerpScale, vCalLerpScale);
+       static_cast<COBBCollision*>(m_pCollision)->SetCollision({}, {}, vLerpScale);
+    }
 }
 
 void CEarthquake::Update(_float fDeletaTime)
@@ -55,6 +93,30 @@ HRESULT CEarthquake::Render()
     return S_OK;
 }
 
+void CEarthquake::HitOverlapEvent(_float3 vDir, CGameObject* pGameObject)
+{
+    Default_Damage_Desc DamageDesc = {};
+    DamageDesc.fDmaged = m_SkillData.iSkillDamage;
+
+    auto pPlayer = dynamic_cast<CPlayer*>(pGameObject);
+    if (pPlayer)
+    {
+        if (ACTOR_TEAM::FRENDLY == m_pOwner->GetPellTeam())
+            return;
+        else
+            __super::HitOverlapEvent(vDir, pGameObject);
+    }
+
+    auto pPellBase = dynamic_cast<CPellBase*>(pGameObject);
+    if (pPellBase)
+    {
+        if (pPellBase->GetPellTeam() == m_pOwner->GetPellTeam())
+            return;
+        else
+            __super::HitOverlapEvent(vDir, pGameObject);
+    }
+}
+
 HRESULT CEarthquake::ADD_Components()
 {
     COBBCollision::OBB_COLLISION_DESC OBBDesc = {};
@@ -65,7 +127,20 @@ HRESULT CEarthquake::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionOBB"), TEXT("Collision_Com"), (CComponent**)&m_pCollision, &OBBDesc)))
         return E_FAIL;
 
+    m_pCollision->ADD_IgnoreObejct(typeid(CEarthquake).hash_code());
+    m_pCollision->BindBeginOverlapEvent([this](_float3 vDir, CGameObject* pHitActor) { HitOverlapEvent(vDir, pHitActor); });
     return S_OK;
+}
+
+void CEarthquake::Effect_Dead()
+{
+    for (auto pEffect : m_pSkillEffects)
+    {
+        if (false == pEffect->IsDead())
+            break;
+    }
+
+    SetDead(true);
 }
 
 CEarthquake* CEarthquake::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

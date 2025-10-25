@@ -9,7 +9,7 @@ namespace Engine
 	enum class EFFECT_DISTOTION_TYPE	{ LERP, POLAR, END };
 	enum class EFFECT_MASK_TYPE			{ DEFAULT, SLICING, END };
 	enum class EFFECT_MASK_MIX_TYPE		{ ADDTIVE, MULTIPLY, END };
-	enum class ALPHA_LERP_TYPE			{ DEFAULT, CENTER, END };
+	enum class ALPHA_LERP_TYPE			{ DEFAULT, CENTER, NONE, END };
 
 	typedef struct Effect_Network_Desc
 	{
@@ -50,6 +50,10 @@ namespace Engine
 
 		EFFECT_MASK_MIX_TYPE		eMaskMixType;						// 이펙트 마스킹 타입
 		WCHAR						MaskTexturePath[MAX_PATH] = TEXT("None");      // 이펙트 마스킹 텍스처 프로토타입 이름
+		
+		_bool						bIsDissolve;
+		_float						fDissolveTime;
+		WCHAR						DissolveTexture[MAX_PATH] = TEXT("None");      // 디졸브 텍스처
 
 		WCHAR						ShaderTag[MAX_PATH];      // 이펙트 마스킹 텍스처 프로토타입 이름
 		WCHAR						ModelTag[MAX_PATH];      // 이펙트 마스킹 텍스처 프로토타입 이름

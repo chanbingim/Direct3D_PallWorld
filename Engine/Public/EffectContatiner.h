@@ -32,6 +32,7 @@ public:
 	// ·£´õ
 	virtual		HRESULT										Render() override;
 
+	void													EffectDead(function<void()> EndEffectFunc);
 	const _float4x4*										GetCombinedMatPtr() { return &m_CombinedMatrix; }
 #ifdef _DEBUG
 	void													ADD_EffectPartObject(const wstring& EffectPartTag, void* pArg);
@@ -50,6 +51,9 @@ protected :
 
 private :
 	_float4x4												m_CombinedMatrix = {};
+	_bool													m_bIsDissolve = false;
+
+	function<void()>										m_bIsDissolveEndFunc = nullptr;
 
 private :
 	void													ComputeCombinedMatrix();

@@ -34,7 +34,7 @@ HRESULT CFemalePeople_1::Initialize(void* pArg)
         return E_FAIL;
 
     m_fActionDistance = 10.f;
-    m_eTeam = NPC_TEAM::FRENDLY;
+    m_eTeam = ACTOR_TEAM::FRENDLY;
     return S_OK;
 }
 

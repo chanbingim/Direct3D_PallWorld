@@ -1,0 +1,30 @@
+Effect_Tornado_Part1
+0 0 0 
+-0 0 0 
+19.5392 19.5392 19.5392 
+1
+0 0 0 
+0 0 0 
+20 20 20 
+0
+0
+0
+10
+10
+T_Hit_03.png
+
+0 0
+0
+1
+None
+0
+0
+0 0
+0
+T_Hit_03.png
+Effect_VIRect_Shader
+VI_Rect
+1
+T_VFX_Noise_03_A.png
+0.955882 0.955882 0.149942 0.976
+0

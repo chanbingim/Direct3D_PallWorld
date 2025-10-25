@@ -1,0 +1,31 @@
+Tornado_Effect_Part1
+0 0 0 
+-0 0 0 
+5 5 5 
+0
+0 0 0 
+0 0 0 
+0 0 0 
+0
+1
+0
+1.7
+0.8
+T_Trail05.png
+None
+-0.27 0.93
+0.67
+1
+T_Default_Noise02.png
+0
+0
+1 1
+0
+T_Trail05.png
+Effect_Model_Shader
+Tornado.fbx
+1
+1
+T_Default_Noise05.png
+0.471165 0.843137 0.210784 1
+1

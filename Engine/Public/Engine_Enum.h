@@ -36,6 +36,7 @@ namespace Engine
 		NORMAL = 1,
 		NOISE = 2,
 		MASK = 3,
+		DISSOLVE = 4,
 		END
 	};
 

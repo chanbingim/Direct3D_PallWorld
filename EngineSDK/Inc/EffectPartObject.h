@@ -46,6 +46,8 @@ public:
 	void									ResetEffect();
 	const _float4x4*						GetPartObejctWorldMat() { return &m_CombinedWorldMatrix; }
 	const EFFECT_NETWORK_DESC&				GetEffectPartData() { return m_EffectData; }
+	
+	void									EffectDead();
 
 #ifdef _DEBUG
 	void									SetPartEffectData(EFFECT_NETWORK_DESC& Data);
@@ -55,13 +57,14 @@ public:
 protected:
 	EFFECT_NETWORK_DESC						m_EffectData = {};
 
+	_bool									m_bIsDissolve = false;
 	_float									m_fLifeAccTime = {};
 	_float2									m_fDistotionAccTime = {};
 
 	_float4x4								m_CombinedWorldMatrix = {};
 
 	CComponent*								m_pVIBufferCom = nullptr;
-	CTexture*								m_pTextures[4] = { nullptr, nullptr, nullptr, nullptr };
+	CTexture*								m_pTextures[5] = { nullptr, nullptr, nullptr, nullptr, nullptr };
 	CShader*								m_pShaderCom = nullptr;
 
 protected:
@@ -72,6 +75,7 @@ protected:
 
 private :
 	HRESULT									ReadFileData(const char* pFilePath);
+	void									DeadDissolve();
 
 public:
 	static			CEffectPartObject*		Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

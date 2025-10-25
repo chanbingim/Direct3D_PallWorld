@@ -1,0 +1,31 @@
+Electirc_Ball_Part2
+0 0 0 
+-0 0 0 
+1 1 1 
+0
+0 0 0 
+0 0 0 
+0 0 0 
+2
+1
+0
+1.7
+0.8
+T_Snow009A_1K-PNG_Roughness.png
+None
+0 -1
+0.11
+1
+T_Aura02.png
+0
+0
+0 0
+0
+T_Thunder01.png
+Effect_Model_Shader
+Sphere2In.fbx
+1
+1
+T_Cloud_00.png
+1 1 0 1
+1

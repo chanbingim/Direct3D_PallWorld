@@ -50,7 +50,7 @@ HRESULT CDororong::Initialize(void* pArg)
     if (FAILED(ADD_PellInfoUI()))
         return E_FAIL;
 
-    m_eTeam = PELL_TEAM::NEUTRAL;
+    m_eTeam = ACTOR_TEAM::NEUTRAL;
     return S_OK;
 }
 

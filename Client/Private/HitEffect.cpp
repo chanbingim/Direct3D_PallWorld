@@ -1,5 +1,8 @@
 #include "HitEffect.h"
 
+#include "GameInstance.h"
+#include "EffectContatiner.h"
+
 CHitEffect::CHitEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 	CSpriteEffect(pDevice, pContext)
 {
@@ -20,12 +23,26 @@ HRESULT CHitEffect::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+	HIT_EFFECT_DESC* pHitDesc = static_cast<HIT_EFFECT_DESC*>(pArg);
+	m_fLifeTime = pHitDesc->fLifeTime;
+	m_fSpeed = pHitDesc->fSpeed;
+
+	CEffectContatiner::GAMEOBJECT_DESC Desc = {};
+	Desc.pParent = this;
+	Desc.vScale = { 1.f, 1.f, 1.f };
+	auto pGameObject = m_pGameInstance->EffectClone_Object(1, pHitDesc->szEffectName, &Desc);
+	m_pEffects.push_back(pGameObject);
+
 	return S_OK;
 }
 
 void CHitEffect::Priority_Update(_float fDeletaTime)
 {
 	__super::Priority_Update(fDeletaTime);
+	m_fAccTime += fDeletaTime * m_fSpeed;
+
+	if (m_fLifeTime <= m_fAccTime)
+		SetDead(true);
 }
 
 void CHitEffect::Update(_float fDeletaTime)

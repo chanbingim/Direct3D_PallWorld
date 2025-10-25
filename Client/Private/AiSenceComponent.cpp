@@ -55,6 +55,9 @@ void CAiSenceComponent::Bind_TargetLost(function<void(CGameObject*)> TargetLostF
 
 void CAiSenceComponent::TargetSearch(_float3 vDir, CGameObject* pHitObject)
 {
+    if (nullptr == dynamic_cast<CContainerObject*>(pHitObject))
+        return;
+
     auto iter = m_pSearchList.find(pHitObject);
     if (iter != m_pSearchList.end())
         return;

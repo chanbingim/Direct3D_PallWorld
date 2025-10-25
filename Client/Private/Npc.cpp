@@ -50,7 +50,7 @@ void CNpc::Update(_float fDeletaTime)
 {
     __super::Update(fDeletaTime);
 
-    if (NPC_TEAM::FRENDLY == m_eTeam)
+    if (ACTOR_TEAM::FRENDLY == m_eTeam)
     {
         _vector vCalCamereaPos = m_pGameInstance->GetCameraState(WORLDSTATE::POSITION);
         _vector vCalCamereaLook = m_pGameInstance->GetCameraState(WORLDSTATE::LOOK);

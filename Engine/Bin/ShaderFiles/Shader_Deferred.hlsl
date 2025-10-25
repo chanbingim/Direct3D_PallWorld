@@ -160,14 +160,16 @@ PS_OUT_BACKBUFFER PS_MAIN_COMBINED(PS_IN In)
     PS_OUT_BACKBUFFER Out;
     
     vector vDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
+  
     if (0.0f == vDiffuse.a)
         discard;
+    
     vector vShade = g_ShadeTexture.Sample(DefaultSampler, In.vTexcoord);
     
     vector vSpecular = g_SpecularTexture.Sample(DefaultSampler, In.vTexcoord);
+   
     vector vBlur = g_BlurTexture.Sample(ClampSampler, In.vTexcoord);
-    
-    Out.vBackBuffer = vDiffuse * vShade + vBlur; // + vSpecular;
+    Out.vBackBuffer = vDiffuse * vShade; //vSpecular;
     
     return Out;
 }
