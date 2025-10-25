@@ -27,9 +27,6 @@ public :
 		PELL_INFO					PellInfo;
 	}PELL_BASE_DESC;
 
-public :
-	enum class PELL_TEAM	{ FRENDLY, NEUTRAL, ENEMY, END };
-
 protected:
 	CPellBase(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);
 	CPellBase(const CPellBase& rhs);
@@ -53,8 +50,8 @@ public:
 
 	virtual		void						Damage(void* pArg, CActor* pDamagedActor);
 
-	void									ChangePellTeam(PELL_TEAM eTeam);
-	PELL_TEAM								GetPellTeam() { return m_eTeam; }
+	void									ChangePellTeam(ACTOR_TEAM eTeam);
+	ACTOR_TEAM								GetPellTeam() const { return m_eTeam; }
 
 	void									ChangePellStorageType(PELL_STORAGE_STATE eStorageType);
 
@@ -79,7 +76,7 @@ public:
 
 protected :
 	_uInt									m_PellID;
-	PELL_TEAM								m_eTeam;
+	ACTOR_TEAM								m_eTeam;
 	PELL_INFO								m_PellInfo = {};
 
 	_float									m_fPellMoveSpeed = {};

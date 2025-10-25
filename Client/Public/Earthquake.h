@@ -22,8 +22,24 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
+protected :
+	void									HitOverlapEvent(_float3 vDir, CGameObject* pGameObject) override;
+
+private :
+	_bool									m_bIsLerpEnd = false;
+	_float									m_fAccTime = {};
+	_float									m_fTotalTime = {};
+
+	_float									m_vSpeed = {};
+	_float3									m_vStartScale = {};
+	_float3									m_vEndScale = {};
+
 private:
 	HRESULT									ADD_Components();
+
+
+	void									Effect_Dead();
+
 
 public:
 	static			CEarthquake*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

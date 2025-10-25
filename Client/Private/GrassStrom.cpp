@@ -12,7 +12,7 @@ CGrassStrom::CGrassStrom(const CGrassStrom& rhs) :
     CSkillObjectBase(rhs)
 {
 }
-
+ 
 HRESULT CGrassStrom::Initalize_Prototype()
 {
     m_iNumSkill = 5;
@@ -33,7 +33,7 @@ HRESULT CGrassStrom::Initialize(void* pArg)
     CEffectContatiner::GAMEOBJECT_DESC Desc = {};
     Desc.pParent = this;
     Desc.vScale = { 1.f, 1.f, 1.f };
-    auto pGameObject = m_pGameInstance->EffectClone_Object(1, TEXT("Effect_Tornado"), &Desc);
+    auto pGameObject = m_pGameInstance->EffectClone_Object(1, TEXT("Tornado_Effect"), &Desc);
     m_pSkillEffects.push_back(pGameObject);
 
     return S_OK;

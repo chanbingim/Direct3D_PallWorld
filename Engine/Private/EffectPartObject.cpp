@@ -163,7 +163,7 @@ void CEffectPartObject::DeadDissolve()
 {
     if (m_fLifeAccTime >= m_EffectData.fDissolveTime)
     {
-        //SetDead(true);
+        SetDead(true);
         m_bIsDissolve = false;
         m_fLifeAccTime = 0.f;
         m_fDistotionAccTime = { 0, 0 };
@@ -271,7 +271,7 @@ void CEffectPartObject::ExportData(void* pArg)
 
 HRESULT CEffectPartObject::Apply_ConstantShaderResources()
 {
-    m_pShaderCom->Bind_Matrix("g_WorldMatrix",  &m_pTransformCom->GetWorldMat());
+    m_pShaderCom->Bind_Matrix("g_WorldMatrix",  &m_CombinedWorldMatrix);
     m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_pGameInstance->GetMatrix(MAT_STATE::VIEW));
     m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION));
 
@@ -309,7 +309,7 @@ HRESULT CEffectPartObject::Apply_ConstantShaderResources()
 
 HRESULT CEffectPartObject::Apply_ConstantShaderResources(_uInt iMeshIndex)
 {
-    m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->GetWorldMat());
+    m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_CombinedWorldMatrix);
     m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_pGameInstance->GetMatrix(MAT_STATE::VIEW));
     m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION));
 

@@ -16,7 +16,7 @@ namespace Client
 
 	enum class COSTUME_TYPE { HEAD, BODY, BOTTOM, WHOLE_BODY, SHOES,END};
 	enum class DIRECTION { FRONT, LEFT, RIGHT, BACK, END};
-
+	enum class ACTOR_TEAM { FRENDLY, NEUTRAL, ENEMY, BOSS, END };
 }
 
 extern HWND					g_hWnd;

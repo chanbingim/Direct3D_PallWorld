@@ -108,7 +108,7 @@ _bool CAnimation::UpdateTransformationMatrices(vector<CBone*>& Bones, _float fTi
 	auto iter = m_KeyFrameCallFunction.find(iKeyFrameTime);
 	if (iter != m_KeyFrameCallFunction.end())
 	{
-		if (m_iLastCallFunctionIndex < (_Int)iKeyFrameTime)
+		if (m_iLastCallFunctionIndex <= (_Int)iKeyFrameTime)
 		{
 			iter->second();
 			m_iLastCallFunctionIndex = iKeyFrameTime;

@@ -277,7 +277,7 @@ void CPalBox::Add_WorkPalList(const PELL_INFO& PellInfo, _Int WorkSlotID)
         return;
     m_pGameInstance->Add_GameObject_ToLayer(iCurLevelID, TEXT("Layer_GamePlay_Pell"), static_cast<CGameObject*>(pBase));
     m_SpawnPells[WorkSlotID] = static_cast<CPellBase *>(pBase);
-    m_SpawnPells[WorkSlotID]->ChangePellTeam(CPellBase::PELL_TEAM::FRENDLY);
+    m_SpawnPells[WorkSlotID]->ChangePellTeam(ACTOR_TEAM::FRENDLY);
 }
 
 const PELL_INFO* CPalBox::GetWorkPalInfo(_uInt iWorkIndex)

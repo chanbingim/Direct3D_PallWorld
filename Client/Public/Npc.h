@@ -36,11 +36,11 @@ public:
 	virtual		HRESULT						Render() override;
 	const _bool								GetFinisehdAnimation() const;
 
-	NPC_TEAM								GetNpcTeam() { return m_eTeam; }
+	ACTOR_TEAM								GetNpcTeam() { return m_eTeam; }
 
 protected:
 	_uInt									m_NpcID;
-	NPC_TEAM								m_eTeam;
+	ACTOR_TEAM								m_eTeam;
 
 	_float									m_fActionDistance = {};
 

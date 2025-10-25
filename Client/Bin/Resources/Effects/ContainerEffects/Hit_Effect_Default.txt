@@ -1,0 +1,3 @@
+Hit_Effect_Default
+1
+Effect_Tornado_Part1

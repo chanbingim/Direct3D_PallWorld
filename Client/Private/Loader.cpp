@@ -136,6 +136,11 @@
 #include "Earthquake.h"
 #pragma endregion
 
+#pragma region EFFECT
+#include "HitEffect.h"
+#pragma endregion
+
+
 #pragma region WORKBENCH
 #include "WorkBenchCreateUI.h"
 #include "CreateToolTipUI.h"
@@ -1410,6 +1415,12 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* GAME_OBJECT_GrassStome */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Pal_Skill_GrassStrom"), CGrassStrom::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region Hit_Effect
+	/* GAME_OBJECT_Hit_Effect */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Hit_Effect_Defalut"), CHitEffect::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 #pragma endregion
 

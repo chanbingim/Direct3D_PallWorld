@@ -4,6 +4,15 @@
 NS_BEGIN(Client)
 class CHitEffect : public CSpriteEffect
 {
+public :
+	typedef struct HitEffectDesc : public GAMEOBJECT_DESC
+	{
+		_float				fLifeTime;
+		_float				fSpeed;
+
+		const WCHAR*		szEffectName;
+	}HIT_EFFECT_DESC;
+
 protected:
 	CHitEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CHitEffect(const CHitEffect& rhs);
@@ -25,11 +34,12 @@ public:
 protected:
 	_float									m_fLifeTime = {};
 	_float									m_fAccTime = {};
+	_float									m_fSpeed = {};
 
 	list<CGameObject*>						m_pEffects = {};
 
 public:
-	virtual			CHitEffect*				Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static			CHitEffect*				Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual			CGameObject*			Clone(void* pArg) override;
 	virtual			void					Free() override;
 

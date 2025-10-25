@@ -2,6 +2,14 @@
 #include "SpriteEffect.h"
 
 NS_BEGIN(Client)
+
+typedef struct TrailData
+{
+	_float4x4		WorldMat;
+
+	_float3			vLifeTime;
+};
+
 class CTrailEffect : public CSpriteEffect
 {
 protected:
@@ -21,6 +29,11 @@ public:
 
 	// ·£´õ
 	virtual		HRESULT						Render() override;
+
+
+private :
+	ID3D11Buffer				
+
 
 public:
 	static			CTrailEffect*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

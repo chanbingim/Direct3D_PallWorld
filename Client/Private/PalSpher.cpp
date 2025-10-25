@@ -169,7 +169,7 @@ void CPalSpher::BeginOverlapEvent(_float3 vDir, CGameObject* pTarget)
 	CPellBase* pHitPell = dynamic_cast<CPellBase*>(pTarget);
 	if (pHitPell)
 	{
-		if (CPellBase::PELL_TEAM::NEUTRAL != pHitPell->GetPellTeam())
+		if (ACTOR_TEAM::NEUTRAL != pHitPell->GetPellTeam())
 			return;
 
 		//여기서 펠 플래그나 상태 바꿔주고 모든로직을 잠깐 멈춰둠

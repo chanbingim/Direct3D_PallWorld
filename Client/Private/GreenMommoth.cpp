@@ -50,7 +50,7 @@ HRESULT CGreenMommoth::Initialize(void* pArg)
     if (FAILED(ADD_PartObjects()))
         return E_FAIL;
 
-    m_eTeam = PELL_TEAM::NEUTRAL;
+    m_eTeam = ACTOR_TEAM::BOSS;
 
     m_PellInfo.PartnerSkillList.push_back(*CPellSkillManager::GetInstance()->FindPellData(5));
     return S_OK;

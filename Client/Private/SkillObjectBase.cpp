@@ -29,6 +29,9 @@ HRESULT CSkillObjectBase::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
+    SKILL_OBJECT_DESC* pObjectDesc = static_cast<SKILL_OBJECT_DESC*>(pArg);
+    m_vTargetDir = pObjectDesc->vTargetDir;
+    m_pOwner = pObjectDesc->pOwner;
     return S_OK;
 }
 

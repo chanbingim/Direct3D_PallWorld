@@ -56,6 +56,19 @@ void CEffectContatiner::Update(_float fDeletaTime)
 {
 	for (auto& Pair : m_PartObjects)
 		Pair.second->Update(fDeletaTime);
+
+	if (m_bIsDissolve)
+	{
+		for (auto& Pair : m_PartObjects)
+		{
+			if (Pair.second->IsDead())
+				break;
+		}
+
+		if (m_bIsDissolveEndFunc)
+			m_bIsDissolveEndFunc();
+		SetDead(true);
+	}
 }
 
 void CEffectContatiner::Late_Update(_float fDeletaTime)
@@ -68,6 +81,15 @@ void CEffectContatiner::Late_Update(_float fDeletaTime)
 HRESULT CEffectContatiner::Render()
 {
 	return S_OK;
+}
+
+void CEffectContatiner::EffectDead(function<void()> EndEffectFunc)
+{
+	m_bIsDissolve = true;
+	m_bIsDissolveEndFunc = EndEffectFunc;
+
+	for (auto& pPartEffects : m_PartObjects)
+		static_cast<CEffectPartObject*>(pPartEffects.second)->EffectDead();
 }
 
 #ifdef _DEBUG

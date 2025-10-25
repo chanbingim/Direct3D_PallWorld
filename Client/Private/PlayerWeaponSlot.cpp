@@ -228,11 +228,11 @@ void CPlayerWeaponSlot::HitBegin(_float3 vDir, CGameObject* pHitActor)
 		{
 			switch (pPellBase->GetPellTeam())
 			{
-			case CPellBase::PELL_TEAM::NEUTRAL:
-			case CPellBase::PELL_TEAM::ENEMY :
+			case ACTOR_TEAM::NEUTRAL:
+			case ACTOR_TEAM::ENEMY :
 				bIsDamage = true;
 				break;
-			case CPellBase::PELL_TEAM::FRENDLY:
+			case ACTOR_TEAM::FRENDLY:
 				return;
 			}
 		}

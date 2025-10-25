@@ -94,8 +94,9 @@ HRESULT CGrassMommothBody::Insert_AnimKeyFrameFunction()
 void CGrassMommothBody::EarthquakeEvent()
 {
     CEarthquake::SKILL_OBJECT_DESC EarthQuakeDesc = {};
+    EarthQuakeDesc.pOwner = static_cast<CPellBase *>(m_pParent);
     EarthQuakeDesc.vScale = { 1.f, 1.f, 1.f };
-    EarthQuakeDesc.vPosition = m_pTransformCom->GetPosition();
+    EarthQuakeDesc.vPosition = m_pParent->GetTransform()->GetPosition();
     
     auto pEarthQuake = static_cast<CGameObject*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Pal_Skill_Earthquake"), &EarthQuakeDesc));
     m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("GamePlay_Layer_Skill"), pEarthQuake);
@@ -114,9 +115,11 @@ void CGrassMommothBody::FarSkillEvent()
     vRight *= m_ProjectileSocketDistance;
 
     CGrassStrom::SKILL_OBJECT_DESC GrassStromDesc = {};
+   
     CPellBase* pOwner = static_cast<CPellBase*>(m_pParent);
     CCombatComponent* pCombatCom = static_cast<CCombatComponent *>(pOwner->Find_Component(TEXT("Combat_Com")));
 
+    GrassStromDesc.pOwner = pOwner;
     _float3 vTargetPoint = pCombatCom->GetCurrentTarget()->GetTransform()->GetPosition();
      XMStoreFloat3(&GrassStromDesc.vTargetDir, XMVector3Normalize(XMLoadFloat3(&vTargetPoint) - vCalPostion));
 

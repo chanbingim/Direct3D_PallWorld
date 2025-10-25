@@ -182,7 +182,7 @@ void CPellBase::Damage(void* pArg, CActor* pDamagedActor)
     }
 }
 
-void CPellBase::ChangePellTeam(PELL_TEAM eTeam)
+void CPellBase::ChangePellTeam(ACTOR_TEAM eTeam)
 {
     m_eTeam = eTeam;
     m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Idle"));
@@ -190,10 +190,10 @@ void CPellBase::ChangePellTeam(PELL_TEAM eTeam)
 
     switch (m_eTeam)
     {
-    case Client::CPellBase::PELL_TEAM::NEUTRAL:
+    case ACTOR_TEAM::NEUTRAL:
         m_PellInfo.ePellStorageState = PELL_STORAGE_STATE::WORLD;
         break;
-    case Client::CPellBase::PELL_TEAM::ENEMY:
+    case ACTOR_TEAM::ENEMY:
 
         break;
     }
@@ -369,7 +369,7 @@ _bool CPellBase::PellPlayFSM(_float fDeletaTime)
     }
     else if(false == m_IsDead)
     {
-        if (PELL_TEAM::NEUTRAL == m_eTeam)
+        if (ACTOR_TEAM::NEUTRAL == m_eTeam)
             ShowPellInfo();
 
         if(m_bIsAction || PELL_STORAGE_STATE::PARTNER_PELL == m_PellInfo.ePellStorageState)
@@ -413,13 +413,13 @@ void CPellBase::PellChiceAction(_float fDeletaTime)
 {
     switch (m_eTeam)
     {
-    case PELL_TEAM::FRENDLY:
+    case ACTOR_TEAM::FRENDLY:
         ActionFrendly(fDeletaTime);
         break;
-    case PELL_TEAM::NEUTRAL:
+    case ACTOR_TEAM::NEUTRAL:
         ActionNeutral(fDeletaTime);
         break;
-    case PELL_TEAM::ENEMY:
+    case ACTOR_TEAM::ENEMY:
         ActionEnemy(fDeletaTime);
         break;
     }
@@ -664,12 +664,12 @@ void CPellBase::UpdateTeamAction(_float fDeletaTime)
 {
     switch (m_eTeam)
     {
-    case PELL_TEAM::FRENDLY:
+    case ACTOR_TEAM::FRENDLY:
         UpdateFrendlyAction(fDeletaTime);
         break;
-    case PELL_TEAM::NEUTRAL:
+    case ACTOR_TEAM::NEUTRAL:
         break;
-    case PELL_TEAM::ENEMY:
+    case ACTOR_TEAM::ENEMY:
         break;
     }
 }

@@ -8,12 +8,19 @@ class CCollision;
 NS_END
 
 NS_BEGIN(Client)
+class CPellBase;
+
 class CSkillObjectBase abstract : public CActor
 {
 public :
-	typedef struct SkillObjectDesc  : public GAMEOBJECT_DESC
+	typedef struct SkillObjectInitDesc 
 	{
 		_uInt				iSkillID;
+	}SKILL_OBJECT_INIT_DESC;
+
+	typedef struct SkillObjectDesc : public GAMEOBJECT_DESC
+	{
+		const CPellBase*	pOwner;
 		_float3				vTargetDir;
 	}SKILL_OBJECT_DESC;
 
@@ -37,6 +44,7 @@ public:
 
 protected:
 	_uInt									m_iNumSkill = {};
+	const CPellBase*						m_pOwner = nullptr;
 	PAL_SKILL_NETWORK_DATA					m_SkillData = {};
 
 	_float3									m_vTargetDir = {};
@@ -47,7 +55,7 @@ protected:
 	CCollision*								m_pCollision = nullptr;
 	list<CGameObject*>						m_pSkillEffects = {};
 
-private :
+protected :
 	virtual			void					HitOverlapEvent(_float3 vDir, CGameObject* pHitObject);
 	virtual			void					HitOverlapping(_float3 vDir, CGameObject* pHitObject);
 	virtual			void					HitOverlapEnd(_float3 vDir, CGameObject* pHitObject);

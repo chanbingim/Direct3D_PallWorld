@@ -600,9 +600,9 @@ HRESULT CPlayerManager::ADDOwnerPellList(CPellBase* pPellBase)
 	if (iter == m_pOwnerPells.end() || !bNotOverlap)
 		return E_FAIL;
 
-	if (CPellBase::PELL_TEAM::NEUTRAL == pPellBase->GetPellTeam())
+	if (ACTOR_TEAM::NEUTRAL == pPellBase->GetPellTeam())
 	{
-		pPellBase->ChangePellTeam(CPellBase::PELL_TEAM::FRENDLY);
+		pPellBase->ChangePellTeam(ACTOR_TEAM::FRENDLY);
 		pPellBase->ChangePellStorageType(PELL_STORAGE_STATE::PLAYER_INVEN);
 		*iter = pPellBase;
 	}
