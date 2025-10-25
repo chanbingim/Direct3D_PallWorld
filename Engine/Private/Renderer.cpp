@@ -24,7 +24,7 @@ HRESULT CRenderer::Initialize()
 
     /* ÈÄÃ³¸® ½¦ÀÌµùÀ» À§ÇÑ ·»´õÅ¸°ÙµéÀ» ÁØºñÇÏ³®. */
     /* Target_Diffuse */
-    if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Diffuse"), Viewport.Width, Viewport.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.0f, 0.f, 0.f, 1.f))))
+    if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Diffuse"), Viewport.Width, Viewport.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.0f, 0.f, 0.f, 0.f))))
         return E_FAIL;
 
     /* Target_Normal */

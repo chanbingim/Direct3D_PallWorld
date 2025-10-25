@@ -268,11 +268,11 @@
     <Filter Include="Utility\Eeffect\Struct_Base">
       <UniqueIdentifier>{aa5729cf-83a5-4174-ba66-88f306660652}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utility\Eeffect\Manager">
-      <UniqueIdentifier>{5e462200-9aa6-4a4a-845b-c5a0f33541e7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ShaderFiles\Effect">
       <UniqueIdentifier>{9d285381-70da-4c87-b6e6-09503f4dbaec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Eeffect\Manager">
+      <UniqueIdentifier>{5e462200-9aa6-4a4a-845b-c5a0f33541e7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

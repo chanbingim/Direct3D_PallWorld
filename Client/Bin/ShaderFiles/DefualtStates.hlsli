@@ -11,7 +11,7 @@ sampler DefaultSampler = sampler_state
 
 sampler ClampSampler = sampler_state
 {
-    filter = MIN_MAG_MIP_LINEAR;
+    filter = MIN_MAG_MIP_POINT;
     AddressU = CLAMP;
     AddressV = CLAMP;
 };

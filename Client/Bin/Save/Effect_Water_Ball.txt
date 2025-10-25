@@ -1,8 +1,0 @@
-Effect_Electirc_Ball
-6
-Effect_Tornado_Part3
-Electirc_Ball_Part1
-Electirc_Ball_Part2
-Effect_Tornado_Part1
-Electirc_Ball_Part3
-Effect_Tornado_Part2

@@ -58,16 +58,12 @@ inline float2 ComputeUV(float2 vBaseUV, bool bIsPolar, float fTime, uint Type)
                 float2 vDir = vBaseUV - float2(0, 0);
                 float fAngle = atan2(vDir.y, vDir.x);
                 
-                vBaseUV + float2(cos(fAngle), sin(fAngle));
+                vBaseUV += float2(cos(fAngle), sin(fAngle));
             }
-            break;
-        
-       
-        default :
-            vOut = vBaseUV;
             break;
     }
     
+    vOut = vBaseUV;
     if (0 < fTime)
         vOut += fTime;
     
@@ -99,6 +95,7 @@ inline float2 SliceUV(float2 vBaseUV, float fRatio, float2 vSliceCount)
 inline float ComputeAlpha(float4 vBaseColor, float fTime, int iType, float2 vTexcrood)
 {
     float vOut;
+
     
     switch (iType)
     {
@@ -119,10 +116,18 @@ inline float ComputeAlpha(float4 vBaseColor, float fTime, int iType, float2 vTex
             }
             break;
         default :
-            vBaseColor.a = saturate(vBaseColor.a - fTime);
             break;
     }
     
     vOut = vBaseColor.a;
+    return vOut;
+}
+
+inline float4 DissolveFunc(Texture2D DissolveTexture, SamplerState Sampler, float2 vTexcoord, float fAmount)
+{
+    float4 vOut;
+
+    vOut = DissolveTexture.Sample(Sampler, vTexcoord);
+    clip(vOut.r - fAmount);
     return vOut;
 }

@@ -52,49 +52,61 @@ void CEffectPartObject::Update(_float fDeletaTime)
     m_fDistotionAccTime.x += fDeletaTime * m_EffectData.fUvRateTime.x;
     m_fDistotionAccTime.y += fDeletaTime * m_EffectData.fUvRateTime.y;
 
-    if (m_fLifeAccTime >= m_EffectData.fLifeTime)
+    if (!m_bIsDissolve)
     {
-        if (m_EffectData.bIsLoop)
-            m_fLifeAccTime = 0;
-        else
-            m_fLifeAccTime = m_EffectData.fLifeTime;
+        if (m_EffectData.bIsLerp)
+        {
+            if (0 == m_EffectData.fLifeTime)
+                return;
+
+            _float fRatio = m_fLifeAccTime / m_EffectData.fLifeTime;
+            _vector vStartPos = XMLoadFloat3(&m_EffectData.vPosition);
+            _vector vEndPos = XMLoadFloat3(&m_EffectData.vEndPosition);
+
+            _vector vStartScale = XMLoadFloat3(&m_EffectData.vScale);
+            _vector vEndtScale = XMLoadFloat3(&m_EffectData.vEndScale);
+
+            _float3 vPosition{}, vScale{};
+            XMStoreFloat3(&vPosition, XMVectorLerp(vStartPos, vEndPos, fRatio));
+            XMStoreFloat3(&vScale, XMVectorLerp(vStartScale, vEndtScale, fRatio));
+
+            m_pTransformCom->SetPosition(vPosition);
+            m_pTransformCom->SetScale(vScale);
+        }
+
+        if (m_fLifeAccTime >= m_EffectData.fLifeTime)
+        {
+            if (m_EffectData.bIsLoop)
+                m_fLifeAccTime = 0;
+            else
+            {
+                m_fLifeAccTime = m_EffectData.fLifeTime;
+                m_fLifeAccTime = 0.f;
+
+                if (m_EffectData.bIsDissolve)
+                    m_bIsDissolve = true;
+            }
+        }
+
+        if (fabsf(m_fDistotionAccTime.x) >= m_EffectData.fLifeTime)
+        {
+            if (m_EffectData.bIsLoop)
+                m_fDistotionAccTime.x = 0.f;
+            else
+                m_fDistotionAccTime.x = 1.f;
+        }
+
+        if (fabsf(m_fDistotionAccTime.y) >= m_EffectData.fLifeTime)
+        {
+            if (m_EffectData.bIsLoop)
+                m_fDistotionAccTime.y = 0.f;
+            else
+                m_fDistotionAccTime.y = 1.f;
+        }
     }
 
-    if (fabsf(m_fDistotionAccTime.x) >= m_EffectData.fLifeTime)
-    {
-        if (m_EffectData.bIsLoop)
-            m_fDistotionAccTime.x = 0.f;
-        else
-            m_fDistotionAccTime.x = 1.f;
-    }
-
-    if (fabsf(m_fDistotionAccTime.y) >= m_EffectData.fLifeTime)
-    {
-        if (m_EffectData.bIsLoop)
-            m_fDistotionAccTime.y = 0.f;
-        else
-            m_fDistotionAccTime.y = 1.f;
-    }
-
-    if (m_EffectData.bIsLerp)
-    {
-        if (0 == m_EffectData.fLifeTime)
-            return;
-
-        _float fRatio = m_fLifeAccTime / m_EffectData.fLifeTime;
-        _vector vStartPos = XMLoadFloat3(&m_EffectData.vPosition);
-        _vector vEndPos = XMLoadFloat3(&m_EffectData.vEndPosition);
-
-        _vector vStartScale = XMLoadFloat3(&m_EffectData.vScale);
-        _vector vEndtScale = XMLoadFloat3(&m_EffectData.vEndScale);
-
-        _float3 vPosition{}, vScale{};
-        XMStoreFloat3(&vPosition, XMVectorLerp(vStartPos, vEndPos, fRatio));
-        XMStoreFloat3(&vScale, XMVectorLerp(vStartScale, vEndtScale, fRatio));
-
-        m_pTransformCom->SetPosition(vPosition);
-        m_pTransformCom->SetScale(vScale);
-    }
+    if (m_bIsDissolve)
+        DeadDissolve();
 }
 
 void CEffectPartObject::Late_Update(_float fDeletaTime)
@@ -141,6 +153,23 @@ void CEffectPartObject::ResetEffect()
     m_fDistotionAccTime = { 0.f, 0.f };
 }
 
+void CEffectPartObject::EffectDead()
+{
+    m_bIsDissolve = true;
+    m_fLifeAccTime = 0.f;
+}
+
+void CEffectPartObject::DeadDissolve()
+{
+    if (m_fLifeAccTime >= m_EffectData.fDissolveTime)
+    {
+        //SetDead(true);
+        m_bIsDissolve = false;
+        m_fLifeAccTime = 0.f;
+        m_fDistotionAccTime = { 0, 0 };
+    }
+}
+
 #ifdef _DEBUG
 void CEffectPartObject::SetPartEffectData(EFFECT_NETWORK_DESC& Data)
 {
@@ -165,7 +194,7 @@ void CEffectPartObject::SetPartEffectData(EFFECT_NETWORK_DESC& Data)
     m_pTextures[1] = m_pGameInstance->GetTextureResource(m_EffectData.NormalTexturePath);
     m_pTextures[2] = m_pGameInstance->GetTextureResource(m_EffectData.DistotionTexturePath);
     m_pTextures[3] = m_pGameInstance->GetTextureResource(m_EffectData.MaskTexturePath);
-}
+    m_pTextures[4] = m_pGameInstance->GetTextureResource(m_EffectData.DissolveTexture);}
 
 void CEffectPartObject::ExportData(void* pArg)
 {
@@ -226,6 +255,11 @@ void CEffectPartObject::ExportData(void* pArg)
         CStringHelper::ConvertWideToUTF(m_EffectData.ModelTag, ConvertPath);
         file << ConvertPath << endl;
 
+        file << m_EffectData.bIsDissolve << endl;
+        file << m_EffectData.fDissolveTime << endl;
+        CStringHelper::ConvertWideToUTF(m_EffectData.DissolveTexture, ConvertPath);
+        file << ConvertPath << endl;
+
         file << m_EffectData.vColor.x << " " << m_EffectData.vColor.y << " " << m_EffectData.vColor.z << " " << m_EffectData.vColor.w << endl;
         file << m_EffectData.bIsLoop << endl;
     }
@@ -243,7 +277,7 @@ HRESULT CEffectPartObject::Apply_ConstantShaderResources()
 
     if (nullptr != m_pTextures[ENUM_CLASS(EFFECT_TEXTURE_TYPE::DIFFUSE)])
         m_pShaderCom->Bind_SRV("g_DiffuseTexture", m_pTextures[ENUM_CLASS(EFFECT_TEXTURE_TYPE::DIFFUSE)]->GetTexture(0));
-
+  
     if (nullptr != m_pTextures[ENUM_CLASS(EFFECT_TEXTURE_TYPE::NORMAL)])
         m_pShaderCom->Bind_SRV("g_NormalTexture", m_pTextures[ENUM_CLASS(EFFECT_TEXTURE_TYPE::NORMAL)]->GetTexture(0));
 
@@ -253,17 +287,23 @@ HRESULT CEffectPartObject::Apply_ConstantShaderResources()
     if (nullptr != m_pTextures[ENUM_CLASS(EFFECT_TEXTURE_TYPE::MASK)])
         m_pShaderCom->Bind_SRV("g_MaskTexture", m_pTextures[ENUM_CLASS(EFFECT_TEXTURE_TYPE::MASK)]->GetTexture(0));
 
+    if (nullptr != m_pTextures[ENUM_CLASS(EFFECT_TEXTURE_TYPE::DISSOLVE)])
+        m_pShaderCom->Bind_SRV("g_DissolveTexture", m_pTextures[ENUM_CLASS(EFFECT_TEXTURE_TYPE::DISSOLVE)]->GetTexture(0));
+
     m_pShaderCom->Bind_RawValue("g_bReverse", &m_EffectData.bIsReverse, sizeof(_bool));
     m_pShaderCom->Bind_RawValue("g_bIsLerp", &m_EffectData.bIsLerp, sizeof(_bool));
+    m_pShaderCom->Bind_RawValue("g_bIsDissolve", &m_bIsDissolve, sizeof(_bool));
     m_pShaderCom->Bind_RawValue("g_vColor", &m_EffectData.vColor, sizeof(_float4));
     m_pShaderCom->Bind_RawValue("g_fLifeTime", &m_EffectData.fLifeTime, sizeof(_float));
     m_pShaderCom->Bind_RawValue("g_vSlice", &m_EffectData.vSlice, sizeof(_float2));
+    m_pShaderCom->Bind_RawValue("g_fDissolveTime", &m_EffectData.fDissolveTime, sizeof(_float));
     m_pShaderCom->Bind_RawValue("g_DistionType", &m_EffectData.eDistotionType, sizeof(_uInt));
     m_pShaderCom->Bind_RawValue("g_AlphaLerpType", &m_EffectData.eAlphaType, sizeof(_uInt));
     m_pShaderCom->Bind_RawValue("g_MaskType", &m_EffectData.eMaskType, sizeof(_uInt));
     m_pShaderCom->Bind_RawValue("g_fLifeAccTime", &m_fLifeAccTime, sizeof(_float));
     m_pShaderCom->Bind_RawValue("g_fNoiseStLength", &m_EffectData.fNoiseStength, sizeof(_float));
     m_pShaderCom->Bind_RawValue("g_fDistotionAccTime", &m_fDistotionAccTime, sizeof(_float2));
+
     return S_OK;
 }
 
@@ -285,11 +325,16 @@ HRESULT CEffectPartObject::Apply_ConstantShaderResources(_uInt iMeshIndex)
     if (nullptr != m_pTextures[ENUM_CLASS(EFFECT_TEXTURE_TYPE::MASK)])
         m_pShaderCom->Bind_SRV("g_MaskTexture", m_pTextures[ENUM_CLASS(EFFECT_TEXTURE_TYPE::MASK)]->GetTexture(0));
 
+    if (nullptr != m_pTextures[ENUM_CLASS(EFFECT_TEXTURE_TYPE::DISSOLVE)])
+        m_pShaderCom->Bind_SRV("g_DissolveTexture", m_pTextures[ENUM_CLASS(EFFECT_TEXTURE_TYPE::DISSOLVE)]->GetTexture(0));
+
     m_pShaderCom->Bind_RawValue("g_bReverse", &m_EffectData.bIsReverse, sizeof(_bool));
     m_pShaderCom->Bind_RawValue("g_bIsLerp", &m_EffectData.bIsLerp, sizeof(_bool));
     m_pShaderCom->Bind_RawValue("g_AlphaLerpType", &m_EffectData.eAlphaType, sizeof(_uInt));
+    m_pShaderCom->Bind_RawValue("g_bIsDissolve", &m_bIsDissolve, sizeof(_bool));
     m_pShaderCom->Bind_RawValue("g_fLifeTime", &m_EffectData.fLifeTime, sizeof(_float));
     m_pShaderCom->Bind_RawValue("g_vSlice", &m_EffectData.vSlice, sizeof(_float2));
+    m_pShaderCom->Bind_RawValue("g_fDissolveTime", &m_EffectData.fDissolveTime, sizeof(_float));
     m_pShaderCom->Bind_RawValue("g_vColor", &m_EffectData.vColor, sizeof(_float4));
     m_pShaderCom->Bind_RawValue("g_DistionType", &m_EffectData.eDistotionType, sizeof(_uInt));
     m_pShaderCom->Bind_RawValue("g_MaskType", &m_EffectData.eMaskType, sizeof(_uInt));
@@ -356,6 +401,7 @@ HRESULT CEffectPartObject::ReadFileData(const char* pFilePath)
         m_EffectData.eDistotionType = EFFECT_DISTOTION_TYPE(iType);
 
         file >> ResoucePath;
+
         CStringHelper::ConvertUTFToWide(ResoucePath, m_EffectData.DistotionTexturePath);
 
         file >> m_EffectData.bIsReverse;
@@ -374,6 +420,11 @@ HRESULT CEffectPartObject::ReadFileData(const char* pFilePath)
 
         file >> ResoucePath;
         CStringHelper::ConvertUTFToWide(ResoucePath, m_EffectData.ModelTag);
+
+        file >> m_EffectData.bIsDissolve;
+        file >> m_EffectData.fDissolveTime;
+        file >> ResoucePath;
+        CStringHelper::ConvertUTFToWide(ResoucePath, m_EffectData.DissolveTexture);
 
         file >> m_EffectData.vColor.x >> m_EffectData.vColor.y >> m_EffectData.vColor.z >> m_EffectData.vColor.w;
         file >> m_EffectData.bIsLoop;

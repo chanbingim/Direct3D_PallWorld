@@ -1,5 +1,0 @@
-Effect_Tornado
-3
-Effect_Tornado_Part1
-Effect_Tornado_Part2
-Effect_Tornado_Part3

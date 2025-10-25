@@ -9,13 +9,13 @@
 #include "StringHelper.h"
 
 const char* CIMG_EffectTool::szShowType[ENUM_CLASS(IMG_EFFECT_SHOW_TYPE::END)] = { "PART_OBJECT", "EFFECT_CONTATINER" };
-const char* CIMG_EffectTool::szEffectTexType[ENUM_CLASS(IMG_EFFECT_TEXTURE_TYPE::END)] = { "DIFFUSE", "NORMAL", "DISTOTION", "MASK"};
+const char* CIMG_EffectTool::szEffectTexType[ENUM_CLASS(IMG_EFFECT_TEXTURE_TYPE::END)] = { "DIFFUSE", "NORMAL", "DISTOTION", "MASK", "DISSOLVE"};
 const char* CIMG_EffectTool::szEffectType[ENUM_CLASS(EFFECT_TYPE::END)] = { "SPRTIE", "MODEL" };
 const char* CIMG_EffectTool::szBlendType[ENUM_CLASS(EFFECT_BELND_MODE::END)] = { "DPETH_TEST", "ALPHA_BLEND" };
 const char* CIMG_EffectTool::szDistotionType[ENUM_CLASS(EFFECT_DISTOTION_TYPE::END)] = { "LERP", "POLAR"};
 const char* CIMG_EffectTool::szMaskMixType[ENUM_CLASS(EFFECT_MASK_TYPE::END)] = { "ADDTIVE", "MULTIPLY" };
 const char* CIMG_EffectTool::szMaskType[ENUM_CLASS(EFFECT_MASK_MIX_TYPE::END)] = { "DEFAULT", "SLICE" };
-const char* CIMG_EffectTool::szAlphaLerpType[ENUM_CLASS(EFFECT_MASK_MIX_TYPE::END)] = { "DEFAULT", "CENTER" };
+const char* CIMG_EffectTool::szAlphaLerpType[ENUM_CLASS(ALPHA_LERP_TYPE::END)] = { "DEFAULT", "CENTER", "NONE"};
 
 
 CIMG_EffectTool::CIMG_EffectTool(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
@@ -268,6 +268,7 @@ void CIMG_EffectTool::EffectSelect()
 					{
 						strcpy_s(m_PreVeiwEffectObject, m_ConvertChar);
 						m_pSelectObject = pair.second;
+						m_pSelectObject->Initialize(nullptr);
 					}
 				}
 			}
@@ -323,6 +324,9 @@ void CIMG_EffectTool::EffectTextureViewer()
 			case Client::CIMG_EffectTool::IMG_EFFECT_TEXTURE_TYPE::MASK:
 				lstrcpy(m_EffectDesc.MaskTexturePath, TEXT("None"));
 				break;
+			case Client::CIMG_EffectTool::IMG_EFFECT_TEXTURE_TYPE::DISSOLVE:
+				lstrcpy(m_EffectDesc.DissolveTexture, TEXT("None"));
+				break;
 			}
 		}
 
@@ -356,6 +360,9 @@ void CIMG_EffectTool::EffectTextureViewer()
 					break;
 				case Client::CIMG_EffectTool::IMG_EFFECT_TEXTURE_TYPE::MASK:
 					lstrcpy(m_EffectDesc.MaskTexturePath, pTexture.first.c_str());
+					break;
+				case Client::CIMG_EffectTool::IMG_EFFECT_TEXTURE_TYPE::DISSOLVE:
+					lstrcpy(m_EffectDesc.DissolveTexture, pTexture.first.c_str());
 					break;
 				}
 			}
@@ -405,7 +412,7 @@ void CIMG_EffectTool::EffectDataEditor()
 	// 블랜드 모드
 	if (ImGui::BeginCombo("ALPHA_LERP_MODE##EFFECT_ALPHA_LERP_MODE", m_szAlphaLerp))
 	{
-		for (auto i = 0; i < ENUM_CLASS(EFFECT_DISTOTION_TYPE::END); ++i)
+		for (auto i = 0; i < ENUM_CLASS(ALPHA_LERP_TYPE::END); ++i)
 		{
 			if (ImGui::Selectable(szAlphaLerpType[i], false))
 			{
@@ -554,7 +561,12 @@ void CIMG_EffectTool::EffectDataEditor()
 	}
 	CStringHelper::ConvertWideToUTF(m_EffectDesc.MaskTexturePath, m_ConvertChar);
 	ImGui::Text(m_ConvertChar);
-	
+
+	ImGui::Checkbox("DISSOLVE", &m_EffectDesc.bIsDissolve);
+	ImGui::InputFloat("DISSOLVE_LIFETIME", &m_EffectDesc.fDissolveTime);
+	CStringHelper::ConvertWideToUTF(m_EffectDesc.DissolveTexture, m_ConvertChar);
+	ImGui::Text(m_ConvertChar);
+
 	if (ImGui::ColorEdit4("EFEECT_COLOR##EFFECT_COLOR_4", m_vColor))
 		m_EffectDesc.vColor = { m_vColor[0], m_vColor[1], m_vColor[2], m_vColor[3] };
 

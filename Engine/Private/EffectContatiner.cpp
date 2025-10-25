@@ -48,8 +48,6 @@ HRESULT CEffectContatiner::Initialize(void* pArg)
 
 void CEffectContatiner::Priority_Update(_float fDeletaTime)
 {
-	
-
 	for (auto& Pair : m_PartObjects)
 		Pair.second->Priority_Update(fDeletaTime);
 }

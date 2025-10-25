@@ -7,12 +7,16 @@ Texture2D       g_DiffuseTexture;
 Texture2D       g_NormalTexture;
 Texture2D       g_NoiseTexture;
 Texture2D       g_MaskTexture;
+Texture2D       g_DissolveTexture;
 
 vector          g_vColor;
 bool            g_bReverse;
 int             g_DistionType;
 
 bool            g_bIsLerp;
+bool            g_bIsDissolve;
+float           g_fDissolveTime;
+
 int             g_AlphaLerpType;
 int             g_MaskType;
 int             g_MaskMixType;
@@ -76,8 +80,20 @@ PS_OUT PS_Default(PS_IN In)
     
    float fMask = g_MaskTexture.Sample(DefaultSampler, In.vTexcoord).r;
    vMtrlDiffuse.a *= fMask;
-   if (g_bIsLerp)
-       vMtrlDiffuse.a = ComputeAlpha(vMtrlDiffuse, g_fLifeAccTime / g_fLifeTime, g_AlphaLerpType, In.vTexcoord);
+   
+    if(g_bIsDissolve)
+    {
+        float Ratio = saturate(g_fLifeAccTime / g_fDissolveTime);
+        vector vDissolve = DissolveFunc(g_DissolveTexture, ClampSampler, In.vTexcoord, Ratio);
+        
+        // 효과가 다른 디졸브 연산
+        //vMtrlDiffuse.a *= vDissolve.a;
+    }
+    else
+    {
+        if (g_bIsLerp)
+            vMtrlDiffuse.a = ComputeAlpha(vMtrlDiffuse, g_fLifeAccTime / g_fLifeTime, g_AlphaLerpType, In.vTexcoord);
+    }
     
     Out.vDiffuse = vMtrlDiffuse;
     return Out;
@@ -98,8 +114,17 @@ PS_OUT PS_Distotion(PS_IN In)
     float fMask = g_MaskTexture.Sample(DefaultSampler, vTexcoord).r;
     vMtrlDiffuse.a *= fMask;
     
-    if (g_bIsLerp)
-        vMtrlDiffuse.a = ComputeAlpha(vMtrlDiffuse, g_fLifeAccTime / g_fLifeTime, g_AlphaLerpType, vTexcoord);
+    if (g_bIsDissolve)
+    {
+        float Ratio = saturate(g_fLifeAccTime / g_fLifeTime);
+        vector vDissolve = DissolveFunc(g_DissolveTexture, ClampSampler, In.vTexcoord, Ratio);
+        //vMtrlDiffuse.a *= vDissolve.a;
+    }
+    else
+    {
+        if (g_bIsLerp)
+            vMtrlDiffuse.a = ComputeAlpha(vMtrlDiffuse, g_fLifeAccTime / g_fLifeTime, g_AlphaLerpType, vTexcoord);
+    }
     
     Out.vDiffuse = vMtrlDiffuse;
     return Out;
@@ -132,9 +157,18 @@ PS_OUT PS_SpriteDefault(PS_IN In)
     float fMask = g_MaskTexture.Sample(DefaultSampler, vMaskTexCoord).r;
     vMtrlDiffuse.a *= fMask;
     
-    if (g_bIsLerp)
-        vMtrlDiffuse.a = ComputeAlpha(vMtrlDiffuse, g_fLifeAccTime / g_fLifeTime, g_AlphaLerpType, In.vTexcoord);
-    
+    if (g_bIsDissolve)
+    {
+        float Ratio = saturate(g_fLifeAccTime / g_fLifeTime);
+        vector vDissolve = DissolveFunc(g_DissolveTexture, ClampSampler, In.vTexcoord, Ratio);
+        //vMtrlDiffuse.a *= vDissolve.a;
+    }
+    else
+    {
+        if (g_bIsLerp)
+            vMtrlDiffuse.a = ComputeAlpha(vMtrlDiffuse, g_fLifeAccTime / g_fLifeTime, g_AlphaLerpType, In.vTexcoord);
+    }
+   
     Out.vDiffuse = vMtrlDiffuse;
     return Out;
 }
@@ -147,9 +181,6 @@ PS_OUT PS_SpriteDistotion(PS_IN In)
     vector vNoiseTexture = g_NoiseTexture.Sample(DefaultSampler, vTexcoord);
     vTexcoord = ComputeUV(vNoiseTexture.rg, true, 0, 0) * g_fNoiseStLength;
     
-    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, vTexcoord);
-    vMtrlDiffuse = ComputeColor(vMtrlDiffuse, g_vColor, g_MaskType);
-    
     float2 vMaskTexCoord = vTexcoord;
     if (1 == g_MaskType)
     {
@@ -157,12 +188,24 @@ PS_OUT PS_SpriteDistotion(PS_IN In)
         vMaskTexCoord = SliceUV(vMaskTexCoord, g_fLifeAccTime / g_fLifeTime, vSliceIndex);
     }
     
-    float fMask = g_MaskTexture.Sample(DefaultSampler, vTexcoord).r;
+    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, vTexcoord);
+    vMtrlDiffuse = ComputeColor(vMtrlDiffuse, g_vColor, g_MaskType);
+    
+    float fMask = g_MaskTexture.Sample(ClampSampler, vTexcoord).r;
     vMtrlDiffuse.a *= fMask;
     
-    if (g_bIsLerp)
-        vMtrlDiffuse.a = ComputeAlpha(vMtrlDiffuse, g_fLifeAccTime / g_fLifeTime, g_AlphaLerpType, vTexcoord);
-    
+    if (g_bIsDissolve)
+    {
+        float Ratio = saturate(g_fLifeAccTime / g_fLifeTime);
+        vector vDissolve = DissolveFunc(g_DissolveTexture, ClampSampler, In.vTexcoord, Ratio);
+        //vMtrlDiffuse.a *= vDissolve.a;
+    }
+    else
+    {
+        if (g_bIsLerp)
+            vMtrlDiffuse.a = ComputeAlpha(vMtrlDiffuse, g_fLifeAccTime / g_fLifeTime, g_AlphaLerpType, vTexcoord);
+    }
+  
     Out.vDiffuse = vMtrlDiffuse;
     return Out;
 }
