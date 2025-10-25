@@ -1,0 +1,31 @@
+Electric_Ball_Part1
+0 0 0 
+-0 0 0 
+1 1 1 
+0
+0 0 0 
+0 0 0 
+3 3 3 
+2
+1
+0
+1.7
+0.8
+T_Cloud_00.png
+None
+0 1
+0.88
+1
+T_Cloud_00.png
+0
+0
+0 0
+0
+T_Thunder04.png
+Effect_Model_Shader
+Sphere.fbx
+1
+1
+T_Default_Noise02.png
+1 1 0 1
+1

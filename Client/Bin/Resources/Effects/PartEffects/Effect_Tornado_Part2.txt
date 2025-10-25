@@ -11,14 +11,12 @@ Effect_Tornado_Part2
 1
 0
 T_Splash.png
-None 
+
 -0.3 0
 0.05
 1
 T_Noise02.png
 0
-0
-0 0
 0
 T_Trail05.png
 Effect_Model_Shader

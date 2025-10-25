@@ -1,6 +1,7 @@
 #include "Earthquake.h"
 
 #include "GameInstance.h"
+#include "EffectContatiner.h"
 
 CEarthquake::CEarthquake(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CSkillObjectBase(pDevice, pContext)
@@ -28,6 +29,12 @@ HRESULT CEarthquake::Initialize(void* pArg)
 
     if (FAILED(ADD_Components()))
         return E_FAIL;
+    
+    CEffectContatiner::GAMEOBJECT_DESC Desc = {};
+    Desc.pParent = this;
+    Desc.vScale = { 1.f, 1.f, 1.f };
+    auto pGameObject = m_pGameInstance->EffectClone_Object(1, TEXT("EarthQuake_Effect"), &Desc);
+    m_pSkillEffects.push_back(pGameObject);
 
     return S_OK;
 }

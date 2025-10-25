@@ -1,0 +1,31 @@
+EarthQuake_Effect_Part5
+0 0 0 
+-0 0 0 
+1 1 1 
+0
+0 0 0 
+0 0 0 
+1 1 1 
+0
+1
+0
+1.7
+0.7
+T_Cloud_00.png
+None
+0.2 0
+0.2
+1
+T_Default_Noise05.png
+0
+0
+4 4
+0
+T_SquareEdge.png
+Effect_Model_Shader
+Sphere.fbx
+1
+1
+
+0.674967 0.921569 0.397539 1
+1

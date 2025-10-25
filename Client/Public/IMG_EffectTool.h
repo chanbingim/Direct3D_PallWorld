@@ -23,7 +23,6 @@ public :
 	static const char*		szDistotionType[ENUM_CLASS(EFFECT_DISTOTION_TYPE::END)];
 	static const char*		szMaskType[ENUM_CLASS(EFFECT_MASK_TYPE::END)];
 	static const char*		szMaskMixType[ENUM_CLASS(EFFECT_MASK_MIX_TYPE::END)];
-	static const char*		szAlphaLerpType[ENUM_CLASS(ALPHA_LERP_TYPE::END)];
 
 private:
 	CIMG_EffectTool(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

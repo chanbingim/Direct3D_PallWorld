@@ -11,14 +11,12 @@ Effect_Tornado_Part3
 1
 0
 T_StarMine.png
-None
+
 0.3 0.3
 0.05
 1
 T_Default_Noise512.png
 0
-0
-0 0
 0
 T_Wind04.png
 Effect_Model_Shader

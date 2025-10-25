@@ -1,0 +1,31 @@
+EarthQuake_Effect_Part4
+0 0 0 
+-0 0 0 
+1 1 1 
+0
+0 0 0 
+0 0 0 
+0 0 0 
+2
+1
+0
+1.7
+0.7
+T_Trail05.png
+None
+1 1
+1
+0
+T_Default_Noise05.png
+0
+0
+0 0
+0
+T_Trail05.png
+Effect_Model_Shader
+Ring.fbx
+1
+1
+T_Wind04.png
+1 1 1 0.906
+1
