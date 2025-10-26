@@ -3,7 +3,7 @@
 #include "VIBuffer_Instance.h"
 
 NS_BEGIN(Engine)
-class CVIBuffer_Point_Instance : public CVIBuffer_Instance
+class ENGINE_DLL CVIBuffer_Point_Instance : public CVIBuffer_Instance
 {
 protected:
 	CVIBuffer_Point_Instance(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -15,7 +15,6 @@ public:
 	virtual HRESULT								Initialize(void* pArg) override;
 
 	virtual void								Render_VIBuffer() override;
-	VTX_INSTANCE_DEFAULT_DESC*					GetInstanceData() { return m_pInstanceVertices; }
 	
 private :
 	VTX_INSTANCE_DEFAULT_DESC*					m_pInstanceVertices = { nullptr };

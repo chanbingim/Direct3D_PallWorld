@@ -204,6 +204,10 @@ HRESULT CMainApp::SetUp_StaticComponents()
 		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_MODEL_INSTANCE_DESC::Elements, VTX_MODEL_INSTANCE_DESC::iNumElements, TEXT("../Bin/ShaderFiles/VTX_InstnaceMesh.hlsl")))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_InstancePoint"),
+		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_DEFAULT_INSTANCE_DESC::Elements, VTX_DEFAULT_INSTANCE_DESC::iNumElements, TEXT("../Bin/ShaderFiles/VTX_InstnacePoint.hlsl")))))
+		return E_FAIL;
+
 #pragma region Button Shader & Select Tri
 	/* Button Shader */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Button"),
@@ -221,7 +225,7 @@ HRESULT CMainApp::SetUp_StaticComponents()
 
 #pragma region Compute Shader
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ComputeShader_Trail"),
-		CComputeShader::Create(m_pGraphic_Device, m_pDevice_Context, TEXT("../Bin/ShaderFiles/TrailComputeShader.hlsl"), "CS_TrailMain"))))
+		CComputeShader::Create(m_pGraphic_Device, m_pDevice_Context, TEXT("../Bin/ShaderFiles/TrailComputeShader.hlsl"), "main"))))
 		return E_FAIL;
 #pragma endregion
 
@@ -235,7 +239,9 @@ HRESULT CMainApp::SetUp_StaticComponents()
 		return E_FAIL;
 
 	/* VIBuffer  POINT  Component */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Instance_Point"), CVIBuffer_Point_Instance::Create(m_pGraphic_Device, m_pDevice_Context))))
+	CVIBuffer_Point_Instance::INSTANCE_DESC InstanceDesc = {};
+	InstanceDesc.iNumInstance = 4096;
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Instance_Point"), CVIBuffer_Point_Instance::Create(m_pGraphic_Device, m_pDevice_Context, &InstanceDesc))))
 		return E_FAIL;
 #pragma endregion
 

@@ -42,12 +42,11 @@ HRESULT CPlayerWeaponSlot::Initialize(void* pArg)
 	m_pLeftSocket = SlotDesc->pLeftSocket;
 
 	CTrailEffect::TRAIL_EFFECT_DESC TrailDesc = {};
-	TrailDesc.iNumData = 256;
 	TrailDesc.pSocketMatrix = &m_CombinedWorldMatrix;
 	TrailDesc.TrailDisPatch = { 2, 1, 1 };
 	TrailDesc.szTrailEffectName = TEXT("T_Trail04.png");
 
-	static_cast<CTrailEffect*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Trail_Defalut"), &TrailDesc));
+	m_pTrail = static_cast<CTrailEffect*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Trail_Defalut"), &TrailDesc));
 	m_pTrail->SetRenderTrail(true);
 
 	return S_OK;
@@ -56,6 +55,7 @@ HRESULT CPlayerWeaponSlot::Initialize(void* pArg)
 void CPlayerWeaponSlot::Priority_Update(_float fDeletaTime)
 {
 	m_pProjectileSlot->Priority_Update(fDeletaTime);
+	m_pTrail->Priority_Update(fDeletaTime);
 }
 
 void CPlayerWeaponSlot::Update(_float fDeletaTime)
@@ -96,6 +96,7 @@ void CPlayerWeaponSlot::Update(_float fDeletaTime)
 		m_pCollision[0]->SetCollision({ 0, 0, 0 }, { 0.f, 0.f, 0.f, 0.f }, { 0.1f, 0.1f, 0.1f });
 		m_pCollision[1]->SetCollision({ 0, 0, 0 }, { 0.f, 0.f, 0.f, 0.f }, { 0.1f, 0.1f, 0.1f });
 	}
+	m_pTrail->Update(fDeletaTime);
 	m_pProjectileSlot->Update(fDeletaTime);
 }
 
@@ -120,6 +121,7 @@ void CPlayerWeaponSlot::Late_Update(_float fDeletaTime)
 	}
 
 	m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
+	m_pTrail->Late_Update(fDeletaTime);
 	m_pProjectileSlot->Late_Update(fDeletaTime);
 }
 

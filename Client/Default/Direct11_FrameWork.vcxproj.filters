@@ -2721,11 +2721,11 @@
     <FxCompile Include="..\Bin\ShaderFiles\SelectTriShader.hlsl">
       <Filter>Shader\Button\Tri</Filter>
     </FxCompile>
-    <FxCompile Include="TrailComputeShader.hlsl">
-      <Filter>Shader\ComputeShader\Trail</Filter>
-    </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\VTX_InstnacePoint.hlsl">
       <Filter>Shader\Instance\InstancePoint\Trail</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\TrailComputeShader.hlsl">
+      <Filter>Shader\ComputeShader\Trail</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

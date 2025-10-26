@@ -21,7 +21,7 @@ HRESULT CComputeShader::Initialize_Prototype(const WCHAR* szShaderFilePath, cons
 
 HRESULT CComputeShader::Initialize(void* pArg)
 {
-    return E_NOTIMPL;
+    return S_OK;
 }
 
 HRESULT CComputeShader::Bind_UAVResource(_uInt iIndex, ID3D11UnorderedAccessView* pUAV)
@@ -32,13 +32,13 @@ HRESULT CComputeShader::Bind_UAVResource(_uInt iIndex, ID3D11UnorderedAccessView
 
 HRESULT CComputeShader::Bind_ShaderResource(_uInt iIndex, ID3D11ShaderResourceView* pSRV)
 {
-    m_pContext->CSGetShaderResources(iIndex, 1, &pSRV);
+    m_pContext->CSSetShaderResources(iIndex, 1, &pSRV);
     return S_OK;
 }
 
 HRESULT CComputeShader::Bind_Buffer(_uInt iIndex, ID3D11Buffer* Buffer)
 {
-    m_pContext->CSGetConstantBuffers(iIndex, 1, &Buffer);
+    m_pContext->CSSetConstantBuffers(iIndex, 1, &Buffer);
     return S_OK;
 }
 
@@ -81,8 +81,8 @@ HRESULT CComputeShader::LoadShader(const WCHAR* szShaderFilePath, const char* sz
     }
 
     if (FAILED(m_pDevice->CreateComputeShader(
-        pBlobVS->GetBufferPointer(),         // 컴파일된 쉐이더 코드
-        pBlobVS->GetBufferSize(),            // 코드 길이
+        pBlobCode->GetBufferPointer(),         // 컴파일된 쉐이더 코드
+        pBlobCode->GetBufferSize(),            // 코드 길이
         nullptr,                                // 클래스 인스턴스 (없음)
         &m_pShaderCom)))                          // 컴퓨트 쉐이더 객체
         return E_FAIL;

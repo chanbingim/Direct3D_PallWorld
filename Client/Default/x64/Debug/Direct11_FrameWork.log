@@ -19,12 +19,28 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\TestShader.cso
 FXC : warning X4717: Effects deprecated for D3DCompiler_47
   
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\TrailComputeShader.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
   compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_AnimMesh.cso
 FXC : warning X4717: Effects deprecated for D3DCompiler_47
   
   compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_InstnaceMesh.cso
 FXC : warning X4717: Effects deprecated for D3DCompiler_47
-C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ShaderFiles\VTX_InstnacePoint.hlsl(130,9-63): error X3019: if statement conditional expressions must evaluate to a scalar
-C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ShaderFiles\VTX_InstnacePoint.hlsl(133,5-7): error X3000: unrecognized identifier 'Out'
   
-  compilation failed; no code produced
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_InstnacePoint.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ShaderFiles\VTX_Mesh.hlsl(129,22-32): warning X3578: Output value 'PS_ModelPreview' is not completely initialized
+C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ShaderFiles\VTX_Mesh.hlsl(137,21-42): warning X3578: Output value 'PS_ModelCreate' is not completely initialized
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_Mesh.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_NorTex.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\WorldUI.cso
+  TrailEffect.cpp
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\TrailEffect.cpp(52,28): warning C4018: '<=': signed 또는 unsigned가 일치하지 않습니다.
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\TrailEffect.cpp(105,31): warning C4101: 'pResourceVeiw' :참조되지 않은 지역 변수입니다.
+  Direct11_FrameWork.vcxproj -> C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe

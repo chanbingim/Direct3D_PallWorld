@@ -741,22 +741,13 @@
     <FxCompile Include="..\Bin\ShaderFiles\ProgressBar.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\SelectTriShader.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\TestShader.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\TrailComputeShader.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\VTX_AnimMesh.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\VTX_InstnaceMesh.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\VTX_InstnacePoint.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\VTX_Mesh.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\VTX_NorTex.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\WorldUI.hlsl" />
-    <FxCompile Include="TrailComputeShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compute</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compute</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
-    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

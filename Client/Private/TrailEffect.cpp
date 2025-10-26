@@ -19,13 +19,17 @@ HRESULT CTrailEffect::Initalize_Prototype()
 
 HRESULT CTrailEffect::Initialize(void* pArg)
 {
-    if (FAILED(__super::Initialize(pArg)))
+    if (FAILED(__super::Initialize(nullptr)))
         return E_FAIL;
 
+    TRAIL_EFFECT_DESC* Desc = static_cast<TRAIL_EFFECT_DESC*>(pArg);
+    m_pSocketMatrix = Desc->pSocketMatrix;
+    m_vTrailDispatch = Desc->TrailDisPatch;
+    m_szTrailTexTag = Desc->szTrailEffectName;
     if (FAILED(ADD_Components()))
         return E_FAIL;
 
-    m_iNumData = m_pInstanceBuffer->GetNumIndices();
+    m_iNumData = m_pInstanceBuffer->GetNumInstance();
     if (FAILED(Setting_Compute_Shader()))
         return E_FAIL;
 
@@ -55,8 +59,23 @@ void CTrailEffect::Update(_float fDeletaTime)
         if (m_pSocketMatrix)
             m_CBData.SocketMatrix = *m_pSocketMatrix;
 
-        if (S_OK == Apply_ComputeShaderResource())
-            m_pComputeShader->Update_Shader(m_vTrailDispatch);
+        D3D11_MAPPED_SUBRESOURCE InstanceData = {};
+        m_pInstanceBuffer->Lock(&InstanceData);
+        if (InstanceData.pData)
+        {
+            m_pDeviceContext->UpdateSubresource(m_pResourceBuffer[0], 0, nullptr, InstanceData.pData, 0, 0);
+            if (S_OK == Apply_ComputeShaderResource())
+                m_pComputeShader->Update_Shader(m_vTrailDispatch);
+
+            m_pDeviceContext->CopyResource(m_pReadBuffer, m_pResourceBuffer[1]);
+            D3D11_MAPPED_SUBRESOURCE mapped = {};
+            m_pDeviceContext->Map(m_pReadBuffer, 0, D3D11_MAP_READ, 0, &mapped);
+            memcpy(InstanceData.pData, mapped.pData, sizeof(VTX_INSTANCE_DEFAULT_DESC) * m_iNumData);
+
+            auto pData = static_cast<VTX_INSTANCE_DEFAULT_DESC*>(InstanceData.pData);
+            m_pDeviceContext->Unmap(m_pReadBuffer, 0);
+        }
+        m_pInstanceBuffer->UnLock();
     }
 }
 
@@ -65,10 +84,7 @@ void CTrailEffect::Late_Update(_float fDeletaTime)
     __super::Late_Update(fDeletaTime);
     ComputeMatrix();
 
-    if (m_pGameInstance->DistanceCulling(m_pTransformCom->GetPosition()))
-    {
-        m_pGameInstance->Add_RenderGroup(RENDER::NONLIGHT, this);
-    }
+    m_pGameInstance->Add_RenderGroup(RENDER::NONLIGHT, this);
 }
 
 HRESULT CTrailEffect::Render()
@@ -82,9 +98,9 @@ HRESULT CTrailEffect::Render()
 
 HRESULT CTrailEffect::Apply_ConstantShaderResources()
 {
-    m_pEMVWorldMat->SetMatrix(reinterpret_cast<const float*>(&m_CombinedMatrix));
-    m_pEMVViewMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::VIEW)));
-    m_pEMVProjMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION)));
+    m_pShaderCom->Bind_Matrix("g_WorldMatrix" , &m_CombinedMatrix);
+    m_pShaderCom->Bind_Matrix("g_ViewMatrix" , &m_pGameInstance->GetMatrix(MAT_STATE::VIEW));
+    m_pShaderCom->Bind_Matrix("g_ProjMatrix" , &m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION));
 
     ID3D11ShaderResourceView* pResourceVeiw;
     if(m_pTextureCom)
@@ -113,7 +129,7 @@ void CTrailEffect::ComputeMatrix()
 
 HRESULT CTrailEffect::Apply_ComputeShaderResource()
 {
-    m_pDeviceContext->UpdateSubresource(m_pResourceBuffer[0], 0, nullptr, m_pInstanceBuffer->GetInstanceData(), 0, 0);
+
     if (FAILED(m_pComputeShader->Bind_ShaderResource(0, m_pTrailInputSRV)))
         return E_FAIL;
 
@@ -129,8 +145,8 @@ HRESULT CTrailEffect::Apply_ComputeShaderResource()
 
 HRESULT CTrailEffect::Setting_Compute_Shader()
 {
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Instance_Particle"), TEXT("Prototype_Component_ComputeShader_Trail"), (CComponent**)&m_pComputeShader)))
-        return E_FAIL;
+    D3D11_MAPPED_SUBRESOURCE InstanceData = {};
+    m_pInstanceBuffer->Lock(&InstanceData);
 
 #pragma region Const Buffer
     D3D11_BUFFER_DESC BufferDesc = {};
@@ -138,7 +154,10 @@ HRESULT CTrailEffect::Setting_Compute_Shader()
     BufferDesc.Usage = D3D11_USAGE_DEFAULT;
     BufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 
-    if (FAILED(m_pGraphic_Device->CreateBuffer(&BufferDesc, nullptr, &m_pConstTrailBuffer)))
+    D3D11_SUBRESOURCE_DATA ConstBufferSubResource = {};
+    ConstBufferSubResource.pSysMem = &m_CBData;
+
+    if (FAILED(m_pGraphic_Device->CreateBuffer(&BufferDesc, &ConstBufferSubResource, &m_pConstTrailBuffer)))
         return E_FAIL;
 #pragma endregion
 
@@ -151,7 +170,7 @@ HRESULT CTrailEffect::Setting_Compute_Shader()
     TrialInitBufferDesc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
 
     D3D11_SUBRESOURCE_DATA SubResource = {};
-    SubResource.pSysMem = m_pInstanceBuffer->GetInstanceData();
+    SubResource.pSysMem = InstanceData.pData;
     if (FAILED(m_pGraphic_Device->CreateBuffer(&TrialInitBufferDesc, &SubResource, &m_pResourceBuffer[0])))
         return E_FAIL;
 
@@ -164,7 +183,7 @@ HRESULT CTrailEffect::Setting_Compute_Shader()
     ReadBufferDesc.Usage = D3D11_USAGE_STAGING;
     ReadBufferDesc.ByteWidth = sizeof(VTX_INSTANCE_DEFAULT_DESC) * m_iNumData;
     ReadBufferDesc.StructureByteStride = sizeof(VTX_INSTANCE_DEFAULT_DESC);
-    ReadBufferDesc.BindFlags = D3D11_CPU_ACCESS_READ;
+    ReadBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE;
 
     if (FAILED(m_pGraphic_Device->CreateBuffer(&ReadBufferDesc, nullptr, &m_pReadBuffer)))
         return E_FAIL;
@@ -190,6 +209,8 @@ HRESULT CTrailEffect::Setting_Compute_Shader()
         return E_FAIL;
 #pragma endregion
 
+    m_pInstanceBuffer->UnLock();
+
     return S_OK;
 }
 
@@ -198,7 +219,10 @@ HRESULT CTrailEffect::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Instance_Point"), TEXT("VIBuffer_Com"), (CComponent**)&m_pInstanceBuffer)))
         return E_FAIL;
 
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Instance_Particle"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_InstancePoint"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
+        return E_FAIL;
+
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ComputeShader_Trail"), TEXT("ComputeShader_Com"), (CComponent**)&m_pComputeShader)))
         return E_FAIL;
 
     // 여기서 텍스처도 가져오자.

@@ -22,15 +22,16 @@ public :
 		_float4x4		SocketMatrix;
 		_float			fLifeTime;		// 여기서 Lifetime보다 크면 
 		_float			fSmoothRate;	// 얼마나 부드럽게 따라갈지 (0~1)
+
+		_uInt			iPadding;
+		_uInt			iPadding2;
 	};
 
 	typedef		struct TrailEffectDesc
 	{
 		const		WCHAR*			szTrailEffectName;
 		const		_float4x4*		pSocketMatrix;
-		_float3						TrailDisPatch;
-
-		_uInt						iNumData;
+		_int3						TrailDisPatch;
 	}TRAIL_EFFECT_DESC;
 
 protected:

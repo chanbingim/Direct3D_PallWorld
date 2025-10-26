@@ -17,14 +17,14 @@ struct VS_IN
     float4 vUp              : TEXCOORD2;
     float4 vLook            : TEXCOORD3;
     float4 vTranslation     : TEXCOORD4;
-    float4 vLifeTime        : TEXCOORD5;
+    float  fLifeTime        : TEXCOORD5;
 };
 
 struct VS_OUT
 {
     float4 vPosition        : POSITION;
     float  fSize            : PSIZE;
-    float4 vLifeTime        : TEXCOORD1;
+    float  fLifeTime        : TEXCOORD0;
 };
 
 VS_OUT VS_MAIN(VS_IN In)
@@ -42,7 +42,7 @@ VS_OUT VS_MAIN(VS_IN In)
 
     Out.vPosition = mul(vPosition, matWVP);
     Out.fSize = length(In.vRight) + length(In.vUp) + length(In.vLook);
-    Out.vLifeTime = In.vLifeTime;
+    Out.fLifeTime = In.fLifeTime;
 
     return Out;
 }
@@ -51,18 +51,15 @@ struct GS_IN
 {
     float4 vPosition    : POSITION;
     float  fSize        : PSIZE;
-    float2 vLifeTime    : TEXCOORD0;
+    float  vLifeTime    : TEXCOORD0;
 };
 
 struct GS_OUT
 {
     float4 vPosition    : SV_POSITION;
     float2 vTexcoord    : TEXCOORD0;
-    float2 vLifeTime    : TEXCOORD1;
+    float  vLifeTime : TEXCOORD1;
 };
-
-//GS_MAIN(triangle GS_INIn[3])
-//GS_MAIN(line GS_IN In[2])
 
 [maxvertexcount(6)]
 void GS_MAIN(point GS_IN In[1], inout TriangleStream<GS_OUT> OutStream)
@@ -113,7 +110,7 @@ struct PS_IN
 {
     float4 vPosition : SV_POSITION;
     float2 vTexcoord : TEXCOORD0;
-    float2 vLifeTime : TEXCOORD1;
+    float  vLifeTime : TEXCOORD1;
 };
 
 struct PS_OUT
@@ -127,13 +124,12 @@ PS_OUT PS_MAIN(PS_IN In)
     
     vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
     
-    if (vMtrlDiffuse.a < 0.4f || g_vMaxLifeTime <= In.vLifeTime) 
+    if (vMtrlDiffuse.a < 0.4f || g_vMaxLifeTime <= In.vLifeTime.x) 
         discard;
     
     Out.vDiffuse = vMtrlDiffuse;
     return Out;
 }
-
 
 technique11 Tech
 {

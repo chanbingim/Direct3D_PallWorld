@@ -9,6 +9,7 @@ CVIBuffer_Point_Instance::CVIBuffer_Point_Instance(ID3D11Device* pDevice, ID3D11
 
 CVIBuffer_Point_Instance::CVIBuffer_Point_Instance(const CVIBuffer_Point_Instance& Prototype) :
 	CVIBuffer_Instance(Prototype)
+	, m_pInstanceVertices{ Prototype.m_pInstanceVertices }
 {
 }
 
@@ -41,7 +42,6 @@ HRESULT CVIBuffer_Point_Instance::Initialize_Prototype(const INSTANCE_DESC* pIns
 
 	D3D11_SUBRESOURCE_DATA	InitialVBData{};
 	InitialVBData.pSysMem = pVertices;
-
 	if (FAILED(m_pDevice->CreateBuffer(&VBDesc, &InitialVBData, &m_pIndexBuffer)))
 		return E_FAIL;
 
@@ -52,7 +52,8 @@ HRESULT CVIBuffer_Point_Instance::Initialize_Prototype(const INSTANCE_DESC* pIns
 #pragma region INSTANCE_BUFFER
 	const INSTANCE_DESC* pDesc = static_cast<const INSTANCE_DESC*>(pInstanceDesc);
 	m_iInstanceStride = sizeof(VTX_INSTANCE_DEFAULT_DESC);
-	m_iNumIndexPerInstance = 4;
+	m_iNumInstance = pInstanceDesc->iNumInstance;
+	m_iNumIndexPerInstance = 6;
 
 	m_InstanceBufferDesc.ByteWidth = m_iInstanceStride * m_iNumInstance;
 	m_InstanceBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
