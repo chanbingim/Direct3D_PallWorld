@@ -13,11 +13,11 @@ struct VS_IN
 {
     float3 vPosition        : POSITION;
     
-    float4 vRight           : TEXCOORD1;
-    float4 vUp              : TEXCOORD2;
-    float4 vLook            : TEXCOORD3;
-    float4 vTranslation     : TEXCOORD4;
-    float  fLifeTime        : TEXCOORD5;
+    float4 vRight           : TEXCOORD0;
+    float4 vUp              : TEXCOORD1;
+    float4 vLook            : TEXCOORD2;
+    float4 vTranslation     : TEXCOORD3;
+    float  fLifeTime        : TEXCOORD4;
 };
 
 struct VS_OUT
@@ -37,11 +37,9 @@ VS_OUT VS_MAIN(VS_IN In)
     row_major matrix InstanceMatrix = { In.vRight, In.vUp, In.vLook, In.vTranslation };
     
     vector vPosition = mul(vector(In.vPosition, 1.f), InstanceMatrix);
-    matWV = mul(g_WorldMatrix, g_ViewMatrix);
-    matWVP = mul(matWV, g_ProjMatrix);
 
-    Out.vPosition = mul(vPosition, matWVP);
-    Out.fSize = length(In.vRight) + length(In.vUp) + length(In.vLook);
+    Out.vPosition = vPosition;
+    Out.fSize = length(In.vRight);
     Out.fLifeTime = In.fLifeTime;
 
     return Out;
@@ -122,11 +120,10 @@ PS_OUT PS_MAIN(PS_IN In)
 {
     PS_OUT Out;
     
-    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
-    
-    if (vMtrlDiffuse.a < 0.4f || g_vMaxLifeTime <= In.vLifeTime.x) 
-        discard;
-    
+    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord + In.vLifeTime);
+    if (vMtrlDiffuse.r <= 0.3f || In.vLifeTime >= g_vMaxLifeTime)
+        vMtrlDiffuse.a = 0.f;
+        
     Out.vDiffuse = vMtrlDiffuse;
     return Out;
 }
@@ -136,8 +133,8 @@ technique11 Tech
     pass Pass0
     {
         SetRasterizerState(RS_Default);
-        SetDepthStencilState(DSS_Default, 0);
-        SetBlendState(BS_None, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        SetDepthStencilState(DSS_Effect, 0);
+        SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_MAIN();
         GeometryShader = compile gs_5_0 GS_MAIN();

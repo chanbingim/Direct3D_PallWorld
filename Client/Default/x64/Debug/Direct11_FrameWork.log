@@ -1,46 +1,11 @@
 ﻿FXC : warning X4717: Effects deprecated for D3DCompiler_47
   
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ButtonShader.cso
+  compilation object save succeeded; see C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\Bin\VTX_AnimMesh.cso
 FXC : warning X4717: Effects deprecated for D3DCompiler_47
+C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\Bin\ShaderFiles\VTX_Mesh.hlsl(130,22-32): warning X3578: Output value 'PS_ModelPreview' is not completely initialized
+C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\Bin\ShaderFiles\VTX_Mesh.hlsl(138,21-42): warning X3578: Output value 'PS_ModelCreate' is not completely initialized
   
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\MouseShader.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ShaderFiles\MutipleBlend.hlsl(79,5-41): warning X3206: implicit truncation of vector type
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\MutipleBlend.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ProgressBar.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\SelectTriShader.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\TestShader.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\TrailComputeShader.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_AnimMesh.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_InstnaceMesh.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_InstnacePoint.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ShaderFiles\VTX_Mesh.hlsl(129,22-32): warning X3578: Output value 'PS_ModelPreview' is not completely initialized
-C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ShaderFiles\VTX_Mesh.hlsl(137,21-42): warning X3578: Output value 'PS_ModelCreate' is not completely initialized
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_Mesh.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_NorTex.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\WorldUI.cso
-  TrailEffect.cpp
-C:\Git\GitHub\Direct3D_PallWorld\Client\private\TrailEffect.cpp(52,28): warning C4018: '<=': signed 또는 unsigned가 일치하지 않습니다.
-C:\Git\GitHub\Direct3D_PallWorld\Client\private\TrailEffect.cpp(105,31): warning C4101: 'pResourceVeiw' :참조되지 않은 지역 변수입니다.
-  Direct11_FrameWork.vcxproj -> C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe
+  compilation object save succeeded; see C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\Bin\VTX_Mesh.cso
+  NoneAnimMesh.cpp
+  PlayerBody.cpp
+  Direct11_FrameWork.vcxproj -> C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe

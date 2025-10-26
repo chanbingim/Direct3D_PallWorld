@@ -14,6 +14,8 @@ vector  g_vCamPosition;
 
 Texture2D g_MtrlSpecularTexture;
 
+float     g_fFar;
+
 Texture2D g_Texture;
 Texture2D g_NormalTexture;
 Texture2D g_DiffuseTexture;
@@ -85,7 +87,7 @@ PS_OUT_LIGHT PS_MAIN_DIRECTIONAL(PS_IN In)
     Out.vShade = g_vLightDiffuse * saturate(max(dot(normalize(g_vLightDir) * -1.f, vNormal), 0.f) + (g_vLightAmbient * g_vMtrlAmbient));
     
     vector vDepthDesc = g_DepthTexture.Sample(DefaultSampler, In.vTexcoord);
-    float fViewZ = vDepthDesc.y * 1000.f;
+    float fViewZ = vDepthDesc.y * 500.f;
   
     vector vPosition;
     
@@ -102,7 +104,7 @@ PS_OUT_LIGHT PS_MAIN_DIRECTIONAL(PS_IN In)
     vPosition = mul(vPosition, g_ProjMatrixInv);
     
     /* 로컬위치 * 월드   */
-    vPosition = mul(vPosition, g_ViewMatrixInv);   
+    vPosition = mul(vPosition, g_ViewMatrixInv);
     
     vector vLook = vPosition - g_vCamPosition;
     vector vReflect = reflect(normalize(g_vLightDir), vNormal);
@@ -121,7 +123,7 @@ PS_OUT_LIGHT PS_MAIN_POINT(PS_IN In)
     float4 vNormal = vector(vNormalDesc.xyz * 2.f - 1.f, 0.0f);
     
     vector vDepthDesc = g_DepthTexture.Sample(DefaultSampler, In.vTexcoord);
-    float fViewZ = vDepthDesc.y * 1000.f;
+    float fViewZ = vDepthDesc.y * g_fFar;
     
     vector vPosition;
     

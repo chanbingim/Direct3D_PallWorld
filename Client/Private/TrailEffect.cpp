@@ -33,8 +33,8 @@ HRESULT CTrailEffect::Initialize(void* pArg)
     if (FAILED(Setting_Compute_Shader()))
         return E_FAIL;
 
-    m_CBData.fLifeTime = 1.f;
-    m_CBData.fSize = 10.f;
+    m_CBData.fLifeTime = 1.0f;
+    m_CBData.fSize = 0.2f;
     return S_OK;
 }
 
@@ -46,16 +46,17 @@ void CTrailEffect::Priority_Update(_float fDeletaTime)
 void CTrailEffect::Update(_float fDeletaTime)
 {
     __super::Update(fDeletaTime);
-    if(m_bIsTrailRender)
-    {
-        m_iTrailHead++;
-        if (m_iNumData - 1 <= m_iTrailHead)
-            m_iTrailHead = 0;
+   
+}
 
-        m_CBData.fDeletaTime = fDeletaTime;
-        m_CBData.iHeadIndex = m_iTrailHead;
+void CTrailEffect::Late_Update(_float fDeletaTime)
+{
+    __super::Late_Update(fDeletaTime);
+    if (m_bIsTrailRender)
+    {
+        m_CBData.iHeadIndex = (m_CBData.iHeadIndex + 1) % m_iNumData;
+        m_CBData.fDeletaTime = fDeletaTime * 3.f;
         m_CBData.iMaxIndex = m_iNumData;
-        m_CBData.fSmoothRate = 0.f;
         if (m_pSocketMatrix)
             m_CBData.SocketMatrix = *m_pSocketMatrix;
 
@@ -65,23 +66,23 @@ void CTrailEffect::Update(_float fDeletaTime)
         {
             m_pDeviceContext->UpdateSubresource(m_pResourceBuffer[0], 0, nullptr, InstanceData.pData, 0, 0);
             if (S_OK == Apply_ComputeShaderResource())
+            {
                 m_pComputeShader->Update_Shader(m_vTrailDispatch);
+                m_pComputeShader->Bind_ShaderResource(0, nullptr);
+                m_pComputeShader->Bind_UAVResource(0, nullptr);
+                m_pComputeShader->Bind_Buffer(0, nullptr);
+            }
 
             m_pDeviceContext->CopyResource(m_pReadBuffer, m_pResourceBuffer[1]);
             D3D11_MAPPED_SUBRESOURCE mapped = {};
             m_pDeviceContext->Map(m_pReadBuffer, 0, D3D11_MAP_READ, 0, &mapped);
             memcpy(InstanceData.pData, mapped.pData, sizeof(VTX_INSTANCE_DEFAULT_DESC) * m_iNumData);
-
-            auto pData = static_cast<VTX_INSTANCE_DEFAULT_DESC*>(InstanceData.pData);
             m_pDeviceContext->Unmap(m_pReadBuffer, 0);
         }
+
         m_pInstanceBuffer->UnLock();
     }
-}
 
-void CTrailEffect::Late_Update(_float fDeletaTime)
-{
-    __super::Late_Update(fDeletaTime);
     ComputeMatrix();
 
     m_pGameInstance->Add_RenderGroup(RENDER::NONLIGHT, this);
@@ -98,7 +99,7 @@ HRESULT CTrailEffect::Render()
 
 HRESULT CTrailEffect::Apply_ConstantShaderResources()
 {
-    m_pShaderCom->Bind_Matrix("g_WorldMatrix" , &m_CombinedMatrix);
+    m_pShaderCom->Bind_Matrix("g_WorldMatrix" , &m_pTransformCom->GetWorldMat());
     m_pShaderCom->Bind_Matrix("g_ViewMatrix" , &m_pGameInstance->GetMatrix(MAT_STATE::VIEW));
     m_pShaderCom->Bind_Matrix("g_ProjMatrix" , &m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION));
 

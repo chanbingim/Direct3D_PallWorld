@@ -104,7 +104,8 @@ HRESULT CPartObject::Apply_ConstantShaderResources(_uInt iMeshIndex)
 	m_pEMVViewMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::VIEW)));
 	m_pEMVProjMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION)));
 	m_pBoneMatrixEffect->SetMatrixArray(reinterpret_cast<const float*>(m_pVIBufferCom->GetBoneMatrices(iMeshIndex)), 0, m_pVIBufferCom->GetMeshNumBones(iMeshIndex));
-	
+	m_pShaderCom->Bind_RawValue("g_fCamFar", &m_pGameInstance->GetCameraINFO().y, sizeof(_float));
+
 	ID3D11ShaderResourceView* pResourceVeiw = {};
 	m_pVIBufferCom->GetMeshResource(iMeshIndex, aiTextureType_DIFFUSE, 0, &pResourceVeiw);
 	if (pResourceVeiw)

@@ -1,6 +1,5 @@
 #include "PellSkillManager.h"
 
-#include "GameInput.h"
 #include "CsvHelper.h"
 
 IMPLEMENT_SINGLETON(CPellSkillManager);

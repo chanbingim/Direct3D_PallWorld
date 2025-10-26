@@ -14,12 +14,12 @@ class CTrailEffect : public CSpriteEffect
 public :
 	struct TrailConstBufferData
 	{
+		_float4x4		SocketMatrix;
 		_uInt			iHeadIndex;
 		_uInt			iMaxIndex;
 
 		_float			fDeletaTime;
 		_float			fSize;
-		_float4x4		SocketMatrix;
 		_float			fLifeTime;		// 여기서 Lifetime보다 크면 
 		_float			fSmoothRate;	// 얼마나 부드럽게 따라갈지 (0~1)
 

@@ -1,4 +1,4 @@
-Effect_Tornado_Part1
+Hit_Effect_Part1
 0 0 0 
 -0 0 0 
 19.5392 19.5392 19.5392 

@@ -43,7 +43,7 @@ HRESULT CPlayerWeaponSlot::Initialize(void* pArg)
 
 	CTrailEffect::TRAIL_EFFECT_DESC TrailDesc = {};
 	TrailDesc.pSocketMatrix = &m_CombinedWorldMatrix;
-	TrailDesc.TrailDisPatch = { 2, 1, 1 };
+	TrailDesc.TrailDisPatch = { 4, 4, 2 };
 	TrailDesc.szTrailEffectName = TEXT("T_Trail04.png");
 
 	m_pTrail = static_cast<CTrailEffect*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Trail_Defalut"), &TrailDesc));

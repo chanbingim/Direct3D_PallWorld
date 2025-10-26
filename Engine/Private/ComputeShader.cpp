@@ -45,7 +45,6 @@ HRESULT CComputeShader::Bind_Buffer(_uInt iIndex, ID3D11Buffer* Buffer)
 void CComputeShader::Update_Shader(_int3 iGroupCount)
 {
     m_pContext->CSSetShader(m_pShaderCom, nullptr, 0);
-
     m_pContext->Dispatch(iGroupCount.x, iGroupCount.y, iGroupCount.z);
 }
 

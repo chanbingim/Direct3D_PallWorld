@@ -44,7 +44,7 @@ HRESULT CRenderer::Initialize()
         return E_FAIL;
 
     /* Target_Blur */
-    if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Blur"), Viewport.Width, Viewport.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.0f, 0.0f, 1.0f, 1.0f))))
+    if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Blur"), Viewport.Width, Viewport.Height, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.0f, 0.0f, 0.0f, 0.0f))))
         return E_FAIL;
 
     /* Target_Blur_X */
@@ -221,6 +221,10 @@ void CRenderer::Render_Combined()
     m_pShader->Bind_Matrix("g_WorldMatrix", &m_WorldMatrix);
     m_pShader->Bind_Matrix("g_ViewMatrix", &m_ViewMatrix);
     m_pShader->Bind_Matrix("g_ProjMatrix", &m_ProjMatrix);
+    m_pShader->Bind_RawValue("g_fFar", &m_pGameInstance->GetCameraINFO().y, sizeof(_float));
+
+    if (FAILED(m_pGameInstance->Bind_RenderTarget(TEXT("Target_Diffuse"), m_pShader, "g_DiffuseTexture")))
+        return;
 
     if (FAILED(m_pGameInstance->Bind_RenderTarget(TEXT("Target_Diffuse"), m_pShader, "g_DiffuseTexture")))
         return;
@@ -375,9 +379,9 @@ void CRenderer::Render_Debug()
         return;
 
     /* 렌더타겟을 디버그로 직교투영을 통해 그려라. */
-    if (FAILED(m_pGameInstance->Render_RenderTargetDebug(TEXT("MRT_GameObjects"), m_pShader, m_pVIBuffer)))
-        return;
-    if (FAILED(m_pGameInstance->Render_RenderTargetDebug(TEXT("MRT_Blur"), m_pShader, m_pVIBuffer)))
+   /* if (FAILED(m_pGameInstance->Render_RenderTargetDebug(TEXT("MRT_GameObjects"), m_pShader, m_pVIBuffer)))
+        return;*/
+    if (FAILED(m_pGameInstance->Render_RenderTargetDebug(TEXT("MRT_LightAcc"), m_pShader, m_pVIBuffer)))
         return;
 }
 #endif // _DEBUG

@@ -3,6 +3,7 @@
 matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 matrix g_BoneMatrices[512];
 
+float     g_fCamFar;
 Texture2D g_DiffuseTexture;
 Texture2D g_NormalTexture;
 Texture2D g_SpecularTexture;
@@ -99,7 +100,7 @@ PS_OUT PS_MAIN(PS_IN In)
     
     Out.vColor = vMtrlDiffuse;
     Out.vNormal = float4(vNormal * 0.5f + 0.5f, 0.f);
-    Out.vDepth = float4(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1000.0f, 0.0f, 0.0f);
+    Out.vDepth = float4(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / g_fCamFar, 0.0f, 0.0f);
     
     return Out;
 }

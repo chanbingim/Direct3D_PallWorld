@@ -7,6 +7,7 @@ Texture2D       g_NormalTexture;
 Texture2D       g_SpecularTexture;
 
 vector          g_vColor;
+float           g_fCamFar;
 float           g_fMaxHeight;
 
 /* 정점 쉐이더 : */
@@ -122,7 +123,7 @@ PS_OUT PS_MAIN(PS_IN In)
     
     Out.vDiffuse = vMtrlDiffuse;
     Out.vNormal = float4(vNormal.xyz * 0.5f + 0.5f, 0.f);
-    Out.vDepth = float4(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1000.0f, 0.0f, 0.0f);
+    Out.vDepth = float4(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / g_fCamFar, 0.0f, 0.0f);
     return Out;
 }
 
