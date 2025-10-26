@@ -138,6 +138,7 @@
 
 #pragma region EFFECT
 #include "HitEffect.h"
+#include "TrailEffect.h"
 #pragma endregion
 
 
@@ -1408,6 +1409,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region Effect
 #pragma region SKILL_OBEJCT
 	/* GAME_OBJECT_EarthQuake */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Pal_Skill_Earthquake"), CEarthquake::Create(m_pDevice, m_pContext))))
@@ -1422,6 +1424,13 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/* GAME_OBJECT_Hit_Effect */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Hit_Effect_Defalut"), CHitEffect::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+#pragma endregion
+
+#pragma region Trail
+	/* GAME_OBJECT_Trail_Effect */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Trail_Defalut"), CTrailEffect::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
 #pragma endregion
 
 	m_strMessage = TEXT("로딩이 완료되었습니다..");

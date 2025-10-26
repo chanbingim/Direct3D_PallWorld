@@ -274,6 +274,9 @@
     <Filter Include="ShaderFiles\Effect">
       <UniqueIdentifier>{9d285381-70da-4c87-b6e6-09503f4dbaec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utility\Components\Shader\Compute">
+      <UniqueIdentifier>{31ee5f81-65f1-4b3b-9f71-a025f3ebedb3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Graphic_Device.cpp">
@@ -503,6 +506,9 @@
     </ClCompile>
     <ClCompile Include="..\private\EffectManager.cpp">
       <Filter>Utility\Eeffect\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ComputeShader.cpp">
+      <Filter>Utility\Components\Shader\Compute</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -778,6 +784,9 @@
     </ClInclude>
     <ClInclude Include="..\public\EffectManager.h">
       <Filter>Utility\Eeffect\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ComputeShader.h">
+      <Filter>Utility\Components\Shader\Compute</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

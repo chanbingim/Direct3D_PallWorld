@@ -24,16 +24,7 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   
   compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_InstnaceMesh.cso
 FXC : warning X4717: Effects deprecated for D3DCompiler_47
-C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ShaderFiles\VTX_Mesh.hlsl(129,22-32): warning X3578: Output value 'PS_ModelPreview' is not completely initialized
-C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ShaderFiles\VTX_Mesh.hlsl(137,21-42): warning X3578: Output value 'PS_ModelCreate' is not completely initialized
+C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ShaderFiles\VTX_InstnacePoint.hlsl(130,9-63): error X3019: if statement conditional expressions must evaluate to a scalar
+C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ShaderFiles\VTX_InstnacePoint.hlsl(133,5-7): error X3000: unrecognized identifier 'Out'
   
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_Mesh.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_NorTex.cso
-FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\WorldUI.cso
-  Earthquake.cpp
-C:\Git\GitHub\Direct3D_PallWorld\Client\private\Earthquake.cpp(99,37): warning C4244: '=': 'Engine::_uInt'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  Direct11_FrameWork.vcxproj -> C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe
+  compilation failed; no code produced

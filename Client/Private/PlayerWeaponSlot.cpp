@@ -11,6 +11,7 @@
 #include "ProjectileSlot.h"
 #include "Enviormnent.h"
 
+#include "TrailEffect.h"
 #include "PellBase.h"
 #include "Player.h"
 
@@ -39,6 +40,15 @@ HRESULT CPlayerWeaponSlot::Initialize(void* pArg)
 
 	WEAPON_SLOT_DESC* SlotDesc = static_cast<WEAPON_SLOT_DESC*>(pArg);
 	m_pLeftSocket = SlotDesc->pLeftSocket;
+
+	CTrailEffect::TRAIL_EFFECT_DESC TrailDesc = {};
+	TrailDesc.iNumData = 256;
+	TrailDesc.pSocketMatrix = &m_CombinedWorldMatrix;
+	TrailDesc.TrailDisPatch = { 2, 1, 1 };
+	TrailDesc.szTrailEffectName = TEXT("T_Trail04.png");
+
+	static_cast<CTrailEffect*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Trail_Defalut"), &TrailDesc));
+	m_pTrail->SetRenderTrail(true);
 
 	return S_OK;
 }
@@ -281,6 +291,7 @@ void CPlayerWeaponSlot::Free()
 {
 	__super::Free();
 
+	Safe_Release(m_pTrail);
 	Safe_Release(m_pProjectileSlot);
 	for (auto i = 0; i < 2; ++i)
 		Safe_Release(m_pCollision[i]);

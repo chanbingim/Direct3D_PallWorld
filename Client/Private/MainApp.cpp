@@ -219,6 +219,12 @@ HRESULT CMainApp::SetUp_StaticComponents()
 
 #pragma endregion
 
+#pragma region Compute Shader
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ComputeShader_Trail"),
+		CComputeShader::Create(m_pGraphic_Device, m_pDevice_Context, TEXT("../Bin/ShaderFiles/TrailComputeShader.hlsl"), "CS_TrailMain"))))
+		return E_FAIL;
+#pragma endregion
+
 #pragma region VIBuffer
 	/* VIBuffer  RECT  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"), CVIBuffer_Rect::Create(m_pGraphic_Device, m_pDevice_Context))))
@@ -226,6 +232,10 @@ HRESULT CMainApp::SetUp_StaticComponents()
 
 	/* VIBuffer  POINT  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Point"), CVIBuffer_Point::Create(m_pGraphic_Device, m_pDevice_Context))))
+		return E_FAIL;
+
+	/* VIBuffer  POINT  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Instance_Point"), CVIBuffer_Point_Instance::Create(m_pGraphic_Device, m_pDevice_Context))))
 		return E_FAIL;
 #pragma endregion
 

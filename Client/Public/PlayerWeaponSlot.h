@@ -7,6 +7,7 @@ NS_END
 
 NS_BEGIN(Client)
 class CProjectileSlot;
+class CTrailEffect;
 
 class CPlayerWeaponSlot : public CPlayerItemSlot
 {
@@ -42,7 +43,7 @@ private :
 
 	CProjectileSlot*						m_pProjectileSlot = nullptr;
 	COBBCollision*							m_pCollision[2] = { nullptr, nullptr };
-
+	CTrailEffect*							m_pTrail = nullptr;
 private :
 	HRESULT									ADD_Components();
 

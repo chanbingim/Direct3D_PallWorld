@@ -1007,6 +1007,12 @@
     <Filter Include="Shader\ComputeShader\Trail">
       <UniqueIdentifier>{68872233-4b52-4992-9d84-329316472afb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader\Instance\InstancePoint">
+      <UniqueIdentifier>{1a81c474-085d-45cd-8dcf-1fa29a06d106}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\Instance\InstancePoint\Trail">
+      <UniqueIdentifier>{b8982869-9492-46f2-908e-6fed6a630f2c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -2717,6 +2723,9 @@
     </FxCompile>
     <FxCompile Include="TrailComputeShader.hlsl">
       <Filter>Shader\ComputeShader\Trail</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\VTX_InstnacePoint.hlsl">
+      <Filter>Shader\Instance\InstancePoint\Trail</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

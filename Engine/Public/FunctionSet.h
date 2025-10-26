@@ -1,5 +1,6 @@
 
 #include "Transform.h"
+#include "ComputeShader.h"
 #include "BaseCamera.h"
 #include "PartObject.h"
 
