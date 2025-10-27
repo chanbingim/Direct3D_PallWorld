@@ -21,6 +21,7 @@
 #pragma region Map
 #include "DefaultMap.h"
 #include "BossMap.h"
+#include "CubeSky.h"
 #pragma endregion
 
 #pragma region PLAYER
@@ -103,6 +104,11 @@
 #include "DropComponent.h"
 #include "AiSenceComponent.h"
 #include "WorkComponent.h"
+#pragma endregion
+
+#pragma region SKY
+#include "SunLight.h"
+#include "ShadowCamera.h"
 #pragma endregion
 
 #pragma region UI
@@ -347,6 +353,20 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region SKY
+	/* GamePlay_Sun_Texture */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Sun_Tex"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Map/Sun/TempSun.dds"), 1))))
+		return E_FAIL;
+
+	/* GamePlay_Cube_Sky_Texture */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Sky_Cube"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Map/SkyBox/Sky.dds"), 1))))
+		return E_FAIL;
+#pragma endregion
+
+
+
 #pragma region DEFULAT_BUTTON_TEX
 	/* GamePlay_PlayerInfo_Button_Default_Texture */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Button_BackGround"),
@@ -450,6 +470,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_HeatlhIcon_Tex"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/Icon/T_gauge_icon_HP.png"), 1))))
 		return E_FAIL;
+
 
 	/* GamePlay_PlayerInfo_Guard_Bar_Texture */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_GuardBar_Tex"),
@@ -938,6 +959,16 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region SKY
+	/* Sun */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GamePlay_SunLight"), CSunLight::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* Shadow_Camera */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GamePlay_ShadowCamera"), CShadowCamera::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
 #pragma region OBJECT
 	/* GAME_OBJECT_Camera */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Camera"), CCamera::Create(m_pDevice, m_pContext))))
@@ -960,6 +991,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma region SKY
 	/* GAME_OBJECT_SKY_BOX */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SkyBox"), CSkyBox::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_SKY_BOX */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CubeSkyBox"), CCubeSky::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 #pragma endregion
 
@@ -994,56 +1029,56 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ElectricPanda_Body_Default"), CElectricPandaBody::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 #pragma endregion
-
-#pragma region Herorong
-	/* GAME_OBJECT_Herorong */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Herorong"), CHerorong::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	/* GAME_OBJECT_Herorong */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Herorong_Body_Default"), CHerorongBody::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-#pragma endregion
-
-#pragma region FlowerRabbit
-	/* GAME_OBJECT_FlowerRabbit */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_FlowerRabbit"), CFlowerRabbit::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	/* GAME_OBJECT_FlowerRabbitBody */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_FlowerRabbit_Body_Default"), CFlowerLabbitBody::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-#pragma endregion
-
-#pragma region Hedgehog
-	/* GAME_OBJECT_Hedgehog */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Hedgehog"), CHedgehog::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	/* GAME_OBJECT_HedgehogBody */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Hedgehog_Body_Default"), CHedgehogBody::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-#pragma endregion
-
-#pragma region Frog
-	/* GAME_OBJECT_Frog */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Frog"), CFrog::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	/* GAME_OBJECT_FrogBody */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Frog_Body_Default"), CFrogBody::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-#pragma endregion
-
-#pragma region Yeti
-	/* GAME_OBJECT_Yeti */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Yeti"), CYeti::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	/* GAME_OBJECT_YetiBody */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Yeti_Body_Default"), CYetiBody::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-#pragma endregion
+//
+//#pragma region Herorong
+//	/* GAME_OBJECT_Herorong */
+//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Herorong"), CHerorong::Create(m_pDevice, m_pContext))))
+//		return E_FAIL;
+//
+//	/* GAME_OBJECT_Herorong */
+//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Herorong_Body_Default"), CHerorongBody::Create(m_pDevice, m_pContext))))
+//		return E_FAIL;
+//#pragma endregion
+//
+//#pragma region FlowerRabbit
+//	/* GAME_OBJECT_FlowerRabbit */
+//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_FlowerRabbit"), CFlowerRabbit::Create(m_pDevice, m_pContext))))
+//		return E_FAIL;
+//
+//	/* GAME_OBJECT_FlowerRabbitBody */
+//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_FlowerRabbit_Body_Default"), CFlowerLabbitBody::Create(m_pDevice, m_pContext))))
+//		return E_FAIL;
+//#pragma endregion
+//
+//#pragma region Hedgehog
+//	/* GAME_OBJECT_Hedgehog */
+//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Hedgehog"), CHedgehog::Create(m_pDevice, m_pContext))))
+//		return E_FAIL;
+//
+//	/* GAME_OBJECT_HedgehogBody */
+//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Hedgehog_Body_Default"), CHedgehogBody::Create(m_pDevice, m_pContext))))
+//		return E_FAIL;
+//#pragma endregion
+//
+//#pragma region Frog
+//	/* GAME_OBJECT_Frog */
+//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Frog"), CFrog::Create(m_pDevice, m_pContext))))
+//		return E_FAIL;
+//
+//	/* GAME_OBJECT_FrogBody */
+//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Frog_Body_Default"), CFrogBody::Create(m_pDevice, m_pContext))))
+//		return E_FAIL;
+//#pragma endregion
+//
+//#pragma region Yeti
+//	/* GAME_OBJECT_Yeti */
+//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Yeti"), CYeti::Create(m_pDevice, m_pContext))))
+//		return E_FAIL;
+//
+//	/* GAME_OBJECT_YetiBody */
+//	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Yeti_Body_Default"), CYetiBody::Create(m_pDevice, m_pContext))))
+//		return E_FAIL;
+//#pragma endregion
 
 #pragma region Grass Mommoth
 	/* GAME_OBJECT_Grass Mommoth */
@@ -1428,7 +1463,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 #pragma region Trail
 	/* GAME_OBJECT_Trail_Effect */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Trail_Defalut"), CTrailEffect::Create(m_pDevice, m_pContext))))
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Trail_Defalut"), CTrailComponent::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 #pragma endregion
 #pragma endregion

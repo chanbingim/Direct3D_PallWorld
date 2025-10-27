@@ -168,6 +168,15 @@ HRESULT CMainApp::SetUp_StaticComponents()
 		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_TEX::Elements, VTX_TEX::iNumElements, TEXT("../Bin/ShaderFiles/TestShader.hlsl")))))
 		return E_FAIL;
 
+	/* Mouse Shader */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Trail_VtxTex"),
+		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_TEX::Elements, VTX_TEX::iNumElements, TEXT("../Bin/ShaderFiles/TrailShader.hlsl")))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Sky"),
+		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_CUBE::Elements, VTX_CUBE::iNumElements, TEXT("../Bin/ShaderFiles/Shader_VtxCube.hlsl")))))
+		return E_FAIL;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Mouse"),
 		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_TEX::Elements, VTX_TEX::iNumElements, TEXT("../Bin/ShaderFiles/MouseShader.hlsl")))))
 		return E_FAIL;
@@ -239,9 +248,18 @@ HRESULT CMainApp::SetUp_StaticComponents()
 		return E_FAIL;
 
 	/* VIBuffer  POINT  Component */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Cube"), CVIBuffer_Cube::Create(m_pGraphic_Device, m_pDevice_Context))))
+		return E_FAIL;
+
+	/* VIBuffer  POINT  Component */
 	CVIBuffer_Point_Instance::INSTANCE_DESC InstanceDesc = {};
 	InstanceDesc.iNumInstance = 4096;
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Instance_Point"), CVIBuffer_Point_Instance::Create(m_pGraphic_Device, m_pDevice_Context, &InstanceDesc))))
+		return E_FAIL;
+
+	/* VIBuffer  POINT  Component */
+	InstanceDesc.iNumInstance = 4096;
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Trail_Instance_Point"), CVIBuffer_Trail_Point_Instance::Create(m_pGraphic_Device, m_pDevice_Context, &InstanceDesc))))
 		return E_FAIL;
 #pragma endregion
 

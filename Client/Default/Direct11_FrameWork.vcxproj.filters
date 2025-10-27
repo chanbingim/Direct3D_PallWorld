@@ -1013,6 +1013,15 @@
     <Filter Include="Shader\Instance\InstancePoint\Trail">
       <UniqueIdentifier>{b8982869-9492-46f2-908e-6fed6a630f2c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Objects\NoneMesh\ShadowCamera">
+      <UniqueIdentifier>{3563aac4-3cab-482c-b15b-3904107262de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\NoneMesh\Sun">
+      <UniqueIdentifier>{3258b180-bf88-48e6-9d6a-9a5d147c30cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\NoneMesh\CubeSky">
+      <UniqueIdentifier>{f7fd2af1-b8e5-491c-9216-cef7918791cf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -1861,6 +1870,15 @@
     <ClInclude Include="..\public\SpriteEffect.h">
       <Filter>07. Effect\Sprite Effect</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\SunLight.h">
+      <Filter>03. Objects\NoneMesh\Sun</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ShadowCamera.h">
+      <Filter>03. Objects\NoneMesh\ShadowCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CubeSky.h">
+      <Filter>03. Objects\NoneMesh\CubeSky</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -1956,9 +1974,6 @@
     </ClCompile>
     <ClCompile Include="..\private\PellInfoFrame.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\Player_Interface\BattlePell\Frame</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\LoadingUI.cpp">
-      <Filter>02. HUD\LoadingHUD\Loding</Filter>
     </ClCompile>
     <ClCompile Include="..\private\LoadingIcon.cpp">
       <Filter>02. HUD\LoadingHUD\Loding\LoadingIcon</Filter>
@@ -2686,6 +2701,18 @@
     <ClCompile Include="..\private\SpriteEffect.cpp">
       <Filter>07. Effect\Sprite Effect</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\LoadingUI.cpp">
+      <Filter>02. HUD\LoadingHUD\Loding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\SunLight.cpp">
+      <Filter>03. Objects\NoneMesh\Sun</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ShadowCamera.cpp">
+      <Filter>03. Objects\NoneMesh\ShadowCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CubeSky.cpp">
+      <Filter>03. Objects\NoneMesh\CubeSky</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\TestShader.hlsl">
@@ -2726,6 +2753,12 @@
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\TrailComputeShader.hlsl">
       <Filter>Shader\ComputeShader\Trail</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\TrailShader.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxCube.hlsl">
+      <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

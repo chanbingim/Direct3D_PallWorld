@@ -31,7 +31,8 @@ public :
 
 	// ·£´õ
 	virtual		HRESULT						Render() override;
-	
+	virtual		HRESULT						ShadowRender() override;
+
 	void									ChangeModelBuffer(CModel* pModel, _bool bIsAnim = false);
 	
 	void									ChangeWeaponState(WEAPON_STATE eWeaponState, _bool bIsAnimLoop);

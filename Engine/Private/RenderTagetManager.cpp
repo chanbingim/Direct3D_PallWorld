@@ -52,7 +52,7 @@ HRESULT CRenderTagetManager::Add_MRT(const _wstring& strMRTTag, const _wstring& 
 
 }
 
-HRESULT CRenderTagetManager::Begin_MRT(const _wstring& strMRTTag)
+HRESULT CRenderTagetManager::Begin_MRT(const _wstring& strMRTTag, ID3D11DepthStencilView* pDSV)
 {
 	// 랜더 타겟을 내가 지정한 그룹으로 바꾼다.
 	// 이과정에서 이전에 세팅되어있는 백버퍼의 뎁스 스텐실 뷰와
@@ -78,7 +78,10 @@ HRESULT CRenderTagetManager::Begin_MRT(const _wstring& strMRTTag)
 	if (0 >= iNumRenderTargets)
 		return E_FAIL;
 
-	m_pContext->OMSetRenderTargets(iNumRenderTargets, pRenderTargets, m_pOriginalDSV);
+	if (nullptr != pDSV)
+		m_pContext->ClearDepthStencilView(pDSV, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+
+	m_pContext->OMSetRenderTargets(iNumRenderTargets, pRenderTargets, nullptr == pDSV ? m_pOriginalDSV : pDSV);
 
 	return S_OK;
 }

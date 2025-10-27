@@ -115,6 +115,26 @@ namespace Engine
 		};
 	}VTX_DEFAULT_INSTANCE_DESC;
 
+
+	typedef struct VtxTrailInstanceDefaultDesc
+	{
+		XMFLOAT4			vLBPosition;
+		XMFLOAT4			vRTPosition;
+		_float				fLifeTime;
+	}VTX_TRAIL_INSTANCE_DEFAULT_DESC;
+
+	typedef struct tagVertexTrailInstanceDesc
+	{
+		static constexpr unsigned int					iNumElements = { 4 };
+		static constexpr D3D11_INPUT_ELEMENT_DESC		Elements[] = {
+			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+
+			{ "TEXCOORD", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 0, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
+			{ "TEXCOORD", 1, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 16, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
+			{ "TEXCOORD", 2, DXGI_FORMAT_R32_FLOAT, 1, 32, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
+		};
+	}VTX_TRAIL_INSTANCE_DESC;
+
 	typedef struct tagVertexModelInstanceDesc
 	{
 		static constexpr unsigned int					iNumElements = { 9 };
@@ -141,6 +161,12 @@ namespace Engine
 			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
 		};
 	}VTX_POINT;
+
+	typedef struct tagShadowLight
+	{
+		XMFLOAT4		vEye, vAt;
+		float			fNear, fFar, fFov, fAspect;
+	}SHADOW_LIGHT_DESC;
 
 	typedef struct tagKeyFrame
 	{

@@ -8,8 +8,12 @@
 #include "VIBuffer_Terrain.h"
 #include "VIBuffer_Point.h"
 #include "VIBuffer_Cell.h"
+
+#include "TrailComponent.h"
+#include "ViBuffer_Cube.h"
 #include "VIBuffer_Model_Instance.h"
 #include "VIBuffer_Point_Instance.h"
+#include "VIBuffer_Trail_Point_Instance.h"
 
 #include "FontComponent.h"
 #include "Texture.h"

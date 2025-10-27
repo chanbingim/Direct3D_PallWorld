@@ -656,7 +656,7 @@ HRESULT CPlayer::ADD_PlayerCamera()
     Desc.pParent = this;
     lstrcpy(Desc.ObjectTag, L"PlayerCamera");
 
-    Desc.fFar = 1000.f;
+    Desc.fFar = 300.f;
     Desc.fNear = 0.1f;
     Desc.fFov = XMConvertToRadians(90.f);
 
@@ -961,17 +961,18 @@ void CPlayer::Damage(void* pArg, CActor* pDamagedActor)
             _float3 vActorPos = m_pTransformCom->GetPosition();
             _vector vCalActorPos = XMLoadFloat3(&vActorPos);
 
+            _vector vDir = XMVector3Normalize(vCalActorPos - vCalDamagedActorPos);
             CCollision::DEFAULT_HIT_DESC HitDesc = {};
-            if (m_pCollision->RayHit(vCalDamagedActorPos, vCalActorPos - vCalDamagedActorPos, HitDesc))
+            if (m_pCollision->RayHit(vCalDamagedActorPos, vDir, HitDesc))
             {
                 CHitEffect::HIT_EFFECT_DESC  HitEffectDesc = {};
                 HitEffectDesc.vScale = { 1.f, 1.f, 1.f };
                 HitEffectDesc.vPosition = HitDesc.vHitPoint;
-                HitEffectDesc.fLifeTime = 1.f;
+                HitEffectDesc.fLifeTime = 3.f;
                 HitEffectDesc.fSpeed = 10.f;
                 HitEffectDesc.szEffectName = TEXT("Hit_Effect_Default");
 
-                auto pHitEffect = static_cast<CGameObject *>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT(""), &HitEffectDesc));
+                auto pHitEffect = static_cast<CGameObject *>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Hit_Effect_Defalut"), &HitEffectDesc));
                 m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("GamePlayLayer_Effects"), pHitEffect);
             }
         }

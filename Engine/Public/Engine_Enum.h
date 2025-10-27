@@ -43,6 +43,7 @@ namespace Engine
 
 	enum class RENDER {
 		PRIORITY,
+		SHADOW,
 		NONBLEND,
 		NONLIGHT,
 		BLUR,

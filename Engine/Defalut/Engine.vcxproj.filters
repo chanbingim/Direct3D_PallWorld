@@ -277,6 +277,15 @@
     <Filter Include="Utility\Components\Shader\Compute">
       <UniqueIdentifier>{31ee5f81-65f1-4b3b-9f71-a025f3ebedb3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utility\Shadow">
+      <UniqueIdentifier>{5670d0b9-56af-46c4-9ade-f0d4890309ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\VIBuffer\Instancing\point\Trail">
+      <UniqueIdentifier>{faa14e8c-ebed-4d13-988f-a3310ab74892}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Components\VIBuffer\VIRect\VITrail">
+      <UniqueIdentifier>{55e02bf3-a2b6-4f41-a026-46965780cc90}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Graphic_Device.cpp">
@@ -510,6 +519,13 @@
     <ClCompile Include="..\private\ComputeShader.cpp">
       <Filter>Utility\Components\Shader\Compute</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\Shadow.cpp">
+      <Filter>Utility\Shadow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\VIBuffer_Trail_Point_Instance.cpp">
+      <Filter>Utility\Components\VIBuffer\Instancing\point\Trail</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TrailComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\Graphic_Device.h">
@@ -788,6 +804,13 @@
     <ClInclude Include="..\public\ComputeShader.h">
       <Filter>Utility\Components\Shader\Compute</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Shadow.h">
+      <Filter>Utility\Shadow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\VIBuffer_Trail_Point_Instance.h">
+      <Filter>Utility\Components\VIBuffer\Instancing\point\Trail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TrailComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_Cell.hlsl">

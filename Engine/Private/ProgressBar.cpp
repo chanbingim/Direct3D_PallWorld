@@ -61,6 +61,11 @@ _float CProgressBar::GetPercent()
 	return m_fPercent;
 }
 
+void CProgressBar::LerpTimeReset()
+{
+	m_fLerpAccTime = 1.f;
+}
+
 HRESULT CProgressBar::Bind_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
@@ -83,6 +88,17 @@ HRESULT CProgressBar::Apply_ConstantShaderResources()
 	m_pShader_Percent->SetRawValue(&m_fPercent, 0, sizeof(_float));
 	m_pShader_Color->SetFloatVector((float *)&m_vColor);
 	return S_OK;
+}
+
+void CProgressBar::LerpAnimation(_float fTimeDeleta)
+{
+	if (m_fPercent != m_fPrePercent)
+	{
+		m_fLerpAccTime -= fTimeDeleta;
+
+		m_fLerpAccTime = Clamp<_float>(m_fLerpAccTime, 0.f, 1.f);
+		m_fPrePercent = Lerp<_float>(m_fPrePercent, m_fPercent, m_fLerpAccTime);
+	}
 }
 
 CGameObject* CProgressBar::Clone(void* pArg)

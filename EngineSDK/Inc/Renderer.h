@@ -29,6 +29,7 @@ private:
 	ID3D11DeviceContext*				m_pContext = { nullptr };
 	CGameInstance*						m_pGameInstance = nullptr;
 	list<CGameObject*>					m_RenderObjects[ENUM_CLASS(RENDER::END)];
+	ID3D11DepthStencilView*				m_pShadowDSV = { nullptr };
 
 #ifdef _DEBUG
 private:
@@ -48,6 +49,7 @@ private:
 	void								Render_Priority();
 
 	//디퍼드 셰이더를 위한 과정 4가지이다.
+	void								Render_Shadow();
 	void								Render_NonBlend();
 	void								Render_LightAcc();
 	void								Render_Combined();
@@ -60,6 +62,8 @@ private:
 
 	/* 후처리를 하기위해 텍스처 생성 */
 	void								DrawPosTex();
+
+	HRESULT								Ready_DepthStencilView(_uInt iSizeX, _uInt iSizeY);
 
 #ifdef _DEBUG
 private:

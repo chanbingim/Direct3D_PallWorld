@@ -4,6 +4,9 @@
 #include "GamePlayHUD.h"
 
 #include "Light.h"
+#include "SunLight.h"
+#include "ShadowCamera.h"
+
 #include "StringHelper.h"
 #include "CsvHelper.h"
 
@@ -25,15 +28,8 @@ CGamePlayLevel::CGamePlayLevel(ID3D11Device* pDevice, ID3D11DeviceContext* pCont
 
 HRESULT CGamePlayLevel::Initialize()
 {
-	CLight::LIGHT_DESC			LightDesc{};
-
-	LightDesc.eType = LIGHT::DIRECTION;
-	LightDesc.vDiffuse = _float4(1.f, 1.0f, 1.0f, 1.f);
-	LightDesc.vAmbient = _float4(0.2f, 0.2f, 0.2f, 1.f);
-	LightDesc.vSpecular = _float4(1.f, 1.f, 1.f, 1.f);
-	LightDesc.vDirection = _float4(1.f, -1.f, 1.f, 0.f);
-
-	m_pGameInstance->ADDLight(CLight::Create(LightDesc));
+	if (FAILED(ADD_Light()))
+		return E_FAIL;
 
 	if (FAILED(ADD_CameraLayer(TEXT("Layer_GamePlay_Camera"))))
 		return E_FAIL;
@@ -48,15 +44,14 @@ HRESULT CGamePlayLevel::Initialize()
 	if (FAILED(LoadPalArea()))
 		return E_FAIL;
 
-
-	//if (FAILED(ADD_SkyLayer(TEXT("Layer_GamePlay_SKY"))))
-	//	return E_FAIL;
-
 	CPlayerManager::PLAYER_MANAGER_DESC PlayerDesc;
 	PlayerDesc.iMaxInvenWeight = 1000;
 	PlayerDesc.iNumInvenMaxSlot = 60;
 	CPlayerManager::GetInstance()->Initialize(&PlayerDesc);
 	if (FAILED(ADD_PlayerLayer(TEXT("Layer_GamePlay_Player"))))
+		return E_FAIL;
+
+	if (FAILED(ADD_SkyLayer(TEXT("Layer_GamePlay_SKY"))))
 		return E_FAIL;
 
 	if (FAILED(ADD_PellLayer(TEXT("Layer_GamePlay_Pell"))))
@@ -81,6 +76,12 @@ void CGamePlayLevel::Update(_float fTimeDelta)
 HRESULT CGamePlayLevel::Render()
 {
 	SetWindowText(g_hWnd, TEXT("게임 플레이 레벨"));
+	return S_OK;
+}
+
+HRESULT CGamePlayLevel::ADD_Light()
+{
+
 	return S_OK;
 }
 
@@ -121,8 +122,28 @@ HRESULT CGamePlayLevel::ADD_SkyLayer(const _wstring& LayerName)
 	ZeroMemory(&Desc, sizeof(CGameObject::GAMEOBJECT_DESC));
 	Desc.vScale = { 1.f, 1.f, 1.f };
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SkyBox"),
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CubeSkyBox"),
 		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
+		return E_FAIL;
+
+	CSunLight::SUN_LIGHT_DESC SunLightDesc = {};
+	SunLightDesc.fRadius = 150.f;
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GamePlay_SunLight"),
+		ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("GamePlay_Layer_Dir_Light"), &SunLightDesc)))
+		return E_FAIL;
+
+	CShadowCamera::SHADOW_CAMERA_DESC ShadowCameraDesc = {};
+	ShadowCameraDesc.fFar = 500.f;
+	ShadowCameraDesc.fNear = 0.1f;
+	ShadowCameraDesc.fFov = XMConvertToRadians(120.f);
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GamePlay_ShadowCamera"),
+		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &ShadowCameraDesc)))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_TorchLamp"),
+		ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("TEST_TORUCH"))))
 		return E_FAIL;
 
 	return S_OK;

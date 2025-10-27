@@ -67,7 +67,10 @@ void CPlayerItemSlot::Late_Update(_float fDeletaTime)
 	UpdateCombinedMatrix();
 
 	if (nullptr != m_pVIBufferCom)
+	{
 		m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
+		m_pGameInstance->Add_RenderGroup(RENDER::SHADOW, this);
+	}
 }
 
 HRESULT CPlayerItemSlot::Render()
@@ -80,6 +83,22 @@ HRESULT CPlayerItemSlot::Render()
 		Apply_ConstantShaderResources(i);
 
 		true == m_bIsAnimWeapon ? m_pShaderCom->Update_Shader(0) : m_pNoneAimShader->Update_Shader(0);
+		m_pVIBufferCom->Render(i);
+	}
+
+	return S_OK;
+}
+
+HRESULT CPlayerItemSlot::ShadowRender()
+{
+	Bind_ShaderResources();
+	_uInt iNumMeshes = m_pVIBufferCom->GetNumMeshes();
+	for (_uInt i = 0; i < iNumMeshes; ++i)
+	{
+		Apply_ConstantShaderResources(i);
+		Apply_ShadowShaderResources();
+
+		true == m_bIsAnimWeapon ? m_pShaderCom->Update_Shader(3) : m_pNoneAimShader->Update_Shader(3);
 		m_pVIBufferCom->Render(i);
 	}
 

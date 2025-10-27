@@ -24,6 +24,7 @@ public:
 
 	// ·£´õ
 	virtual		HRESULT						Render() override;
+	virtual		HRESULT						ShadowRender() override;
 	void									UpdateAnimation(CModel* pVIBuffer);
 
 protected :

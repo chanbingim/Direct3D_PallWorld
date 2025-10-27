@@ -205,6 +205,7 @@ popd</Command>
     <ClInclude Include="..\Public\PaseDataHeader.h" />
     <ClInclude Include="..\public\RenderTagetManager.h" />
     <ClInclude Include="..\public\RenderTarget.h" />
+    <ClInclude Include="..\public\Shadow.h" />
     <ClInclude Include="..\public\Slider.h" />
     <ClInclude Include="..\public\SliderButton.h" />
     <ClInclude Include="..\public\SphereCollision.h" />
@@ -242,6 +243,7 @@ popd</Command>
     <ClInclude Include="..\public\Texture.h" />
     <ClInclude Include="..\Public\Timer.h" />
     <ClInclude Include="..\Public\Timer_Manager.h" />
+    <ClInclude Include="..\public\TrailComponent.h" />
     <ClInclude Include="..\public\Transform.h" />
     <ClInclude Include="..\public\UserInterface.h" />
     <ClInclude Include="..\public\VIBuffer.h" />
@@ -253,6 +255,7 @@ popd</Command>
     <ClInclude Include="..\public\VIBuffer_Point_Instance.h" />
     <ClInclude Include="..\public\VIBuffer_Rect.h" />
     <ClInclude Include="..\public\VIBuffer_Terrain.h" />
+    <ClInclude Include="..\public\VIBuffer_Trail_Point_Instance.h" />
     <ClInclude Include="..\public\Viewer.h" />
     <ClInclude Include="..\public\WorldFontComponent.h" />
   </ItemGroup>
@@ -293,6 +296,7 @@ popd</Command>
     <ClCompile Include="..\private\PartObject.cpp" />
     <ClCompile Include="..\private\RenderTagetManager.cpp" />
     <ClCompile Include="..\private\RenderTarget.cpp" />
+    <ClCompile Include="..\private\Shadow.cpp" />
     <ClCompile Include="..\private\Slider.cpp" />
     <ClCompile Include="..\private\SliderButton.cpp" />
     <ClCompile Include="..\private\SphereCollision.cpp" />
@@ -321,6 +325,7 @@ popd</Command>
     <ClCompile Include="..\private\Texture.cpp" />
     <ClCompile Include="..\Private\Timer.cpp" />
     <ClCompile Include="..\Private\Timer_Manager.cpp" />
+    <ClCompile Include="..\private\TrailComponent.cpp" />
     <ClCompile Include="..\private\Transform.cpp" />
     <ClCompile Include="..\private\UserInterface.cpp" />
     <ClCompile Include="..\private\VIBuffer.cpp" />
@@ -332,6 +337,7 @@ popd</Command>
     <ClCompile Include="..\private\VIBuffer_Point_Instance.cpp" />
     <ClCompile Include="..\private\VIBuffer_Rect.cpp" />
     <ClCompile Include="..\private\VIBuffer_Terrain.cpp" />
+    <ClCompile Include="..\private\VIBuffer_Trail_Point_Instance.cpp" />
     <ClCompile Include="..\private\Viewer.cpp" />
     <ClCompile Include="..\private\WorldFontComponent.cpp" />
   </ItemGroup>

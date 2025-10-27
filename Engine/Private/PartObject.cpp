@@ -60,6 +60,11 @@ HRESULT CPartObject::Render()
 	return S_OK;
 }
 
+HRESULT CPartObject::ShadowRender()
+{
+	return S_OK;
+}
+
 void CPartObject::SetAnimIndex(_uInt iIndex, _float fAnimSpeed, _bool bIsLoop)
 {
 	if (-1 == iIndex)
@@ -115,6 +120,23 @@ HRESULT CPartObject::Apply_ConstantShaderResources(_uInt iMeshIndex)
     m_pVIBufferCom->GetMeshResource(iMeshIndex, aiTextureType_NORMALS, 0, &pNormalRSV);
     if (pNormalRSV)
         m_pShaderCom->Bind_SRV("g_NormalTexture", pNormalRSV);
+	return S_OK;
+}
+
+HRESULT CPartObject::Apply_ShadowShaderResources()
+{
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_CombinedWorldMatrix)))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Bind_Shadow_Resource(m_pShaderCom, "g_ViewMatrix", MAT_STATE::VIEW)))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Bind_Shadow_Resource(m_pShaderCom, "g_ProjMatrix", MAT_STATE::PROJECTION)))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Bind_Shadow_RawResource(m_pShaderCom, "g_fCamFar", 0)))
+		return E_FAIL;
+
 	return S_OK;
 }
 

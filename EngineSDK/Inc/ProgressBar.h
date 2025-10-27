@@ -33,21 +33,27 @@ public :
 	void									SetPercent(_float fPercent);
 	_float									GetPercent();
 
+	void									LerpTimeReset();
+
 protected :
 	CVIBuffer_Rect*							m_pVIBufferCom = nullptr;
 	CTexture*								m_pTextureCom = nullptr;
 	CShader*								m_pShaderCom = nullptr;
 
+	LPD3D11EFFECTVARIABLE					m_pShader_Percent = nullptr;
+	LPD3D11EFFECTVECTORVARIABLE				m_pShader_Color = nullptr;
+
+	_float									m_fLerpAccTime = {};
+
+	_float									m_fPrePercent = {};
+	_float									m_fPercent = {};
+	_float4									m_vColor = {};
+
 protected :
 	virtual		HRESULT						Bind_ShaderResources() override;
 	virtual     HRESULT						Apply_ConstantShaderResources() override;
 
-protected :
-	LPD3D11EFFECTVARIABLE					m_pShader_Percent = nullptr;
-	LPD3D11EFFECTVECTORVARIABLE				m_pShader_Color = nullptr;
-
-	_float									m_fPercent = {};
-	_float4									m_vColor = {};
+	void									LerpAnimation(_float fTimeDeleta);
 
 public:
 	virtual		CGameObject*				Clone(void* pArg) override;

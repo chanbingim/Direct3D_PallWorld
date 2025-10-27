@@ -4,6 +4,12 @@
 
 #define TEXTURE_TYPE_MAX 27
 
+namespace Engine
+{
+	const unsigned int g_iMaxWidth = 8192;
+	const unsigned int g_iMaxHeight = 4608;
+}
+
 //WIN
 #include <Windows.h>
 #include <assert.h>

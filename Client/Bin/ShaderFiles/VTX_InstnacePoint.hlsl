@@ -22,9 +22,12 @@ struct VS_IN
 
 struct VS_OUT
 {
-    float4 vPosition        : POSITION;
-    float  fSize            : PSIZE;
-    float  fLifeTime        : TEXCOORD0;
+    float       fSize           : PSIZE;
+    float4      vRight          : TEXCOORD0;
+    float4      vUp             : TEXCOORD1;
+    float4      vLook           : TEXCOORD2;
+    float4      vTranslation    : TEXCOORD3;
+    float       fLifeTime       : TEXCOORD4;
 };
 
 VS_OUT VS_MAIN(VS_IN In)
@@ -34,11 +37,11 @@ VS_OUT VS_MAIN(VS_IN In)
     /* In.vPosition * 월드 * 뷰 * 투영 */    
     //float4x4 == matrix
     matrix  matWV, matWVP;
-    row_major matrix InstanceMatrix = { In.vRight, In.vUp, In.vLook, In.vTranslation };
-    
-    vector vPosition = mul(vector(In.vPosition, 1.f), InstanceMatrix);
 
-    Out.vPosition = vPosition;
+    Out.vRight = In.vRight;
+    Out.vLook = In.vLook;
+    Out.vUp = In.vUp;
+    Out.vTranslation = In.vTranslation;
     Out.fSize = length(In.vRight);
     Out.fLifeTime = In.fLifeTime;
 
@@ -47,9 +50,12 @@ VS_OUT VS_MAIN(VS_IN In)
 
 struct GS_IN
 {
-    float4 vPosition    : POSITION;
-    float  fSize        : PSIZE;
-    float  vLifeTime    : TEXCOORD0;
+    float fSize : PSIZE;
+    float4 vRight : TEXCOORD0;
+    float4 vUp : TEXCOORD1;
+    float4 vLook : TEXCOORD2;
+    float4 vTranslation : TEXCOORD3;
+    float fLifeTime : TEXCOORD4;
 };
 
 struct GS_OUT
@@ -64,28 +70,25 @@ void GS_MAIN(point GS_IN In[1], inout TriangleStream<GS_OUT> OutStream)
 {
     GS_OUT Out[4];
     
-    float3 vLook = (g_vCamPosition - In[0].vPosition).xyz;
-    float3 vRight = normalize(cross(float3(0.f, 1.f, 0.f), vLook)) * In[0].fSize * 0.5f;
-    float3 vUp = normalize(cross(vLook, vRight)) * In[0].fSize * 0.5f;
+    matrix WorldMat = { In[0].vRight, In[0].vUp, In[0].vLook, In[0].vTranslation };
+    matrix matWV = mul(WorldMat, g_ViewMatrix);
+    matrix matWVP = mul(matWV, g_ProjMatrix);
     
-    matrix matVP = mul(g_ViewMatrix, g_ProjMatrix);
-    
-    Out[0].vPosition = mul(float4(In[0].vPosition.xyz + vRight + vUp, 1.f), matVP);
+    Out[0].vPosition = mul(float4(-0.5f, 0.5f, 0.f, 1.f), matWVP);
     Out[0].vTexcoord = float2(0.f, 0.f);
-    Out[0].vLifeTime = In[0].vLifeTime;
+    Out[0].vLifeTime = In[0].fLifeTime;
     
-    Out[1].vPosition = mul(float4(In[0].vPosition.xyz - vRight + vUp, 1.f), matVP);
+    Out[1].vPosition = mul(float4(0.5f, 0.5f, 0.f, 1.f), matWVP);
     Out[1].vTexcoord = float2(1.f, 0.f);
-    Out[1].vLifeTime = In[0].vLifeTime;
+    Out[1].vLifeTime = In[0].fLifeTime;
     
-    Out[2].vPosition = mul(float4(In[0].vPosition.xyz - vRight - vUp, 1.f), matVP);
+    Out[2].vPosition = mul(float4(0.5f, -0.5f, 0.f, 1.f), matWVP);
     Out[2].vTexcoord = float2(1.f, 1.f);
-    Out[2].vLifeTime = In[0].vLifeTime;
+    Out[2].vLifeTime = In[0].fLifeTime;
     
-    Out[3].vPosition = mul(float4(In[0].vPosition.xyz + vRight - vUp, 1.f), matVP);
+    Out[3].vPosition = mul(float4(-0.5f, -0.5f, 0.f, 1.f), matWVP);
     Out[3].vTexcoord = float2(0.f, 1.f);
-    Out[3].vLifeTime = In[0].vLifeTime;
-    
+    Out[3].vLifeTime = In[0].fLifeTime;
     
     OutStream.Append(Out[0]);
     OutStream.Append(Out[1]);
@@ -97,7 +100,6 @@ void GS_MAIN(point GS_IN In[1], inout TriangleStream<GS_OUT> OutStream)
     OutStream.Append(Out[3]);
     OutStream.RestartStrip();
 }
-
 
 
 /* 출력된 정점 위치벡터의 w값으로 모든 성분을 나눈다 -> 투영스페이스로 변환 */ 
@@ -120,7 +122,10 @@ PS_OUT PS_MAIN(PS_IN In)
 {
     PS_OUT Out;
     
-    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord + In.vLifeTime);
+    float2 vTexcoord = In.vTexcoord;
+    vTexcoord.x += In.vLifeTime;
+    
+    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, vTexcoord);
     if (vMtrlDiffuse.r <= 0.3f || In.vLifeTime >= g_vMaxLifeTime)
         vMtrlDiffuse.a = 0.f;
         
@@ -132,7 +137,7 @@ technique11 Tech
 {
     pass Pass0
     {
-        SetRasterizerState(RS_Default);
+        SetRasterizerState(RS_None);
         SetDepthStencilState(DSS_Effect, 0);
         SetBlendState(BS_AlphaBlend, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 

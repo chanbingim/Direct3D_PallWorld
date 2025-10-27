@@ -44,6 +44,7 @@ private :
 
 	void									TargetSearchBegin(CGameObject* pSearchObject);
 	void									TargetLost(CGameObject* pSearchObject);
+	void									TargetDetected(CGameObject* pGameObject);
 
 	void									OverlapEvent(_float3 vDir, CGameObject* pHitObject);
 

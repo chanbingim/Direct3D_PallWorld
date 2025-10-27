@@ -113,10 +113,12 @@ CUserInterface* CGamePlayHUD::GetPreViewUserInterface(_uInt iPopupID)
 
 void CGamePlayHUD::SetBossHealthBar(void* PellInfo)
 {
+	m_pBossHealthbar->SetBossInfo(PellInfo);
 }
 
 void CGamePlayHUD::HiddenBossHealthBar()
 {
+	m_pBossHealthbar->SetVisibility(VISIBILITY::HIDDEN);
 }
 
 CSelectUI* CGamePlayHUD::GetSelectUI()

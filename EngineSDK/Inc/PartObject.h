@@ -34,6 +34,8 @@ public:
 
 	// ·£´õ
 	virtual		HRESULT						Render() override;
+	virtual		HRESULT						ShadowRender() override;
+
 	void									SetAnimIndex(_uInt iIndex, _float fAnimSpeed, _bool bIsLoop = true);
 	_uInt									GetAnimIndex(const char* szName);
 
@@ -66,6 +68,7 @@ protected :
 protected :
 	virtual     HRESULT						Bind_ShaderResources();
 	virtual     HRESULT						Apply_ConstantShaderResources(_uInt iMeshIndex);
+	virtual     HRESULT						Apply_ShadowShaderResources();
 
 	void									UpdateCombinedMatrix(const _float4x4* SocketMat = nullptr);
 public:

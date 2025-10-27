@@ -78,7 +78,7 @@ HRESULT CPlayer_Interface::ADD_Childs()
 	if (pInGame_HUD)
 	{
 #pragma region Icon
-		CBackGround::GAMEOBJECT_DESC IconDesc;
+		CBackGround::GAMEOBJECT_DESC IconDesc = {};
 		IconDesc.pParent = this;
 		IconDesc.vScale = { 25.f, 25.f, 0.f };
 

@@ -54,10 +54,19 @@ void CEffectContatiner::Priority_Update(_float fDeletaTime)
 
 void CEffectContatiner::Update(_float fDeletaTime)
 {
+	_bool	bIsAllDead = true;
 	for (auto& Pair : m_PartObjects)
-		Pair.second->Update(fDeletaTime);
+	{
+		if (Pair.second->IsDead())
+		{
+			bIsAllDead = false;
+			continue;
+		}
+		else
+			Pair.second->Update(fDeletaTime);
+	}
 
-	if (m_bIsDissolve)
+	if (m_bIsDissolve || bIsAllDead)
 	{
 		for (auto& Pair : m_PartObjects)
 		{

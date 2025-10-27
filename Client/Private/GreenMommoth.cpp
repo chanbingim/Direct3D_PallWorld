@@ -2,6 +2,8 @@
 #include "GameInstance.h"
 
 #include "TerrainManager.h"
+#include "GamePlayHUD.h"
+#include "Level.h"
 
 #pragma region Client Compoent
 #include "CombatComponent.h"
@@ -211,6 +213,7 @@ HRESULT CGreenMommoth::ADD_Components()
         return E_FAIL;
 
     m_pAiSenceCom->Bind_TargetSearch([this](CGameObject* pSearchObject) { TargetSearchBegin(pSearchObject); });
+    m_pAiSenceCom->Bind_TargetDetected([this](CGameObject* pSearchObject) { TargetDetected(pSearchObject); });
     m_pAiSenceCom->Bind_TargetLost([this](CGameObject* pSearchObject) { TargetLost(pSearchObject); });
 #pragma endregion
 
@@ -259,11 +262,23 @@ HRESULT CGreenMommoth::Setup_PellFsm()
 void CGreenMommoth::TargetSearchBegin(CGameObject* pSearchObject)
 {
     m_pCombatCom->ADD_TargetObject(pSearchObject);
+
+
 }
 
 void CGreenMommoth::TargetLost(CGameObject* pSearchObject)
 {
     m_pCombatCom->Remove_TargetObject(pSearchObject);
+
+    //타겟을 잃으면 체력바를 보여주지 말자.
+    auto pGamePlayHUD = static_cast<CGamePlayHUD*>(m_pGameInstance->GetCurrentHUD());
+    pGamePlayHUD->HiddenBossHealthBar();
+}
+
+void CGreenMommoth::TargetDetected(CGameObject* pGameObject)
+{
+    auto pGamePlayHUD = static_cast<CGamePlayHUD*>(m_pGameInstance->GetCurrentHUD());
+    pGamePlayHUD->SetBossHealthBar(&m_PellInfo);
 }
 
 void CGreenMommoth::OverlapEvent(_float3 vDir, CGameObject* pHitObject)

@@ -105,8 +105,7 @@ struct PS_OUT
 {
     float4 vDiffuse : SV_TARGET0;
     float4 vNormal : SV_TARGET1;
-  //  float4 vSpecular : SV_TARGET2;
-    float4 vDepth : SV_TARGET3;
+    float4 vDepth : SV_TARGET2;
 };
 
 PS_OUT PS_MAIN(PS_IN In)
@@ -117,12 +116,12 @@ PS_OUT PS_MAIN(PS_IN In)
     if (vMtrlDiffuse.a < 0.4f)
         discard;
         
-    vector vNoramlTexture = g_NormalTexture.Sample(DefaultSampler, In.vTexcoord);
-    float3x3 TangentSpaceMat = float3x3(In.vTangent, In.vBINormal * -1, In.vNormal);
+    vector vNoramlTexture = g_NormalTexture.Sample(MirrorSampler, In.vTexcoord);
+    row_major float3x3 TangentSpaceMat = float3x3(In.vTangent, In.vBINormal * -1.f, In.vNormal);
     float3 vNormal = mul(vNoramlTexture.xyz * 2.f - 1.f, TangentSpaceMat);
     
     Out.vDiffuse = vMtrlDiffuse;
-    Out.vNormal = float4(vNormal.xyz * 0.5f + 0.5f, 0.f);
+    Out.vNormal = float4(vNormal * 0.5f + 0.5f, 0.f);
     Out.vDepth = float4(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / g_fCamFar, 0.0f, 0.0f);
     return Out;
 }
@@ -146,6 +145,50 @@ PS_OUT PS_ModelCreate(PS_ModelCreateIn In)
     //바운딩 박스에서 높이값을 넘겨주자
     if (g_fMaxHeight <= In.vLocalPosition.y)
         Out.vDiffuse = float4(0.f, 0.f, 1.f, 1.f);
+    
+    return Out;
+}
+
+// Shadow
+
+struct VS_OUT_SHADOW
+{
+    float4 vPosition : SV_POSITION;
+    float4 vProjPos : TEXCOORD0;
+};
+
+
+VS_OUT_SHADOW VS_MAIN_SHADOW(VS_IN In)
+{
+    VS_OUT_SHADOW Out;
+    
+    matrix matWV, matWVP;
+    
+    matWV = mul(g_WorldMatrix, g_ViewMatrix);
+    matWVP = mul(matWV, g_ProjMatrix);
+    
+    Out.vPosition = mul(vector(In.vPosition, 1.f), matWVP);
+    Out.vProjPos = Out.vPosition;
+
+    return Out;
+}
+
+struct PS_IN_SHADOW
+{
+    float4 vPosition : SV_POSITION;
+    float4 vProjPos : TEXCOORD0;
+};
+
+struct PS_OUT_SHADOW
+{
+    float4 vShadowLightDepth : SV_TARGET0;
+};
+
+PS_OUT_SHADOW PS_MAIN_SHADOW(PS_IN_SHADOW In)
+{
+    PS_OUT_SHADOW Out = (PS_OUT_SHADOW) 0;
+    
+    Out.vShadowLightDepth.x = In.vProjPos.w / g_fCamFar;
     
     return Out;
 }
@@ -183,5 +226,15 @@ technique11 Tech
         VertexShader = compile vs_5_0 VS_ModelCreate();
         GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_ModelCreate();
+    }
+
+    pass Shadow
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_None, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        VertexShader = compile vs_5_0 VS_MAIN_SHADOW();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_MAIN_SHADOW();
     }
 }

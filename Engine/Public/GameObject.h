@@ -39,6 +39,8 @@ public :
 
 	// 랜더
 	virtual		HRESULT						Render();
+	virtual		HRESULT						ShadowRender();
+
 	virtual		_bool						IsDead() { return m_IsDead; }
 
 	CComponent*								Find_Component(const _wstring& ComponentTag);
@@ -102,9 +104,7 @@ protected:
 protected :
 	virtual     HRESULT						Bind_ShaderResources();
 	virtual     HRESULT						Apply_ConstantShaderResources();
-
-	
-
+	virtual     HRESULT						Apply_ShadowShaderResources();
 
 	//컴포넌트 추가 및 찾기
 	HRESULT									Add_Component(_uInt iLevelIndex, const _wstring& _PrototypeTag, const _wstring& ComponentTag, CComponent** ppOut, void* pArg = nullptr);

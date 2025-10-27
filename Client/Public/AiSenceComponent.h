@@ -32,8 +32,9 @@ public:
 
 	void								UpdatSenceComponent(_float fDeletaTime);
 
-	void								Bind_TargetSearch(function<void(CGameObject*)> SearchFunc);
-	void								Bind_TargetLost(function<void(CGameObject*)> TargetLostFunc);
+	void								Bind_TargetSearch(function<void(CGameObject*)> Func);
+	void								Bind_TargetLost(function<void(CGameObject*)> Func);
+	void								Bind_TargetDetected(function<void(CGameObject*)> Func);
 
 private :
 	CGameObject*						m_pOwner = nullptr;
@@ -41,6 +42,7 @@ private :
 
 	function<void(CGameObject*)>		m_SearchFunc = nullptr;
 	function<void(CGameObject*)>		m_TargetLostFunc = nullptr;
+	function<void(CGameObject*)>		m_TargetDetectedFunc = nullptr;
 
 	set<CGameObject*>					m_pSearchList = {};
 

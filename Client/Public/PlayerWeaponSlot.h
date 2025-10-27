@@ -3,11 +3,12 @@
 
 NS_BEGIN(Engine)
 class COBBCollision;
+class CTexture;
+class CTrailComponent;
 NS_END
 
 NS_BEGIN(Client)
 class CProjectileSlot;
-class CTrailEffect;
 
 class CPlayerWeaponSlot : public CPlayerItemSlot
 {
@@ -34,6 +35,7 @@ public :
 
 	// ·£´õ
 	virtual		HRESULT						Render() override;
+	virtual		HRESULT						ShadowRender() override;
 	HRESULT									ShootProjecttileObject();
 	void									NearAttackOnCollision();
 
@@ -43,9 +45,16 @@ private :
 
 	CProjectileSlot*						m_pProjectileSlot = nullptr;
 	COBBCollision*							m_pCollision[2] = { nullptr, nullptr };
-	CTrailEffect*							m_pTrail = nullptr;
+
+
+	_float4									m_vTrailColor = { 0.f, 0.f, 1.f, 1.f};
+	CTrailComponent*						m_pTrail = nullptr;
+	CTexture*								m_pTrailTex = nullptr;
+	CShader*								m_pTrailShader = nullptr;
+
 private :
 	HRESULT									ADD_Components();
+	void									Apply_TrailShaderResource();
 
 private :
 	void									HitBegin(_float3 vDir, CGameObject* pHitActor);

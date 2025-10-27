@@ -165,8 +165,8 @@ HRESULT CTrailEffect::Setting_Compute_Shader()
 #pragma region Init Buffer
     D3D11_BUFFER_DESC TrialInitBufferDesc = {};
     TrialInitBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-    TrialInitBufferDesc.ByteWidth = sizeof(VTX_INSTANCE_DEFAULT_DESC) * m_iNumData;
-    TrialInitBufferDesc.StructureByteStride = sizeof(VTX_INSTANCE_DEFAULT_DESC);
+    TrialInitBufferDesc.ByteWidth = sizeof(VTX_TRAIL_INSTANCE_DEFAULT_DESC) * m_iNumData;
+    TrialInitBufferDesc.StructureByteStride = sizeof(VTX_TRAIL_INSTANCE_DEFAULT_DESC);
     TrialInitBufferDesc.BindFlags = D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE;
     TrialInitBufferDesc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
 
@@ -182,7 +182,7 @@ HRESULT CTrailEffect::Setting_Compute_Shader()
 #pragma region ReadBuffer
     D3D11_BUFFER_DESC ReadBufferDesc = {};
     ReadBufferDesc.Usage = D3D11_USAGE_STAGING;
-    ReadBufferDesc.ByteWidth = sizeof(VTX_INSTANCE_DEFAULT_DESC) * m_iNumData;
+    ReadBufferDesc.ByteWidth = sizeof(VTX_TRAIL_INSTANCE_DEFAULT_DESC) * m_iNumData;
     ReadBufferDesc.StructureByteStride = sizeof(VTX_INSTANCE_DEFAULT_DESC);
     ReadBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE;
 
@@ -220,7 +220,7 @@ HRESULT CTrailEffect::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Instance_Point"), TEXT("VIBuffer_Com"), (CComponent**)&m_pInstanceBuffer)))
         return E_FAIL;
 
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_InstancePoint"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Trail_Instance_Point"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
         return E_FAIL;
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ComputeShader_Trail"), TEXT("ComputeShader_Com"), (CComponent**)&m_pComputeShader)))

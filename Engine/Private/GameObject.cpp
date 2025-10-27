@@ -77,6 +77,11 @@ HRESULT CGameObject::Render()
 	return S_OK;
 }
 
+HRESULT CGameObject::ShadowRender()
+{
+	return S_OK;
+}
+
 HRESULT CGameObject::Bind_ShaderResources()
 {
 	return S_OK;
@@ -84,6 +89,12 @@ HRESULT CGameObject::Bind_ShaderResources()
 
 HRESULT CGameObject::Apply_ConstantShaderResources()
 {
+	return S_OK;
+}
+
+HRESULT CGameObject::Apply_ShadowShaderResources()
+{
+
 	return S_OK;
 }
 

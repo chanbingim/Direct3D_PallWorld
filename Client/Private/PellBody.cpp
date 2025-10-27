@@ -46,6 +46,22 @@ HRESULT CPellBody::Render()
     return S_OK;
 }
 
+HRESULT CPellBody::ShadowRender()
+{
+    _uInt iNumMeshes = m_pVIBufferCom->GetNumMeshes();
+
+    for (_uInt i = 0; i < iNumMeshes; ++i)
+    {
+        Apply_ConstantShaderResources(i);
+        Apply_ShadowShaderResources();
+
+        m_pShaderCom->Update_Shader(1);
+        m_pVIBufferCom->Render(i);
+
+    }
+    return S_OK;
+}
+
 void CPellBody::SetAttachSocket(const _float4x4* pSocket, _char SocketFlag)
 {
     m_UseSocketMatrixFlag = SocketFlag;

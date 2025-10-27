@@ -41,11 +41,8 @@ void CViliageCurchObject::Update(_float fDeletaTime)
 
 void CViliageCurchObject::Late_Update(_float fDeletaTime)
 {
-    if (m_pGameInstance->DistanceCulling(m_pTransformCom->GetPosition()))
-    {
-        m_pGameInstance->ADD_CollisionList(m_pCollision);
-        m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
-    }
+    //m_pGameInstance->ADD_CollisionList(m_pCollision);
+    m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
 }
 
 HRESULT CViliageCurchObject::Render()

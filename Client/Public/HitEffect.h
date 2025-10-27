@@ -36,8 +36,6 @@ protected:
 	_float									m_fAccTime = {};
 	_float									m_fSpeed = {};
 
-	list<CGameObject*>						m_pEffects = {};
-
 public:
 	static			CHitEffect*				Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual			CGameObject*			Clone(void* pArg) override;

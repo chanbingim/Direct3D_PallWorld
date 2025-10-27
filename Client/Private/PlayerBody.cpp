@@ -79,6 +79,33 @@ HRESULT CPlayerBody::Render()
     return S_OK;
 }
 
+HRESULT CPlayerBody::ShadowRender()
+{
+    if (nullptr == m_pClothesBuffer)
+    {
+        _uInt iNumMeshes = m_pVIBufferCom->GetNumMeshes();
+        for (_uInt i = 0; i < iNumMeshes; ++i)
+        {
+            Apply_ConstantShaderResources(i);
+            Apply_ShadowShaderResources();
+            m_pShaderCom->Update_Shader(1);
+            m_pVIBufferCom->Render(i);
+        }
+    }
+    else
+    {
+        _uInt iNumMeshes = m_pClothesBuffer->GetNumMeshes();
+        for (_uInt i = 0; i < iNumMeshes; ++i)
+        {
+            Apply_ConstantShaderResources(i);
+            Apply_ShadowShaderResources();
+            m_pShaderCom->Update_Shader(1);
+            m_pClothesBuffer->Render(i);
+        }
+    }
+    return S_OK;
+}
+
 void CPlayerBody::UpdateAnimation(CModel* pVIBuffer)
 {
     m_pClothesBuffer = m_pPlayerManager->GetCurrentSlotItemModel(EUQIP_TYPE::BODY);
@@ -94,6 +121,7 @@ HRESULT CPlayerBody::Apply_ConstantShaderResources(_uInt iMeshIndex)
     m_pEMVWorldMat->SetMatrix(reinterpret_cast<const float*>(&m_CombinedWorldMatrix));
     m_pEMVViewMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::VIEW)));
     m_pEMVProjMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION)));
+    _uInt i = m_pGameInstance->GetCameraINFO().y;
     m_pShaderCom->Bind_RawValue("g_fCamFar", &m_pGameInstance->GetCameraINFO().y, sizeof(_float));
 
     ID3D11ShaderResourceView* pResourceVeiw = {};

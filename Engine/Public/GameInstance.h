@@ -25,6 +25,7 @@ class CEffectManager;
 class CFontManager;
 class CCollisionManager;
 class CRenderTagetManager;
+class CShadow;
 
 class ENGINE_DLL CGameInstance : public CBase
 {
@@ -189,6 +190,8 @@ public :
 
 #pragma region LIGHT_MANAGER
 	void						ADDLight(CLight* pLight);
+	void						RemoveLight(CLight* pLight);
+
 	const CLight*				GetLight(_uInt iIndex);
 
 	HRESULT						Render_Lights(class CShader* pShader, class CVIBuffer* pVIBuffer);
@@ -211,7 +214,7 @@ public :
 	HRESULT						Add_RenderTarget(const _wstring& strTargetTag, _uInt iSizeX, _uInt iSizeY, DXGI_FORMAT ePixelFormat, const _float4& vClearColor);
 	HRESULT						Add_MRT(const _wstring& strMRTTag, const _wstring& strTargetTag);
 
-	HRESULT						Begin_MRT(const _wstring& strMRTTag);
+	HRESULT						Begin_MRT(const _wstring& strMRTTag, ID3D11DepthStencilView* pDSV = nullptr);
 	HRESULT						End_MRT();
 
 	ID3D11ShaderResourceView*	Get_RenderTargetSRV(const _wstring& strMRTTag);
@@ -241,6 +244,11 @@ public:
 #pragma endregion
 #pragma endregion
 
+#pragma region Shadow
+	HRESULT Ready_Shadow_Light(const SHADOW_LIGHT_DESC& Desc);
+	HRESULT Bind_Shadow_Resource(class CShader* pShader, const _char* pConstantName, MAT_STATE eType);
+	HRESULT Bind_Shadow_RawResource(CShader* pShader, const _char* pConstantName, _uInt iType);
+#pragma endregion
 
 private :
 	CGraphic_Device*			m_pGraphic_Device = nullptr;
@@ -258,7 +266,8 @@ private :
 	CCollisionManager*			m_pCollisionManager = nullptr;
 	CRenderTagetManager*		m_pRenderTargetManager = nullptr;
 	CEffectManager*				m_pEffectManager = nullptr;
-	
+	CShadow*					m_pShadow = nullptr;
+
 	_bool						m_bIsPause = false;
 	GAMEMODE					m_eGameMode = GAMEMODE::GAME;
 	_float2						m_ScreenSize = {};

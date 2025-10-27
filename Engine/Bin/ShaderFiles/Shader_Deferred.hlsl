@@ -13,16 +13,21 @@ vector  g_vLightSpecular;
 vector  g_vCamPosition;
 
 Texture2D g_MtrlSpecularTexture;
-
 float     g_fFar;
+float     g_fShadowFar;
 
 Texture2D g_Texture;
 Texture2D g_NormalTexture;
 Texture2D g_DiffuseTexture;
 Texture2D g_ShadeTexture;
 Texture2D g_DepthTexture;
+
 Texture2D g_BlurTexture;
 Texture2D g_SpecularTexture;
+
+//Shadow 바인딩
+Texture2D   g_ShadowTexture;
+matrix      g_LightViewMatrix, g_LightProjMatrix;
 
 struct VS_IN
 {
@@ -87,7 +92,7 @@ PS_OUT_LIGHT PS_MAIN_DIRECTIONAL(PS_IN In)
     Out.vShade = g_vLightDiffuse * saturate(max(dot(normalize(g_vLightDir) * -1.f, vNormal), 0.f) + (g_vLightAmbient * g_vMtrlAmbient));
     
     vector vDepthDesc = g_DepthTexture.Sample(DefaultSampler, In.vTexcoord);
-    float fViewZ = vDepthDesc.y * 500.f;
+    float fViewZ = vDepthDesc.y * g_fFar;
   
     vector vPosition;
     
@@ -171,7 +176,42 @@ PS_OUT_BACKBUFFER PS_MAIN_COMBINED(PS_IN In)
     vector vSpecular = g_SpecularTexture.Sample(DefaultSampler, In.vTexcoord);
    
     vector vBlur = g_BlurTexture.Sample(ClampSampler, In.vTexcoord);
-    Out.vBackBuffer = vDiffuse * vShade; //vSpecular;
+    Out.vBackBuffer = vDiffuse * vShade; //    +vSpecular;
+    
+    vector vDepthDesc = g_DepthTexture.Sample(DefaultSampler, In.vTexcoord);
+    float fViewZ = vDepthDesc.y * g_fFar;
+    
+    vector vPosition;
+    
+    /* 로컬위치 * 월드 * 뷰 * 투영 / w */
+    vPosition.x = In.vTexcoord.x * 2.f - 1.f;
+    vPosition.y = In.vTexcoord.y * -2.f + 1.f;
+    vPosition.z = vDepthDesc.x;
+    vPosition.w = 1.f;
+    
+    /* 로컬위치 * 월드 * 뷰 * 투영  */
+    vPosition = vPosition * fViewZ;
+    
+    /* 로컬위치 * 월드 * 뷰  */
+    vPosition = mul(vPosition, g_ProjMatrixInv);
+    
+    /* 로컬위치 * 월드   */
+    vPosition = mul(vPosition, g_ViewMatrixInv);
+    
+    vPosition = mul(vPosition, g_LightViewMatrix);
+    vPosition = mul(vPosition, g_LightProjMatrix);
+    
+    /* -1, 1 -> 0, 0  */
+    /* 1, -1 -> 1, 1  */
+    float2 vTexcoord;
+    
+    vTexcoord.x = (vPosition.x / vPosition.w) * 0.5f + 0.5f;
+    vTexcoord.y = (vPosition.y / vPosition.w) * -0.5f + 0.5f;
+    
+    vector vShadowDepth = g_ShadowTexture.Sample(DefaultSampler, vTexcoord);
+    
+    if (vPosition.w - 0.1f > vShadowDepth.x * g_fShadowFar)
+        Out.vBackBuffer *= 0.5f;
     
     return Out;
 }

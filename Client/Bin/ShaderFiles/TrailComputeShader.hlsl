@@ -1,12 +1,9 @@
 // 어떤 자료형을 통해서 저장할지
 struct TrailData
 {
-    float4        vRight;
-    float4        vUp;
-    float4        vLook;
-    float4        vPosition;
-
-    float         fLifeTime;
+    float4  vLBPosition;
+    float4  vTRPosition;
+    float   fLifeTime;
 };
 
 cbuffer TrailConstBuffer : register(b0)
@@ -54,11 +51,8 @@ void main( uint3 GlobalThreadID : SV_DispatchThreadID,
     
     if (iHeadIndex == InlearIndex)
     {
-        // 일단 이렇게 연산을 해보고 잘되면 보간도 넣어보자
-        g_Out[InlearIndex].vRight = mul(vRight, SocketMatrix);
-        g_Out[InlearIndex].vLook = mul(vLook, SocketMatrix);
-        g_Out[InlearIndex].vUp = mul(vUp, SocketMatrix);
-        g_Out[InlearIndex].vPosition = mul(vPosition, SocketMatrix);
+        g_Out[InlearIndex].vLBPosition = mul(vPosition, SocketMatrix);
+        g_Out[InlearIndex + 1].vTRPosition = mul(vPosition, SocketMatrix);
         g_Out[InlearIndex].fLifeTime = 0.f;
     }
     else

@@ -22,6 +22,7 @@ public:
 
 	// ·£´õ
 	virtual		HRESULT						Render() override;
+	virtual		HRESULT						ShadowRender() override;
 
 	void									SetAttachSocket(const _float4x4* pSocket, _char SocketFlag);
 

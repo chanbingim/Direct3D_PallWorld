@@ -185,6 +185,7 @@
     <ClInclude Include="..\public\ButtonFlare.h" />
     <ClInclude Include="..\public\ChiefRock.h" />
     <ClInclude Include="..\public\Chunk.h" />
+    <ClInclude Include="..\public\CubeSky.h" />
     <ClInclude Include="..\public\DefaultGrass.h" />
     <ClInclude Include="..\public\DefenceWallWood.h" />
     <ClInclude Include="..\public\ClimbState.h" />
@@ -242,8 +243,10 @@
     <ClInclude Include="..\public\ProbObject.h" />
     <ClInclude Include="..\public\SelectTriangle.h" />
     <ClInclude Include="..\public\SelectUI.h" />
+    <ClInclude Include="..\public\ShadowCamera.h" />
     <ClInclude Include="..\public\SkillObjectBase.h" />
     <ClInclude Include="..\public\SpriteEffect.h" />
+    <ClInclude Include="..\public\SunLight.h" />
     <ClInclude Include="..\public\TableFurniture.h" />
     <ClInclude Include="..\public\TechCategoryUI.h" />
     <ClInclude Include="..\public\TechListSlotFont.h" />
@@ -464,6 +467,7 @@
     <ClCompile Include="..\private\ButtonFlare.cpp" />
     <ClCompile Include="..\private\ChiefRock.cpp" />
     <ClCompile Include="..\private\Chunk.cpp" />
+    <ClCompile Include="..\private\CubeSky.cpp" />
     <ClCompile Include="..\private\DefaultGrass.cpp" />
     <ClCompile Include="..\private\DefenceWallWood.cpp" />
     <ClCompile Include="..\private\DefenceBossComponent.cpp" />
@@ -527,8 +531,10 @@
     <ClCompile Include="..\private\ProbObject.cpp" />
     <ClCompile Include="..\private\SelectTriangle.cpp" />
     <ClCompile Include="..\private\SelectUI.cpp" />
+    <ClCompile Include="..\private\ShadowCamera.cpp" />
     <ClCompile Include="..\private\SkillObjectBase.cpp" />
     <ClCompile Include="..\private\SpriteEffect.cpp" />
+    <ClCompile Include="..\private\SunLight.cpp" />
     <ClCompile Include="..\private\TableFurniture.cpp" />
     <ClCompile Include="..\private\TechCategoryUI.cpp" />
     <ClCompile Include="..\private\TechListSlotFont.cpp" />
@@ -740,8 +746,10 @@
     <FxCompile Include="..\Bin\ShaderFiles\MutipleBlend.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\ProgressBar.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\SelectTriShader.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxCube.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\TestShader.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\TrailComputeShader.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\TrailShader.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\VTX_AnimMesh.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\VTX_InstnaceMesh.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\VTX_InstnacePoint.hlsl" />

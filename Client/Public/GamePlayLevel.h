@@ -19,6 +19,8 @@ public:
 	virtual HRESULT			Render();
 
 private :
+	HRESULT					ADD_Light();
+
 	/* ADD Default Object */
 	HRESULT					ADD_CameraLayer(const _wstring& LayerName);
 	

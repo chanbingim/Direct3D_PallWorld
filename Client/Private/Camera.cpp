@@ -32,7 +32,10 @@ HRESULT CCamera::Initialize(void* pArg)
 void CCamera::Priority_Update(_float fDeletaTime)
 {
 	if (GAMEMODE::GAME == m_pGameInstance->GetGameMode())
+	{
 		Input_KeyBoard(fDeletaTime);
+	}
+		
 
 	__super::Priority_Update(fDeletaTime);
 }

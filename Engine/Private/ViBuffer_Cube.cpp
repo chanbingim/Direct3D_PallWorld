@@ -134,6 +134,7 @@ HRESULT CVIBuffer_Cube::Initialize(void* pArg)
 
 void CVIBuffer_Cube::Render_VIBuffer()
 {
+    __super::Render_VIBuffer();
 }
 
 CVIBuffer_Cube* CVIBuffer_Cube::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

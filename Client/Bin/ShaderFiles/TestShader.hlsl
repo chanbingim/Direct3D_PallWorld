@@ -4,11 +4,6 @@ matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 Texture2D g_Texture : register(t0);
 vector g_vColor = {1.f,1.f,1.f,1.f };
 
-sampler sampler0 = sampler_state
-{
-    filter = MIN_MAG_MIP_LINEAR;
-};
-
 /* 정점 쉐이더 : */
 /* 정점에 대한 셰이딩 == 정점에 필요한 연산을 수행한다 == 정점의 상태변환(월드, 뷰, 투영) + 추가변환 */
 /* 정점의 구성 정보를 수정, 변경한다 */ 
@@ -67,7 +62,7 @@ PS_OUT PS_MAIN(PS_IN In)
 {
     PS_OUT Out;
     
-    float4 vNewColor = g_Texture.Sample(sampler0, In.vTexcoord);
+    float4 vNewColor = g_Texture.Sample(DefaultSampler, In.vTexcoord);
     
     Out.vColor = vNewColor;
     return Out;
@@ -78,7 +73,7 @@ PS_OUT PS_MAIN1(PS_IN In)
 {
     PS_OUT Out;
     
-    float4 vNewColor = g_Texture.Sample(sampler0, In.vTexcoord);
+    float4 vNewColor = g_Texture.Sample(DefaultSampler, In.vTexcoord);
     
     // discard 명령어를 통해서 안그려지게 할수있음
     // return 같은거임
@@ -94,9 +89,9 @@ PS_OUT PS_MAIN2(PS_IN In)
 {
     PS_OUT Out;
     
-    float4 vNewColor = g_Texture.Sample(sampler0, In.vTexcoord);
+    float4 vNewColor = g_Texture.Sample(DefaultSampler, In.vTexcoord);
    
-    Out.vColor = float4(vNewColor.rgb, vNewColor.a);
+    Out.vColor = vNewColor;
     return Out;
 }
 
@@ -105,14 +100,9 @@ PS_OUT PS_MixColorAlphaBlend(PS_IN In)
 {
     PS_OUT Out;
     
-    float4 vNewColor = g_Texture.Sample(sampler0, In.vTexcoord);
+    float4 vNewColor = g_Texture.Sample(DefaultSampler, In.vTexcoord);
     
-    // discard 명령어를 통해서 안그려지게 할수있음
-    // return 같은거임
-    if (vNewColor.a < 0.1f)
-        discard;
-    
-    Out.vColor = float4(vNewColor.xyz * g_vColor.xyz, vNewColor.a);
+    Out.vColor = vNewColor * g_vColor;
     return Out;
 }
 
@@ -121,7 +111,7 @@ technique11 Tech
     pass Pass0
     {
         SetRasterizerState(RS_Default);
-        SetDepthStencilState(DSS_Default, 0);
+        SetDepthStencilState(DSS_None, 0);
         SetBlendState(BS_None, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_MAIN();
@@ -154,7 +144,7 @@ technique11 Tech
     pass AlphaTest_World
     {
         SetRasterizerState(RS_Default);
-        SetDepthStencilState(DSS_Default, 0);
+        SetDepthStencilState(DSS_None, 0);
         SetBlendState(BS_None, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
 
         VertexShader = compile vs_5_0 VS_MAIN();

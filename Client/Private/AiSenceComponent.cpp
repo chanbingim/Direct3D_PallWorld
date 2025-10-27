@@ -53,8 +53,16 @@ void CAiSenceComponent::Bind_TargetLost(function<void(CGameObject*)> TargetLostF
     m_TargetLostFunc = TargetLostFunc;
 }
 
+void CAiSenceComponent::Bind_TargetDetected(function<void(CGameObject*)> Func)
+{
+    m_TargetDetectedFunc = Func;
+}
+
 void CAiSenceComponent::TargetSearch(_float3 vDir, CGameObject* pHitObject)
 {
+    if(nullptr != m_TargetDetectedFunc)
+        m_TargetDetectedFunc(pHitObject);
+
     if (nullptr == dynamic_cast<CContainerObject*>(pHitObject))
         return;
 

@@ -33,6 +33,7 @@ private :
 	virtual ~CLight() = default;
 
 public :
+	void					SetLightInfo(const LIGHT_DESC& Desc) { m_LightInfo = Desc; }
 	const LIGHT_DESC&		GetLightInfo() { return m_LightInfo; }
 	HRESULT					Render(class CShader* pShader, class CVIBuffer* pVIBuffer);
 

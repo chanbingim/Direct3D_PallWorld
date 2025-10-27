@@ -26,6 +26,7 @@ public:
 
 	// ·£´õ
 	virtual		HRESULT						Render() override;
+	virtual		HRESULT						ShadowRender() override;
 	_bool									IsAnimFinished() const { return m_bIsFinished; }
 
 	void									SetUppderAnimation(_uInt iIndex, _bool bIsSplite);

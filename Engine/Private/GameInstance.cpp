@@ -16,6 +16,7 @@
 #include "FontManager.h"
 #include "EffectManager.h"
 #include "CollisionManager.h"
+#include "Shadow.h"
 #include "RenderTagetManager.h"
 #pragma endregion
 
@@ -42,6 +43,10 @@ HRESULT CGameInstance::Initialize_Engine(void* pArg)
 
     m_pPrototype_Manager = CPrototype_Manager::Create(GameSetting->EngineSetting.iNumLevels);
     if (nullptr == m_pPrototype_Manager)
+        return E_FAIL;
+
+    m_pShadow = CShadow::Create();
+    if (nullptr == m_pShadow)
         return E_FAIL;
 
     m_pObject_Manager = CObject_Manager::Create(GameSetting->EngineSetting.iNumLevels);
@@ -91,6 +96,8 @@ HRESULT CGameInstance::Initialize_Engine(void* pArg)
     m_pCollisionManager = CCollisionManager::Create();
     if (nullptr == m_pCollisionManager)
         return E_FAIL;
+
+
 
 #ifdef _DEBUG
     m_pTimer_Manager->Add_Timer(TEXT("PriorityUpdate_Loop"));
@@ -523,6 +530,10 @@ void CGameInstance::ADDLight(CLight* pLight)
 {
     m_pLightManager->ADDLight(pLight);
 }
+void CGameInstance::RemoveLight(CLight* pLight)
+{
+    m_pLightManager->RemoveLight(pLight);
+}
 const CLight* CGameInstance::GetLight(_uInt iIndex)
 {
     return m_pLightManager->GetLight(iIndex);
@@ -577,9 +588,9 @@ HRESULT CGameInstance::Add_MRT(const _wstring& strMRTTag, const _wstring& strTar
     return m_pRenderTargetManager->Add_MRT(strMRTTag, strTargetTag);
 }
 
-HRESULT CGameInstance::Begin_MRT(const _wstring& strMRTTag)
+HRESULT CGameInstance::Begin_MRT(const _wstring& strMRTTag, ID3D11DepthStencilView* pDSV)
 {
-    return m_pRenderTargetManager->Begin_MRT(strMRTTag);
+    return m_pRenderTargetManager->Begin_MRT(strMRTTag, pDSV);
 }
 
 HRESULT CGameInstance::End_MRT()
@@ -661,7 +672,23 @@ map<const _wstring, CGameObject*>* CGameInstance::GetALLEffects(_uInt iEffectTyp
 {
     return m_pEffectManager->GetALLEffects(CEffectManager::EFFECT_TYPE(iEffectType));
 }
+
 #pragma endregion
+#pragma endregion
+
+#pragma region Shadow
+HRESULT CGameInstance::Ready_Shadow_Light(const SHADOW_LIGHT_DESC& Desc)
+{
+    return m_pShadow->Ready_Shadow_Light(Desc);
+}
+HRESULT CGameInstance::Bind_Shadow_Resource(CShader* pShader, const _char* pConstantName, MAT_STATE eType)
+{
+    return m_pShadow->Bind_Shader_Resource(pShader, pConstantName, eType);
+}
+HRESULT CGameInstance::Bind_Shadow_RawResource(CShader* pShader, const _char* pConstantName, _uInt iType)
+{
+    return m_pShadow->Bind_Shader_RawResource(pShader, pConstantName, iType);
+}
 #pragma endregion
 
 
@@ -669,6 +696,7 @@ void CGameInstance::Release_Engine()
 {
     DestroyInstance();
    
+    Safe_Release(m_pShadow);
     Safe_Release(m_pTimer_Manager);
     Safe_Release(m_pCollisionManager);
     Safe_Release(m_pFontManager);

@@ -19,7 +19,7 @@ public:
 	_uInt					GetNumIndices() const { return m_iNumIndices; }
 
 public:
-	virtual		CVIBuffer_Cube*		Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static		CVIBuffer_Cube*		Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual		CComponent*			Clone(void* pArg) override;
 	virtual		void				Free() override;
 

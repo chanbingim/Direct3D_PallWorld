@@ -80,6 +80,7 @@ void CPlayerPartData::Late_Update(_float fDeletaTime)
         m_pWeaponSocket[i]->Late_Update(fDeletaTime);
 
     m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
+    m_pGameInstance->Add_RenderGroup(RENDER::SHADOW, this);
 }
 
 HRESULT CPlayerPartData::Render()
@@ -98,6 +99,28 @@ HRESULT CPlayerPartData::Render()
         // 2 몸통 등 이런순서로 랜더링을 걸어가면서 하면 될거같음
         if (i == iNumMeshes - 1)
             m_pPlayerBody->Render();
+        else
+            m_pVIBufferCom->Render(i);
+
+    }
+    return S_OK;
+}
+
+HRESULT CPlayerPartData::ShadowRender()
+{
+    _uInt iNumMeshes = m_pVIBufferCom->GetNumMeshes();
+    for (_uInt i = 0; i < iNumMeshes; ++i)
+    {
+        Apply_ConstantShaderResources(i);
+        Apply_ShadowShaderResources();
+        m_pShaderCom->Update_Shader(1);
+
+        //어떤 파츠데이터를 사용하여 랜더링하는지를 알려준다.
+        // 0 머리
+        // 1 얼굴
+        // 2 몸통 등 이런순서로 랜더링을 걸어가면서 하면 될거같음
+        if (i == iNumMeshes - 1)
+            m_pPlayerBody->ShadowRender();
         else
             m_pVIBufferCom->Render(i);
 

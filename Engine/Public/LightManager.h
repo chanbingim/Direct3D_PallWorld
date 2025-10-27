@@ -12,6 +12,7 @@ private :
 
 public :
 	void							ADDLight(CLight* pLight);
+	void							RemoveLight(CLight* pLight);
 	const CLight*					GetLight(_uInt iIndex);
 
 	HRESULT							Render_Lights(class CShader* pShader, class CVIBuffer* pVIBuffer);

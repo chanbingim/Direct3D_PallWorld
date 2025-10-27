@@ -41,13 +41,12 @@ HRESULT CPlayerWeaponSlot::Initialize(void* pArg)
 	WEAPON_SLOT_DESC* SlotDesc = static_cast<WEAPON_SLOT_DESC*>(pArg);
 	m_pLeftSocket = SlotDesc->pLeftSocket;
 
-	CTrailEffect::TRAIL_EFFECT_DESC TrailDesc = {};
-	TrailDesc.pSocketMatrix = &m_CombinedWorldMatrix;
-	TrailDesc.TrailDisPatch = { 4, 4, 2 };
-	TrailDesc.szTrailEffectName = TEXT("T_Trail04.png");
+	//CTrailEffect::TRAIL_EFFECT_DESC TrailDesc = {};
+	//TrailDesc.pSocketMatrix = &m_CombinedWorldMatrix;
+	//TrailDesc.TrailDisPatch = { 4, 4, 2 };
+	//TrailDesc.szTrailEffectName = TEXT("T_Trail04.png");
 
-	m_pTrail = static_cast<CTrailEffect*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Trail_Defalut"), &TrailDesc));
-	m_pTrail->SetRenderTrail(true);
+	m_pTrail = static_cast<CTrailComponent*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::COMPONENT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Trail_Defalut"), nullptr));
 
 	return S_OK;
 }
@@ -55,7 +54,7 @@ HRESULT CPlayerWeaponSlot::Initialize(void* pArg)
 void CPlayerWeaponSlot::Priority_Update(_float fDeletaTime)
 {
 	m_pProjectileSlot->Priority_Update(fDeletaTime);
-	m_pTrail->Priority_Update(fDeletaTime);
+	
 }
 
 void CPlayerWeaponSlot::Update(_float fDeletaTime)
@@ -96,7 +95,8 @@ void CPlayerWeaponSlot::Update(_float fDeletaTime)
 		m_pCollision[0]->SetCollision({ 0, 0, 0 }, { 0.f, 0.f, 0.f, 0.f }, { 0.1f, 0.1f, 0.1f });
 		m_pCollision[1]->SetCollision({ 0, 0, 0 }, { 0.f, 0.f, 0.f, 0.f }, { 0.1f, 0.1f, 0.1f });
 	}
-	m_pTrail->Update(fDeletaTime);
+
+
 	m_pProjectileSlot->Update(fDeletaTime);
 }
 
@@ -121,7 +121,9 @@ void CPlayerWeaponSlot::Late_Update(_float fDeletaTime)
 	}
 
 	m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
-	m_pTrail->Late_Update(fDeletaTime);
+	m_pGameInstance->Add_RenderGroup(RENDER::SHADOW, this);
+
+	m_pTrail->Update_Trail(XMLoadFloat4x4(&m_CombinedWorldMatrix), true);
 	m_pProjectileSlot->Late_Update(fDeletaTime);
 }
 
@@ -138,6 +140,17 @@ HRESULT CPlayerWeaponSlot::Render()
 		m_pCollision[0]->Render({});
 	}
 
+	Apply_TrailShaderResource();
+	m_pTrailShader->Update_Shader(0);
+	m_pTrailTex->SetTexture(0, 0);
+	m_pTrail->Render();
+	return S_OK;
+}
+
+HRESULT CPlayerWeaponSlot::ShadowRender()
+{
+	if (nullptr != m_pVIBufferCom)
+		__super::ShadowRender();
 	return S_OK;
 }
 
@@ -207,6 +220,14 @@ HRESULT CPlayerWeaponSlot::ADD_Components()
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionOBB"), TEXT("CollisionL_Com"), (CComponent**)&m_pCollision[1], &OBBColDesc)))
 		return E_FAIL;
 
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Trail_VtxTex"), TEXT("TrailShader"), (CComponent**)&m_pTrailShader)))
+		return E_FAIL;
+
+	// 여기서 텍스처도 가져오자.
+	m_pTrailTex = m_pGameInstance->GetTextureResource(TEXT("T_Trail04.png"));
+	if (nullptr == m_pTrailTex)
+		return E_FAIL;
+
 	CProjectileSlot::PROJECTILE_DESC ProjectileDesc = {};
 	ProjectileDesc.pParent = m_pParent;
 	lstrcpy(ProjectileDesc.ObjectTag, TEXT("ProjectileSocket"));
@@ -227,6 +248,17 @@ HRESULT CPlayerWeaponSlot::ADD_Components()
 	}
 
 	return S_OK;
+}
+
+void CPlayerWeaponSlot::Apply_TrailShaderResource()
+{
+	_float4x4 IdentityMat = {};
+	XMStoreFloat4x4(&IdentityMat, XMMatrixIdentity());
+	m_pTrailShader->Bind_Matrix("g_WorldMatrix", &IdentityMat);
+	m_pTrailShader->Bind_Matrix("g_ViewMatrix", &m_pGameInstance->GetMatrix(MAT_STATE::VIEW));
+	m_pTrailShader->Bind_Matrix("g_ProjMatrix", &m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION));
+
+	m_pTrailShader->Bind_RawValue("g_vColor", &m_vTrailColor, sizeof(_float4));
 }
 
 void CPlayerWeaponSlot::HitBegin(_float3 vDir, CGameObject* pHitActor)

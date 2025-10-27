@@ -1,6 +1,7 @@
 #include "TouchLamp.h"
 
 #include "GameInstance.h"
+#include "Light.h"
 
 CTouchLamp::CTouchLamp(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CArchitecture(pDevice, pContext)
@@ -19,6 +20,7 @@ HRESULT CTouchLamp::Initalize_Prototype()
 
 HRESULT CTouchLamp::Initialize(void* pArg)
 {
+    m_ObejctTag = TEXT("Torch");
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
@@ -28,6 +30,8 @@ HRESULT CTouchLamp::Initialize(void* pArg)
     if( FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
+    m_pTransformCom->SetScale({ 1.f,1.f,1.f, });
+    ArchitectureAction();
     return S_OK;
 }
 
@@ -35,14 +39,11 @@ void CTouchLamp::Priority_Update(_float fDeletaTime)
 {
     if (m_bIsLight)
     {
-        m_fAccTime -= fDeletaTime;
-
+        //m_fAccTime -= fDeletaTime;
         if (0 > m_fAccTime)
         {
             //여기서 라이트 제거하고 다시 넣으면 다시 불붙이게
-
-
-
+            m_pGameInstance->RemoveLight(m_pTouchLight);
             m_bIsLight = false;
         }
     }
@@ -94,6 +95,23 @@ HRESULT CTouchLamp::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Torch_Stand"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
         return E_FAIL;
 
+    CLight::LIGHT_DESC PointLightDesc = {};
+    PointLightDesc.eType = LIGHT::POINT;
+
+    PointLightDesc.vDiffuse = _float4(1.0f, 0.55f, 0.25f, 1.0f);
+    PointLightDesc.vAmbient = _float4(0.25f, 0.1f, 0.05f, 1.0f);
+    PointLightDesc.vSpecular = PointLightDesc.vDiffuse;;
+    PointLightDesc.fRange = 1000.f;
+
+    PointLightDesc.vPosition = m_pTransformCom->GetPosition();
+    m_pTouchLight = CLight::Create(PointLightDesc);
+    if (nullptr == m_pTouchLight)
+        return E_FAIL;
+
+    Safe_AddRef(m_pTouchLight);
+    m_pGameInstance->ADDLight(m_pTouchLight);
+
+
     // 콜리전 정보를 넣어서 한다.
    // 근데 이거 돌마다 다른데 이거도 뭐 데이터값으로 하자
     COBBCollision::OBB_COLLISION_DESC OBBDesc = {};
@@ -134,4 +152,6 @@ CGameObject* CTouchLamp::Clone(void* pArg)
 void CTouchLamp::Free()
 {
     __super::Free();
+
+    Safe_Release(m_pTouchLight);
 }

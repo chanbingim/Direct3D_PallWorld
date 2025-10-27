@@ -13,6 +13,16 @@ void CLightManager::ADDLight(CLight* pLight)
    
 }
 
+void CLightManager::RemoveLight(CLight* pLight)
+{
+    auto iter = find(m_Lights.begin(), m_Lights.end(), pLight);
+    if (iter != m_Lights.end())
+    {
+        Safe_Release(*iter);
+        m_Lights.erase(iter);
+    }
+}
+
 const CLight* CLightManager::GetLight(_uInt iIndex)
 {
     _uInt iLightIndex = {};
