@@ -1,9 +1,7 @@
 #include "PlayerView.h"
 
 #include "GameInstance.h"
-
-#include "PlayerManager.h"
-#include "Player.h"
+#include "PreviewModel.h"
 
 CPlayerView::CPlayerView(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CViewer(pDevice, pContext)
@@ -33,16 +31,14 @@ HRESULT CPlayerView::Initialize(void* pArg)
 
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
-
-    auto pPlayer = CPlayerManager::GetInstance()->GetCurrentPlayer();
-
-    m_pViewObject = pPlayer->FindPartObject(TEXT("Player_Animator"));
-    Safe_AddRef(m_pViewObject);
-
-    m_fCameraDistance = 15.f;
-
+    
+    m_fCameraDistance = 2.f;
     m_fPlayerViewFov = 80.f;
+
     m_pViewerCamera->SetFov(m_fPlayerViewFov);
+    m_pViewerCamera->SetAspect(m_vViewerSize.x, m_vViewerSize.y);
+
+    m_pViewerCamera->CameraLookAt(XMVectorSet(0.f, 0.f, 0.f, 1.f));
     m_fPlayerViewMinMax = { 60.f, 120.f };
     m_bIsMouseEvent = true;
     return S_OK;
@@ -51,9 +47,25 @@ HRESULT CPlayerView::Initialize(void* pArg)
 void CPlayerView::Update(_float fDeletaTime)
 {
     __super::Update(fDeletaTime);
-    CUserInterface::Update(fDeletaTime);
 
-   
+    CUserInterface::Update(fDeletaTime);
+    if (m_pViewObject)
+    {
+        m_pViewObject->Priority_Update(fDeletaTime);
+        m_pViewObject->Update(fDeletaTime);
+
+        _float3 vModelPos = m_pViewObject->GetTransform()->GetPosition();
+        _vector vCalModelPos = XMLoadFloat3(&vModelPos);
+
+        _vector vModelLook = m_pViewObject->GetTransform()->GetLookVector();
+        
+        _float3 vCameraPos = {};
+        _vector vCalCameraPos = XMVectorZero() + vModelLook * m_fCameraDistance;
+
+        XMStoreFloat3(&vCameraPos, vCalCameraPos);
+        m_pViewerCamera->GetTransform()->SetPosition(vCameraPos);
+        m_pViewerCamera->CameraLookAt(-vModelLook);
+    }
 }
 
 void CPlayerView::Late_Update(_float fDeletaTime)
@@ -61,18 +73,21 @@ void CPlayerView::Late_Update(_float fDeletaTime)
     __super::Late_Update(fDeletaTime);
     
     if (m_pViewObject)
-        RenderObejct();
+        m_pViewObject->Late_Update(fDeletaTime);
 }
 
 HRESULT CPlayerView::Render()
 {
+    if (m_pViewObject)
+        RenderObejct();
+
     if (FAILED(Apply_ConstantShaderResources()))
         return E_FAIL;
 
-    m_pShaderCom->Update_Shader(0);
-    m_pDeviceContext->PSSetShaderResources(0, 1, &m_pViewTexture);
-
+    m_pShaderCom->Update_Shader(2);
     m_pVIBufferCom->Render_VIBuffer();
+
+
     return S_OK;
 }
 
@@ -89,6 +104,8 @@ HRESULT CPlayerView::Apply_ConstantShaderResources()
    if (FAILED(__super::Apply_ConstantShaderResources()))
         return E_FAIL;
 
+ 
+ 
     return S_OK;
 }
 
@@ -129,6 +146,14 @@ HRESULT CPlayerView::ADD_Components()
         return E_FAIL;
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
+        return E_FAIL;
+
+    CPreviewModel::GAMEOBJECT_DESC PreviewModelDesc = {};
+    PreviewModelDesc.vScale = { 1.f, 1.f, 1.f };
+    PreviewModelDesc.vPosition = { 0.f, -PreviewModelDesc.vScale.x, 0.f };
+
+    m_pViewObject = CPreviewModel::Create(m_pGraphic_Device, m_pDeviceContext);
+    if (FAILED(m_pViewObject->Initialize(&PreviewModelDesc)))
         return E_FAIL;
 
     return S_OK;

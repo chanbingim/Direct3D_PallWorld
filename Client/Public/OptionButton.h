@@ -2,6 +2,10 @@
 
 #include "Button.h"
 
+NS_BEGIN(Engine)
+class CFontComponent;
+NS_END
+
 NS_BEGIN(Client)
 class COptionButton : public CButton
 {
@@ -20,7 +24,18 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
+	void									SetText(const WCHAR* szText);
 	void									Bind_ClickEvent(function<void()> Func);
+
+protected :
+	HRESULT									Apply_ConstantShaderResources() override;
+
+private :
+	CFontComponent*							m_pFontCom = nullptr;
+	_float4									m_vColor[2];
+	_float									m_StartU = {};
+	_float2									m_vFontPosition = {};
+	_wstring								m_FontText = TEXT("");
 
 private:
 	HRESULT									ADD_Components();

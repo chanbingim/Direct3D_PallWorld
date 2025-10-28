@@ -41,11 +41,6 @@ HRESULT CPlayerWeaponSlot::Initialize(void* pArg)
 	WEAPON_SLOT_DESC* SlotDesc = static_cast<WEAPON_SLOT_DESC*>(pArg);
 	m_pLeftSocket = SlotDesc->pLeftSocket;
 
-	//CTrailEffect::TRAIL_EFFECT_DESC TrailDesc = {};
-	//TrailDesc.pSocketMatrix = &m_CombinedWorldMatrix;
-	//TrailDesc.TrailDisPatch = { 4, 4, 2 };
-	//TrailDesc.szTrailEffectName = TEXT("T_Trail04.png");
-
 	m_pTrail = static_cast<CTrailComponent*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::COMPONENT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Trail_Defalut"), nullptr));
 
 	return S_OK;
@@ -54,7 +49,6 @@ HRESULT CPlayerWeaponSlot::Initialize(void* pArg)
 void CPlayerWeaponSlot::Priority_Update(_float fDeletaTime)
 {
 	m_pProjectileSlot->Priority_Update(fDeletaTime);
-	
 }
 
 void CPlayerWeaponSlot::Update(_float fDeletaTime)
@@ -192,7 +186,13 @@ HRESULT CPlayerWeaponSlot::ShootProjecttileObject()
 	return S_OK;
 }
 
-void CPlayerWeaponSlot::NearAttackOnCollision()
+void CPlayerWeaponSlot::StartAttack()
+{
+	for (auto i = 0; i < 2; ++i)
+		m_pCollision[i]->ResetCollision();
+}
+
+void CPlayerWeaponSlot::UpdateAttack()
 {
 	if (nullptr == m_pVIBufferCom)
 	{
@@ -201,10 +201,9 @@ void CPlayerWeaponSlot::NearAttackOnCollision()
 	}
 	else
 	{
-		if(WEAPON::AXE >= m_CurrentEuipItemInfo->GetItemData().TypeDesc.EuqipDesc.Weapon_Type)
+		if (WEAPON::AXE >= m_CurrentEuipItemInfo->GetItemData().TypeDesc.EuqipDesc.Weapon_Type)
 			m_pGameInstance->ADD_CollisionList(m_pCollision[0]);
 	}
-		
 }
 
 HRESULT CPlayerWeaponSlot::ADD_Components()
@@ -273,6 +272,7 @@ void CPlayerWeaponSlot::HitBegin(_float3 vDir, CGameObject* pHitActor)
 			switch (pPellBase->GetPellTeam())
 			{
 			case ACTOR_TEAM::NEUTRAL:
+			case ACTOR_TEAM::BOSS:
 			case ACTOR_TEAM::ENEMY :
 				bIsDamage = true;
 				break;
@@ -326,6 +326,9 @@ void CPlayerWeaponSlot::Free()
 	__super::Free();
 
 	Safe_Release(m_pTrail);
+	Safe_Release(m_pTrailTex);
+	Safe_Release(m_pTrailShader);
+
 	Safe_Release(m_pProjectileSlot);
 	for (auto i = 0; i < 2; ++i)
 		Safe_Release(m_pCollision[i]);

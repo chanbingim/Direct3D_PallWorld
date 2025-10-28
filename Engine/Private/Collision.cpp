@@ -146,6 +146,12 @@ void CCollision::CallFunction()
     m_HitList.clear();
 }
 
+void CCollision::ResetCollision()
+{
+    m_OldHitList.clear();
+    m_HitList.clear();
+}
+
 _bool CCollision::IntersectAble(size_t TagetTypeHashCode)
 {
     auto iter = m_IgnoreObject.find(TagetTypeHashCode);

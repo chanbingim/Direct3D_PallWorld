@@ -1,7 +1,10 @@
 #include "SkillObjectBase.h"
 
 #include "GameInstance.h"
+
 #include "PellSkillManager.h"
+#include "PellBase.h"
+
 #include "EffectContatiner.h"
 
 CSkillObjectBase::CSkillObjectBase(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
@@ -45,8 +48,7 @@ void CSkillObjectBase::Priority_Update(_float fDeletaTime)
         _vector vDir = XMLoadFloat3(&m_vTargetDir);
         _vector vMovePos = vDir * fDeletaTime * m_SkillData.fSkillMoveSpeed;
 
-        _float3 vTargetPoint = {};
-        m_pTransformCom->SetPosition(vTargetPoint);
+        m_pTransformCom->ADD_Position(vMovePos);
     }
 
     m_pCollision->UpdateColiision(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
@@ -74,6 +76,8 @@ void CSkillObjectBase::Late_Update(_float fDeletaTime)
         m_pGameInstance->ADD_CollisionList(m_pCollision);
         m_pGameInstance->Add_RenderGroup(RENDER::NONLIGHT, this);
     }
+    else
+        SetDead(true);
 }
 
 HRESULT CSkillObjectBase::Render()
@@ -84,11 +88,21 @@ HRESULT CSkillObjectBase::Render()
 
 void CSkillObjectBase::HitOverlapEvent(_float3 vDir, CGameObject* pHitObject)
 {
+    if (m_pOwner == pHitObject)
+        return;
+
+    auto pEffect = dynamic_cast<CSkillObjectBase*>(pHitObject);
+    if (pEffect)
+    {
+        if (static_cast<CPellBase*>(m_pOwner) == pEffect->GetOwnerPell())
+            return;
+    }
+
     auto pHitActor = static_cast<CActor*>(pHitObject);
     DEFAULT_DAMAGE_DESC DamageDesc = {};
     DamageDesc.fDmaged = m_SkillData.iSkillDamage;
 
-    pHitActor->Damage(&DamageDesc, this);
+    pHitActor->Damage(&DamageDesc, static_cast<CActor *>(m_pOwner));
     if (PELL_SKILL_DAMAGE_TYPE::HIT == m_SkillData.eSkillDamageType)
         SetDead(true);
     else if (PELL_SKILL_DAMAGE_TYPE::OVERLAP == m_SkillData.eSkillDamageType)

@@ -61,12 +61,18 @@ HRESULT CGreenMommoth::Initialize(void* pArg)
 void CGreenMommoth::Priority_Update(_float fDeletaTime)
 {
     CContainerObject::Priority_Update(fDeletaTime);
-   
+    auto PellState = m_pPellFsm->GetState();
+
+
     m_pCombatCom->UpdateTarget();
     m_pPellFsm->Update(fDeletaTime);
     auto pTarget = m_pCombatCom->GetCurrentTarget();
     if(pTarget)
     {
+        _float3 vTargetPos = pTarget->GetTransform()->GetPosition();
+        _vector vCalTargetPos = XMLoadFloat3(&vTargetPos);
+        m_pTransformCom->LerpTurn(m_pTransformCom->GetUpVector(), vCalTargetPos, XMConvertToRadians(180.f), fDeletaTime);
+
         if (false == m_pPellFsm->GetState().bIsAttacking)
         {
             m_pCombatCom->Update(fDeletaTime);
@@ -77,8 +83,18 @@ void CGreenMommoth::Priority_Update(_float fDeletaTime)
             // 여기서 공격중이라면 공격 애니메이션이 끝나면 다시 Idle
             if (m_pPellFsm->GetLayerLastPhase(TEXT("CombatLayer")) && m_pPellBody->FinishedAnimation())
             {
-                m_pPellFsm->CombatStateReset();
-                m_pPellFsm->ChangeState(TEXT("Body_Layer"), TEXT("Idle"));
+                switch (PellState.eCombat_State)
+                {
+                case CPellStateMachine::COMBAT_ACTION::ATTACK:
+                case CPellStateMachine::COMBAT_ACTION::STUN:
+                case CPellStateMachine::COMBAT_ACTION::HIT:
+                    m_pPellFsm->CombatStateReset();
+                    m_pPellFsm->ChangeState(TEXT("Body_Layer"), TEXT("Idle"));
+                    break;
+                case CPellStateMachine::COMBAT_ACTION::DEAD :
+                    SetDead(true);
+                    break;
+                }
             }
         }
     }
@@ -105,6 +121,7 @@ void CGreenMommoth::Late_Update(_float fDeletaTime)
     if (m_pGameInstance->DistanceCulling(m_pTransformCom->GetPosition()))
     {
         CContainerObject::Late_Update(fDeletaTime);
+        m_pGameInstance->ADD_CollisionList(m_pCollision);
         m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
     }
 }
@@ -199,7 +216,7 @@ HRESULT CGreenMommoth::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionOBB"), TEXT("Collision_Com"), (CComponent**)&m_pCollision, &ObbDesc)))
         return E_FAIL;
     m_pCollision->BindBeginOverlapEvent([this](_float3 vDir, CGameObject* pHitActor) { OverlapEvent(vDir, pHitActor); });
-    m_pCollision->ADD_IgnoreObejct(typeid(CFastTravelObject).hash_code());
+   
 #pragma endregion
 
 #pragma region 그린모스 타겟 감지 센서
@@ -262,8 +279,6 @@ HRESULT CGreenMommoth::Setup_PellFsm()
 void CGreenMommoth::TargetSearchBegin(CGameObject* pSearchObject)
 {
     m_pCombatCom->ADD_TargetObject(pSearchObject);
-
-
 }
 
 void CGreenMommoth::TargetLost(CGameObject* pSearchObject)
@@ -278,7 +293,7 @@ void CGreenMommoth::TargetLost(CGameObject* pSearchObject)
 void CGreenMommoth::TargetDetected(CGameObject* pGameObject)
 {
     auto pGamePlayHUD = static_cast<CGamePlayHUD*>(m_pGameInstance->GetCurrentHUD());
-    pGamePlayHUD->SetBossHealthBar(&m_PellInfo);
+    pGamePlayHUD->SetBossHealthBar(this);
 }
 
 void CGreenMommoth::OverlapEvent(_float3 vDir, CGameObject* pHitObject)

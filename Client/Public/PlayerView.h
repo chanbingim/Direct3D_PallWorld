@@ -34,6 +34,7 @@ protected :
 private :
 	_float									m_fPlayerViewFov = {};
 	_float2									m_fPlayerViewMinMax = {};
+
 private :
 	HRESULT									ADD_Components();
 

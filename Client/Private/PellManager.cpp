@@ -26,58 +26,7 @@ void CPellManager::Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pConte
         LoadCSVPellData(szFilePath);
     else
     {
-        //// PELL_SAVE_DATA PellDesc;
-        //PELL_INFO      PellDesc;
-        ///* Sheep Ball Infomation */
-        //PellDesc.szPellName = "Dororong";
-        //PellDesc.pPellIconTexture = CreateTexture(0, TEXT("../Bin/Resources/Textures/UI/InGameUI/PellCharacter/T_SheepBall_icon_normal.png"));
-        //PellDesc.MaxHealth = 100.f;
-        //PellDesc.MaxHunger = 100.f;
-        //PellDesc.fPellAttackRange = 100.f;
-        //PellDesc.fPellActTime = 5.f;
-        //PellDesc.DefaultSkill = *CPellSkillManager::GetInstance()->FindPellData(0);
-        //PellDesc.fPellWalkSpeed = 1.5f;
-        //PellDesc.fPellRunSpeed = 5.f;
-
-        //PellDesc.MaxStemina = 100.f;
-        //PellDesc.ShieldPoint = 100;
-        //PellDesc.eWorkType = PELL_WORK_TYPE::COMMONE_WORK;
-        //PellDesc.ePellType = PELL_TYPE::NORMAL;
-        //m_PellDatas.emplace(0, PellDesc);
-
-        ///* Pink Cat Infomation */
-        //PellDesc.szPellName = "PinkCat";
-        //PellDesc.pPellIconTexture = CreateTexture(1, TEXT("../Bin/Resources/Textures/UI/InGameUI/PellCharacter/T_PinkCat_icon_normal.png"));
-        //PellDesc.MaxHealth = 150.f;
-        //PellDesc.MaxHunger = 100.f;
-        //PellDesc.fPellAttackRange = 50.f;
-        //PellDesc.fPellActTime = 6.f;
-        //PellDesc.DefaultSkill = *CPellSkillManager::GetInstance()->FindPellData(1);
-        //PellDesc.fPellWalkSpeed = 1.5f;
-        //PellDesc.fPellRunSpeed = 5.f;
-
-        //PellDesc.MaxStemina = 100.f;
-        //PellDesc.ShieldPoint = 100;
-        //PellDesc.eWorkType = PELL_WORK_TYPE::MINING;
-        //PellDesc.ePellType = PELL_TYPE::NORMAL;
-        //m_PellDatas.emplace(1, PellDesc);
-
-        ///* ElecPanda Infomation */
-        //PellDesc.szPellName = "ElecPanda";
-        //PellDesc.pPellIconTexture = CreateTexture(2, TEXT("../Bin/Resources/Textures/UI/InGameUI/PellCharacter/T_ElecPanda_icon_normal.png"));
-        //PellDesc.MaxHealth = 200.f;
-        //PellDesc.MaxHunger = 70.f;
-        //PellDesc.fPellAttackRange = 50.f;
-        //PellDesc.fPellActTime = 6.f;
-        //PellDesc.DefaultSkill = *CPellSkillManager::GetInstance()->FindPellData(2);
-        //PellDesc.fPellWalkSpeed = 1.5f;
-        //PellDesc.fPellRunSpeed = 5.f;
-
-        //PellDesc.MaxStemina = 100.f;
-        //PellDesc.ShieldPoint = 100;
-        //PellDesc.eWorkType = PELL_WORK_TYPE::TREE_GATHER;
-        //PellDesc.ePellType = PELL_TYPE::ELETRIC;
-        //m_PellDatas.emplace(2, PellDesc);
+        
     }
 }
 

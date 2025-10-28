@@ -70,6 +70,9 @@ HRESULT CGrassStrom::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionOBB"), TEXT("Collision_Com"), (CComponent**)&m_pCollision, &OBBDesc)))
         return E_FAIL;
 
+    m_pCollision->BindBeginOverlapEvent([&](_float3 vDir, CGameObject* pGameObject) { HitOverlapEvent(vDir, pGameObject); });
+    m_pCollision->BindOverlappingEvent([&](_float3 vDir, CGameObject* pGameObject) { HitOverlapping(vDir, pGameObject); });
+
     return S_OK;
 }
 

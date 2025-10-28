@@ -150,18 +150,18 @@ HRESULT CEquipment::ADD_Childs()
 	_float3 vFoodPos = { -SlotPosX, SlotPosY, 0.f };
 	CreateEquipSlot(5, ENUM_CLASS(EUQIP_TYPE::FOOD), vFoodPos, 1);
 
-
-	CPlayerView::VIEWER_DESC ViewerDesc;
+	CPlayerView::VIEWER_DESC ViewerDesc = {};
 	ViewerDesc.pParent = this;
-	ViewerDesc.vScale = { 300, 500, 0.f};
-	ViewerDesc.vPosition = {-100.f, 0.f, 0.f};
-	ViewerDesc.fHeight = 600.f;
-	ViewerDesc.fWidth = 800.f;
+	ViewerDesc.vScale = { 280, 500, 0.f};
+	ViewerDesc.vPosition = {-70.f, 0.f, 0.f};
+	ViewerDesc.fHeight = g_iWinSizeX;
+	ViewerDesc.fWidth = g_iWinSizeY;
 
 	//부모위치잡고 세팅
 	m_pPlayerView = CPlayerView::Create(m_pGraphic_Device, m_pDeviceContext);
 	if (nullptr == m_pPlayerView)
 		return E_FAIL;
+	m_pPlayerView->SetZOrder(m_iZOrder + 1);
 	m_pPlayerView->Initialize(&ViewerDesc);
 	ADD_Child(m_pPlayerView);
 

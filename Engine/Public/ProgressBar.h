@@ -47,7 +47,9 @@ protected :
 
 	_float									m_fPrePercent = {};
 	_float									m_fPercent = {};
+
 	_float4									m_vColor = {};
+	_float4									m_vPrePercentColor = {};
 
 protected :
 	virtual		HRESULT						Bind_ShaderResources() override;

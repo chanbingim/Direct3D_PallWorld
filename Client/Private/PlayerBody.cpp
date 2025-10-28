@@ -79,6 +79,31 @@ HRESULT CPlayerBody::Render()
     return S_OK;
 }
 
+HRESULT CPlayerBody::PreviewRender()
+{
+    if (nullptr == m_pClothesBuffer)
+    {
+        _uInt iNumMeshes = m_pVIBufferCom->GetNumMeshes();
+        for (_uInt i = 0; i < iNumMeshes; ++i)
+        {
+            Apply_ConstantShaderResources(i);
+            m_pShaderCom->Update_Shader(2);
+            m_pVIBufferCom->Render(i);
+        }
+    }
+    else
+    {
+        _uInt iNumMeshes = m_pClothesBuffer->GetNumMeshes();
+        for (_uInt i = 0; i < iNumMeshes; ++i)
+        {
+            Apply_ConstantShaderResources(i);
+            m_pShaderCom->Update_Shader(2);
+            m_pClothesBuffer->Render(i);
+        }
+    }
+    return S_OK;
+}
+
 HRESULT CPlayerBody::ShadowRender()
 {
     if (nullptr == m_pClothesBuffer)

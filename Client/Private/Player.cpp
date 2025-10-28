@@ -174,11 +174,6 @@ void CPlayer::Key_Input(_float fDeletaTime)
             }
         }
     }
-    if (!GetWeaponAttackType() && State.bIsAttacking)
-    {
-        if(!State.bIsPallCarry)
-          m_pAnimator->NearAttackOnCollision();
-    }
       
     MoveAction(fDeletaTime);
     PlayerMoveView(fDeletaTime);
@@ -513,6 +508,7 @@ void CPlayer::ChangeAction(_float fDeltaTime)
 
             if (IsAttack)
             {
+                m_pAnimator->StartAttackSlot();
                 m_pPlayerFSM->PlayerStateReset(TEXT("CombatLayer"));
                 m_pPlayerFSM->SetAttack(true);
                 m_pAnimator->ChangeWeaponState(ENUM_CLASS(CPlayerWeaponSlot::WEAPON_STATE::ATTACK));
@@ -696,7 +692,6 @@ HRESULT CPlayer::ADD_PartObejcts()
         return E_FAIL;
 
     m_pPlayerSlotAcrchiteture = static_cast<CPlayerSlotArchitecture*>(FindPartObject(TEXT("Player_SlotArchitecture")));
-
 
     return S_OK;
 }

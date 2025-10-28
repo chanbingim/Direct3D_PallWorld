@@ -33,9 +33,11 @@ public:
 	void									ChangeSocketFlag(_char bitFlag);
 
 	void									ChangeWeaponState(_uInt iWeaponState, _bool bIsAnimLoop = true);
-	void									NearAttackOnCollision();
-	void									RoatationPitchSpine(_float fPitchAngle);
 
+	void									StartAttackSlot();
+	void									UpdateAttackSlot();
+
+	void									RoatationPitchSpine(_float fPitchAngle);
 	const _float4x4*						GetLeftHandSocket();
 
 private:

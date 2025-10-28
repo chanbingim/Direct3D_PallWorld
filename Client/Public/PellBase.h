@@ -55,6 +55,8 @@ public:
 
 	void									ChangePellStorageType(PELL_STORAGE_STATE eStorageType);
 
+	void									Bind_DamageCallBackEvent(CGameObject* pListener, function<void()> Event);
+	void									UnBind_DamageEvent(CGameObject* pListener);
 #pragma region Work State
 	void									ChangePellWork(CGameObject*	pWorkObject);
 	_bool									bIsWorkAble() const;
@@ -112,9 +114,10 @@ protected :
 	CNeturalPellInfo*						m_pNeturalPellUI = nullptr;
 #pragma endregion
 	
-	list<_float3>							m_PathFinding;
+	list<_float3>									m_PathFinding;
+	_float3											m_vTargetPoint = { -1.f, -1.f, -1.f};
 
-	_float3									m_vTargetPoint = { -1.f, -1.f, -1.f};
+	list<pair<CGameObject *, function<void()>>>		m_DagameCallBackEvent;
 
 protected :
 	HRESULT									SetUpDefaultPellData(_bool bIsFlag, const PELL_INFO& Pellinfo);

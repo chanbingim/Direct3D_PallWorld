@@ -1,4 +1,5 @@
 #include "DefualtStates.hlsli"
+#include "EffectDefualtHeader.hlsli"
 
 matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 matrix g_BoneMatrices[512];
@@ -7,6 +8,10 @@ float     g_fCamFar;
 Texture2D g_DiffuseTexture;
 Texture2D g_NormalTexture;
 Texture2D g_SpecularTexture;
+
+Texture2D   g_DissolveTexture;
+bool        g_bIsDissolve;
+float       g_fDissloveTime;
 
 /* 정점 쉐이더 : */
 /* 정점에 대한 셰이딩 == 정점에 필요한 연산을 수행한다 == 정점의 상태변환(월드, 뷰, 투영) + 추가변환 */
@@ -97,6 +102,13 @@ PS_OUT PS_MAIN(PS_IN In)
     row_major float3x3 TangentSpaceMat = float3x3(In.vTangent, In.vBINormal * -1.f, In.vNormal);
     float3 vNormal = mul(vNoramlTexture.xyz * 2.f -1.f, TangentSpaceMat);
     
+    if(g_bIsDissolve)
+    {
+        vMtrlDiffuse.a *= DissolveFunc(g_DissolveTexture, ClampSampler, In.vTexcoord, g_fDissloveTime / 1.5f).r;
+        if (vMtrlDiffuse.a < 0.4f)
+            discard;
+    }
+    
     Out.vColor = vMtrlDiffuse;
     Out.vNormal = float4(vNormal * 0.5f + 0.5f, 0.f);
     Out.vDepth = float4(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / g_fCamFar, 0.0f, 0.0f);
@@ -158,6 +170,64 @@ PS_OUT_SHADOW PS_MAIN_SHADOW(PS_IN_SHADOW In)
     return Out;
 }
 
+// 프리뷰
+struct VS_PREVIEW_OUT
+{
+    float4 vPosition : SV_POSITION;
+    float2 vTexcoord : TEXCOORD0;
+};
+
+VS_PREVIEW_OUT VS_PreView(VS_IN In)
+{
+    VS_PREVIEW_OUT Out;
+    
+    float fBlendWight = 1 - (In.vBlendWeight.x + In.vBlendWeight.y + In.vBlendWeight.z);
+    matrix BoneMatrix = g_BoneMatrices[In.vBlendIndex.x] * In.vBlendWeight.x +
+                        g_BoneMatrices[In.vBlendIndex.y] * In.vBlendWeight.y +
+                        g_BoneMatrices[In.vBlendIndex.z] * In.vBlendWeight.z +
+                        g_BoneMatrices[In.vBlendIndex.w] * fBlendWight;
+   
+     /* 스키닝 */
+    vector vPosition = mul(vector(In.vPosition, 1.f), BoneMatrix);
+    
+    /* In.vPosition * 월드 * 뷰 * 투영 */    
+    //float4x4 == matrix
+    matrix matWV, matWVP;
+    matWV = mul(g_WorldMatrix, g_ViewMatrix);
+    matWVP = mul(matWV, g_ProjMatrix);
+    
+    Out.vPosition = mul(vPosition, matWVP);
+    Out.vTexcoord = In.vTexcoord;
+    return Out;
+}
+
+/* 출력된 정점 위치벡터의 w값으로 모든 성분을 나눈다 -> 투영스페이스로 변환 */ 
+/* 정점의 위치에 대해서 뷰포트 변환을 수행한다 */ 
+/* 정점의 모든 정보를 보간하여 픽셀을 만든다. -> 래스터라이즈 */ 
+
+struct PS_PREVIEW_IN
+{
+    float4 vPosition : SV_POSITION;
+    float2 vTexcoord : TEXCOORD0;
+};
+
+struct PS_PREVIEW_OUT
+{
+    float4 vColor : SV_TARGET0;
+};
+
+PS_PREVIEW_OUT PS_PreView(PS_PREVIEW_IN In)
+{
+    PS_PREVIEW_OUT Out;
+    
+    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
+    if (vMtrlDiffuse.a < 0.4f)
+        discard;
+    
+    Out.vColor = vMtrlDiffuse;
+    return Out;
+}
+
 technique11 Tech
 {
     pass Pass0
@@ -179,5 +249,15 @@ technique11 Tech
         VertexShader = compile vs_5_0 VS_MAIN_SHADOW();
         GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_MAIN_SHADOW();
+    }
+
+    pass Preview
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_None, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        VertexShader = compile vs_5_0 VS_PreView();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_PreView();
     }
 }

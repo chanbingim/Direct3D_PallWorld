@@ -193,6 +193,63 @@ PS_OUT_SHADOW PS_MAIN_SHADOW(PS_IN_SHADOW In)
     return Out;
 }
 
+// preveiw
+
+struct VS_PREVIEW_OUT
+{
+    float4 vPosition : SV_POSITION;
+    float3 vNormal : NORMAL;
+    float3 vTangent : TANGENT;
+    float3 vBINormal : BINORMAL;
+    float2 vTexcoord : TEXCOORD0;
+};
+
+VS_PREVIEW_OUT VS_PreView(VS_IN In)
+{
+    VS_PREVIEW_OUT Out;
+    
+    /* In.vPosition * 월드 * 뷰 * 투영 */    
+    //float4x4 == matrix
+    matrix matWV, matWVP;
+    
+    matWV = mul(g_WorldMatrix, g_ViewMatrix);
+    matWVP = mul(matWV, g_ProjMatrix);
+    
+    Out.vPosition = mul(vector(In.vPosition, 1.f), matWVP);
+    Out.vTexcoord = In.vTexcoord;
+    Out.vNormal = normalize(mul(vector(In.vNormal, 0.f), g_WorldMatrix)).xyz;
+    Out.vTangent = normalize(mul(vector(In.vTangent, 0.f), g_WorldMatrix)).xyz;
+    Out.vBINormal = normalize(mul(vector(In.vBINormal, 0.f), g_WorldMatrix)).xyz;
+    
+    return Out;
+}
+
+struct PS_IN_PREVIEW
+{
+    float4 vPosition : SV_POSITION;
+    float3 vNormal : NORMAL;
+    float3 vTangent : TANGENT;
+    float3 vBINormal : BINORMAL;
+    float2 vTexcoord : TEXCOORD0;
+};
+
+struct PS_OUT_PREIVEW
+{
+    float4 vColor : SV_TARGET0;
+};
+
+PS_OUT_PREIVEW PS_PreView(PS_IN_PREVIEW In)
+{
+    PS_OUT_PREIVEW Out;
+    
+    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexcoord);
+    if (vMtrlDiffuse.a < 0.4f)
+        discard;
+        
+    Out.vColor = vMtrlDiffuse;
+    return Out;
+}
+
 technique11 Tech
 {
     pass Pass0
@@ -236,5 +293,15 @@ technique11 Tech
         VertexShader = compile vs_5_0 VS_MAIN_SHADOW();
         GeometryShader = NULL;
         PixelShader = compile ps_5_0 PS_MAIN_SHADOW();
+    }
+
+    pass PreView
+    {
+        SetRasterizerState(RS_Default);
+        SetDepthStencilState(DSS_Default, 0);
+        SetBlendState(BS_None, float4(0.f, 0.f, 0.f, 0.f), 0xffffffff);
+        VertexShader = compile vs_5_0 VS_PreView();
+        GeometryShader = NULL;
+        PixelShader = compile ps_5_0 PS_PreView();
     }
 }

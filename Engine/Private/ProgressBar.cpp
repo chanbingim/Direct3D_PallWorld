@@ -94,10 +94,10 @@ void CProgressBar::LerpAnimation(_float fTimeDeleta)
 {
 	if (m_fPercent != m_fPrePercent)
 	{
-		m_fLerpAccTime -= fTimeDeleta;
+		m_fLerpAccTime -= fTimeDeleta * 0.5f;
 
 		m_fLerpAccTime = Clamp<_float>(m_fLerpAccTime, 0.f, 1.f);
-		m_fPrePercent = Lerp<_float>(m_fPrePercent, m_fPercent, m_fLerpAccTime);
+		m_fPrePercent = Lerp<_float>(m_fPrePercent, m_fPercent, 1 - m_fLerpAccTime);
 	}
 }
 

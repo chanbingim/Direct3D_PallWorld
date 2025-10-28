@@ -45,16 +45,11 @@ void CWeaponQuickSlotCount::Late_Update(_float fDeletaTime)
 
 HRESULT CWeaponQuickSlotCount::Render()
 {
-	if (!lstrcmp(m_szTopVeiwText, L"무한대"))
-	{
-		m_pFontCom->Render(m_szTopVeiwText, { 1.f, 1.f, 1.f, 1.f });
-	}
-	else
+	if (lstrcmp(m_szTopVeiwText, L""))
 	{
 		m_pFontCom->Render(m_szTopVeiwText, { 1.f, 1.f, 1.f, 1.f });
 		m_pFontCom->Render(m_szUnderVeiwText, { 1.f, 1.f, 1.f, 1.f }, { 0.f, 10.f });
 	}
-
 	
 	return S_OK;
 }
@@ -63,7 +58,7 @@ void CWeaponQuickSlotCount::SetItemIndex(_Int iLoadedCount, _Int iItemTotalCOunt
 {
 	if (0 > iLoadedCount)
 	{
-		wsprintf(m_szTopVeiwText, TEXT("무한대"));
+		wsprintf(m_szTopVeiwText, TEXT(""));
 	}
 	else
 	{

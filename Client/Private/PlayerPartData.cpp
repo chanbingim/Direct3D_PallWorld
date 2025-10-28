@@ -145,9 +145,14 @@ void CPlayerPartData::ChangeWeaponState(_uInt iWeaponState, _bool bIsAnimLoop)
     m_pWeaponSocket[0]->ChangeWeaponState(CPlayerWeaponSlot::WEAPON_STATE(iWeaponState), bIsAnimLoop);
 }
 
-void CPlayerPartData::NearAttackOnCollision()
+void CPlayerPartData::StartAttackSlot()
 {
-    static_cast<CPlayerWeaponSlot *>(m_pWeaponSocket[0])->NearAttackOnCollision();
+    static_cast<CPlayerWeaponSlot*>(m_pWeaponSocket[0])->StartAttack();
+}
+
+void CPlayerPartData::UpdateAttackSlot()
+{
+    static_cast<CPlayerWeaponSlot*>(m_pWeaponSocket[0])->UpdateAttack();
 }
 
 void CPlayerPartData::RoatationPitchSpine(_float fPitchAngle)
@@ -255,6 +260,17 @@ HRESULT CPlayerPartData::Insert_AnimKeyFrameFunction()
     m_pVIBufferCom->Bind_KeyFrameFunction("Attack_Bow", 1, [this]() { ShootProjecttileObject(); });
     m_pVIBufferCom->Bind_KeyFrameFunction("Attack_Throw", 4, [this]() { ShootProjecttileObject(); });
 
+    for (_uInt i = 17; i < 20; ++i)
+    {
+        m_pVIBufferCom->Bind_KeyFrameFunction("Attack_Melee", i, [this]() { UpdateAttackSlot(); });
+        m_pVIBufferCom->Bind_KeyFrameFunction("Attack_Melee", i + 20, [this]() { UpdateAttackSlot(); });
+    }
+    
+    for (_uInt i = 13; i < 16; ++i)
+    {
+        m_pVIBufferCom->Bind_KeyFrameFunction("Attack_None", i, [this]() { UpdateAttackSlot(); });
+        m_pVIBufferCom->Bind_KeyFrameFunction("Attack_None", i + 20, [this]() { UpdateAttackSlot(); });
+    }
     return S_OK;
 }
 

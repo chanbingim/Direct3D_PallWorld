@@ -26,6 +26,7 @@ public:
 private:
 	CFontComponent*							m_pFontCom = nullptr;
 	_float2									m_fFontPoint = { };
+	_float4									m_vColor;
 
 private:
 	HRESULT									ADD_Components();

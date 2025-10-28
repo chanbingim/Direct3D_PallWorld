@@ -157,6 +157,7 @@ void CPellBase::Damage(void* pArg, CActor* pDamagedActor)
             if (0 >= m_PellInfo.CurHealth)
             {
                 m_bIsLoop = false;
+                m_PellInfo.CurHealth = 0.f;
                 if (CPellStateMachine::MOVE_ACTION::CARRY == PellState.eMove_State)
                     ResetCarryState();
 
@@ -171,13 +172,23 @@ void CPellBase::Damage(void* pArg, CActor* pDamagedActor)
                     m_pPellBody->ResetPellCurrentAnimation();
 
                 if (m_pCombatCom)
-                    m_pCombatCom->ADD_TargetObject(pDamagedActor);
+                {
+                    if (pDamagedActor)
+                    {
+                        auto pActor = dynamic_cast<CContainerObject*>(pDamagedActor);
+                        if (pActor)
+                            m_pCombatCom->ADD_TargetObject(pActor);
+                    }
+                }
 
                 m_bIsAction = true;
                 m_bIsLoop = false;
                 m_pPellFsm->SetCombatAction(true);
                 m_pPellFsm->ChangeState(TEXT("CombatLayer"), TEXT("Hit"));
             }
+
+            for (auto pEvnet : m_DagameCallBackEvent)
+                pEvnet.second();
         }
     }
 }
@@ -202,6 +213,39 @@ void CPellBase::ChangePellTeam(ACTOR_TEAM eTeam)
 void CPellBase::ChangePellStorageType(PELL_STORAGE_STATE eStorageType)
 {
     m_PellInfo.ePellStorageState = eStorageType;
+}
+
+void CPellBase::Bind_DamageCallBackEvent(CGameObject* pListener, function<void()> Event)
+{
+    auto iter = find_if(m_DagameCallBackEvent.begin(), m_DagameCallBackEvent.end(), [&](auto& iter)
+        {
+            if (iter.first == pListener)
+                return true;
+
+            return false;
+        });
+
+    if (iter == m_DagameCallBackEvent.end())
+        m_DagameCallBackEvent.emplace_back(pListener, Event);
+    else
+        (*iter).second = Event;
+}
+
+void CPellBase::UnBind_DamageEvent(CGameObject* pListener)
+{
+    auto iter = find_if(m_DagameCallBackEvent.begin(), m_DagameCallBackEvent.end(), [&](auto& iter)
+        {
+            if (iter.first == pListener)
+                return true;
+
+            return false;
+        });
+
+
+    if (iter == m_DagameCallBackEvent.end())
+        return;
+
+    m_DagameCallBackEvent.erase(iter);
 }
 
 #pragma region Work State
@@ -763,7 +807,11 @@ void CPellBase::DeadNeutalPell()
         break;
     case 1:
         //여기서 나중에  죽음 이펙트 실행하고 그다음 true로 만들어서 삭제
-        m_IsDead = true;
+        m_pPellBody->UpdateDissolve(0.1f);
+        if(m_pPellBody->FinishedDissolve())
+        {
+            m_IsDead = true;
+        }
         break;
     }
 }

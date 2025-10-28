@@ -10,6 +10,7 @@ NS_END
 
 NS_BEGIN(Client)
 class CBossTitleName;
+class CPellBase;
 
 class CBossHealthBar : public CProgressBar
 {
@@ -28,14 +29,18 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
-	void									SetBossInfo(void* PellInfo);
+	void									SetBossInfo(CPellBase* pBossPell);
+	void									UnActive();
+	const	CPellBase*						GetUIOwnerBoss() { return m_pOwnerBoss; }
 
 private:
 	CBossTitleName*							m_pBossName = nullptr;
 	CFontComponent*							m_pMaxHealthFontCom = nullptr;
 	CFontComponent*							m_pHealthFontCom = nullptr;
 
-	PELL_INFO*								m_pPellInfo = nullptr;
+	CPellBase*								m_pOwnerBoss = nullptr;
+	const	PELL_INFO*						m_pPellInfo = nullptr;
+
 	_float2									m_MaxHealthFontPos = {};
 	_float2									m_HealthFontPos = {};
 

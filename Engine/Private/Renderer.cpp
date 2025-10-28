@@ -491,6 +491,9 @@ void CRenderer::Render_Debug()
 
     if (FAILED(m_pGameInstance->Render_RenderTargetDebug(TEXT("MRT_Shadow"), m_pShader, m_pVIBuffer)))
         return;
+
+    if (FAILED(m_pGameInstance->Render_RenderTargetDebug(TEXT("MRT_PreView"), m_pShader, m_pVIBuffer)))
+        return;
 }
 #endif // _DEBUG
 

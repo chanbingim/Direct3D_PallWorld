@@ -671,9 +671,6 @@
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\WorkBench\SlotList\Slot">
       <UniqueIdentifier>{fc48e8db-dfad-48a3-b667-616968149b10}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Diallog">
-      <UniqueIdentifier>{5dd28c55-f5b9-4114-8dde-fd1b1ac3b48e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ImGui\UI\Particle">
       <UniqueIdentifier>{bfd34e60-4e71-43d1-960c-73823d906f42}</UniqueIdentifier>
     </Filter>
@@ -923,9 +920,6 @@
     <Filter Include="08.Chunk\Manager">
       <UniqueIdentifier>{8aa9d7c4-3f88-433b-b73d-ee1adf653ec1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\Architecture">
-      <UniqueIdentifier>{45ba8e11-6419-449c-b515-6d544e93bea0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\FastTravelUI">
       <UniqueIdentifier>{66ca5008-5392-4884-9939-e36855a24e00}</UniqueIdentifier>
     </Filter>
@@ -1021,6 +1015,24 @@
     </Filter>
     <Filter Include="03. Objects\NoneMesh\CubeSky">
       <UniqueIdentifier>{f7fd2af1-b8e5-491c-9216-cef7918791cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Grass\Grass02">
+      <UniqueIdentifier>{325e292d-23e3-4a59-bc8e-b4b09ccac10a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Grass\Grass03">
+      <UniqueIdentifier>{b5aee783-d1b7-4f9f-af5d-37e2ecedb7b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Effect\Mesh Effect\Skill\LightningBim">
+      <UniqueIdentifier>{6e0bf8d8-53aa-4d28-8316-2e1c5583d595}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="07. Effect\Mesh Effect\Skill\FireBall">
+      <UniqueIdentifier>{c8ecfb86-cc81-47ed-986f-252ebb55f7cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\Boss\Diallog">
+      <UniqueIdentifier>{5dd28c55-f5b9-4114-8dde-fd1b1ac3b48e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\Architecture">
+      <UniqueIdentifier>{45ba8e11-6419-449c-b515-6d544e93bea0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1673,7 +1685,7 @@
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\WorkBench\SlotList</Filter>
     </ClInclude>
     <ClInclude Include="..\public\DiallogUI.h">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Diallog</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Boss\Diallog</Filter>
     </ClInclude>
     <ClInclude Include="..\public\ActionAbleUI.h">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ActionAbleUI</Filter>
@@ -1878,6 +1890,12 @@
     </ClInclude>
     <ClInclude Include="..\public\CubeSky.h">
       <Filter>03. Objects\NoneMesh\CubeSky</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\GrassBush.h">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Grass\Grass02</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\GrassLeave.h">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Grass\Grass03</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2504,7 +2522,7 @@
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ArchitectrueUI\WorkBench\SlotList</Filter>
     </ClCompile>
     <ClCompile Include="..\private\DiallogUI.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Diallog</Filter>
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\Boss\Diallog</Filter>
     </ClCompile>
     <ClCompile Include="..\private\ActionAbleUI.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\ActionAbleUI</Filter>
@@ -2712,6 +2730,12 @@
     </ClCompile>
     <ClCompile Include="..\private\CubeSky.cpp">
       <Filter>03. Objects\NoneMesh\CubeSky</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\GrassBush.cpp">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Grass\Grass02</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\GrassLeave.cpp">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Grass\Grass03</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

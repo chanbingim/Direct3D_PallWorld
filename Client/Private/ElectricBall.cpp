@@ -15,7 +15,7 @@ CElectricBall::CElectricBall(const CElectricBall& rhs) :
 
 HRESULT CElectricBall::Initalize_Prototype()
 {
-    m_iNumSkill = 2;
+    m_iNumSkill = 7;
     if (FAILED(__super::Initalize_Prototype()))
         return E_FAIL;
     return S_OK;
@@ -26,16 +26,14 @@ HRESULT CElectricBall::Initialize(void* pArg)
     if(FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
-    if (FAILED(__super::Initialize(pArg)))
-        return E_FAIL;
-
     if (FAILED(ADD_Components()))
         return E_FAIL;
 
+    m_fChargeTime = 1.5f;
     CEffectContatiner::GAMEOBJECT_DESC Desc = {};
     Desc.pParent = this;
     Desc.vScale = { 1.f, 1.f, 1.f };
-    auto pGameObject = m_pGameInstance->EffectClone_Object(1, TEXT("Effect_Electric_Ball"), &Desc);
+    auto pGameObject = m_pGameInstance->EffectClone_Object(1, TEXT("Electirc_Ball_Effect"), &Desc);
     m_pSkillEffects.push_back(pGameObject);
 
     return S_OK;
@@ -43,7 +41,14 @@ HRESULT CElectricBall::Initialize(void* pArg)
 
 void CElectricBall::Priority_Update(_float fDeletaTime)
 {
-    __super::Priority_Update(fDeletaTime);
+    if(!m_bIsCharge)
+        __super::Priority_Update(fDeletaTime);
+    else
+    {
+        m_fChargeTime -= fDeletaTime;
+        if (0 >= m_fChargeTime)
+            m_bIsCharge = false;
+    }
 }
 
 void CElectricBall::Update(_float fDeletaTime)
@@ -72,6 +77,8 @@ HRESULT CElectricBall::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionOBB"), TEXT("Collision_Com"), (CComponent**)&m_pCollision, &OBBDesc)))
         return E_FAIL;
 
+    m_pCollision->BindBeginOverlapEvent([&](_float3 vDir, CGameObject* pGameObject) { HitOverlapEvent(vDir, pGameObject); });
+
     return S_OK;
 }
 
@@ -89,7 +96,7 @@ CElectricBall* CElectricBall::Create(ID3D11Device* pDevice, ID3D11DeviceContext*
 CGameObject* CElectricBall::Clone(void* pArg)
 {
     CElectricBall* pEletricBall = new CElectricBall(*this);
-    if (FAILED(pEletricBall->Initalize_Prototype()))
+    if (FAILED(pEletricBall->Initialize(pArg)))
     {
         Safe_Release(pEletricBall);
         MSG_BOX("CLONE FAILO : Electric Ball");

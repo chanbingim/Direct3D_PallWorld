@@ -20,7 +20,7 @@ public :
 
 	typedef struct SkillObjectDesc : public GAMEOBJECT_DESC
 	{
-		const CPellBase*	pOwner;
+		CPellBase*			pOwner;
 		_float3				vTargetDir;
 	}SKILL_OBJECT_DESC;
 
@@ -41,10 +41,11 @@ public:
 
 	// ·£´õ
 	virtual		HRESULT						Render() override;
+	const CGameObject*						GetOwnerPell() { return m_pOwner; }
 
 protected:
 	_uInt									m_iNumSkill = {};
-	const CPellBase*						m_pOwner = nullptr;
+	CGameObject*							m_pOwner = nullptr;
 	PAL_SKILL_NETWORK_DATA					m_SkillData = {};
 
 	_float3									m_vTargetDir = {};

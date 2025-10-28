@@ -47,6 +47,7 @@ public:
 	void					ADD_OnlyHitObject(size_t typeID);
 
 	void					CallFunction();
+	void					ResetCollision();
 
 	const COLLISION_TYPE&	GetCollisionType() const { return m_CollisionType; }
 	CGameObject*			GetOwner() { return m_pOwner; }

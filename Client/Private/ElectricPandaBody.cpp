@@ -1,7 +1,12 @@
 #include "ElectricPandaBody.h"
 
 #include "GameInstance.h"
-#include "EletricBullet.h"
+
+#include "PellBase.h"
+#include "CombatComponent.h"
+
+#include "PellSkillManager.h"
+#include "SkillObjectBase.h"
 
 CElectricPandaBody::CElectricPandaBody(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CPellBody(pDevice, pContext)
@@ -32,10 +37,7 @@ HRESULT CElectricPandaBody::Initialize(void* pArg)
         return E_FAIL;
 
     m_HandMatrix = GetBoneMatrix("hand_l");
-    m_pVIBufferCom->Bind_KeyFrameFunction("Electric_Shoot_Loop", 10, [this]() { ShootProjecttileObject(); });
-    m_pVIBufferCom->Bind_KeyFrameFunction("Electric_Shoot_Loop", 13, [this]() { ShootProjecttileObject(); });
-    m_pVIBufferCom->Bind_KeyFrameFunction("Electric_Shoot_Loop", 16, [this]() { ShootProjecttileObject(); });
-    m_pVIBufferCom->Bind_KeyFrameFunction("Electric_Shoot_Loop", 19, [this]() { ShootProjecttileObject(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("FarSkill_ActionLoop", 1, [this]() { ShootProjecttileObject(); });
     return S_OK;
 }
 
@@ -62,8 +64,15 @@ HRESULT CElectricPandaBody::Render()
     {
         Apply_ConstantShaderResources(i);
 
-        m_pShaderCom->Update_Shader(0);
+        if (m_bIsDissolve)
+        {
+            auto pNoiseTex = m_pGameInstance->GetTextureResource(TEXT("T_Default_Noise.png"));
+            m_pShaderCom->Bind_SRV("g_DissolveTexture", pNoiseTex->GetTexture(0));
+            m_pShaderCom->Bind_RawValue("g_bIsDissolve", &m_bIsDissolve, sizeof(_bool));
+            m_pShaderCom->Bind_RawValue("g_fDissloveTime", &m_fAccDissolveTime, sizeof(_float));
+        }
 
+        m_pShaderCom->Update_Shader(0);
         m_pVIBufferCom->Render(i);
     }
     return S_OK;
@@ -82,20 +91,56 @@ HRESULT CElectricPandaBody::ADD_Components()
 
 HRESULT CElectricPandaBody::ShootProjecttileObject()
 {
-    CProjectileObject::PROJECTILE_DESC ProjectileDesc = {};
-
-    //이함수를 통해서 프로젝타일 위치에 생성해서 날린다.
-
-    ProjectileDesc.vPosition = *reinterpret_cast<const _float3*>(m_HandMatrix->m[3]);
-    ProjectileDesc.vScale = { 1.f, 1.f, 1.f };
-    ProjectileDesc.pAttacker = static_cast<CActor *>(m_pParent);
-    XMStoreFloat3(&ProjectileDesc.vDireaction, m_pTransformCom->GetLookVector());
-    ProjectileDesc.vThrowSpeed = 10.f;
-
-    if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ElectricBall"),
-        ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_GamePlay_Projectile"), &ProjectileDesc)))
+    if (-1 == m_iSkillIndex)
         return E_FAIL;
 
+    CSkillObjectBase::SKILL_OBJECT_DESC SkillDesc = {};
+    SkillDesc.vScale = { 1.f, 1.f, 1.f };
+    //여기서 이펙트 생성해서 넘기기
+    if (7 == m_iSkillIndex)
+    {
+        _float3 vScale = m_pTransformCom->GetScale();
+        _float3 vPosition = m_pParent->GetTransform()->GetPosition();
+
+        _vector vLook = m_pTransformCom->GetLookVector();
+        _vector vRight = m_pTransformCom->GetRightVector();
+        vLook *= vScale.z * 0.5f;
+
+        CPellBase* pOwner = static_cast<CPellBase*>(m_pParent);
+        CCombatComponent* pCombatCom = static_cast<CCombatComponent*>(pOwner->Find_Component(TEXT("Combat_Com")));
+
+        _vector vCalPostion = XMLoadFloat3(&vPosition);
+        vRight *= m_pGameInstance->Random(3.f, 5.f);
+
+        SkillDesc.pOwner = static_cast<CPellBase*>(m_pParent);
+        _float3 vTargetPoint = pCombatCom->GetCurrentTarget()->GetTransform()->GetPosition();
+        XMStoreFloat3(&SkillDesc.vTargetDir, XMVector3Normalize(XMLoadFloat3(&vTargetPoint) - vCalPostion));
+        XMStoreFloat3(&SkillDesc.vPosition, vCalPostion + vLook + vRight);
+        SkillDesc.vPosition.y += m_pGameInstance->Random(0.5f, 1.5f);
+        if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ElectricBall"),
+            ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_GamePlay_Effect"), &SkillDesc)))
+            return E_FAIL;
+
+        XMStoreFloat3(&SkillDesc.vPosition, vCalPostion + vLook - vRight);
+        SkillDesc.vPosition.y += m_pGameInstance->Random(0.5f, 1.5f);
+        SkillDesc.pOwner = static_cast<CPellBase*>(m_pParent);
+
+        if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ElectricBall"),
+            ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_GamePlay_Effect"), &SkillDesc)))
+            return E_FAIL;
+    }
+    else if (6 == m_iSkillIndex)
+    {
+        //이건  소켓 메트릭스 달아서 해야긋당
+       /* SkillDesc.vPosition = {};
+        SkillDesc.pOwner = static_cast<CPellBase*>(m_pParent);
+
+        if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ElectricBall"),
+            ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_GamePlay_Effect"), &SkillDesc)))
+            return E_FAIL;*/
+    }
+   
+    m_iSkillIndex = -1;
     return S_OK;
 }
 

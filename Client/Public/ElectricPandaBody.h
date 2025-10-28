@@ -21,9 +21,11 @@ public:
 
 	// ·£´õ
 	virtual		HRESULT						Render() override;
+	void									SetSelectSkillIndex(_uInt iIndex) { m_iSkillIndex = iIndex; }
 
 private :
 	const _float4x4*						m_HandMatrix = nullptr;
+	_Int									m_iSkillIndex = {};
 
 private:
 	HRESULT									ADD_Components();

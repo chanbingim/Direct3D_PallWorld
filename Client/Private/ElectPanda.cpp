@@ -10,8 +10,10 @@
 #include "CombatComponent.h"
 #pragma endregion
 
+#include "PellSkillManager.h"
 #include "PellAttackState.h"
-#include "PellBody.h"
+
+#include "ElectricPandaBody.h"
 
 CElectPanda::CElectPanda(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext) :
     CPellBase(pGraphic_Device, pDeviceContext)
@@ -49,6 +51,8 @@ HRESULT CElectPanda::Initialize(void* pArg)
         return E_FAIL;
 
     m_eTeam = ACTOR_TEAM::NEUTRAL;
+    m_PellInfo.PartnerSkillList.push_back(*CPellSkillManager::GetInstance()->FindPellData(6));
+    m_PellInfo.PartnerSkillList.push_back(*CPellSkillManager::GetInstance()->FindPellData(7));
     return S_OK;
 }
 
@@ -91,6 +95,24 @@ void CElectPanda::Priority_Update(_float fDeletaTime)
             }
         }
     }
+    else
+    {
+        _uInt i =  m_pPellFsm->GetStatePhase(TEXT("CombatLayer"));
+        auto pTarget = m_pCombatCom->GetCurrentTarget();
+        if (pTarget)
+        {
+            _float3 vTargetPos = pTarget->GetTransform()->GetPosition();
+            _float3 vCurPos = m_pTransformCom->GetPosition();
+
+            _vector vCalTargetPos = XMLoadFloat3(&vTargetPos);
+            vPos = XMLoadFloat3(&vCurPos);
+            vDir = XMVector3Normalize(vCalTargetPos - vPos);
+            if (i < 3)
+                m_pTransformCom->LerpTurn(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMLoadFloat3(&vCurPos) + vDir, XMConvertToRadians(180.f), fDeletaTime);
+        }
+
+    }
+
 
     if (CPellStateMachine::MOVE_ACTION::CARRY > State.eMove_State)
         m_pNevigation->ComputeHeight(m_pTransformCom, false);
@@ -104,7 +126,13 @@ void CElectPanda::Update(_float fDeletaTime)
     if (PELL_STORAGE_STATE::PARTNER_PELL < m_PellInfo.ePellStorageState)
         return;
 
-    m_pPellBody->PellPlayAnimation(m_pPellFsm->GetAnimationName().c_str(), m_bIsLoop);
+    _bool      bIsAnimLoop = {};
+    if (CPellStateMachine::COMBAT_ACTION::END != m_pPellFsm->GetState().eCombat_State)
+        bIsAnimLoop = m_pPellFsm->GetLayerAnimLoop(TEXT("CombatLayer"));
+    else
+        bIsAnimLoop = m_pPellFsm->GetLayerAnimLoop(TEXT("Body_Layer"));
+
+    m_pPellBody->PellPlayAnimation(m_pPellFsm->GetAnimationName().c_str(), bIsAnimLoop);
     __super::Update(fDeletaTime);
 
 }
@@ -152,7 +180,16 @@ void CElectPanda::CombatAction(_float fDeletaTime, CGameObject* pTarget)
     }
     CPellAttackState::PELL_ATTACK_STATE_DESC AttackDesc = {};
     AttackDesc.ActPell = this;
-    AttackDesc.AttackData = &m_PellInfo.DefaultSkill;
+
+    // 일렉 펜더는 확률로 일정 스킬을 사용하게 변경
+    _uInt iSkillIndex =  m_PellInfo.PartnerSkillList.size();
+    if (0 < iSkillIndex)
+    {
+        _uInt iRandomIndex = static_cast<_Int>(m_pGameInstance->Random(0, 100.f)) % iSkillIndex;
+        AttackDesc.AttackData = &m_PellInfo.PartnerSkillList[1];
+        static_cast<CElectricPandaBody*>(m_pPellBody)->SetSelectSkillIndex(AttackDesc.AttackData->iSkillID);
+    }
+   
     AttackDesc.fSkillMoveSpeed = &m_fPellMoveSpeed;
     AttackDesc.IsSpaceOut = false;
     m_bIsAction = true;

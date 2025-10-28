@@ -41,7 +41,8 @@ void CWeaponSlotIcon::Update(_float fDeletaTime)
 
 void CWeaponSlotIcon::Late_Update(_float fDeletaTime)
 {
-	m_pGameInstance->Add_RenderGroup(RENDER::SCREEN_UI, this);
+	if (m_pItemIcon)
+		m_pGameInstance->Add_RenderGroup(RENDER::SCREEN_UI, this);
 }
 
 HRESULT CWeaponSlotIcon::Render()

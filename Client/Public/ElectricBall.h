@@ -22,6 +22,10 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
+private :
+	_bool									m_bIsCharge = true;
+	_float									m_fChargeTime = {};
+
 private:
 	HRESULT									ADD_Components();
 

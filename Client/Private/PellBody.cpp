@@ -87,6 +87,17 @@ _bool CPellBody::FinishedAnimation()
     return m_bIsAnimFinished;
 }
 
+void CPellBody::UpdateDissolve(_float fTime)
+{
+    m_bIsDissolve = true;
+    m_fAccDissolveTime += fTime;
+}
+
+_bool CPellBody::FinishedDissolve()
+{
+    return 1.5f <= m_fAccDissolveTime;
+}
+
 CGameObject* CPellBody::Clone(void* pArg)
 {
     return nullptr;

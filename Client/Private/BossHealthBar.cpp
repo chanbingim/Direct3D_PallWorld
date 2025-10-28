@@ -3,6 +3,8 @@
 #include "GameInstance.h"
 #include "BossTitleName.h"
 
+#include "PellBase.h"
+
 CBossHealthBar::CBossHealthBar(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 	CProgressBar(pDevice, pContext)
 {
@@ -39,6 +41,8 @@ HRESULT CBossHealthBar::Initialize(void* pArg)
 		m_MaxHealthText += to_wstring(1000);
 
 	m_vColor = {1.f, 0.f, 0.f, 1.f};
+	m_vPrePercentColor = { 0.5f, 0.5f, 0.5f, 0.8f };
+
 	_vector TextSize = m_pHealthFontCom->GetFontBoundBox(m_MaxHealthText.c_str());
 	m_MaxHealthFontPos = { m_UISize.right - TextSize.m128_f32[0], m_UISize.top -TextSize.m128_f32[1] * 0.5f};
 	return S_OK;
@@ -49,6 +53,7 @@ void CBossHealthBar::Update(_float fDeletaTime)
 	if (VISIBILITY::HIDDEN == m_eVisible)
 		return;
 
+	LerpAnimation(fDeletaTime);
 	if (m_pPellInfo)
 	{
 		m_fPercent = m_pPellInfo->CurHealth / m_pPellInfo->MaxHealth;
@@ -69,6 +74,12 @@ void CBossHealthBar::Late_Update(_float fDeletaTime)
 	if (VISIBILITY::HIDDEN == m_eVisible)
 		return;
 
+	if (m_pOwnerBoss->IsDead())
+	{
+		m_pOwnerBoss->UnBind_DamageEvent(this);
+		Safe_Release(m_pOwnerBoss);
+	}
+
 	m_pGameInstance->Add_RenderGroup(RENDER::SCREEN_UI, this);
 }
 
@@ -79,18 +90,44 @@ HRESULT CBossHealthBar::Render()
 	m_pTextureCom->SetTexture(0, 0);
 	m_pVIBufferCom->Render_VIBuffer();
 
+	m_pShader_Percent->SetRawValue(&m_fPrePercent, 0, sizeof(_float));
+	m_pShader_Color->SetFloatVector((float*)&m_vPrePercentColor);
 	m_pShaderCom->Update_Shader(1);
 	m_pTextureCom->SetTexture(0, 1);
 	m_pVIBufferCom->Render_VIBuffer();
+
+	Apply_ConstantShaderResources();
+	m_pShaderCom->Update_Shader(1);
+	m_pTextureCom->SetTexture(0, 1);
+	m_pVIBufferCom->Render_VIBuffer();
+
+	
 
 	m_pMaxHealthFontCom->Render(m_MaxHealthText.c_str(), { 1.f, 1.f, 0.f, 1.f });
 	m_pHealthFontCom->Render(m_HealthText.c_str(), { 1.f, 1.f, 1.f, 1.f });
 	return S_OK;
 }
 
-void CBossHealthBar::SetBossInfo(void* PellInfo)
+void CBossHealthBar::SetBossInfo(CPellBase* pBossPell)
 {
-	m_pPellInfo = static_cast<PELL_INFO*>(PellInfo);
+	//이벤트 제거및 레퍼런스 감소
+	if (nullptr != m_pOwnerBoss)
+	{
+		m_pOwnerBoss->UnBind_DamageEvent(this);
+		Safe_Release(m_pOwnerBoss);
+	}
+
+	//이벤트 등록및 레퍼런스 증가
+	m_pOwnerBoss = pBossPell;
+	Safe_AddRef(m_pOwnerBoss);
+	m_pPellInfo = &pBossPell->GetPellInfo();
+	pBossPell->Bind_DamageCallBackEvent(this, [&](){ LerpTimeReset(); });
+}
+
+void CBossHealthBar::UnActive()
+{
+	m_eVisible = VISIBILITY::HIDDEN;
+	Safe_Release(m_pOwnerBoss);
 }
 
 HRESULT CBossHealthBar::ADD_Components()
@@ -166,6 +203,7 @@ void CBossHealthBar::Free()
 {
 	__super::Free();
 
+	Safe_Release(m_pOwnerBoss);
 	Safe_Release(m_pMaxHealthFontCom);
 	Safe_Release(m_pHealthFontCom);
 	Safe_Release(m_pBossName);

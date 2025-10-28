@@ -87,6 +87,7 @@ HRESULT CGameOption::ADD_Childs()
 	if (FAILED(pOptionbut->Initialize(&Desc)))
 		return E_FAIL;
 	m_OptionButton.push_back(pOptionbut);
+	pOptionbut->SetText(TEXT("게임 설정"));
 	ADD_Child(pOptionbut);
 
 	/* Option Button */
@@ -95,6 +96,7 @@ HRESULT CGameOption::ADD_Childs()
 	if (FAILED(pOptionbut->Initialize(&Desc)))
 		return E_FAIL;
 	pOptionbut->Bind_ClickEvent([&]() { GameQuit(); });
+	pOptionbut->SetText(TEXT("게임 종료"));
 	m_OptionButton.push_back(pOptionbut);
 	ADD_Child(pOptionbut);
 

@@ -75,13 +75,23 @@
 #include "GrassMommothBody.h"
 #pragma endregion
 
+#pragma region PreViewModel
+#include "PreivewModelBody.h"
+#include "PreviewModelWeapon.h"
+#pragma endregion
+
 #pragma region ENVIORNMENT
 #include "RockObject.h"
 #include "TreeObject.h"
 #include "PellRock.h"
+
+#pragma region Instance Prob
 #include "SmallGrass.h"
 #include "DefaultGrass.h"
+#include "GrassBush.h"
+#include "GrassLeave.h"
 #include "Flower.h"
+#pragma endregion
 
 #include "ViliageCurchObject.h"
 #include "ViliageHouseObject.h"
@@ -145,8 +155,8 @@
 #pragma region EFFECT
 #include "HitEffect.h"
 #include "TrailEffect.h"
+#include "ElectricBall.h"
 #pragma endregion
-
 
 #pragma region WORKBENCH
 #include "WorkBenchCreateUI.h"
@@ -161,7 +171,6 @@
 #pragma region Diallog
 #include "DiallogUI.h"
 #pragma endregion
-
 
 #include "IngredientUI.h"
 
@@ -365,6 +374,12 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region FastTravelBackGround
+	/* GamePlay_Pell_FastTravel_Texture */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_BackGorund_FastTravel_Tex"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/UI/InGameUI/BackGround/FastTravelBackGround.png"), 1))))
+		return E_FAIL;
+#pragma endregion
 
 
 #pragma region DEFULAT_BUTTON_TEX
@@ -800,7 +815,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	InstanceModelDesc.iNumInstance = 3000.f;
 	InstanceModelDesc.vSize = { 1.f, 1.f, 1.f };
 	InstanceModelDesc.vCenter = { 0.f ,0.f, 0.f };
-	InstanceModelDesc.vRange = { 400.f ,0.f, 300.f };
+	InstanceModelDesc.vRange = { 200.f ,0.f, 200.f };
 
 	InstanceModelDesc.pModelFilePath = "../Bin/Resources/Models/Enviornmenet/SmallGrass/small_Grass.fbx";
 	InstanceModelDesc.PreModelMat = PreModelMat;
@@ -816,7 +831,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	InstanceModelDesc.iNumInstance = 3000.f;
 	InstanceModelDesc.vSize = { 1.f, 1.f, 1.f };
 	InstanceModelDesc.vCenter = { 0.f ,0.f, 0.f };
-	InstanceModelDesc.vRange = { 400.f ,0.f, 300.f };
+	InstanceModelDesc.vRange = { 200.f ,0.f, 200.f };
 
 	InstanceModelDesc.pModelFilePath = "../Bin/Resources/Models/Enviornmenet/Grass/Grass.dat";
 	InstanceModelDesc.PreModelMat = PreModelMat;
@@ -832,7 +847,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	InstanceModelDesc.iNumInstance = 3000.f;
 	InstanceModelDesc.vSize = { 1.f, 1.f, 1.f };
 	InstanceModelDesc.vCenter = { 0.f ,0.f, 0.f };
-	InstanceModelDesc.vRange = { 400.f ,0.f, 300.f };
+	InstanceModelDesc.vRange = { 200.f ,0.f, 200.f };
 
 	InstanceModelDesc.pModelFilePath = "../Bin/Resources/Models/Enviornmenet/Flower/Flower.dat";
 	InstanceModelDesc.PreModelMat = PreModelMat;
@@ -843,6 +858,39 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CVIBuffer_Model_Instance::Create(m_pDevice, m_pContext, &InstanceModelDesc))))
 		return E_FAIL;
 #pragma endregion
+
+#pragma region Grass Bush InstanceBuffer
+	InstanceModelDesc.iNumInstance = 3000.f;
+	InstanceModelDesc.vSize = { 1.f, 1.f, 1.f };
+	InstanceModelDesc.vCenter = { 0.f ,0.f, 0.f };
+	InstanceModelDesc.vRange = { 200.f ,0.f, 200.f };
+
+	InstanceModelDesc.pModelFilePath = "../Bin/Resources/Models/Enviornmenet/GrassBush/Grass02.fbx";
+	InstanceModelDesc.PreModelMat = PreModelMat;
+	InstanceModelDesc.RetargetFile = "";
+	InstanceModelDesc.iLayerCount = 1;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Instance_GrassBush"),
+		CVIBuffer_Model_Instance::Create(m_pDevice, m_pContext, &InstanceModelDesc))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region Grass Leave InstanceBuffer
+	InstanceModelDesc.iNumInstance = 3000.f;
+	InstanceModelDesc.vSize = { 1.f, 1.f, 1.f };
+	InstanceModelDesc.vCenter = { 0.f ,0.f, 0.f };
+	InstanceModelDesc.vRange = { 200.f ,0.f, 200.f };
+
+	InstanceModelDesc.pModelFilePath = "../Bin/Resources/Models/Enviornmenet/GrasLeave/Grass03.fbx";
+	InstanceModelDesc.PreModelMat = PreModelMat;
+	InstanceModelDesc.RetargetFile = "";
+	InstanceModelDesc.iLayerCount = 1;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Instance_GrasLeave"),
+		CVIBuffer_Model_Instance::Create(m_pDevice, m_pContext, &InstanceModelDesc))))
+		return E_FAIL;
+#pragma endregion
+
 
 #pragma region Viliage
 	/* VIBuffer  Viliage House1 Component */
@@ -871,12 +919,12 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma region ROCK
 	/* EnviornMent Rock MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Rock_0_Mesh"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Rock/Rock/Rock/Rock02/Rock02.dat"))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Rock/Rock/Rock/Rock02/Rock02.fbx", PreModelMat))))
 		return E_FAIL;
 
 	/* EnviornMent Rock3 MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Rock_1_Mesh"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Rock/Rock/Rock/Rock03/Rock03.dat"))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Rock/Rock/Rock/Rock03/Rock03.fbx", PreModelMat))))
 		return E_FAIL;
 
 	/* EnviornMent Rock3 MESH  Component */
@@ -1129,6 +1177,21 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CDefaultGrass::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 #pragma endregion
+
+#pragma region Grass Bush
+	/* GAME_OBJECT_DefaultGrass */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Environment_Grass_Bush"),
+		CGrassBush::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region Grass Leave
+	/* GAME_OBJECT_DefaultGrass */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Environment_Grass_Leave"),
+		CGrassLeave::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
 #pragma endregion
 
 #pragma region Viliage Prob
@@ -1327,7 +1390,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 
 	/* GAME_OBJECT_ElectricBall */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ElectricBall"), CEletricBullet::Create(m_pDevice, m_pContext))))
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ElectricBall"), CElectricBall::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 #pragma endregion
 
@@ -1467,6 +1530,17 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 #pragma endregion
+
+#pragma region PreViewModel
+	/* GAME_OBJECT_Hit_Effect */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_PreviewModelBody"), CPreivewModelBody::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_Hit_Effect */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_PreviewModelWeapon"), CPreviewModelWeapon::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
+
 
 	m_strMessage = TEXT("로딩이 완료되었습니다..");
 

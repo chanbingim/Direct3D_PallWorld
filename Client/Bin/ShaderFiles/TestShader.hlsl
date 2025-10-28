@@ -89,7 +89,7 @@ PS_OUT PS_MAIN2(PS_IN In)
 {
     PS_OUT Out;
     
-    float4 vNewColor = g_Texture.Sample(DefaultSampler, In.vTexcoord);
+    float4 vNewColor = g_Texture.Sample(ClampSampler, In.vTexcoord);
    
     Out.vColor = vNewColor;
     return Out;

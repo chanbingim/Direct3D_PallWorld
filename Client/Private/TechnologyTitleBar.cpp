@@ -31,6 +31,7 @@ HRESULT CTechnologyTitleBar::Initialize(void* pArg)
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
+    m_vColor = { 0.6f, 0.6f, 0.6f, 0.6f };
     return S_OK;
 }
 
@@ -46,6 +47,8 @@ void CTechnologyTitleBar::Late_Update(_float fDeletaTime)
 HRESULT CTechnologyTitleBar::Render()
 {
     Apply_ConstantShaderResources();
+    m_pShaderCom->Bind_RawValue("g_vColor", &m_vColor, sizeof(_float4));
+
     m_pShaderCom->Update_Shader(2);
     m_pTextureCom->SetTexture(0, 0);
     m_pVIBufferCom->Render_VIBuffer();
@@ -69,7 +72,7 @@ HRESULT CTechnologyTitleBar::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_VIBuffer_Rect"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
         return E_FAIL;
 
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Tech_Category_BackGround"), TEXT("Texture_Com"), (CComponent**)&m_pTextureCom)))
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_GM_Battle_PellInfo_Background"), TEXT("Texture_Com"), (CComponent**)&m_pTextureCom)))
         return E_FAIL;
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_VtxTex"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))

@@ -43,9 +43,7 @@ HRESULT CWeaponQuickSlot::Initialize(void* pArg)
 	if (FAILED(Bind_ShaderResources()))
 		return E_FAIL;
 
-	m_vImageColor = { 115.f / 225.f, 
-					  128.f / 225.f,
-					  112.f / 225.f, 0.5f };
+	m_vImageColor = { 0.21f, 0.32f, 0.36f, 0.5f };
 	m_iZOrder = 0;
 	return S_OK;
 }

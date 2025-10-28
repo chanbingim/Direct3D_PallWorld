@@ -29,11 +29,24 @@ HRESULT CViewer::Initialize(void* pArg)
         return E_FAIL;
 
 
+    _float2 vScreenSize = m_pGameInstance->GetScreenSize();
     VIEWER_DESC* ViewDesc = static_cast<VIEWER_DESC*>(pArg);
-    if (FAILED(CreateViewTexture()))
+    m_vViewerSize = { ViewDesc->fWidth, ViewDesc->fHeight };
+
+    if (FAILED(CreateViewTexture(ViewDesc->fWidth, ViewDesc->fHeight)))
         return E_FAIL;
 
     if (FAILED(CreateViewerCamera(ViewDesc->fWidth, ViewDesc->fHeight)))
+        return E_FAIL;
+
+    /* Target_Blur_X */
+    if (FAILED(m_pGameInstance->Add_RenderTarget(TEXT("Target_Preview"), ViewDesc->fWidth, ViewDesc->fHeight, DXGI_FORMAT_R8G8B8A8_UNORM, _float4(0.0f, 0.0f, 0.0f, 0.0f))))
+        return E_FAIL;
+
+    if (FAILED(m_pGameInstance->Add_MRT(TEXT("MRT_PreView"), TEXT("Target_Preview"))))
+        return E_FAIL;
+
+    if (FAILED(m_pGameInstance->Ready_RenderTargetDebug(TEXT("Target_Preview"), vScreenSize.x - 450.0f, 450.0f, 300.f, 300.f)))
         return E_FAIL;
 
     return S_OK;
@@ -101,7 +114,8 @@ HRESULT CViewer::Apply_ConstantShaderResources()
     if (FAILED(__super::Apply_ConstantShaderResources()))
         return E_FAIL;
 
-    m_pShader_Resource->SetResource(m_pViewTexture);
+    if (FAILED(m_pGameInstance->Bind_RenderTarget(TEXT("Target_Preview"), m_pShaderCom, "g_Texture")))
+        return E_FAIL;
     return S_OK;
 }
 
@@ -109,39 +123,45 @@ void CViewer::UpdateShaderResource(_uInt iRenderIndex)
 {
 }
 
-HRESULT CViewer::CreateViewTexture()
+HRESULT CViewer::CreateViewTexture(_uInt iSizeX, _uInt iSizeY)
 {
-    //Shader리소스로 생성해서 데이터를 보관한다.
-    ID3D11Texture2D* pBackBuffer = nullptr;
-    m_pGameInstance->GetBackBuffer(&pBackBuffer);
-
-    D3D11_TEXTURE2D_DESC TexDesc = {};
-    pBackBuffer->GetDesc(&TexDesc);
-
-    TexDesc.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
-
-    ID3D11Texture2D* pTeuxtre2D = nullptr;
-    if (FAILED(m_pGraphic_Device->CreateTexture2D(&TexDesc, nullptr, &pTeuxtre2D)))
+    if (nullptr == m_pGraphic_Device)
         return E_FAIL;
 
-    if (FAILED(m_pGraphic_Device->CreateRenderTargetView(pTeuxtre2D, nullptr, &m_pRenderTargetTex)))
+    ID3D11Texture2D* pDepthStencilTexture = nullptr;
+
+    D3D11_TEXTURE2D_DESC	TextureDesc;
+    ZeroMemory(&TextureDesc, sizeof(D3D11_TEXTURE2D_DESC));
+
+    /* 깊이 버퍼의 픽셀은 백버퍼의 픽셀과 갯수가 동일해야만 깊이 텍스트가 가능해진다. */
+    /* 픽셀의 수가 다르면 아에 렌더링을 못함. */
+    TextureDesc.Width = iSizeX;
+    TextureDesc.Height = iSizeY;
+    TextureDesc.MipLevels = 1;
+    TextureDesc.ArraySize = 1;
+    TextureDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+
+    TextureDesc.SampleDesc.Quality = 0;
+    TextureDesc.SampleDesc.Count = 1;
+
+    /* 동적? 정적?  */
+    TextureDesc.Usage = D3D11_USAGE_DEFAULT /* 정적 */;
+    /* 추후에 어떤 용도로 바인딩 될 수 있는 View타입의 텍스쳐를 만들기위한 Texture2D입니까? */
+    TextureDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL
+        /*| D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE*/;
+    TextureDesc.CPUAccessFlags = 0;
+    TextureDesc.MiscFlags = 0;
+
+    if (FAILED(m_pGraphic_Device->CreateTexture2D(&TextureDesc, nullptr, &pDepthStencilTexture)))
         return E_FAIL;
 
-    if (FAILED(m_pGraphic_Device->CreateShaderResourceView(pTeuxtre2D, nullptr, &m_pViewTexture)))
+
+    if (FAILED(m_pGraphic_Device->CreateDepthStencilView(pDepthStencilTexture, nullptr, &m_pDepthStencil)))
         return E_FAIL;
 
-    TexDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-    TexDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;//텍스쳐를 어떤 용도로 사용하나
-    Safe_Release(pTeuxtre2D);
+    Safe_Release(pDepthStencilTexture);
 
-    if (FAILED(m_pGraphic_Device->CreateTexture2D(&TexDesc, nullptr, &pTeuxtre2D)))
-        return E_FAIL;
-
-    if (FAILED(m_pGraphic_Device->CreateDepthStencilView(pTeuxtre2D, nullptr, &m_pDepthStencil)))
-        return E_FAIL;
-
-    Safe_Release(pTeuxtre2D);
-    Safe_Release(pBackBuffer);
+    return S_OK;
     return S_OK;
 }
 
@@ -149,7 +169,7 @@ HRESULT CViewer::CreateViewerCamera(_float fWidth, _float fHeight)
 {
     CBaseCamera::CAMERA_DESC Desc;
     ZeroMemory(&Desc, sizeof(CBaseCamera::CAMERA_DESC));
-    Desc.fFar = 100.f;
+    Desc.fFar = 200.f;
     Desc.fNear = 0.1f;
     Desc.fFov = XMConvertToRadians(60.f);
     Desc.vEye = { 0.f, 0.f, 1.f };
@@ -168,10 +188,18 @@ HRESULT CViewer::CreateViewerCamera(_float fWidth, _float fHeight)
 void CViewer::RenderObejct()
 {
     _float vClearColor[4] = {0.f, 0.f, 0.f, 0.f};
-    m_pDeviceContext->ClearRenderTargetView(m_pRenderTargetTex, vClearColor);
-    m_pDeviceContext->ClearDepthStencilView(m_pDepthStencil, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+    m_pGameInstance->Begin_MRT(TEXT("MRT_PreView"), m_pDepthStencil);
 
-    m_pDeviceContext->OMSetRenderTargets(1, &m_pRenderTargetTex, m_pDepthStencil);
+    D3D11_VIEWPORT			ViewPortDesc;
+    ZeroMemory(&ViewPortDesc, sizeof(D3D11_VIEWPORT));
+    ViewPortDesc.TopLeftX = 0;
+    ViewPortDesc.TopLeftY = 0;
+    ViewPortDesc.Width = (_float)m_vViewerSize.x;
+    ViewPortDesc.Height = (_float)m_vViewerSize.y;
+    ViewPortDesc.MinDepth = 0.f;
+    ViewPortDesc.MaxDepth = 1.f;
+    m_pDeviceContext->RSSetViewports(1, &ViewPortDesc);
+
     _float4x4 m_OldVeiwMat = m_pGameInstance->GetMatrix(MAT_STATE::VIEW);
     _float4x4 m_OldProjMat = m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION);
 
@@ -180,7 +208,16 @@ void CViewer::RenderObejct()
 
     m_pGameInstance->SetMatrix(MAT_STATE::VIEW, m_OldVeiwMat);
     m_pGameInstance->SetMatrix(MAT_STATE::PROJECTION, m_OldProjMat);
-    m_pGameInstance->Set_RenderResource(0);
+    m_pGameInstance->End_MRT();
+
+    ZeroMemory(&ViewPortDesc, sizeof(D3D11_VIEWPORT));
+    ViewPortDesc.TopLeftX = 0;
+    ViewPortDesc.TopLeftY = 0;
+    ViewPortDesc.Width = m_pGameInstance->GetScreenSize().x;
+    ViewPortDesc.Height = m_pGameInstance->GetScreenSize().y;
+    ViewPortDesc.MinDepth = 0.f;
+    ViewPortDesc.MaxDepth = 1.f;
+    m_pDeviceContext->RSSetViewports(1, &ViewPortDesc);
 }
 
 void CViewer::MouseHovering()
@@ -228,9 +265,6 @@ void CViewer::Free()
     __super::Free();
     Safe_Release(m_pShaderCom);
     Safe_Release(m_pVIBufferCom);
-
-    Safe_Release(m_pViewTexture);
-    Safe_Release(m_pRenderTargetTex);
 
     Safe_Release(m_pViewerCamera);
     Safe_Release(m_pDepthStencil);

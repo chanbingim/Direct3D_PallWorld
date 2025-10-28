@@ -28,9 +28,6 @@ CGamePlayLevel::CGamePlayLevel(ID3D11Device* pDevice, ID3D11DeviceContext* pCont
 
 HRESULT CGamePlayLevel::Initialize()
 {
-	if (FAILED(ADD_Light()))
-		return E_FAIL;
-
 	if (FAILED(ADD_CameraLayer(TEXT("Layer_GamePlay_Camera"))))
 		return E_FAIL;
 
@@ -57,8 +54,9 @@ HRESULT CGamePlayLevel::Initialize()
 	if (FAILED(ADD_PellLayer(TEXT("Layer_GamePlay_Pell"))))
 		return E_FAIL;
 
-	if (FAILED(Setting_GamePlayHUD()))
-		return E_FAIL;
+	// 이거 누수나는거 UI 확인해보고 UI SKy나 UIO 둘중하나 에서 찾으면됨
+	/*if (FAILED(Setting_GamePlayHUD()))
+		return E_FAIL;*/
 
 	m_pGameInstance->ShowInGameMouse(VISIBILITY::HIDDEN);
 
@@ -255,20 +253,20 @@ HRESULT CGamePlayLevel::ADD_PellLayer(const _wstring& LayerName)
 #pragma endregion
 	
 #pragma region ElectricPanda
-	/*pChunk = pTerrainManager->Find_ChunkFromTag(TEXT("SheepBalField"));
-	vChunkCenter = pChunk->GetTransform()->GetPosition();
-	vChunkScale = pChunk->GetTransform()->GetScale();
+	pChunk = pTerrainManager->Find_ChunkFromTag(TEXT("SheepBalField"));
+	iNumCells = pChunk->GetChunckNavigation()->GetNumCells();
+
 	for (_uInt i = 0; i < 10; ++i)
 	{
 		wsprintf(Desc.ObjectTag, TEXT("ElectricPanda"));
-		_float fHalfScaleX = vChunkScale.x * 0.5f;
-		_float fHalfScaleZ = vChunkScale.x * 0.5f;
-		Desc.vPosition = { m_pGameInstance->Random(vChunkCenter.x - fHalfScaleX, vChunkCenter.x + fHalfScaleX), 1.f,
-						   m_pGameInstance->Random(vChunkCenter.z - fHalfScaleZ, vChunkCenter.z + fHalfScaleZ) };
+		Desc.vScale = { 1.f, 1.f, 1.f };
+		size_t CellIndex = m_pGameInstance->Random(0, iNumCells);
+
+		Desc.vPosition = pChunk->GetChunckNavigation()->CellCenterPos(CellIndex);
 		if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ElectricPanda"),
 			ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
 			return E_FAIL;
-	}*/
+	}
 #pragma endregion
 
 #pragma region Boss
@@ -421,7 +419,6 @@ HRESULT CGamePlayLevel::LoadPalArea()
 	CStringHelper::ConvertUTFToWide(pListData->LayerName, szLayerName);
 	m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), szLayerName, pFastTravel);
 	pTerrainManager->ADD_FastTravel(TEXT("SheepBalField"), pFastTravel);
-
 	
 	// 맵에 깔려있는 기본 오브젝트
 	if (FAILED(LoadObject("../Bin/Resources/DataFile/Map/SheepBalStage/GamePlay_Layer_Enviornment.txt", TEXT("Enviornment"))))

@@ -33,12 +33,14 @@ public:
 	CUserInterface*				GetPopUpUserInterface(_uInt iPopupID);
 	CUserInterface*				GetPreViewUserInterface(_uInt iPopupID);
 
-	void						SetBossHealthBar(void* PellInfo);
+	void						SetBossHealthBar(class CPellBase* pOwner);
 	void						HiddenBossHealthBar();
 
 	CSelectUI*					GetSelectUI();
 	void						UnActiveAllPopUp();
 	void						UnActiveAllPreView();
+
+
 
 private :
 	CInGameMenu*					m_pInGameMenu = nullptr;

@@ -37,7 +37,9 @@ public :
 	virtual		HRESULT						Render() override;
 	virtual		HRESULT						ShadowRender() override;
 	HRESULT									ShootProjecttileObject();
-	void									NearAttackOnCollision();
+	
+	void									StartAttack();
+	void									UpdateAttack();
 
 private :
 	_bool									m_LeftFlag = false;

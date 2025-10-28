@@ -111,14 +111,18 @@ CUserInterface* CGamePlayHUD::GetPreViewUserInterface(_uInt iPopupID)
 	return pair->second;
 }
 
-void CGamePlayHUD::SetBossHealthBar(void* PellInfo)
+void CGamePlayHUD::SetBossHealthBar(CPellBase*	pOwner)
 {
-	m_pBossHealthbar->SetBossInfo(PellInfo);
+	if (m_pBossHealthbar->GetUIOwnerBoss() == pOwner)
+		return;
+
+	m_pBossHealthbar->SetVisibility(VISIBILITY::VISIBLE);
+	m_pBossHealthbar->SetBossInfo(pOwner);
 }
 
 void CGamePlayHUD::HiddenBossHealthBar()
 {
-	m_pBossHealthbar->SetVisibility(VISIBILITY::HIDDEN);
+	m_pBossHealthbar->UnActive();
 }
 
 CSelectUI* CGamePlayHUD::GetSelectUI()

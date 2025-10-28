@@ -98,7 +98,7 @@ HRESULT CPlayerItemSlot::ShadowRender()
 		Apply_ConstantShaderResources(i);
 		Apply_ShadowShaderResources();
 
-		true == m_bIsAnimWeapon ? m_pShaderCom->Update_Shader(3) : m_pNoneAimShader->Update_Shader(3);
+		true == m_bIsAnimWeapon ? m_pShaderCom->Update_Shader(1) : m_pNoneAimShader->Update_Shader(3);
 		m_pVIBufferCom->Render(i);
 	}
 

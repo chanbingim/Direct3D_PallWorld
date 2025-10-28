@@ -1,6 +1,7 @@
 #include "AiSenceComponent.h"
 
 #include "GameInstance.h"
+#include "FastTravelObject.h"
 #include "Level.h"
 
 CAiSenceComponent::CAiSenceComponent(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
@@ -39,6 +40,21 @@ HRESULT CAiSenceComponent::Initialize(void* pArg)
 void CAiSenceComponent::UpdatSenceComponent(_float fDeletaTime)
 {
     _float4x4   vWorldMat = m_pOwner->GetTransform()->GetWorldMat();
+    _float3     vOwnerPosition = m_pOwner->GetTransform()->GetPosition();
+
+    for (auto pObject = m_pSearchList.begin(); pObject != m_pSearchList.end();)
+    {
+        _float3 vObejctPos = (*pObject)->GetTransform()->GetPosition();
+        _float vTargetDistance = XMVectorGetX(XMVector3Length(XMLoadFloat3(&vObejctPos) - XMLoadFloat3(&vOwnerPosition)));
+        if (vTargetDistance >= 1000.f)
+        {
+            TargetLost({}, (*pObject));
+            pObject = m_pSearchList.erase(pObject);
+        }
+        else
+            pObject++;
+    }
+
     m_pTargetSearchCol->UpdateColiision(XMLoadFloat4x4(&vWorldMat));
     m_pGameInstance->ADD_CollisionList(m_pTargetSearchCol);
 }
@@ -60,6 +76,9 @@ void CAiSenceComponent::Bind_TargetDetected(function<void(CGameObject*)> Func)
 
 void CAiSenceComponent::TargetSearch(_float3 vDir, CGameObject* pHitObject)
 {
+    if (pHitObject == m_pOwner)
+        return;
+
     if(nullptr != m_TargetDetectedFunc)
         m_TargetDetectedFunc(pHitObject);
 
@@ -104,6 +123,7 @@ HRESULT CAiSenceComponent::ADD_Components()
     SphereDesc.vCneter = {0.f, SphereDesc.Radius * 0.5f, 0.f};
 
     m_pTargetSearchCol = static_cast<CCollision *>(m_pGameInstance->Clone_Prototype(OBJECT_ID::COMPONENT, ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionSphere"), &SphereDesc));
+    m_pTargetSearchCol->ADD_IgnoreObejct(typeid(CFastTravelObject).hash_code());
 
     m_pTargetSearchCol->BindOverlappingEvent([this](_float3 vDir, CGameObject* pHitActor) { TargetSearch(vDir, pHitActor); });
     m_pTargetSearchCol->BindEndOverlapEvent([this](_float3 vDir, CGameObject* pHitActor) { TargetLost(vDir, pHitActor); });

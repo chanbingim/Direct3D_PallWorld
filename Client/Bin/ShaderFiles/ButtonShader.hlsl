@@ -84,7 +84,7 @@ PS_OUT PS_AlphaBlendAddColor(PS_IN In)
     if (vBackTex.a < 0.4f)
         discard;
    
-    Out.vColor = float4(vFrontTex.xyz, g_fAlpha);
+    Out.vColor = vFrontTex * g_vColor;
     return Out;
 }
 

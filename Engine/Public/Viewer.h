@@ -57,12 +57,7 @@ protected :
 protected:
 	CVIBuffer_Rect*							m_pVIBufferCom = nullptr;
 	CShader*								m_pShaderCom = nullptr;
-
-	ID3D11RenderTargetView*					m_pRenderTargetTex = nullptr;
 	ID3D11DepthStencilView*					m_pDepthStencil = nullptr;
-
-	ID3D11ShaderResourceView*				m_pViewTexture = nullptr;
-
 
 	// 카메라도 보관해두자
 	CBaseCamera*							m_pViewerCamera = nullptr;
@@ -71,9 +66,10 @@ protected:
 	CGameObject*							m_pViewObject = nullptr;
 
 	_float									m_fCameraDistance;
+	_float2									m_vViewerSize = {};
 
 private :
-	HRESULT									CreateViewTexture();
+	HRESULT									CreateViewTexture(_uInt iSizeX, _uInt iSizeY);
 	HRESULT									CreateViewerCamera(_float fWidth = 0, _float fHeight = 0);
 
 private :

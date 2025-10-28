@@ -1,5 +1,5 @@
 Electirc_Ball_Effect
 3
-Electirc_Ball_Part2
-Eelectric_Ball_Par3
 Electric_Ball_Part1
+Electirc_Ball_Part2
+Eelectric_Ball_Part3

@@ -56,9 +56,15 @@ HRESULT CBedCatBody::Render()
     for (_uInt i = 0; i < iNumMeshes; ++i)
     {
         Apply_ConstantShaderResources(i);
+        if(m_bIsDissolve)
+        {
+            auto pNoiseTex = m_pGameInstance->GetTextureResource(TEXT("T_Default_Noise.png"));
+            m_pShaderCom->Bind_SRV("g_DissolveTexture", pNoiseTex->GetTexture(0));
+            m_pShaderCom->Bind_RawValue("g_bIsDissolve", &m_bIsDissolve, sizeof(_bool));
+            m_pShaderCom->Bind_RawValue("g_fDissloveTime", &m_fAccDissolveTime, sizeof(_float));
+        }
 
         m_pShaderCom->Update_Shader(0);
-
         m_pVIBufferCom->Render(i);
     }
 

@@ -101,7 +101,7 @@ void CEarthquake::HitOverlapEvent(_float3 vDir, CGameObject* pGameObject)
     auto pPlayer = dynamic_cast<CPlayer*>(pGameObject);
     if (pPlayer)
     {
-        if (ACTOR_TEAM::FRENDLY == m_pOwner->GetPellTeam())
+        if (ACTOR_TEAM::FRENDLY == static_cast<CPellBase*>(m_pOwner)->GetPellTeam())
             return;
         else
             __super::HitOverlapEvent(vDir, pGameObject);
@@ -110,7 +110,7 @@ void CEarthquake::HitOverlapEvent(_float3 vDir, CGameObject* pGameObject)
     auto pPellBase = dynamic_cast<CPellBase*>(pGameObject);
     if (pPellBase)
     {
-        if (pPellBase->GetPellTeam() == m_pOwner->GetPellTeam())
+        if (pPellBase->GetPellTeam() == static_cast<CPellBase*>(m_pOwner)->GetPellTeam())
             return;
         else
             __super::HitOverlapEvent(vDir, pGameObject);
