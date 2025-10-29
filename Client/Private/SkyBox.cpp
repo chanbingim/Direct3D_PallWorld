@@ -1,6 +1,7 @@
 #include "SkyBox.h"
 
 #include "GameInstance.h"
+#include "SunLight.h"
 
 CSkyBox::CSkyBox(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 	CNoneAnimMesh(pDevice, pContext)
@@ -25,9 +26,7 @@ HRESULT CSkyBox::Initialize(void* pArg)
 	if (FAILED(ADD_Components()))
 		return E_FAIL;
 
-	if (FAILED(Bind_ShaderResources()))
-		return E_FAIL;
-
+	m_pSunLight = static_cast<CSunLight*>(m_pGameInstance->GetAllObejctToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("GamePlay_Layer_Dir_Light"))->front());
 	m_pTransformCom->SetScale({ 2.f, 2.f, 2.f });
 	return S_OK;
 }
@@ -41,6 +40,18 @@ void CSkyBox::Priority_Update(_float fDeletaTime)
 
 void CSkyBox::Update(_float fDeletaTime)
 {
+	switch (m_pSunLight->GetDay())
+	{
+	case CSunLight::DAY_TYPE::MORNING :
+	case CSunLight::DAY_TYPE::LUNCH:
+		m_iSkyBoxIndex = 0;
+		break;
+
+	case CSunLight::DAY_TYPE::NIGHT:
+	case CSunLight::DAY_TYPE::DAWN:
+		m_iSkyBoxIndex = 1;
+		break;
+	}
 }
 
 void CSkyBox::Late_Update(_float fDeletaTime)
@@ -59,32 +70,29 @@ HRESULT CSkyBox::Render()
 		m_pVIBufferCom->Render(i);
 	}
 
-	return S_OK;
-}
+	if (0 == m_iSkyBoxIndex)
+	{
+		for (_uInt i = 0; i < iNumMeshes; ++i)
+		{
+			m_pShaderCom->Update_Shader(0);
+			m_pVIBufferCom->Render(i);
+		}
+	}
+	
 
-HRESULT CSkyBox::Bind_ShaderResources()
-{
-	if (nullptr == m_pShaderCom)
-		return E_FAIL;
 
-	m_pEMVWorldMat = m_pShaderCom->GetVariable("g_WorldMatrix")->AsMatrix();
-	m_pEMVViewMat = m_pShaderCom->GetVariable("g_ViewMatrix")->AsMatrix();
-	m_pEMVProjMat = m_pShaderCom->GetVariable("g_ProjMatrix")->AsMatrix();
-	m_pSRVEffect = m_pShaderCom->GetVariable("g_DiffuseTexture")->AsShaderResource();
 
 	return S_OK;
 }
 
 HRESULT CSkyBox::Apply_ConstantShaderResources(_uInt iMeshIndex)
 {
-	m_pEMVWorldMat->SetMatrix(reinterpret_cast<const float*>(&m_pTransformCom->GetWorldMat()));
-	m_pEMVViewMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::VIEW)));
-	m_pEMVProjMat->SetMatrix(reinterpret_cast<const float*>(&m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION)));
+	m_pShaderCom->Bind_Matrix("g_WorldMatrix", &m_pTransformCom->GetWorldMat());
+	m_pShaderCom->Bind_Matrix("g_ViewMatrix", &m_pGameInstance->GetMatrix(MAT_STATE::VIEW));
+	m_pShaderCom->Bind_Matrix("g_ProjMatrix", &m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION));
 
-	ID3D11ShaderResourceView* pResourceVeiw = {};
-	m_pVIBufferCom->GetMeshResource(iMeshIndex, aiTextureType_DIFFUSE, 0, &pResourceVeiw);
-	if (pResourceVeiw)
-		m_pSRVEffect->SetResource(pResourceVeiw);
+	m_pShaderCom->Bind_SRV("g_DiffuseTexture", m_pBaseTextureCom->GetTexture(m_iSkyBoxIndex));
+	m_pShaderCom->Bind_SRV("g_CloudsMaskTexture", m_pCloudsMaskTextureCom->GetTexture(0));
 
 	return S_OK;
 }
@@ -95,8 +103,16 @@ HRESULT CSkyBox::ADD_Components()
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Sky"), TEXT("VIBuffer_Com"), (CComponent**)&m_pVIBufferCom)))
 		return E_FAIL;
 
-	// NonAnimShader
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_SkyMesh"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
+	// Shader
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Sky_Box_Shader"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
+		return E_FAIL;
+
+	// BaseTexture
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Sky_Mesh_BackGround"), TEXT("BaseTex_Com"), (CComponent**)&m_pBaseTextureCom)))
+		return E_FAIL;
+
+	// Clouds Mask Texture
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Sky_Mesh_Clouds_M"), TEXT("Cloud_MaskTex_Com"), (CComponent**)&m_pCloudsMaskTextureCom)))
 		return E_FAIL;
 
 	return S_OK;
@@ -127,4 +143,7 @@ CGameObject* CSkyBox::Clone(void* pArg)
 void CSkyBox::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_pBaseTextureCom);
+	Safe_Release(m_pCloudsMaskTextureCom);
 }

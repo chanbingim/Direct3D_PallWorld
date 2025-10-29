@@ -120,15 +120,19 @@ HRESULT CGamePlayLevel::ADD_SkyLayer(const _wstring& LayerName)
 	ZeroMemory(&Desc, sizeof(CGameObject::GAMEOBJECT_DESC));
 	Desc.vScale = { 1.f, 1.f, 1.f };
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CubeSkyBox"),
-		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
-		return E_FAIL;
+	//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_CubeSkyBox"),
+	//	ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
+	//	return E_FAIL;
 
 	CSunLight::SUN_LIGHT_DESC SunLightDesc = {};
 	SunLightDesc.fRadius = 150.f;
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GamePlay_SunLight"),
 		ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("GamePlay_Layer_Dir_Light"), &SunLightDesc)))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_SkyBox"),
+		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
 		return E_FAIL;
 
 	CShadowCamera::SHADOW_CAMERA_DESC ShadowCameraDesc = {};

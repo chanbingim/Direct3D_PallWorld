@@ -1034,6 +1034,15 @@
     <Filter Include="03. Objects\MeshObject\AnimMesh\Character\Player\Architecture">
       <UniqueIdentifier>{45ba8e11-6419-449c-b515-6d544e93bea0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader\Sky">
+      <UniqueIdentifier>{7ca53657-0bc2-4bfe-a3b4-5d3e73e4c12d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\Sky\Cube">
+      <UniqueIdentifier>{46f55196-3217-4395-9662-14311fe5b886}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\Sky\Mesh">
+      <UniqueIdentifier>{2ec91591-cd09-4b9c-ac23-6a2818c2bf00}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -2782,7 +2791,10 @@
       <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxCube.hlsl">
-      <Filter>Shader</Filter>
+      <Filter>Shader\Sky\Cube</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\VTX_SkyMesh.hlsl">
+      <Filter>Shader\Sky\Mesh</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

@@ -372,6 +372,18 @@ HRESULT CLoader::Loading_For_GamePlay()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Sky_Cube"),
 		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Textures/Map/SkyBox/Sky.dds"), 1))))
 		return E_FAIL;
+
+#pragma region Sky_Mesh_Tex
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Sky_Mesh_BackGround"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Models/Sky/T_Sky_%d.dds"), 2))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Texture_Sky_Mesh_Clouds_M"),
+		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Models/Sky/T_Sky_Clouds_M.png"), 1))))
+		return E_FAIL;
+
+#pragma endregion
+
 #pragma endregion
 
 #pragma region FastTravelBackGround
@@ -619,9 +631,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma endregion
 
 #pragma region SKY_Model
+
 	/* VIBuffer  Clothes2 MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Sky"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Sky/SM_Raid_Sky_01.dat"))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Sky/Sky.fbx", PreModelMat))))
 		return E_FAIL;
 #pragma endregion
 
@@ -890,7 +903,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CVIBuffer_Model_Instance::Create(m_pDevice, m_pContext, &InstanceModelDesc))))
 		return E_FAIL;
 #pragma endregion
-
 
 #pragma region Viliage
 	/* VIBuffer  Viliage House1 Component */

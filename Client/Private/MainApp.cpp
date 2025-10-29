@@ -217,6 +217,10 @@ HRESULT CMainApp::SetUp_StaticComponents()
 		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_DEFAULT_INSTANCE_DESC::Elements, VTX_DEFAULT_INSTANCE_DESC::iNumElements, TEXT("../Bin/ShaderFiles/VTX_InstnacePoint.hlsl")))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Sky_Box_Shader"),
+		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_MESH::Elements, VTX_MESH::iNumElements, TEXT("../Bin/ShaderFiles/VTX_SkyMesh.hlsl")))))
+		return E_FAIL;
+
 #pragma region Button Shader & Select Tri
 	/* Button Shader */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Button"),
@@ -228,7 +232,6 @@ HRESULT CMainApp::SetUp_StaticComponents()
 		CShader::Create(m_pGraphic_Device, m_pDevice_Context, VTX_TEX::Elements, VTX_TEX::iNumElements, TEXT("../Bin/ShaderFiles/SelectTriShader.hlsl")))))
 		return E_FAIL;
 #pragma endregion
-
 
 #pragma endregion
 

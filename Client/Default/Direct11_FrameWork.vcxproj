@@ -759,6 +759,7 @@
     <FxCompile Include="..\Bin\ShaderFiles\VTX_InstnacePoint.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\VTX_Mesh.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\VTX_NorTex.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\VTX_SkyMesh.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\WorldUI.hlsl" />
   </ItemGroup>
   <ItemGroup>

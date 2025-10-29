@@ -2,7 +2,13 @@
 #include "Client_Define.h"
 #include "NoneAnimMesh.h"
 
+NS_BEGIN(Engine)
+class CTexture;
+NS_END
+
 NS_BEGIN(Client)
+class CSunLight;
+
 class CSkyBox : public  CNoneAnimMesh
 {
 protected:
@@ -24,8 +30,14 @@ public:
 	virtual		HRESULT						Render();
 
 protected:
-	virtual		HRESULT						Bind_ShaderResources() override;
 	virtual		HRESULT						Apply_ConstantShaderResources(_uInt iMeshIndex) override;
+
+private :
+	_uInt									m_iSkyBoxIndex = {};
+	const	CSunLight*						m_pSunLight = nullptr;
+
+	CTexture*								m_pBaseTextureCom = nullptr;
+	CTexture*								m_pCloudsMaskTextureCom = nullptr;
 
 private :
 	HRESULT									ADD_Components();

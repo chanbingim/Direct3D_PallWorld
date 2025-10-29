@@ -42,6 +42,7 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 	const		_float4						GetDireaction() const; 
+	const		DAY_TYPE					GetDay() const { return m_eDayType; }
 
 protected:
 	virtual		HRESULT						Apply_ConstantShaderResources() override;
