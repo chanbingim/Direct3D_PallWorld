@@ -1,0 +1,3 @@
+Hit_Effect_2
+1
+Hit_Effect2_Part

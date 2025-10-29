@@ -110,16 +110,16 @@ PS_OUT PS_Distotion(PS_IN In)
 {
     PS_OUT Out;
     
-    float2 vTexcoord = In.vTexcoord + g_fDistotionAccTime / g_fLifeTime;
-    vector vNoiseTexture = g_NoiseTexture.Sample(DefaultSampler, vTexcoord);
+    float2 vDefaultTexcoord = In.vTexcoord + g_fDistotionAccTime / g_fLifeTime;
+    vector vNoiseTexture = g_NoiseTexture.Sample(DefaultSampler, vDefaultTexcoord);
     
-    vTexcoord = ComputeUV(vNoiseTexture.rg, true, 0, 0);
-    vTexcoord = In.vTexcoord + vTexcoord * g_fNoiseStLength + g_fDistotionAccTime / g_fLifeTime;;
+    float2 vNoiseTexcoord = ComputeUV(vNoiseTexture.rg, true, 0, 0);
+    vNoiseTexcoord = In.vTexcoord + vNoiseTexcoord * g_fNoiseStLength;
     
-    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, vTexcoord);
+    vector vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, vNoiseTexcoord);
     vMtrlDiffuse = ComputeColor(vMtrlDiffuse, g_vColor, 1);
     
-    float fMask = g_MaskTexture.Sample(DefaultSampler, vTexcoord).r;
+    float fMask = g_MaskTexture.Sample(DefaultSampler, vDefaultTexcoord).r;
     vMtrlDiffuse.a *= fMask;
     
     if (g_bIsDissolve)
@@ -131,7 +131,7 @@ PS_OUT PS_Distotion(PS_IN In)
     else
     {
         if (g_bIsLerp)
-            vMtrlDiffuse.a = ComputeAlpha(vMtrlDiffuse, g_fLifeAccTime / g_fLifeTime, g_AlphaLerpType, vTexcoord);
+            vMtrlDiffuse.a = ComputeAlpha(vMtrlDiffuse, g_fLifeAccTime / g_fLifeTime, g_AlphaLerpType, vDefaultTexcoord);
     }
     
     Out.vDiffuse = vMtrlDiffuse;

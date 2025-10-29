@@ -382,7 +382,7 @@ void CIMG_EffectTool::EffectDataEditor()
 	}
 	if (ImGui::InputFloat3("EFFECT_ROTATION", m_vRotation))
 	{
-		m_EffectDesc.vPosition = { XMConvertToRadians(m_vRotation[0]),
+		m_EffectDesc.vRotation = { XMConvertToRadians(m_vRotation[0]),
 									XMConvertToRadians(m_vRotation[1]),
 									XMConvertToRadians(m_vRotation[2]) };
 	}
@@ -437,7 +437,7 @@ void CIMG_EffectTool::EffectDataEditor()
 				m_EffectDesc.eType = EFFECT_TYPE(i);
 			}
 		}
-
+		
 		ImGui::EndCombo();
 	}
 

@@ -1,0 +1,4 @@
+fIRE_Effect
+2
+Effect_Fire_Part1
+Effect_Fire_Part2

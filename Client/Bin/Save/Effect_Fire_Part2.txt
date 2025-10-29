@@ -1,0 +1,31 @@
+Effect_Fire_Part2
+0 0 0 
+-0 0 0 
+5.5 5.5 1 
+0
+0 0 0 
+0 0 0 
+0 0 0 
+2
+0
+0
+1
+0.5
+T_Smoke21.png
+None
+0 0
+0
+0
+None
+0
+1
+8 8
+0
+T_Smoke21.png
+Effect_VIRect_Shader
+VI_Rect
+0
+0
+None
+1 0.25098 0 1
+1

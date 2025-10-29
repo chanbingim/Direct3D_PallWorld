@@ -1,0 +1,31 @@
+Hit_Effect2_Part
+0 0 0 
+-0 0 0 
+5.5 5.5 1 
+0
+0 0 0 
+0 0 0 
+0 0 0 
+2
+0
+0
+1
+1.2
+T_Default_Noise03.png
+None
+0 0
+0
+0
+None
+0
+1
+2 2
+0
+T_Hit01Sheet.png
+Effect_VIRect_Shader
+VI_Rect
+0
+0
+None
+1 0.27451 0.137255 1
+0

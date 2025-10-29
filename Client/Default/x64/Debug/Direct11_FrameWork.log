@@ -37,4 +37,17 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
   IMG_EffectTool.cpp
 C:\Git\GitHub\Direct3D_PallWorld\Client\private\IMG_EffectTool.cpp(503,88): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
 C:\Git\GitHub\Direct3D_PallWorld\Client\private\IMG_EffectTool.cpp(505,74): warning C4305: '인수': 'double'에서 'float'(으)로 잘립니다.
+ButtonArrow.obj : warning LNK4099: '' PDB를 'ButtonArrow.obj' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+ItemTooltip.obj : warning LNK4099: '' PDB를 'ItemTooltip.obj' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+ObjectAnimComponent.obj : warning LNK4099: '' PDB를 'ObjectAnimComponent.obj' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+KeyIcon.obj : warning LNK4099: '' PDB를 'KeyIcon.obj' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+PellInfoHealthbar.obj : warning LNK4099: '' PDB를 'PellInfoHealthbar.obj' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+PellInfoNameUI.obj : warning LNK4099: '' PDB를 'PellInfoNameUI.obj' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+imgui.obj : warning LNK4099: '' PDB를 'imgui.obj' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+imgui_demo.obj : warning LNK4099: '' PDB를 'imgui_demo.obj' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+imgui_draw.obj : warning LNK4099: '' PDB를 'imgui_draw.obj' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+imgui_impl_dx11.obj : warning LNK4099: '' PDB를 'imgui_impl_dx11.obj' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+imgui_impl_win32.obj : warning LNK4099: '' PDB를 'imgui_impl_win32.obj' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+imgui_tables.obj : warning LNK4099: '' PDB를 'imgui_tables.obj' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
+imgui_widgets.obj : warning LNK4099: '' PDB를 'imgui_widgets.obj' 또는 ''에서 찾을 수 없습니다. 디버그 정보가 없는 것처럼 개체를 링크합니다.
   Direct11_FrameWork.vcxproj -> C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe
