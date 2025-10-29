@@ -54,12 +54,15 @@ protected:
 	_bool									m_bIsHitTick = {};
 
 	CCollision*								m_pCollision = nullptr;
+	_bool									m_bIsDissolve = false;
 	list<CGameObject*>						m_pSkillEffects = {};
 
 protected :
 	virtual			void					HitOverlapEvent(_float3 vDir, CGameObject* pHitObject);
 	virtual			void					HitOverlapping(_float3 vDir, CGameObject* pHitObject);
 	virtual			void					HitOverlapEnd(_float3 vDir, CGameObject* pHitObject);
+
+	void									EffectDead();
 
 public:
 	virtual			CGameObject*			Clone(void* pArg) override;

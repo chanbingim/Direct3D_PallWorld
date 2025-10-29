@@ -42,6 +42,7 @@ public :
 	void									UpdateAttack();
 
 private :
+	_uInt									m_iSelectWeaponType = {};
 	_bool									m_LeftFlag = false;
 	const _float4x4*						m_pLeftSocket = nullptr;
 

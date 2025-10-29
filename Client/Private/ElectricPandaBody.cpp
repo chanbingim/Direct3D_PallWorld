@@ -94,27 +94,27 @@ HRESULT CElectricPandaBody::ShootProjecttileObject()
     if (-1 == m_iSkillIndex)
         return E_FAIL;
 
+    _float3 vScale = m_pTransformCom->GetScale();
+    _float3 vPosition = m_pParent->GetTransform()->GetPosition();
+
+    _vector vLook = m_pTransformCom->GetLookVector();
+    _vector vRight = m_pTransformCom->GetRightVector();
+    vLook *= vScale.z * 0.5f;
+
+    CPellBase* pOwner = static_cast<CPellBase*>(m_pParent);
+    CCombatComponent* pCombatCom = static_cast<CCombatComponent*>(pOwner->Find_Component(TEXT("Combat_Com")));
+
+    _float3 vTargetPoint = pCombatCom->GetCurrentTarget()->GetTransform()->GetPosition();
+    _vector vCalPostion = XMLoadFloat3(&vPosition);
+    vRight *= m_pGameInstance->Random(3.f, 5.f);
+
     CSkillObjectBase::SKILL_OBJECT_DESC SkillDesc = {};
     SkillDesc.vScale = { 1.f, 1.f, 1.f };
+    SkillDesc.pOwner = static_cast<CPellBase*>(m_pParent);
     //여기서 이펙트 생성해서 넘기기
     if (7 == m_iSkillIndex)
     {
-        _float3 vScale = m_pTransformCom->GetScale();
-        _float3 vPosition = m_pParent->GetTransform()->GetPosition();
-
-        _vector vLook = m_pTransformCom->GetLookVector();
-        _vector vRight = m_pTransformCom->GetRightVector();
-        vLook *= vScale.z * 0.5f;
-
-        CPellBase* pOwner = static_cast<CPellBase*>(m_pParent);
-        CCombatComponent* pCombatCom = static_cast<CCombatComponent*>(pOwner->Find_Component(TEXT("Combat_Com")));
-
-        _vector vCalPostion = XMLoadFloat3(&vPosition);
-        vRight *= m_pGameInstance->Random(3.f, 5.f);
-
-        SkillDesc.pOwner = static_cast<CPellBase*>(m_pParent);
-        _float3 vTargetPoint = pCombatCom->GetCurrentTarget()->GetTransform()->GetPosition();
-        XMStoreFloat3(&SkillDesc.vTargetDir, XMVector3Normalize(XMLoadFloat3(&vTargetPoint) - vCalPostion));
+        XMStoreFloat3(&SkillDesc.vTargetDir, XMVector3Normalize(XMLoadFloat3(&vTargetPoint) - XMLoadFloat3(&SkillDesc.vPosition)));
         XMStoreFloat3(&SkillDesc.vPosition, vCalPostion + vLook + vRight);
         SkillDesc.vPosition.y += m_pGameInstance->Random(0.5f, 1.5f);
         if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ElectricBall"),
@@ -122,9 +122,8 @@ HRESULT CElectricPandaBody::ShootProjecttileObject()
             return E_FAIL;
 
         XMStoreFloat3(&SkillDesc.vPosition, vCalPostion + vLook - vRight);
+        XMStoreFloat3(&SkillDesc.vTargetDir, XMVector3Normalize(XMLoadFloat3(&vTargetPoint) - XMLoadFloat3(&SkillDesc.vPosition)));
         SkillDesc.vPosition.y += m_pGameInstance->Random(0.5f, 1.5f);
-        SkillDesc.pOwner = static_cast<CPellBase*>(m_pParent);
-
         if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ElectricBall"),
             ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_GamePlay_Effect"), &SkillDesc)))
             return E_FAIL;

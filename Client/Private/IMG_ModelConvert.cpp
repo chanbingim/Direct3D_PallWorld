@@ -64,6 +64,12 @@ void CIMG_ModelConvert::UpdateCurrentModelList()
 	auto CurLevelLayers = m_pGameInstance->GetCurLevelLayer();
 	_uInt CurLevelID = m_pGameInstance->GetCurrentLevel()->GetLevelID();
 	m_pGameInstance->GetPrototypeList<CModel>(CurLevelID, &m_ShowGameObject);
+
+	for (auto pair : *m_pGameInstance->GetALLModelResource())
+	{
+		m_ShowGameObject.push_back(make_pair(pair.first, static_cast<CModel*>(pair.second)));
+	}
+
 }
 
 void CIMG_ModelConvert::DrawConvertUI()

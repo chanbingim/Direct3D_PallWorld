@@ -17,6 +17,7 @@
 #include "PellSkillManager.h"
 
 #include "FastTravelObject.h"
+#include "GrassMommothBody.h"
 #include "PellBody.h"
 
 CGreenMommoth::CGreenMommoth(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
@@ -55,6 +56,7 @@ HRESULT CGreenMommoth::Initialize(void* pArg)
     m_eTeam = ACTOR_TEAM::BOSS;
 
     m_PellInfo.PartnerSkillList.push_back(*CPellSkillManager::GetInstance()->FindPellData(5));
+    m_PellInfo.PartnerSkillList.push_back(*CPellSkillManager::GetInstance()->FindPellData(8));
     return S_OK;
 }
 
@@ -63,7 +65,6 @@ void CGreenMommoth::Priority_Update(_float fDeletaTime)
     CContainerObject::Priority_Update(fDeletaTime);
     auto PellState = m_pPellFsm->GetState();
 
-
     m_pCombatCom->UpdateTarget();
     m_pPellFsm->Update(fDeletaTime);
     auto pTarget = m_pCombatCom->GetCurrentTarget();
@@ -71,7 +72,39 @@ void CGreenMommoth::Priority_Update(_float fDeletaTime)
     {
         _float3 vTargetPos = pTarget->GetTransform()->GetPosition();
         _vector vCalTargetPos = XMLoadFloat3(&vTargetPos);
-        m_pTransformCom->LerpTurn(m_pTransformCom->GetUpVector(), vCalTargetPos, XMConvertToRadians(180.f), fDeletaTime);
+      
+        switch (PellState.eCombat_State)
+        {
+        case CPellStateMachine::COMBAT_ACTION::DEAD:
+        {
+            _uInt iPhase = m_pPellFsm->GetStatePhase(TEXT("CombatLayer"));
+            switch (iPhase)
+            {
+            case 0:
+                if (m_pPellBody->FinishedAnimation())
+                {
+                    m_pPellFsm->NextStatePhase(TEXT("CombatLayer"));
+                    m_bIsLoop = true;
+                    m_fAccActionTime = 0.0f;
+                }
+                break;
+            case 1:
+                //여기서 나중에  죽음 이펙트 실행하고 그다음 true로 만들어서 삭제
+                m_pPellBody->UpdateDissolve(0.1f);
+                if (m_pPellBody->FinishedDissolve())
+                {
+                    auto pGamePlayHUD = static_cast<CGamePlayHUD*>(m_pGameInstance->GetCurrentHUD());
+                    pGamePlayHUD->HiddenBossHealthBar();
+                    m_IsDead = true;
+                }
+                break;
+            }
+        }
+        break;
+        default :
+            m_pTransformCom->LerpTurn(m_pTransformCom->GetUpVector(), vCalTargetPos, XMConvertToRadians(180.f), fDeletaTime);
+            break;
+        }
 
         if (false == m_pPellFsm->GetState().bIsAttacking)
         {
@@ -91,12 +124,10 @@ void CGreenMommoth::Priority_Update(_float fDeletaTime)
                     m_pPellFsm->CombatStateReset();
                     m_pPellFsm->ChangeState(TEXT("Body_Layer"), TEXT("Idle"));
                     break;
-                case CPellStateMachine::COMBAT_ACTION::DEAD :
-                    SetDead(true);
-                    break;
                 }
             }
         }
+       
     }
 
     m_pNevigation->ComputeHeight(m_pTransformCom, false);
@@ -106,7 +137,7 @@ void CGreenMommoth::Priority_Update(_float fDeletaTime)
 void CGreenMommoth::Update(_float fDeletaTime)
 {
     _bool      bIsAnimLoop = {};
-    if(CPellStateMachine::COMBAT_ACTION::END != m_pPellFsm->GetState().eCombat_State)
+    if (CPellStateMachine::COMBAT_ACTION::END != m_pPellFsm->GetState().eCombat_State)
         bIsAnimLoop = m_pPellFsm->GetLayerAnimLoop(TEXT("CombatLayer"));
     else
         bIsAnimLoop = m_pPellFsm->GetLayerAnimLoop(TEXT("Body_Layer"));
@@ -153,11 +184,18 @@ void CGreenMommoth::CombatAction(_float fDeletaTime, CGameObject* pTarget)
         AttackDesc.fSkillMoveSpeed = &m_fPellMoveSpeed;
         AttackDesc.IsSpaceOut = false;
         m_bIsAction = true;
-        if (fDistance < 15.f)
+        if (fDistance < m_PellInfo.fPellAttackRange * 0.5f)
             AttackDesc.AttackData = &m_PellInfo.DefaultSkill;
         else
-            AttackDesc.AttackData = &m_PellInfo.PartnerSkillList[0];
-        
+        {
+            _uInt iSkillIndex = m_PellInfo.PartnerSkillList.size();
+            if (0 < iSkillIndex)
+            {
+                _uInt iRandomIndex = static_cast<_Int>(m_pGameInstance->Random(0, 100.f)) % iSkillIndex;
+                AttackDesc.AttackData = &m_PellInfo.PartnerSkillList[iRandomIndex];
+                static_cast<CGrassMommothBody*>(m_pPellBody)->SetSelectSkillIndex(AttackDesc.AttackData->iSkillID);
+            }
+        }
 
         m_pPellFsm->ChangeState(TEXT("CombatLayer"), TEXT("Attack"), &AttackDesc);
         m_pPellFsm->SetAttack(true);

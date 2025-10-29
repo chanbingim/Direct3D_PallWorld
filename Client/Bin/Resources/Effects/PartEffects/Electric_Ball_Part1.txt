@@ -23,7 +23,7 @@ T_Cloud_00.png
 0
 T_Thunder04.png
 Effect_Model_Shader
-Sphere.fbx
+Sphere.dat
 1
 1
 T_Default_Noise02.png

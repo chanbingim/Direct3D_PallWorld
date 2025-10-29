@@ -23,7 +23,7 @@ T_Crack02.png
 0
 T_Wind01.png
 Effect_Model_Shader
-Tornado.fbx
+Tornado.dat
 1
 1
 T_Crack02.png

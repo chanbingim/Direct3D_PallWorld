@@ -23,7 +23,7 @@ T_Aura02.png
 0
 T_Thunder01.png
 Effect_Model_Shader
-Sphere2In.fbx
+Sphere2In.dat
 1
 1
 T_Cloud_00.png

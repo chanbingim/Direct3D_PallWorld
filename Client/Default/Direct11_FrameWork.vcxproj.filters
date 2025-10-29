@@ -1906,6 +1906,9 @@
     <ClInclude Include="..\public\GrassLeave.h">
       <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Grass\Grass03</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\FireBall.h">
+      <Filter>07. Effect\Mesh Effect\Skill\FireBall</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -2745,6 +2748,9 @@
     </ClCompile>
     <ClCompile Include="..\private\GrassLeave.cpp">
       <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Grass\Grass03</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\FireBall.cpp">
+      <Filter>07. Effect\Mesh Effect\Skill\FireBall</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -21,17 +21,17 @@ public:
 
 	// ·£´õ
 	virtual		HRESULT						Render() override;
-
+	void									SetSelectSkillIndex(_uInt iIndex) { m_iSkillIndex = iIndex; }
 private :
 	_float									m_ProjectileSocketDistance = {};
+	_float									m_iSkillIndex = {};
 
 private:
 	HRESULT									ADD_Components();
 	HRESULT									Insert_AnimKeyFrameFunction();
 
-private :
 	void									EarthquakeEvent();
-	void									FarSkillEvent();
+	HRESULT									FarSkillEvent();
 
 public:
 	static			CGrassMommothBody*		Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

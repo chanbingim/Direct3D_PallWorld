@@ -61,10 +61,10 @@ HRESULT CMainApp::Initialize_MainApp()
 	CPellBoxManager::GetInstance()->Initialize_Manager();
 #pragma endregion
 
-//#ifdef _DEBUG
-//	if (FAILED(SetUp_DebugWindow()))
-//		return E_FAIL;
-//#endif // _DEBUG
+#ifdef _DEBUG
+	if (FAILED(SetUp_DebugWindow()))
+		return E_FAIL;
+#endif // _DEBUG
 
 
 	return S_OK;
@@ -72,19 +72,19 @@ HRESULT CMainApp::Initialize_MainApp()
 
 void CMainApp::Run(_float fDeletaTime)
 {
-//#ifdef _DEBUG
-//	m_pGameInstance->Set_RenderResource(0);
-//#endif // _DEBUG
+#ifdef _DEBUG
+	m_pGameInstance->Set_RenderResource(0);
+#endif // _DEBUG
 	Update(fDeletaTime);
 	Render();
 
-//#ifdef _DEBUG
-//	if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_5))
-//		m_pGameInstance->Set_RenderResource(0);
-//	else
-//		m_pGameInstance->Set_RenderResource(1);
-//	m_pDebugApp->Run(fDeletaTime);
-//#endif // _DEBUG
+#ifdef _DEBUG
+	if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_5))
+		m_pGameInstance->Set_RenderResource(0);
+	else
+		m_pGameInstance->Set_RenderResource(1);
+	m_pDebugApp->Run(fDeletaTime);
+#endif // _DEBUG
 }
 
 HRESULT CMainApp::SetUp_DefaultSetting()

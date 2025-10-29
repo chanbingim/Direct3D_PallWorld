@@ -73,7 +73,8 @@ void CSkillObjectBase::Late_Update(_float fDeletaTime)
         for (auto pEffect : m_pSkillEffects)
             pEffect->Late_Update(fDeletaTime);
 
-        m_pGameInstance->ADD_CollisionList(m_pCollision);
+        if(false == m_bIsDissolve)
+            m_pGameInstance->ADD_CollisionList(m_pCollision);
         m_pGameInstance->Add_RenderGroup(RENDER::NONLIGHT, this);
     }
     else
@@ -82,7 +83,6 @@ void CSkillObjectBase::Late_Update(_float fDeletaTime)
 
 HRESULT CSkillObjectBase::Render()
 {
-    m_pCollision->Render();
     return S_OK;
 }
 
@@ -104,7 +104,18 @@ void CSkillObjectBase::HitOverlapEvent(_float3 vDir, CGameObject* pHitObject)
 
     pHitActor->Damage(&DamageDesc, static_cast<CActor *>(m_pOwner));
     if (PELL_SKILL_DAMAGE_TYPE::HIT == m_SkillData.eSkillDamageType)
-        SetDead(true);
+    {
+        if (m_SkillData.bIsProjectTile)
+        {
+            //디졸브 로직 구현
+            for (auto pEffect : m_pSkillEffects)
+            {
+                auto pEffectObj = dynamic_cast<CEffectContatiner*>(pEffect);
+                if (pEffectObj)
+                    pEffectObj->EffectDead([&]() { EffectDead(); });
+            }
+        }
+    }
     else if (PELL_SKILL_DAMAGE_TYPE::OVERLAP == m_SkillData.eSkillDamageType)
     {
         m_fAccTickDamageTime = 0.f;
@@ -114,6 +125,16 @@ void CSkillObjectBase::HitOverlapEvent(_float3 vDir, CGameObject* pHitObject)
 
 void CSkillObjectBase::HitOverlapping(_float3 vDir, CGameObject* pHitObject)
 {
+    if (m_pOwner == pHitObject)
+        return;
+
+    auto pEffect = dynamic_cast<CSkillObjectBase*>(pHitObject);
+    if (pEffect)
+    {
+        if (static_cast<CPellBase*>(m_pOwner) == pEffect->GetOwnerPell())
+            return;
+    }
+
     // 여긴 틱템을 넣자
     // 회오리는 틱템으로 주자
     if (PELL_SKILL_DAMAGE_TYPE::OVERLAP == m_SkillData.eSkillDamageType)
@@ -137,6 +158,22 @@ void CSkillObjectBase::HitOverlapEnd(_float3 vDir, CGameObject* pHitObject)
     m_bIsHitTick = false; 
     m_fAccTickDamageTime = 0.f;
 
+}
+
+void CSkillObjectBase::EffectDead()
+{
+    _bool bIsDead = true;
+    //디졸브 로직 구현
+    for (auto pEffect : m_pSkillEffects)
+    {
+        if (false == pEffect->IsDead())
+            bIsDead = false;
+    }
+
+    if (bIsDead)
+    {
+        SetDead(true);
+    }
 }
 
 CGameObject* CSkillObjectBase::Clone(void* pArg)

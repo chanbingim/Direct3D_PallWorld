@@ -6,6 +6,7 @@
 #include "CombatComponent.h"
 
 #include "GrassStrom.h"
+#include "FireBall.h"
 #include "Earthquake.h"
 
 CGrassMommothBody::CGrassMommothBody(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
@@ -102,8 +103,11 @@ void CGrassMommothBody::EarthquakeEvent()
     m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("GamePlay_Layer_Skill"), pEarthQuake);
 }
 
-void CGrassMommothBody::FarSkillEvent()
+HRESULT CGrassMommothBody::FarSkillEvent()
 {
+    if (-1 == m_iSkillIndex)
+        return E_FAIL;
+
     _float3 vScale = m_pTransformCom->GetScale();
     _float3 vPosition = m_pParent->GetTransform()->GetPosition();
 
@@ -114,25 +118,50 @@ void CGrassMommothBody::FarSkillEvent()
     _vector vCalPostion = XMLoadFloat3(&vPosition);
     vRight *= m_ProjectileSocketDistance;
 
-    CGrassStrom::SKILL_OBJECT_DESC GrassStromDesc = {};
-   
+    CSkillObjectBase::SKILL_OBJECT_DESC SkillDesc = {};
+    SkillDesc.vScale = { 1.f, 1.f, 1.f };
+
     CPellBase* pOwner = static_cast<CPellBase*>(m_pParent);
-    CCombatComponent* pCombatCom = static_cast<CCombatComponent *>(pOwner->Find_Component(TEXT("Combat_Com")));
+    CCombatComponent* pCombatCom = static_cast<CCombatComponent*>(pOwner->Find_Component(TEXT("Combat_Com")));
 
-    GrassStromDesc.pOwner = pOwner;
+    SkillDesc.pOwner = pOwner;
     _float3 vTargetPoint = pCombatCom->GetCurrentTarget()->GetTransform()->GetPosition();
-     XMStoreFloat3(&GrassStromDesc.vTargetDir, XMVector3Normalize(XMLoadFloat3(&vTargetPoint) - vCalPostion));
+   
+    //여기서 이펙트 생성해서 넘기기
+    if (5 == m_iSkillIndex)
+    {
+        SkillDesc.vScale = { 2.f, 2.f, 2.f };
+        XMStoreFloat3(&SkillDesc.vPosition, vCalPostion + vLook + vRight);
+        XMStoreFloat3(&SkillDesc.vTargetDir, XMVector3Normalize(XMLoadFloat3(&vTargetPoint) - XMLoadFloat3(&SkillDesc.vPosition)));
 
-    GrassStromDesc.vScale = { 2.f, 2.f, 2.f };
-    XMStoreFloat3(&GrassStromDesc.vPosition, vCalPostion + vLook + vRight);
+        CGameObject* pGrassStrom = static_cast<CGameObject*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Pal_Skill_GrassStrom"), &SkillDesc));
+        m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("GamePlay_Layer_Skill"), pGrassStrom);
+        
+        XMStoreFloat3(&SkillDesc.vPosition, vCalPostion + vLook - vRight);
+        XMStoreFloat3(&SkillDesc.vTargetDir, XMVector3Normalize(XMLoadFloat3(&vTargetPoint) - XMLoadFloat3(&SkillDesc.vPosition)));
+        pGrassStrom = static_cast<CGameObject*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Pal_Skill_GrassStrom"), &SkillDesc));
+        m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("GamePlay_Layer_Skill"), pGrassStrom);
+    }
+    else if (8 == m_iSkillIndex)
+    {
+        SkillDesc.vScale = { 3.f, 3.f, 3.f };
+        XMStoreFloat3(&SkillDesc.vPosition, vCalPostion + vLook + vRight);
+        XMStoreFloat3(&SkillDesc.vTargetDir, XMVector3Normalize(XMLoadFloat3(&vTargetPoint) - XMLoadFloat3(&SkillDesc.vPosition)));
+        CGameObject* pFireBall = static_cast<CGameObject*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Pal_Skill_FireBall"), &SkillDesc));
+        m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("GamePlay_Layer_Skill"), pFireBall);
 
-    CGameObject* pGrassStrom = static_cast<CGameObject *>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Pal_Skill_GrassStrom"), &GrassStromDesc));
-    m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("GamePlay_Layer_Skill"), pGrassStrom);
+        XMStoreFloat3(&SkillDesc.vPosition, vCalPostion + vLook - vRight);
+        XMStoreFloat3(&SkillDesc.vTargetDir, XMVector3Normalize(XMLoadFloat3(&vTargetPoint) - XMLoadFloat3(&SkillDesc.vPosition)));
+        pFireBall = static_cast<CGameObject*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Pal_Skill_FireBall"), &SkillDesc));
+        m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("GamePlay_Layer_Skill"), pFireBall);
 
-    XMStoreFloat3(&GrassStromDesc.vPosition, vCalPostion + vLook - vRight);
+        XMStoreFloat3(&SkillDesc.vPosition, vCalPostion + m_pTransformCom->GetUpVector() * 5.f);
+        XMStoreFloat3(&SkillDesc.vTargetDir, XMVector3Normalize(XMLoadFloat3(&vTargetPoint) - XMLoadFloat3(&SkillDesc.vPosition)));
+        pFireBall = static_cast<CGameObject*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Pal_Skill_FireBall"), &SkillDesc));
+        m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("GamePlay_Layer_Skill"), pFireBall);
+    }
 
-    pGrassStrom = static_cast<CGameObject*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Pal_Skill_GrassStrom"), &GrassStromDesc));
-    m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("GamePlay_Layer_Skill"), pGrassStrom);
+    m_iSkillIndex = -1;
 }
 
 CGrassMommothBody* CGrassMommothBody::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

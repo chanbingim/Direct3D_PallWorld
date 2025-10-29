@@ -1,0 +1,31 @@
+Effect_Fire_Part1
+0 0 0 
+9 0 0 
+1 1 1 
+1
+0 0 0 
+0 0 0 
+2.0 2.0 2.0 
+2
+1
+0
+1
+0.5
+T_Default_Noise03.png
+None
+0.05 0.14
+0.2
+0
+T_Crack02.png
+0
+0
+0 0
+0
+T_Cloud_00.png
+Effect_Model_Shader
+Sphere.dat
+1
+1
+T_Default_Noise03.png
+1 0.262745 0 0.764706
+1

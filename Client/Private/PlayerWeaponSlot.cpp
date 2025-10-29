@@ -59,8 +59,10 @@ void CPlayerWeaponSlot::Update(_float fDeletaTime)
 	if (m_CurrentEuipItemInfo)
 	{
 		const ITEM_DESC& ItemData = m_CurrentEuipItemInfo->GetItemData();
+
 		if (ITEM_TYPE::EQUIPMENT == ItemData.ItemType)
 		{
+			m_iSelectWeaponType = ENUM_CLASS(ItemData.TypeDesc.EuqipDesc.Weapon_Type);
 			m_LeftFlag = ItemData.TypeDesc.EuqipDesc.bIsLeftSocket;
 			m_pProjectileSlot->SetItemIndex(ItemData.TypeDesc.EuqipDesc.iProjectileItemIndex);
 		}
@@ -117,7 +119,8 @@ void CPlayerWeaponSlot::Late_Update(_float fDeletaTime)
 	m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
 	m_pGameInstance->Add_RenderGroup(RENDER::SHADOW, this);
 
-	m_pTrail->Update_Trail(XMLoadFloat4x4(&m_CombinedWorldMatrix), true);
+	if(ENUM_CLASS(WEAPON::MELEE) == m_iSelectWeaponType)
+		m_pTrail->Update_Trail(XMLoadFloat4x4(&m_CombinedWorldMatrix), true);
 	m_pProjectileSlot->Late_Update(fDeletaTime);
 }
 

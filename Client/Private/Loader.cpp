@@ -156,6 +156,7 @@
 #include "HitEffect.h"
 #include "TrailEffect.h"
 #include "ElectricBall.h"
+#include "FireBall.h"
 #pragma endregion
 
 #pragma region WORKBENCH
@@ -611,7 +612,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* VIBuffer Boss Map */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_BossMap"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BossMap/Map.fbx", PreModelMat))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BossMap/Map.dat"))))
 		return E_FAIL;
 #pragma endregion
 
@@ -619,13 +620,13 @@ HRESULT CLoader::Loading_For_GamePlay()
 	PreModelMat = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.f));
 	/* VIBuffer  Old_Clothes MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_OldClothes"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Clothes/OldClothes/OldClothes.fbx", PreModelMat,
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Clothes/OldClothes/OldClothes.dat", PreModelMat,
 			"../Bin/Resources/Models/Clothes/OldClothes/OldColtehsRetarget.txt"))))
 		return E_FAIL;
 
 	/* VIBuffer  Clothes2 MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Clothes02"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Clothes/Clothes02/Clothes02.fbx", PreModelMat, 
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Clothes/Clothes02/Clothes02.dat", PreModelMat, 
 			"../Bin/Resources/Models/Clothes/Clothes02/Clothes02_Mapping.txt"))))
 		return E_FAIL;
 #pragma endregion
@@ -634,7 +635,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* VIBuffer  Clothes2 MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Sky"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Sky/Sky.fbx", PreModelMat))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Sky/Sky.dat"))))
 		return E_FAIL;
 #pragma endregion
 
@@ -729,12 +730,12 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* VIBuffer  PellSpher MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_PalSpher"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Weapon/AnimationWeapon/PalSphere/PalSpher.dat"))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Weapon/AnimationWeapon/PalSphere/PalSpher.dat", PreModelMat))))
 		return E_FAIL;
 
 	/* VIBuffer  Bow MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Bow"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Weapon/AnimationWeapon/Bow/Bow.dat"))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Weapon/AnimationWeapon/Bow/Bow.dat", PreModelMat))))
 		return E_FAIL;
 
 #pragma endregion
@@ -753,28 +754,28 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma region PinkCat
 	/* VIBuffer  BedCat MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_BedCat_Mesh"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM,"../Bin/Resources/Models/Monster/BedCat/PinkCat.fbx", PreModelMat))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM,"../Bin/Resources/Models/Monster/BedCat/PinkCat.dat", PreModelMat))))
 		return E_FAIL;
 #pragma endregion
 
 #pragma region SheepBall
 	/* VIBuffer  Dororong MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Drorong_Mesh"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Monster/SheepBall/SheepBall.fbx", PreModelMat))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Monster/SheepBall/SheepBall.dat", PreModelMat))))
 		return E_FAIL;
 #pragma endregion
 
 #pragma region ElecPanda
 	/* VIBuffer  Electric Panda MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_ElectricPanda_Mesh"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Monster/ElectricPanda/ElecPanda.fbx", PreModelMat))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Monster/ElectricPanda/ElecPanda.dat", PreModelMat))))
 		return E_FAIL;
 #pragma endregion
 
 #pragma region Grass Mommoth
 	/* VIBuffer  GrassMommoth MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_GrassMommoth_Mesh"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Monster/GreenMommoth/GrassMommoth.fbx", PreModelMat))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Monster/GreenMommoth/GrassMommoth.dat", PreModelMat))))
 		return E_FAIL;
 #pragma endregion
 
@@ -812,7 +813,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma region Clothes
 /* VIBuffer  Clothes2 MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Grass"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/SmallGrass/small_Grass.fbx", PreModelMat))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/SmallGrass/small_Grass.dat", PreModelMat))))
 		return E_FAIL;
 
 	/* VIBuffer  Clothes2 MESH  Component */
@@ -830,7 +831,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	InstanceModelDesc.vCenter = { 0.f ,0.f, 0.f };
 	InstanceModelDesc.vRange = { 200.f ,0.f, 200.f };
 
-	InstanceModelDesc.pModelFilePath = "../Bin/Resources/Models/Enviornmenet/SmallGrass/small_Grass.fbx";
+	InstanceModelDesc.pModelFilePath = "../Bin/Resources/Models/Enviornmenet/SmallGrass/small_Grass.dat";
 	InstanceModelDesc.PreModelMat = PreModelMat;
 	InstanceModelDesc.RetargetFile = "";
 	InstanceModelDesc.iLayerCount = 1;
@@ -931,23 +932,23 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma region ROCK
 	/* EnviornMent Rock MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Rock_0_Mesh"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Rock/Rock/Rock/Rock02/Rock02.fbx", PreModelMat))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Rock/Rock/Rock/Rock02/Rock02.dat"))))
 		return E_FAIL;
 
 	/* EnviornMent Rock3 MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Rock_1_Mesh"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Rock/Rock/Rock/Rock03/Rock03.fbx", PreModelMat))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Rock/Rock/Rock/Rock03/Rock03.dat"))))
 		return E_FAIL;
 
 	/* EnviornMent Rock3 MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Rock_2_Mesh"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Rock/Rock/ClifRock/Clif01/Clif_Rock1.fbx", PreModelMat))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Rock/Rock/ClifRock/Clif01/Clif_Rock1.dat"))))
 		return E_FAIL;
 
 #pragma region PalJium
 	/* EnviornMent PalJium MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_PellJium_Mesh"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Rock/Ore/Paljium.fbx", PreModelMat))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Rock/Ore/Paljium.dat"))))
 		return E_FAIL;
 #pragma endregion
 
@@ -956,12 +957,12 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma region TREE
 	/* EnviornMent Tree0 MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Tree0_Mesh"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Tree/Tree03/b03.fbx", PreModelMat))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Tree/Tree03/b03.dat"))))
 		return E_FAIL;
 
 	/* EnviornMent Tree1 MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Tree1_Mesh"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Tree/Tree04/b04.fbx", PreModelMat))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Tree/Tree04/b04.dat"))))
 		return E_FAIL;
 #pragma endregion
 
@@ -978,14 +979,14 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma region ROCK
 	/* ITEM Rock MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Item_Rock_Mesh"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Item/Rock/ItemRock.fbx", PreModelMat))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Item/Rock/ItemRock.dat"))))
 		return E_FAIL;
 #pragma endregion
 
 #pragma region Wood
 	/* ITEM Rock MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Item_Wood_Mesh"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Item/Wood/Wood.fbx", PreModelMat))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Item/Wood/Wood.dat"))))
 		return E_FAIL;
 #pragma endregion
 
@@ -1527,6 +1528,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* GAME_OBJECT_GrassStome */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Pal_Skill_GrassStrom"), CGrassStrom::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_Fire_Ball */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Pal_Skill_FireBall"), CFireBall::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 #pragma endregion
 

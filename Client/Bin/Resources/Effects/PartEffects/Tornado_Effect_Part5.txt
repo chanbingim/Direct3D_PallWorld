@@ -23,7 +23,7 @@ T_Default_Noise05.png
 0
 T_SquareEdge.png
 Effect_Model_Shader
-Sphere.fbx
+Sphere.dat
 1
 1
 T_Default_Noise05.png

@@ -145,7 +145,7 @@ HRESULT CEffectManager::LoadEffectModel()
 	_finddatai64_t  fd;
 
 	// _findfirst : <io.h>에서 제공하며 사용자가 설정한 경로 내에서 가장 첫 번째 파일을 찾는 함수
-	intptr_t handle = _findfirst64("../Bin/Resources/Models/Effects/*.fbx*", &fd);
+	intptr_t handle = _findfirst64("../Bin/Resources/Models/Effects/*.dat*", &fd);
 
 	if (handle == -1)
 		return E_FAIL;
@@ -153,7 +153,7 @@ HRESULT CEffectManager::LoadEffectModel()
 	int iResult = 0;
 
 	_string FrontPath = "../Bin/Resources/Models/Effects/";
-	_matrix PreMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.f));
+	//_matrix PreMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.f));
 	while (iResult != -1)
 	{
 		int iLength = strlen(fd.name) + 1;
@@ -163,7 +163,7 @@ HRESULT CEffectManager::LoadEffectModel()
 		MultiByteToWideChar(CP_ACP, 0, fd.name, iLength, pFileName, iLength);
 
 		_string FullPath = FrontPath + fd.name;
-		auto pModel = CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, FullPath.c_str(), PreMatrix);
+		auto pModel = CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, FullPath.c_str());
 		_wstring szTextureTag = pFileName;
 		m_pVIBuffers.emplace(szTextureTag, pModel);
 		//_findnext : <io.h>에서 제공하며 다음 위치의 파일을 찾는 함수, 더이상 없다면 -1을 리턴

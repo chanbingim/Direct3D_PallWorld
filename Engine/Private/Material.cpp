@@ -38,6 +38,7 @@ HRESULT CMaterial::Initialize(const _char* pModelFilePath, const aiMaterial* pAI
             _splitpath_s(pModelFilePath, szDrive, MAX_PATH, szDir, MAX_PATH, nullptr, 0, nullptr, 0);
             _splitpath_s(strTexturePath.data, nullptr, 0, nullptr, 0, szFileName, MAX_PATH, szEXT, MAX_PATH);
 
+            strcpy_s(szEXT, ".dds");
             sprintf_s(szFullPath, MAX_PATH, "%s%s%s%s", szDrive, szDir, szFileName, szEXT);
 
             _tchar		szWideFullPath[MAX_PATH] = {};

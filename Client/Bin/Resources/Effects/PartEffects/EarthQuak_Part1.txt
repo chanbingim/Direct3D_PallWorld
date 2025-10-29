@@ -23,7 +23,7 @@ T_Cloud_00.png
 0
 T_Circle17.png
 Effect_Model_Shader
-Ring.fbx
+Ring.dat
 1
 1
 T_Noise41.png

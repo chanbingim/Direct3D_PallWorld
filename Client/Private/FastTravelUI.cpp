@@ -109,7 +109,7 @@ HRESULT CFastTravelUI::ADD_Childs()
 #pragma region Dororong
    
     Desc.szMapName = TEXT("SheepBalField");
-    Desc.szShowFontText = TEXT("도로롱 서식지");
+    Desc.szShowFontText = TEXT("펠 서식지1");
     Desc.vPosition.y = -fStartPointY + (Desc.vScale.y + 10.f);
     pButton = static_cast<CFastTravelButton*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Event_FastTravelButton"), &Desc));
     pButton->SetZOrder(m_iZOrder + 1);
@@ -119,18 +119,8 @@ HRESULT CFastTravelUI::ADD_Childs()
 
 #pragma region PinkCat
     Desc.szMapName = TEXT("PinkCatField");
-    Desc.szShowFontText = TEXT("배드냥 서식지");
+    Desc.szShowFontText = TEXT("펠 서식지2");
     Desc.vPosition.y = -fStartPointY + 2 * (Desc.vScale.y + 10.f);
-    pButton = static_cast<CFastTravelButton*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Event_FastTravelButton"), &Desc));
-    pButton->SetZOrder(m_iZOrder + 1);
-    pButton->Bind_ClickEvent([&](const _wstring& MapName) { ButtonClickedEvent(MapName); });
-    m_pButtons.push_back(pButton);
-#pragma endregion
-
-#pragma region Electric Panda
-    Desc.szMapName = TEXT("ElectPandaField");
-    Desc.szShowFontText = TEXT("일렉판다 서식지");
-    Desc.vPosition.y = -fStartPointY + 3 * (Desc.vScale.y + 10.f);
     pButton = static_cast<CFastTravelButton*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Event_FastTravelButton"), &Desc));
     pButton->SetZOrder(m_iZOrder + 1);
     pButton->Bind_ClickEvent([&](const _wstring& MapName) { ButtonClickedEvent(MapName); });
@@ -140,7 +130,7 @@ HRESULT CFastTravelUI::ADD_Childs()
 #pragma region Boss Dungun
     Desc.szMapName = TEXT("BossField");
     Desc.szShowFontText = TEXT("보스 던전");
-    Desc.vPosition.y = -fStartPointY + 4 * (Desc.vScale.y + 10.f);
+    Desc.vPosition.y = -fStartPointY + 3 * (Desc.vScale.y + 10.f);
     pButton = static_cast<CFastTravelButton*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Event_FastTravelButton"), &Desc));
     pButton->SetZOrder(m_iZOrder + 1);
     pButton->Bind_ClickEvent([&](const _wstring& MapName) { ButtonClickedEvent(MapName); });

@@ -814,8 +814,11 @@ _bool CPlayer::GetWeaponAttackType()
 void CPlayer::SettingNavigation()
 {
 #pragma region NAVI_MESH
-    m_pTerrainManager = CTerrainManager::GetInstance();
-    Safe_AddRef(m_pTerrainManager);
+    if (m_pTerrainManager)
+    {
+        m_pTerrainManager = CTerrainManager::GetInstance();
+        Safe_AddRef(m_pTerrainManager);
+    }
 
     _float3 vPlayPosition = m_pTransformCom->GetPosition();
     CTerrainManager::CHUNK_DESC ChunkDesc = {};
@@ -938,8 +941,8 @@ void CPlayer::Damage(void* pArg, CActor* pDamagedActor)
         if (0 >= m_pCharacterInfo->CurHealth)
         {
             //여기서 대충 페이드 아웃할거임
-            m_pPlayerFSM->ChangeState(TEXT("CombatLayer"), TEXT("Dead"));
-            m_bIsAnimLoop = false;
+           /* m_pPlayerFSM->ChangeState(TEXT("CombatLayer"), TEXT("Dead"));
+            m_bIsAnimLoop = false;*/
             m_pCharacterInfo->CurHealth = 0;
         }
         else
@@ -947,8 +950,8 @@ void CPlayer::Damage(void* pArg, CActor* pDamagedActor)
             if (m_pPlayerSlotAcrchiteture->IsPreView())
                 m_pPlayerSlotAcrchiteture->SetItemDesc(nullptr);
 
-            m_pPlayerFSM->ChangeState(TEXT("CombatLayer"), TEXT("Hit"));
-            m_bIsAnimLoop = false;
+            //m_pPlayerFSM->ChangeState(TEXT("CombatLayer"), TEXT("Hit"));
+            //m_bIsAnimLoop = false;
 
             _float3 vDamagedActorPos = pDamagedActor->GetTransform()->GetPosition();
             _vector vCalDamagedActorPos = XMLoadFloat3(&vDamagedActorPos);

@@ -23,7 +23,7 @@ T_Default_Noise02.png
 0
 T_Trail05.png
 Effect_Model_Shader
-Tornado.fbx
+Tornado.dat
 1
 1
 T_Default_Noise05.png
