@@ -13,15 +13,16 @@ private:
 	virtual ~CTechManager() = default;
 
 public:
-	HRESULT							Initialize(const char* FilePath = "");
-	void							LernTechObject(_uInt TechItemID);
+	HRESULT									Initialize(const char* FilePath = "");
+	void									LernTechObject(_uInt TechItemID);
 
-	const WCHAR*					GetTechTypeToString(TECH_TYPE eTechType);
+	const WCHAR*							GetTechTypeToString(TECH_TYPE eTechType);
 
 
-	const TECH_ITEM_DESC&			GetTechData(_uInt iTechID);
-	const list<_uInt>&				GetCategoryLevelTechList(_uInt iLevel);
-	const list<_uInt>&				GetCategoryTypeTechList(TECH_TYPE eType);
+	const TECH_ITEM_DESC&					GetTechData(_uInt iTechID);
+	const list<_uInt>&						GetCategoryLevelTechList(_uInt iLevel);
+	const list<_uInt>&						GetCategoryTypeTechList(TECH_TYPE eType);
+	const list<_uInt>&						GetLearnTechList(TECH_TYPE eType);
 
 private:
 	vector<TECH_ITEM_DESC>					m_emptyTechData;
@@ -31,6 +32,7 @@ private:
 	map<TECH_TYPE, list<_uInt>>				m_TypeTechItems;
 
 	map<_uInt, TECH_ITEM_DESC>				m_TechItems;
+	map<TECH_TYPE, list<_uInt>>				m_LearnTechItems;
 
 private:
 	HRESULT									LoadItemData(const char* FilePath);

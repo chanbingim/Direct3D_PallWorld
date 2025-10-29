@@ -17,6 +17,7 @@ HRESULT CLevelIcon::Initalize_Prototype()
     if (FAILED(__super::Initalize_Prototype()))
         return E_FAIL;
 
+    m_vColor = { 0.6f, 0.6f, 0.6f, 0.6f };
     return S_OK;
 }
 
@@ -31,6 +32,7 @@ HRESULT CLevelIcon::Initialize(void* pArg)
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
+    m_vColor = { 0.6f, 0.6f, 0.6f, 0.3f };
     return S_OK;
 }
 
@@ -47,8 +49,10 @@ void CLevelIcon::Late_Update(_float fDeletaTime)
 HRESULT CLevelIcon::Render()
 {
     Apply_ConstantShaderResources();
-    m_pShaderCom->Update_Shader(1);
-    m_pTextureCom->SetTexture(0, 0);
+    m_pShaderCom->Bind_RawValue("g_vColor", &m_vColor, sizeof(_float4));
+
+    m_pShaderCom->Update_Shader(4);
+    m_pTextureCom->SetTexture(0,0);
     m_pVIBufferCom->Render_VIBuffer();
 
     m_pFontCom->Render(m_szLevel.c_str(), { 0.f, 0.f, 0.f, 1.f });

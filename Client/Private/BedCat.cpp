@@ -202,14 +202,14 @@ HRESULT CBedCat::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("GamePlay_Component_Recovery"), TEXT("Recovery_Com"), (CComponent**)&m_pRecovery, &RecoverDesc)))
         return E_FAIL;
 
-    CSphereCollision::SPEHRE_COLLISION_DESC SphereDesc = {};
-    ZeroMemory(&SphereDesc, sizeof(CSphereCollision::SPEHRE_COLLISION_DESC));
-    SphereDesc.pOwner = this;
-    SphereDesc.Radius = 0.5f;
-    SphereDesc.vCneter = _float3(0.f, SphereDesc.Radius, 0.f);
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionSphere"), TEXT("Collision_Com"), (CComponent**)&m_pCollision, &SphereDesc)))
+    COBBCollision::OBB_COLLISION_DESC BoxDesc = {};
+    BoxDesc.pOwner = this;
+    BoxDesc.vExtents = { 0.5f, 0.5f, 0.5f };
+    BoxDesc.vCneter = _float3(0.f, BoxDesc.vExtents.y * 0.5f, 0.f);
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionOBB"), TEXT("Collision_Com"), (CComponent**)&m_pCollision, &BoxDesc)))
         return E_FAIL;
     m_pCollision->BindBeginOverlapEvent([this](_float3 vDir, CGameObject* pHitActor) { OverlapEvent(vDir, pHitActor); });
+    m_pCollision->BindOverlappingEvent([this](_float3 vDir, CGameObject* pHitActor) { OverlappingEvent(vDir, pHitActor); });
 
     CChaseComponent::CHASE_INITIALIZE_DESC ChaseInitDesc = {};
     ChaseInitDesc.pOwnerTransform = m_pTransformCom;
@@ -275,6 +275,11 @@ void CBedCat::OverlapEvent(_float3 vDir, CGameObject* pHitObject)
     {
         __super::OverlapEvent(vDir, pHitObject);
     }
+}
+
+void CBedCat::OverlappingEvent(_float3 vDir, CGameObject* pHitObject)
+{
+    __super::OverlappingEvent(vDir, pHitObject);
 }
 
 CBedCat* CBedCat::Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext)

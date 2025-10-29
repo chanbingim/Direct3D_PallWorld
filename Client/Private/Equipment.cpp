@@ -5,6 +5,7 @@
 #include "ItemStruct.h"
 
 #include "PlayerView.h"
+#include "EquipSlotTittle.h"
 
 CEquipment::CEquipment(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
 	CBackGround(pDevice, pContext)
@@ -65,6 +66,9 @@ HRESULT CEquipment::Render()
 	m_pTextureCom->SetTexture(0, 0);
 	m_pVIBufferCom->Render_VIBuffer();
 
+	for (_uInt i = 0; i < 7; ++i)
+		m_pSlotFontCom[i]->Render();
+
 	for (auto& pChild : m_pChildList)
 		pChild->Render();
 
@@ -110,44 +114,74 @@ HRESULT CEquipment::ADD_Childs()
 	CUserInterface::GAMEOBJECT_DESC Desc;
 	ZeroMemory(&Desc, sizeof(CUserInterface::GAMEOBJECT_DESC));
 
+	CUserInterface::GAMEOBJECT_DESC SlotTittleDesc;
+	ZeroMemory(&SlotTittleDesc, sizeof(CUserInterface::GAMEOBJECT_DESC));
+	SlotTittleDesc.pParent = this;
+	SlotTittleDesc.vScale = { 50, 20, 0.f };
+
 	_float3 ParentScale = m_pTransformCom->GetScale();
 	_float SlotPosX = ParentScale.x * 0.4f;
 	_float SlotPosY = ParentScale.y * 0.32f;
 
+	auto pBaseTittle = CEquipSlotTittle::Create(m_pGraphic_Device, m_pDeviceContext);
+	if (nullptr == pBaseTittle)
+		return E_FAIL;
+
 	/* Weapon */
-	_float3 vWeaponPos = {-SlotPosX, -SlotPosY, 0.f};
+	_float3 vWeaponPos = { -SlotPosX, -SlotPosY, 0.f };
+	SlotTittleDesc.vPosition = { -SlotPosX, -SlotPosY - 40.f, 0.f };
+	m_pSlotFontCom[0] = static_cast<CEquipSlotTittle *>(pBaseTittle->Clone(&SlotTittleDesc));
+	m_pSlotFontCom[0]->SetText(TEXT("무기"));
 	CreateEquipSlot(4, ENUM_CLASS(EUQIP_TYPE::WEAPON), vWeaponPos, 0);
 
 	/* Head */
 	SlotPosX = ParentScale.x * 0.15f;
 	_float3 vHeadPos = { SlotPosX, -SlotPosY, 0.f };
+	SlotTittleDesc.vPosition = { SlotPosX, -SlotPosY - 41 , 0.f };
+	m_pSlotFontCom[1] = static_cast<CEquipSlotTittle*>(pBaseTittle->Clone(&SlotTittleDesc));
+	m_pSlotFontCom[1]->SetText(TEXT("머리"));
 	CreateEquipSlot(1, ENUM_CLASS(EUQIP_TYPE::HEAD), vHeadPos, 0);
 
 	/* Body */
 	SlotPosY = ParentScale.y * 0.17f;
 	_float3 vBodyPos = { SlotPosX, -SlotPosY, 0.f };
+	SlotTittleDesc.vPosition = { SlotPosX, -SlotPosY - 40 , 0.f };
+	m_pSlotFontCom[2] = static_cast<CEquipSlotTittle*>(pBaseTittle->Clone(&SlotTittleDesc));
+	m_pSlotFontCom[2]->SetText(TEXT("몸"));
 	CreateEquipSlot(1, ENUM_CLASS(EUQIP_TYPE::BODY), vBodyPos, 0);
 
 	/* Shield */
 	SlotPosY = ParentScale.y * 0.02f;
 	_float3 vShieldPos = { SlotPosX, -SlotPosY, 0.f };
+	SlotTittleDesc.vPosition = { SlotPosX, -SlotPosY - 40 , 0.f };
+	m_pSlotFontCom[3] = static_cast<CEquipSlotTittle*>(pBaseTittle->Clone(&SlotTittleDesc));
+	m_pSlotFontCom[3]->SetText(TEXT("쉴드"));
 	CreateEquipSlot(1, ENUM_CLASS(EUQIP_TYPE::SHIELD), vShieldPos, 0);
 
 	/* Glider */
 	SlotPosY = ParentScale.y * 0.13f;
 	_float3 vGliderPos = { SlotPosX, SlotPosY, 0.f };
+	SlotTittleDesc.vPosition = { SlotPosX, SlotPosY - 40 , 0.f };
+	m_pSlotFontCom[4] = static_cast<CEquipSlotTittle*>(pBaseTittle->Clone(&SlotTittleDesc));
+	m_pSlotFontCom[4]->SetText(TEXT("글라이더"));
 	CreateEquipSlot(1, ENUM_CLASS(EUQIP_TYPE::GLIDER), vGliderPos, 0);
 
 	/* Accessory */
 	SlotPosX = ParentScale.x * 0.4f;
 	SlotPosY = ParentScale.y * 0.2f;
 	_float3 vAccessoryPos = { -SlotPosX, SlotPosY, 0.f };
+	SlotTittleDesc.vPosition = { -SlotPosX, SlotPosY - 40 , 0.f };
+	m_pSlotFontCom[5] = static_cast<CEquipSlotTittle*>(pBaseTittle->Clone(&SlotTittleDesc));
+	m_pSlotFontCom[5]->SetText(TEXT("악세서리"));
 	CreateEquipSlot(2, ENUM_CLASS(EUQIP_TYPE::ACCESSORY), vAccessoryPos, 0);
 
 	/* Food */
 	SlotPosX = ParentScale.x * 0.3f;
 	SlotPosY = ParentScale.y * 0.46f;
 	_float3 vFoodPos = { -SlotPosX, SlotPosY, 0.f };
+	SlotTittleDesc.vPosition = { -SlotPosX, SlotPosY - 21 , 0.f };
+	m_pSlotFontCom[6] = static_cast<CEquipSlotTittle*>(pBaseTittle->Clone(&SlotTittleDesc));
+	m_pSlotFontCom[6]->SetText(TEXT("음식"));
 	CreateEquipSlot(5, ENUM_CLASS(EUQIP_TYPE::FOOD), vFoodPos, 1);
 
 	CPlayerView::VIEWER_DESC ViewerDesc = {};
@@ -165,6 +199,7 @@ HRESULT CEquipment::ADD_Childs()
 	m_pPlayerView->Initialize(&ViewerDesc);
 	ADD_Child(m_pPlayerView);
 
+	Safe_Release(pBaseTittle);
 	return S_OK;
 }
 
@@ -222,6 +257,9 @@ CUserInterface* CEquipment::Clone(void* pArg)
 void CEquipment::Free()
 {
 	__super::Free();
+
+	for (auto& iter : m_pSlotFontCom)
+		Safe_Release(iter);
 
 	for (auto& iter : m_pEquipSlot)
 		Safe_Release(iter);

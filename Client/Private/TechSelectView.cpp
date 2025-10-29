@@ -56,8 +56,7 @@ HRESULT CTechSelectView::Initialize(void* pArg)
 
 void CTechSelectView::Update(_float fDeletaTime)
 {
-	auto& TechList = m_pTechManager->GetCategoryTypeTechList(m_eTechType);
-
+	auto& TechList = m_pTechManager->GetLearnTechList(m_eTechType);
 	auto pTechID = next(TechList.begin(), m_iViewStartIndex);
 	for (size_t i = 0; i < m_pViewSlotList.size(); ++i)
 	{

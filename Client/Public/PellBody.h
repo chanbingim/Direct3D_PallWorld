@@ -2,6 +2,10 @@
 #include "Client_Define.h"
 #include "PartObject.h"
 
+NS_BEGIN(Engine)
+class CTexture;
+NS_END
+
 NS_BEGIN(Client)
 class CPellBody : public  CPartObject
 {
@@ -37,6 +41,9 @@ protected :
 	_bool									m_bIsAnimFinished = false;
 	_bool									m_bIsDissolve = false;
 	_float									m_fAccDissolveTime = {};
+	
+	CTexture*								m_pNoiseTexture = nullptr;
+
 
 public:
 	virtual			CGameObject*			Clone(void* pArg) override;

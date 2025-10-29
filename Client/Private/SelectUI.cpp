@@ -97,12 +97,12 @@ HRESULT CSelectUI::ADD_Childs()
     pEventDesc.pParent = this;
     pEventDesc.vScale = { vScale.x, vScale.y * 0.5f, 0.f };
 
-    pEventDesc.vPosition = { 0.f, -pEventDesc.vScale.y * 0.5f, 0.f };
+    pEventDesc.vPosition = { 0.f, pEventDesc.vScale.y * 0.5f , 0.f };
     m_pCancelButton = static_cast<CEventButton*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Event_Button"), &pEventDesc));
     if (nullptr == m_pCancelButton)
         return E_FAIL;
 
-    pEventDesc.vPosition = { 0.f, pEventDesc.vScale.y * 0.5f, 0.f };
+    pEventDesc.vPosition = { 0.f, -pEventDesc.vScale.y * 0.5f, 0.f };
     m_pOKButton = static_cast<CEventButton*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Event_Button"), &pEventDesc));
     if (nullptr == m_pOKButton)
         return E_FAIL;

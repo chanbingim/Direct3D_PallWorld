@@ -1043,6 +1043,9 @@
     <Filter Include="Shader\Sky\Mesh">
       <UniqueIdentifier>{2ec91591-cd09-4b9c-ac23-6a2818c2bf00}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\CharacterView\Equip\SlotTitle">
+      <UniqueIdentifier>{6f822510-8210-4863-9a6d-18eab6fc09e9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -1909,6 +1912,9 @@
     <ClInclude Include="..\public\FireBall.h">
       <Filter>07. Effect\Mesh Effect\Skill\FireBall</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\EquipSlotTittle.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\CharacterView\Equip\SlotTitle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -2440,9 +2446,6 @@
     <ClCompile Include="..\private\TechSlotNameBar.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\TechSlot\Font\NameBar</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\TechSlotLine.cpp">
-      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\LevelIcon.cpp">
       <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine\LevelSlotIcon</Filter>
     </ClCompile>
@@ -2751,6 +2754,12 @@
     </ClCompile>
     <ClCompile Include="..\private\FireBall.cpp">
       <Filter>07. Effect\Mesh Effect\Skill\FireBall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TechSlotLine.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\TechMenu\TechnologyView\TechSlotLine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\EquipSlotTittle.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\CharacterView\Equip\SlotTitle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

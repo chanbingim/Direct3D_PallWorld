@@ -31,7 +31,6 @@ private:
 	HRESULT									ADD_Components();
 	HRESULT									ShootProjecttileObject();
 
-
 public:
 	static			CElectricPandaBody*		Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual			CGameObject*			Clone(void* pArg) override;

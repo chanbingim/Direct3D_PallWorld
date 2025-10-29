@@ -41,8 +41,8 @@ void CHitEffect::Priority_Update(_float fDeletaTime)
 	__super::Priority_Update(fDeletaTime);
 	m_fAccTime += fDeletaTime * m_fSpeed;
 
-	/*if (m_fLifeTime <= m_fAccTime)
-		SetDead(true);*/
+	if (m_fLifeTime <= m_fAccTime)
+		SetDead(true);
 }
 
 void CHitEffect::Update(_float fDeletaTime)

@@ -121,10 +121,11 @@ protected :
 
 protected :
 	HRESULT									SetUpDefaultPellData(_bool bIsFlag, const PELL_INFO& Pellinfo);
-	HRESULT									ADD_PellInfoUI();
+	HRESULT									ADD_PellInfoUI(const char* szSocketName = "spine_01");
 	// 전투를 위한 전투 기능
 	virtual		void						CombatAction(_float fDeletaTime, CGameObject* pTarget);
 	virtual		void						OverlapEvent(_float3 vDir, CGameObject* pHitObject);
+	virtual		void						OverlappingEvent(_float3 vDir, CGameObject* pHitObject);
 
 	_bool									PellPlayFSM(_float fDeletaTime);
 	void									StartMoveAction(const _float3 vEndPos);

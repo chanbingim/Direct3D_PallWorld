@@ -73,7 +73,7 @@ HRESULT CTechnologyMenu::ADD_Childs()
 	if (FAILED(m_pTechNologyTitleBar->Initialize(&pObejctDesc)))
 		return E_FAIL;
 
-	pObejctDesc.vScale = { vParentScale.x * 0.4f, vParentScale.y * 0.05f, 0.f };
+	pObejctDesc.vScale = { vParentScale.x * 0.8f, vParentScale.y * 0.05f, 0.f };
 	pObejctDesc.vPosition = { -vParentScale.x * 0.5f + pObejctDesc.vScale.x * 0.5f,
 							  vViewHalfSize + (pObejctDesc.vScale.y * 0.5f), 0.f };
 	m_pTechNologyPointView = CTechnologyPointView::Create(m_pGraphic_Device, m_pDeviceContext);

@@ -16,6 +16,7 @@ HRESULT CLogoLevel::Initialize()
 	if (FAILED(LogoHUD->Initialize()))
 		return E_FAIL;
 
+	m_pGameInstance->Manager_PlayBGM(TEXT("LogoSound.mp3"), 0.5f);
 	return S_OK;
 }
 
@@ -43,6 +44,7 @@ HRESULT CLogoLevel::Render()
 void CLogoLevel::NextLevelChange(_bool flag)
 {
 	m_IsChangeLevel = flag;
+	m_pGameInstance->Manager_StopSound(CHANNELID::BGM);
 }
 
 CLogoLevel* CLogoLevel::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, LEVEL eID)

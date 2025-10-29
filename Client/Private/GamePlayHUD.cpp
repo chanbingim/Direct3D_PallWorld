@@ -253,7 +253,7 @@ HRESULT CGamePlayHUD::ADD_PreviewUserInterface()
 	CUserInterface::GAMEOBJECT_DESC Desc = {};
 
 #pragma region SelectView
-	Desc.vScale = { 50.f, 20.f, 0.f };
+	Desc.vScale = { 80.f, 50.f, 0.f };
 	m_pSelectUI = CSelectUI::Create(m_pDevice, m_pContext);
 	m_pSelectUI->SetZOrder(100.f);
 	if (FAILED(m_pSelectUI->Initialize(&Desc)))
@@ -284,8 +284,11 @@ void CGamePlayHUD::UIKeyInput()
 {
 	if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_ESCAPE))
 	{
-		if(m_Visible)
+		if (m_Visible)
+		{
 			UnActiveAllPopUp();
+			UnActiveAllPreView();
+		}
 		else
 		{
 			if (VISIBILITY::HIDDEN == m_pInGameMenu->GetVisibility())

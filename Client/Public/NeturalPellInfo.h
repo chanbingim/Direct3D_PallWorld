@@ -12,6 +12,7 @@ public :
 	typedef struct	NeturalPellDesc : public GAMEOBJECT_DESC
 	{
 		CPellBase*			pOwner;
+		const char*			szAttachSocketName;
 	}NETURAL_PELL_DESC;
 
 protected:
@@ -36,6 +37,7 @@ private :
 	CPellHealthBar*							m_pHealthBar = nullptr;
 	CNeturalTypeIcon*						 m_pTypeIcon = nullptr;
 
+	const _float4x4*						m_pSpineMatrix = nullptr;
 private :
 	HRESULT									ADD_Components();
 	HRESULT									ADD_Childs();

@@ -2,6 +2,7 @@
 #include "BackGround.h"
 
 NS_BEGIN(Client)
+class CEquipSlotTittle;
 class CPlayerView;
 class CEquipSlot;
 
@@ -29,6 +30,8 @@ protected:
 private :
 	_uInt									m_SlotCount = {};
 	vector<CEquipSlot*>						m_pEquipSlot = {};
+
+	CEquipSlotTittle*						m_pSlotFontCom[7];
 
 	CPlayerView*							m_pPlayerView = nullptr;	
 	LPD3D11EFFECTVECTORVARIABLE				m_pEquip_Color = {};

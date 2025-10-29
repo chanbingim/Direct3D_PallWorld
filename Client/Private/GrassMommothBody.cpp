@@ -162,6 +162,7 @@ HRESULT CGrassMommothBody::FarSkillEvent()
     }
 
     m_iSkillIndex = -1;
+    return S_OK;
 }
 
 CGrassMommothBody* CGrassMommothBody::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

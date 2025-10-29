@@ -4,6 +4,7 @@
 #include "PellHealthBar.h"
 
 #include "PellBase.h"
+#include "PellBody.h"
 #include "GameInstance.h"
 
 CNeturalPellInfo::CNeturalPellInfo(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
@@ -42,28 +43,37 @@ HRESULT CNeturalPellInfo::Initialize(void* pArg)
 
 	NETURAL_PELL_DESC* Desc = static_cast<NETURAL_PELL_DESC *>(pArg);
 	if (Desc)
+	{
 		m_pOwner = Desc->pOwner;
+		auto PellBody = static_cast<CPellBody*>(m_pOwner->FindPartObject(TEXT("Part_Body")));
+		if(PellBody)
+			m_pSpineMatrix = PellBody->GetBoneMatrix(Desc->szAttachSocketName);
+	}
 
 	return S_OK;
 }
 
 void CNeturalPellInfo::Update(_float fDeletaTime)
 {
-	_float3 vParentPos = m_pOwner->GetTransform()->GetPosition();
-	_vector vParentPosition = XMLoadFloat3(&vParentPos);
-	_float3 CombindPoisition = {};
-	XMStoreFloat3(&CombindPoisition, vParentPosition);
+	if (m_pSpineMatrix)
+	{
+		_matrix WorldMat = XMLoadFloat4x4(m_pSpineMatrix) * XMLoadFloat4x4(&m_pOwner->GetTransform()->GetWorldMat());
+		_float3 CombindPoisition = {};
+		_float2	vNDCPos = {};
 
-	_float2	vNDCPos = {};
-	auto MatVP = XMLoadFloat4x4(&m_pGameInstance->GetMatrix(MAT_STATE::VIEW)) * XMLoadFloat4x4(&m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION));
-	XMStoreFloat2(&vNDCPos, XMVector3TransformCoord(XMLoadFloat3(&CombindPoisition), MatVP));
+		auto MatVP = XMLoadFloat4x4(&m_pGameInstance->GetMatrix(MAT_STATE::VIEW)) * XMLoadFloat4x4(&m_pGameInstance->GetMatrix(MAT_STATE::PROJECTION));
+		XMStoreFloat3(&CombindPoisition, WorldMat.r[3]);
 
-	// 투영 스페이스에 있는 위치
-	// X : -1 ~ 1  -> 0 ~ 1 로변경해서 스크린 위치를 구한다.
-	// Y : 1 ~ -1 -> 0 ~ 1 로 변경
-	m_pTransformCom->SetPosition({ vNDCPos.x * g_iHalfWinSizeX + m_pTransformCom->GetScale().x * 0.5f,
-								   vNDCPos.y * g_iHalfWinSizeY + m_pOwner->GetTransform()->GetScale().y * 0.5f, 0.f});
+		XMStoreFloat2(&vNDCPos, XMVector3TransformCoord(XMLoadFloat3(&CombindPoisition), MatVP));
 
+		// 투영 스페이스에 있는 위치
+		// X : -1 ~ 1  -> 0 ~ 1 로변경해서 스크린 위치를 구한다.
+		// Y : 1 ~ -1 -> 0 ~ 1 로 변경
+		m_pTransformCom->SetPosition({ vNDCPos.x * g_iHalfWinSizeX + m_pTransformCom->GetScale().x * 0.5f,
+									   vNDCPos.y * g_iHalfWinSizeY, 0.f });
+
+	}
+	
 	for (auto pChild : m_pChildList)
 		pChild->Update(fDeletaTime);
 }

@@ -31,6 +31,7 @@
 #include "PalSpher.h"
 #include "ProjectileObject.h"
 #include "CombatComponent.h"
+#include "HitEffect.h"
 
 CPellBase::CPellBase(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext) :
     CContainerObject(pGraphic_Device, pDeviceContext)
@@ -178,6 +179,27 @@ void CPellBase::Damage(void* pArg, CActor* pDamagedActor)
                         auto pActor = dynamic_cast<CContainerObject*>(pDamagedActor);
                         if (pActor)
                             m_pCombatCom->ADD_TargetObject(pActor);
+
+                        _float3 vDamagedActorPos = pDamagedActor->GetTransform()->GetPosition();
+                        _vector vCalDamagedActorPos = XMLoadFloat3(&vDamagedActorPos);
+
+                        _float3 vActorPos = m_pTransformCom->GetPosition();
+                        _vector vCalActorPos = XMLoadFloat3(&vActorPos);
+                        _vector vDir = XMVector3Normalize(vCalActorPos - vCalDamagedActorPos);
+
+                        CCollision::DEFAULT_HIT_DESC HitDesc = {};
+                        if (m_pCollision->RayHit(vCalDamagedActorPos, vDir, HitDesc))
+                        {
+                            CHitEffect::HIT_EFFECT_DESC  HitEffectDesc = {};
+                            HitEffectDesc.vScale = { 1.f, 1.f, 1.f };
+                            HitEffectDesc.vPosition = HitDesc.vHitPoint;
+                            HitEffectDesc.fLifeTime = 1.5f;
+                            HitEffectDesc.fSpeed = 10.f;
+                            HitEffectDesc.szEffectName = TEXT("Hit_Effect_2");
+
+                            auto pHitEffect = static_cast<CGameObject*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Hit_Effect_Defalut"), &HitEffectDesc));
+                            m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("GamePlayLayer_Effects"), pHitEffect);
+                        }
                     }
                 }
 
@@ -384,10 +406,79 @@ void CPellBase::OverlapEvent(_float3 vDir, CGameObject* pHitObject)
     }
 }
 
-HRESULT CPellBase::ADD_PellInfoUI()
+void CPellBase::OverlappingEvent(_float3 vDir, CGameObject* pHitObject)
+{
+    _float3 vHitActorPos = pHitObject->GetTransform()->GetPosition();
+    _vector vCalHitActorPos = XMLoadFloat3(&vHitActorPos);
+
+    _float3 vColisionExtents = {};
+    if (m_pCollision)
+    {
+        _float3 vBoundCenter = {};
+       
+        switch (m_pCollision->GetCollisionType())
+        {
+        case COLLISION_TYPE::OBB:
+        {
+            auto pOBBColision = static_cast<COBBCollision*>(m_pCollision);
+            vBoundCenter = pOBBColision->GetBounding().Center;
+        }
+        break;
+        case COLLISION_TYPE::SPHERE:
+        {
+            auto pShpereCol = static_cast<CSphereCollision*>(m_pCollision);
+            vBoundCenter = pShpereCol->GetBounding().Center;
+        }
+        break;
+        case COLLISION_TYPE::BOX:
+        {
+            auto pBoxCol = static_cast<CBoxCollision*>(m_pCollision);
+            vBoundCenter = pBoxCol->GetBounding().Center;
+        }
+        break;
+        }
+        
+        _vector vCalBoundCenter = XMLoadFloat3(&vBoundCenter);
+        _vector vDir = XMVector3Normalize(vCalBoundCenter - vCalHitActorPos);
+        _vector vColSize = {};
+        if (XMVector3Equal(vDir, XMVectorZero()))
+            return;
+
+        _bool bIsHit = false;
+        _float vDist = {};
+        _float fLength = XMVectorGetX(XMVector3Length(vCalBoundCenter - vCalHitActorPos));
+        switch (m_pCollision->GetCollisionType())
+        {
+        case COLLISION_TYPE::OBB:
+        {
+            auto pOBBColision = static_cast<COBBCollision*>(m_pCollision);
+            bIsHit = pOBBColision->GetBounding().Intersects(vCalHitActorPos, vDir, vDist);
+        }
+        break;
+        case COLLISION_TYPE::SPHERE:
+        {
+            auto pShpereCol = static_cast<CSphereCollision*>(m_pCollision);
+            bIsHit = pShpereCol->GetBounding().Intersects(vCalHitActorPos, vDir, vDist);
+        }
+        break;
+        case COLLISION_TYPE::BOX:
+        {
+            auto pBoxCol = static_cast<CBoxCollision*>(m_pCollision);
+            bIsHit = pBoxCol->GetBounding().Intersects(vCalHitActorPos, vDir, vDist);
+        }
+        break;
+        }
+
+        if (0 > vDist)
+            pHitObject->ADDPosition(vDir * vDist);
+    }
+}
+
+HRESULT CPellBase::ADD_PellInfoUI(const char* szSocketName)
 {
     CNeturalPellInfo::NETURAL_PELL_DESC PellInfoDesc = {};
     PellInfoDesc.pOwner = this;
+    PellInfoDesc.szAttachSocketName = szSocketName;
     PellInfoDesc.vScale = { 120.f, 30.f, 0.f };
 
     _float3 vParentScale = m_pPellBody->GetTransform()->GetScale();

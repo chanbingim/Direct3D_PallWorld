@@ -17,6 +17,7 @@ HRESULT CTechnologyTitleBar::Initalize_Prototype()
     if (FAILED(__super::Initalize_Prototype()))
         return E_FAIL;
 
+    m_vColor = { 0.6f, 0.6f, 0.6f, 0.6f };
     return S_OK;
 }
 
@@ -31,7 +32,7 @@ HRESULT CTechnologyTitleBar::Initialize(void* pArg)
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
-    m_vColor = { 0.6f, 0.6f, 0.6f, 0.6f };
+    m_vColor = { 0.6f, 0.6f, 0.6f, 0.3f };
     return S_OK;
 }
 
@@ -49,7 +50,7 @@ HRESULT CTechnologyTitleBar::Render()
     Apply_ConstantShaderResources();
     m_pShaderCom->Bind_RawValue("g_vColor", &m_vColor, sizeof(_float4));
 
-    m_pShaderCom->Update_Shader(2);
+    m_pShaderCom->Update_Shader(4);
     m_pTextureCom->SetTexture(0, 0);
     m_pVIBufferCom->Render_VIBuffer();
 

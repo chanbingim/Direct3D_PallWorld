@@ -106,4 +106,6 @@ CGameObject* CPellBody::Clone(void* pArg)
 void CPellBody::Free()
 {
     __super::Free();
+
+    Safe_Release(m_pNoiseTexture);
 }

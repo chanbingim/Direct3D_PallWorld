@@ -119,17 +119,18 @@ void CTechSlot::MouseButtonDwon()
 	if (m_pGameInstance->KeyDown(KEY_INPUT::MOUSE, 1))
 	{
 		GamePlayHUD->SetVisibleSelectUI(VISIBILITY::VISIBLE);
-		SelectUI->SetText(0, TEXT("취소"));
-		SelectUI->SetText(1, TEXT("배우기"));
+		SelectUI->SetText(0, TEXT("배우기"));
+		SelectUI->SetText(1, TEXT("취소"));
 		SelectUI->SetPosition({ (_float)GetRectSize().right,
 							   (_float)GetRectSize().bottom, 0.f });
 
-		SelectUI->BindEvent(0, [&]() { CancelEvent(); });
-		SelectUI->BindEvent(1, [&]() {  LearnEvent(); });
+		SelectUI->BindEvent(1, [&]() { CancelEvent(); });
+		SelectUI->BindEvent(0, [&]() {  LearnEvent(); });
 	}
 	else
 	{
-		GamePlayHUD->SetVisibleSelectUI(VISIBILITY::HIDDEN);
+		if(false == PtInRect(&SelectUI->GetRectSize(), m_pGameInstance->GetMousePoint()))
+			GamePlayHUD->SetVisibleSelectUI(VISIBILITY::HIDDEN);
 	}
 }
 
@@ -173,6 +174,8 @@ const WCHAR* CTechSlot::GetTechTypeName(TECH_TYPE eTechType)
 void CTechSlot::LearnEvent()
 {
 	m_pTechManager->LernTechObject(m_TechItem->TechTypeID);
+	auto GamePlayHUD = static_cast<CGamePlayHUD*>(m_pGameInstance->GetCurrentLevel()->GetHUD());
+	GamePlayHUD->SetVisibleSelectUI(VISIBILITY::HIDDEN);
 }
 
 void CTechSlot::CancelEvent()

@@ -37,6 +37,7 @@ HRESULT CElectricPandaBody::Initialize(void* pArg)
         return E_FAIL;
 
     m_HandMatrix = GetBoneMatrix("hand_l");
+    m_pNoiseTexture = m_pGameInstance->GetTextureResource(TEXT("T_Default_Noise.png"));
     m_pVIBufferCom->Bind_KeyFrameFunction("FarSkill_ActionLoop", 1, [this]() { ShootProjecttileObject(); });
     return S_OK;
 }
@@ -66,8 +67,8 @@ HRESULT CElectricPandaBody::Render()
 
         if (m_bIsDissolve)
         {
-            auto pNoiseTex = m_pGameInstance->GetTextureResource(TEXT("T_Default_Noise.png"));
-            m_pShaderCom->Bind_SRV("g_DissolveTexture", pNoiseTex->GetTexture(0));
+            
+            m_pShaderCom->Bind_SRV("g_DissolveTexture", m_pNoiseTexture->GetTexture(0));
             m_pShaderCom->Bind_RawValue("g_bIsDissolve", &m_bIsDissolve, sizeof(_bool));
             m_pShaderCom->Bind_RawValue("g_fDissloveTime", &m_fAccDissolveTime, sizeof(_float));
         }
@@ -75,6 +76,7 @@ HRESULT CElectricPandaBody::Render()
         m_pShaderCom->Update_Shader(0);
         m_pVIBufferCom->Render(i);
     }
+
     return S_OK;
 }
 
@@ -168,4 +170,6 @@ CGameObject* CElectricPandaBody::Clone(void* pArg)
 void CElectricPandaBody::Free()
 {
     __super::Free();
+
+ 
 }

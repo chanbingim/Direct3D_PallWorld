@@ -245,7 +245,9 @@ void CPalSpher::ComputeCatchPellSuccess(_float fDeletaTime)
 		{
 			// 성공
 			// 따로 플레그를 주지않은이상 움직이지 않는걸로
+			m_pGameInstance->Manager_PlaySound(TEXT("06-caught-a-pokemon.mp3"), CHANNELID::EFFECT, 1.f);
 			CPlayerManager::GetInstance()->ADDOwnerPellList(m_pHitPell);
+
 		}
 
 		m_pHitPell->Damage(nullptr, this);

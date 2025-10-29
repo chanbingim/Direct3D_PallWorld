@@ -44,6 +44,12 @@ HRESULT CPlayer::Initialize(void* pArg)
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
+    if (nullptr == m_pTerrainManager)
+    {
+        m_pTerrainManager = CTerrainManager::GetInstance();
+        Safe_AddRef(m_pTerrainManager);
+    }
+
     if (FAILED(ADD_Components()))
         return E_FAIL;
 
@@ -814,11 +820,7 @@ _bool CPlayer::GetWeaponAttackType()
 void CPlayer::SettingNavigation()
 {
 #pragma region NAVI_MESH
-    if (m_pTerrainManager)
-    {
-        m_pTerrainManager = CTerrainManager::GetInstance();
-        Safe_AddRef(m_pTerrainManager);
-    }
+ 
 
     _float3 vPlayPosition = m_pTransformCom->GetPosition();
     CTerrainManager::CHUNK_DESC ChunkDesc = {};
@@ -938,6 +940,7 @@ void CPlayer::Damage(void* pArg, CActor* pDamagedActor)
     if (pDamageDesc)
     {
         m_pCharacterInfo->CurHealth -= pDamageDesc->fDmaged;
+        m_pGameInstance->Manager_PlaySound(TEXT("Hit_Normal_Damage.mp3"), CHANNELID::EFFECT, 1.f);
         if (0 >= m_pCharacterInfo->CurHealth)
         {
             //여기서 대충 페이드 아웃할거임

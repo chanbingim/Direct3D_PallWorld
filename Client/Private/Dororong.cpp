@@ -47,7 +47,7 @@ HRESULT CDororong::Initialize(void* pArg)
     if (FAILED(ADD_PartObjects()))
         return E_FAIL;
 
-    if (FAILED(ADD_PellInfoUI()))
+    if (FAILED(ADD_PellInfoUI("spine")))
         return E_FAIL;
 
     m_eTeam = ACTOR_TEAM::NEUTRAL;
@@ -200,6 +200,11 @@ void CDororong::CombatAction(_float fDeletaTime, CGameObject* pTarget)
     m_pPellFsm->SetAttack(true);
 }
 
+void CDororong::OverlappingEvent(_float3 vDir, CGameObject* pHitObject)
+{
+    __super::OverlappingEvent(vDir, pHitObject);
+}
+
 HRESULT CDororong::ADD_Components()
 {
     CRecovery::RECOVERY_DESC RecoverDesc;
@@ -210,14 +215,14 @@ HRESULT CDororong::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("GamePlay_Component_Recovery"), TEXT("Recovery_Com"), (CComponent**)&m_pRecovery, &RecoverDesc)))
         return E_FAIL;
 
-    CSphereCollision::SPEHRE_COLLISION_DESC SphereDesc = {};
-    ZeroMemory(&SphereDesc, sizeof(CSphereCollision::SPEHRE_COLLISION_DESC));
-    SphereDesc.pOwner = this;
-    SphereDesc.Radius = 0.5f;
-    SphereDesc.vCneter = _float3(0.f, SphereDesc.Radius, 0.f);
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionSphere"), TEXT("Collision_Com"), (CComponent**)&m_pCollision, &SphereDesc)))
+    COBBCollision::OBB_COLLISION_DESC BoxDesc = {};
+    BoxDesc.pOwner = this;
+    BoxDesc.vExtents = { 1.f, 1.f, 1.f };
+    BoxDesc.vCneter = _float3(0.f, BoxDesc.vExtents.y * 0.5f, 0.f);
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionOBB"), TEXT("Collision_Com"), (CComponent**)&m_pCollision, &BoxDesc)))
         return E_FAIL;
     m_pCollision->BindBeginOverlapEvent([this](_float3 vDir, CGameObject* pHitActor) { OverlapEvent(vDir, pHitActor); });
+    m_pCollision->BindOverlappingEvent([this](_float3 vDir, CGameObject* pHitActor) { OverlappingEvent(vDir, pHitActor); });
 
     CChaseComponent::CHASE_INITIALIZE_DESC ChaseInitDesc = {};
     ChaseInitDesc.pOwnerTransform = m_pTransformCom;

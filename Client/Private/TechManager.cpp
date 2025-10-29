@@ -12,7 +12,11 @@ HRESULT CTechManager::Initialize(const char* FilePath)
 
 void CTechManager::LernTechObject(_uInt TechItemID)
 {
-    m_TechItems[TechItemID].LearnTech = true;
+    auto ItemData = GetTechData(TechItemID);
+    auto iter = find(m_LearnTechItems[ItemData.TechType].begin(), m_LearnTechItems[ItemData.TechType].end(), TechItemID);
+
+    if (iter == m_LearnTechItems[ItemData.TechType].end())
+        m_LearnTechItems[ItemData.TechType].push_back(TechItemID);
 }
 
 const WCHAR* CTechManager::GetTechTypeToString(TECH_TYPE eTechType)
@@ -45,11 +49,21 @@ const list<_uInt>& CTechManager::GetCategoryTypeTechList(TECH_TYPE eType)
     return m_TypeTechItems[eType];
 }
 
+const list<_uInt>& CTechManager::GetLearnTechList(TECH_TYPE eType)
+{
+    return m_LearnTechItems[eType];
+}
+
 HRESULT CTechManager::LoadItemData(const char* FilePath)
 {
     vector<_string> Data;
     CSV_Read(FilePath, Data);
     ParseTechData(Data);
+
+    list<_uInt> TempList;
+    for (_uInt i = 0; i < ENUM_CLASS(TECH_TYPE::END); ++i)
+        m_LearnTechItems.emplace(TECH_TYPE(i), TempList);
+
     return S_OK;
 }
 

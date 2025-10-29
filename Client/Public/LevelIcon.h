@@ -30,6 +30,8 @@ private:
 	_float2									m_fFontPoint = {};
 	_wstring								m_szLevel = {};
 
+	_float4									m_vColor = {};
+
 private:
 	HRESULT									ADD_Components();
 

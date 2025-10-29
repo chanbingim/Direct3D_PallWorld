@@ -26,6 +26,7 @@ public:
 protected:
 	// 전투를 위한 전투 기능
 	virtual		void						CombatAction(_float fDeletaTime, CGameObject* pTarget);
+	virtual		void						OverlappingEvent(_float3 vDir, CGameObject* pHitObject) override;
 
 private:
 	HRESULT									ADD_Components();
@@ -34,6 +35,7 @@ private:
 
 	void									OverlapEvent(_float3 vDir, CGameObject* pHitObject);
 
+	
 public:
 	static			CElectPanda*			Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);
 	virtual			CGameObject*			Clone(void* pArg) override;

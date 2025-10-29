@@ -221,11 +221,12 @@ HRESULT CElectPanda::ADD_Components()
 
     COBBCollision::OBBColiisionDesc OBBDesc = {};
     OBBDesc.pOwner = this;
-    OBBDesc.vExtents = {0.6f, 1.5f, 0.6f};
+    OBBDesc.vExtents = {1.2f, 1.5f, 1.0f};
     OBBDesc.vCneter = _float3(0.f, OBBDesc.vExtents.y * 0.5f, 0.f);
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionOBB"), TEXT("Collision_Com"), (CComponent**)&m_pCollision, &OBBDesc)))
         return E_FAIL;
     m_pCollision->BindBeginOverlapEvent([this](_float3 vDir, CGameObject* pHitActor) { OverlapEvent(vDir, pHitActor); });
+    m_pCollision->BindOverlappingEvent([this](_float3 vDir, CGameObject* pHitActor) { OverlappingEvent(vDir, pHitActor); });
 
     CChaseComponent::CHASE_INITIALIZE_DESC ChaseInitDesc = {};
     ChaseInitDesc.pOwnerTransform = m_pTransformCom;
@@ -281,6 +282,11 @@ void CElectPanda::OverlapEvent(_float3 vDir, CGameObject* pHitObject)
     {
         __super::OverlapEvent(vDir, pHitObject);
     }
+}
+
+void CElectPanda::OverlappingEvent(_float3 vDir, CGameObject* pHitObject)
+{
+    __super::OverlappingEvent(vDir, pHitObject);
 }
 
 CElectPanda* CElectPanda::Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext)

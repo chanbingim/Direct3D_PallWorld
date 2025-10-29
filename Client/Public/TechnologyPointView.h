@@ -26,12 +26,13 @@ public:
 	virtual		HRESULT						Render() override;
 
 private:
-	CFontComponent*							m_pFontCom = nullptr;
-	CFontComponent*							m_pPointFontCom = nullptr;
-	CPlayerManager*							m_pPlayerManager = nullptr;
+	CFontComponent* m_pFontCom = nullptr;
+	CFontComponent* m_pPointFontCom = nullptr;
+	CPlayerManager* m_pPlayerManager = nullptr;
 
 	_float2									m_fFontPoint = { };
 	_float2									m_fSkillFontPoint = { };
+	_float4									m_vColor = {};
 
 	_wstring								m_szTechPoint = {};
 

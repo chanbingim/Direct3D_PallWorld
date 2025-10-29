@@ -110,7 +110,7 @@ HRESULT CRockObject::ADD_Components(_uInt iModelIndex)
     OBBDesc.pOwner = this;
     if (2 == iModelIndex)
     {
-        OBBDesc.vExtents = { 1.f, 1.f, 1.f };
+        OBBDesc.vExtents = { 1.5f, 1.f, 1.0f };
         m_fCompleteTime = 3.f;
     }
     else if(1 == iModelIndex)

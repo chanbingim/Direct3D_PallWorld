@@ -62,7 +62,7 @@ void CBossHealthBar::Update(_float fDeletaTime)
 	else
 	{
 		m_fPercent = 1.f;
-		m_HealthText = to_wstring(1000);
+		m_HealthText = to_wstring(m_pPellInfo->MaxHealth);
 	}
 
 	_vector TextSize = m_pHealthFontCom->GetFontBoundBox(m_HealthText.c_str());

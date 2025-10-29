@@ -33,6 +33,7 @@ private:
 	HRESULT									Setup_PellFsm();
 
 	virtual		void						OverlapEvent(_float3 vDir, CGameObject* pHitObject) override;
+	virtual		void						OverlappingEvent(_float3 vDir, CGameObject* pHitObject) override;
 
 public:
 	static			CBedCat*				Create(ID3D11Device* pGraphic_Device, ID3D11DeviceContext* pDeviceContext);
