@@ -2,54 +2,54 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe</FullPath>
+      <FullPath>C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles>
     <ContentFile>
-      <FullPath>C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ButtonShader.cso</FullPath>
+      <FullPath>C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\Bin\ButtonShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\MouseShader.cso</FullPath>
+      <FullPath>C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\Bin\MouseShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\MutipleBlend.cso</FullPath>
+      <FullPath>C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\Bin\MutipleBlend.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\ProgressBar.cso</FullPath>
+      <FullPath>C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\Bin\ProgressBar.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\SelectTriShader.cso</FullPath>
+      <FullPath>C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\Bin\SelectTriShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\Shader_VtxCube.cso</FullPath>
+      <FullPath>C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\Bin\Shader_VtxCube.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\TestShader.cso</FullPath>
+      <FullPath>C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\Bin\TestShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\TrailComputeShader.cso</FullPath>
+      <FullPath>C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\Bin\TrailComputeShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\TrailShader.cso</FullPath>
+      <FullPath>C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\Bin\TrailShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_AnimMesh.cso</FullPath>
+      <FullPath>C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\Bin\VTX_AnimMesh.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_InstnaceMesh.cso</FullPath>
+      <FullPath>C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\Bin\VTX_InstnaceMesh.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_InstnacePoint.cso</FullPath>
+      <FullPath>C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\Bin\VTX_InstnacePoint.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_Mesh.cso</FullPath>
+      <FullPath>C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\Bin\VTX_Mesh.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\VTX_NorTex.cso</FullPath>
+      <FullPath>C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\Bin\VTX_NorTex.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\WorldUI.cso</FullPath>
+      <FullPath>C:\Users\gimch\Document\Direct3D_PallWorld\Direct3D_PallWorld\Client\Bin\WorldUI.cso</FullPath>
     </ContentFile>
   </ContentFiles>
   <SatelliteDlls />

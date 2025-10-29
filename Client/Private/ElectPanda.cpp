@@ -219,12 +219,11 @@ HRESULT CElectPanda::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("GamePlay_Component_Recovery"), TEXT("Recovery_Com"), (CComponent**)&m_pRecovery, &RecoverDesc)))
         return E_FAIL;
 
-    CSphereCollision::SPEHRE_COLLISION_DESC SphereDesc = {};
-    ZeroMemory(&SphereDesc, sizeof(CSphereCollision::SPEHRE_COLLISION_DESC));
-    SphereDesc.pOwner = this;
-    SphereDesc.Radius = 0.5f;
-    SphereDesc.vCneter = _float3(0.f, SphereDesc.Radius, 0.f);
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionSphere"), TEXT("Collision_Com"), (CComponent**)&m_pCollision, &SphereDesc)))
+    COBBCollision::OBBColiisionDesc OBBDesc = {};
+    OBBDesc.pOwner = this;
+    OBBDesc.vExtents = {0.6f, 1.5f, 0.6f};
+    OBBDesc.vCneter = _float3(0.f, OBBDesc.vExtents.y * 0.5f, 0.f);
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionOBB"), TEXT("Collision_Com"), (CComponent**)&m_pCollision, &OBBDesc)))
         return E_FAIL;
     m_pCollision->BindBeginOverlapEvent([this](_float3 vDir, CGameObject* pHitActor) { OverlapEvent(vDir, pHitActor); });
 

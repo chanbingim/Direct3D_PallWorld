@@ -828,6 +828,7 @@ void CPellBase::Free()
     Safe_Release(m_pPellFsm);
     Safe_Release(m_pRecovery);
     Safe_Release(m_pChase);
+    Safe_Release(m_pTerrainManager);
     Safe_Release(m_pNeturalPellUI);
     Safe_Release(m_pNevigation);
     Safe_Release(m_pCombatCom);

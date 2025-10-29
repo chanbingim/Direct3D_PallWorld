@@ -173,4 +173,7 @@ CGameObject* CPreivewModelBody::Clone(void* pArg)
 void CPreivewModelBody::Free()
 {
     __super::Free();
+
+    Safe_Release(m_pPlayerBody);
+    Safe_Release(m_pWeaponSocket);
 }

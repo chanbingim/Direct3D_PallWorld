@@ -55,8 +55,8 @@ HRESULT CGamePlayLevel::Initialize()
 		return E_FAIL;
 
 	// 이거 누수나는거 UI 확인해보고 UI SKy나 UIO 둘중하나 에서 찾으면됨
-	/*if (FAILED(Setting_GamePlayHUD()))
-		return E_FAIL;*/
+	if (FAILED(Setting_GamePlayHUD()))
+		return E_FAIL;
 
 	m_pGameInstance->ShowInGameMouse(VISIBILITY::HIDDEN);
 

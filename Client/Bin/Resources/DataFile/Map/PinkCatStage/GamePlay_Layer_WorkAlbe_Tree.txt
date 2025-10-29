@@ -1,4 +1,4 @@
-45
+44
 0 3 3 Prototype_GameObject_Tree GamePlay_Layer_WorkAlbe 0 1 1 1 0 0 0 595.13 -207.946 432.189 
 0 3 3 Prototype_GameObject_Tree GamePlay_Layer_WorkAlbe 0 1 1 1 0 0 0 583.011 -207.934 442.263 
 0 3 3 Prototype_GameObject_Tree GamePlay_Layer_WorkAlbe 0 1 1 1 0 0 0 601.186 -207.948 446.418 
@@ -38,8 +38,7 @@
 0 3 3 Prototype_GameObject_Tree GamePlay_Layer_WorkAlbe 0 1 1 1 0 0 0 572.918 -207.936 516.05 
 0 3 3 Prototype_GameObject_Tree GamePlay_Layer_WorkAlbe 0 1 1 1 0 0 0 630.337 -207.893 475.648 
 0 3 3 Prototype_GameObject_Tree GamePlay_Layer_WorkAlbe 0 1 1 1 0 0 0 610.75 -207.924 486.641 
-0 3 3 Prototype_GameObject_Tree GamePlay_Layer_WorkAlbe 0 1 1 1 0 0 0 624.333 -207.894 502.345 
-0 3 3 Prototype_GameObject_Tree GamePlay_Layer_WorkAlbe 0 1 1 1 0 0 0 0 0 0 
+0 3 3 Prototype_GameObject_Tree GamePlay_Layer_WorkAlbe 0 1 1 1 0 0 0 624.333 -207.894 502.345  
 0 3 3 Prototype_GameObject_Tree GamePlay_Layer_WorkAlbe 0 1 1 1 0 0 0 603.075 -207.931 502.446 
 0 3 3 Prototype_GameObject_Tree GamePlay_Layer_WorkAlbe 0 1 1 1 0 0 0 653.808 -207.803 485.671 
 0 3 3 Prototype_GameObject_Tree GamePlay_Layer_WorkAlbe 0 1 1 1 0 0 0 645.649 -207.84 514.376 
