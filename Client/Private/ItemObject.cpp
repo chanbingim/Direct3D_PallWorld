@@ -71,6 +71,7 @@ void CItemObject::Late_Update(_float fDeletaTime)
         {
             if (m_pGameInstance->KeyPressed(KEY_INPUT::KEYBOARD, DIK_F))
             {
+                m_pGameInstance->Manager_PlaySound(TEXT("ItemGet2.wav"), CHANNELID::EFFECT, 1.f);
                 //여기서 습득 이벤트 발생
                 Damage(nullptr, nullptr);
             }

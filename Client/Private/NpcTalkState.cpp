@@ -14,6 +14,7 @@ void CNpcTalkState::OnStateEnter(void* pArg)
 
     m_szStateName = "Talking";
     m_szStateName += m_iTalkIndex;
+    m_bStateAnimLoop = false;
 }
 
 void CNpcTalkState::OnStateExcution(_float fDeletaTime, void* pArg)

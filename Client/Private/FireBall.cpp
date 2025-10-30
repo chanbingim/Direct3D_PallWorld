@@ -36,7 +36,8 @@ HRESULT CFireBall::Initialize(void* pArg)
     auto pGameObject = m_pGameInstance->EffectClone_Object(1, TEXT("fIRE_Effect"), &Desc);
     m_pSkillEffects.push_back(pGameObject);
 
-    m_fChargeTime = 1.f;
+    m_pGameInstance->Manager_PlaySound(TEXT("FireSound.wav"), CHANNELID::EFFECT, 1.f);
+    m_fChargeTime = 1.5f;
     m_bIsCharge = true;
     return S_OK;
 }
@@ -51,6 +52,7 @@ void CFireBall::Priority_Update(_float fDeletaTime)
 
         if (0 >= m_fChargeTime)
             m_bIsCharge = false;
+          
     }
 }
 

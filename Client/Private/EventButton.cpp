@@ -74,6 +74,7 @@ void CEventButton::Bind_Event(function<void()> Event)
 
 void CEventButton::MouseHoverEnter()
 {
+    m_pGameInstance->Manager_PlaySound(TEXT("UI_MouseOver_02_A1.ogg"), CHANNELID::EFFECT, 1.f);
 }
 
 void CEventButton::MouseHovering()
@@ -86,6 +87,7 @@ void CEventButton::MouseHoverExit()
 
 void CEventButton::MouseButtonDwon()
 {
+    m_pGameInstance->Manager_PlaySound(TEXT("ButtonClicked.wav"), CHANNELID::EFFECT, 1.f);
 }
 
 void CEventButton::MouseButtonPressed()

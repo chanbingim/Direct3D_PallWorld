@@ -44,6 +44,8 @@ HRESULT CEarthquake::Initialize(void* pArg)
 
     m_vStartScale = { 1.f, 1.f, 1.f };
     m_vEndScale = { 7.f, 1.f, 7.f };
+
+    m_pGameInstance->Manager_PlaySound(TEXT("EFF_MON_Short_Burst_Earth_04_A.ogg"), CHANNELID::EFFECT2, 0.5f);
     m_pSkillEffects.push_back(pGameObject);
 
     return S_OK;

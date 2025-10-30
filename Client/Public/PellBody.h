@@ -33,6 +33,7 @@ public:
 	void									PellPlayAnimation(const char* szAnimName, _bool bIsLoop = true);
 	void									ResetPellCurrentAnimation();
 	_bool									FinishedAnimation();
+	void									SetSkillIndex(_uInt iSkillIndex) { m_iAttackSkillIndex = iSkillIndex; }
 
 	void									UpdateDissolve(_float fTime);
 	_bool									FinishedDissolve();
@@ -41,7 +42,8 @@ protected :
 	_bool									m_bIsAnimFinished = false;
 	_bool									m_bIsDissolve = false;
 	_float									m_fAccDissolveTime = {};
-	
+	_uInt									m_iAttackSkillIndex = {};
+
 	CTexture*								m_pNoiseTexture = nullptr;
 
 

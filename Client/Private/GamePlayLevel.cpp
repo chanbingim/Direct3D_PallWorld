@@ -41,13 +41,6 @@ HRESULT CGamePlayLevel::Initialize()
 	if (FAILED(LoadPalArea()))
 		return E_FAIL;
 
-	CPlayerManager::PLAYER_MANAGER_DESC PlayerDesc;
-	PlayerDesc.iMaxInvenWeight = 1000;
-	PlayerDesc.iNumInvenMaxSlot = 60;
-	CPlayerManager::GetInstance()->Initialize(&PlayerDesc);
-	if (FAILED(ADD_PlayerLayer(TEXT("Layer_GamePlay_Player"))))
-		return E_FAIL;
-
 	if (FAILED(ADD_SkyLayer(TEXT("Layer_GamePlay_SKY"))))
 		return E_FAIL;
 
@@ -59,6 +52,9 @@ HRESULT CGamePlayLevel::Initialize()
 		return E_FAIL;
 
 	m_pGameInstance->ShowInGameMouse(VISIBILITY::HIDDEN);
+	
+	m_pGameInstance->Manager_PlaySound(TEXT("StartSound.wav"), CHANNELID::EFFECT, 1.f);
+	CTerrainManager::GetInstance()->PlayChunkBGM();
 
 	return S_OK;
 }
@@ -66,9 +62,6 @@ HRESULT CGamePlayLevel::Initialize()
 void CGamePlayLevel::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
-
-
-	
 }
 
 HRESULT CGamePlayLevel::Render()
@@ -360,6 +353,13 @@ HRESULT CGamePlayLevel::LoadMainArea()
 	auto DefualtMap = m_pGameInstance->GetAllObejctToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_GamePlay_Terrian"))->front();
 	CTerrainManager::GetInstance()->UpdateChunk(XMLoadFloat4x4(&DefualtMap->GetTransform()->GetWorldMat()));
 
+	CPlayerManager::PLAYER_MANAGER_DESC PlayerDesc;
+	PlayerDesc.iMaxInvenWeight = 1000;
+	PlayerDesc.iNumInvenMaxSlot = 60;
+	CPlayerManager::GetInstance()->Initialize(&PlayerDesc);
+	if (FAILED(ADD_PlayerLayer(TEXT("Layer_GamePlay_Player"))))
+		return E_FAIL;
+
 	pObjectDesc.clear();
 	ReadMapFile("../Bin/Resources/DataFile/Map/Home/GamePlay_Layer_FastTravel.txt", pObjectDesc);
 	pListData = pObjectDesc.begin();
@@ -467,9 +467,9 @@ HRESULT CGamePlayLevel::LoadPalArea()
 	//if (FAILED(LoadObject("../Bin/Resources/DataFile/Map/PinkCatStage/GamePlay_Layer_Enviornment.txt", TEXT("Enviornment"))))
 	//	return E_FAIL;
 
-	//// 인스턴싱된 Prob 오브젝트
-	//if (FAILED(LoadObject("../Bin/Resources/DataFile/Map/PinkCatStage/GamePlay_Layer_Instance_Env.txt", TEXT("Instance_Env"))))
-	//	return E_FAIL;
+	// 인스턴싱된 Prob 오브젝트
+	if (FAILED(LoadObject("../Bin/Resources/DataFile/Map/PinkCatStage/GamePlay_Layer_Instance_Env.txt", TEXT("Instance_Env"))))
+		return E_FAIL;
 
 	// 작업가능한 녀석들 상주하는 NPC 데이터
 	if (FAILED(LoadEnvObject("../Bin/Resources/DataFile/Map/PinkCatStage/GamePlay_Layer_WorkAlbe_Tree.txt", TEXT("Tree"))))

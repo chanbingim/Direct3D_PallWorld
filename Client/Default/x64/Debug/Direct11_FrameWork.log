@@ -49,5 +49,35 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
 FXC : warning X4717: Effects deprecated for D3DCompiler_47
   
   compilation object save succeeded; see C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\WorldUI.cso
-  Equipment.cpp
+  PlayerItemSlot.cpp
+  Architecture.cpp
+  Earthquake.cpp
+  FastTravelObject.cpp
+  FastTravelUI.cpp
+  Loader.cpp
+  Npc.cpp
+  PellBase.cpp
+  PellCarryState.cpp
+  PellPatrolState.cpp
+  Player.cpp
+  PlayerAttackState.cpp
+  PlayerManager.cpp
+  PlayerWeaponSlot.cpp
+  PreviewModelWeapon.cpp
+  ProjectileSlot.cpp
+C:\Git\GitHub\Direct3D_PallWorld\Client\Public\GrassMommothBody.h(24,67): warning C4244: '=': 'Engine::_uInt'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 '../private/Loader.cpp'을(를) 컴파일하는 중)
+  
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\Architecture.cpp(48,62): warning C4244: '=': 'Engine::_uInt'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\Earthquake.cpp(101,37): warning C4244: '=': 'Engine::_uInt'에서 'Engine::_float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\Loader.cpp(834,35): warning C4244: '=': 'float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\Loader.cpp(850,35): warning C4244: '=': 'float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\Loader.cpp(866,35): warning C4244: '=': 'float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\Loader.cpp(882,35): warning C4244: '=': 'float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\Loader.cpp(898,35): warning C4244: '=': 'float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\PellBase.cpp(176,47): warning C4244: '초기화 중': 'Engine::_float'에서 'Engine::_uInt'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\PlayerManager.cpp(675,28): warning C4018: '<=': signed 또는 unsigned가 일치하지 않습니다.
+C:\Git\GitHub\Direct3D_PallWorld\Client\private\PlayerManager.cpp(688,23): warning C4018: '<=': signed 또는 unsigned가 일치하지 않습니다.
+  ShadowCamera.cpp
+  TerrainManager.cpp
   Direct11_FrameWork.vcxproj -> C:\Git\GitHub\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe

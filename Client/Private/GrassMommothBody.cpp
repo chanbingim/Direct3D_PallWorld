@@ -108,6 +108,13 @@ HRESULT CGrassMommothBody::FarSkillEvent()
     if (-1 == m_iSkillIndex)
         return E_FAIL;
 
+    CPellBase* pOwner = static_cast<CPellBase*>(m_pParent);
+    CCombatComponent* pCombatCom = static_cast<CCombatComponent*>(pOwner->Find_Component(TEXT("Combat_Com")));
+
+    auto pTarget = pCombatCom->GetCurrentTarget();
+    if (nullptr == pTarget)
+        return E_FAIL;
+
     _float3 vScale = m_pTransformCom->GetScale();
     _float3 vPosition = m_pParent->GetTransform()->GetPosition();
 
@@ -120,12 +127,9 @@ HRESULT CGrassMommothBody::FarSkillEvent()
 
     CSkillObjectBase::SKILL_OBJECT_DESC SkillDesc = {};
     SkillDesc.vScale = { 1.f, 1.f, 1.f };
-
-    CPellBase* pOwner = static_cast<CPellBase*>(m_pParent);
-    CCombatComponent* pCombatCom = static_cast<CCombatComponent*>(pOwner->Find_Component(TEXT("Combat_Com")));
-
     SkillDesc.pOwner = pOwner;
-    _float3 vTargetPoint = pCombatCom->GetCurrentTarget()->GetTransform()->GetPosition();
+
+    _float3 vTargetPoint = pTarget->GetTransform()->GetPosition();
    
     //여기서 이펙트 생성해서 넘기기
     if (5 == m_iSkillIndex)

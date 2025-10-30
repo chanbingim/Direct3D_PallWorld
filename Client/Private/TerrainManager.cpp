@@ -1,6 +1,10 @@
 #include "TerrainManager.h"
 
 #include "GameInstance.h"
+
+#include "PlayerManager.h"
+#include "Player.h"
+
 #include "PaseDataHeader.h"
 #include "StringHelper.h"
 
@@ -99,6 +103,35 @@ _bool CTerrainManager::UpdateChunk(const WCHAR* ChunkKey, _float3 vMovePoint)
     }
 
     return false;
+}
+
+void CTerrainManager::PlayChunkBGM()
+{
+    CGameInstance* pGameInstance = CGameInstance::GetInstance();
+    auto pPlayer = CPlayerManager::GetInstance()->GetCurrentPlayer();
+    pGameInstance->Manager_StopSound(CHANNELID::BGM);
+
+    auto ChunkName = pPlayer->GetPlayerOnChunkName();
+    
+    // 나중에 바꾸자 맵에다가 bgm을 바인딩해서 재생하는걸로
+    // 사실 청크별로 맵 사운드 데이터를 가지고있으면 유연한데
+    // 영상부터 찍고나서 다시 슛
+    if (TEXT("MainArea") == ChunkName)
+    {
+        pGameInstance->Manager_PlayBGM(TEXT("driftveil-city.mp3"), 0.7f);
+    }
+    else if (TEXT("PinkCatField") == ChunkName)
+    {
+        pGameInstance->Manager_PlayBGM(TEXT("Map1Sound.wav"), 0.7f);
+    }
+    else if (TEXT("SheepBalField") == ChunkName)
+    {
+        pGameInstance->Manager_PlayBGM(TEXT("BGM_TrainingRoom_01_A.OGG"), 0.7f);
+    }
+    else if (TEXT("BossField") == ChunkName)
+    {
+        pGameInstance->Manager_PlayBGM(TEXT("BossSound.wav"), 0.7f);
+    }
 }
 
 _bool CTerrainManager::ComputeHieght(CTransform* pTransform, _float3* vOutPoint, _bool bIsUpdateCell)

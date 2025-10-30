@@ -27,7 +27,7 @@ public:
 	_bool									IsRenderable();
 
 private:
-	_float4									m_vHigh = { 0.f, -1.f, 0.f, 1.f };
+	_float4									m_vHigh = { 0.f, 1.f, 0.f, 1.f };
 	_float4									m_vLow = { 0.f, 0.f, 0.f, 1.f };
 	ID3D11Buffer*							m_pVB = { nullptr };
 	ID3D11Buffer*							m_pIB = { nullptr };

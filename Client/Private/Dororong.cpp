@@ -160,6 +160,8 @@ void CDororong::Damage(void* pArg, CActor* pDamagedActor)
 {
     __super::Damage(pArg, pDamagedActor);
 
+
+    
 }
 
 void CDororong::CombatAction(_float fDeletaTime, CGameObject* pTarget)
@@ -202,7 +204,47 @@ void CDororong::CombatAction(_float fDeletaTime, CGameObject* pTarget)
 
 void CDororong::OverlappingEvent(_float3 vDir, CGameObject* pHitObject)
 {
+    PalSkillAttackHit(pHitObject);
     __super::OverlappingEvent(vDir, pHitObject);
+}
+
+void CDororong::PalSkillAttackHit(CGameObject* pHitObject)
+{
+    auto State = m_pPellFsm->GetState();
+    if (State.bIsAttacking)
+    {
+        DEFAULT_DAMAGE_DESC DamageDesc = {};
+        DamageDesc.fDmaged = (_float)m_PellInfo.DefaultSkill.iSkillDamage;
+
+        auto Hit = static_cast<CActor*>(pHitObject);
+        if (Hit)
+        {
+            Hit->Damage(&DamageDesc, this);
+
+            CPellStateStun::PELL_STATE_STUN_STATE StunStateDesc = {};
+            StunStateDesc.StunTime = 0.7f;
+            StunStateDesc.ActionFunction = [&](_float fDeletaTime, _bool bIsEndStun) { StunAction(fDeletaTime, bIsEndStun); };
+
+            _float3  vPellPosition = m_pTransformCom->GetPosition();
+            _float3  vHitActorPoint = pHitObject->GetTransform()->GetPosition();
+
+            _vector vCalculationPosition = XMLoadFloat3(&vPellPosition);
+            _vector vCalculationHitActorPosition = XMLoadFloat3(&vHitActorPoint);
+
+            _vector vDir = vCalculationHitActorPosition - vCalculationPosition;
+            vDir.m128_f32[1] = 0;
+            vDir = XMVector3Normalize(vDir);
+
+            _float RandomSeta = m_pGameInstance->Random(-XM_PIDIV4, XM_PIDIV4);
+            vDir.m128_f32[0] *= cos(RandomSeta);
+            vDir.m128_f32[2] *= sin(RandomSeta);
+
+            XMStoreFloat3(&m_HitReflectionDir, vDir);
+            m_pPellFsm->ChangeState(TEXT("CombatLayer"), TEXT("Stun"), &StunStateDesc);
+            m_pPellFsm->SetAttack(false);
+            m_bIsAction = false;
+        }
+    }
 }
 
 HRESULT CDororong::ADD_Components()
@@ -268,46 +310,8 @@ HRESULT CDororong::Setup_PellFsm()
 
 void CDororong::OverlapEvent(_float3 vDir, CGameObject* pHitObject)
 {
-    auto State = m_pPellFsm->GetState();
-
-    if (State.bIsAttacking)
-    {
-        DEFAULT_DAMAGE_DESC DamageDesc = {};
-        DamageDesc.fDmaged = (_float)m_PellInfo.DefaultSkill.iSkillDamage;
-
-       auto Hit =  static_cast<CActor*>(pHitObject);
-       if (Hit)
-       {
-           Hit->Damage(&DamageDesc, this);
-
-           CPellStateStun::PELL_STATE_STUN_STATE StunStateDesc = {};
-           StunStateDesc.StunTime = 0.7f;
-           StunStateDesc.ActionFunction = [&](_float fDeletaTime, _bool bIsEndStun) { StunAction(fDeletaTime, bIsEndStun); };
-           
-           _float3  vPellPosition = m_pTransformCom->GetPosition();
-           _float3  vHitActorPoint = pHitObject->GetTransform()->GetPosition();
-           
-           _vector vCalculationPosition = XMLoadFloat3(&vPellPosition);
-           _vector vCalculationHitActorPosition = XMLoadFloat3(&vHitActorPoint);
-
-           _vector vDir = vCalculationHitActorPosition - vCalculationPosition;
-           vDir.m128_f32[1] = 0;
-           vDir = XMVector3Normalize(vDir);
-
-           _float RandomSeta = m_pGameInstance->Random(-XM_PIDIV4, XM_PIDIV4);
-            vDir.m128_f32[0] *= cos(RandomSeta);
-            vDir.m128_f32[2] *= sin(RandomSeta);
-
-            XMStoreFloat3(&m_HitReflectionDir, vDir);
-           m_pPellFsm->ChangeState(TEXT("CombatLayer"), TEXT("Stun"), &StunStateDesc);
-           m_pPellFsm->SetAttack(false);
-           m_bIsAction = false;
-       }
-    }
-    else
-    {
-        __super::OverlapEvent(vDir, pHitObject);
-    }
+    PalSkillAttackHit(pHitObject);
+    __super::OverlapEvent(vDir, pHitObject);
 }
 
 void CDororong::StunAction(_float fDeletaTime, _bool bIsStunEnd)

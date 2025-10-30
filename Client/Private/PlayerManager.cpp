@@ -93,10 +93,6 @@ void CPlayerManager::Initialize(void* pArg)
 	m_EmptySlot.iItemCount = 0;
 	m_InvenSlots.resize(m_iNumInvenSlots, { false, m_EmptySlot });
 
-	//BindEquipSlot(EUQIP_TYPE::WEAPON, 3, 3);
-	//BindEquipSlot(EUQIP_TYPE::WEAPON, 1, 1);
-	//BindEquipSlot(EUQIP_TYPE::WEAPON, 2, 2);
-
 	AddInventoryItem(1, 1);
 	AddInventoryItem(2, 1);
 	AddInventoryItem(3, 1);
@@ -159,6 +155,7 @@ _Int CPlayerManager::BindEquipSlot(EUQIP_TYPE SlotType, _uInt iSlotIndex, _uInt 
 					}
 				}
 			}
+			m_pCurrentPlayer->UpdateWeaponItem();
 		}
 	}
 	else
@@ -190,8 +187,12 @@ void CPlayerManager::SwapEquipmentSlot(EUQIP_TYPE SlotType, _Int MoveFlag)
 	if (0 < MoveFlag)
 	{
 		SelectSlotIndexPair->second.first++;
+
 		if ((_Int)SelectSlotIndexPair->second.second <= SelectSlotIndexPair->second.first)
+		{
 			SelectSlotIndexPair->second.first = 0;
+		}
+
 	}
 	else if (0 > MoveFlag)
 	{
@@ -398,7 +399,7 @@ HRESULT CPlayerManager::SwapInventroyItem(EUQIP_TYPE eFromEquipType, _uInt FromS
 
 			if (FromSlotItemInfo->ItemType == ItemInfoPair->second[ToSlotNumber]->GetItemData().ItemType)
 			{
-				if (FromSlotItemInfo->TypeDesc.EuqipDesc.Equip_Type == ItemInfoPair->second[FromSlotNumber]->GetItemData().TypeDesc.EuqipDesc.Equip_Type)
+				if (FromSlotItemInfo->TypeDesc.EuqipDesc.Equip_Type == ItemInfoPair->second[ToSlotNumber]->GetItemData().TypeDesc.EuqipDesc.Equip_Type)
 				{
 					_uInt FomeSlotItemIndex = m_InvenSlots[FromSlotNumber].second.iItemID;
 					m_InvenSlots[FromSlotNumber].second = { ItemInfoPair->second[ToSlotNumber]->GetItemData().iItemNum, 1 };
@@ -454,8 +455,11 @@ HRESULT CPlayerManager::SwapInventroyItem(EUQIP_TYPE eFromEquipType, _uInt FromS
 			m_InvenSlots[ToSlotNumber].first = true;
 			m_InvenSlots[ToSlotNumber].second = { ItemInfoPair->second[FromSlotNumber]->GetItemData().iItemNum, 1};
 
+			Safe_Release(m_pEquipItems[EUQIP_TYPE::PROJECTILE][FromSlotNumber]);
 			Safe_Release(SlotPair->second[FromSlotNumber]);
 			Safe_Release(ItemInfoPair->second[FromSlotNumber]);
+
+			m_pCurrentPlayer->ResetWeaponSlot(FromSlotNumber);
 		}
 	}
 	

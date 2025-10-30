@@ -56,6 +56,7 @@ HRESULT CGamePlayHUD::ActivePopUpUserInterface(_uInt iID)
 	if (pair == m_PopupUIs.end())
 		return E_FAIL;
 
+
 	pair->second->SetVisibility(VISIBILITY::VISIBLE);
 	FoucusInUserInterface(true);
 	return S_OK;
@@ -67,6 +68,7 @@ HRESULT CGamePlayHUD::UnActivePopUpUserInterface(_uInt iID)
 	if (pair == m_PopupUIs.end())
 		return E_FAIL;
 
+	m_pGameInstance->Manager_PlaySound(TEXT("ClosePopUp.wav"), CHANNELID::EFFECT, 1.f);
 	pair->second->SetVisibility(VISIBILITY::HIDDEN);
 	FoucusInUserInterface(false);
 
@@ -293,6 +295,7 @@ void CGamePlayHUD::UIKeyInput()
 		{
 			if (VISIBILITY::HIDDEN == m_pInGameMenu->GetVisibility())
 			{
+				m_pGameInstance->Manager_PlaySound(TEXT("PopUpShow.wav"), CHANNELID::EFFECT, 1.f);
 				ActivePopUpUserInterface(0);
 			}
 		}
@@ -302,6 +305,7 @@ void CGamePlayHUD::UIKeyInput()
 	{
 		if (VISIBILITY::HIDDEN == m_pCreateMenu->GetVisibility())
 		{
+			m_pGameInstance->Manager_PlaySound(TEXT("UI_PopUp_15_A.ogg"), CHANNELID::EFFECT, 0.4f);
 			ActivePopUpUserInterface(1);
 		}
 		else
@@ -314,6 +318,7 @@ void CGamePlayHUD::UIKeyInput()
 	{
 		if (VISIBILITY::HIDDEN == m_PopupUIs.find(4)->second->GetVisibility())
 		{
+			m_pGameInstance->Manager_PlaySound(TEXT("PopUpShow.wav"), CHANNELID::EFFECT, 1.f);
 			ActivePopUpUserInterface(4);
 		}
 		else

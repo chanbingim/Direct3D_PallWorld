@@ -15,6 +15,7 @@ public :
 		CGameObject*							pOwner;
 		_float									fLostTargetTime;
 		_float									fChangeTargetDistance;
+		_float									fLostTargetDistance = 50.f;
 
 		function<void(_float, CGameObject*)>	CallBackFunction;
 	}COMBAT_COMPONENT_DESC;
@@ -45,6 +46,7 @@ private :
 	function<void(_float, CGameObject*)>		m_BindCombatFunc = nullptr;
 
 	_float										m_fLostTargetTime = {};
+	_float										m_fLostTargetDistance = {};
 	_float										m_fChangeTargetDistance = {};
 
 public :

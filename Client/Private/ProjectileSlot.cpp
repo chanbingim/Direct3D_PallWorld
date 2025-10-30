@@ -37,6 +37,7 @@ HRESULT CProjectileSlot::Initialize(void* pArg)
         }
     }
 
+    m_UseSocketMatrixFlag = 0b00000010;
     return S_OK;
 }
 

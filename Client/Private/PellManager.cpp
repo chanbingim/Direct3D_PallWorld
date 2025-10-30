@@ -2,6 +2,9 @@
 #include "PellSkillManager.h"
 
 #include "GameInstance.h"
+#include "TerrainManager.h"
+
+#include "PellBase.h"
 #include "StringHelper.h"
 #include "CsvHelper.h"
 
@@ -43,6 +46,53 @@ _bool	 CPellManager::FindPellData(_uInt iID, PELL_INFO* pPellInfo)
     pPellInfo->NickName = pPellInfo->szPellName;
     pPellInfo->DefaultSkill = *SkillManager->FindPellData(pPellInfo->iDefaultSkillIndex);
     pPellInfo->pPellIconTexture = m_PellIcons.find(iID)->second;
+    return true;
+}
+
+void CPellManager::ADD_CombatPalList(CGameObject* pPalObject)
+{
+    auto iter = find_if(m_pCombatPalList.begin(), m_pCombatPalList.end(), [&](auto& iter)
+        {
+            if (iter == pPalObject)
+                return true;
+
+            return false;
+        });
+    
+    if (0 == m_pCombatPalList.size())
+    {
+        auto pGameInstance = CGameInstance::GetInstance();
+        pGameInstance->Manager_StopSound(CHANNELID::BGM);
+        pGameInstance->Manager_PlayBGM(TEXT("BattleSound.wav"), 0.8f);
+    }
+      
+
+    if (iter == m_pCombatPalList.end())
+        m_pCombatPalList.push_back(pPalObject);
+}
+
+void CPellManager::Remove_CombatPalList(CGameObject* pPalObject)
+{
+    auto iter = find_if(m_pCombatPalList.begin(), m_pCombatPalList.end(), [&](auto iter)
+        {
+            if (iter == pPalObject)
+                return true;
+
+            return false;
+        });
+
+    if (iter != m_pCombatPalList.end())
+        m_pCombatPalList.erase(iter);
+
+    if (0 == m_pCombatPalList.size())
+        CTerrainManager::GetInstance()->PlayChunkBGM();
+}
+
+_bool CPellManager::IsCombatPal()
+{
+    if (0 == m_pCombatPalList.size())
+        return false;
+
     return true;
 }
 

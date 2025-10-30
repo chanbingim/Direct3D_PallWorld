@@ -151,6 +151,25 @@ void CFastTravelUI::ButtonClickedEvent(const _wstring& MapName)
     auto pGamePlayHUD = static_cast<CGamePlayHUD*>(m_pGameInstance->GetCurrentHUD());
     pGamePlayHUD->UnActiveAllPopUp();
 
+    m_pGameInstance->Manager_StopSound(CHANNELID::BGM);
+
+    if (TEXT("MainArea") == MapName)
+    {
+        m_pGameInstance->Manager_PlayBGM(TEXT("driftveil-city.mp3"), 0.7f);
+    }
+    else if (TEXT("PinkCatField") == MapName)
+    {
+        m_pGameInstance->Manager_PlayBGM(TEXT("Map1Sound.wav"), 0.7f);
+    }
+    else if (TEXT("SheepBalField") == MapName)
+    {
+        m_pGameInstance->Manager_PlayBGM(TEXT("BGM_TrainingRoom_01_A.OGG"), 0.7f);
+    }
+    else if (TEXT("BossField") == MapName)
+    {
+        m_pGameInstance->Manager_PlayBGM(TEXT("BossSound.wav"), 0.7f);
+    }
+
     // 다르면 이동 및 UI 제거
     if(CTerrainManager::GetInstance()->Find_FastTravelTransport(MapName.c_str(), &vMovePosition))
         pCurPlayer->TransportPlayer(vMovePosition);

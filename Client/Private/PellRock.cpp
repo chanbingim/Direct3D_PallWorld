@@ -93,6 +93,15 @@ HRESULT CPellRock::HitBeginFunction(_float3 vDir, CGameObject* pGameObject)
 void CPellRock::Damage(void* pArg, CActor* pDamagedActor)
 {
     __super::Damage(pArg, pDamagedActor);
+
+    _Int iRandomIndex = m_pGameInstance->Random(0, 30);
+
+    if (10 < iRandomIndex)
+        m_pGameInstance->Manager_PlaySound(TEXT("RockHit.wav"), CHANNELID::EFFECT2, 0.5f);
+    else if (20 < iRandomIndex)
+        m_pGameInstance->Manager_PlaySound(TEXT("RockHit2.wav"), CHANNELID::EFFECT2, 0.5f);
+    else
+        m_pGameInstance->Manager_PlaySound(TEXT("RockHit3.wav"), CHANNELID::EFFECT2, 0.5f);
 }
 
 HRESULT CPellRock::ADD_Components()

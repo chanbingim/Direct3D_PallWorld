@@ -33,6 +33,7 @@ HRESULT CElectricBall::Initialize(void* pArg)
     CEffectContatiner::GAMEOBJECT_DESC Desc = {};
     Desc.pParent = this;
     Desc.vScale = { 1.f, 1.f, 1.f };
+    m_pGameInstance->Manager_PlaySound(TEXT("ElectircBall.ogg"), CHANNELID::EFFECT, 1.f);
     auto pGameObject = m_pGameInstance->EffectClone_Object(1, TEXT("Electirc_Ball_Effect"), &Desc);
     m_pSkillEffects.push_back(pGameObject);
 

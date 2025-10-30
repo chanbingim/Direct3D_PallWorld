@@ -33,6 +33,8 @@ HRESULT CGrassStrom::Initialize(void* pArg)
     CEffectContatiner::GAMEOBJECT_DESC Desc = {};
     Desc.pParent = this;
     Desc.vScale = { 1.f, 1.f, 1.f };
+    
+    m_pGameInstance->Manager_PlaySound(TEXT("Tornado.wav"), CHANNELID::EFFECT2, 1.f);
     auto pGameObject = m_pGameInstance->EffectClone_Object(1, TEXT("Tornado_Effect"), &Desc);
     m_pSkillEffects.push_back(pGameObject);
 

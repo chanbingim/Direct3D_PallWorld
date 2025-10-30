@@ -212,6 +212,7 @@
     <ClInclude Include="..\public\GrassMommothBody.h" />
     <ClInclude Include="..\public\GrassStrom.h" />
     <ClInclude Include="..\public\GreenMommoth.h" />
+    <ClInclude Include="..\public\HitBox.h" />
     <ClInclude Include="..\public\HitEffect.h" />
     <ClInclude Include="..\public\HungerBar.h" />
     <ClInclude Include="..\public\IMG_EffectTool.h" />
@@ -492,6 +493,7 @@
     <ClCompile Include="..\private\GrassMommothBody.cpp" />
     <ClCompile Include="..\private\GrassStrom.cpp" />
     <ClCompile Include="..\private\GreenMommoth.cpp" />
+    <ClCompile Include="..\private\HitBox.cpp" />
     <ClCompile Include="..\private\HitEffect.cpp" />
     <ClCompile Include="..\private\HungerBar.cpp" />
     <ClCompile Include="..\private\IMG_EffectTool.cpp" />

@@ -56,6 +56,9 @@ public:
 	void									TransportPlayer(_float3 vTransportPoint);
 	const _wstring&							GetPlayerOnChunkName() { return m_szChunkName; }
 	_uInt									GetNaviMeshCell();
+	void									ResetWeaponSlot(_uInt iIndex);
+	
+	void									UpdateWeaponItem();
 	virtual		void						Damage(void* pArg, CActor* pDamagedActor) override;
 
 private :

@@ -6,6 +6,8 @@ class CCollision;
 NS_END
 
 NS_BEGIN(Client)
+class CPlayer;
+
 class CProbObject abstract : public CNoneAnimMesh
 {
 protected:
@@ -27,6 +29,7 @@ public:
 	virtual		HRESULT						Render();
 
 protected :
+	const		CPlayer*					m_pPlayer = nullptr;
 	CCollision*								m_pCollision = nullptr;
 	_float									m_fActionDistance = { 10.f };
 	

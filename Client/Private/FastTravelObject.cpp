@@ -3,6 +3,9 @@
 #include "GameInstance.h"
 #include "GamePlayHUD.h"
 
+#include "PlayerManager.h"
+#include "Player.h"
+
 CFastTravelObject::CFastTravelObject(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CProbObject(pDevice, pContext)
 {
@@ -30,7 +33,9 @@ HRESULT CFastTravelObject::Initialize(void* pArg)
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
+    m_pPlayer = CPlayerManager::GetInstance()->GetCurrentPlayer();
     m_pCollision->UpdateColiision(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
+    m_fActionDistance = 20.f;
     return S_OK;
 }
 
@@ -46,11 +51,16 @@ void CFastTravelObject::Update(_float fDeletaTime)
 
     if (m_pCollision->RayHit(vCalCamereaPos, vCalCamereaLook, RayHitDesc))
     {
-        if (RayHitDesc.vfDistance < m_fActionDistance)
+        _float3 vProbPos = m_pTransformCom->GetPosition();
+        _float3 vPlayerPos = m_pPlayer->GetTransform()->GetPosition();
+        _float vLength = XMVectorGetX(XMVector3Length(XMLoadFloat3(&vPlayerPos) - XMLoadFloat3(&vProbPos)));
+
+        if (vLength < m_fActionDistance)
         {
             if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_F))
             {
-                //여기서 시간남으면 월드맵 같은거 구현해서 이동할 예정
+                // 여기서 시간남으면 월드맵 같은거 구현해서 이동할 예정
+                // Fade In Out 적용해야함
                 auto pGamePlayHUD = static_cast<CGamePlayHUD *>(m_pGameInstance->GetCurrentHUD());
                 pGamePlayHUD->ActivePopUpUserInterface(5);
             }

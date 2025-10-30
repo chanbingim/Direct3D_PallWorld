@@ -47,7 +47,7 @@ HRESULT CPlayerPartData::Initialize(void* pArg)
 
 void CPlayerPartData::Priority_Update(_float fDeletaTime)
 {
-    for (_uInt i = 0; i < 3; ++i)
+    for (_uInt i = 0; i < 2; ++i)
         m_pWeaponSocket[i]->Priority_Update(fDeletaTime);
 }
 
@@ -65,7 +65,7 @@ void CPlayerPartData::Update(_float fDeletaTime)
     }
 
     m_pPlayerBody->UpdateAnimation(m_pVIBufferCom);
-    for (_uInt i = 0; i < 3; ++i)
+    for (_uInt i = 0; i < 2; ++i)
         m_pWeaponSocket[i]->Update(fDeletaTime);
 }
 
@@ -76,7 +76,7 @@ void CPlayerPartData::Late_Update(_float fDeletaTime)
     //행렬가지고 갱신
     m_pPlayerBody->Late_Update(fDeletaTime);
 
-    for (_uInt i = 0; i < 3; ++i)
+    for (_uInt i = 0; i < 2; ++i)
         m_pWeaponSocket[i]->Late_Update(fDeletaTime);
 
     m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
@@ -89,10 +89,9 @@ HRESULT CPlayerPartData::Render()
     for (_uInt i = 0; i < iNumMeshes; ++i)
     {
         Apply_ConstantShaderResources(i);
+        m_pShaderCom->Bind_RawValue("g_bIsDissolve", &m_bIsDissolve, sizeof(_bool));
 
         m_pShaderCom->Update_Shader(0);
-       
-
         //어떤 파츠데이터를 사용하여 랜더링하는지를 알려준다.
         // 0 머리
         // 1 얼굴
@@ -147,6 +146,7 @@ void CPlayerPartData::ChangeWeaponState(_uInt iWeaponState, _bool bIsAnimLoop)
 
 void CPlayerPartData::StartAttackSlot()
 {
+    m_pGameInstance->Manager_PlaySound(TEXT("SwordSound.wav"), CHANNELID::EFFECT2, 1.f);
     static_cast<CPlayerWeaponSlot*>(m_pWeaponSocket[0])->StartAttack();
 }
 
@@ -161,6 +161,11 @@ void CPlayerPartData::RoatationPitchSpine(_float fPitchAngle)
         XMMatrixRotationQuaternion(XMQuaternionRotationRollPitchYaw(0.f, 0.f, -fPitchAngle)));
 }
 
+void CPlayerPartData::ResetWeaponSlot(_uInt iIndex)
+{
+    m_pWeaponSocket[iIndex]->ResetVIBuffer();
+}
+
 const _float4x4* CPlayerPartData::GetLeftHandSocket()
 {
     return m_pLeftHandSocket;
@@ -169,6 +174,12 @@ const _float4x4* CPlayerPartData::GetLeftHandSocket()
 HRESULT CPlayerPartData::ShootProjecttileObject()
 {
     return static_cast<CPlayerWeaponSlot *>(m_pWeaponSocket[0])->ShootProjecttileObject();
+}
+
+void CPlayerPartData::WalkEvent()
+{
+    m_pGameInstance->Manager_StopSound(CHANNELID::EFFECT2);
+    m_pGameInstance->Manager_PlaySound(TEXT("Walk.wav"), CHANNELID::EFFECT2, 1.f);
 }
 
 HRESULT CPlayerPartData::ADD_Components()
@@ -241,17 +252,6 @@ HRESULT CPlayerPartData::ADD_AnimParts()
     __super::ADD_Child(m_pWeaponSocket[1]);
 #pragma endregion
 
-#pragma region Slot 3
-    lstrcpy(ItemSlotDesc.ObjectTag, L"Player_R_Socket");
-    ItemSlotDesc.vRotation = { 0.f,  0.f,  XMConvertToRadians(-90.f) };
-    ItemSlotDesc.vPosition = { -0.1f, 0.1f, -0.2f };
-    ItemSlotDesc.SocketMatrix = GetBoneMatrix("upperarm_R");
-    ItemSlotDesc.iSlotIndex = 2;
-
-    m_pWeaponSocket[2] = static_cast<CPlayerItemSlot*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::GAMEOBJECT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player_BackItemSlot"), &ItemSlotDesc));
-    __super::ADD_Child(m_pWeaponSocket[2]);
-#pragma endregion
-
     return S_OK;
 }
 
@@ -260,17 +260,157 @@ HRESULT CPlayerPartData::Insert_AnimKeyFrameFunction()
     m_pVIBufferCom->Bind_KeyFrameFunction("Attack_Bow", 1, [this]() { ShootProjecttileObject(); });
     m_pVIBufferCom->Bind_KeyFrameFunction("Attack_Throw", 4, [this]() { ShootProjecttileObject(); });
 
-    for (_uInt i = 17; i < 20; ++i)
+    m_pVIBufferCom->Bind_KeyFrameFunction("Attack_Melee", 17, [this]() { StartAttackSlot(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Attack_Melee", 37, [this]() { StartAttackSlot(); });
+
+    for (_uInt i = 18; i < 20; ++i)
     {
         m_pVIBufferCom->Bind_KeyFrameFunction("Attack_Melee", i, [this]() { UpdateAttackSlot(); });
         m_pVIBufferCom->Bind_KeyFrameFunction("Attack_Melee", i + 20, [this]() { UpdateAttackSlot(); });
     }
     
-    for (_uInt i = 13; i < 16; ++i)
+    m_pVIBufferCom->Bind_KeyFrameFunction("Attack_None", 13, [this]() { StartAttackSlot(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Attack_None", 33, [this]() { StartAttackSlot(); });
+
+    for (_uInt i = 14; i < 16; ++i)
     {
         m_pVIBufferCom->Bind_KeyFrameFunction("Attack_None", i, [this]() { UpdateAttackSlot(); });
         m_pVIBufferCom->Bind_KeyFrameFunction("Attack_None", i + 20, [this]() { UpdateAttackSlot(); });
     }
+#pragma region Walk Key Frame
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Walk_None", 21, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Walk_None", 36, [&]() { WalkEvent(); });
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Sprint_None", 11, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Sprint_None", 16, [&]() { WalkEvent(); });
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_None", 15, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_None", 23, [&]() { WalkEvent(); });
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Walk", 11, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Walk", 19, [&]() { WalkEvent(); });
+
+    // Weapon 무기
+    m_pVIBufferCom->Bind_KeyFrameFunction("Walk_Melee", 21, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Walk_Melee", 36, [&]() { WalkEvent(); });
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Sprint_Melee", 11, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Sprint_Melee", 16, [&]() { WalkEvent(); });
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_Melee", 15, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_Melee", 23, [&]() { WalkEvent(); });
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Melee", 11, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Melee", 19, [&]() { WalkEvent(); });
+
+#pragma region Jog_Aim_Melee
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_Aim_Melee", 21, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_Aim_Melee", 36, [&]() { WalkEvent(); });
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_Right_Aim_Melee", 8, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_Right_Aim_Melee", 18, [&]() { WalkEvent(); });
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_Left_Aim_Melee", 13, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_Left_Aim_Melee", 23, [&]() { WalkEvent(); });
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_Bwd_Aim_Melee", 8, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_Bwd_Aim_Melee", 21, [&]() { WalkEvent(); });
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Aim_Melee", 21, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Aim_Melee", 36, [&]() { WalkEvent(); });
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Right_Aim_Melee", 8, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Right_Aim_Melee", 18, [&]() { WalkEvent(); });
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Left_Aim_Melee", 13, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Left_Aim_Melee", 22, [&]() { WalkEvent(); });
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Bwd_Aim_Melee", 8, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Bwd_Aim_Melee", 21, [&]() { WalkEvent(); });
+#pragma endregion
+
+    // Throw 무기
+    m_pVIBufferCom->Bind_KeyFrameFunction("Walk_Throw", 21, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Walk_Throw", 36, [&]() { WalkEvent(); });
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Sprint_Throw", 11, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Sprint_Throw", 16, [&]() { WalkEvent(); });
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_Throw", 15, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_Throw", 23, [&]() { WalkEvent(); });
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Throw", 11, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Throw", 19, [&]() { WalkEvent(); });
+
+#pragma region Jog_Aim_Thorw
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_Aim_Throw", 21, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_Aim_Throw", 36, [&]() { WalkEvent(); });
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_Right_Aim_Throw", 8, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_Right_Aim_Throw", 18, [&]() { WalkEvent(); });
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_Left_Aim_Throw", 13, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_Left_Aim_Throw", 23, [&]() { WalkEvent(); });
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_Bwd_Aim_Throw", 8, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_Bwd_Aim_Throw", 22, [&]() { WalkEvent(); });
+
+    // 앉기
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Aim_Throw", 21, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Aim_Throw", 36, [&]() { WalkEvent(); });
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Right_Aim_Throw", 8, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Right_Aim_Throw", 18, [&]() { WalkEvent(); });
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Left_Aim_Throw", 13, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Left_Aim_Throw", 23, [&]() { WalkEvent(); });
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Bwd_Aim_Throw", 8, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Bwd_Aim_Throw", 22, [&]() { WalkEvent(); });
+#pragma endregion
+
+    // Bow 무기
+    m_pVIBufferCom->Bind_KeyFrameFunction("Walk_Bow", 21, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Walk_Bow", 36, [&]() { WalkEvent(); });
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Sprint_Bow", 11, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Sprint_Bow", 16, [&]() { WalkEvent(); });
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_Bow", 15, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_Bow", 23, [&]() { WalkEvent(); });
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Bow", 11, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Bow", 19, [&]() { WalkEvent(); });
+
+#pragma region Jog_Aim_Bow
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_Aim_Bow", 21, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_Aim_Bow", 36, [&]() { WalkEvent(); });
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_Right_Aim_Bow", 8, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_Right_Aim_Bow", 18, [&]() { WalkEvent(); });
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_Left_Aim_Bow", 13, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_Left_Aim_Bow", 23, [&]() { WalkEvent(); });
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_Bwd_Aim_Bow", 8, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Jog_Bwd_Aim_Bow", 22, [&]() { WalkEvent(); });
+
+    // 앉기
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Aim_Bow", 21, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Aim_Bow", 36, [&]() { WalkEvent(); });
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Right_Aim_Bow", 8, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Right_Aim_Bow", 18, [&]() { WalkEvent(); });
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Left_Aim_Bow", 13, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Left_Aim_Bow", 23, [&]() { WalkEvent(); });
+
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Bwd_Aim_Bow", 8, [&]() { WalkEvent(); });
+    m_pVIBufferCom->Bind_KeyFrameFunction("Crouch_Bwd_Aim_Bow", 22, [&]() { WalkEvent(); });
+#pragma endregion
+#pragma endregion
+
     return S_OK;
 }
 

@@ -29,6 +29,7 @@ protected:
 	virtual		void						CombatAction(_float fDeletaTime, CGameObject* pTarget);
 	void									OverlappingEvent(_float3 vDir, CGameObject* pHitObject) override;
 
+	void									PalSkillAttackHit(CGameObject* pHitObject);
 private :
 	_float3									m_HitReflectionDir = {};
 

@@ -39,6 +39,7 @@ public :
 	HRESULT							Remove_FastTravel(const WCHAR* szMapTag);
 		
 	_bool							UpdateChunk(const WCHAR* ChunkKey, _float3	vMovePoint);
+	void							PlayChunkBGM();
 
 	// 객체의 위치만 전달해주면 알아서 높이 계산해서 반환해주자
 	// 이거 위치반환해주는게 제일 깔끔할거같음

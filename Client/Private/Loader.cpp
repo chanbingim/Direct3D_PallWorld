@@ -221,6 +221,11 @@
 #include "WoodDoor.h"
 #pragma endregion
 
+#pragma region HitBox
+#include "HitBox.h"
+#pragma endregion
+
+
 #pragma endregion
 
 #pragma endregion
@@ -643,7 +648,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	PreModelMat = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationX(XMConvertToRadians(90.f));
 	/* VIBuffer  Arrow  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Arrow"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Weapon/AnimationWeapon/Bow/Arrow/Arrow.dat", PreModelMat))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Weapon/AnimationWeapon/Bow/Arrow/Arrow.fbx", PreModelMat))))
 		return E_FAIL;
 #pragma endregion
 
@@ -1558,6 +1563,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 #pragma endregion
 
+#pragma region WeaponHitBox
+	/* GAME_OBJECT_HitBox */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Socket_HitBox"), CHitBox::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+#pragma endregion
 
 	m_strMessage = TEXT("로딩이 완료되었습니다..");
 

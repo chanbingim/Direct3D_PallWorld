@@ -54,6 +54,7 @@ public:
 	ACTOR_TEAM								GetPellTeam() const { return m_eTeam; }
 
 	void									ChangePellStorageType(PELL_STORAGE_STATE eStorageType);
+	_bool									IsCombatPal();
 
 	void									Bind_DamageCallBackEvent(CGameObject* pListener, function<void()> Event);
 	void									UnBind_DamageEvent(CGameObject* pListener);

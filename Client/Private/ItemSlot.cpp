@@ -116,6 +116,7 @@ void CItemSlot::MouseHoverExit()
 
 void CItemSlot::MouseButtonDwon()
 {
+    m_pGameInstance->Manager_PlaySound(TEXT("ButtonClicked.wav"), CHANNELID::EFFECT, 1.f);
     m_pGameInstance->SetMouseFocus(this);
 }
 

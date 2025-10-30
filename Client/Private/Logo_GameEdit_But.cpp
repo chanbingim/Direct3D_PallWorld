@@ -62,7 +62,7 @@ HRESULT CLogo_GameEdit_But::Render()
 
 void CLogo_GameEdit_But::MouseHoverEnter()
 {
-
+    m_pGameInstance->Manager_PlaySound(TEXT("UI_MouseOver_02_A1.ogg"), CHANNELID::EFFECT, 1.f);
 }
 
 void CLogo_GameEdit_But::MouseHoverExit()
@@ -72,7 +72,7 @@ void CLogo_GameEdit_But::MouseHoverExit()
 
 void CLogo_GameEdit_But::MouseButtonDwon()
 {
-
+    m_pGameInstance->Manager_PlaySound(TEXT("ButtonClicked.wav"), CHANNELID::EFFECT, 1.f);
 }
 
 HRESULT CLogo_GameEdit_But::ADD_Components()

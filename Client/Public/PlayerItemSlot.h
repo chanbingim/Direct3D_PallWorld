@@ -38,6 +38,8 @@ public :
 	void									ChangeWeaponState(WEAPON_STATE eWeaponState, _bool bIsAnimLoop);
 	const WEAPON_STATE&						GetWeaponState() { return m_eState; }
 
+	void									ResetVIBuffer();
+
 protected :
 	virtual     HRESULT						Bind_ShaderResources();
 	virtual     HRESULT						Apply_ConstantShaderResources(_uInt iMeshIndex);

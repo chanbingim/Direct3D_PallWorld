@@ -69,7 +69,7 @@ void CNeturalPellInfo::Update(_float fDeletaTime)
 		// 투영 스페이스에 있는 위치
 		// X : -1 ~ 1  -> 0 ~ 1 로변경해서 스크린 위치를 구한다.
 		// Y : 1 ~ -1 -> 0 ~ 1 로 변경
-		m_pTransformCom->SetPosition({ vNDCPos.x * g_iHalfWinSizeX + m_pTransformCom->GetScale().x * 0.5f,
+		m_pTransformCom->SetPosition({ vNDCPos.x * g_iHalfWinSizeX + m_pTransformCom->GetScale().x * 0.5f + 30.f,
 									   vNDCPos.y * g_iHalfWinSizeY, 0.f });
 
 	}

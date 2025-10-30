@@ -61,6 +61,8 @@ HRESULT CEquipSlotTittle::ADD_Components()
 
 	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_FontComponent"), TEXT("Font_Com"), (CComponent**)&m_pFontCom, &FontDesc)))
 		return E_FAIL;
+
+	return S_OK;
 }
 
 CEquipSlotTittle* CEquipSlotTittle::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

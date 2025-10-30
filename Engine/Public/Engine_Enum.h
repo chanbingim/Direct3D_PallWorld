@@ -63,5 +63,5 @@ namespace Engine
 	enum class NAVI_POINT		{ A, B, C, END };
 	enum class NAVI_LINE		{ AB, BC, CA, END };
 
-	enum CHANNELID { BGM, EFFECT, END };
+	enum CHANNELID { BGM, EFFECT, EFFECT2, END };
 }

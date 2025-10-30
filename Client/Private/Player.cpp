@@ -126,11 +126,6 @@ void CPlayer::Late_Update(_float fDeletaTime)
 
 HRESULT CPlayer::Render()
 {
-    m_pCollision->Render();
-    m_pNevigation->Render({1.f,0.f,0.f,1.f}, true);
-    //m_pTerrainManager->Render(m_szChunkName.c_str());
-    //m_pNevigation->Render({0.f,0.f,1.f,1.f}, true);
-    
     return S_OK;
 }
 
@@ -360,6 +355,7 @@ void CPlayer::ChangeAction(_float fDeltaTime)
                     CJumpState::JUMPSTATE_DESC JumpStateDesc = {};
                     JumpStateDesc.fAnimSpeed = &m_fAnimSpeed;
 
+                    m_pGameInstance->Manager_PlaySound(TEXT("JumpStart.wav"), CHANNELID::EFFECT, 1.f);
                     m_pPlayerFSM->ChangeState(TEXT("UpperLayer"), TEXT("Jump"), &JumpStateDesc);
                     auto vPos = m_pTransformCom->GetPosition();
                     m_fLandingPointY = vPos.y;
@@ -514,7 +510,6 @@ void CPlayer::ChangeAction(_float fDeltaTime)
 
             if (IsAttack)
             {
-                m_pAnimator->StartAttackSlot();
                 m_pPlayerFSM->PlayerStateReset(TEXT("CombatLayer"));
                 m_pPlayerFSM->SetAttack(true);
                 m_pAnimator->ChangeWeaponState(ENUM_CLASS(CPlayerWeaponSlot::WEAPON_STATE::ATTACK));
@@ -600,32 +595,19 @@ void CPlayer::ChangeWeapon()
     if (0 < m_pGameInstance->GetMouseAxis(2))
     {
         CPlayerManager::GetInstance()->SwapEquipmentSlot(EUQIP_TYPE::WEAPON, 1);
+        CPlayerManager::GetInstance()->SwapEquipmentSlot(EUQIP_TYPE::PROJECTILE, 1);
         ItemSelect = true;
     }
     else if (0 > m_pGameInstance->GetMouseAxis(2))
     {
         CPlayerManager::GetInstance()->SwapEquipmentSlot(EUQIP_TYPE::WEAPON,-1);
+        CPlayerManager::GetInstance()->SwapEquipmentSlot(EUQIP_TYPE::PROJECTILE, -1);
         ItemSelect = true;
     }
 
     if (ItemSelect)
     {
-        const CItemBase* pItem = CPlayerManager::GetInstance()->GetCurrentSlotItemInfo(EUQIP_TYPE::WEAPON);
-        if (pItem)
-        {
-            ITEM_DESC ItemData = pItem->GetItemData();
-            if (ITEM_TYPE::EQUIPMENT == ItemData.ItemType)
-            {
-                if (EUQIP_TYPE::WEAPON == ItemData.TypeDesc.EuqipDesc.Equip_Type)
-                    m_pPlayerFSM->SetWeapon(ENUM_CLASS(ItemData.TypeDesc.EuqipDesc.Weapon_Type));
-            }
-        }
-        else
-        {
-            m_pPlayerFSM->SetWeapon(ENUM_CLASS(WEAPON::NONE));
-            m_pPlayerFSM->SetAiming(false);
-            m_pPlayerCamera->SetChangeCameraMode(CPlayerCamera::CAMERA_MODE::NONE_AIMMING);
-        }
+        UpdateWeaponItem();
     }
 }
 
@@ -931,6 +913,31 @@ _uInt CPlayer::GetNaviMeshCell()
     return m_pNevigation->GetCurrentCellIndex();
 }
 
+void CPlayer::ResetWeaponSlot(_uInt iIndex)
+{
+    m_pAnimator->ResetWeaponSlot(iIndex);
+}
+
+void CPlayer::UpdateWeaponItem()
+{
+    const CItemBase* pItem = CPlayerManager::GetInstance()->GetCurrentSlotItemInfo(EUQIP_TYPE::WEAPON);
+    if (pItem)
+    {
+        ITEM_DESC ItemData = pItem->GetItemData();
+        if (ITEM_TYPE::EQUIPMENT == ItemData.ItemType)
+        {
+            if (EUQIP_TYPE::WEAPON == ItemData.TypeDesc.EuqipDesc.Equip_Type)
+                m_pPlayerFSM->SetWeapon(ENUM_CLASS(ItemData.TypeDesc.EuqipDesc.Weapon_Type));
+        }
+    }
+    else
+    {
+        m_pPlayerFSM->SetWeapon(ENUM_CLASS(WEAPON::NONE));
+        m_pPlayerFSM->SetAiming(false);
+        m_pPlayerCamera->SetChangeCameraMode(CPlayerCamera::CAMERA_MODE::NONE_AIMMING);
+    }
+}
+
 void CPlayer::Damage(void* pArg, CActor* pDamagedActor)
 {
     if (nullptr == pArg)
@@ -956,6 +963,7 @@ void CPlayer::Damage(void* pArg, CActor* pDamagedActor)
             //m_pPlayerFSM->ChangeState(TEXT("CombatLayer"), TEXT("Hit"));
             //m_bIsAnimLoop = false;
 
+            m_pGameInstance->Manager_PlaySound(TEXT("PlayerDamageHitSound2.wav"), CHANNELID::EFFECT2, 0.7f);
             _float3 vDamagedActorPos = pDamagedActor->GetTransform()->GetPosition();
             _vector vCalDamagedActorPos = XMLoadFloat3(&vDamagedActorPos);
 

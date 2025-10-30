@@ -93,6 +93,15 @@ HRESULT CRockObject::HitBeginFunction(_float3 vDir, CGameObject* pGameObject)
 void CRockObject::Damage(void* pArg, CActor* pDamagedActor)
 {
     __super::Damage(pArg, pDamagedActor);
+
+    _Int iRandomIndex = m_pGameInstance->Random(0, 30);
+
+    if (10 < iRandomIndex)
+        m_pGameInstance->Manager_PlaySound(TEXT("RockHit.wav"), CHANNELID::EFFECT2, 0.5f);
+    else if (20 < iRandomIndex)
+        m_pGameInstance->Manager_PlaySound(TEXT("RockHit2.wav"), CHANNELID::EFFECT2, 0.5f);
+    else
+        m_pGameInstance->Manager_PlaySound(TEXT("RockHit3.wav"), CHANNELID::EFFECT2, 0.5f);
 }
 
 HRESULT CRockObject::ADD_Components(_uInt iModelIndex)
@@ -110,7 +119,7 @@ HRESULT CRockObject::ADD_Components(_uInt iModelIndex)
     OBBDesc.pOwner = this;
     if (2 == iModelIndex)
     {
-        OBBDesc.vExtents = { 1.5f, 1.f, 1.0f };
+        OBBDesc.vExtents = { 1.7f, 1.f, 1.2f };
         m_fCompleteTime = 3.f;
     }
     else if(1 == iModelIndex)
@@ -120,7 +129,7 @@ HRESULT CRockObject::ADD_Components(_uInt iModelIndex)
     }
     else if (0 == iModelIndex)
     {
-        OBBDesc.vExtents = { 1.5f, 2.3f, 2.5f };
+        OBBDesc.vExtents = { 1.8f, 2.3f, 2.5f };
         m_fCompleteTime = 5.f;
     }
 

@@ -2,6 +2,8 @@
 #include "PellBody.h"
 
 NS_BEGIN(Client)
+class CHitBox;
+
 class CBedCatBody : public CPellBody
 {
 protected:
@@ -22,8 +24,19 @@ public:
 	// ·£´õ
 	virtual		HRESULT						Render() override;
 
+	
+private :
+	CHitBox*								m_pSkillHitBox[2] = { nullptr, nullptr };
+
 private :
 	HRESULT									ADD_Components();
+	HRESULT									Insert_KeyFrame();
+
+	void									AttackOnCollisionR();
+	void									UpateCollisionR();
+
+	void									AttackOnCollisionL();
+	void									UpateCollisionL();
 
 public:
 	static			CBedCatBody*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

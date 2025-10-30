@@ -63,7 +63,7 @@ HRESULT CLogo_GameStart_But::Render()
 
 void CLogo_GameStart_But::MouseHoverEnter()
 {
-
+    m_pGameInstance->Manager_PlaySound(TEXT("UI_MouseOver_02_A1.ogg"), CHANNELID::EFFECT, 1.f);
 }
 
 void CLogo_GameStart_But::MouseHoverExit()
@@ -79,7 +79,11 @@ void CLogo_GameStart_But::MouseButtonDwon()
 
     auto pLogoLevel = dynamic_cast<CLogoLevel*>(DefalutLevel);
     if (pLogoLevel)
+    {
+        m_pGameInstance->Manager_PlaySound(TEXT("ButtonClicked.wav"), CHANNELID::EFFECT, 1.f);
         pLogoLevel->NextLevelChange(true);
+    }
+     
 }
 
 HRESULT CLogo_GameStart_But::ADD_Components()

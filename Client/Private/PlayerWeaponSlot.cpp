@@ -42,7 +42,6 @@ HRESULT CPlayerWeaponSlot::Initialize(void* pArg)
 	m_pLeftSocket = SlotDesc->pLeftSocket;
 
 	m_pTrail = static_cast<CTrailComponent*>(m_pGameInstance->Clone_Prototype(OBJECT_ID::COMPONENT, ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Trail_Defalut"), nullptr));
-
 	return S_OK;
 }
 
@@ -88,6 +87,7 @@ void CPlayerWeaponSlot::Update(_float fDeletaTime)
 	}
 	else
 	{
+		m_iSelectWeaponType = ENUM_CLASS(WEAPON::END);
 		m_pCollision[0]->SetCollision({ 0, 0, 0 }, { 0.f, 0.f, 0.f, 0.f }, { 0.1f, 0.1f, 0.1f });
 		m_pCollision[1]->SetCollision({ 0, 0, 0 }, { 0.f, 0.f, 0.f, 0.f }, { 0.1f, 0.1f, 0.1f });
 	}
@@ -117,10 +117,16 @@ void CPlayerWeaponSlot::Late_Update(_float fDeletaTime)
 	}
 
 	m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
-	m_pGameInstance->Add_RenderGroup(RENDER::SHADOW, this);
-
-	if(ENUM_CLASS(WEAPON::MELEE) == m_iSelectWeaponType)
+	
+	if (ENUM_CLASS(WEAPON::MELEE) == m_iSelectWeaponType)
+	{
 		m_pTrail->Update_Trail(XMLoadFloat4x4(&m_CombinedWorldMatrix), true);
+	}
+	else
+	{
+		m_pGameInstance->Add_RenderGroup(RENDER::SHADOW, this);
+	}
+		
 	m_pProjectileSlot->Late_Update(fDeletaTime);
 }
 
@@ -170,7 +176,7 @@ HRESULT CPlayerWeaponSlot::ShootProjecttileObject()
 	ProjectileDesc.vPosition = *reinterpret_cast<_float3*>(m_CombinedWorldMatrix.m[3]);
 	ProjectileDesc.vScale = { 1.f, 1.f, 1.f };
 	ProjectileDesc.pAttacker = CurrentPlayer;
-
+	
 	if (playerState.bIsAiming)
 	{
 		_vector FarPoint = m_pGameInstance->GetCameraState(WORLDSTATE::POSITION) + m_pGameInstance->GetCameraState(WORLDSTATE::LOOK) * m_pGameInstance->GetCameraINFO().y;
@@ -181,7 +187,7 @@ HRESULT CPlayerWeaponSlot::ShootProjecttileObject()
 		XMStoreFloat3(&ProjectileDesc.vDireaction, CurrentPlayer->GetTransform()->GetLookVector());
 	}
 
-	ProjectileDesc.vThrowSpeed = 10.f;
+	ProjectileDesc.vThrowSpeed = 30.f;
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), EuipInfo.TypeDesc.EuqipDesc.ProjectilePrototpyeName,
 		ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_GamePlay_Projectile"), &ProjectileDesc)))
 		return E_FAIL;
@@ -297,7 +303,6 @@ void CPlayerWeaponSlot::HitBegin(_float3 vDir, CGameObject* pHitActor)
 	{
 		DEFAULT_DAMAGE_DESC DamageDes = {};
 		DamageDes.fDmaged = 10.f;
-
 		static_cast<CActor *>(pHitActor)->Damage(&DamageDes, CPlayerManager::GetInstance()->GetCurrentPlayer());
 	}
 }

@@ -113,6 +113,8 @@ void CBedCat::Priority_Update(_float fDeletaTime)
 
                 _float3 vMovePoint = {};
                 XMStoreFloat3(&vMovePoint, vPos + XMLoadFloat3(&ChaseMovePoint));
+
+                _float fDistance = XMVectorGetX(XMVector3Length(XMLoadFloat3(&vMovePoint) - vPos));
                 if (false == m_pTerrainManager->UpdateChunk(m_szChunkName.c_str(), vMovePoint))
                     SettingNavigation();
                 if (m_pNevigation->IsMove(vPos + XMLoadFloat3(&ChaseMovePoint)))
@@ -182,6 +184,7 @@ void CBedCat::CombatAction(_float fDeletaTime, CGameObject* pTarget)
     /*  m_pNevigation->ComputePathfindingAStar(m_pTransformCom->GetPosition(), vTargetPos, &m_PathFinding);
     m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Patrol"));*/
 
+    m_pPellBody->SetSkillIndex(AttackDesc.AttackData->iSkillID);
     CChaseComponent::CHASE_DESC ChaseDesc = {};
     ChaseDesc.pTargetTransform = pTarget->GetTransform();
     ChaseDesc.fChaseSpeed = &m_fPellMoveSpeed;
@@ -260,16 +263,7 @@ void CBedCat::OverlapEvent(_float3 vDir, CGameObject* pHitObject)
 
     if (State.bIsAttacking)
     {
-        DEFAULT_DAMAGE_DESC DamageDesc = {};
-        DamageDesc.fDmaged = (_float)m_PellInfo.DefaultSkill.iSkillDamage;
-
-        auto Hit = static_cast<CActor*>(pHitObject);
-        if (Hit)
-        {
-            Hit->Damage(&DamageDesc, this);
-            m_pPellFsm->CombatStateReset();
-            m_pPellFsm->ChangeState(TEXT("Body_Layer"), TEXT("Idle"));
-        }
+      
     }
     else
     {

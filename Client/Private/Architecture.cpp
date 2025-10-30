@@ -4,6 +4,8 @@
 #include "ItemManager.h"
 
 #include "PlayerManager.h"
+#include "Player.h"
+
 #include "PellBoxManager.h"
 #include "ActionAbleUI.h"
 
@@ -41,6 +43,7 @@ HRESULT CArchitecture::Initialize(void* pArg)
 	if(FAILED(m_pActionUI->Initialize(&ActionDesc)))
 		return E_FAIL;
 
+	m_pPlayer = CPlayerManager::GetInstance()->GetCurrentPlayer();
 	m_fActionDistance = 10.f;
 	m_fCurHealth = m_pArchitectureInfo.TypeDesc.ArchitectureDesc.fMaxHealth;
 	CPellBoxManager::GetInstance()->Add_JobListObject(m_eWorkType, this);
@@ -65,6 +68,7 @@ void CArchitecture::Update(_float fDeletaTime)
 		if (m_fAccComplteTime  >= m_pArchitectureInfo.TypeDesc.ArchitectureDesc.fCompleteTime )
 		{
 			m_bIsCompleted = true;
+			m_pGameInstance->Manager_PlaySound(TEXT("MissionClear.wav"), CHANNELID::EFFECT, 1.f);
 			CPellBoxManager::GetInstance()->Remove_JobListObject(m_eWorkType, this);
 		}
 		else
@@ -179,7 +183,11 @@ void CArchitecture::UpdateActionUI(_float fDeletaTime)
 	CCollision::DEFAULT_HIT_DESC	RayHitDesc = {};
 	if (m_pHitBoxCollision->RayHit(vCalCamereaPos, vCalCamereaLook, RayHitDesc))
 	{
-		if (RayHitDesc.vfDistance < m_fActionDistance)
+		_float3 vArchitecturePos = m_pTransformCom->GetPosition();
+		_float3 vPlayerPos = m_pPlayer->GetTransform()->GetPosition();
+		_float vLength = XMVectorGetX(XMVector3Length(XMLoadFloat3(&vPlayerPos) - XMLoadFloat3(&vArchitecturePos)));
+
+		if (vLength < m_fActionDistance)
 		{
 			CPlayerManager::GetInstance()->SetNearArchitecture(this);
 			m_pActionUI->Update(fDeletaTime);

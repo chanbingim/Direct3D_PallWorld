@@ -45,7 +45,7 @@ void CPlayerItemSlot::Priority_Update(_float fDeletaTime)
 
 void CPlayerItemSlot::Update(_float fDeletaTime)
 {
-	m_CurrentEuipItemInfo = CPlayerManager::GetInstance()->GetSlotItemInfo(EUQIP_TYPE::WEAPON ,m_iSlotIndex);
+	m_CurrentEuipItemInfo = CPlayerManager::GetInstance()->GetSlotItemInfo(EUQIP_TYPE::WEAPON, m_iSlotIndex);
 	ChangeModelBuffer(CPlayerManager::GetInstance()->GetSlotItemModel(EUQIP_TYPE::WEAPON, m_iSlotIndex), false);
 
 	if (nullptr == m_pVIBufferCom || nullptr == m_CurrentEuipItemInfo)
@@ -114,6 +114,11 @@ void CPlayerItemSlot::ChangeWeaponState(WEAPON_STATE eWeaponState, _bool bIsAnim
 {
 	m_eState = eWeaponState;
 	m_bIsAnimLoop = bIsAnimLoop;
+}
+
+void CPlayerItemSlot::ResetVIBuffer()
+{
+	m_pVIBufferCom = nullptr;
 }
 
 HRESULT CPlayerItemSlot::Bind_ShaderResources()

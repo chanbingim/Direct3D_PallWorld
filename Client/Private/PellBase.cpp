@@ -103,10 +103,6 @@ void CPellBase::Late_Update(_float fDeletaTime)
 
 HRESULT CPellBase::Render()
 {
-    if (!m_IsDead)
-    {
-        m_pCollision->Render();
-    }
       
     return S_OK;
 }
@@ -162,6 +158,7 @@ void CPellBase::Damage(void* pArg, CActor* pDamagedActor)
                 if (CPellStateMachine::MOVE_ACTION::CARRY == PellState.eMove_State)
                     ResetCarryState();
 
+                CPellManager::GetInstance()->Remove_CombatPalList(this);
                 m_pPellFsm->ChangeState(TEXT("CombatLayer"), TEXT("Dead"));
             }
             else
@@ -176,9 +173,18 @@ void CPellBase::Damage(void* pArg, CActor* pDamagedActor)
                 {
                     if (pDamagedActor)
                     {
+                        _uInt iRandomHitIndex = m_pGameInstance->Random(0.f, 10.f);
+                        if(5 > iRandomHitIndex)
+                            m_pGameInstance->Manager_PlaySound(TEXT("PellHitSound.wav"), CHANNELID::EFFECT, 1.f);
+                        else
+                            m_pGameInstance->Manager_PlaySound(TEXT("PellHit.wav"), CHANNELID::EFFECT, 1.f);
+
                         auto pActor = dynamic_cast<CContainerObject*>(pDamagedActor);
                         if (pActor)
+                        {
                             m_pCombatCom->ADD_TargetObject(pActor);
+                            CPellManager::GetInstance()->ADD_CombatPalList(this);
+                        }
 
                         _float3 vDamagedActorPos = pDamagedActor->GetTransform()->GetPosition();
                         _vector vCalDamagedActorPos = XMLoadFloat3(&vDamagedActorPos);
@@ -235,6 +241,14 @@ void CPellBase::ChangePellTeam(ACTOR_TEAM eTeam)
 void CPellBase::ChangePellStorageType(PELL_STORAGE_STATE eStorageType)
 {
     m_PellInfo.ePellStorageState = eStorageType;
+}
+
+_bool CPellBase::IsCombatPal()
+{
+    if (nullptr == m_pPellFsm)
+        return false;
+
+    return m_pPellFsm->GetState().bIsCombat;
 }
 
 void CPellBase::Bind_DamageCallBackEvent(CGameObject* pListener, function<void()> Event)
@@ -408,6 +422,10 @@ void CPellBase::OverlapEvent(_float3 vDir, CGameObject* pHitObject)
 
 void CPellBase::OverlappingEvent(_float3 vDir, CGameObject* pHitObject)
 {
+    auto pPalState = m_pPellFsm->GetState();
+    if (CPellStateMachine::MOVE_ACTION::CARRY == pPalState.eMove_State)
+        return;
+    
     _float3 vHitActorPos = pHitObject->GetTransform()->GetPosition();
     _vector vCalHitActorPos = XMLoadFloat3(&vHitActorPos);
 
@@ -776,7 +794,15 @@ void CPellBase::ActionFrendly(_float fDeletaTime)
             if (!State.bIsAttacking)
             {
                 m_pCombatCom->UpdateTarget();
-                m_pCombatCom->Update(fDeletaTime);
+                if (nullptr == m_pCombatCom->GetCurrentTarget() && State.bIsCombat)
+                {
+                    m_pPellFsm->CombatStateReset();
+                    m_bIsAction = false;
+                    CPellManager::GetInstance()->Remove_CombatPalList(this);
+                    m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Idle"));
+                }
+                else
+                    m_pCombatCom->Update(fDeletaTime);
             }
         }
     }
@@ -860,7 +886,17 @@ void CPellBase::ActionNeutral(_float fDeletaTime)
             if (!State.bIsAttacking)
             {
                 m_pCombatCom->UpdateTarget();
-                m_pCombatCom->Update(fDeletaTime);
+
+                if (nullptr == m_pCombatCom->GetCurrentTarget() && State.bIsCombat)
+                {
+                    m_pPellFsm->CombatStateReset();
+                    m_pPellFsm->SetCombatAction(false);
+                    m_bIsAction = false;
+                    CPellManager::GetInstance()->Remove_CombatPalList(this);
+                    m_pPellFsm->ChangeState(TEXT("BodyLayer"), TEXT("Idle"));
+                }
+                else
+                    m_pCombatCom->Update(fDeletaTime);
             }
         }
     }

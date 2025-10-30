@@ -110,6 +110,7 @@ void CEquipSlot::UseSlot(void* pArg)
 
 void CEquipSlot::MouseHoverEnter()
 {
+    
 }
 
 void CEquipSlot::MouseHovering()
@@ -123,6 +124,7 @@ void CEquipSlot::MouseHoverExit()
 
 void CEquipSlot::MouseButtonDwon()
 {
+    m_pGameInstance->Manager_PlaySound(TEXT("ButtonClicked.wav"), CHANNELID::EFFECT, 1.f);
     if (m_bIsHover)
     {
         m_pGameInstance->SetMouseFocus(this);

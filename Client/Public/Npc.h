@@ -10,6 +10,7 @@ NS_END
 NS_BEGIN(Client)
 class CNpcStateMachine;
 class CTerrainManager;
+class CPlayer;
 class CNpcBody;
 
 class CNpc : public CContainerObject
@@ -48,6 +49,8 @@ protected:
 	_bool									m_bIsAction = false;
 
 	_wstring								m_szChunkName = {};
+	const CPlayer*							m_pPlayer = nullptr;
+
 	CTerrainManager*						m_pTerrainManager = nullptr;
 	CNavigation*							m_pNevigation = nullptr;
 

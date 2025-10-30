@@ -159,6 +159,7 @@ void CPalBoxSlot::SwapSlot(CPalBoxSlot* From)
 
 void CPalBoxSlot::MouseHoverEnter()
 {
+    m_pGameInstance->Manager_PlaySound(TEXT("UI_MouseOver_02_A1.ogg"), CHANNELID::EFFECT, 1.f);
 }
 
 void CPalBoxSlot::MouseHovering()
@@ -171,6 +172,7 @@ void CPalBoxSlot::MouseHoverExit()
 
 void CPalBoxSlot::MouseButtonDwon()
 {
+    m_pGameInstance->Manager_PlaySound(TEXT("ButtonClicked.wav"), CHANNELID::EFFECT, 1.f);
     m_pGameInstance->SetMouseFocus(this);
 }
 

@@ -6,6 +6,9 @@
 #include "TerrainManager.h"
 #include "Chunk.h"
 
+#include "PlayerManager.h"
+#include "Player.h"
+
 #pragma region PARTS HEADER
 #include "NpcStateMachine.h"
 #include "NpcBody.h"
@@ -38,6 +41,8 @@ HRESULT CNpc::Initialize(void* pArg)
     if (FAILED(SetUpDefaultNpcData()))
         return E_FAIL;
 
+    m_pPlayer = CPlayerManager::GetInstance()->GetCurrentPlayer();
+    m_fActionDistance = 20.f;
     return S_OK;
 }
 
@@ -49,6 +54,8 @@ void CNpc::Priority_Update(_float fDeletaTime)
 void CNpc::Update(_float fDeletaTime)
 {
     __super::Update(fDeletaTime);
+    _bool bIsAnimLoopFloag = {};
+    auto    pNpcState = m_pNpcFsm->GetState();
 
     if (ACTOR_TEAM::FRENDLY == m_eTeam)
     {
@@ -57,7 +64,10 @@ void CNpc::Update(_float fDeletaTime)
         CCollision::DEFAULT_HIT_DESC	RayHitDesc = {};
         if (m_pCollision->RayHit(vCalCamereaPos, vCalCamereaLook, RayHitDesc))
         {
-            if (RayHitDesc.vfDistance < m_fActionDistance)
+            _float3 vNpcPos = m_pTransformCom->GetPosition();
+            _float3 vPlayerPos = m_pPlayer->GetTransform()->GetPosition();
+            _float vLength = XMVectorGetX(XMVector3Length(XMLoadFloat3(&vPlayerPos) - XMLoadFloat3(&vNpcPos)));
+            if (vLength < m_fActionDistance)
             {
                 if (m_pGameInstance->KeyDown(KEY_INPUT::KEYBOARD, DIK_F))
                 {
@@ -66,15 +76,26 @@ void CNpc::Update(_float fDeletaTime)
                     // Npc의 대화 스크립트 로직을 통해서 관리
                     // NPC랑 대화할때 카메라 무브랑 Idle 모션으로 보여주기
                     m_pNpcFsm->ChangeState(TEXT("Dialog_Layer"), TEXT("Talking"));
-                    //CGamePlayHUD* pGamePlayHUD = static_cast<CGamePlayHUD*>(m_pGameInstance->GetCurrentHUD());
-                    //pGamePlayHUD->ActivePopUpUserInterface(3);
-                    //
-                    //CDiallogUI* pDiallog = static_cast<CDiallogUI*>(pGamePlayHUD->GetPopUpUserInterface(3));
-                    //pDiallog->SetDiallogText(TEXT("NPC와 상호작용 중 테스트 테스트"));
+                    CGamePlayHUD* pGamePlayHUD = static_cast<CGamePlayHUD*>(m_pGameInstance->GetCurrentHUD());
+                    pGamePlayHUD->ActivePopUpUserInterface(3);
+                    
+                    CDiallogUI* pDiallog = static_cast<CDiallogUI*>(pGamePlayHUD->GetPopUpUserInterface(3));
+                    pDiallog->SetDiallogText(TEXT("NPC와 상호작용 중 테스트 테스트"));
                 }
             }
         }
+
+        bIsAnimLoopFloag = m_pNpcFsm->GetLayerAnimLoop(TEXT("Dialog_Layer"));
+        if (false == bIsAnimLoopFloag && m_pNpcBody->FinishedAnimation())
+        {
+            if (m_pNpcFsm->GetLayerLastPhase(TEXT("Dialog_Layer")))
+            {
+                m_pNpcFsm->ChangeState(TEXT("Dialog_Layer"), TEXT("Idle"));
+            }
+        }
     }
+
+    m_pNpcBody->PlayAnimation(m_pNpcFsm->GetStateFullName().c_str(), bIsAnimLoopFloag);
 }
 
 void CNpc::Late_Update(_float fDeletaTime)
@@ -87,11 +108,6 @@ void CNpc::Late_Update(_float fDeletaTime)
 
 HRESULT CNpc::Render()
 {
-    if (!m_IsDead)
-    {
-        m_pCollision->Render();
-    }
-
     return S_OK;
 }
 

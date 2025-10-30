@@ -8,6 +8,7 @@ class CCollision;
 NS_END
 
 NS_BEGIN(Client)
+class CPlayer;
 class CActionAbleUI;
 
 class CArchitecture : public CWorkAbleObject
@@ -43,6 +44,7 @@ protected:
 	_float									m_fCurHealth = {};
 
 	//OBB 박스가 달려있을거임
+	const CPlayer*							m_pPlayer = nullptr;
 	CCollision*								m_pHitBoxCollision = nullptr;
 	CActionAbleUI*							m_pActionUI = nullptr;
 

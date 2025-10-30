@@ -1,0 +1,3 @@
+2 
+0 3 3 Prototype_GameObject_Environment_Grass_Bush GamePlay_Layer_Instance_Env 0 1 1 1 0 0 0 581.829 -207.937 436.318  
+0 3 3 Prototype_GameObject_Environment_Grass_Leave GamePlay_Layer_Instance_Env 0 1 1 1 0 0 0 581.829 -207.937 436.318

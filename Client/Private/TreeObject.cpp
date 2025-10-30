@@ -94,6 +94,15 @@ HRESULT CTreeObject::HitBeginFunction(_float3 vDir, CGameObject* pGameObject)
 void CTreeObject::Damage(void* pArg, CActor* pDamagedActor)
 {
     __super::Damage(pArg, pDamagedActor);
+
+    _Int iRandomIndex = m_pGameInstance->Random(0, 30);
+
+    if (10 < iRandomIndex)
+        m_pGameInstance->Manager_PlaySound(TEXT("HIT_Dam_Wood_Min_01_A.ogg"), CHANNELID::EFFECT2, 0.5f);
+    else if(20 < iRandomIndex)
+        m_pGameInstance->Manager_PlaySound(TEXT("HIT_Dam_Wood_Min_01_B.ogg"), CHANNELID::EFFECT2, 0.5f);
+    else 
+        m_pGameInstance->Manager_PlaySound(TEXT("HIT_Dam_Wood_Min_01_C.ogg"), CHANNELID::EFFECT2, 0.5f);
 }
 
 HRESULT CTreeObject::ADD_Components(_uInt iModelIndex)

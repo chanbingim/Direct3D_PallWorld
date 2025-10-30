@@ -85,6 +85,7 @@ void CTechListViewSlot::ClikcedBindFunction(function<void(_Int, _Int)> BindFunct
 
 void CTechListViewSlot::MouseButtonDwon()
 {
+    m_pGameInstance->Manager_PlaySound(TEXT("ButtonClicked.wav"), CHANNELID::EFFECT, 1.f);
     if (m_BindClickedFunction)
         m_BindClickedFunction(m_iItemIndex, m_iTechIndex);
 }

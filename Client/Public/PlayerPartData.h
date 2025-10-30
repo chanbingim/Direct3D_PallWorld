@@ -38,10 +38,15 @@ public:
 	void									UpdateAttackSlot();
 
 	void									RoatationPitchSpine(_float fPitchAngle);
+	void									ResetWeaponSlot(_uInt iIndex);
+
 	const _float4x4*						GetLeftHandSocket();
+
 
 private:
 	CPlayerBody*							m_pPlayerBody = nullptr;
+
+	_bool									m_bIsDissolve = false;
 
 	//무기 소켓 위치 및 손위치
 	CPlayerItemSlot*						m_pWeaponSocket[3] = {};
@@ -61,7 +66,7 @@ private:
 	HRESULT									Insert_AnimKeyFrameFunction();
 
 	HRESULT									ShootProjecttileObject();
-
+	void									WalkEvent();
 
 public:
 	static			CPlayerPartData*		Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

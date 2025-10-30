@@ -1,6 +1,8 @@
 #include "CombatComponent.h"
 
 #include "GameObject.h"
+
+#include "EffectContatiner.h"
 #include "Transform.h"
 
 CCombatComponent::CCombatComponent(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
@@ -21,6 +23,7 @@ HRESULT CCombatComponent::Initialize(void* pArg)
 		m_pOwner = pDesc->pOwner;
 		m_fLostTargetTime = pDesc->fLostTargetTime;
 		m_fChangeTargetDistance = pDesc->fChangeTargetDistance;
+		m_fLostTargetDistance = pDesc->fLostTargetDistance;
 		m_BindCombatFunc = pDesc->CallBackFunction;
 	}
 
@@ -44,6 +47,9 @@ void CCombatComponent::ResetCombatComponent()
 
 void CCombatComponent::ADD_TargetObject(CGameObject* pTarget)
 {
+	if (nullptr != dynamic_cast<CEffectContatiner*>(pTarget))
+		return;
+
 	auto iter = find(m_pTargetList.begin(), m_pTargetList.end(), pTarget);
 	if (iter == m_pTargetList.end())
 		m_pTargetList.push_back(pTarget);
@@ -93,7 +99,13 @@ void CCombatComponent::UpdateTarget()
 				if (fDistance < fOldDistance)
 					m_pTargetObject = (*pTargetIter);
 			}
-			pTargetIter++;
+			
+			if (fDistance >= m_fLostTargetDistance)
+			{
+				pTargetIter = m_pTargetList.erase(pTargetIter);
+			}
+			else
+				pTargetIter++;
 		}
 	}
 }
