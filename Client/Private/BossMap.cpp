@@ -32,11 +32,9 @@ HRESULT CBossMap::Initialize(void* pArg)
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
-    for (_uInt i = 0; i < m_iTerrainCnt; ++i)
-        m_pNavigationCom->Update(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
+   /* for (_uInt i = 0; i < m_iTerrainCnt; ++i)
+        m_pNavigationCom->Update(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));*/
 
-
-    m_ObejctTag = TEXT("BossMap");
     return S_OK;
 }
 
@@ -47,13 +45,13 @@ void CBossMap::Priority_Update(_float fDeletaTime)
 void CBossMap::Update(_float fDeletaTime)
 {
 #ifdef _DEBUG
-    auto EditorUI = CImgManager::GetInstance()->Find_ImgUserInterface(TEXT("LandScape"));
+ /*   auto EditorUI = CImgManager::GetInstance()->Find_ImgUserInterface(TEXT("LandScape"));
     CIMG_LandScape* Img_LandScape = dynamic_cast<CIMG_LandScape*>(EditorUI);
 
     if (Img_LandScape->GetbIsNaviMeshPicking())
         PickingNavimesh();
     else
-        PickingPoint();
+        PickingPoint();*/
 
 #endif // _DEBUG
 }
@@ -73,7 +71,7 @@ HRESULT CBossMap::Render()
         m_pShaderCom->Update_Shader(0);
         m_pVIBufferCom->Render(i);
     }
-    m_pNavigationCom->Render({ 1.f, 0.f,0.f,1.f });
+  
 
     return S_OK;
 }
@@ -127,9 +125,9 @@ HRESULT CBossMap::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Mesh"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
         return E_FAIL;
 
-    m_iTerrainCnt = m_pVIBufferCom->GetNumMeshes();
+  /*  m_iTerrainCnt = m_pVIBufferCom->GetNumMeshes();
     m_pNavigationCom = CNavigation::Create(m_pGraphic_Device, m_pDeviceContext, m_pVIBufferCom);
-    m_pComponentMap.emplace(TEXT("NaviMesh_Com"), m_pNavigationCom);
+    m_pComponentMap.emplace(TEXT("NaviMesh_Com"), m_pNavigationCom);*/
     return S_OK;
 }
 

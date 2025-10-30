@@ -974,6 +974,12 @@
     <Filter Include="03. Objects\MeshObject\NonAnimMesh\Map\BossMap">
       <UniqueIdentifier>{8b42cd6d-c1b8-49c9-ae49-8ea8cff9e46a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Grass\Grass03">
+      <UniqueIdentifier>{10119f2b-ae62-4276-9325-663d12237c18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Grass\Grass04">
+      <UniqueIdentifier>{01ee3263-111a-4fc2-8986-7108029b3e3c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -1795,6 +1801,12 @@
     <ClInclude Include="..\public\BossMap.h">
       <Filter>03. Objects\MeshObject\NonAnimMesh\Map\BossMap</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\GrassBush.h">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Grass\Grass03</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\GrassLeave.h">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Grass\Grass04</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -2592,6 +2604,12 @@
     </ClCompile>
     <ClCompile Include="..\private\BossMap.cpp">
       <Filter>03. Objects\MeshObject\NonAnimMesh\Map\BossMap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\GrassBush.cpp">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Grass\Grass03</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\GrassLeave.cpp">
+      <Filter>03. Objects\MeshObject\NonAnimMesh\Enviornment\InstanceModel\Grass\Grass04</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,4 @@
+3
+0 3 3 Prototype_GameObject_Touch GamePlay_Layer_Light 0 1 1 1 0 0 0 397.223 -208.012 -79.1896 
+0 3 3 Prototype_GameObject_Touch GamePlay_Layer_Light 0 1 1 1 0 0 0 379.59 -208 -80.063 
+0 3 3 Prototype_GameObject_Touch GamePlay_Layer_Light 0 1 1 1 0 0 0 389.611 -208.043 -99.1886 

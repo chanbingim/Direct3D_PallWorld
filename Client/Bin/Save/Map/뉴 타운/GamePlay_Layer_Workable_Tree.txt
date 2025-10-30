@@ -1,0 +1,6 @@
+5
+0 3 3 Prototype_GameObject_Tree GamePlay_Layer_Workable_Tree 0 1 1 1 0 0 0 395.709 -208.02 -84.1184 
+0 3 3 Prototype_GameObject_Tree GamePlay_Layer_Workable_Tree 0 1 1 1 0 0 0 394.722 -208.044 -97.8049 
+0 3 3 Prototype_GameObject_Tree GamePlay_Layer_Workable_Tree 0 1 1 1 0 0 0 374.483 -208.022 -93.9359 
+0 3 3 Prototype_GameObject_Tree GamePlay_Layer_Workable_Tree 0 1 1 1 0 0 0 375.816 -207.996 -79.4153 
+0 3 3 Prototype_GameObject_Tree GamePlay_Layer_Workable_Tree 0 1 1 1 0 0 0 405.803 -208.044 -93.184 

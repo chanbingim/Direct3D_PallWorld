@@ -36,9 +36,7 @@ HRESULT CRockObject::Initialize(void* pArg)
     if (FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
-    RefreshComputeHeight();
     m_pCollision->UpdateColiision(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
-    m_pDropComponent->Insert_ItemIndex(12, 100);
     return S_OK;
 }
 

@@ -1,0 +1,4 @@
+3
+0 3 3 Prototype_GameObject_BossMap GamePlay_Layer_Enviornment 0 0.999999 1 0.999999 0 3.14159 0 -1362.61 -206.01 949.151 
+0 3 3 Prototype_GameObject_BossMap GamePlay_Layer_Enviornment 0 2.5 2.5 2.5 0 0 0 -1362.61 -206.71 949.151 
+0 3 3 Prototype_GameObject_BossMap GamePlay_Layer_Enviornment 0 3.5 2 3.5 0 0.523599 0 -1443.87 -206.715 959.416 

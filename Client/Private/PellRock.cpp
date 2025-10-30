@@ -36,7 +36,6 @@ HRESULT CPellRock::Initialize(void* pArg)
         return E_FAIL;
 
     RefreshComputeHeight();
-    m_pDropComponent->Insert_ItemIndex(13, 100);
     m_pCollision->UpdateColiision(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
 
     return S_OK;
@@ -109,10 +108,6 @@ HRESULT CPellRock::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionOBB"), TEXT("Collision_Com"), (CComponent**)&m_pCollision, &OBBDesc)))
         return E_FAIL;
     m_pCollision->BindOverlappingEvent([this](_float3 vDir, CGameObject* pHitActor) { HitOverlapFunction(vDir, pHitActor); });
-
-    // DropComponent
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GamePlay_Component_Drop"), TEXT("Drop_Com"), (CComponent**)&m_pDropComponent)))
-        return E_FAIL;
 
     // NonAnimShader
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_Mesh"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))

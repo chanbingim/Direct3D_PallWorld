@@ -36,8 +36,8 @@ HRESULT CGamePlayLevel::Initialize()
 		return E_FAIL;
 
 	CTerrainManager::GetInstance()->Initialize(nullptr);
-	if (FAILED(ADD_SkyLayer(TEXT("Layer_GamePlay_SKY"))))
-		return E_FAIL;
+	//if (FAILED(ADD_SkyLayer(TEXT("Layer_GamePlay_SKY"))))
+	//	return E_FAIL;
 
 	m_pGameInstance->ShowInGameMouse(VISIBILITY::HIDDEN);
 
@@ -82,8 +82,8 @@ HRESULT CGamePlayLevel::ADD_TerrianLayer(const _wstring& LayerName)
 	ZeroMemory(&Desc, sizeof(CGameObject::GAMEOBJECT_DESC));
 	Desc.vScale = { 1.f, 1.f, 1.f };
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_BossMap"),
-				ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_DefualtMap"),
+		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
 		return E_FAIL;
 
 	return S_OK;

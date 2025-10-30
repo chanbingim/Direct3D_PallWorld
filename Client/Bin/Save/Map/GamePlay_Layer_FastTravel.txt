@@ -1,2 +1,0 @@
-1
-0 3 3 Prototype_GameObject_FastTravel GamePlay_Layer_FastTravel 0 1 1 1 0 0 0 2991.79 -200.044 -14.0766 

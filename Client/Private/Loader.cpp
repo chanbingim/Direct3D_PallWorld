@@ -19,6 +19,9 @@
 #include "Terrain.h"
 #include "DefaultMap.h"
 
+#include "GrassBush.h"
+#include "GrassLeave.h"
+
 #pragma region PLAYER
 #include "PlayerPartData.h"
 #include "PlayerBody.h"
@@ -123,6 +126,8 @@
 #include "BattlePell.h"
 #include "PellInfo.h"
 #include "NeturalPellInfo.h"
+
+#include "TouchLamp.h"
 
 #include "PellInfoFrame.h"
 #include "TypeIcon.h"
@@ -330,81 +335,41 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 #pragma region Models
 
-#pragma region MAP_MODEL
+//#pragma region MAP_MODEL
 	_matrix PreModelMat = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.f)) * XMMatrixTranslation(0, -200.f, 0);	
 	/* VIBuffer  Old_Clothes MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_DefaultMap"),
 		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/SmallMap/Map.fbx", PreModelMat))))
 		return E_FAIL;
 
+	PreModelMat = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.f)) ;
 	/* VIBuffer  Old_Clothes MESH  Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_BossMap"),
 		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BossMap/BossMap.fbx", PreModelMat))))
 		return E_FAIL;
-#pragma endregion
 
-#pragma region Clothes
-	PreModelMat = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.f));
-	/* VIBuffer  Old_Clothes MESH  Component */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_OldClothes"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Clothes/OldClothes/OldClothes.fbx", PreModelMat,
-			"../Bin/Resources/Models/Clothes/OldClothes/OldColtehsRetarget.txt"))))
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Ins_Flower"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Flower/Flower.fbx", PreModelMat))))
 		return E_FAIL;
 
-	/* VIBuffer  Clothes2 MESH  Component */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Clothes02"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::ANIM, "../Bin/Resources/Models/Clothes/Clothes02/Clothes02.fbx", PreModelMat, 
-			"../Bin/Resources/Models/Clothes/Clothes02/Clothes02_Mapping.txt"))))
-		return E_FAIL;
-#pragma endregion
-
-#pragma region SKY_Model
-	/* VIBuffer  Clothes2 MESH  Component */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Sky"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Sky/SM_Raid_Sky_01.fbx"))))
-		return E_FAIL;
-#pragma endregion
-
-#pragma region PROJECTILE
-	PreModelMat = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationX(XMConvertToRadians(90.f));
-	/* VIBuffer  Arrow  Component */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Arrow"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Weapon/AnimationWeapon/Bow/Arrow/Arrow.dat", PreModelMat))))
-		return E_FAIL;
-#pragma endregion
-
-#pragma region Build Object
-	PreModelMat = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.f));
-	/* VIBuffer  PAL BOX  Component */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_PalBox"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BuildObject/PalBox/PalBox.fbx", PreModelMat))))
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Ins_Grass02"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/GrassBrush/Grass02.fbx", PreModelMat))))
 		return E_FAIL;
 
-	/* VIBuffer  PAL BED  Component */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_PalBed"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BuildObject/PalBed/PalBed.fbx", PreModelMat))))
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Ins_Grass03"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/GrassLeave/Grass03.fbx", PreModelMat))))
 		return E_FAIL;
 
-	/* VIBuffer  WORK BENCH  Component */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_WorkBench"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BuildObject/WorkBench/WorkBench.fbx", PreModelMat))))
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Ins_Grass"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Grass/Grass.fbx", PreModelMat))))
 		return E_FAIL;
 
-#pragma region BuildObject Wood
-	/* VIBuffer  Wood Wall  Component */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_WoodWall"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BuildObject/Wood/Wall/WoodWall.fbx", PreModelMat))))
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Ins_SmallGrass"),
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/SmallGrass/small_Grass.fbx", PreModelMat))))
 		return E_FAIL;
 
-	/* VIBuffer  Wood Door  Component */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_WoodDoor"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BuildObject/Wood/Door/Door_Wood.fbx", PreModelMat))))
-		return E_FAIL;
-
-	/* VIBuffer  Defence Wood Wall  Component */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_DefenceWoodWall"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BuildObject/Wood/DefenceWall/DefenceWall_Wood.fbx", PreModelMat))))
-		return E_FAIL;
 #pragma endregion
 
 #pragma region SMALL Grass InstanceBuffer
@@ -439,7 +404,33 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CVIBuffer_Model_Instance::Create(m_pDevice, m_pContext, &InstanceModelDesc))))
 		return E_FAIL;
 #pragma endregion
+	InstanceModelDesc.iNumInstance = 3000.f;
+	InstanceModelDesc.vSize = { 1.f, 1.f, 1.f };
+	InstanceModelDesc.vCenter = { 0.f ,0.f, 0.f };
+	InstanceModelDesc.vRange = { 400.f ,0.f, 300.f };
 
+	InstanceModelDesc.pModelFilePath = "../Bin/Resources/Models/Enviornmenet/GrassBrush/Grass02.fbx";
+	InstanceModelDesc.PreModelMat = PreModelMat;
+	InstanceModelDesc.RetargetFile = "";
+	InstanceModelDesc.iLayerCount = 1;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Instance_GrassBush"),
+		CVIBuffer_Model_Instance::Create(m_pDevice, m_pContext, &InstanceModelDesc))))
+		return E_FAIL;
+
+	InstanceModelDesc.iNumInstance = 3000.f;
+	InstanceModelDesc.vSize = { 1.f, 1.f, 1.f };
+	InstanceModelDesc.vCenter = { 0.f ,0.f, 0.f };
+	InstanceModelDesc.vRange = { 400.f ,0.f, 300.f };
+
+	InstanceModelDesc.pModelFilePath = "../Bin/Resources/Models/Enviornmenet/GrassLeave/Grass03.fbx";
+	InstanceModelDesc.PreModelMat = PreModelMat;
+	InstanceModelDesc.RetargetFile = "";
+	InstanceModelDesc.iLayerCount = 1;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Instance_GrasLeave"),
+		CVIBuffer_Model_Instance::Create(m_pDevice, m_pContext, &InstanceModelDesc))))
+		return E_FAIL;
 #pragma region FLOWER InstaceBuffer;
 	InstanceModelDesc.iNumInstance = 3000.f;
 	InstanceModelDesc.vSize = { 1.f, 1.f, 1.f };
@@ -579,34 +570,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 #pragma endregion
 
-#pragma region Component
-	/* GamePlay_Component_CombatComponent */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Combat"),
-		CCombatComponent::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	/* GamePlay_Component_ChaseComponent*/
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_Chase"),
-		CChaseComponent::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	/* GamePlay_Component_RecoveryComponent */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("GamePlay_Component_Recovery"), CRecovery::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	/* GamePlay_Component_DropComponent */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GamePlay_Component_Drop"), CDropComponent::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	/* GamePlay_Component_Ai_Secne_Component */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GamePlay_Component_AiSence"), CAiSenceComponent::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	/* GamePlay_Component_Work_Component */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GamePlay_Component_Work"), CWorkComponent::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-#pragma endregion
-
 #pragma region OBJECT
 	/* GAME_OBJECT_Camera */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Camera"), CCamera::Create(m_pDevice, m_pContext))))
@@ -697,36 +660,28 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma endregion
 
 
-
-#pragma region WOOD
-	/* GAME_OBJECT_DefenceWoodWall */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_DefenceWoodWall"), CDefenceWallWood::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	/* GAME_OBJECT_WoodWall */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_WoodWall"), CWoodWall::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	/* GAME_OBJECT_WoodDoor */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_WoodDoor"), CWoodDoor::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	/* GAME_OBJECT_WoodDoor */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_FastTravel"), CFastTravelObject::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-#pragma endregion
-
 #pragma endregion
 
 #pragma region ITEM OBJECT
 	/* GAME_OBJECT_ItemObject */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_ItemObject"), CItemObject::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Touch"), CTouchLamp::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 #pragma endregion
 
 #pragma region NPC
 
 #pragma region FEMALE
+
+	/* GAME_OBJECT_Female_People_1_Body */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Instance_Grass03"), CGrassBush::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/* GAME_OBJECT_Female_People_1_Body */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Instance_Grass04"), CGrassLeave::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
 #pragma region People 1
 	/* GAME_OBJECT_Female_People_1_Body */

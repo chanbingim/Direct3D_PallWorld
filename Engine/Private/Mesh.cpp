@@ -322,7 +322,6 @@ _bool CMesh::IsPicking(CTransform* pTransform, _float3* pOut)
 				//ÇÏ´Ü »ï°¢Çü
 				if (true == m_pGameInstance->Picking_InLocal(m_pVertices[pIndices[i]], m_pVertices[pIndices[i + 1]], m_pVertices[pIndices[i + 2]], pOut))
 				{
-					if (0 < XMVectorGetY(XMVector3Cross(Line_AB, Line_AC)))
 						bIsPicking = true;
 
 					XMStoreFloat3(pOut, XMVector3TransformCoord(XMLoadFloat3(pOut), XMLoadFloat4x4(&pTransform->GetWorldMat())));

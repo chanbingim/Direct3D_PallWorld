@@ -27,8 +27,6 @@ HRESULT CFemalePeople_1::Initialize(void* pArg)
     if (FAILED(Setup_NpcFsm()))
         return E_FAIL;
 
-    if (FAILED(ADD_Components()))
-        return E_FAIL;
 
     if (FAILED(ADD_PartObjects()))
         return E_FAIL;
@@ -43,8 +41,6 @@ void CFemalePeople_1::Priority_Update(_float fDeletaTime)
     __super::Priority_Update(fDeletaTime);
     NpcPlayFSM(fDeletaTime);
 
-    m_pNevigation->ComputeHeight(m_pTransformCom, false);
-    m_pCollision->UpdateColiision(XMLoadFloat4x4(&m_pTransformCom->GetWorldMat()));
 }
 
 void CFemalePeople_1::Update(_float fDeletaTime)
@@ -74,22 +70,8 @@ void CFemalePeople_1::OverlapEvent(_float3 vDir, CGameObject* pHitActor)
 
 HRESULT CFemalePeople_1::ADD_Components()
 {
-    CBoxCollision::BOX_COLLISION_DESC BoxDesc = {};
-    BoxDesc.pOwner = this;
-    BoxDesc.Extents = _float3(0.5f, 1.2f, 0.5f);;
-    BoxDesc.vCneter = _float3(0.f, BoxDesc.Extents.y * 0.5f, 0.f);
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionBox"), TEXT("Collision_Com"), (CComponent**)&m_pCollision, &BoxDesc)))
-        return E_FAIL;
-    m_pCollision->BindBeginOverlapEvent([this](_float3 vDir, CGameObject* pHitActor) { OverlapEvent(vDir, pHitActor); });
-
-    auto Object = m_pGameInstance->GetAllObejctToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Layer_GamePlay_Terrian"))->begin();
-    auto OriginNav = static_cast<CNavigation*>((*Object)->Find_Component(TEXT("NaviMesh_Com")));
-    CNavigation::NAVIGATION_DESC Desc = {};
-    Desc.iCurrentCellIndex = 100;
-    m_pNevigation = static_cast<CNavigation*>(OriginNav->Clone(&Desc));
-
-    Safe_AddRef(m_pNevigation);
-    m_pComponentMap.emplace(TEXT("NaviMesh_Com"), m_pNevigation);
+  
+  
     return S_OK;
 }
 

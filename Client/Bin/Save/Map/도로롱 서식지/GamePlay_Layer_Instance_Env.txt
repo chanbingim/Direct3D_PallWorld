@@ -1,3 +1,0 @@
-2
-0 3 3 Prototype_GameObject_Environment_SmallGrass GamePla_Layer_Instance_Env 0 1 1 1 0 0 0 -465.877 -205.809 -388.313 
-0 3 3 Prototype_GameObject_Environment_Flower GamePla_Layer_Instance_Env 0 1 1 1 0 0 0 -473.607 -205.826 -390.805 

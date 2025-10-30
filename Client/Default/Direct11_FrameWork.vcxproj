@@ -124,6 +124,7 @@
       <PreprocessToFile>false</PreprocessToFile>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -201,6 +202,8 @@
     <ClInclude Include="..\public\FastTravelObject.h" />
     <ClInclude Include="..\public\FemalePeopleBody_1.h" />
     <ClInclude Include="..\public\FemalePeople_1.h" />
+    <ClInclude Include="..\Public\GrassBush.h" />
+    <ClInclude Include="..\Public\GrassLeave.h" />
     <ClInclude Include="..\public\GrassMommothBody.h" />
     <ClInclude Include="..\public\GreenMommoth.h" />
     <ClInclude Include="..\public\HungerBar.h" />
@@ -465,6 +468,8 @@
     <ClCompile Include="..\private\FastTravelObject.cpp" />
     <ClCompile Include="..\private\FemalePeopleBody_1.cpp" />
     <ClCompile Include="..\private\FemalePeople_1.cpp" />
+    <ClCompile Include="..\Private\GrassBush.cpp" />
+    <ClCompile Include="..\Private\GrassLeave.cpp" />
     <ClCompile Include="..\private\GrassMommothBody.cpp" />
     <ClCompile Include="..\private\GreenMommoth.cpp" />
     <ClCompile Include="..\private\HungerBar.cpp" />

@@ -1,0 +1,21 @@
+20
+0 3 3 Prototype_GameObject_Environment_Viliage_House GamePlay_Layer_Enviornment 0 1 1 1 0 0 0 -431.254 -207.193 -617.518 
+0 3 3 Prototype_GameObject_Environment_Viliage_House GamePlay_Layer_Enviornment 0 1 1 1 0 0 0 -389.139 -206.877 -625.375 
+0 3 3 Prototype_GameObject_Environment_Viliage_House GamePlay_Layer_Enviornment 0 1 1 1 0 0 0 -344.483 -208.169 -611.465 
+0 3 3 Prototype_GameObject_Environment_Viliage_House GamePlay_Layer_Enviornment 0 1 1 1 0 1.5708 0 -452.879 -206.828 -589.002 
+0 3 3 Prototype_GameObject_Environment_Viliage_House GamePlay_Layer_Enviornment 0 1 1 1 0 1.5708 0 -451.025 -206.046 -553.359 
+0 3 3 Prototype_GameObject_Environment_Viliage_House GamePlay_Layer_Enviornment 0 1 1 1 0 0 0 -373.207 -205.918 -513.679 
+0 3 3 Prototype_GameObject_Environment_Viliage_House GamePlay_Layer_Enviornment 0 1 1 1 0 0 0 -431.254 -207.193 -617.518 
+0 3 3 Prototype_GameObject_Environment_Viliage_House GamePlay_Layer_Enviornment 0 1 1 1 0 0 0 -389.139 -206.877 -625.375 
+0 3 3 Prototype_GameObject_Environment_Viliage_House GamePlay_Layer_Enviornment 0 1 1 1 0 0 0 -344.483 -208.169 -611.465 
+0 3 3 Prototype_GameObject_Environment_Viliage_House GamePlay_Layer_Enviornment 0 1 1 1 0 1.5708 0 -452.879 -206.828 -589.002 
+0 3 3 Prototype_GameObject_Environment_Viliage_House GamePlay_Layer_Enviornment 0 1 1 1 0 1.5708 0 -451.025 -206.046 -553.359 
+0 3 3 Prototype_GameObject_Environment_Viliage_House GamePlay_Layer_Enviornment 0 1 1 1 0 0 0 -373.207 -205.918 -513.679 
+0 3 3 Prototype_GameObject_Environment_Viliage_House GamePlay_Layer_Enviornment 0 1 1 1 0 0 0 -431.254 -207.193 -617.518 
+0 3 3 Prototype_GameObject_Environment_Viliage_House GamePlay_Layer_Enviornment 0 1 1 1 0 0 0 -389.139 -206.877 -625.375 
+0 3 3 Prototype_GameObject_Environment_Viliage_House GamePlay_Layer_Enviornment 0 1 1 1 0 0 0 -344.483 -208.169 -611.465 
+0 3 3 Prototype_GameObject_Environment_Viliage_House GamePlay_Layer_Enviornment 0 1 1 1 0 1.5708 0 -452.879 -206.828 -589.002 
+0 3 3 Prototype_GameObject_Environment_Viliage_House GamePlay_Layer_Enviornment 0 1 1 1 0 1.5708 0 -451.025 -206.046 -553.359 
+0 3 3 Prototype_GameObject_Environment_Viliage_House GamePlay_Layer_Enviornment 0 1 1 1 0 0 0 -373.207 -205.918 -513.679 
+0 3 3 Prototype_GameObject_Environment_Viliage_House GamePlay_Layer_Enviornment 0 1 1 1 0 0 0 -410.756 -205.955 -510.413 
+0 3 3 Prototype_GameObject_Environment_Viliage_House GamePlay_Layer_Enviornment 0 1 1 1 0 0 0 -393.745 -205.953 -521.977 

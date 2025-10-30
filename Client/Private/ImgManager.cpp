@@ -236,7 +236,8 @@ void CImgManager::DarwMenuBar()
             {
                 LoadObject("../Bin/Save/Map/GamePlay_Layer_Chunk.txt", TEXT("Chunk"));
                 LoadObject("../Bin/Save/Map/GamePlay_Layer_Enviornment.txt", TEXT("Enviornment"));
-                LoadEnvObject("../Bin/Save/Map/GamePlay_Layer_WorkAble.txt", TEXT("Workalbe"));
+                LoadEnvObject("../Bin/Save/Map/GamePlay_Layer_WorkAble_Tree.txt", TEXT("Workalbe"));
+                LoadEnvObject("../Bin/Save/Map/GamePlay_Layer_WorkAble_Rock.txt", TEXT("Workalbe"));
                 LoadObject("../Bin/Save/Map/GamePlay_Layer_Npc.txt", TEXT("Npc"));
                 LoadObject("../Bin/Save/Map/GamePlay_Layer_Instance_Env.txt", TEXT("Instance_Env"));
             }

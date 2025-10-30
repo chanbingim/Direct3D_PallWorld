@@ -46,8 +46,8 @@ public :
 private :
 	_int2							m_TerrianSize = {};
 	_Int							m_TerrianSelectIndex = {};
-	//CDefaultMap*					m_DefaultMap;
-	CBossMap*						m_DefaultMap;
+	CDefaultMap*					m_DefaultMap;
+	//CBossMap*						m_DefaultMap;
 
 private :
 	HRESULT							LoadTerrianData(const char* pFileData);
