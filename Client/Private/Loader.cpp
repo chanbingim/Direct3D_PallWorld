@@ -919,7 +919,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* VIBuffer Viliage Church Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_ViliageChurch"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Viliage/Church/Church.fbx",PreModelMat))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Viliage/Church/Church.dat"))))
 		return E_FAIL;
 
 	/* VIBuffer  Viliage Market Component */
