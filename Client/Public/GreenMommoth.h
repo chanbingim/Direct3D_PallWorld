@@ -47,6 +47,7 @@ private :
 	void									TargetDetected(CGameObject* pGameObject);
 
 	void									OverlapEvent(_float3 vDir, CGameObject* pHitObject);
+	void									OverlappingEvent(_float3 vDir, CGameObject* pHitObject);
 
 public:
 	static			CGreenMommoth*			Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

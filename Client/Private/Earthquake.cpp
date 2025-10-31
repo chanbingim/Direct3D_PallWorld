@@ -42,8 +42,8 @@ HRESULT CEarthquake::Initialize(void* pArg)
     m_fAccTime = 0.f;
     m_fTotalTime = 1.7f;
 
-    m_vStartScale = { 1.f, 1.f, 1.f };
-    m_vEndScale = { 7.f, 1.f, 7.f };
+    m_vStartScale = { 1.f, 5.f, 1.f };
+    m_vEndScale = { 7.f, 5.f, 7.f };
 
     m_pGameInstance->Manager_PlaySound(TEXT("EFF_MON_Short_Burst_Earth_04_A.ogg"), CHANNELID::EFFECT2, 0.5f);
     m_pSkillEffects.push_back(pGameObject);
@@ -63,9 +63,7 @@ void CEarthquake::Priority_Update(_float fDeletaTime)
     {
         if (!m_bIsLerpEnd)
         {
-            for (auto pEffect : m_pSkillEffects)
-                static_cast<CEffectContatiner*>(pEffect)->EffectDead([&]() { Effect_Dead(); });
-
+            SetDead(true);
             m_bIsLerpEnd = true;
         }
     }

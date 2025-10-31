@@ -1,6 +1,7 @@
 #include "TouchLamp.h"
 
 #include "GameInstance.h"
+#include "SunLight.h"
 #include "Light.h"
 
 CTouchLamp::CTouchLamp(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
@@ -30,6 +31,7 @@ HRESULT CTouchLamp::Initialize(void* pArg)
     if( FAILED(Bind_ShaderResources()))
         return E_FAIL;
 
+    m_pSunLight = static_cast<CSunLight *>(m_pGameInstance->GetAllObejctToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("GamePlay_Layer_Dir_Light"))->front());
     m_pTransformCom->SetScale({ 1.f,1.f,1.f, });
     ArchitectureAction();
     return S_OK;
@@ -37,16 +39,40 @@ HRESULT CTouchLamp::Initialize(void* pArg)
 
 void CTouchLamp::Priority_Update(_float fDeletaTime)
 {
-    if (m_bIsLight)
-    {
-        //m_fAccTime -= fDeletaTime;
-        if (0 > m_fAccTime)
-        {
-            //여기서 라이트 제거하고 다시 넣으면 다시 불붙이게
-            m_pGameInstance->RemoveLight(m_pTouchLight);
-            m_bIsLight = false;
-        }
-    }
+    //switch (m_pSunLight->GetDay())
+    //{
+    //case CSunLight::DAY_TYPE::MORNING :
+    //case CSunLight::DAY_TYPE::LUNCH :
+    //{
+    //    if (m_bIsLight)
+    //    {
+    //        //여기서 라이트 제거하고 다시 넣으면 다시 불붙이게
+    //        m_pGameInstance->RemoveLight(m_pTouchLight);
+    //        m_bIsLight = false;
+    //    }
+    //}
+    //    break;
+    //case CSunLight::DAY_TYPE::NIGHT:
+    //case CSunLight::DAY_TYPE::DAWN:
+    //{
+    //    if (!m_bIsLight)
+    //    {
+    //        //여기서 라이트 제거하고 다시 넣으면 다시 불붙이게
+    //        m_pGameInstance->ADDLight(m_pTouchLight);
+    //        m_bIsLight = true;
+    //    }
+    //}
+    //break;
+
+    //}
+    //if (m_bIsLight)
+    //{
+    //    //m_fAccTime -= fDeletaTime;
+    //    if (0 > m_fAccTime)
+    //    {
+    //       
+    //    }
+    //}
 
 }
 
@@ -58,7 +84,7 @@ void CTouchLamp::Late_Update(_float fDeletaTime)
 {
     if (m_pGameInstance->DistanceCulling(m_pTransformCom->GetPosition()))
     {
-        m_pGameInstance->ADD_CollisionList(m_pHitBoxCollision);
+       // m_pGameInstance->ADD_CollisionList(m_pHitBoxCollision);
         m_pGameInstance->Add_RenderGroup(RENDER::NONBLEND, this);
     }
 }
@@ -98,10 +124,10 @@ HRESULT CTouchLamp::ADD_Components()
     CLight::LIGHT_DESC PointLightDesc = {};
     PointLightDesc.eType = LIGHT::POINT;
 
-    PointLightDesc.vDiffuse = _float4(1.0f, 0.55f, 0.25f, 1.0f);
-    PointLightDesc.vAmbient = _float4(0.25f, 0.1f, 0.05f, 1.0f);
-    PointLightDesc.vSpecular = PointLightDesc.vDiffuse;;
-    PointLightDesc.fRange = 1000.f;
+    PointLightDesc.vDiffuse = _float4(0.85f, 0.70f, 0.45f, 1.0f);  // 메인 빛 - 따뜻한 황금빛
+    PointLightDesc.vAmbient = _float4(0.22f, 0.18f, 0.14f, 1.0f);  // 주변광 - 부드럽게 감싸는 어두운 톤
+    PointLightDesc.vSpecular = _float4(0.9f, 0.75f, 0.5f, 1.0f);
+    PointLightDesc.fRange = 500.f;
 
     PointLightDesc.vPosition = m_pTransformCom->GetPosition();
     m_pTouchLight = CLight::Create(PointLightDesc);

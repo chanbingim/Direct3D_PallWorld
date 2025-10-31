@@ -1,2 +1,2 @@
 1
-0 3 3 Prototype_GameObject_FastTravel GamePla_Layer_Enviornment 0 1 1 1 0 0 0 -464.571 -205.804 -386.611 
+0 3 3 Prototype_GameObject_FastTravel GamePla_Layer_Enviornment 0 1 1 1 0 0 0 -295.574 -201.323 -209.276 

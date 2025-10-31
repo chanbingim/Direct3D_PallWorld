@@ -615,9 +615,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/SmallMap/Map.dat"))))
 		return E_FAIL;
 
+	PreModelMat = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.f));
 	/* VIBuffer Boss Map */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_BossMap"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BossMap/Map.dat"))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/BossMap/Map.fbx", PreModelMat))))
 		return E_FAIL;
 #pragma endregion
 
@@ -918,7 +919,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	/* VIBuffer Viliage Church Component */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_Component_VIBuffer_ViliageChurch"),
-		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Viliage/Church/Church.dat"))))
+		CModel::Create(m_pDevice, m_pContext, MODEL_TYPE::NONANIM, "../Bin/Resources/Models/Enviornmenet/Viliage/Church/Church.fbx",PreModelMat))))
 		return E_FAIL;
 
 	/* VIBuffer  Viliage Market Component */
@@ -1431,7 +1432,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 
 	/* GAME_OBJECT_TorchLamp */
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_TorchLamp"), CTouchLamp::Create(m_pDevice, m_pContext))))
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Touch"), CTouchLamp::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* GAME_OBJECT_TableFurniture */

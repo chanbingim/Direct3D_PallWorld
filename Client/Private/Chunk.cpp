@@ -26,8 +26,8 @@ void CChunk::Update(_float fDeletaTime)
 
 HRESULT CChunk::Render()
 {
-    m_pNavigation->Render({ 1.f, 0.f, 0.f, 1.f });
-    m_pCollision->Render();
+    //m_pNavigation->Render({ 1.f, 0.f, 0.f, 1.f });
+    //m_pCollision->Render();
     return S_OK;
 }
 

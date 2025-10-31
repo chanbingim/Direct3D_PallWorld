@@ -70,7 +70,6 @@ HRESULT CTreeObject::Render()
         m_pShaderCom->Update_Shader(0);
         m_pVIBufferCom->Render(i);
     }
-    m_pCollision->Render();
 
     return S_OK;
 }
@@ -118,7 +117,10 @@ HRESULT CTreeObject::ADD_Components(_uInt iModelIndex)
    // 근데 이거 돌마다 다른데 이거도 뭐 데이터값으로 하자
     COBBCollision::OBB_COLLISION_DESC OBBDesc = {};
     OBBDesc.pOwner = this;
-    OBBDesc.vExtents = { 1.f, 1.f, 1.f };
+    if(0 == iModelIndex)
+        OBBDesc.vExtents = { 1.f, 2.f, 1.f };
+    else
+        OBBDesc.vExtents = { 1.f, 1.2f, 1.f };
 
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionOBB"), TEXT("Collision_Com"), (CComponent**)&m_pCollision, &OBBDesc)))
         return E_FAIL;

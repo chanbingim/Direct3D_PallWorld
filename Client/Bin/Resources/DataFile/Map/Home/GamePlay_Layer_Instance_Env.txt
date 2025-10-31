@@ -1,4 +1,2 @@
-3
-0 3 3 Prototype_GameObject_Environment_Default_Grass GamePlay_Layer_Instance_Env 0 1 1 1 0 0 0 271.032 -208.438 -224.389 
-0 3 3 Prototype_GameObject_Environment_Grass_Bush GamePlay_Layer_Instance_Env 0 1 1 1 0 0 0 369.806 -209.225 -298.304 
-0 5 5  
+1
+0 3 3 Prototype_GameObject_Environment_Flower GamePlayLayer_Instance_Grass 0 1 1 1 0 0 0 361.45 -208.03 -103.267 

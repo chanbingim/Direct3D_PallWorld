@@ -131,6 +131,10 @@ void CTechSlot::MouseButtonDwon()
 	{
 		if(false == PtInRect(&SelectUI->GetRectSize(), m_pGameInstance->GetMousePoint()))
 			GamePlayHUD->SetVisibleSelectUI(VISIBILITY::HIDDEN);
+		else
+		{
+
+		}
 	}
 }
 

@@ -1,0 +1,8 @@
+7
+0 3 3 Prototype_GameObject_PelJium GamePlayer_Layer_WorkAble 0 1 1 1 0 0 0 -283.183 -198.207 -186.161 
+0 3 3 Prototype_GameObject_PelJium GamePlayer_Layer_WorkAble 0 1 1 1 0 1.5708 0 -303.084 -201.595 -207.364 
+0 3 3 Prototype_GameObject_PelJium GamePlayer_Layer_WorkAble 0 1 1 1 0 0 0 -297.628 -201.945 -223.323 
+0 3 3 Prototype_GameObject_PelJium GamePlayer_Layer_WorkAble 0 1 1 1 0 2.0944 0 -280.471 -201.774 -219.691 
+0 3 3 Prototype_GameObject_PelJium GamePlayer_Layer_WorkAble 0 1 1 1 0 1.5708 0 -282.917 -201.558 -217.21 
+0 3 3 Prototype_GameObject_PelJium GamePlayer_Layer_WorkAble 0 1 1 1 0 1.91986 0 -301.886 -200.17 -190.158 
+0 3 3 Prototype_GameObject_PelJium GamePlayer_Layer_WorkAble 0 1 1 1 0 3.49066 0 -315.238 -201.9 -200.603 

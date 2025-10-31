@@ -98,9 +98,6 @@ HRESULT CItemObject::Render()
         m_pVIBufferCom->Render(i);
     }
 
-#ifdef _DEBUG
-    true == m_bIsRayHit ? m_pCollision->Render({ 0.f, 1.f, 1.f, 1.f }) : m_pCollision->Render();
-#endif // _DEBUG
     return S_OK;
 }
 

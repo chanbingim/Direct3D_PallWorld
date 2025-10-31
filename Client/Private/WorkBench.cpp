@@ -93,7 +93,7 @@ HRESULT CWorkBench::Render()
         m_pVIBufferCom->Render(i);
     }
 
-    m_pHitBoxCollision->Render();
+   // m_pHitBoxCollision->Render();
 
     return S_OK;
 }

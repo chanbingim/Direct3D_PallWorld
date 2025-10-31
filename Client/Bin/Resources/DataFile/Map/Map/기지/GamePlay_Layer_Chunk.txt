@@ -1,2 +1,0 @@
-1
-0 3 3 Prototype_GameObject_DebugBox GamePlay_Layer_Chunk 0 160 70 80 0 0 0 298.669 -208.314 -249.341 

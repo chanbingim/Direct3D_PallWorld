@@ -87,7 +87,7 @@ void CSelectUI::SetText(_uInt iButtonType, const WCHAR* szText) const
 
 void CSelectUI::SetPosition(const _float3& vPos) 
 {
-    SetLocation(vPos);
+    SetLocation({720, 210, 0.f});
 }
 
 HRESULT CSelectUI::ADD_Childs()

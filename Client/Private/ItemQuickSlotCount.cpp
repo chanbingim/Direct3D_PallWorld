@@ -49,14 +49,14 @@ void CItemQuickSlotCount::Late_Update(_float fDeletaTime)
 
 HRESULT CItemQuickSlotCount::Render()
 {
-    if (!lstrcmp(m_szTopVeiwText, L"무한대"))
+    if (!lstrcmp(m_szTopVeiwText, L""))
     {
-        m_pFontCom->Render(m_szTopVeiwText, { 0.f, 0.f, 0.f, 1.f });
+       // m_pFontCom->Render(m_szTopVeiwText, { 0.f, 0.f, 0.f, 1.f });
     }
     else
     {
-        m_pFontCom->Render(m_szTopVeiwText, { 0.f, 0.f, 0.f, 1.f });
-        m_pFontCom->Render(m_szUnderVeiwText, { 0.f, 0.f, 0.f, 1.f }, { 0.f, 10.f });
+       // m_pFontCom->Render(m_szTopVeiwText, { 0.f, 0.f, 0.f, 1.f });
+       // m_pFontCom->Render(m_szUnderVeiwText, { 0.f, 0.f, 0.f, 1.f }, { 0.f, 10.f });
     }
     return S_OK;
 }
@@ -65,7 +65,7 @@ void CItemQuickSlotCount::SetItemIndex(_Int iLoadedCount, _Int iItemTotalCOunt)
 {
     if (0 > iLoadedCount)
     {
-        wsprintf(m_szTopVeiwText, TEXT("무한대"));
+        wsprintf(m_szTopVeiwText, TEXT(""));
     }
     else
     {

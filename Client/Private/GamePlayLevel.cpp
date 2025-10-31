@@ -34,6 +34,10 @@ HRESULT CGamePlayLevel::Initialize()
 	if (FAILED(ADD_TerrianLayer(TEXT("Layer_GamePlay_Terrian"))))
 		return E_FAIL;
 
+
+	if (FAILED(ADD_SkyLayer(TEXT("Layer_GamePlay_SKY"))))
+		return E_FAIL;
+
 	CTerrainManager::GetInstance()->Initialize(m_pGraphic_Device, m_pDeviceContext);
 	if (FAILED(LoadMainArea()))
 		return E_FAIL;
@@ -41,8 +45,6 @@ HRESULT CGamePlayLevel::Initialize()
 	if (FAILED(LoadPalArea()))
 		return E_FAIL;
 
-	if (FAILED(ADD_SkyLayer(TEXT("Layer_GamePlay_SKY"))))
-		return E_FAIL;
 
 	if (FAILED(ADD_PellLayer(TEXT("Layer_GamePlay_Pell"))))
 		return E_FAIL;
@@ -53,7 +55,7 @@ HRESULT CGamePlayLevel::Initialize()
 
 	m_pGameInstance->ShowInGameMouse(VISIBILITY::HIDDEN);
 	
-	m_pGameInstance->Manager_PlaySound(TEXT("StartSound.wav"), CHANNELID::EFFECT, 1.f);
+	m_pGameInstance->Manager_PlaySound(TEXT("StartSound.wav"), CHANNELID::EFFECT, 0.5f);
 	CTerrainManager::GetInstance()->PlayChunkBGM();
 
 	return S_OK;
@@ -78,7 +80,7 @@ HRESULT CGamePlayLevel::ADD_Light()
 
 HRESULT CGamePlayLevel::ADD_CameraLayer(const _wstring& LayerName)
 {
-	CBaseCamera::CAMERA_DESC Camera_Desc = {};
+	/*CBaseCamera::CAMERA_DESC Camera_Desc = {};
 
 	Camera_Desc.vEye = { 0.f, 20.f, -20.f };
 	Camera_Desc.vAt = { 0.f, 0.f, 0.f};
@@ -89,7 +91,7 @@ HRESULT CGamePlayLevel::ADD_CameraLayer(const _wstring& LayerName)
 
 	if(FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Camera"),
 				ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Camera_Desc)))
-		return E_FAIL;
+		return E_FAIL;*/
 
 	return S_OK;
 }
@@ -128,18 +130,9 @@ HRESULT CGamePlayLevel::ADD_SkyLayer(const _wstring& LayerName)
 		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
 		return E_FAIL;
 
-	CShadowCamera::SHADOW_CAMERA_DESC ShadowCameraDesc = {};
-	ShadowCameraDesc.fFar = 500.f;
-	ShadowCameraDesc.fNear = 0.1f;
-	ShadowCameraDesc.fFov = XMConvertToRadians(120.f);
-
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GamePlay_ShadowCamera"),
-		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &ShadowCameraDesc)))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_TorchLamp"),
-		ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("TEST_TORUCH"))))
-		return E_FAIL;
+	//if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_TorchLamp"),
+	//	ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("TEST_TORUCH"))))
+	//	return E_FAIL;
 
 	return S_OK;
 }
@@ -200,7 +193,7 @@ HRESULT CGamePlayLevel::ADD_PlayerLayer(const _wstring& LayerName)
 	CGameObject::GAMEOBJECT_DESC Desc;
 	ZeroMemory(&Desc, sizeof(CGameObject::GAMEOBJECT_DESC));
 	Desc.vScale = { 1.f, 1.f, 1.f };
-	Desc.vPosition = { 427.137f, -208.607f, -253.069f };
+	Desc.vPosition = { 374.943f, -208.036f, -91.068f };
 
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GameObject_Player"),
 		ENUM_CLASS(LEVEL::GAMEPLAY), LayerName, &Desc)))
@@ -374,6 +367,15 @@ HRESULT CGamePlayLevel::LoadMainArea()
 	m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), szLayerName, pFastTravel);
 	CTerrainManager::GetInstance()->ADD_FastTravel(TEXT("MainArea"), pFastTravel);
 
+	CShadowCamera::SHADOW_CAMERA_DESC ShadowCameraDesc = {};
+	ShadowCameraDesc.fFar = 500.f;
+	ShadowCameraDesc.fNear = 0.1f;
+	ShadowCameraDesc.fFov = XMConvertToRadians(120.f);
+
+	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Prototype_GamePlay_ShadowCamera"),
+		ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("Shadow_CameraLayer"), &ShadowCameraDesc)))
+		return E_FAIL;
+
 	// 맵에 깔려있는 기본 오브젝트
 	if (FAILED(LoadObject("../Bin/Resources/DataFile/Map/Home/GamePlay_Layer_Enviornment.txt", TEXT("Enviornment"))))
 		return E_FAIL;
@@ -385,6 +387,10 @@ HRESULT CGamePlayLevel::LoadMainArea()
 	// 마을에 상주하는 NPC 데이터
 	if (FAILED(LoadObject("../Bin/Resources/DataFile/Map/Home/GamePlay_Layer_Npc.txt", TEXT("Npc"))))
 		return E_FAIL;
+
+	//// 빛
+	//if (FAILED(LoadObject("../Bin/Resources/DataFile/Map/Home/GamePlay_Layer_Light.txt", TEXT("Light"))))
+	//	return E_FAIL;
 
 	return S_OK;
 }
@@ -436,6 +442,10 @@ HRESULT CGamePlayLevel::LoadPalArea()
 	if (FAILED(LoadEnvObject("../Bin/Resources/DataFile/Map/SheepBalStage/GamePlay_Layer_WorkAble_Rock.txt", TEXT("Rock"))))
 		return E_FAIL;
 
+	// 작업가능한ㄷ Prob 오브젝트
+	if (FAILED(LoadEnvObject("../Bin/Resources/DataFile/Map/SheepBalStage/GamePlay_Layer_WorkAble_Tree.txt", TEXT("Rock"))))
+		return E_FAIL;
+
 #pragma endregion
 
 #pragma region BedCat Field
@@ -464,16 +474,18 @@ HRESULT CGamePlayLevel::LoadPalArea()
 	pTerrainManager->ADD_FastTravel(TEXT("PinkCatField"), pFastTravel);
 
 	// 맵에 깔려있는 기본 오브젝트
-	//if (FAILED(LoadObject("../Bin/Resources/DataFile/Map/PinkCatStage/GamePlay_Layer_Enviornment.txt", TEXT("Enviornment"))))
-	//	return E_FAIL;
+	if (FAILED(LoadObject("../Bin/Resources/DataFile/Map/PinkCatStage/GamePlay_Layer_Enviornment.txt", TEXT("Enviornment"))))
+		return E_FAIL;
 
 	// 인스턴싱된 Prob 오브젝트
 	if (FAILED(LoadObject("../Bin/Resources/DataFile/Map/PinkCatStage/GamePlay_Layer_Instance_Env.txt", TEXT("Instance_Env"))))
 		return E_FAIL;
 
-	// 작업가능한 녀석들 상주하는 NPC 데이터
-	if (FAILED(LoadEnvObject("../Bin/Resources/DataFile/Map/PinkCatStage/GamePlay_Layer_WorkAlbe_Tree.txt", TEXT("Tree"))))
+	// 작업가능한 나무 녀석들
+	if (FAILED(LoadEnvObject("../Bin/Resources/DataFile/Map/PinkCatStage/GamePlay_Layer_WorkAble_Tree.txt", TEXT("Tree"))))
 		return E_FAIL;
+
+
 #pragma endregion
 
 #pragma region Boss Field
@@ -491,7 +503,6 @@ HRESULT CGamePlayLevel::LoadPalArea()
 	ChunkDesc.vPosition = pListData->vPosition;
 	ChunkDesc.NavigationFilePath = "../Bin/Resources/DataFile/Map/BossMap/NaviMesh.dat";
 	CTerrainManager::GetInstance()->ADD_Chunk(TEXT("BossField"), &ChunkDesc);
-	auto BossMap = m_pGameInstance->GetAllObejctToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("GamePlay_Layer_Terrain_Boss"))->front();
 	CTerrainManager::GetInstance()->Find_ChunkFromTag(TEXT("BossField"))->GetChunckNavigation()->Update(XMLoadFloat4x4(&DefualtMap->GetTransform()->GetWorldMat()));
 
 	pObjectDesc.clear();
@@ -506,7 +517,9 @@ HRESULT CGamePlayLevel::LoadPalArea()
 	m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), szLayerName, pFastTravel);
 	pTerrainManager->ADD_FastTravel(TEXT("BossField"), pFastTravel);
 
-	
+	// 빛
+	if (FAILED(LoadObject("../Bin/Resources/DataFile/Map/BossMap/GamePlay_Layer_Light.txt", TEXT("Light"))))
+		return E_FAIL;
 
 	//// 인스턴싱된 Prob 오브젝트
 	//if (FAILED(LoadObject("../Bin/Resources/DataFile/Map/PinkCatStage/GamePlay_Layer_Instance_Env.txt", TEXT("Instance_Env"))))

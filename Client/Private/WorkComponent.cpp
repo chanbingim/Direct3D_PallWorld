@@ -134,7 +134,7 @@ void CWorkComponent::GotToWork(_float fDeletaTime)
     else
     {
         _vector vDir = XMVector3Normalize(vTarget - vPos);
-        _vector vMovePoint = vDir * PellInfo.fPellWalkSpeed * fDeletaTime;
+        _vector vMovePoint = vDir * PellInfo.fPellRunSpeed * fDeletaTime;
         if (m_pNavigation->IsMove(vPos + vMovePoint))
         {
             m_pOwner->GetTransform()->LerpTurn(m_pOwner->GetTransform()->GetUpVector(), vPos + vDir, XMConvertToRadians(180.f), fDeletaTime);

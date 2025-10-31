@@ -1049,6 +1049,9 @@
     <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\InGame_Menu\CharacterView\Inventory\InvenSlider\InvenSliderBut">
       <UniqueIdentifier>{cef864c3-6a7d-41ce-8182-7581e7d75e3b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\FadeInOut">
+      <UniqueIdentifier>{94cbccad-3f8d-46e5-8a14-94bc99f15256}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -1921,6 +1924,9 @@
     <ClInclude Include="..\public\HitBox.h">
       <Filter>03. Objects\MeshObject\NonAnimMesh\HitBox</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\FadeInOut.h">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\FadeInOut</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Direct11_FrameWork.rc">
@@ -2769,6 +2775,9 @@
     </ClCompile>
     <ClCompile Include="..\private\HitBox.cpp">
       <Filter>03. Objects\MeshObject\NonAnimMesh\HitBox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\FadeInOut.cpp">
+      <Filter>02. HUD\GamePlayHUD\GamePlay_UI\PlayerUI\FadeInOut</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -44,6 +44,9 @@ public:
 	const		_float4						GetDireaction() const; 
 	const		DAY_TYPE					GetDay() const { return m_eDayType; }
 
+	void									SetOnlyNight();
+	void									ResetOnlyNight();
+
 protected:
 	virtual		HRESULT						Apply_ConstantShaderResources() override;
 
@@ -53,7 +56,10 @@ private :
 	CShader*								m_pShaderCom = nullptr;
 
 	CLight*									m_pDireactionLight = nullptr;
+	_bool									m_bIsOnceLoop = true;
+
 	_float									m_fAccTime = {};
+	_bool									m_bIsOnlyNight = false;
 
 	CLight::LIGHT_DESC 						m_LightDesc[ENUM_CLASS(DAY_TYPE::END)] = {};
 

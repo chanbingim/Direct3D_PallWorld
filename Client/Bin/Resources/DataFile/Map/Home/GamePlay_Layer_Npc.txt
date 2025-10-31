@@ -1,4 +1,6 @@
-3
-0 3 3 Prototype_GameObject_Female_People_1 GamePlay_Layer_Npc 0 1 1 1 0 0 0 425.178 -208.461 -271.884 
-0 3 3 Prototype_GameObject_Female_People_1 GamePlay_Layer_Npc 0 1 1 1 0 0.0274156 0 369.806 -209.225 -298.304 
-0 3 3 Prototype_GameObject_Female_People_1 GamePlay_Layer_Npc 0 1 1 1 0 0 0 406.515 -208.555 -270.354 
+5
+0 3 3 Prototype_GameObject_Female_People_1 GamePlay_Layer_Npc 0 0.999999 1 0.999999 0 3.14159 0 397.04 -208.019 -83.015 
+0 3 3 Prototype_GameObject_Female_People_1 GamePlay_Layer_Npc 0 1 1 1 0 4.71239 0 406.251 -208.034 -87.8589 
+0 3 3 Prototype_GameObject_Female_People_1 GamePlay_Layer_Npc 0 1 1 1 0 0 0 390.756 -208.039 -96.6993 
+0 3 3 Prototype_GameObject_Female_People_1 GamePlay_Layer_Npc 0 1 1 1 0 0 0 381.528 -208.011 -85.242 
+0 3 3 Prototype_GameObject_Female_People_1 GamePlay_Layer_Npc 0 0.999999 1 0.999999 0 3.14159 0 381.806 -208.009 -83.7589 

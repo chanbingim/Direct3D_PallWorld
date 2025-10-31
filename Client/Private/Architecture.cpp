@@ -44,7 +44,7 @@ HRESULT CArchitecture::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_pPlayer = CPlayerManager::GetInstance()->GetCurrentPlayer();
-	m_fActionDistance = 10.f;
+	m_fActionDistance = 20.f;
 	m_fCurHealth = m_pArchitectureInfo.TypeDesc.ArchitectureDesc.fMaxHealth;
 	CPellBoxManager::GetInstance()->Add_JobListObject(m_eWorkType, this);
 	return S_OK;

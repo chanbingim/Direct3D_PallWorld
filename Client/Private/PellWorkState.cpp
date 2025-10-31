@@ -71,7 +71,7 @@ void CPellWorkState::UpdateWorkName()
 {
 	if (m_pWorkComponent->IsGotoWork())
 	{
-		m_szStateName = "Walk";
+		m_szStateName = "Run";
 	}
 	else
 	{

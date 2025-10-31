@@ -200,6 +200,7 @@
     <ClInclude Include="..\public\EletricBullet.h" />
     <ClInclude Include="..\public\EquipSlotTittle.h" />
     <ClInclude Include="..\public\EventButton.h" />
+    <ClInclude Include="..\public\FadeInOut.h" />
     <ClInclude Include="..\public\FarmGround.h" />
     <ClInclude Include="..\public\FastTravelButton.h" />
     <ClInclude Include="..\public\FastTravelObject.h" />
@@ -481,6 +482,7 @@
     <ClCompile Include="..\private\Earthquake.cpp" />
     <ClCompile Include="..\private\ElectricBall.cpp" />
     <ClCompile Include="..\private\EquipSlotTittle.cpp" />
+    <ClCompile Include="..\private\FadeInOut.cpp" />
     <ClCompile Include="..\private\FarmGround.cpp" />
     <ClCompile Include="..\private\FastTravelButton.cpp" />
     <ClCompile Include="..\private\FastTravelObject.cpp" />

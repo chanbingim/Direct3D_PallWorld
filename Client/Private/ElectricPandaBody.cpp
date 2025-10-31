@@ -65,11 +65,10 @@ HRESULT CElectricPandaBody::Render()
     {
         Apply_ConstantShaderResources(i);
 
+        m_pShaderCom->Bind_RawValue("g_bIsDissolve", &m_bIsDissolve, sizeof(_bool));
         if (m_bIsDissolve)
         {
-            
             m_pShaderCom->Bind_SRV("g_DissolveTexture", m_pNoiseTexture->GetTexture(0));
-            m_pShaderCom->Bind_RawValue("g_bIsDissolve", &m_bIsDissolve, sizeof(_bool));
             m_pShaderCom->Bind_RawValue("g_fDissloveTime", &m_fAccDissolveTime, sizeof(_float));
         }
 
@@ -101,7 +100,7 @@ HRESULT CElectricPandaBody::ShootProjecttileObject()
 
     _vector vLook = m_pTransformCom->GetLookVector();
     _vector vRight = m_pTransformCom->GetRightVector();
-    vLook *= vScale.z * 0.5f;
+    vLook *= 2.f;
 
     CPellBase* pOwner = static_cast<CPellBase*>(m_pParent);
     CCombatComponent* pCombatCom = static_cast<CCombatComponent*>(pOwner->Find_Component(TEXT("Combat_Com")));

@@ -530,6 +530,7 @@ _bool CPellBase::PellPlayFSM(_float fDeletaTime)
 
         if (State.bIsCombat)
         {
+            m_pCombatCom->UpdateTarget();
             if (CPellStateMachine::COMBAT_ACTION::END == State.eCombat_State)
             {
                 CGameObject* vTargetObject = m_pCombatCom->GetCurrentTarget();
@@ -885,7 +886,7 @@ void CPellBase::ActionNeutral(_float fDeletaTime)
         {
             if (!State.bIsAttacking)
             {
-                m_pCombatCom->UpdateTarget();
+            
 
                 if (nullptr == m_pCombatCom->GetCurrentTarget() && State.bIsCombat)
                 {

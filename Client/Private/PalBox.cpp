@@ -10,6 +10,9 @@
 #include "WorkAbleObject.h"
 #include "PellBoxManager.h"
 
+#include "TerrainManager.h"
+#include "Chunk.h"
+
 #include "PalBoxSlot.h"
 
 CPalBox::CPalBox(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
@@ -112,8 +115,8 @@ HRESULT CPalBox::Render()
         m_pVIBufferCom->Render(i);
     }
 
-    m_pHitBoxCollision->Render();
-    m_pDebugSphere->Render();
+    //m_pHitBoxCollision->Render();
+    //m_pDebugSphere->Render();
 
     return S_OK;
 }
@@ -265,9 +268,13 @@ void CPalBox::Add_WorkPalList(const PELL_INFO& PellInfo, _Int WorkSlotID)
     PellDesc.vScale = { 1.f, 1.f, 1.f };
 
     _float3 vPalPosition = GetTransform()->GetPosition();
-    vPalPosition.x += m_pGameInstance->Random(1.f, 4.f);
-    vPalPosition.y += m_pGameInstance->Random(1.f, 4.f);
-    PellDesc.vPosition = vPalPosition;
+
+    CTerrainManager::CHUNK_DESC ChunkDesc = {};
+    CTerrainManager::GetInstance()->Find_Chunk(vPalPosition, &ChunkDesc);
+    auto pNavi = ChunkDesc.pChunk->GetChunckNavigation();
+
+    _uInt indexCell = m_pGameInstance->Random(0, pNavi->GetNumCells());
+    PellDesc.vPosition = pNavi->CellCenterPos(indexCell);
 
     PellDesc.bIsPellData = true;
     PellDesc.PellInfo = PellInfo;

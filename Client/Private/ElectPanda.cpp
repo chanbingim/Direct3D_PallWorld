@@ -101,14 +101,18 @@ void CElectPanda::Priority_Update(_float fDeletaTime)
         auto pTarget = m_pCombatCom->GetCurrentTarget();
         if (pTarget)
         {
-            _float3 vTargetPos = pTarget->GetTransform()->GetPosition();
-            _float3 vCurPos = m_pTransformCom->GetPosition();
+            if (CPellStateMachine::COMBAT_ACTION::DEAD != State.eCombat_State)
+            {
+                _float3 vTargetPos = pTarget->GetTransform()->GetPosition();
+                _float3 vCurPos = m_pTransformCom->GetPosition();
 
-            _vector vCalTargetPos = XMLoadFloat3(&vTargetPos);
-            vPos = XMLoadFloat3(&vCurPos);
-            vDir = XMVector3Normalize(vCalTargetPos - vPos);
-            if (i < 3)
-                m_pTransformCom->LerpTurn(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMLoadFloat3(&vCurPos) + vDir, XMConvertToRadians(180.f), fDeletaTime);
+                _vector vCalTargetPos = XMLoadFloat3(&vTargetPos);
+                vPos = XMLoadFloat3(&vCurPos);
+                vDir = XMVector3Normalize(vCalTargetPos - vPos);
+                if (i < 3)
+                    m_pTransformCom->LerpTurn(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMLoadFloat3(&vCurPos) + vDir, XMConvertToRadians(180.f), fDeletaTime);
+            }
+           
         }
 
     }

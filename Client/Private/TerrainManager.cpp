@@ -179,7 +179,7 @@ _bool CTerrainManager::Find_FastTravelTransport(const WCHAR* szMapTag, _float3* 
         return false;
 
     auto vPosition = iter->second->GetTransform()->GetPosition();
-    auto vDir = iter->second->GetTransform()->GetLookVector() * 10.f;
+    auto vDir = iter->second->GetTransform()->GetLookVector() * 2.f;
     XMStoreFloat3(vOut, XMLoadFloat3(&vPosition) + vDir);
     return true;
 }

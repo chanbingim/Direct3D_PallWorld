@@ -70,7 +70,7 @@ HRESULT CRockObject::Render()
         m_pShaderCom->Update_Shader(0);
         m_pVIBufferCom->Render(i);
     }
-    m_pCollision->Render();
+    //m_pCollision->Render();
     return S_OK;
 }
 
@@ -129,7 +129,7 @@ HRESULT CRockObject::ADD_Components(_uInt iModelIndex)
     }
     else if (0 == iModelIndex)
     {
-        OBBDesc.vExtents = { 1.8f, 2.3f, 2.5f };
+        OBBDesc.vExtents = { 2.1f, 2.3f, 2.7f };
         m_fCompleteTime = 5.f;
     }
 

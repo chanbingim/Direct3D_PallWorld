@@ -1,4 +1,4 @@
-#include "GreenMommoth.h"
+ #include "GreenMommoth.h"
 #include "GameInstance.h"
 
 #include "TerrainManager.h"
@@ -9,6 +9,7 @@
 #include "CombatComponent.h"
 #include "DefenceBossComponent.h"
 #include "AiSenceComponent.h"
+#include "SkillObjectBase.h"
 #pragma endregion
 
 #include "PellStateMachine.h"
@@ -19,6 +20,7 @@
 #include "FastTravelObject.h"
 #include "GrassMommothBody.h"
 #include "PellBody.h"
+#include "EffectContatiner.h"
 
 CGreenMommoth::CGreenMommoth(ID3D11Device* pDevice, ID3D11DeviceContext* pContext) :
     CPellBase(pDevice, pContext)
@@ -65,7 +67,7 @@ void CGreenMommoth::Priority_Update(_float fDeletaTime)
     CContainerObject::Priority_Update(fDeletaTime);
     auto PellState = m_pPellFsm->GetState();
 
-    m_pCombatCom->UpdateTarget();
+    m_pCombatCom->UpdateTarget(); 
     m_pPellFsm->Update(fDeletaTime);
     auto pTarget = m_pCombatCom->GetCurrentTarget();
     if(pTarget)
@@ -249,12 +251,13 @@ HRESULT CGreenMommoth::ADD_Components()
 #pragma region 그린모스 충돌체
     COBBCollision::OBB_COLLISION_DESC ObbDesc = {};
     ObbDesc.pOwner = this;
-    ObbDesc.vExtents = _float3(2.0f, 2.7f, 3.2f);
+    ObbDesc.vExtents = _float3(2.7f, 2.7f, 3.5f);
     ObbDesc.vCneter = _float3(0.f, ObbDesc.vExtents.y * 0.5f, 0.f);
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_ColisionOBB"), TEXT("Collision_Com"), (CComponent**)&m_pCollision, &ObbDesc)))
         return E_FAIL;
     m_pCollision->BindBeginOverlapEvent([this](_float3 vDir, CGameObject* pHitActor) { OverlapEvent(vDir, pHitActor); });
-   
+    m_pCollision->BindOverlappingEvent([this](_float3 vDir, CGameObject* pHitActor) { OverlappingEvent(vDir, pHitActor); });
+
 #pragma endregion
 
 #pragma region 그린모스 타겟 감지 센서
@@ -316,6 +319,9 @@ HRESULT CGreenMommoth::Setup_PellFsm()
 
 void CGreenMommoth::TargetSearchBegin(CGameObject* pSearchObject)
 {
+    if (dynamic_cast<CSkillObjectBase*>(pSearchObject))
+        return;
+
     m_pCombatCom->ADD_TargetObject(pSearchObject);
 }
 
@@ -330,13 +336,25 @@ void CGreenMommoth::TargetLost(CGameObject* pSearchObject)
 
 void CGreenMommoth::TargetDetected(CGameObject* pGameObject)
 {
+    if (nullptr != dynamic_cast<CEffectContatiner*>(pGameObject) ||
+        nullptr != dynamic_cast<CSkillObjectBase*>(pGameObject))
+        return;
+
     auto pGamePlayHUD = static_cast<CGamePlayHUD*>(m_pGameInstance->GetCurrentHUD());
+    
+    _float3 vPosition = pGameObject->GetTransform()->GetPosition();
+    m_pTransformCom->LookAt(XMLoadFloat3(&vPosition));
     pGamePlayHUD->SetBossHealthBar(this);
 }
 
 void CGreenMommoth::OverlapEvent(_float3 vDir, CGameObject* pHitObject)
 {
   
+}
+
+void CGreenMommoth::OverlappingEvent(_float3 vDir, CGameObject* pHitObject)
+{
+    __super::OverlappingEvent(vDir, pHitObject);
 }
 
 CGreenMommoth* CGreenMommoth::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

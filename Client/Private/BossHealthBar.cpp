@@ -62,7 +62,7 @@ void CBossHealthBar::Update(_float fDeletaTime)
 	else
 	{
 		m_fPercent = 1.f;
-		m_HealthText = to_wstring(m_pPellInfo->MaxHealth);
+		m_HealthText = to_wstring(0);
 	}
 
 	_vector TextSize = m_pHealthFontCom->GetFontBoundBox(m_HealthText.c_str());
@@ -120,7 +120,9 @@ void CBossHealthBar::SetBossInfo(CPellBase* pBossPell)
 	//이벤트 등록및 레퍼런스 증가
 	m_pOwnerBoss = pBossPell;
 	Safe_AddRef(m_pOwnerBoss);
+	
 	m_pPellInfo = &pBossPell->GetPellInfo();
+	m_MaxHealthText = to_wstring(_uInt(m_pPellInfo->MaxHealth));
 	pBossPell->Bind_DamageCallBackEvent(this, [&](){ LerpTimeReset(); });
 }
 

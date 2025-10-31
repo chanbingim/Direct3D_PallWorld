@@ -57,7 +57,7 @@ void CHitBox::Late_Update(_float fDeletaTime)
 
 HRESULT CHitBox::Render()
 {
-	m_pCollision->Render();
+	//m_pCollision->Render();
     return S_OK;
 }
 

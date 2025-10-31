@@ -59,7 +59,17 @@ void CElectricBall::Update(_float fDeletaTime)
 
 void CElectricBall::Late_Update(_float fDeletaTime)
 {
-    __super::Late_Update(fDeletaTime);
+    if (m_pGameInstance->DistanceCulling(m_pTransformCom->GetPosition()))
+    {
+        for (auto pEffect : m_pSkillEffects)
+            pEffect->Late_Update(fDeletaTime);
+
+        if (false == m_bIsDissolve && !m_bIsCharge)
+            m_pGameInstance->ADD_CollisionList(m_pCollision);
+        m_pGameInstance->Add_RenderGroup(RENDER::NONLIGHT, this);
+    }
+    else
+        SetDead(true);
 }
 
 HRESULT CElectricBall::Render()

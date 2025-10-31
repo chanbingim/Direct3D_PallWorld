@@ -34,16 +34,15 @@ HRESULT CSunLight::Initialize(void* pArg)
     m_fRadius = pSunLightDesc->fRadius;
     m_pTransformCom->SetPosition({});
 
-    DayLengthTimes[ENUM_CLASS(DAY_TYPE::MORNING)] = 15.f;
-    DayLengthTimes[ENUM_CLASS(DAY_TYPE::LUNCH)] = 10.f;
-    DayLengthTimes[ENUM_CLASS(DAY_TYPE::NIGHT)] = 15.f;
+    DayLengthTimes[ENUM_CLASS(DAY_TYPE::MORNING)] = 35.f;
+    DayLengthTimes[ENUM_CLASS(DAY_TYPE::LUNCH)] = 20.f;
+    DayLengthTimes[ENUM_CLASS(DAY_TYPE::NIGHT)] = 35.f;
     DayLengthTimes[ENUM_CLASS(DAY_TYPE::DAWN)] = 15.f;
     return S_OK;
 }
 
 void CSunLight::Priority_Update(_float fDeletaTime)
 {
-    m_pTransformCom->SetScale({ 0.1, 0.1, 0.1 });
     Compute_Time(fDeletaTime);
 
     _vector SrcDayPosition = XMLoadFloat3(&vSunPositions[ENUM_CLASS(m_eDayType)]) * m_fRadius;
@@ -58,7 +57,7 @@ void CSunLight::Priority_Update(_float fDeletaTime)
     _vector vCamPos = m_pGameInstance->GetCameraState(WORLDSTATE::POSITION);
     _vector vDir = XMVector3Normalize(vCamPos - vLerpPosition);
     XMStoreFloat4(&m_LightDesc[ENUM_CLASS(m_eDayType)].vDirection, vDir);
- 
+
     m_pDireactionLight->SetLightInfo(m_LightDesc[ENUM_CLASS(m_eDayType)]);
 }
 
@@ -84,6 +83,16 @@ HRESULT CSunLight::Render()
 const _float4 CSunLight::GetDireaction() const
 {
     return m_LightDesc[ENUM_CLASS(m_eDayType)].vDirection;
+}
+
+void CSunLight::SetOnlyNight()
+{
+    m_bIsOnlyNight = true;
+}
+
+void CSunLight::ResetOnlyNight()
+{
+    m_bIsOnlyNight = false;
 }
 
 HRESULT CSunLight::Apply_ConstantShaderResources()
@@ -117,22 +126,28 @@ HRESULT CSunLight::ADD_Components()
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::STATIC), TEXT("Prototype_Component_Shader_WorldUI"), TEXT("Shader_Com"), (CComponent**)&m_pShaderCom)))
         return E_FAIL;
 
-#pragma region MORING_LIGHT
-    m_LightDesc[ENUM_CLASS(DAY_TYPE::MORNING)].vDiffuse = { 1.00f, 0.70f, 0.40f, 1.f };
-    m_LightDesc[ENUM_CLASS(DAY_TYPE::MORNING)].vAmbient = { 0.18f, 0.13f, 0.10f, 1.f };
-    m_LightDesc[ENUM_CLASS(DAY_TYPE::MORNING)].vSpecular = { .90f, 0.55f, 0.35f, 1.f };
+#pragma region MORNING_LIGHT
+    m_LightDesc[ENUM_CLASS(DAY_TYPE::MORNING)].vDiffuse = { 1.00f, 0.85f, 0.60f, 1.f }; // 아침 햇살을 더 화사하고 따뜻하게
+    m_LightDesc[ENUM_CLASS(DAY_TYPE::MORNING)].vAmbient = { 0.30f, 0.25f, 0.20f, 1.f }; // 주변광도 조금 더 밝게
+    m_LightDesc[ENUM_CLASS(DAY_TYPE::MORNING)].vSpecular = { 1.00f, 0.80f, 0.60f, 1.f };
 #pragma endregion
 
 #pragma region LUNCH_LIGHT
-    m_LightDesc[ENUM_CLASS(DAY_TYPE::LUNCH)].vDiffuse = { 1.00f, 0.97f, 0.90f, 1.f };
-    m_LightDesc[ENUM_CLASS(DAY_TYPE::LUNCH)].vAmbient = { 0.15f, 0.14f, 0.13f, 1.f };
-    m_LightDesc[ENUM_CLASS(DAY_TYPE::LUNCH)].vSpecular = { 1.00f, 0.95f, 0.85f, 1.f };
+    m_LightDesc[ENUM_CLASS(DAY_TYPE::LUNCH)].vDiffuse = { 1.00f, 1.00f, 0.90f, 1.f }; // 정오의 빛을 더 밝고 약간만 노랗게 유지
+    m_LightDesc[ENUM_CLASS(DAY_TYPE::LUNCH)].vAmbient = { 0.30f, 0.30f, 0.28f, 1.f }; // 주변광을 높여 그림자 대비 완화 (밝은 판타지 분위기)
+    m_LightDesc[ENUM_CLASS(DAY_TYPE::LUNCH)].vSpecular = { 1.00f, 0.98f, 0.90f, 1.f };
+#pragma endregion
+
+#pragma region DAWN_LIGHT
+    m_LightDesc[ENUM_CLASS(DAY_TYPE::DAWN)].vDiffuse = { 0.85f, 0.60f, 0.40f, 1.f }; // 해질녘 붉은 톤을 더 생생하고 강렬하게
+    m_LightDesc[ENUM_CLASS(DAY_TYPE::DAWN)].vAmbient = { 0.20f, 0.15f, 0.15f, 1.f };
+    m_LightDesc[ENUM_CLASS(DAY_TYPE::DAWN)].vSpecular = { 0.90f, 0.60f, 0.45f, 1.f };
 #pragma endregion
 
 #pragma region NIGHT_LIGHT
-    m_LightDesc[ENUM_CLASS(DAY_TYPE::NIGHT)].vDiffuse = { 0.80f, 0.45f, 0.30f, 1.f };
-    m_LightDesc[ENUM_CLASS(DAY_TYPE::NIGHT)].vAmbient = { 0.12f, 0.10f, 0.15f, 1.f };
-    m_LightDesc[ENUM_CLASS(DAY_TYPE::NIGHT)].vSpecular = { 0.70f, 0.40f, 0.35f, 1.f};
+    m_LightDesc[ENUM_CLASS(DAY_TYPE::NIGHT)].vDiffuse = { 0.25f, 0.40f, 0.80f, 1.f }; // 신비로운 밤을 위해 푸른빛을 더 강조하고 어둡게
+    m_LightDesc[ENUM_CLASS(DAY_TYPE::NIGHT)].vAmbient = { 0.08f, 0.12f, 0.30f, 1.f }; // 주변광을 짙은 파란색으로 (어두운 푸른 밤)
+    m_LightDesc[ENUM_CLASS(DAY_TYPE::NIGHT)].vSpecular = { 0.30f, 0.45f, 0.80f, 1.f };
 #pragma endregion
 
     m_eDayType = DAY_TYPE::MORNING;
@@ -149,13 +164,21 @@ HRESULT CSunLight::ADD_Components()
 
 void CSunLight::Compute_Time(_float fDeltaTime)
 {
-    m_fAccTime += fDeltaTime;
-    if (DayLengthTimes[ENUM_CLASS(m_eDayType)] <= m_fAccTime)
+    if (m_bIsOnlyNight)
     {
-        _uInt iIndex = ENUM_CLASS(m_eDayType) + 1;
-        m_eDayType = DAY_TYPE(iIndex % ENUM_CLASS(DAY_TYPE::END));
-
+        m_eDayType = DAY_TYPE::NIGHT;
         m_fAccTime = 0.f;
+    }
+    else
+    {
+        m_fAccTime += fDeltaTime;
+        if (DayLengthTimes[ENUM_CLASS(m_eDayType)] <= m_fAccTime)
+        {
+            _uInt iIndex = ENUM_CLASS(m_eDayType) + 1;
+
+            m_eDayType = DAY_TYPE(iIndex % ENUM_CLASS(DAY_TYPE::END));
+            m_fAccTime = 0.f;
+        }
     }
 }
 

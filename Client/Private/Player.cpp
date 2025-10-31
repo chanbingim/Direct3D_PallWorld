@@ -15,6 +15,7 @@
 
 #include "PlayerManager.h"
 #include "Architecture.h"
+#include "SunLight.h"
 #include "JumpState.h"
 #include "PlayerWorkState.h"
 #include "PellBase.h"
@@ -70,6 +71,7 @@ HRESULT CPlayer::Initialize(void* pArg)
     if (PlayerManager)
         PlayerManager->BindPlayerCharacter(this);
 
+    m_ViewCamera = true;
     return S_OK;
 }
 
@@ -899,9 +901,23 @@ void CPlayer::TransportPlayer(_float3 vTransportPoint)
 {
     //여기서 플레이어가 펠 소환중이면 해제후 이동
     CPlayerManager::GetInstance()->StorePartnerPal();
-  
     m_pTransformCom->SetPosition(vTransportPoint);
+
     SettingNavigation();
+    m_pPlayerFSM->ResetLayer(TEXT("CombatLayer"));
+    m_pPlayerFSM->SetAttack(false);
+    m_pPlayerFSM->ChangeState(TEXT("UpperLayer"), TEXT("Default"));
+
+    auto pSunLight = static_cast<CSunLight*>(m_pGameInstance->GetAllObejctToLayer(ENUM_CLASS(LEVEL::GAMEPLAY), TEXT("GamePlay_Layer_Dir_Light"))->front());
+    if (TEXT("BossField") == m_szChunkName)
+    {
+       pSunLight->SetOnlyNight();
+    }
+    else
+    {
+        pSunLight->ResetOnlyNight();
+    }
+
     m_pNevigation->ComputeHeight(m_pTransformCom);
 }
 

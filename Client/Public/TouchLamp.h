@@ -6,6 +6,8 @@ class CLight;
 NS_END
 
 NS_BEGIN(Client)
+class CSunLight;
+
 class CTouchLamp final : public CArchitecture
 {
 private :
@@ -32,6 +34,7 @@ protected:
 
 private:
 	CLight*									m_pTouchLight = nullptr;
+	const CSunLight*						m_pSunLight = nullptr;
 
 	_float									m_fLightLifeTime = {};
 	_bool									m_bIsLight = false;

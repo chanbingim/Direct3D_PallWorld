@@ -124,6 +124,7 @@ void CPlayerWeaponSlot::Late_Update(_float fDeletaTime)
 	}
 	else
 	{
+		m_pTrail->Update_Trail(XMLoadFloat4x4(&m_CombinedWorldMatrix), false);
 		m_pGameInstance->Add_RenderGroup(RENDER::SHADOW, this);
 	}
 		
@@ -134,13 +135,13 @@ HRESULT CPlayerWeaponSlot::Render()
 {
 	if (nullptr == m_pVIBufferCom)
 	{
-		for(auto  i =0; i < 2; ++i)
-			m_pCollision[i]->Render({});
+		/*for(auto  i =0; i < 2; ++i)
+			m_pCollision[i]->Render({});*/
 	}
 	else
 	{
 		__super::Render();
-		m_pCollision[0]->Render({});
+		///m_pCollision[0]->Render({});
 	}
 
 	Apply_TrailShaderResource();
@@ -302,7 +303,10 @@ void CPlayerWeaponSlot::HitBegin(_float3 vDir, CGameObject* pHitActor)
 	if (bIsDamage)
 	{
 		DEFAULT_DAMAGE_DESC DamageDes = {};
-		DamageDes.fDmaged = 10.f;
+		if (m_CurrentEuipItemInfo)
+			DamageDes.fDmaged = m_CurrentEuipItemInfo->GetItemData().TypeDesc.EuqipDesc.iAtkPoint;
+		else
+			DamageDes.fDmaged = 10.f;
 		static_cast<CActor *>(pHitActor)->Damage(&DamageDes, CPlayerManager::GetInstance()->GetCurrentPlayer());
 	}
 }

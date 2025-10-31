@@ -576,7 +576,7 @@ _bool CPlayerManager::IsPlayerAnimming()
 
 HRESULT CPlayerManager::SettingDefaultPlayerData()
 {
-	m_PlayerInfo.CurHealth = m_PlayerInfo.MaxHealth = 200.f;
+	m_PlayerInfo.CurHealth = m_PlayerInfo.MaxHealth = 2000.f;
 	m_PlayerInfo.CurHunger = m_PlayerInfo.MaxHunger = 100.f;
 	m_PlayerInfo.CurStemina = m_PlayerInfo.MaxStemina = 50.f;
 	m_PlayerInfo.ShieldPoint = m_PlayerInfo.MaxShiledPoint = 100;

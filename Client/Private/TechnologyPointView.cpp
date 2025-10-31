@@ -38,7 +38,7 @@ HRESULT CTechnologyPointView::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_vColor = { 0.6f, 0.6f, 0.6f, 0.3f };
-	m_szTechPoint = L"¹«ÇÑ´ë";
+	m_szTechPoint = L"";
 	return S_OK;
 }
 
@@ -64,7 +64,7 @@ HRESULT CTechnologyPointView::Render()
 	m_pVIBufferCom->Render_VIBuffer();
 
 	m_pFontCom->Render(TEXT("Technology Point"), { 1.f, 1.f, 1.f, 1.f });
-	m_pPointFontCom->Render(m_szTechPoint.c_str(), {1.f, 1.f, 1.f, 1.f});
+	//m_pPointFontCom->Render(m_szTechPoint.c_str(), {1.f, 1.f, 1.f, 1.f});
 
 	return S_OK;
 }
