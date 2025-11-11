@@ -45,6 +45,7 @@ HRESULT CMainApp::Initialize_MainApp()
 	if (FAILED(SetUp_InGameFont()))
 		return E_FAIL;
 
+	ShowCursor(true);
 #pragma region PellManger
 	CPellManager::GetInstance()->Initialize(m_pGraphic_Device, m_pDevice_Context, "../Bin/Resources/DataFile/Pal/PalData.csv");
 #pragma endregion

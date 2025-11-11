@@ -26,4 +26,28 @@ FXC : warning X4717: Effects deprecated for D3DCompiler_47
 FXC : warning X4717: Effects deprecated for D3DCompiler_47
   
   compilation object save succeeded; see C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Bin\TrailShader.cso
-C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppCommon.targets(1847,5): error MSB6006: "fxc.exe"이(가) 종료되었습니다(코드: -1073741510).
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Bin\VTX_AnimMesh.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Bin\VTX_InstnaceMesh.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Bin\VTX_InstnacePoint.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+C:\Users\gimch\OneDrive\����\GitHub\Direct3D_PallWorld\Client\Bin\ShaderFiles\VTX_Mesh.hlsl(129,22-32): warning X3578: Output value 'PS_ModelPreview' is not completely initialized
+C:\Users\gimch\OneDrive\����\GitHub\Direct3D_PallWorld\Client\Bin\ShaderFiles\VTX_Mesh.hlsl(137,21-42): warning X3578: Output value 'PS_ModelCreate' is not completely initialized
+  
+  compilation object save succeeded; see C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Bin\VTX_Mesh.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Bin\VTX_NorTex.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Bin\VTX_SkyMesh.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Bin\WorldUI.cso
+  MainApp.cpp
+  Direct11_FrameWork.vcxproj -> C:\Users\gimch\OneDrive\문서\GitHub\Direct3D_PallWorld\Client\Bin\Direct11_FrameWork.exe
